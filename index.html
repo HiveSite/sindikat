@@ -26,6 +26,15 @@
     <style>
         * {
             font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            overflow-x: hidden;
         }
         
         h1, h2, h3, h4, h5, h6 {
@@ -37,13 +46,20 @@
                         url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect fill="%23000" width="1920" height="1080"/><circle cx="300" cy="200" r="4" fill="%23FFD700" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="3s" repeatCount="indefinite"/></circle><circle cx="1200" cy="300" r="6" fill="%2300BFFF" opacity="0.9"><animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.5s" repeatCount="indefinite"/></circle><circle cx="1600" cy="500" r="3" fill="%23FFD700" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="4s" repeatCount="indefinite"/></circle><circle cx="600" cy="800" r="5" fill="%2300BFFF" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.5s" repeatCount="indefinite"/></circle><rect x="100" y="900" width="300" height="120" fill="%23111" opacity="0.4" rx="8"/><rect x="1400" y="700" width="200" height="150" fill="%23222" opacity="0.3" rx="8"/><path d="M200 600 Q600 550 1000 600 Q1400 650 1700 600" stroke="%23FFD700" stroke-width="2" fill="none" opacity="0.3"/></svg>');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll;
         }
         
+        @media (min-width: 768px) {
+            .hero-bg {
+                background-attachment: fixed;
+            }
+        }
+        
+        /* Enhanced Animations */
         .fade-in {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .fade-in.visible {
@@ -51,13 +67,53 @@
             transform: translateY(0);
         }
         
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
         .hover-lift {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (min-width: 768px) {
+            .hover-lift:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
         }
         
         .cocktail-float {
@@ -75,8 +131,8 @@
         }
         
         @keyframes lightPulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
-            50% { opacity: 0.4; box-shadow: 0 0 40px rgba(255, 215, 0, 0.9); }
+            0%, 100% { opacity: 1; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            50% { opacity: 0.4; box-shadow: 0 0 25px rgba(255, 215, 0, 0.9); }
         }
         
         .accordion-content {
@@ -86,38 +142,43 @@
         }
         
         .accordion-content.active {
-            max-height: 200px;
+            max-height: 300px;
         }
         
         .mobile-menu {
             transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .mobile-menu.active {
             transform: translateX(0);
         }
         
+        /* Mobile-first masonry */
         .masonry-grid {
-            column-count: 3;
-            column-gap: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         
-        @media (max-width: 768px) {
+        @media (min-width: 640px) {
             .masonry-grid {
-                column-count: 1;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
             }
         }
         
-        @media (max-width: 1024px) {
+        @media (min-width: 1024px) {
             .masonry-grid {
-                column-count: 2;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
             }
         }
         
         .masonry-item {
             break-inside: avoid;
-            margin-bottom: 2rem;
+            margin-bottom: 0;
         }
         
         .gradient-gold {
@@ -136,38 +197,54 @@
 
         .service-image {
             width: 100%;
-            height: 200px;
+            height: 160px;
             background-size: cover;
             background-position: center;
             border-radius: 1rem;
             margin-bottom: 1rem;
         }
+        
+        @media (min-width: 768px) {
+            .service-image {
+                height: 200px;
+            }
+        }
 
         .lang-switcher {
             position: fixed;
-            top: 100px;
-            right: 20px;
+            top: 80px;
+            right: 16px;
             z-index: 40;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: 50px;
-            padding: 8px;
+            padding: 6px;
+            transform: scale(0.9);
+        }
+        
+        @media (min-width: 768px) {
+            .lang-switcher {
+                top: 100px;
+                right: 20px;
+                padding: 8px;
+                transform: scale(1);
+            }
         }
 
         .floating-mobile-banner {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            z-index: 50;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 45;
             background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 165, 0, 0.95) 100%);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             transform: translateY(100px);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .floating-mobile-banner.show {
@@ -176,9 +253,12 @@
 
         @media (min-width: 768px) {
             .floating-mobile-banner {
+                bottom: 20px;
                 left: auto;
                 right: 20px;
                 max-width: 350px;
+                padding: 16px;
+                border-radius: 20px;
             }
         }
 
@@ -191,6 +271,154 @@
         .popular-event-card {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 30, 30, 0.9) 100%);
             border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        /* Button animations */
+        .btn-animate {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn-animate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-animate:hover::before {
+            left: 100%;
+        }
+        
+        /* Improved mobile spacing */
+        .mobile-spacing {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .mobile-spacing {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .mobile-spacing {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        /* Prevent text overflow */
+        .text-container {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        /* Smooth card hover effects */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (min-width: 768px) {
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+        /* Staggered animations */
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        
+        /* Loading animation */
+        .loading-dots::after {
+            content: '';
+            animation: loadingDots 1.5s infinite;
+        }
+        
+        @keyframes loadingDots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* Parallax effect for mobile */
+        .parallax-mobile {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        /* Improved sticky elements positioning */
+        .sticky-safe {
+            top: env(safe-area-inset-top, 0);
+        }
+        
+        /* Better touch targets for mobile */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Touch device optimizations */
+        .touch-device .hover-lift:hover {
+            transform: none;
+        }
+        
+        .touch-device .card-hover:active {
+            transform: scale(0.98);
+        }
+        
+        .touch-device .btn-animate:active {
+            transform: scale(0.95);
+        }
+        
+        /* Prevent zoom on input focus for iOS */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            select, textarea, input[type="text"], input[type="password"], 
+            input[type="datetime"], input[type="datetime-local"], 
+            input[type="date"], input[type="month"], input[type="time"], 
+            input[type="week"], input[type="number"], input[type="email"], 
+            input[type="url"], input[type="search"], input[type="tel"], 
+            input[type="color"] {
+                font-size: 16px;
+            }
+        }
+        
+        /* Smooth scrolling for mobile */
+        @media (max-width: 768px) {
+            html {
+                scroll-padding-top: 80px;
+            }
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -223,38 +451,38 @@
     </div>
 
     <!-- Sticky Navigation -->
-    <nav class="fixed top-0 w-full bg-black/95 backdrop-blur-md z-50 px-6 py-4 border-b border-gray-800">
+    <nav class="fixed top-0 w-full bg-black/95 backdrop-blur-md z-50 mobile-spacing py-3 md:py-4 border-b border-gray-800 sticky-safe">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold font-montserrat gradient-gold">SINDIKAT</div>
+            <div class="text-xl md:text-2xl font-bold font-montserrat gradient-gold">SINDIKAT</div>
             
             <!-- Desktop Menu -->
-            <div class="hidden lg:flex items-center space-x-8">
-                <a href="#home" class="hover:text-gold transition-colors font-medium">Početna</a>
-                <a href="#services" class="hover:text-gold transition-colors font-medium">Usluge</a>
-                <a href="#popular-events" class="hover:text-gold transition-colors font-medium">Popularni Događaji</a>
-                <a href="#gallery" class="hover:text-gold transition-colors font-medium">Galerija</a>
-                <a href="#blog" class="hover:text-gold transition-colors font-medium">Blog</a>
-                <a href="#about" class="hover:text-gold transition-colors font-medium">O nama</a>
-                <a href="#faq" class="hover:text-gold transition-colors font-medium">FAQ</a>
-                <a href="#contact" class="bg-gold hover:bg-yellow-500 text-black px-6 py-2 rounded-full font-semibold transition-all hover:scale-105">Kontakt</a>
+            <div class="hidden lg:flex items-center space-x-6 xl:space-x-8">
+                <a href="#home" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
+                <a href="#services" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Usluge</a>
+                <a href="#popular-events" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Popularni Događaji</a>
+                <a href="#gallery" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
+                <a href="#blog" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
+                <a href="#about" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
+                <a href="#faq" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">FAQ</a>
+                <a href="#contact" class="bg-gold hover:bg-yellow-500 text-black px-4 xl:px-6 py-2 rounded-full font-semibold transition-all hover:scale-105 btn-animate text-sm xl:text-base">Kontakt</a>
             </div>
             
             <!-- Mobile Menu Button -->
-            <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl">☰</button>
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-xl md:text-2xl touch-target">☰</button>
         </div>
         
         <!-- Mobile Menu Overlay -->
-        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-full h-screen bg-black/98 backdrop-blur-lg lg:hidden">
-            <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl">
-                <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-3xl">✕</button>
-                <a href="#home" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Početna</a>
-                <a href="#services" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Usluge</a>
-                <a href="#popular-events" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Popularni Događaji</a>
-                <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Galerija</a>
-                <a href="#blog" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Blog</a>
-                <a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">O nama</a>
-                <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">FAQ</a>
-                <a href="#contact" onclick="toggleMobileMenu()" class="bg-gold hover:bg-yellow-500 text-black px-8 py-3 rounded-full font-semibold transition-all">Kontakt</a>
+        <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-black/98 backdrop-blur-lg lg:hidden z-50">
+            <div class="flex flex-col items-center justify-center h-full space-y-6 text-xl md:text-2xl mobile-spacing">
+                <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 text-2xl md:text-3xl touch-target">✕</button>
+                <a href="#home" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Početna</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Usluge</a>
+                <a href="#popular-events" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Popularni Događaji</a>
+                <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Galerija</a>
+                <a href="#blog" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Blog</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">O nama</a>
+                <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">FAQ</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="bg-gold hover:bg-yellow-500 text-black px-6 md:px-8 py-3 rounded-full font-semibold transition-all btn-animate">Kontakt</a>
             </div>
         </div>
     </nav>
@@ -305,20 +533,20 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center px-6">
-        <div class="max-w-6xl mx-auto fade-in visible">
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold font-montserrat mb-8 leading-tight">
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center mobile-spacing py-20">
+        <div class="max-w-6xl mx-auto fade-in visible text-container">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-montserrat mb-6 md:mb-8 leading-tight">
                 Sve za vaš događaj –<br>
                 <span class="gradient-gold">na jednom mestu.</span>
             </h1>
-            <p class="text-xl md:text-2xl lg:text-3xl mb-12 text-gray-200 font-medium max-w-3xl mx-auto">
+            <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 md:mb-12 text-gray-200 font-medium max-w-3xl mx-auto">
                 Mi se brinemo za sve – vi samo uživajte.
             </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                <button onclick="scrollToContact()" class="bg-gold hover:bg-yellow-500 text-black px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105 hover:shadow-2xl">
+            <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
+                <button onclick="scrollToContact()" class="w-full sm:w-auto bg-gold hover:bg-yellow-500 text-black px-8 md:px-10 py-4 md:py-5 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 hover:shadow-2xl btn-animate">
                     Kontaktirajte nas
                 </button>
-                <button onclick="scrollToServices()" class="border-2 border-white hover:bg-white hover:text-black px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
+                <button onclick="scrollToServices()" class="w-full sm:w-auto border-2 border-white hover:bg-white hover:text-black px-8 md:px-10 py-4 md:py-5 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 btn-animate">
                     Naše usluge
                 </button>
             </div>
@@ -326,24 +554,24 @@
     </section>
 
     <!-- Highlights -->
-    <section class="py-24 px-6 bg-gray-900">
+    <section class="py-16 md:py-24 mobile-spacing bg-gray-900">
         <div class="max-w-7xl mx-auto">
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center fade-in hover-lift bg-black p-10 rounded-3xl border border-gray-800">
-                    <div class="text-5xl font-bold font-montserrat gradient-gold mb-4">50+</div>
-                    <p class="text-gray-300 font-semibold text-lg">Događaja</p>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                <div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-1">
+                    <div class="text-3xl md:text-5xl font-bold font-montserrat gradient-gold mb-2 md:mb-4">50+</div>
+                    <p class="text-gray-300 font-semibold text-sm md:text-lg">Događaja</p>
                 </div>
-                <div class="text-center fade-in hover-lift bg-black p-10 rounded-3xl border border-gray-800">
-                    <div class="text-5xl font-bold font-montserrat gradient-blue mb-4">100+</div>
-                    <p class="text-gray-300 font-semibold text-lg">Mladih profesionalaca</p>
+                <div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-2">
+                    <div class="text-3xl md:text-5xl font-bold font-montserrat gradient-blue mb-2 md:mb-4">100+</div>
+                    <p class="text-gray-300 font-semibold text-sm md:text-lg">Mladih profesionalaca</p>
                 </div>
-                <div class="text-center fade-in hover-lift bg-black p-10 rounded-3xl border border-gray-800">
-                    <div class="text-5xl font-bold font-montserrat gradient-gold mb-4">0%</div>
-                    <p class="text-gray-300 font-semibold text-lg">Stresa</p>
+                <div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-3">
+                    <div class="text-3xl md:text-5xl font-bold font-montserrat gradient-gold mb-2 md:mb-4">0%</div>
+                    <p class="text-gray-300 font-semibold text-sm md:text-lg">Stresa</p>
                 </div>
-                <div class="text-center fade-in hover-lift bg-black p-10 rounded-3xl border border-gray-800">
-                    <div class="text-5xl font-bold font-montserrat gradient-blue mb-4">1</div>
-                    <p class="text-gray-300 font-semibold text-lg">Tim za sve</p>
+                <div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-4">
+                    <div class="text-3xl md:text-5xl font-bold font-montserrat gradient-blue mb-2 md:mb-4">1</div>
+                    <p class="text-gray-300 font-semibold text-sm md:text-lg">Tim za sve</p>
                 </div>
             </div>
         </div>
@@ -443,36 +671,36 @@
     </section>
 
     <!-- Services -->
-    <section id="services" class="py-20 px-6 bg-gray-900">
+    <section id="services" class="py-16 md:py-20 mobile-spacing bg-gray-900">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Naše <span class="gradient-gold">Usluge</span></h2>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat text-center mb-12 md:mb-16 fade-in text-container">Naše <span class="gradient-gold">Usluge</span></h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <!-- Bartenders & Cocktail Masters -->
-                <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;300&quot; height=&quot;80&quot; fill=&quot;%23654321&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;120&quot; width=&quot;8&quot; height=&quot;80&quot; fill=&quot;%23228B22&quot;/><rect x=&quot;150&quot; y=&quot;100&quot; width=&quot;8&quot; height=&quot;100&quot; fill=&quot;%238B0000&quot;/><rect x=&quot;200&quot; y=&quot;110&quot; width=&quot;8&quot; height=&quot;90&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;250&quot; y=&quot;90&quot; width=&quot;8&quot; height=&quot;110&quot; fill=&quot;%234169E1&quot;/><path d=&quot;M120 80 L140 80 L135 120 L125 120 Z&quot; fill=&quot;%23FFD700&quot;/><path d=&quot;M170 60 L190 60 L185 100 L175 100 Z&quot; fill=&quot;%2300BFFF&quot;/><circle cx=&quot;130&quot; cy=&quot;70&quot; r=&quot;3&quot; fill=&quot;%23FF6B6B&quot;/><circle cx=&quot;180&quot; cy=&quot;50&quot; r=&quot;3&quot; fill=&quot;%234ECDC4&quot;/></svg>'); background-size: cover; background-position: center;"></div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Barmeni i Kokteli</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.</p>
+                <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-1">
+                    <div class="service-image mb-4 md:mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;300&quot; height=&quot;80&quot; fill=&quot;%23654321&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;120&quot; width=&quot;8&quot; height=&quot;80&quot; fill=&quot;%23228B22&quot;/><rect x=&quot;150&quot; y=&quot;100&quot; width=&quot;8&quot; height=&quot;100&quot; fill=&quot;%238B0000&quot;/><rect x=&quot;200&quot; y=&quot;110&quot; width=&quot;8&quot; height=&quot;90&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;250&quot; y=&quot;90&quot; width=&quot;8&quot; height=&quot;110&quot; fill=&quot;%234169E1&quot;/><path d=&quot;M120 80 L140 80 L135 120 L125 120 Z&quot; fill=&quot;%23FFD700&quot;/><path d=&quot;M170 60 L190 60 L185 100 L175 100 Z&quot; fill=&quot;%2300BFFF&quot;/><circle cx=&quot;130&quot; cy=&quot;70&quot; r=&quot;3&quot; fill=&quot;%23FF6B6B&quot;/><circle cx=&quot;180&quot; cy=&quot;50&quot; r=&quot;3&quot; fill=&quot;%234ECDC4&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">Barmeni i Kokteli</h3>
+                    <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.</p>
                 </div>
 
                 <!-- DJs & Musicians -->
-                <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23111&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;100&quot; width=&quot;300&quot; height=&quot;100&quot; fill=&quot;%23333&quot; rx=&quot;10&quot;/><circle cx=&quot;120&quot; cy=&quot;150&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;280&quot; cy=&quot;150&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;120&quot; cy=&quot;150&quot; r=&quot;20&quot; fill=&quot;%2300BFFF&quot;/><circle cx=&quot;280&quot; cy=&quot;150&quot; r=&quot;20&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;180&quot; y=&quot;120&quot; width=&quot;40&quot; height=&quot;60&quot; fill=&quot;%23222&quot; rx=&quot;5&quot;/><rect x=&quot;185&quot; y=&quot;125&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><rect x=&quot;185&quot; y=&quot;140&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><rect x=&quot;185&quot; y=&quot;155&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><path d=&quot;M100 50 Q200 30 300 50&quot; stroke=&quot;%2300BFFF&quot; stroke-width=&quot;4&quot; fill=&quot;none&quot;/></svg>'); background-size: cover; background-position: center;"></div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">DJ-jevi i Muzičari</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.</p>
+                <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-2">
+                    <div class="service-image mb-4 md:mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23111&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;100&quot; width=&quot;300&quot; height=&quot;100&quot; fill=&quot;%23333&quot; rx=&quot;10&quot;/><circle cx=&quot;120&quot; cy=&quot;150&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;280&quot; cy=&quot;150&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;120&quot; cy=&quot;150&quot; r=&quot;20&quot; fill=&quot;%2300BFFF&quot;/><circle cx=&quot;280&quot; cy=&quot;150&quot; r=&quot;20&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;180&quot; y=&quot;120&quot; width=&quot;40&quot; height=&quot;60&quot; fill=&quot;%23222&quot; rx=&quot;5&quot;/><rect x=&quot;185&quot; y=&quot;125&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><rect x=&quot;185&quot; y=&quot;140&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><rect x=&quot;185&quot; y=&quot;155&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><path d=&quot;M100 50 Q200 30 300 50&quot; stroke=&quot;%2300BFFF&quot; stroke-width=&quot;4&quot; fill=&quot;none&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">DJ-jevi i Muzičari</h3>
+                    <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.</p>
                 </div>
 
                 <!-- Sound & Lighting Equipment -->
-                <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23000&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;30&quot; fill=&quot;%23333&quot; rx=&quot;5&quot;/><circle cx=&quot;100&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%23FFD700&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;2s&quot; repeatCount=&quot;indefinite&quot;/></circle><circle cx=&quot;200&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%23FF1493&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;1.5s&quot; repeatCount=&quot;indefinite&quot;/></circle><circle cx=&quot;300&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%2300BFFF&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;2.5s&quot; repeatCount=&quot;indefinite&quot;/></circle><path d=&quot;M100 55 L80 200 L120 200 Z&quot; fill=&quot;%23FFD700&quot; opacity=&quot;0.3&quot;/><path d=&quot;M200 55 L180 200 L220 200 Z&quot; fill=&quot;%23FF1493&quot; opacity=&quot;0.3&quot;/><path d=&quot;M300 55 L280 200 L320 200 Z&quot; fill=&quot;%2300BFFF&quot; opacity=&quot;0.3&quot;/><rect x=&quot;150&quot; y=&quot;220&quot; width=&quot;100&quot; height=&quot;40&quot; fill=&quot;%23444&quot; rx=&quot;5&quot;/><circle cx=&quot;170&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/><circle cx=&quot;200&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/><circle cx=&quot;230&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/></svg>'); background-size: cover; background-position: center;"></div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Zvuk i Osvetljenje</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.</p>
+                <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-3">
+                    <div class="service-image mb-4 md:mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23000&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;30&quot; fill=&quot;%23333&quot; rx=&quot;5&quot;/><circle cx=&quot;100&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%23FFD700&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;2s&quot; repeatCount=&quot;indefinite&quot;/></circle><circle cx=&quot;200&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%23FF1493&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;1.5s&quot; repeatCount=&quot;indefinite&quot;/></circle><circle cx=&quot;300&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%2300BFFF&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;2.5s&quot; repeatCount=&quot;indefinite&quot;/></circle><path d=&quot;M100 55 L80 200 L120 200 Z&quot; fill=&quot;%23FFD700&quot; opacity=&quot;0.3&quot;/><path d=&quot;M200 55 L180 200 L220 200 Z&quot; fill=&quot;%23FF1493&quot; opacity=&quot;0.3&quot;/><path d=&quot;M300 55 L280 200 L320 200 Z&quot; fill=&quot;%2300BFFF&quot; opacity=&quot;0.3&quot;/><rect x=&quot;150&quot; y=&quot;220&quot; width=&quot;100&quot; height=&quot;40&quot; fill=&quot;%23444&quot; rx=&quot;5&quot;/><circle cx=&quot;170&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/><circle cx=&quot;200&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/><circle cx=&quot;230&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">Zvuk i Osvetljenje</h3>
+                    <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.</p>
                 </div>
 
                 <!-- Bar Setup & Beverage Service -->
-                <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;300&quot; height=&quot;80&quot; fill=&quot;%23654321&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;120&quot; width=&quot;8&quot; height=&quot;80&quot; fill=&quot;%23228B22&quot;/><rect x=&quot;150&quot; y=&quot;100&quot; width=&quot;8&quot; height=&quot;100&quot; fill=&quot;%238B0000&quot;/><rect x=&quot;200&quot; y=&quot;110&quot; width=&quot;8&quot; height=&quot;90&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;250&quot; y=&quot;90&quot; width=&quot;8&quot; height=&quot;110&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;300&quot; y=&quot;105&quot; width=&quot;8&quot; height=&quot;95&quot; fill=&quot;%234169E1&quot;/><ellipse cx=&quot;200&quot; cy=&quot;240&quot; rx=&quot;30&quot; ry=&quot;15&quot; fill=&quot;%23C0C0C0&quot;/><path d=&quot;M120 80 L140 80 L135 120 L125 120 Z&quot; fill=&quot;%23FFD700&quot;/><path d=&quot;M170 60 L190 60 L185 100 L175 100 Z&quot; fill=&quot;%2300BFFF&quot;/><path d=&quot;M220 70 L240 70 L235 110 L225 110 Z&quot; fill=&quot;%23FF6B6B&quot;/></svg>'); background-size: cover; background-position: center;"></div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Bar i Usluga Napitaka</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.</p>
+                <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-4">
+                    <div class="service-image mb-4 md:mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;300&quot; height=&quot;80&quot; fill=&quot;%23654321&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;120&quot; width=&quot;8&quot; height=&quot;80&quot; fill=&quot;%23228B22&quot;/><rect x=&quot;150&quot; y=&quot;100&quot; width=&quot;8&quot; height=&quot;100&quot; fill=&quot;%238B0000&quot;/><rect x=&quot;200&quot; y=&quot;110&quot; width=&quot;8&quot; height=&quot;90&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;250&quot; y=&quot;90&quot; width=&quot;8&quot; height=&quot;110&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;300&quot; y=&quot;105&quot; width=&quot;8&quot; height=&quot;95&quot; fill=&quot;%234169E1&quot;/><ellipse cx=&quot;200&quot; cy=&quot;240&quot; rx=&quot;30&quot; ry=&quot;15&quot; fill=&quot;%23C0C0C0&quot;/><path d=&quot;M120 80 L140 80 L135 120 L125 120 Z&quot; fill=&quot;%23FFD700&quot;/><path d=&quot;M170 60 L190 60 L185 100 L175 100 Z&quot; fill=&quot;%2300BFFF&quot;/><path d=&quot;M220 70 L240 70 L235 110 L225 110 Z&quot; fill=&quot;%23FF6B6B&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">Bar i Usluga Napitaka</h3>
+                    <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.</p>
                 </div>
 
                 <!-- Photography & Video Production -->
@@ -1956,17 +2184,29 @@
             document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Scroll animations
+        // Enhanced scroll animations with mobile optimization
         function handleScroll() {
-            const elements = document.querySelectorAll('.fade-in');
+            const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
+            const windowHeight = window.innerHeight;
+            const elementVisible = window.innerWidth < 768 ? 50 : 100; // Smaller threshold for mobile
+            
             elements.forEach(element => {
                 const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 100;
                 
-                if (elementTop < window.innerHeight - elementVisible) {
+                if (elementTop < windowHeight - elementVisible) {
                     element.classList.add('visible');
                 }
             });
+        }
+
+        // Throttled scroll handler for better performance
+        let ticking = false;
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(handleScroll);
+                ticking = true;
+                setTimeout(() => { ticking = false; }, 16); // ~60fps
+            }
         }
 
         // Accordion functionality
@@ -2019,13 +2259,33 @@
             });
         });
 
-        // Initialize scroll animations and banners
-        window.addEventListener('scroll', handleScroll);
+        // Initialize scroll animations and banners with mobile optimization
+        window.addEventListener('scroll', requestTick, { passive: true });
         window.addEventListener('load', () => {
             handleScroll();
             checkBannerStatus();
             checkStickyAdStatus();
             checkStickyBottomBannerStatus();
+            
+            // Add touch event support for mobile
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+        });
+        
+        // Handle orientation change on mobile
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                handleScroll();
+            }, 100);
+        });
+        
+        // Optimize for mobile viewport
+        window.addEventListener('resize', () => {
+            clearTimeout(window.resizeTimer);
+            window.resizeTimer = setTimeout(() => {
+                handleScroll();
+            }, 100);
         });
         
         // Close mobile menu when clicking on links
@@ -2053,5 +2313,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751f6fab5feec24',t:'MTc1NjE5NzAwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
