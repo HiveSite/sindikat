@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindikat - Sve za vaš događaj – na jednom mjestu</title>
-    <meta name="description" content="Profesionalni događaji bez stresa, sa stilom. Bartenderi, DJ-jevi, oprema, fotografija - sve na jednom mjestu.">
+    <title>Sindikat - Sve za vaš događaj na jednom mestu</title>
+    <meta name="description" content="Profesionalni događaji bez stresa, sa stilom. Barmeni, DJ-jevi, oprema, fotografija - sve na jednom mestu.">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -133,9 +133,49 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lang-switcher {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 40;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50px;
+            padding: 8px;
+        }
+
+        .blog-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .popular-event-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 30, 30, 0.9) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
     </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden">
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button onclick="switchLanguage()" class="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-white hover:text-gold transition-colors">
+            <span>🇬🇧</span>
+            <span id="langText">EN</span>
+        </button>
+    </div>
+
     <!-- Sticky Navigation -->
     <nav class="fixed top-0 w-full bg-black/95 backdrop-blur-md z-50 px-6 py-4 border-b border-gray-800">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -145,9 +185,11 @@
             <div class="hidden lg:flex items-center space-x-8">
                 <a href="#home" class="hover:text-gold transition-colors font-medium">Početna</a>
                 <a href="#services" class="hover:text-gold transition-colors font-medium">Usluge</a>
+                <a href="#popular-events" class="hover:text-gold transition-colors font-medium">Popularni Događaji</a>
                 <a href="#gallery" class="hover:text-gold transition-colors font-medium">Galerija</a>
+                <a href="#blog" class="hover:text-gold transition-colors font-medium">Blog</a>
                 <a href="#about" class="hover:text-gold transition-colors font-medium">O nama</a>
-                <a href="#faq" class="hover:text-gold transition-colors font-medium">Pitanja</a>
+                <a href="#faq" class="hover:text-gold transition-colors font-medium">FAQ</a>
                 <a href="#contact" class="bg-gold hover:bg-yellow-500 text-black px-6 py-2 rounded-full font-semibold transition-all hover:scale-105">Kontakt</a>
             </div>
             
@@ -161,9 +203,11 @@
                 <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-3xl">✕</button>
                 <a href="#home" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Početna</a>
                 <a href="#services" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Usluge</a>
+                <a href="#popular-events" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Popularni Događaji</a>
                 <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Galerija</a>
+                <a href="#blog" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Blog</a>
                 <a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">O nama</a>
-                <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">Pitanja</a>
+                <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors">FAQ</a>
                 <a href="#contact" onclick="toggleMobileMenu()" class="bg-gold hover:bg-yellow-500 text-black px-8 py-3 rounded-full font-semibold transition-all">Kontakt</a>
             </div>
         </div>
@@ -174,7 +218,7 @@
         <div class="max-w-6xl mx-auto fade-in visible">
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold font-montserrat mb-8 leading-tight">
                 Sve za vaš događaj –<br>
-                <span class="gradient-gold">na jednom mjestu.</span>
+                <span class="gradient-gold">na jednom mestu.</span>
             </h1>
             <p class="text-xl md:text-2xl lg:text-3xl mb-12 text-gray-200 font-medium max-w-3xl mx-auto">
                 Mi se brinemo za sve – vi samo uživajte.
@@ -221,21 +265,21 @@
                 <div class="fade-in">
                     <h2 class="text-4xl lg:text-5xl font-bold font-montserrat mb-8">Dobri događaji se grade na <span class="gradient-gold">detaljima i timskom radu.</span></h2>
                     <p class="text-lg text-gray-300 mb-8 leading-relaxed">
-                        Mi smo Sindikat – tim iz svijeta muzike, ugostiteljstva i produkcije. 
-                        Svaki uspješan događaj počinje razumijevanjem vaše vizije i završava se prevazilaženjem vaših očekivanja.
+                        Mi smo Sindikat – tim iz sveta muzike, gastronomije i produkcije. 
+                        Svaki uspešan događaj počinje razumevanjem vaše vizije i završava se prevazilaženjem vaših očekivanja.
                     </p>
                     <div class="space-y-4">
                         <div class="flex items-center space-x-4">
                             <div class="w-3 h-3 bg-gold rounded-full light-pulse"></div>
-                            <span class="text-gray-300">Profesionalni tim sa godinama iskustva</span>
+                            <span class="text-gray-300">Profesionalni tim sa višegodišnjim iskustvom</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <div class="w-3 h-3 bg-electric-blue rounded-full light-pulse" style="animation-delay: 0.5s"></div>
-                            <span class="text-gray-300">Visokokvalitetna oprema i premium pića</span>
+                            <span class="text-gray-300">Visokokvalitetna oprema i premium napici</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <div class="w-3 h-3 bg-gold rounded-full light-pulse" style="animation-delay: 1s"></div>
-                            <span class="text-gray-300">Kompletna rješenja za događaje pod jednim krovom</span>
+                            <span class="text-gray-300">Kompletna event rešenja pod jednim krovom</span>
                         </div>
                     </div>
                 </div>
@@ -288,133 +332,201 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Bartenders & Cocktail Masters -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-gold group-hover:scale-110 transition-transform cocktail-float" viewBox="0 0 100 100">
-                            <path d="M30 30 L70 30 L60 60 L40 60 Z" fill="currentColor" opacity="0.8"/>
-                            <rect x="47" y="60" width="6" height="20" fill="#8B4513"/>
-                            <circle cx="50" cy="85" r="8" fill="#333"/>
-                            <circle cx="42" cy="40" r="2" fill="#FF6B6B"/>
-                            <circle cx="58" cy="40" r="2" fill="#4ECDC4"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Bartenderi i Kokteli</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni miksologi koji prave autorske koktele i premium pića za vaš događaj.</p>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;300&quot; height=&quot;80&quot; fill=&quot;%23654321&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;120&quot; width=&quot;8&quot; height=&quot;80&quot; fill=&quot;%23228B22&quot;/><rect x=&quot;150&quot; y=&quot;100&quot; width=&quot;8&quot; height=&quot;100&quot; fill=&quot;%238B0000&quot;/><rect x=&quot;200&quot; y=&quot;110&quot; width=&quot;8&quot; height=&quot;90&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;250&quot; y=&quot;90&quot; width=&quot;8&quot; height=&quot;110&quot; fill=&quot;%234169E1&quot;/><path d=&quot;M120 80 L140 80 L135 120 L125 120 Z&quot; fill=&quot;%23FFD700&quot;/><path d=&quot;M170 60 L190 60 L185 100 L175 100 Z&quot; fill=&quot;%2300BFFF&quot;/><circle cx=&quot;130&quot; cy=&quot;70&quot; r=&quot;3&quot; fill=&quot;%23FF6B6B&quot;/><circle cx=&quot;180&quot; cy=&quot;50&quot; r=&quot;3&quot; fill=&quot;%234ECDC4&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Barmeni i Kokteli</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.</p>
                 </div>
 
                 <!-- DJs & Musicians -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-electric-blue group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <rect x="20" y="40" width="60" height="30" fill="currentColor" rx="4"/>
-                            <circle cx="35" cy="55" r="8" fill="#000"/>
-                            <circle cx="65" cy="55" r="8" fill="#000"/>
-                            <path d="M25 25 Q50 15 75 25" stroke="currentColor" stroke-width="3" fill="none"/>
-                            <circle cx="25" cy="30" r="4" fill="#333"/>
-                            <circle cx="75" cy="30" r="4" fill="#333"/>
-                        </svg>
-                    </div>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23111&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;100&quot; width=&quot;300&quot; height=&quot;100&quot; fill=&quot;%23333&quot; rx=&quot;10&quot;/><circle cx=&quot;120&quot; cy=&quot;150&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;280&quot; cy=&quot;150&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;120&quot; cy=&quot;150&quot; r=&quot;20&quot; fill=&quot;%2300BFFF&quot;/><circle cx=&quot;280&quot; cy=&quot;150&quot; r=&quot;20&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;180&quot; y=&quot;120&quot; width=&quot;40&quot; height=&quot;60&quot; fill=&quot;%23222&quot; rx=&quot;5&quot;/><rect x=&quot;185&quot; y=&quot;125&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><rect x=&quot;185&quot; y=&quot;140&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><rect x=&quot;185&quot; y=&quot;155&quot; width=&quot;30&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/><path d=&quot;M100 50 Q200 30 300 50&quot; stroke=&quot;%2300BFFF&quot; stroke-width=&quot;4&quot; fill=&quot;none&quot;/></svg>'); background-size: cover; background-position: center;"></div>
                     <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">DJ-jevi i Muzičari</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Talentovani DJ-jevi i muzičari uživo koji stvaraju savršen soundtrack za svaki trenutak.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.</p>
                 </div>
 
                 <!-- Sound & Lighting Equipment -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-gold group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <rect x="25" y="20" width="50" height="10" fill="#333" rx="2"/>
-                            <circle cx="35" cy="18" r="4" fill="currentColor" class="light-pulse"/>
-                            <circle cx="50" cy="18" r="4" fill="#FF1493" class="light-pulse" style="animation-delay: 0.5s"/>
-                            <circle cx="65" cy="18" r="4" fill="#00BFFF" class="light-pulse" style="animation-delay: 1s"/>
-                            <path d="M35 22 L30 60 L40 60 Z" fill="currentColor" opacity="0.3"/>
-                            <path d="M50 22 L45 60 L55 60 Z" fill="#FF1493" opacity="0.3"/>
-                            <path d="M65 22 L60 60 L70 60 Z" fill="#00BFFF" opacity="0.3"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Zvuk i Rasvjeta</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni audio sistemi i spektakularni svjetlosni efekti za bilo koji prostor.</p>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23000&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;30&quot; fill=&quot;%23333&quot; rx=&quot;5&quot;/><circle cx=&quot;100&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%23FFD700&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;2s&quot; repeatCount=&quot;indefinite&quot;/></circle><circle cx=&quot;200&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%23FF1493&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;1.5s&quot; repeatCount=&quot;indefinite&quot;/></circle><circle cx=&quot;300&quot; cy=&quot;40&quot; r=&quot;15&quot; fill=&quot;%2300BFFF&quot;><animate attributeName=&quot;opacity&quot; values=&quot;1;0.3;1&quot; dur=&quot;2.5s&quot; repeatCount=&quot;indefinite&quot;/></circle><path d=&quot;M100 55 L80 200 L120 200 Z&quot; fill=&quot;%23FFD700&quot; opacity=&quot;0.3&quot;/><path d=&quot;M200 55 L180 200 L220 200 Z&quot; fill=&quot;%23FF1493&quot; opacity=&quot;0.3&quot;/><path d=&quot;M300 55 L280 200 L320 200 Z&quot; fill=&quot;%2300BFFF&quot; opacity=&quot;0.3&quot;/><rect x=&quot;150&quot; y=&quot;220&quot; width=&quot;100&quot; height=&quot;40&quot; fill=&quot;%23444&quot; rx=&quot;5&quot;/><circle cx=&quot;170&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/><circle cx=&quot;200&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/><circle cx=&quot;230&quot; cy=&quot;240&quot; r=&quot;8&quot; fill=&quot;%23666&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Zvuk i Osvetljenje</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.</p>
                 </div>
 
                 <!-- Bar Setup & Beverage Service -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-electric-blue group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <rect x="20" y="60" width="60" height="20" fill="#8B4513" rx="2"/>
-                            <rect x="30" y="40" width="4" height="20" fill="#228B22" rx="1"/>
-                            <rect x="40" y="35" width="4" height="25" fill="#8B0000" rx="1"/>
-                            <rect x="50" y="40" width="4" height="20" fill="currentColor" rx="1"/>
-                            <rect x="60" y="35" width="4" height="25" fill="#4169E1" rx="1"/>
-                            <ellipse cx="50" cy="70" rx="8" ry="4" fill="#C0C0C0"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Bar i Usluga Pića</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Kompletna bar rješenja sa premium alkoholnim pićima i elegantnim mobilnim postavkama.</p>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;300&quot; height=&quot;80&quot; fill=&quot;%23654321&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;120&quot; width=&quot;8&quot; height=&quot;80&quot; fill=&quot;%23228B22&quot;/><rect x=&quot;150&quot; y=&quot;100&quot; width=&quot;8&quot; height=&quot;100&quot; fill=&quot;%238B0000&quot;/><rect x=&quot;200&quot; y=&quot;110&quot; width=&quot;8&quot; height=&quot;90&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;250&quot; y=&quot;90&quot; width=&quot;8&quot; height=&quot;110&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;300&quot; y=&quot;105&quot; width=&quot;8&quot; height=&quot;95&quot; fill=&quot;%234169E1&quot;/><ellipse cx=&quot;200&quot; cy=&quot;240&quot; rx=&quot;30&quot; ry=&quot;15&quot; fill=&quot;%23C0C0C0&quot;/><path d=&quot;M120 80 L140 80 L135 120 L125 120 Z&quot; fill=&quot;%23FFD700&quot;/><path d=&quot;M170 60 L190 60 L185 100 L175 100 Z&quot; fill=&quot;%2300BFFF&quot;/><path d=&quot;M220 70 L240 70 L235 110 L225 110 Z&quot; fill=&quot;%23FF6B6B&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Bar i Usluga Napitaka</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.</p>
                 </div>
 
                 <!-- Photography & Video Production -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-gold group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <rect x="30" y="40" width="40" height="25" fill="currentColor" rx="4"/>
-                            <circle cx="50" cy="52" r="12" fill="#333"/>
-                            <circle cx="50" cy="52" r="8" fill="#1a1a1a"/>
-                            <rect x="42" y="30" width="16" height="8" fill="currentColor" opacity="0.8"/>
-                            <line x1="50" y1="65" x2="35" y2="80" stroke="#8B4513" stroke-width="2"/>
-                            <line x1="50" y1="65" x2="65" y2="80" stroke="#8B4513" stroke-width="2"/>
-                            <line x1="50" y1="65" x2="50" y2="80" stroke="#8B4513" stroke-width="2"/>
-                        </svg>
-                    </div>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23111&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;100&quot; y=&quot;100&quot; width=&quot;200&quot; height=&quot;120&quot; fill=&quot;%23FFD700&quot; rx=&quot;15&quot;/><circle cx=&quot;200&quot; cy=&quot;160&quot; r=&quot;40&quot; fill=&quot;%23333&quot;/><circle cx=&quot;200&quot; cy=&quot;160&quot; r=&quot;30&quot; fill=&quot;%23000&quot;/><circle cx=&quot;200&quot; cy=&quot;160&quot; r=&quot;20&quot; fill=&quot;%23444&quot;/><rect x=&quot;150&quot; y=&quot;80&quot; width=&quot;100&quot; height=&quot;20&quot; fill=&quot;%23FFD700&quot; rx=&quot;5&quot;/><circle cx=&quot;120&quot; cy=&quot;120&quot; r=&quot;8&quot; fill=&quot;%23FF0000&quot;/><line x1=&quot;200&quot; y1=&quot;220&quot; x2=&quot;150&quot; y2=&quot;280&quot; stroke=&quot;%23654321&quot; stroke-width=&quot;8&quot;/><line x1=&quot;200&quot; y1=&quot;220&quot; x2=&quot;250&quot; y2=&quot;280&quot; stroke=&quot;%23654321&quot; stroke-width=&quot;8&quot;/><line x1=&quot;200&quot; y1=&quot;220&quot; x2=&quot;200&quot; y2=&quot;280&quot; stroke=&quot;%23654321&quot; stroke-width=&quot;8&quot;/><rect x=&quot;180&quot; y=&quot;275&quot; width=&quot;40&quot; height=&quot;15&quot; fill=&quot;%23333&quot; rx=&quot;3&quot;/><path d=&quot;M180 50 Q200 30 220 50&quot; stroke=&quot;%23FFD700&quot; stroke-width=&quot;3&quot; fill=&quot;none&quot;/></svg>'); background-size: cover; background-position: center;"></div>
                     <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Fotografija i Video</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni fotografi koji hvataju svaki dragocjeni trenutak u vrhunskom kvalitetu.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">Profesionalni fotografi koji hvataju svaki dragoceni trenutak u najvišem kvalitetu.</p>
                 </div>
 
                 <!-- Design & Social Media -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-electric-blue group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <rect x="25" y="25" width="50" height="35" fill="currentColor" rx="4"/>
-                            <rect x="30" y="30" width="40" height="25" fill="#1a1a1a" rx="2"/>
-                            <circle cx="40" cy="42" r="3" fill="currentColor"/>
-                            <rect x="47" y="40" width="15" height="2" fill="currentColor"/>
-                            <rect x="47" y="44" width="10" height="2" fill="currentColor"/>
-                            <rect x="30" y="70" width="40" height="8" fill="#333" rx="2"/>
-                        </svg>
-                    </div>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23000&quot; width=&quot;400&quot; height=&quot;300&quot;/><rect x=&quot;80&quot; y=&quot;60&quot; width=&quot;240&quot; height=&quot;180&quot; fill=&quot;%2300BFFF&quot; rx=&quot;15&quot;/><rect x=&quot;100&quot; y=&quot;80&quot; width=&quot;200&quot; height=&quot;140&quot; fill=&quot;%23111&quot; rx=&quot;8&quot;/><circle cx=&quot;140&quot; cy=&quot;120&quot; r=&quot;15&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;170&quot; y=&quot;110&quot; width=&quot;100&quot; height=&quot;8&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;170&quot; y=&quot;125&quot; width=&quot;80&quot; height=&quot;6&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;170&quot; y=&quot;138&quot; width=&quot;60&quot; height=&quot;6&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;110&quot; y=&quot;160&quot; width=&quot;180&quot; height=&quot;40&quot; fill=&quot;%23333&quot; rx=&quot;5&quot;/><rect x=&quot;120&quot; y=&quot;170&quot; width=&quot;40&quot; height=&quot;20&quot; fill=&quot;%23FFD700&quot; rx=&quot;3&quot;/><rect x=&quot;170&quot; y=&quot;170&quot; width=&quot;40&quot; height=&quot;20&quot; fill=&quot;%23FF6B6B&quot; rx=&quot;3&quot;/><rect x=&quot;220&quot; y=&quot;170&quot; width=&quot;40&quot; height=&quot;20&quot; fill=&quot;%234ECDC4&quot; rx=&quot;3&quot;/><rect x=&quot;100&quot; y=&quot;250&quot; width=&quot;200&quot; height=&quot;20&quot; fill=&quot;%23333&quot; rx=&quot;5&quot;/></svg>'); background-size: cover; background-position: center;"></div>
                     <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Dizajn i Društvene Mreže</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Kreativna dizajnerska rješenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">Kreativna dizajnerska rešenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.</p>
                 </div>
 
                 <!-- Professional Hostesses -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-gold group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <circle cx="50" cy="35" r="12" fill="currentColor"/>
-                            <rect x="40" y="50" width="20" height="25" fill="currentColor" rx="3"/>
-                            <rect x="35" y="55" width="30" height="15" fill="#333" rx="2"/>
-                            <circle cx="42" cy="30" r="2" fill="#333"/>
-                            <circle cx="58" cy="30" r="2" fill="#333"/>
-                            <path d="M45 38 Q50 42 55 38" stroke="#333" stroke-width="2" fill="none"/>
-                        </svg>
-                    </div>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23222&quot; width=&quot;400&quot; height=&quot;300&quot;/><circle cx=&quot;200&quot; cy=&quot;100&quot; r=&quot;40&quot; fill=&quot;%23FFD700&quot;/><circle cx=&quot;185&quot; cy=&quot;90&quot; r=&quot;5&quot; fill=&quot;%23333&quot;/><circle cx=&quot;215&quot; cy=&quot;90&quot; r=&quot;5&quot; fill=&quot;%23333&quot;/><path d=&quot;M185 110 Q200 120 215 110&quot; stroke=&quot;%23333&quot; stroke-width=&quot;3&quot; fill=&quot;none&quot;/><rect x=&quot;160&quot; y=&quot;140&quot; width=&quot;80&quot; height=&quot;100&quot; fill=&quot;%23FFD700&quot; rx=&quot;10&quot;/><rect x=&quot;140&quot; y=&quot;160&quot; width=&quot;120&quot; height=&quot;60&quot; fill=&quot;%23333&quot; rx=&quot;8&quot;/><rect x=&quot;150&quot; y=&quot;170&quot; width=&quot;100&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;150&quot; y=&quot;185&quot; width=&quot;100&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;150&quot; y=&quot;200&quot; width=&quot;100&quot; height=&quot;8&quot; fill=&quot;%23FFD700&quot;/><rect x=&quot;180&quot; y=&quot;240&quot; width=&quot;15&quot; height=&quot;40&quot; fill=&quot;%23654321&quot;/><rect x=&quot;205&quot; y=&quot;240&quot; width=&quot;15&quot; height=&quot;40&quot; fill=&quot;%23654321&quot;/></svg>'); background-size: cover; background-position: center;"></div>
                     <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Profesionalne Hostese</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Elegantne i profesionalne hostese za dočekivanje i pomoć vašim gostima.</p>
                 </div>
 
                 <!-- Event Furniture -->
                 <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center">
-                    <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-electric-blue group-hover:scale-110 transition-transform" viewBox="0 0 100 100">
-                            <ellipse cx="50" cy="50" rx="20" ry="4" fill="currentColor"/>
-                            <rect x="47" y="50" width="6" height="20" fill="#8B4513"/>
-                            <ellipse cx="50" cy="70" rx="12" ry="3" fill="#654321"/>
-                            <rect x="25" y="35" width="8" height="15" fill="#333" rx="1"/>
-                            <rect x="67" y="35" width="8" height="15" fill="#333" rx="1"/>
-                            <rect x="25" y="32" width="8" height="4" fill="#444" rx="1"/>
-                            <rect x="67" y="32" width="8" height="4" fill="#444" rx="1"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Namještaj za Događaje</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Stilski namještaj i lounge postavke za stvaranje savršene atmosfere.</p>
+                    <div class="service-image mb-6" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 300&quot;><rect fill=&quot;%23111&quot; width=&quot;400&quot; height=&quot;300&quot;/><ellipse cx=&quot;200&quot; cy=&quot;150&quot; rx=&quot;80&quot; ry=&quot;15&quot; fill=&quot;%2300BFFF&quot;/><rect x=&quot;190&quot; y=&quot;150&quot; width=&quot;20&quot; height=&quot;80&quot; fill=&quot;%23654321&quot;/><ellipse cx=&quot;200&quot; cy=&quot;230&quot; rx=&quot;50&quot; ry=&quot;10&quot; fill=&quot;%23333&quot;/><rect x=&quot;80&quot; y=&quot;100&quot; width=&quot;30&quot; height=&quot;60&quot; fill=&quot;%23444&quot; rx=&quot;5&quot;/><rect x=&quot;290&quot; y=&quot;100&quot; width=&quot;30&quot; height=&quot;60&quot; fill=&quot;%23444&quot; rx=&quot;5&quot;/><rect x=&quot;75&quot; y=&quot;90&quot; width=&quot;40&quot; height=&quot;15&quot; fill=&quot;%23666&quot; rx=&quot;3&quot;/><rect x=&quot;285&quot; y=&quot;90&quot; width=&quot;40&quot; height=&quot;15&quot; fill=&quot;%23666&quot; rx=&quot;3&quot;/><rect x=&quot;50&quot; y=&quot;200&quot; width=&quot;100&quot; height=&quot;40&quot; fill=&quot;%23333&quot; rx=&quot;8&quot;/><rect x=&quot;250&quot; y=&quot;200&quot; width=&quot;100&quot; height=&quot;40&quot; fill=&quot;%23333&quot; rx=&quot;8&quot;/></svg>'); background-size: cover; background-position: center;"></div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Event Nameštaj</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Stilski nameštaj i lounge postavke za kreiranje savršene atmosfere.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Events -->
+    <section id="popular-events" class="py-20 px-6 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Popularni <span class="gradient-gold">Događaji</span></h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="popular-event-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-6xl mb-6 text-center">🎉</div>
+                    <h3 class="text-2xl font-bold font-montserrat mb-4 gradient-gold text-center">Korporativni Događaji</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">Profesionalni poslovni događaji, konferencije, team building aktivnosti i korporativne proslave.</p>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+                            <span class="text-gray-400">Konferencije i prezentacije</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+                            <span class="text-gray-400">Team building događaji</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+                            <span class="text-gray-400">Korporativne proslave</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popular-event-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-6xl mb-6 text-center">💒</div>
+                    <h3 class="text-2xl font-bold font-montserrat mb-4 gradient-blue text-center">Venčanja</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">Kompletna organizacija venčanja od ceremonije do proslave, sa svim potrebnim uslugama.</p>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-electric-blue rounded-full"></div>
+                            <span class="text-gray-400">Ceremonija i prijem</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-electric-blue rounded-full"></div>
+                            <span class="text-gray-400">Muzika i zabava</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-electric-blue rounded-full"></div>
+                            <span class="text-gray-400">Fotografija i video</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popular-event-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-6xl mb-6 text-center">🎂</div>
+                    <h3 class="text-2xl font-bold font-montserrat mb-4 gradient-gold text-center">Privatne Proslave</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">Rođendani, godišnjice, diplomiranja i druge lične proslave prilagođene vašim željama.</p>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+                            <span class="text-gray-400">Rođendanske proslave</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+                            <span class="text-gray-400">Godišnjice i jubileji</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+                            <span class="text-gray-400">Diplomiranja i dostignuća</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20 px-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Saveti za <span class="gradient-blue">Organizaciju Događaja</span></h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="blog-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-4xl mb-4">📅</div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Planiranje Vremenske Linije</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">Ključ uspešnog događaja je detaljno planiranje. Počnite sa planiranjem najmanje 2-3 meseca unapred.</p>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2">• Rezervišite datum i lokaciju prvo</p>
+                        <p class="mb-2">• Napravite listu gostiju rano</p>
+                        <p>• Planirajte budžet detaljno</p>
+                    </div>
+                </article>
+
+                <article class="blog-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-4xl mb-4">💰</div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Budžetiranje Događaja</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">Pametno upravljanje budžetom omogućava vam da ostvarite maksimum uz optimalne troškove.</p>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2">• 40% budžeta za hranu i piće</p>
+                        <p class="mb-2">• 20% za lokaciju i dekor</p>
+                        <p>• 15% za zabavu i muziku</p>
+                    </div>
+                </article>
+
+                <article class="blog-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-4xl mb-4">🎵</div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Izbor Prave Muzike</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">Muzika stvara atmosferu. Prilagodite playlist-u prema uzrastu gostiju i tipu događaja.</p>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2">• Poznajte svoju publiku</p>
+                        <p class="mb-2">• Mešajte žanrove pametno</p>
+                        <p>• Imajte rezervni plan</p>
+                    </div>
+                </article>
+
+                <article class="blog-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-4xl mb-4">🍽️</div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Catering i Meni</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">Hrana je srce svakog događaja. Vodite računa o dijetarnim ograničenjima gostiju.</p>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2">• Pitate o alergijama unapred</p>
+                        <p class="mb-2">• Ponudite vegetarijanske opcije</p>
+                        <p>• Kalkulišite količine pažljivo</p>
+                    </div>
+                </article>
+
+                <article class="blog-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-4xl mb-4">📸</div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Fotografisanje Događaja</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">Sačuvajte uspomene profesionalno. Dobar fotograf vredi svaki dinar uložen.</p>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2">• Napravite shot listu unapred</p>
+                        <p class="mb-2">• Obezbedite dobro osvetljenje</p>
+                        <p>• Planirajte vreme za grupne slike</p>
+                    </div>
+                </article>
+
+                <article class="blog-card rounded-3xl p-8 hover-lift fade-in">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Dan Događaja</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">Pripremite se za neočekivano. Imajte plan B i ostanite fleksibilni tokom dana.</p>
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2">• Proverite sve unapred</p>
+                        <p class="mb-2">• Delegirajte odgovornosti</p>
+                        <p>• Uživajte u svom događaju!</p>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
@@ -422,26 +534,26 @@
     <!-- Why Choose Us -->
     <section class="py-20 px-6 bg-black">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Zašto Odabrati <span class="gradient-blue">Sindikat</span></h2>
+            <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Zašto Izabrati <span class="gradient-blue">Sindikat</span></h2>
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
                     <div class="text-6xl mb-6">👥</div>
-                    <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-gold">Stručni Tim</h3>
-                    <p class="text-gray-400 leading-relaxed">Iskusni profesionalci strastveni za stvaranje nezaboravnih događaja</p>
+                    <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-gold">Ekspertski Tim</h3>
+                    <p class="text-gray-400 leading-relaxed">Iskusni profesionalci sa strašću za kreiranje nezaboravnih događaja</p>
                 </div>
                 <div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
                     <div class="text-6xl mb-6">⚡</div>
-                    <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-blue">Kvalitetna Oprema i Pića</h3>
-                    <p class="text-gray-400 leading-relaxed">Premium oprema i vrhunska pića za izuzetna iskustva</p>
+                    <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-blue">Kvalitetna Oprema i Napici</h3>
+                    <p class="text-gray-400 leading-relaxed">Premium oprema i napici najvišeg kvaliteta za izuzetna iskustva</p>
                 </div>
                 <div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
                     <div class="text-6xl mb-6">🏆</div>
                     <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-gold">Dokazano Iskustvo</h3>
-                    <p class="text-gray-400 leading-relaxed">50+ uspješnih događaja i nebrojeno zadovoljnih klijenata širom Crne Gore</p>
+                    <p class="text-gray-400 leading-relaxed">50+ uspešnih događaja i nebrojeno zadovoljnih klijenata širom Crne Gore</p>
                 </div>
                 <div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
                     <div class="text-6xl mb-6">🎯</div>
-                    <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-blue">Sve na Jednom Mjestu</h3>
+                    <h3 class="text-xl font-semibold font-montserrat mb-4 gradient-blue">Sve na Jednom Mestu</h3>
                     <p class="text-gray-400 leading-relaxed">Sve što vam treba za vaš događaj, koordinisano od strane jednog profesionalnog tima</p>
                 </div>
             </div>
@@ -512,18 +624,18 @@
                                 <rect x="40" y="55" width="20" height="25" fill="currentColor" rx="3"/>
                                 <path d="M35 65 Q50 60 65 65" stroke="#333" stroke-width="2" fill="none"/>
                             </svg>
-                            <h4 class="text-lg font-semibold font-montserrat">Vjenčani Prijem</h4>
+                            <h4 class="text-lg font-semibold font-montserrat">Venčani Prijem</h4>
                             <p class="text-sm text-gray-300">200 gostiju • Nikšić</p>
                         </div>
                     </div>
                     <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center">
                         <div class="text-center p-6">
-                            <h3 class="text-xl font-semibold font-montserrat mb-2">Vjenčanje iz Snova</h3>
+                            <h3 class="text-xl font-semibold font-montserrat mb-2">Venčanje iz Snova</h3>
                             <p class="text-gray-300 mb-4">Čarobna proslava savršeno organizovana</p>
                             <div class="text-sm text-green-400">
                                 <p>• 12-satna kompletna usluga</p>
                                 <p>• Bend uživo + DJ</p>
-                                <p>• Kompletno dizajniranje rasvjete</p>
+                                <p>• Kompletno dizajniranje osvetljenja</p>
                             </div>
                         </div>
                     </div>
@@ -571,7 +683,7 @@
                             <p class="text-gray-400">CEO, Tech kompanija</p>
                         </div>
                     </div>
-                    <p class="text-gray-300 leading-relaxed">"Sindikat je transformisao naš korporativni događaj u nezaboravno iskustvo. Profesionalno, stilski i potpuno bez stresa. Naš tim još uvijek priča o tome!"</p>
+                    <p class="text-gray-300 leading-relaxed">"Sindikat je transformisao naš korporativni događaj u nezaboravno iskustvo. Profesionalno, stilski i potpuno bez stresa. Naš tim još uvek priča o tome!"</p>
                 </div>
                 <div class="bg-gray-900 p-8 rounded-2xl fade-in hover-lift">
                     <div class="flex items-center mb-6">
@@ -581,7 +693,7 @@
                             <p class="text-gray-400">Mladenka</p>
                         </div>
                     </div>
-                    <p class="text-gray-300 leading-relaxed">"Naše vjenčanje je bilo apsolutno savršeno! Od koktela do muzike, rasvjete i fotografije - oni su se brinuli za svaki detalj prekrasno. Nismo mogli tražiti više."</p>
+                    <p class="text-gray-300 leading-relaxed">"Naše venčanje je bilo apsolutno savršeno! Od koktela do muzike, osvetljenja i fotografije - oni su se brinuli za svaki detalj prekrasno. Nismo mogli tražiti više."</p>
                 </div>
                 <div class="bg-gray-900 p-8 rounded-2xl fade-in hover-lift">
                     <div class="flex items-center mb-6">
@@ -591,7 +703,7 @@
                             <p class="text-gray-400">Organizator događaja</p>
                         </div>
                     </div>
-                    <p class="text-gray-300 leading-relaxed">"Rad sa Sindikatomje bio prekretnička. Njihov tim je donio nevjerovatnu energiju, profesionalnu uslugu i pažnju na svaki detalj. Toplo preporučujem!"</p>
+                    <p class="text-gray-300 leading-relaxed">"Rad sa Sindikatom je bio prekretnički. Njihov tim je doneo neverovatnu energiju, profesionalnu uslugu i pažnju na svaki detalj. Toplo preporučujem!"</p>
                 </div>
             </div>
         </div>
@@ -604,7 +716,7 @@
             <div class="space-y-4">
                 <div class="bg-black rounded-2xl overflow-hidden fade-in">
                     <button onclick="toggleAccordion(0)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-                        <span class="text-lg font-semibold">Da li organizujete male privatne događaje? ✔</span>
+                        <span class="text-lg font-semibold">Da li organizujete male privatne događaje?</span>
                         <span class="text-3xl accordion-arrow font-light">+</span>
                     </button>
                     <div class="accordion-content px-8 pb-8">
@@ -613,38 +725,38 @@
                 </div>
                 <div class="bg-black rounded-2xl overflow-hidden fade-in">
                     <button onclick="toggleAccordion(1)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-                        <span class="text-lg font-semibold">Možemo li angažovati samo jednu uslugu (npr. DJ ili bar)? ✔</span>
+                        <span class="text-lg font-semibold">Možemo li angažovati samo jednu uslugu (npr. DJ ili bar)?</span>
                         <span class="text-3xl accordion-arrow font-light">+</span>
                     </button>
                     <div class="accordion-content px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed">Apsolutno! Možete rezervisati pojedinačne usluge ili kreirati prilagođeni paket koji odgovara vašim specifičnim potrebama i budžetu. Mi smo fleksibilni i radimo prema vašim zahtjevima.</p>
+                        <p class="text-gray-300 leading-relaxed">Apsolutno! Možete rezervisati pojedinačne usluge ili kreirati prilagođeni paket koji odgovara vašim specifičnim potrebama i budžetu. Mi smo fleksibilni i radimo prema vašim zahtevima.</p>
                     </div>
                 </div>
                 <div class="bg-black rounded-2xl overflow-hidden fade-in">
                     <button onclick="toggleAccordion(2)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-                        <span class="text-lg font-semibold">Da li radite van Podgorice? ✔</span>
+                        <span class="text-lg font-semibold">Da li radite van Podgorice?</span>
                         <span class="text-3xl accordion-arrow font-light">+</span>
                     </button>
                     <div class="accordion-content px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed">Da, pružamo naše usluge širom Crne Gore. Od Budve do Nikšića, donosimo isti kvalitet i profesionalizam svugdje. Troškovi putovanja mogu se naplatiti za lokacije van Podgorice.</p>
+                        <p class="text-gray-300 leading-relaxed">Da, pružamo naše usluge širom Crne Gore. Od Budve do Nikšića, donosimo isti kvalitet i profesionalizam svugde. Troškovi putovanja mogu se naplatiti za lokacije van Podgorice.</p>
                     </div>
                 </div>
                 <div class="bg-black rounded-2xl overflow-hidden fade-in">
                     <button onclick="toggleAccordion(3)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-                        <span class="text-lg font-semibold">Koliko unaprijed treba rezervisati?</span>
+                        <span class="text-lg font-semibold">Koliko unapred treba rezervisati?</span>
                         <span class="text-3xl accordion-arrow font-light">+</span>
                     </button>
                     <div class="accordion-content px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed">Preporučujemo rezervaciju najmanje 2-4 sedmice unaprijed za optimalno planiranje, ali možemo prilagoditi i kraći rok ovisno o dostupnosti. Kontaktirajte nas čim imate datum u vidu!</p>
+                        <p class="text-gray-300 leading-relaxed">Preporučujemo rezervaciju najmanje 2-4 nedelje unapred za optimalno planiranje, ali možemo prilagoditi i kraći rok ovisno o dostupnosti. Kontaktirajte nas čim imate datum u vidu!</p>
                     </div>
                 </div>
                 <div class="bg-black rounded-2xl overflow-hidden fade-in">
                     <button onclick="toggleAccordion(4)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-                        <span class="text-lg font-semibold">Da li obezbijeđujete opremu za događaje na otvorenom?</span>
+                        <span class="text-lg font-semibold">Da li obezbeđujete opremu za događaje na otvorenom?</span>
                         <span class="text-3xl accordion-arrow font-light">+</span>
                     </button>
                     <div class="accordion-content px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed">Da! Imamo opremu otpornu na vremenske uslove i možemo obezbijediti generatore, pokrivene bar postavke i svu potrebnu infrastrukturu za događaje na otvorenom. Mi se bavimo svim tehničkim zahtjevima.</p>
+                        <p class="text-gray-300 leading-relaxed">Da! Imamo opremu otpornu na vremenske uslove i možemo obezbediti generatore, pokrivene bar postavke i svu potrebnu infrastrukturu za događaje na otvorenom. Mi se bavimo svim tehničkim zahtevima.</p>
                     </div>
                 </div>
                 <div class="bg-black rounded-2xl overflow-hidden fade-in">
@@ -680,7 +792,7 @@
                         </button>
                     </form>
                     <p class="text-sm text-gray-400 mt-6 p-4 bg-gray-900 rounded-xl">
-                        <strong>Demo Forma:</strong> Ovo je primjer kontakt forme za demonstraciju. Na pravom sajtu, ova forma bi poslala vašu poruku direktno Sindikat timu za trenutni odgovor.
+                        <strong>Demo Forma:</strong> Ovo je primer kontakt forme za demonstraciju. Na pravom sajtu, ova forma bi poslala vašu poruku direktno Sindikat timu za trenutni odgovor.
                     </p>
                 </div>
                 <div class="fade-in">
@@ -715,7 +827,7 @@
                             <div>
                                 <h4 class="font-semibold text-lg font-montserrat">Lokacija</h4>
                                 <p class="text-gray-300">Podgorica, Crna Gora</p>
-                                <p class="text-gray-400 text-sm">Služimo cijelu Crnu Goru</p>
+                                <p class="text-gray-400 text-sm">Služimo celu Crnu Goru</p>
                             </div>
                         </div>
                     </div>
@@ -730,7 +842,7 @@
             <div class="grid md:grid-cols-3 gap-12">
                 <div>
                     <div class="text-3xl font-bold font-montserrat gradient-gold mb-6">SINDIKAT</div>
-                    <p class="text-gray-400 leading-relaxed mb-6">Everything for your event, without stress, with style. Professional event solutions across Montenegro.</p>
+                    <p class="text-gray-400 leading-relaxed mb-6">Sve za vaš događaj, bez stresa, sa stilom. Profesionalna event rešenja širom Crne Gore.</p>
                     <div class="flex space-x-4">
                         <a href="https://instagram.com/sindikat_events" class="w-12 h-12 bg-pink-600 hover:bg-pink-700 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110">📸</a>
                         <a href="https://tiktok.com/@sindikat_events" class="w-12 h-12 bg-black hover:bg-gray-800 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110">🎵</a>
@@ -738,34 +850,41 @@
                     </div>
                 </div>
                 <div>
-                    <h4 class="text-lg font-semibold font-montserrat mb-6">Quick Links</h4>
+                    <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Linkovi</h4>
                     <div class="space-y-3">
-                        <a href="#services" class="block text-gray-400 hover:text-gold transition-colors">Services</a>
-                        <a href="#gallery" class="block text-gray-400 hover:text-gold transition-colors">Gallery</a>
-                        <a href="#about" class="block text-gray-400 hover:text-gold transition-colors">About</a>
+                        <a href="#services" class="block text-gray-400 hover:text-gold transition-colors">Usluge</a>
+                        <a href="#popular-events" class="block text-gray-400 hover:text-gold transition-colors">Popularni Događaji</a>
+                        <a href="#gallery" class="block text-gray-400 hover:text-gold transition-colors">Galerija</a>
+                        <a href="#blog" class="block text-gray-400 hover:text-gold transition-colors">Blog</a>
+                        <a href="#about" class="block text-gray-400 hover:text-gold transition-colors">O nama</a>
                         <a href="#faq" class="block text-gray-400 hover:text-gold transition-colors">FAQ</a>
-                        <a href="#contact" class="block text-gray-400 hover:text-gold transition-colors">Contact</a>
+                        <a href="#contact" class="block text-gray-400 hover:text-gold transition-colors">Kontakt</a>
                     </div>
                 </div>
                 <div>
-                    <h4 class="text-lg font-semibold font-montserrat mb-6">Our Services</h4>
+                    <h4 class="text-lg font-semibold font-montserrat mb-6">Naše Usluge</h4>
                     <div class="space-y-3 text-sm">
-                        <p class="text-gray-400">🍸 Bartenders & Cocktails</p>
-                        <p class="text-gray-400">🎧 DJs & Musicians</p>
-                        <p class="text-gray-400">🎤 Sound & Lighting</p>
-                        <p class="text-gray-400">📸 Photography & Video</p>
-                        <p class="text-gray-400">🪑 Event Furniture</p>
+                        <p class="text-gray-400">🍸 Barmeni i Kokteli</p>
+                        <p class="text-gray-400">🎧 DJ-jevi i Muzičari</p>
+                        <p class="text-gray-400">🎤 Zvuk i Osvetljenje</p>
+                        <p class="text-gray-400">📸 Fotografija i Video</p>
+                        <p class="text-gray-400">🪑 Event Nameštaj</p>
                     </div>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400">&copy; 2024 Sindikat. All rights reserved.</p>
-                <p class="text-gray-500 text-sm mt-4 md:mt-0">Made with ⚡ for unforgettable events</p>
+                <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+                <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Language switching functionality
+        function switchLanguage() {
+            alert('Funkcija prebacivanja na engleski jezik će biti dostupna uskoro! / English version coming soon!');
+        }
+
         // Mobile menu toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
@@ -818,11 +937,11 @@
             const button = event.target.querySelector('button[type="submit"]');
             const originalText = button.textContent;
             
-            button.textContent = 'Sending...';
+            button.textContent = 'Šalje se...';
             button.disabled = true;
             
             setTimeout(() => {
-                alert('Hvala vam na poruci! Ovo je demo forma. Na pravom sajtu, vaša poruka bi bila poslana Sindikat timu za trenutni odgovor.');
+                alert('Hvala vam na poruci! Ovo je demo forma. Na pravom sajtu, vaša poruka bi bila poslata Sindikat timu za trenutni odgovor.');
                 button.textContent = originalText;
                 button.disabled = false;
                 event.target.reset();
@@ -853,6 +972,24 @@
                 document.getElementById('mobileMenu').classList.remove('active');
             });
         });
+
+        // Performance optimization - lazy loading for images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751b662273dec1c',t:'MTc1NjE5NDM1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751c7f7d5f2ec1c',t:'MTc1NjE5NTA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
