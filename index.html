@@ -1237,9 +1237,378 @@
     </footer>
 
     <script>
+        // Language data
+        const translations = {
+            sr: {
+                // Navigation
+                home: "Početna",
+                services: "Usluge",
+                popularEvents: "Popularni Događaji",
+                gallery: "Galerija",
+                blog: "Blog",
+                about: "O nama",
+                faq: "FAQ",
+                contact: "Kontakt",
+                
+                // Hero section
+                heroTitle: "Sve za vaš događaj –<br><span class=\"gradient-gold\">na jednom mestu.</span>",
+                heroSubtitle: "Mi se brinemo za sve – vi samo uživajte.",
+                contactUs: "Kontaktirajte nas",
+                ourServices: "Naše usluge",
+                
+                // Highlights
+                events: "Događaja",
+                professionals: "Mladih profesionalaca",
+                stress: "Stresa",
+                team: "Tim za sve",
+                
+                // About section
+                aboutTitle: "Dobri događaji se grade na <span class=\"gradient-gold\">detaljima i timskom radu.</span>",
+                aboutText: "Mi smo Sindikat – tim iz sveta muzike, gastronomije i produkcije. Svaki uspešan događaj počinje razumevanjem vaše vizije i završava se prevazilaženjem vaših očekivanja.",
+                aboutPoint1: "Profesionalni tim sa višegodišnjim iskustvom",
+                aboutPoint2: "Visokokvalitetna oprema i premium napici",
+                aboutPoint3: "Kompletna event rešenja pod jednim krovom",
+                
+                // Services
+                servicesTitle: "Naše <span class=\"gradient-gold\">Usluge</span>",
+                bartenders: "Barmeni i Kokteli",
+                bartendersDesc: "Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.",
+                djs: "DJ-jevi i Muzičari",
+                djsDesc: "Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.",
+                sound: "Zvuk i Osvetljenje",
+                soundDesc: "Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.",
+                bar: "Bar i Usluga Napitaka",
+                barDesc: "Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.",
+                photo: "Fotografija i Video",
+                photoDesc: "Profesionalni fotografi koji hvataju svaki dragoceni trenutak u najvišem kvalitetu.",
+                design: "Dizajn i Društvene Mreže",
+                designDesc: "Kreativna dizajnerska rešenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.",
+                hostesses: "Profesionalne Hostese",
+                hostessesDesc: "Elegantne i profesionalne hostese za dočekivanje i pomoć vašim gostima.",
+                furniture: "Event Nameštaj",
+                furnitureDesc: "Stilski nameštaj i lounge postavke za kreiranje savršene atmosfere.",
+                
+                // Popular Events
+                popularTitle: "Popularni <span class=\"gradient-gold\">Događaji</span>",
+                corporate: "Korporativni Događaji",
+                corporateDesc: "Profesionalni poslovni događaji, konferencije, team building aktivnosti i korporativne proslave.",
+                weddings: "Venčanja",
+                weddingsDesc: "Kompletna organizacija venčanja od ceremonije do proslave, sa svim potrebnim uslugama.",
+                private: "Privatne Proslave",
+                privateDesc: "Rođendani, godišnjice, diplomiranja i druge lične proslave prilagođene vašim željama.",
+                
+                // Why Choose Us
+                whyTitle: "Zašto Izabrati <span class=\"gradient-blue\">Sindikat</span>",
+                expertTeam: "Ekspertski Tim",
+                expertDesc: "Iskusni profesionalci sa strašću za kreiranje nezaboravnih događaja",
+                quality: "Kvalitetna Oprema i Napici",
+                qualityDesc: "Premium oprema i napici najvišeg kvaliteta za izuzetna iskustva",
+                experience: "Dokazano Iskustvo",
+                experienceDesc: "50+ uspešnih događaja i nebrojeno zadovoljnih klijenata širom Crne Gore",
+                oneStop: "Sve na Jednom Mestu",
+                oneStopDesc: "Sve što vam treba za vaš događaj, koordinisano od strane jednog profesionalnog tima",
+                
+                // Gallery
+                galleryTitle: "Galerija <span class=\"gradient-gold\">Događaja</span>",
+                
+                // Testimonials
+                testimonialsTitle: "Šta Kažu Naši <span class=\"gradient-blue\">Klijenti</span>",
+                
+                // FAQ
+                faqTitle: "Često Postavljana <span class=\"gradient-gold\">Pitanja</span>",
+                
+                // Contact
+                contactTitle: "Stupite u <span class=\"gradient-gold\">Kontakt</span>",
+                planEvent: "Planirajmo Vaš Savršen Događaj",
+                quickContact: "Brzi Kontakt",
+                sendMessage: "Pošaljite Poruku",
+                
+                // Form placeholders
+                yourName: "Vaše ime",
+                emailAddress: "Email adresa",
+                phoneNumber: "Broj telefona",
+                eventDate: "Datum događaja",
+                eventDetails: "Recite nam o vašem događaju - tip, lokacija, broj gostiju, potrebne usluge...",
+                
+                // Footer
+                quickLinks: "Brzi Linkovi",
+                ourServicesFooter: "Naše Usluge"
+            },
+            en: {
+                // Navigation
+                home: "Home",
+                services: "Services",
+                popularEvents: "Popular Events",
+                gallery: "Gallery",
+                blog: "Blog",
+                about: "About",
+                faq: "FAQ",
+                contact: "Contact",
+                
+                // Hero section
+                heroTitle: "Everything for your event –<br><span class=\"gradient-gold\">in one place.</span>",
+                heroSubtitle: "We take care of everything – you just enjoy.",
+                contactUs: "Contact Us",
+                ourServices: "Our Services",
+                
+                // Highlights
+                events: "Events",
+                professionals: "Young Professionals",
+                stress: "Stress",
+                team: "Team for Everything",
+                
+                // About section
+                aboutTitle: "Great events are built on <span class=\"gradient-gold\">details and teamwork.</span>",
+                aboutText: "We are Sindikat – a team from the world of music, gastronomy and production. Every successful event starts with understanding your vision and ends with exceeding your expectations.",
+                aboutPoint1: "Professional team with years of experience",
+                aboutPoint2: "High-quality equipment and premium beverages",
+                aboutPoint3: "Complete event solutions under one roof",
+                
+                // Services
+                servicesTitle: "Our <span class=\"gradient-gold\">Services</span>",
+                bartenders: "Bartenders & Cocktails",
+                bartendersDesc: "Professional mixologists who create signature cocktails and premium drinks for your event.",
+                djs: "DJs & Musicians",
+                djsDesc: "Talented DJs and live musicians who create the perfect soundtrack for every moment.",
+                sound: "Sound & Lighting",
+                soundDesc: "Professional audio systems and spectacular lighting effects for any space.",
+                bar: "Bar & Beverage Service",
+                barDesc: "Complete bar solutions with premium alcohol and elegant mobile setups.",
+                photo: "Photography & Video",
+                photoDesc: "Professional photographers who capture every precious moment in the highest quality.",
+                design: "Design & Social Media",
+                designDesc: "Creative design solutions and social media content that amplify your event.",
+                hostesses: "Professional Hostesses",
+                hostessesDesc: "Elegant and professional hostesses for welcoming and assisting your guests.",
+                furniture: "Event Furniture",
+                furnitureDesc: "Stylish furniture and lounge setups for creating the perfect atmosphere.",
+                
+                // Popular Events
+                popularTitle: "Popular <span class=\"gradient-gold\">Events</span>",
+                corporate: "Corporate Events",
+                corporateDesc: "Professional business events, conferences, team building activities and corporate celebrations.",
+                weddings: "Weddings",
+                weddingsDesc: "Complete wedding organization from ceremony to celebration, with all necessary services.",
+                private: "Private Celebrations",
+                privateDesc: "Birthdays, anniversaries, graduations and other personal celebrations tailored to your wishes.",
+                
+                // Why Choose Us
+                whyTitle: "Why Choose <span class=\"gradient-blue\">Sindikat</span>",
+                expertTeam: "Expert Team",
+                expertDesc: "Experienced professionals with passion for creating unforgettable events",
+                quality: "Quality Equipment & Beverages",
+                qualityDesc: "Premium equipment and highest quality beverages for exceptional experiences",
+                experience: "Proven Experience",
+                experienceDesc: "50+ successful events and countless satisfied clients across Montenegro",
+                oneStop: "Everything in One Place",
+                oneStopDesc: "Everything you need for your event, coordinated by one professional team",
+                
+                // Gallery
+                galleryTitle: "Event <span class=\"gradient-gold\">Gallery</span>",
+                
+                // Testimonials
+                testimonialsTitle: "What Our <span class=\"gradient-blue\">Clients</span> Say",
+                
+                // FAQ
+                faqTitle: "Frequently Asked <span class=\"gradient-gold\">Questions</span>",
+                
+                // Contact
+                contactTitle: "Get in <span class=\"gradient-gold\">Touch</span>",
+                planEvent: "Let's Plan Your Perfect Event",
+                quickContact: "Quick Contact",
+                sendMessage: "Send Message",
+                
+                // Form placeholders
+                yourName: "Your name",
+                emailAddress: "Email address",
+                phoneNumber: "Phone number",
+                eventDate: "Event date",
+                eventDetails: "Tell us about your event - type, location, number of guests, required services...",
+                
+                // Footer
+                quickLinks: "Quick Links",
+                ourServicesFooter: "Our Services"
+            }
+        };
+
+        let currentLanguage = 'sr';
+
         // Language switching functionality
         function switchLanguage() {
-            alert('Funkcija prebacivanja na engleski jezik će biti dostupna uskoro! / English version coming soon!');
+            currentLanguage = currentLanguage === 'sr' ? 'en' : 'sr';
+            updateContent();
+            updateLanguageButton();
+        }
+
+        function updateLanguageButton() {
+            const langText = document.getElementById('langText');
+            const langButton = document.querySelector('.lang-switcher button span:first-child');
+            
+            if (currentLanguage === 'en') {
+                langText.textContent = 'SR';
+                langButton.textContent = '🇷🇸';
+            } else {
+                langText.textContent = 'EN';
+                langButton.textContent = '🇬🇧';
+            }
+        }
+
+        function updateContent() {
+            const t = translations[currentLanguage];
+            
+            // Update navigation
+            document.querySelector('a[href="#home"]').textContent = t.home;
+            document.querySelector('a[href="#services"]').textContent = t.services;
+            document.querySelector('a[href="#popular-events"]').textContent = t.popularEvents;
+            document.querySelector('a[href="#gallery"]').textContent = t.gallery;
+            document.querySelector('a[href="#blog"]').textContent = t.blog;
+            document.querySelector('a[href="#about"]').textContent = t.about;
+            document.querySelector('a[href="#faq"]').textContent = t.faq;
+            document.querySelectorAll('a[href="#contact"]').forEach(el => {
+                if (el.classList.contains('bg-gold')) {
+                    el.textContent = t.contact;
+                }
+            });
+            
+            // Update mobile menu
+            document.querySelectorAll('#mobileMenu a').forEach((link, index) => {
+                const navItems = [t.home, t.services, t.popularEvents, t.gallery, t.blog, t.about, t.faq, t.contact];
+                if (index < navItems.length) {
+                    link.textContent = navItems[index];
+                }
+            });
+            
+            // Update hero section
+            document.querySelector('h1').innerHTML = t.heroTitle;
+            document.querySelector('h1 + p').textContent = t.heroSubtitle;
+            document.querySelector('button[onclick="scrollToContact()"]').textContent = t.contactUs;
+            document.querySelector('button[onclick="scrollToServices()"]').textContent = t.ourServices;
+            
+            // Update highlights
+            const highlights = document.querySelectorAll('.fade-in p');
+            if (highlights.length >= 4) {
+                highlights[0].textContent = t.events;
+                highlights[1].textContent = t.professionals;
+                highlights[2].textContent = t.stress;
+                highlights[3].textContent = t.team;
+            }
+            
+            // Update about section
+            const aboutTitle = document.querySelector('#about h2');
+            if (aboutTitle) aboutTitle.innerHTML = t.aboutTitle;
+            
+            const aboutText = document.querySelector('#about p');
+            if (aboutText) aboutText.textContent = t.aboutText;
+            
+            const aboutPoints = document.querySelectorAll('#about .space-y-4 span');
+            if (aboutPoints.length >= 3) {
+                aboutPoints[0].textContent = t.aboutPoint1;
+                aboutPoints[1].textContent = t.aboutPoint2;
+                aboutPoints[2].textContent = t.aboutPoint3;
+            }
+            
+            // Update services section
+            const servicesTitle = document.querySelector('#services h2');
+            if (servicesTitle) servicesTitle.innerHTML = t.servicesTitle;
+            
+            const serviceCards = document.querySelectorAll('#services .bg-black h3, #services .bg-black p');
+            if (serviceCards.length >= 16) {
+                serviceCards[0].textContent = t.bartenders;
+                serviceCards[1].textContent = t.bartendersDesc;
+                serviceCards[2].textContent = t.djs;
+                serviceCards[3].textContent = t.djsDesc;
+                serviceCards[4].textContent = t.sound;
+                serviceCards[5].textContent = t.soundDesc;
+                serviceCards[6].textContent = t.bar;
+                serviceCards[7].textContent = t.barDesc;
+                serviceCards[8].textContent = t.photo;
+                serviceCards[9].textContent = t.photoDesc;
+                serviceCards[10].textContent = t.design;
+                serviceCards[11].textContent = t.designDesc;
+                serviceCards[12].textContent = t.hostesses;
+                serviceCards[13].textContent = t.hostessesDesc;
+                serviceCards[14].textContent = t.furniture;
+                serviceCards[15].textContent = t.furnitureDesc;
+            }
+            
+            // Update popular events
+            const popularTitle = document.querySelector('#popular-events h2');
+            if (popularTitle) popularTitle.innerHTML = t.popularTitle;
+            
+            const eventCards = document.querySelectorAll('#popular-events h3, #popular-events .text-gray-300');
+            if (eventCards.length >= 6) {
+                eventCards[0].textContent = t.corporate;
+                eventCards[1].textContent = t.corporateDesc;
+                eventCards[2].textContent = t.weddings;
+                eventCards[3].textContent = t.weddingsDesc;
+                eventCards[4].textContent = t.private;
+                eventCards[5].textContent = t.privateDesc;
+            }
+            
+            // Update why choose us
+            const whyTitle = document.querySelector('h2:has(.gradient-blue)');
+            if (whyTitle && whyTitle.textContent.includes('Zašto') || whyTitle && whyTitle.textContent.includes('Why')) {
+                whyTitle.innerHTML = t.whyTitle;
+            }
+            
+            const whyCards = document.querySelectorAll('.fade-in.hover-lift h3, .fade-in.hover-lift p');
+            if (whyCards.length >= 8) {
+                whyCards[0].textContent = t.expertTeam;
+                whyCards[1].textContent = t.expertDesc;
+                whyCards[2].textContent = t.quality;
+                whyCards[3].textContent = t.qualityDesc;
+                whyCards[4].textContent = t.experience;
+                whyCards[5].textContent = t.experienceDesc;
+                whyCards[6].textContent = t.oneStop;
+                whyCards[7].textContent = t.oneStopDesc;
+            }
+            
+            // Update gallery
+            const galleryTitle = document.querySelector('#gallery h2');
+            if (galleryTitle) galleryTitle.innerHTML = t.galleryTitle;
+            
+            // Update testimonials
+            const testimonialsTitle = document.querySelector('h2:has(.gradient-blue)');
+            const allH2s = document.querySelectorAll('h2');
+            allH2s.forEach(h2 => {
+                if (h2.textContent.includes('Kažu') || h2.textContent.includes('Clients')) {
+                    h2.innerHTML = t.testimonialsTitle;
+                }
+            });
+            
+            // Update FAQ
+            const faqTitle = document.querySelector('#faq h2');
+            if (faqTitle) faqTitle.innerHTML = t.faqTitle;
+            
+            // Update contact
+            const contactTitle = document.querySelector('#contact h2');
+            if (contactTitle) contactTitle.innerHTML = t.contactTitle;
+            
+            const planEventTitle = document.querySelector('#contact h3');
+            if (planEventTitle) planEventTitle.textContent = t.planEvent;
+            
+            const quickContactTitle = document.querySelectorAll('#contact h3')[1];
+            if (quickContactTitle) quickContactTitle.textContent = t.quickContact;
+            
+            // Update form
+            const formInputs = document.querySelectorAll('#contact input, #contact textarea');
+            if (formInputs.length >= 5) {
+                formInputs[0].placeholder = t.yourName;
+                formInputs[1].placeholder = t.emailAddress;
+                formInputs[2].placeholder = t.phoneNumber;
+                formInputs[3].placeholder = t.eventDate;
+                formInputs[4].placeholder = t.eventDetails;
+            }
+            
+            const submitButton = document.querySelector('button[type="submit"]');
+            if (submitButton) submitButton.textContent = t.sendMessage;
+            
+            // Update footer
+            const footerTitles = document.querySelectorAll('footer h4');
+            if (footerTitles.length >= 2) {
+                footerTitles[0].textContent = t.quickLinks;
+                footerTitles[1].textContent = t.ourServicesFooter;
+            }
         }
 
         // Sticky top ad functionality
@@ -1419,5 +1788,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751ed622198ec24',t:'MTc1NjE5NjYwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751f0aa3671ec24',t:'MTc1NjE5Njc0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
