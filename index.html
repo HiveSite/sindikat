@@ -1,5 +1,127 @@
 <!DOCTYPE html>
 <html lang="sr">
+<style id="mobile-compact-overrides">
+/* ===== Mobile kompaktna adaptacija ===== */
+@media (max-width: 1024px) {
+  /* Tighter rhythm na tablet/telefon */
+  :root{
+    --space-xs: 8px; 
+    --space-s: 12px; 
+    --space-m: 16px; 
+    --space-l: 20px;
+  }
+  body{ line-height:1.45; }
+  section, .section, .container, .wrap, .wrapper{
+    padding-left: var(--space-m) !important;
+    padding-right: var(--space-m) !important;
+  }
+
+  /* Hero i masivni blokovi kraći po visini */
+  .hero, .hero-section, .masthead{
+    min-height: 68vh !important;
+    padding-top: 56px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Naslovi i tipografija kompaktniji */
+  h1{ font-size: clamp(24px, 6vw, 30px) !important; }
+  h2{ font-size: clamp(20px, 4.8vw, 26px) !important; }
+  h3{ font-size: clamp(18px, 4.2vw, 22px) !important; }
+  p, li{ font-size: 15px; }
+
+  /* Opšti padding i razmaci na karticama */
+  .card, .offer-card, .service-card, .pricing-card, .plan,
+  .box, .tile, .module{
+    padding: var(--space-m) !important;
+    border-radius: 14px !important;
+    gap: var(--space-s) !important;
+  }
+
+  /* Manje slike u karticama da kartica bude niža */
+  .card :is(img, video, .media), 
+  .offer-card :is(img, video, .media),
+  .service-card :is(img, video, .media),
+  .pricing-card :is(img, video, .media){
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  /* Skrati opise – 3 linije i fade */
+  .card p, .offer-card p, .service-card p, .pricing-card p{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Dugmad kompaktnija */
+  .btn, button, .button{
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Sekundarni razmaci između sekcija smanjeni */
+  .section + .section, section + section{ 
+    margin-top: 28px !important; 
+  }
+}
+
+/* ===== Grid za “ponude/usluge/planove” ===== */
+@media (max-width: 1024px){
+  /* Detektuj mogući wrapper sa karticama i pretvori u grid */
+  .offers, .offer-list, .services, .service-list, .plans, .pricing, .cards, .grid{
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px !important;
+    align-items: start;
+  }
+  /* Na malim ekranima ipak 1 kolona, ali kartice kraće */
+  @media (max-width: 640px){
+    .offers, .offer-list, .services, .service-list, .plans, .pricing, .cards, .grid{
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Sama kartica: kontrola visine da “ne pojede” ekran */
+  .offers :is(.card,.offer-card,.service-card,.pricing-card),
+  .offer-list :is(.card,.offer-card,.service-card,.pricing-card),
+  .services :is(.card,.offer-card,.service-card,.pricing-card),
+  .service-list :is(.card,.offer-card,.service-card,.pricing-card),
+  .plans :is(.card,.offer-card,.service-card,.pricing-card),
+  .pricing :is(.card,.offer-card,.service-card,.pricing-card),
+  .cards :is(.card,.offer-card,.service-card,.pricing-card),
+  .grid :is(.card,.offer-card,.service-card,.pricing-card){
+    max-height: 360px;           /* ~1/2 do 2/3 ekrana na većini telefona */
+    overflow: hidden;
+  }
+
+  /* Header sekcija kraća (ako postoji) */
+  .card .header, .offer-card .header, .service-card .header{
+    margin-bottom: 8px !important;
+  }
+}
+
+/* ===== Kompaktni footer i partner baneri ===== */
+@media (max-width: 1024px){
+  footer, .footer{
+    padding-top: 24px !important; 
+    padding-bottom: 24px !important;
+  }
+  .partners, .logos, .brand-strip{
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 10px;
+    align-items: center;
+  }
+  @media (max-width: 480px){
+    .partners, .logos, .brand-strip{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+  .partners img, .logos img{ max-height: 28px; object-fit: contain; }
+}
+</style>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2364,6 +2486,7 @@
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
