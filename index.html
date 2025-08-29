@@ -1,134 +1,87 @@
 <!DOCTYPE html>
-<style id="mobile-compact-overrides">
-/* ===== Globalno kompaktiranje na mobilu/tabletu ===== */
-@media (max-width: 1024px){
-  :root{ --space-xs:8px; --space-s:12px; --space-m:16px; --space-l:20px; }
-  body{ line-height:1.45; }
-  section, .section, .container, .wrap, .wrapper{
-    padding-left:var(--space-m)!important; padding-right:var(--space-m)!important;
-  }
+<style id="mobile-compact-short">
+/* ===== Globalne prilagodbe za mobilne (≤640px) ===== */
+@media (max-width:640px){
 
   /* Hero kraći */
   .hero, .hero-section, .masthead{
-    min-height:68vh!important; padding-top:56px!important; padding-bottom:40px!important;
+    min-height:60vh!important;
+    padding-top:40px!important;
+    padding-bottom:32px!important;
   }
 
-  /* Naslovi */
-  h1{ font-size:clamp(24px,6vw,30px)!important; }
-  h2{ font-size:clamp(20px,4.8vw,26px)!important; }
-  h3{ font-size:clamp(18px,4.2vw,22px)!important; }
-  p, li{ font-size:15px; }
+  /* Naslovi manji */
+  h1{ font-size:22px!important; }
+  h2{ font-size:18px!important; }
+  h3{ font-size:16px!important; }
 
-  /* Generic card kompaktnije */
-  .card, .offer-card, .service-card, .event-card, .post-card, .pricing-card,
-  .box, .tile, .module{
-    padding:var(--space-m)!important; border-radius:14px!important; gap:var(--space-s)!important;
+  /* Grid svuda = 2 kolone */
+  .offers, .offer-list, .services, .service-list, 
+  .plans, .pricing, .cards, .grid,
+  .events, .event-list,
+  #gallery .masonry-grid, .gallery, .gallery-grid, .photos,
+  .blog, .blog-list, .posts, .post-list, .news {
+    display:grid!important;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:12px!important;
+    align-items:start;
   }
-  .card :is(img,video,.media),
-  .offer-card :is(img,video,.media),
-  .service-card :is(img,video,.media),
-  .event-card :is(img,video,.media),
-  .post-card :is(img,video,.media),
-  .pricing-card :is(img,video,.media){
-    max-height:160px; object-fit:cover; border-radius:10px;
-  }
-  .card p, .offer-card p, .service-card p, .event-card p, .post-card p, .pricing-card p{
-    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
-  }
-  .btn, button, .button{ padding:10px 14px!important; font-size:14px!important; line-height:1.1!important; }
 
-  /* Razmak sekcije */
-  .section + .section, section + section{ margin-top:28px!important; }
-}
-
-/* ===== Grid za Ponude / Usluge / Cjenovnik ===== */
-@media (max-width: 1024px){
-  .offers, .offer-list, .services, .service-list, .plans, .pricing, .cards, .grid{
-    display:grid!important; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px!important; align-items:start;
+  /* Galerija & partneri mogu i 3 kolone za kraći skrol */
+  #gallery .masonry-grid,
+  .partners, .logos, .brand-strip {
+    grid-template-columns:repeat(3, minmax(0,1fr))!important;
   }
-  @media (max-width:640px){
-    .offers, .offer-list, .services, .service-list, .plans, .pricing, .cards, .grid{
-      grid-template-columns:1fr;
-    }
-  }
-  .offers :is(.card,.offer-card,.service-card,.pricing-card),
-  .offer-list :is(.card,.offer-card,.service-card,.pricing-card),
-  .services :is(.card,.offer-card,.service-card,.pricing-card),
-  .service-list :is(.card,.offer-card,.service-card,.pricing-card),
-  .plans :is(.card,.offer-card,.service-card,.pricing-card),
-  .pricing :is(.card,.offer-card,.service-card,.pricing-card),
-  .cards :is(.card,.offer-card,.service-card,.pricing-card),
-  .grid :is(.card,.offer-card,.service-card,.pricing-card){
-    max-height:360px; overflow:hidden;   /* da jedna kartica ne “pojede” cijeli ekran */
-  }
-  .card .header, .offer-card .header, .service-card .header{ margin-bottom:8px!important; }
-}
 
-/* ===== Događaji (liste i kartice) ===== */
-@media (max-width:1024px){
-  .events, .event-list{
-    display:grid!important; grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:14px!important; align-items:start;
+  /* Kartice kompaktnije */
+  .card, .offer-card, .service-card, .event-card, .post-card, .pricing-card {
+    padding:12px!important;
+    border-radius:12px!important;
+    gap:6px!important;
+    max-height:280px;   /* skraćena visina */
+    overflow:hidden;
   }
-  @media (max-width:640px){ .events, .event-list{ grid-template-columns:1fr; } }
 
-  .event-card{
-    display:grid; grid-template-rows:auto auto 1fr auto; row-gap:8px;
-    max-height:340px; overflow:hidden;
+  /* Slike/ikonice manje */
+  .card img, .service-card img, .event-card img, 
+  .post-card img, .pricing-card img {
+    max-height:120px;
+    object-fit:cover;
+    border-radius:8px;
   }
-  .event-card .meta{ font-size:13px; opacity:.85; }
-  .event-card .excerpt{ -webkit-line-clamp:3; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
-}
-
-/* ===== Galerija ===== */
-@media (max-width:1024px){
-  /* Grid (stabilne kocke/pravougaonici) */
-  .gallery, .gallery-grid, .photos{
-    display:grid!important; gap:10px!important;
-    grid-template-columns:repeat(3, minmax(0,1fr));
+  .card svg, .service-card svg, .event-card svg {
+    width:40px; height:40px;
+    margin-bottom:4px;
   }
-  @media (max-width:768px){ .gallery, .gallery-grid, .photos{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
-  @media (max-width:480px){ .gallery, .gallery-grid, .photos{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
 
-  .gallery :is(img, .img){ width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px; }
-  .gallery .item :is(img, .img){ width:100%; height:100%; object-fit:cover; }
-  /* Ako koristiš figure/caption */
-  .gallery figure{ margin:0; }
-  .gallery figcaption{ font-size:12px; margin-top:6px; opacity:.9; }
-}
-
-/* ===== Blog / Vijesti ===== */
-@media (max-width:1024px){
-  .blog, .blog-list, .posts, .post-list, .news{
-    display:grid!important; gap:16px!important; grid-template-columns:repeat(2, minmax(0,1fr));
+  /* Tekst ograničen na 2 linije */
+  .card p, .offer-card p, .service-card p, .event-card p, .post-card p, .pricing-card p {
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    font-size:14px;
   }
-  @media (max-width:640px){ .blog, .blog-list, .posts, .post-list, .news{ grid-template-columns:1fr; } }
 
-  .post-card{
-    display:grid; grid-template-rows:auto auto 1fr auto; row-gap:8px;
-    max-height:380px; overflow:hidden;
+  /* Sakrivanje sporednih detalja/lista */
+  .features, .details, .bullets, .cta, .actions {
+    display:none!important;
   }
-  .post-card .title{ font-size:clamp(16px,4vw,18px); line-height:1.2; }
-  .post-card .meta{ font-size:12px; opacity:.85; }
-  .post-card .excerpt{ display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
-}
 
-/* ===== Partneri / Footer ===== */
-@media (max-width:1024px){
-  footer, .footer{ padding-top:24px!important; padding-bottom:24px!important; }
-  .partners, .logos, .brand-strip{
-    display:grid!important; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; align-items:center;
+  /* Meta info sitnija */
+  .event-card .meta, .post-card .meta {
+    font-size:12px; 
+    opacity:.8;
   }
-  @media (max-width:480px){ .partners, .logos, .brand-strip{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
-  .partners img, .logos img{ max-height:28px; object-fit:contain; }
-}
 
-/* ===== Sitna UX podešavanja ===== */
-@media (hover:none){
-  /* Manje “skokova” na dodirnim ekranima */
-  a, button{ -webkit-tap-highlight-color: transparent; }
+  /* Footer partner logoi */
+  .partners img, .logos img { 
+    max-height:24px; 
+    object-fit:contain; 
+  }
 }
 </style>
+
 
 
 <head>
@@ -2495,6 +2448,7 @@
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
