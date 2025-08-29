@@ -1,86 +1,5 @@
 <!DOCTYPE html>
-<style id="mobile-compact-short">
-/* ===== Globalne prilagodbe za mobilne (≤640px) ===== */
-@media (max-width:640px){
 
-  /* Hero kraći */
-  .hero, .hero-section, .masthead{
-    min-height:60vh!important;
-    padding-top:40px!important;
-    padding-bottom:32px!important;
-  }
-
-  /* Naslovi manji */
-  h1{ font-size:22px!important; }
-  h2{ font-size:18px!important; }
-  h3{ font-size:16px!important; }
-
-  /* Grid svuda = 2 kolone */
-  .offers, .offer-list, .services, .service-list, 
-  .plans, .pricing, .cards, .grid,
-  .events, .event-list,
-  #gallery .masonry-grid, .gallery, .gallery-grid, .photos,
-  .blog, .blog-list, .posts, .post-list, .news {
-    display:grid!important;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:12px!important;
-    align-items:start;
-  }
-
-  /* Galerija & partneri mogu i 3 kolone za kraći skrol */
-  #gallery .masonry-grid,
-  .partners, .logos, .brand-strip {
-    grid-template-columns:repeat(3, minmax(0,1fr))!important;
-  }
-
-  /* Kartice kompaktnije */
-  .card, .offer-card, .service-card, .event-card, .post-card, .pricing-card {
-    padding:12px!important;
-    border-radius:12px!important;
-    gap:6px!important;
-    max-height:280px;   /* skraćena visina */
-    overflow:hidden;
-  }
-
-  /* Slike/ikonice manje */
-  .card img, .service-card img, .event-card img, 
-  .post-card img, .pricing-card img {
-    max-height:120px;
-    object-fit:cover;
-    border-radius:8px;
-  }
-  .card svg, .service-card svg, .event-card svg {
-    width:40px; height:40px;
-    margin-bottom:4px;
-  }
-
-  /* Tekst ograničen na 2 linije */
-  .card p, .offer-card p, .service-card p, .event-card p, .post-card p, .pricing-card p {
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-    font-size:14px;
-  }
-
-  /* Sakrivanje sporednih detalja/lista */
-  .features, .details, .bullets, .cta, .actions {
-    display:none!important;
-  }
-
-  /* Meta info sitnija */
-  .event-card .meta, .post-card .meta {
-    font-size:12px; 
-    opacity:.8;
-  }
-
-  /* Footer partner logoi */
-  .partners img, .logos img { 
-    max-height:24px; 
-    object-fit:contain; 
-  }
-}
-</style>
 
 
 
@@ -2448,6 +2367,7 @@
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
