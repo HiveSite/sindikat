@@ -51,6 +51,15 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Montserrat', sans-serif;
         }
+/* PARTNERS – horizontalni scroller */
+.partners-scroller {
+  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+  scroll-snap-type: x mandatory;     /* snap efekat na kartice */
+}
+
+.partners-scroller > div {
+  scroll-snap-align: start;          /* svaka kartica snapuje na početak */
+}
 
         /* ... (ostali tvoji postojeći stilovi ostaju ovdje nepromijenjeni) ... */
     </style>
@@ -540,30 +549,36 @@
     </nav>
 
     <!-- Top Banner Ad -->
-    <section class="bg-gradient-to-r from-gray-800 to-gray-900 py-4 px-6 border-b border-gray-700">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex items-center justify-center space-x-8 overflow-x-auto">
-                <div class="flex-shrink-0 bg-black/50 px-6 py-3 rounded-lg border border-gold/30 hover:border-gold/60 transition-all cursor-pointer">
-                    <div class="text-center">
-                        <div class="text-gold text-sm font-semibold">PREMIUM PARTNER</div>
-                        <div class="text-white font-bold">Hotel Splendid</div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 bg-black/50 px-6 py-3 rounded-lg border border-electric-blue/30 hover:border-electric-blue/60 transition-all cursor-pointer">
-                    <div class="text-center">
-                        <div class="text-electric-blue text-sm font-semibold">AUDIO PARTNER</div>
-                        <div class="text-white font-bold">ProSound CG</div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 bg-black/50 px-6 py-3 rounded-lg border border-gold/30 hover:border-gold/60 transition-all cursor-pointer">
-                    <div class="text-center">
-                        <div class="text-gold text-sm font-semibold">CATERING PARTNER</div>
-                        <div class="text-white font-bold">Gourmet Events</div>
-                    </div>
-                </div>
-            </div>
+<section class="bg-gradient-to-r from-gray-800 to-gray-900 py-4 px-6 border-b border-gray-700">
+  <div class="max-w-7xl mx-auto">
+    <!-- Dodali smo partners-scroller klase za horizontalni skrol -->
+    <div class="flex space-x-4 overflow-x-auto overflow-y-hidden -mx-2 px-2 partners-scroller">
+      
+      <div class="flex-shrink-0 bg-black/50 px-6 py-3 rounded-lg border border-gold/30 hover:border-gold/60 transition-all cursor-pointer min-w-[200px]">
+        <div class="text-center">
+          <div class="text-gold text-sm font-semibold">PREMIUM PARTNER</div>
+          <div class="text-white font-bold">Hotel Splendid</div>
         </div>
-    </section>
+      </div>
+
+      <div class="flex-shrink-0 bg-black/50 px-6 py-3 rounded-lg border border-electric-blue/30 hover:border-electric-blue/60 transition-all cursor-pointer min-w-[200px]">
+        <div class="text-center">
+          <div class="text-electric-blue text-sm font-semibold">AUDIO PARTNER</div>
+          <div class="text-white font-bold">ProSound CG</div>
+        </div>
+      </div>
+
+      <div class="flex-shrink-0 bg-black/50 px-6 py-3 rounded-lg border border-gold/30 hover:border-gold/60 transition-all cursor-pointer min-w-[200px]">
+        <div class="text-center">
+          <div class="text-gold text-sm font-semibold">CATERING PARTNER</div>
+          <div class="text-white font-bold">Gourmet Events</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
     <!-- Sticky Top Ad Banner -->
     <div id="stickyTopAd" class="fixed top-20 left-0 right-0 z-40 bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-md py-3 px-6 transform -translate-y-full transition-transform duration-500">
@@ -2367,6 +2382,7 @@
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
