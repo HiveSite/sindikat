@@ -1997,508 +1997,248 @@
 
         let currentLanguage = 'sr';
 
-        // Language switching functionality
-        function switchLanguage() {
-            currentLanguage = currentLanguage === 'sr' ? 'en' : 'sr';
-            updateContent();
-            updateLanguageButton();
+        <script>
+  /* ===== TRANSLATIONS (ostaju, kopiraj CIJELI svoj objekat) ===== */
+  const translations = {
+    /* ——— ovdje nalijepi CIJELI tvoj objekat koji si poslao ——— */
+    /* počinje sa: sr: { ... }, en: { ... } i završava se sa } */
+  };
+  let currentLanguage = 'sr';
+
+  // Dinamički računa visinu navbara i postavlja je u --nav-h (ostaje isto)
+  (function() {
+    function setNavHeight() {
+      var nav = document.querySelector('nav');
+      if (!nav) return;
+      var h = nav.offsetHeight || 0;
+      var safe = parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue('env(safe-area-inset-top)')) || 0;
+      document.documentElement.style.setProperty('--nav-h', (h + safe) + 'px');
+      // nakon ažuriranja nav visine, ažuriraj i ukupni top offset
+      updateUIOffsets();
+    }
+    window.addEventListener('load', setNavHeight);
+    window.addEventListener('resize', setNavHeight);
+  })();
+
+  /* ====== NOVO: centralno ažuriranje sigurnih offseta ====== */
+  function updateUIOffsets(){
+    // TOP: nav je u --nav-h; dodaj i stickyTopAd ako je vidljiv
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 0;
+    const topAd = document.getElementById('stickyTopAd');
+    const topAdVisible = !!(topAd && topAd.getBoundingClientRect().height > 0 && topAd.style.transform !== 'translateY(-100%)');
+    const topAdH = topAdVisible ? topAd.offsetHeight : 0;
+    document.documentElement.style.setProperty('--top-ui', (navH + topAdH) + 'px');
+
+    // BOTTOM: saberemo stickyBottomBanner + mobilni bottom nav (ako postoji i vidljiv je)
+    const bottomBanner = document.getElementById('stickyBottomBanner');
+    const bbVisible = !!(bottomBanner && bottomBanner.style.transform !== 'translateY(100%)');
+    const bbH = bbVisible ? bottomBanner.offsetHeight : 0;
+
+    const bottomNav = document.getElementById('mobileBottomNav');
+    const bnVisible = !!(bottomNav && getComputedStyle(bottomNav).display !== 'none');
+    const bnH = bnVisible ? bottomNav.offsetHeight : 0;
+
+    document.documentElement.style.setProperty('--bottom-ui', (bbH + bnH) + 'px');
+
+    // Floating banner podigni iznad donjeg UI
+    const floating = document.getElementById('floatingBanner');
+    if (floating){
+      floating.style.bottom = `calc(var(--bottom-ui) + 16px)`;
+    }
+  }
+
+  /* ====== HOOK-ovi na tvoje postojeće baner funkcije ====== */
+  function showStickyAd() {
+    const stickyAd = document.getElementById('stickyTopAd');
+    setTimeout(() => {
+      stickyAd.style.transform = 'translateY(0)';
+      updateUIOffsets();
+      promoPolicy();
+    }, 5000);
+  }
+
+  function closeStickyAd() {
+    const stickyAd = document.getElementById('stickyTopAd');
+    stickyAd.style.transform = 'translateY(-100%)';
+    localStorage.setItem('stickyAdClosed', 'true');
+    updateUIOffsets();
+    promoPolicy();
+  }
+
+  function checkStickyAdStatus() {
+    const stickyAdClosed = localStorage.getItem('stickyAdClosed');
+    if (!stickyAdClosed) { showStickyAd(); }
+  }
+
+  function showStickyBottomBanner() {
+    const el = document.getElementById('stickyBottomBanner');
+    setTimeout(() => {
+      el.style.transform = 'translateY(0)';
+      updateUIOffsets();
+      promoPolicy();
+    }, 8000);
+  }
+
+  function closeStickyBottomBanner() {
+    const el = document.getElementById('stickyBottomBanner');
+    el.style.transform = 'translateY(100%)';
+    localStorage.setItem('stickyBottomBannerClosed', 'true');
+    updateUIOffsets();
+    promoPolicy();
+  }
+
+  function checkStickyBottomBannerStatus() {
+    const closed = localStorage.getItem('stickyBottomBannerClosed');
+    if (!closed) { showStickyBottomBanner(); }
+  }
+
+  function showFloatingBanner() {
+    const banner = document.getElementById('floatingBanner');
+    setTimeout(() => {
+      banner.classList.add('show');
+      updateUIOffsets();
+      promoPolicy();
+    }, 3000);
+  }
+
+  function closeBanner() {
+    const banner = document.getElementById('floatingBanner');
+    banner.classList.remove('show');
+    localStorage.setItem('bannerClosed', 'true');
+    updateUIOffsets();
+    promoPolicy();
+  }
+
+  function checkBannerStatus() {
+    const bannerClosed = localStorage.getItem('bannerClosed');
+    if (!bannerClosed) { showFloatingBanner(); }
+  }
+
+  /* ====== NOVO: Policy — ne dozvoli dva promo elementa odjednom na mobilu ====== */
+  function promoPolicy(){
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) return;
+
+    const bottomBanner = document.getElementById('stickyBottomBanner');
+    const floating = document.getElementById('floatingBanner');
+
+    const bottomVisible = !!(bottomBanner && bottomBanner.style.transform !== 'translateY(100%)');
+    if (bottomVisible && floating){
+      // prioritet dajemo sticky bottom banneru, gasimo floating
+      floating.classList.remove('show');
+      localStorage.setItem('bannerClosed','true');
+    }
+    updateUIOffsets();
+  }
+
+  /* ====== Scroll animacije, accordion, forma itd. ====== */
+  function handleScroll() {
+    const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
+    const windowHeight = window.innerHeight;
+    const elementVisible = window.innerWidth < 768 ? 50 : 100;
+    elements.forEach(element => {
+      const elementTop = element.getBoundingClientRect().top;
+      if (elementTop < windowHeight - elementVisible) {
+        element.classList.add('visible');
+      }
+    });
+  }
+  let ticking = false;
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(handleScroll);
+      ticking = true;
+      setTimeout(() => { ticking = false; }, 16);
+    }
+  }
+
+  function toggleAccordion(index) {
+    const contents = document.querySelectorAll('.accordion-content');
+    const arrows = document.querySelectorAll('.accordion-arrow');
+    contents.forEach((content, i) => {
+      if (i !== index) { content.classList.remove('active'); arrows[i].textContent = '+'; }
+    });
+    contents[index].classList.toggle('active');
+    arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
+    updateUIOffsets();
+  }
+
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('active');
+  }
+
+  function scrollToContact(){ document.getElementById('contact').scrollIntoView({ behavior:'smooth' }); }
+  function scrollToServices(){ document.getElementById('services').scrollIntoView({ behavior:'smooth' }); }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const button = event.target.querySelector('button[type="submit"]');
+    const originalText = button.textContent;
+    const t = translations[currentLanguage];
+    button.textContent = t.sending;
+    button.disabled = true;
+    setTimeout(() => {
+      alert(t.thankYou);
+      button.textContent = originalText;
+      button.disabled = false;
+      event.target.reset();
+      updateUIOffsets();
+    }, 1500);
+  }
+
+  // Smooth scroll za sve #linkove
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) { target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+
+  // Lazy-load za <img data-src>
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove('lazy');
+          imageObserver.unobserve(img);
         }
+      });
+    });
+    document.querySelectorAll('img[data-src]').forEach(img => { imageObserver.observe(img); });
+  }
 
-        function updateLanguageButton() {
-            const langText = document.getElementById('langText');
-            const langButton = document.querySelector('.lang-switcher button span:first-child');
-            
-            if (currentLanguage === 'en') {
-                langText.textContent = 'SR';
-                langButton.textContent = '🇷🇸';
-            } else {
-                langText.textContent = 'EN';
-                langButton.textContent = '🇬🇧';
-            }
-        }
+  // Init
+  window.addEventListener('scroll', requestTick, { passive:true });
+  window.addEventListener('load', () => {
+    handleScroll();
+    checkBannerStatus();
+    checkStickyAdStatus();
+    checkStickyBottomBannerStatus();
+    if ('ontouchstart' in window) { document.body.classList.add('touch-device'); }
+    updateUIOffsets();
+    promoPolicy();
+  });
+  window.addEventListener('orientationchange', () => { setTimeout(() => { handleScroll(); updateUIOffsets(); promoPolicy(); }, 100); });
+  window.addEventListener('resize', () => {
+    clearTimeout(window.resizeTimer);
+    window.resizeTimer = setTimeout(() => { handleScroll(); updateUIOffsets(); promoPolicy(); }, 100);
+  });
 
-        function updateContent() {
-            const t = translations[currentLanguage];
-            
-            // Update navigation
-            document.querySelector('a[href="#home"]').textContent = t.home;
-            document.querySelector('a[href="#services"]').textContent = t.services;
-            document.querySelector('a[href="#popular-events"]').textContent = t.popularEvents;
-            document.querySelector('a[href="#gallery"]').textContent = t.gallery;
-            document.querySelector('a[href="#blog"]').textContent = t.blog;
-            document.querySelector('a[href="#about"]').textContent = t.about;
-            document.querySelector('a[href="#faq"]').textContent = t.faq;
-            document.querySelectorAll('a[href="#contact"]').forEach(el => {
-                if (el.classList.contains('bg-gold')) {
-                    el.textContent = t.contact;
-                }
-            });
-            
-            // Update mobile menu
-            document.querySelectorAll('#mobileMenu a').forEach((link, index) => {
-                const navItems = [t.home, t.services, t.popularEvents, t.gallery, t.blog, t.about, t.faq, t.contact];
-                if (index < navItems.length) {
-                    link.textContent = navItems[index];
-                }
-            });
-            
-            // Update hero section
-            document.querySelector('h1').innerHTML = t.heroTitle;
-            document.querySelector('h1 + p').textContent = t.heroSubtitle;
-            document.querySelector('button[onclick="scrollToContact()"]').textContent = t.contactUs;
-            document.querySelector('button[onclick="scrollToServices()"]').textContent = t.ourServices;
-            
-            // Update highlights
-            const highlights = document.querySelectorAll('.fade-in p');
-            if (highlights.length >= 4) {
-                highlights[0].textContent = t.events;
-                highlights[1].textContent = t.professionals;
-                highlights[2].textContent = t.stress;
-                highlights[3].textContent = t.team;
-            }
-            
-            // Update floating banner
-            const floatingBannerTexts = document.querySelectorAll('#floatingBanner .text-black');
-            if (floatingBannerTexts.length >= 2) {
-                floatingBannerTexts[0].textContent = t.specialOffer;
-                floatingBannerTexts[1].textContent = t.discount20;
-            }
-            const floatingContactBtn = document.querySelector('#floatingBanner button[onclick="scrollToContact()"]');
-            if (floatingContactBtn) floatingContactBtn.textContent = t.contact;
-            
-            // Update sticky banners
-            const stickyTopTexts = document.querySelectorAll('#stickyTopAd .text-white');
-            if (stickyTopTexts.length >= 2) {
-                stickyTopTexts[0].textContent = t.exclusivePartnership;
-                stickyTopTexts[1].textContent = t.montenegroExpo;
-            }
-            const stickyTopBtn = document.querySelector('#stickyTopAd button:not([onclick="closeStickyAd()"])');
-            if (stickyTopBtn) stickyTopBtn.textContent = t.learnMore;
-            
-            const stickyBottomTexts = document.querySelectorAll('#stickyBottomBanner .text-white');
-            if (stickyBottomTexts.length >= 2) {
-                stickyBottomTexts[0].textContent = t.limitedOffer;
-                stickyBottomTexts[1].textContent = t.discount30;
-            }
-            const stickyBottomBtn = document.querySelector('#stickyBottomBanner button[onclick="scrollToContact()"]');
-            if (stickyBottomBtn) stickyBottomBtn.textContent = t.reserveNow;
-            
-            // Update about section
-            const aboutTitle = document.querySelector('#about h2');
-            if (aboutTitle) aboutTitle.innerHTML = t.aboutTitle;
-            
-            const aboutText = document.querySelector('#about p');
-            if (aboutText) aboutText.textContent = t.aboutText;
-            
-            const aboutPoints = document.querySelectorAll('#about .space-y-4 span');
-            if (aboutPoints.length >= 3) {
-                aboutPoints[0].textContent = t.aboutPoint1;
-                aboutPoints[1].textContent = t.aboutPoint2;
-                aboutPoints[2].textContent = t.aboutPoint3;
-            }
-            
-            // Update services section
-            const servicesTitle = document.querySelector('#services h2');
-            if (servicesTitle) servicesTitle.innerHTML = t.servicesTitle;
-            
-            const serviceCards = document.querySelectorAll('#services .bg-black h3, #services .bg-black p');
-            if (serviceCards.length >= 16) {
-                serviceCards[0].textContent = t.bartenders;
-                serviceCards[1].textContent = t.bartendersDesc;
-                serviceCards[2].textContent = t.djs;
-                serviceCards[3].textContent = t.djsDesc;
-                serviceCards[4].textContent = t.sound;
-                serviceCards[5].textContent = t.soundDesc;
-                serviceCards[6].textContent = t.bar;
-                serviceCards[7].textContent = t.barDesc;
-                serviceCards[8].textContent = t.photo;
-                serviceCards[9].textContent = t.photoDesc;
-                serviceCards[10].textContent = t.design;
-                serviceCards[11].textContent = t.designDesc;
-                serviceCards[12].textContent = t.hostesses;
-                serviceCards[13].textContent = t.hostessesDesc;
-                serviceCards[14].textContent = t.furniture;
-                serviceCards[15].textContent = t.furnitureDesc;
-            }
-            
-            // Update partners section
-            const partnersTitle = document.querySelector('h3:contains("Naši Pouzdani Partneri"), h3:contains("Our Trusted Partners")');
-            if (partnersTitle) partnersTitle.textContent = t.trustedPartners;
-            
-            // Update popular events
-            const popularTitle = document.querySelector('#popular-events h2');
-            if (popularTitle) popularTitle.innerHTML = t.popularTitle;
-            
-            const eventCards = document.querySelectorAll('#popular-events h3, #popular-events .text-gray-300');
-            if (eventCards.length >= 6) {
-                eventCards[0].textContent = t.corporate;
-                eventCards[1].textContent = t.corporateDesc;
-                eventCards[2].textContent = t.weddings;
-                eventCards[3].textContent = t.weddingsDesc;
-                eventCards[4].textContent = t.private;
-                eventCards[5].textContent = t.privateDesc;
-            }
-            
-            // Update blog section
-            const blogTitle = document.querySelector('#blog h2');
-            if (blogTitle) blogTitle.innerHTML = t.blogTitle;
-            
-            const blogCards = document.querySelectorAll('#blog h3, #blog .text-gray-300');
-            if (blogCards.length >= 12) {
-                blogCards[0].textContent = t.timelinePlanning;
-                blogCards[1].textContent = t.timelineText;
-                blogCards[2].textContent = t.budgeting;
-                blogCards[3].textContent = t.budgetText;
-                blogCards[4].textContent = t.musicChoice;
-                blogCards[5].textContent = t.musicText;
-                blogCards[6].textContent = t.catering;
-                blogCards[7].textContent = t.cateringText;
-                blogCards[8].textContent = t.photography;
-                blogCards[9].textContent = t.photoText;
-                blogCards[10].textContent = t.eventDay;
-                blogCards[11].textContent = t.eventDayText;
-            }
-            
-            // Update promotional banner
-            const promoTitle = document.querySelector('h3:contains("Rezervišite sada"), h3:contains("Book now")');
-            if (promoTitle) promoTitle.innerHTML = t.reserveAndSave;
-            
-            const promoText = document.querySelector('p:contains("Za sve događaje"), p:contains("For all events")');
-            if (promoText) promoText.textContent = t.offerText;
-            
-            const promoBtn = document.querySelector('button:contains("Iskoristite"), button:contains("Use This")');
-            if (promoBtn) promoBtn.textContent = t.useOffer;
-            
-            // Update why choose us
-            const whyTitles = document.querySelectorAll('h2');
-            whyTitles.forEach(h2 => {
-                if (h2.textContent.includes('Zašto') || h2.textContent.includes('Why Choose')) {
-                    h2.innerHTML = t.whyTitle;
-                }
-            });
-            
-            const whyCards = document.querySelectorAll('.fade-in.hover-lift h3, .fade-in.hover-lift p');
-            if (whyCards.length >= 8) {
-                whyCards[0].textContent = t.expertTeam;
-                whyCards[1].textContent = t.expertDesc;
-                whyCards[2].textContent = t.quality;
-                whyCards[3].textContent = t.qualityDesc;
-                whyCards[4].textContent = t.experience;
-                whyCards[5].textContent = t.experienceDesc;
-                whyCards[6].textContent = t.oneStop;
-                whyCards[7].textContent = t.oneStopDesc;
-            }
-            
-            // Update gallery
-            const galleryTitle = document.querySelector('#gallery h2');
-            if (galleryTitle) galleryTitle.innerHTML = t.galleryTitle;
-            
-            // Update testimonials
-            const allH2s = document.querySelectorAll('h2');
-            allH2s.forEach(h2 => {
-                if (h2.textContent.includes('Kažu') || h2.textContent.includes('Clients')) {
-                    h2.innerHTML = t.testimonialsTitle;
-                }
-            });
-            
-            const testimonialTexts = document.querySelectorAll('.bg-gray-900 .text-gray-300');
-            if (testimonialTexts.length >= 3) {
-                testimonialTexts[0].textContent = t.testimonial1;
-                testimonialTexts[1].textContent = t.testimonial2;
-                testimonialTexts[2].textContent = t.testimonial3;
-            }
-            
-            // Update FAQ
-            const faqTitle = document.querySelector('#faq h2');
-            if (faqTitle) faqTitle.innerHTML = t.faqTitle;
-            
-            const faqQuestions = document.querySelectorAll('#faq button span:first-child');
-            const faqAnswers = document.querySelectorAll('#faq .accordion-content p');
-            if (faqQuestions.length >= 6 && faqAnswers.length >= 6) {
-                faqQuestions[0].textContent = t.faqQ1;
-                faqAnswers[0].textContent = t.faqA1;
-                faqQuestions[1].textContent = t.faqQ2;
-                faqAnswers[1].textContent = t.faqA2;
-                faqQuestions[2].textContent = t.faqQ3;
-                faqAnswers[2].textContent = t.faqA3;
-                faqQuestions[3].textContent = t.faqQ4;
-                faqAnswers[3].textContent = t.faqA4;
-                faqQuestions[4].textContent = t.faqQ5;
-                faqAnswers[4].textContent = t.faqA5;
-                faqQuestions[5].textContent = t.faqQ6;
-                faqAnswers[5].textContent = t.faqA6;
-            }
-            
-            // Update contact
-            const contactTitle = document.querySelector('#contact h2');
-            if (contactTitle) contactTitle.innerHTML = t.contactTitle;
-            
-            const planEventTitle = document.querySelector('#contact h3');
-            if (planEventTitle) planEventTitle.textContent = t.planEvent;
-            
-            const quickContactTitle = document.querySelectorAll('#contact h3')[1];
-            if (quickContactTitle) quickContactTitle.textContent = t.quickContact;
-            
-            // Update contact details
-            const contactDetails = document.querySelectorAll('#contact .text-pink-200, #contact .text-green-200, #contact .text-gray-400');
-            if (contactDetails.length >= 4) {
-                contactDetails[0].textContent = t.fastestResponse;
-                contactDetails[1].textContent = t.latestEvents;
-                contactDetails[2].textContent = t.availableHours;
-                contactDetails[3].textContent = t.servesMontenegro;
-            }
-            
-            // Update form
-            const formInputs = document.querySelectorAll('#contact input, #contact textarea');
-            if (formInputs.length >= 5) {
-                formInputs[0].placeholder = t.yourName;
-                formInputs[1].placeholder = t.emailAddress;
-                formInputs[2].placeholder = t.phoneNumber;
-                formInputs[3].placeholder = t.eventDate;
-                formInputs[4].placeholder = t.eventDetails;
-            }
-            
-            const submitButton = document.querySelector('button[type="submit"]');
-            if (submitButton) submitButton.textContent = t.sendMessage;
-            
-            // Update demo form message
-            const demoFormStrong = document.querySelector('strong:contains("Demo Forma"), strong:contains("Demo Form")');
-            if (demoFormStrong) demoFormStrong.textContent = t.demoForm;
-            
-            const demoFormText = document.querySelector('p:contains("Ovo je primer"), p:contains("This is a sample")');
-            if (demoFormText) {
-                demoFormText.innerHTML = `<strong>${t.demoForm}</strong> ${t.demoFormText}`;
-            }
-            
-            // Update footer
-            const footerTitles = document.querySelectorAll('footer h4');
-            if (footerTitles.length >= 2) {
-                footerTitles[0].textContent = t.quickLinks;
-                footerTitles[1].textContent = t.ourServicesFooter;
-            }
-            
-            const footerTagline = document.querySelector('footer p');
-            if (footerTagline) footerTagline.textContent = t.footerTagline;
-            
-            const footerCopyright = document.querySelector('footer .border-t p:first-child');
-            if (footerCopyright) footerCopyright.textContent = t.footerCopyright;
-            
-            const footerMade = document.querySelector('footer .border-t p:last-child');
-            if (footerMade) footerMade.textContent = t.footerMade;
-        }
-
-        // Sticky top ad functionality
-        function showStickyAd() {
-            const stickyAd = document.getElementById('stickyTopAd');
-            setTimeout(() => {
-                stickyAd.style.transform = 'translateY(0)';
-            }, 5000); // Show after 5 seconds
-        }
-
-        function closeStickyAd() {
-            const stickyAd = document.getElementById('stickyTopAd');
-            stickyAd.style.transform = 'translateY(-100%)';
-            localStorage.setItem('stickyAdClosed', 'true');
-        }
-
-        // Check if sticky ad was previously closed
-        function checkStickyAdStatus() {
-            const stickyAdClosed = localStorage.getItem('stickyAdClosed');
-            if (!stickyAdClosed) {
-                showStickyAd();
-            }
-        }
-
-        // Sticky bottom banner functionality
-        function showStickyBottomBanner() {
-            const stickyBottomBanner = document.getElementById('stickyBottomBanner');
-            setTimeout(() => {
-                stickyBottomBanner.style.transform = 'translateY(0)';
-            }, 8000); // Show after 8 seconds
-        }
-
-        function closeStickyBottomBanner() {
-            const stickyBottomBanner = document.getElementById('stickyBottomBanner');
-            stickyBottomBanner.style.transform = 'translateY(100%)';
-            localStorage.setItem('stickyBottomBannerClosed', 'true');
-        }
-
-        // Check if sticky bottom banner was previously closed
-        function checkStickyBottomBannerStatus() {
-            const stickyBottomBannerClosed = localStorage.getItem('stickyBottomBannerClosed');
-            if (!stickyBottomBannerClosed) {
-                showStickyBottomBanner();
-            }
-        }
-
-        // Floating banner functionality
-        function showFloatingBanner() {
-            const banner = document.getElementById('floatingBanner');
-            setTimeout(() => {
-                banner.classList.add('show');
-            }, 3000); // Show after 3 seconds
-        }
-
-        function closeBanner() {
-            const banner = document.getElementById('floatingBanner');
-            banner.classList.remove('show');
-            localStorage.setItem('bannerClosed', 'true');
-        }
-
-        // Check if banner was previously closed
-        function checkBannerStatus() {
-            const bannerClosed = localStorage.getItem('bannerClosed');
-            if (!bannerClosed) {
-                showFloatingBanner();
-            }
-        }
-
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
-        }
-
-        // Smooth scrolling
-        function scrollToContact() {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function scrollToServices() {
-            document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Enhanced scroll animations with mobile optimization
-        function handleScroll() {
-            const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
-            const windowHeight = window.innerHeight;
-            const elementVisible = window.innerWidth < 768 ? 50 : 100; // Smaller threshold for mobile
-            
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('visible');
-                }
-            });
-        }
-
-        // Throttled scroll handler for better performance
-        let ticking = false;
-        function requestTick() {
-            if (!ticking) {
-                requestAnimationFrame(handleScroll);
-                ticking = true;
-                setTimeout(() => { ticking = false; }, 16); // ~60fps
-            }
-        }
-
-        // Accordion functionality
-        function toggleAccordion(index) {
-            const contents = document.querySelectorAll('.accordion-content');
-            const arrows = document.querySelectorAll('.accordion-arrow');
-            
-            // Close all other accordions
-            contents.forEach((content, i) => {
-                if (i !== index) {
-                    content.classList.remove('active');
-                    arrows[i].textContent = '+';
-                }
-            });
-            
-            // Toggle current accordion
-            contents[index].classList.toggle('active');
-            arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
-        }
-
-        // Form submission
-        function handleSubmit(event) {
-            event.preventDefault();
-            const button = event.target.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            const t = translations[currentLanguage];
-            
-            button.textContent = t.sending;
-            button.disabled = true;
-            
-            setTimeout(() => {
-                alert(t.thankYou);
-                button.textContent = originalText;
-                button.disabled = false;
-                event.target.reset();
-            }, 1500);
-        }
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Initialize scroll animations and banners with mobile optimization
-        window.addEventListener('scroll', requestTick, { passive: true });
-        window.addEventListener('load', () => {
-            handleScroll();
-            checkBannerStatus();
-            checkStickyAdStatus();
-            checkStickyBottomBannerStatus();
-            
-            // Add touch event support for mobile
-            if ('ontouchstart' in window) {
-                document.body.classList.add('touch-device');
-            }
-        });
-        
-        // Handle orientation change on mobile
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => {
-                handleScroll();
-            }, 100);
-        });
-        
-        // Optimize for mobile viewport
-        window.addEventListener('resize', () => {
-            clearTimeout(window.resizeTimer);
-            window.resizeTimer = setTimeout(() => {
-                handleScroll();
-            }, 100);
-        });
-        
-        // Close mobile menu when clicking on links
-        document.querySelectorAll('#mobileMenu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('mobileMenu').classList.remove('active');
-            });
-        });
-
-        // Performance optimization - lazy loading for images
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-    </script>
+  // Close mobile menu on link click
+  document.querySelectorAll('#mobileMenu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('active');
+    });
+  });
+</script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
