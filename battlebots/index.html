@@ -929,49 +929,36 @@
         </div>
     </footer>
 
-   <script>
-    function scrollToSection(sectionId) {
-        document.getElementById(sectionId).scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-
-    async function handleFormSubmit(event) {
-        event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);
-        const button = form.querySelector('button[type="submit"]');
-        const originalText = button.textContent;
-
-        try {
-            // Pošalji podatke na Apps Script
-            const response = await fetch("https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec", {
-                method: "POST",
-                body: formData
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
             });
-
-            const result = await response.json();
-
-            if (result.ok) {
-                button.textContent = 'Message Sent! ✓';
-                button.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                form.reset();
-            } else {
-                alert("Greška: " + result.error);
-            }
-
-        } catch (error) {
-            alert("Došlo je do greške: " + error.message);
         }
 
-        setTimeout(() => {
-            button.textContent = originalText;
-            button.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
-        }, 3000);
-    }
-</script>
-
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const name = formData.get('name') || event.target.querySelector('input[type="text"]').value;
+            const email = formData.get('email') || event.target.querySelector('input[type="email"]').value;
+            const interest = event.target.querySelector('select').value;
+            const message = event.target.querySelector('textarea').value;
+            
+            // Show success message
+            const button = event.target.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+            button.textContent = 'Message Sent! ✓';
+            button.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                event.target.reset();
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
+            }, 2000);
+        }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
