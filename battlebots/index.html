@@ -867,17 +867,26 @@
             <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat neon-text">Want to join, mentor, or sponsor?</h2>
             
             <div class="phase-card p-8 rounded-xl max-w-2xl mx-auto">
-                <form class="space-y-6" onsubmit="handleFormSubmit(event)">
+                <!-- JEDNA, ISPRAVNA FORMA -->
+                <form id="contactForm"
+                      class="space-y-6"
+                      method="POST"
+                      action="https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec"
+                      onsubmit="handleFormSubmit(event)">
+
                     <div>
-                        <input type="text" placeholder="Your Name" required 
+                        <input name="name" id="name" type="text" placeholder="Your Name" required
                                class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none">
                     </div>
+
                     <div>
-                        <input type="email" placeholder="Your Email" required 
+                        <input name="email" id="email" type="email" placeholder="Your Email" required
                                class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none">
                     </div>
+
                     <div>
-                        <select required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none">
+                        <select name="interest" id="interest" required
+                                class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none">
                             <option value="">I want to...</option>
                             <option value="participate">Participate in the competition</option>
                             <option value="mentor">Become a mentor</option>
@@ -886,42 +895,39 @@
                             <option value="advertise">Advertise with us</option>
                         </select>
                     </div>
+
                     <div>
-                        <textarea placeholder="Tell us more about your interest..." rows="4" 
+                        <textarea name="message" id="message" placeholder="Tell us more about your interest..." rows="4"
                                   class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none resize-none"></textarea>
                     </div>
-                    <button type="submit" class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full">
+
+                    <button id="submitBtn" type="submit" class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full">
                         Send Message
                     </button>
-                <form class="space-y-6" onsubmit="handleFormSubmit(event)">
-  <div>
-    <input name="name" id="name" type="text" placeholder="Your Name" required
-           class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none">
-  </div>
-  <div>
-    <input name="email" id="email" type="email" placeholder="Your Email" required
-           class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none">
-  </div>
-  <div>
-    <select name="interest" id="interest" required
-            class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none">
-      <option value="">I want to...</option>
-      <option value="participate">Participate in the competition</option>
-      <option value="mentor">Become a mentor</option>
-      <option value="sponsor">Sponsor the event</option>
-      <option value="partner">Become a partner</option>
-      <option value="advertise">Advertise with us</option>
-    </select>
-  </div>
-  <div>
-    <textarea name="message" id="message" placeholder="Tell us more about your interest..." rows="4"
-              class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none resize-none"></textarea>
-  </div>
-  <button id="submitBtn" type="submit"
-          class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full">
-    Send Message
-  </button>
-</form>
+                </form>
+
+                <div class="mt-8 pt-8 border-t border-gray-700">
+                    <p class="text-gray-300 mb-4">Or contact us directly:</p>
+                    <p class="text-yellow-400 font-semibold mb-6">office@hiveagency.me</p>
+                    
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.024-.105-.949-.199-2.403.041-3.439.219-.937 1.404-5.965 1.404-5.965s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.347-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.748-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -935,34 +941,11 @@
     </footer>
 
     <script>
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
+        // ===== CONFIG =====
+        const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec";
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(event.target);
-            const name = formData.get('name') || event.target.querySelector('input[type="text"]').value;
-            const email = formData.get('email') || event.target.querySelector('input[type="email"]').value;
-            const interest = event.target.querySelector('select').value;
-            const message = event.target.querySelector('textarea').value;
-            
-            // Show success message
-            const button = event.target.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            button.textContent = 'Message Sent! ✓';
-            button.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-            
-            // Reset form after 2 seconds
-            setTimeout(() => {
-                event.target.reset();
-                button.textContent = originalText;
-                button.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
-            }, 2000);
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
         }
 
         // Smooth scrolling for navigation links
@@ -970,12 +953,7 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
@@ -995,7 +973,6 @@
         function toggleFAQ(faqId) {
             const content = document.getElementById(faqId + '-content');
             const icon = document.getElementById(faqId + '-icon');
-            
             if (content.classList.contains('hidden')) {
                 content.classList.remove('hidden');
                 icon.style.transform = 'rotate(180deg)';
@@ -1007,16 +984,11 @@
 
         // Blog Post Functions
         function openBlogPost(postId) {
-            // Create modal overlay
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4';
-            modal.onclick = (e) => {
-                if (e.target === modal) closeBlogModal();
-            };
+            modal.onclick = (e) => { if (e.target === modal) closeBlogModal(); };
 
-            // Blog post content based on ID
             const blogContent = getBlogContent(postId);
-            
             modal.innerHTML = `
                 <div class="bg-gray-900 rounded-xl max-w-4xl max-h-[90vh] overflow-y-auto">
                     <div class="p-8">
@@ -1034,7 +1006,6 @@
                     </div>
                 </div>
             `;
-            
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
         }
@@ -1130,7 +1101,6 @@
                     `
                 }
             };
-            
             return content[postId] || {
                 date: 'Coming Soon',
                 title: 'Blog Post',
@@ -1143,13 +1113,51 @@
             const button = event.target;
             button.textContent = 'Loading...';
             button.disabled = true;
-            
-            // Simulate loading
             setTimeout(() => {
                 button.textContent = 'No More Posts';
                 button.style.background = 'linear-gradient(45deg, #6b7280, #4b5563)';
                 button.style.cursor = 'not-allowed';
             }, 1500);
+        }
+
+        // ===== FORM SUBMIT HANDLER (Google Apps Script) =====
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const btn  = form.querySelector('#submitBtn') || form.querySelector('button[type="submit"]');
+            const original = btn.textContent;
+
+            // pripremi tijelo kao x-www-form-urlencoded (što Apps Script doPost(e) očekuje)
+            const formData = new FormData(form);
+            const body = new URLSearchParams(formData);
+
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                // Apps Script Web App najčešće nema CORS headere → koristimo no-cors
+                await fetch(WEBAPP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body
+                });
+
+                // UI feedback
+                btn.textContent = 'Message Sent! ✓';
+                btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                form.reset();
+            } catch (err) {
+                console.error('Submit error:', err);
+                btn.textContent = 'Try again';
+                btn.style.background = 'linear-gradient(45deg, #ef4444, #b91c1c)';
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = original;
+                    btn.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
+                }, 2000);
+            }
         }
 
         // Advertisement Info Function
@@ -1180,12 +1188,13 @@
                     features: ['Community focused', 'Affordable pricing', 'Local business support', 'Basic placement']
                 }
             };
-
             const info = adInfo[adType];
             if (info) {
                 alert(`${info.title}\n\nSize: ${info.size}\n\n${info.description}\n\nFeatures:\n${info.features.map(f => '• ' + f).join('\n')}\n\nContact us for pricing and availability!`);
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9783216d213dec1e',t:'MTc1NjcxMjU0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+    <!-- (Opcionalno) Cloudflare challenge snippet iz originala je uklonjen radi čistoće koda -->
+</body>
 </html>
