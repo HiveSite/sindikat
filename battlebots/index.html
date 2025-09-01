@@ -929,32 +929,33 @@
         </div>
     </footer>
 
-    <script>
-        // ostavi ovo ako ga već imaš
+   <script>
+  // Ako već imaš ovo, ostavi
   function scrollToSection(sectionId) {
     document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // ⇩ DODAJ / AŽURIRAJ URL
+  // ⇩ TVOJ WEB APP URL
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec";
 
-  // ⇩ DROP-IN FUNKCIJA KOJA RADI SA e.parameter (urlencoded), bez CORS preflighta
+  // ⇩ Funkcija za submit forme
   async function handleFormSubmit(event) {
     event.preventDefault();
 
     const form = event.target;
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn ? submitBtn.textContent : '';
+
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
     }
 
     try {
-      // pokupi vrijednosti KOJE VEĆ IMAŠ u formi
+      // Uzmi sve podatke iz forme
       const fd = new FormData(form);
 
-      // pretvori u application/x-www-form-urlencoded (Apps Script => e.parameter)
+      // Pretvori u application/x-www-form-urlencoded (potrebno za Apps Script e.parameter)
       const body = new URLSearchParams();
       fd.forEach((value, key) => body.append(key, value));
 
@@ -964,18 +965,17 @@
         body
       });
 
-      // probaj pročitati JSON; ako nije JSON, ne ruši UI
       let data = null;
       try { data = await res.json(); } catch (_) {}
 
-      // UX feedback
+      // Ako je uspjelo
       if (submitBtn) {
         submitBtn.textContent = 'Message Sent! ✓';
         submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
       }
       form.reset();
 
-      // vrati dugme nakon 3s
+      // Vrati dugme nazad poslije 3 sekunde
       setTimeout(() => {
         if (submitBtn) {
           submitBtn.textContent = originalText || 'Send';
@@ -984,7 +984,7 @@
         }
       }, 3000);
 
-      // opcionalno: ako backend vrati grešku, pokaži alert
+      // Ako backend prijavi grešku
       if (data && data.ok === false && data.error) {
         alert('Greška: ' + data.error);
       }
@@ -1003,6 +1003,7 @@
       alert('Došlo je do greške pri slanju.');
     }
   }
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
