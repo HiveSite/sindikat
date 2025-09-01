@@ -940,13 +940,51 @@
         </div>
     </footer>
 
-    <script>
-        // ===== CONFIG =====
-        const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec";
+  <script>
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec";
 
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-        }
+async function handleFormSubmit(event) {
+  event.preventDefault();
+  const form = event.target;
+  const btn  = form.querySelector('#submitBtn');
+  const original = btn.textContent;
+
+  // sigurniji encoding: ručno punimo URLSearchParams i šaljemo .toString()
+  const params = new URLSearchParams();
+  params.set('name', form.name.value.trim());
+  params.set('email', form.email.value.trim());
+  params.set('interest', form.interest.value);
+  params.set('message', form.message.value.trim());
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    await fetch(WEBAPP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // web app nema CORS header, ovo je očekivano
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: params.toString()
+    });
+
+    // vizuelna potvrda
+    btn.textContent = 'Message Sent! ✓';
+    btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+    form.reset();
+  } catch (err) {
+    console.error('Fetch error:', err);
+    btn.textContent = 'Try again';
+    btn.style.background = 'linear-gradient(45deg, #ef4444, #b91c1c)';
+  } finally {
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.textContent = original;
+      btn.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
+    }, 2000);
+  }
+}
+
+
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
