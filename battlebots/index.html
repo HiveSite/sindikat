@@ -929,80 +929,36 @@
         </div>
     </footer>
 
-   <script>
-  // Ako već imaš ovo, ostavi
-  function scrollToSection(sectionId) {
-    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-  }
-
-  // ⇩ TVOJ WEB APP URL
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyUAgD9xRw9adwggBwZOn_hAyMqrmyP5HhUd0J8spXdbKqvfptTAkXwcojteBJovlbj/exec";
-
-  // ⇩ Funkcija za submit forme
-  async function handleFormSubmit(event) {
-    event.preventDefault();
-
-    const form = event.target;
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn ? submitBtn.textContent : '';
-
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-    }
-
-    try {
-      // Uzmi sve podatke iz forme
-      const fd = new FormData(form);
-
-      // Pretvori u application/x-www-form-urlencoded (potrebno za Apps Script e.parameter)
-      const body = new URLSearchParams();
-      fd.forEach((value, key) => body.append(key, value));
-
-      const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body
-      });
-
-      let data = null;
-      try { data = await res.json(); } catch (_) {}
-
-      // Ako je uspjelo
-      if (submitBtn) {
-        submitBtn.textContent = 'Message Sent! ✓';
-        submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-      }
-      form.reset();
-
-      // Vrati dugme nazad poslije 3 sekunde
-      setTimeout(() => {
-        if (submitBtn) {
-          submitBtn.textContent = originalText || 'Send';
-          submitBtn.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
-          submitBtn.disabled = false;
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
         }
-      }, 3000);
 
-      // Ako backend prijavi grešku
-      if (data && data.ok === false && data.error) {
-        alert('Greška: ' + data.error);
-      }
-
-    } catch (err) {
-      if (submitBtn) {
-        submitBtn.textContent = 'Try again';
-        submitBtn.style.background = 'linear-gradient(45deg, #ef4444, #b91c1c)';
-        setTimeout(() => {
-          submitBtn.textContent = originalText || 'Send';
-          submitBtn.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
-          submitBtn.disabled = false;
-        }, 3000);
-      }
-      console.error(err);
-      alert('Došlo je do greške pri slanju.');
-    }
-  }
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const name = formData.get('name') || event.target.querySelector('input[type="text"]').value;
+            const email = formData.get('email') || event.target.querySelector('input[type="email"]').value;
+            const interest = event.target.querySelector('select').value;
+            const message = event.target.querySelector('textarea').value;
+            
+            // Show success message
+            const button = event.target.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+            button.textContent = 'Message Sent! ✓';
+            button.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                event.target.reset();
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
+            }, 2000);
+        }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
