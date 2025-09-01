@@ -868,11 +868,7 @@
             
             <div class="phase-card p-8 rounded-xl max-w-2xl mx-auto">
                 <!-- JEDNA, ISPRAVNA FORMA -->
-                <form id="contactForm"
-                      class="space-y-6"
-                      method="POST"
-                      action="https://script.google.com/macros/s/AKfycbyTBGvkDMs-P0zne70FJNM4bhObuWjF-vpGAD1kcxyZ6s5MPc2LIoC978sVfQXCHUKK/exec"
-                      onsubmit="handleFormSubmit(event)">
+            <form id="contactForm" class="space-y-6" method="POST" onsubmit="handleFormSubmit(event)">
 
                     <div>
                         <input name="name" id="name" type="text" placeholder="Your Name" required
@@ -1158,45 +1154,47 @@ async function handleFormSubmit(event) {
             }, 1500);
         }
 
-        // ===== FORM SUBMIT HANDLER (Google Apps Script) =====
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const btn  = form.querySelector('#submitBtn') || form.querySelector('button[type="submit"]');
-            const original = btn.textContent;
+      // ===== FORM SUBMIT HANDLER (Google Apps Script) =====
+const WEBAPP_URL = import.meta.env.VITE_WEBAPP_URL;
 
-            // pripremi tijelo kao x-www-form-urlencoded (što Apps Script doPost(e) očekuje)
-            const formData = new FormData(form);
-            const body = new URLSearchParams(formData);
+async function handleFormSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const btn  = form.querySelector('#submitBtn') || form.querySelector('button[type="submit"]');
+    const original = btn.textContent;
 
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
+    // pripremi tijelo kao x-www-form-urlencoded (što Apps Script doPost(e) očekuje)
+    const formData = new FormData(form);
+    const body = new URLSearchParams(formData);
 
-            try {
-                // Apps Script Web App najčešće nema CORS headere → koristimo no-cors
-                await fetch(WEBAPP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body
-                });
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
 
-                // UI feedback
-                btn.textContent = 'Message Sent! ✓';
-                btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                form.reset();
-            } catch (err) {
-                console.error('Submit error:', err);
-                btn.textContent = 'Try again';
-                btn.style.background = 'linear-gradient(45deg, #ef4444, #b91c1c)';
-            } finally {
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.textContent = original;
-                    btn.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
-                }, 2000);
-            }
-        }
+    try {
+        // Apps Script Web App najčešće nema CORS headere → koristimo no-cors
+        await fetch(WEBAPP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body
+        });
+
+        // UI feedback
+        btn.textContent = 'Message Sent! ✓';
+        btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+        form.reset();
+    } catch (err) {
+        console.error('Submit error:', err);
+        btn.textContent = 'Try again';
+        btn.style.background = 'linear-gradient(45deg, #ef4444, #b91c1c)';
+    } finally {
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.textContent = original;
+            btn.style.background = 'linear-gradient(45deg, #ffc107, #ff6b35)';
+        }, 2000);
+    }
+}
 
         // Advertisement Info Function
         function openAdInfo(adType) {
