@@ -401,35 +401,38 @@
   </section>
 
   <!-- Blog -->
-  <section id="blog" class="py-20 bg-black">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">Latest Updates</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <article class="phase-card p-6 rounded-xl">
-          <div class="mb-4"><span class="text-yellow-400 text-sm font-semibold">December 15, 2024</span></div>
-          <h3 class="text-xl font-bold text-white mb-3">BattleBots.me Arena Design Revealed</h3>
-          <p class="text-gray-300 mb-4 text-sm leading-relaxed">Get an exclusive look at our custom-built arena featuring reinforced barriers, multiple camera angles, and safety systems.</p>
-          <div class="flex items-center justify-between"><span class="text-gray-400 text-xs">Engineering Team</span><button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('arena-design')">Read More →</button></div>
-        </article>
-        <article class="phase-card p-6 rounded-xl">
-          <div class="mb-4"><span class="text-red-400 text-sm font-semibold">December 10, 2024</span></div>
-          <h3 class="text-xl font-bold text-white mb-3">Meet Our Expert Mentors</h3>
-          <p class="text-gray-300 mb-4 text-sm leading-relaxed">Introducing the industry professionals and academic experts who will guide teams through the robot construction phase.</p>
-          <div class="flex items-center justify-between"><span class="text-gray-400 text-xs">Team Spotlight</span><button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('mentors')">Read More →</button></div>
-        </article>
-        <article class="phase-card p-6 rounded-xl">
-          <div class="mb-4"><span class="text-yellow-400 text-sm font-semibold">December 5, 2024</span></div>
-          <h3 class="text-xl font-bold text-white mb-3">Robot Kit Components Unveiled</h3>
-          <p class="text-gray-300 mb-4 text-sm leading-relaxed">Arduino-based components, sensors, motors, and materials — identical resources for all participants.</p>
-          <div class="flex items-center justify-between"><span class="text-gray-400 text-xs">Technical Details</span><button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('robot-kits')">Read More →</button></div>
-        </article>
-      </div>
-      <div class="text-center mt-12">
-        <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="loadMorePosts()">Load More Posts</button>
-      </div>
-    </div>
-  </section>
+    <section id="blog" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="section-divider mb-12"></div>
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">Latest Updates</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <article class="phase-card p-6 rounded-xl">
+                    <div class="mb-4">
+                        <span class="text-yellow-400 text-sm font-semibold">December 15, 2024</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">BattleBots.me Arena Design Revealed</h3>
+                    <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+                        Get an exclusive look at our custom-built arena featuring reinforced barriers, multiple camera angles, and safety systems designed for maximum excitement and competitor protection.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400 text-xs">Engineering Team</span>
+                        <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('arena-design')">Read More →</button>
+                    </div>
+                </article>
+                
+                <!-- ... ostali postovi (2–6) iz tvog koda ... -->
+
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="loadMorePosts()">
+                    Load More Posts
+                </button>
+            </div>
+        </div>
+    </section>
 
   <!-- FAQ -->
   <section id="faq" class="py-20 bg-gray-900/50">
@@ -631,5 +634,16 @@
       }
     }
   </script>
+<script>
+  function openBlogPost(slug) {
+    alert("Open blog post: " + slug);
+    // kasnije ovdje možeš linkovati na poseban URL ili modal
+  }
+  function loadMorePosts() {
+    alert("Load more posts triggered");
+    // ovdje možeš dodati AJAX / fetch prema CMS-u ili proširiti grid
+  }
+</script>
+
 </body>
 </html>
