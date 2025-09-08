@@ -55,27 +55,23 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
 </div> 
 </nav>
 
+
+
+  <!-- HEAD -->
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title data-i18n="meta.title">BattleBots.me – Engineering Arena for the Next Generation</title>
-  <meta name="description" data-i18n="meta.desc" content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena." />
-  <meta name="keywords" content="BattleBots Montenegro, STEAM competition, robotics for youth, Arduino challenge, engineering arena, STEAM education Montenegro, combat robots competition, Spark.me STEAM" />
-  <meta name="author" content="BattleBots.me Team" />
+  <title>BattleBots.me – Engineering Arena for the Next Generation</title>
+  <meta name="description" content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena." />
 
-  <!-- Open Graph -->
+  <!-- OG / Twitter -->
   <meta property="og:title" content="BattleBots.me – Engineering Arena for the Next Generation" />
-  <meta property="og:description" content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena." />
+  <meta property="og:description" content="Montenegro's first STEAM robotics challenge for youth aged 15-30." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://battlebots.me/" />
   <meta property="og:image" content="battlebotslogo.png" />
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="BattleBots.me – Engineering Arena for the Next Generation" />
-  <meta name="twitter:description" content="Montenegro's first STEAM robotics challenge for youth aged 15-30." />
-  <meta name="twitter:image" content="battlebotslogo.png" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="battlebotslogo.png" />
@@ -83,37 +79,35 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- TailwindCSS -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Custom Styles -->
+  <!-- Custom CSS -->
   <style>
-    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%); }
-    .hero-bg { background: radial-gradient(ellipse at center, rgba(255,193,7,0.1) 0%, transparent 70%), linear-gradient(135deg, #000 0%, #111 50%, #000 100%); }
-    .neon-text { text-shadow: 0 0 10px rgba(255,193,7,.5); color: #ffc107; }
-    .cta-button { background: linear-gradient(45deg,#ffc107,#ff6b35); transition:.3s; }
-    .cta-button:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,193,7,0.4); }
+    body { font-family:'Poppins',sans-serif; background:linear-gradient(135deg,#0a0a0a,#1a1a1a); color:#fff; }
+    .hero-bg { background:radial-gradient(ellipse at center, rgba(255,193,7,.10) 0%, transparent 70%), linear-gradient(135deg,#000,#111 50%,#000); }
+    .neon-text { color:#ffc107; text-shadow:0 0 10px rgba(255,193,7,.5); }
+    .cta-button { background:linear-gradient(45deg,#ffc107,#ff6b35); transition:.3s; }
+    .cta-button:hover { transform:scale(1.05); box-shadow:0 10px 25px rgba(255,193,7,.4); }
     .robot-icon { animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
 
-    /* === FLARE ANIMACIJA === */
+    /* === Flare === */
     #bb-flare {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 72%);
-      filter:
-        drop-shadow(0 0 12px rgba(255,255,255,1))
-        drop-shadow(0 0 28px rgba(255,255,255,0.95))
-        drop-shadow(0 0 60px rgba(255,255,255,0.55));
-      transform: translate(-50%, -50%);
+      width:20px; height:20px; border-radius:50%;
+      background:radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(255,255,255,0) 72%);
+      filter:drop-shadow(0 0 12px rgba(255,255,255,1))
+             drop-shadow(0 0 28px rgba(255,255,255,.95))
+             drop-shadow(0 0 60px rgba(255,255,255,.55));
+      transform:translate(-50%,-50%);
+      opacity:0;
     }
     @keyframes flarePop {
-      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.35); }
-      6%   { opacity: 1; transform: translate(-50%, -50%) scale(3.1); }
-      22%  { opacity: .98; transform: translate(-50%, -50%) scale(1.35); }
-      55%  { opacity: .75; transform: translate(-50%, -50%) translateX(18px) scale(1.05); }
-      100% { opacity: 0; transform: translate(-50%, -50%) translateX(28px) scale(0.9); }
+      0%   { opacity:0; transform:translate(-50%,-50%) scale(.35); }
+      6%   { opacity:1; transform:translate(-50%,-50%) scale(3.2); }
+      22%  { opacity:.98; transform:translate(-50%,-50%) scale(1.4); }
+      55%  { opacity:.75; transform:translate(-50%,-50%) translateX(15px) scale(1); }
+      100% { opacity:0; transform:translate(-50%,-50%) translateX(25px) scale(.9); }
     }
   </style>
 
@@ -121,11 +115,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
   <script>
     window.addEventListener('load', () => {
       const flare = document.getElementById('bb-flare');
-      if (!flare) return;
-      flare.style.animation = 'flarePop 0.65s cubic-bezier(.17,.67,.38,.99) 0.15s 1 both';
+      if (flare) flare.style.animation = 'flarePop 0.65s cubic-bezier(.17,.67,.38,.99) 0.15s 1 both';
     });
   </script>
 </head>
+
 
 
 
