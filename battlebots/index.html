@@ -4,65 +4,68 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-i18n="meta.title">BattleBots.me – Engineering Arena for the Next Generation</title>
-  <meta name="description" content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena. Join the competition!" data-i18n="meta.desc" />
+  <meta name="description" data-i18n="meta.desc" content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena. Join the competition!" />
   <meta name="keywords" content="BattleBots Montenegro, STEAM competition, robotics for youth, Arduino challenge, engineering arena, STEAM education Montenegro, combat robots competition, Spark.me STEAM" />
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%); }
-    .hero-bg { background: radial-gradient(ellipse at center, rgba(255,193,7,.1) 0%, transparent 70%), linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%); }
-    .neon-glow { box-shadow: 0 0 20px rgba(255,193,7,.3); }
-    .neon-text { text-shadow: 0 0 10px rgba(255,193,7,.5); color: #ffc107; }
-    .robot-icon { animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .phase-card { background: linear-gradient(145deg,#1a1a1a,#2a2a2a); border: 1px solid rgba(255,193,7,.2); transition: .3s ease; }
-    .phase-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,193,7,.2); }
-    .cta-button { background: linear-gradient(45deg,#ffc107,#ff6b35); transition: .3s ease; }
-    .cta-button:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,193,7,.4); }
-    .section-divider { background: linear-gradient(90deg,transparent,#ffc107,transparent); height: 2px; }
-    .sponsor-banner { background: linear-gradient(135deg, rgba(255,193,7,.1), rgba(255,107,53,.1)); border: 1px solid rgba(255,193,7,.3); transition: .3s ease; }
-    .sponsor-banner:hover { border-color: rgba(255,193,7,.5); box-shadow: 0 5px 20px rgba(255,193,7,.2); }
-    .ad-space { background: linear-gradient(145deg,#2a2a2a,#1a1a1a); border: 2px dashed rgba(255,193,7,.3); transition: .3s ease; }
-    .ad-space:hover { border-color: rgba(255,193,7,.6); background: linear-gradient(145deg,#3a3a3a,#2a2a2a); }
-
-    /* HERO flare */
-    @keyframes flareBurst {
-      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
-      5%   { opacity: 1; transform: translate(-50%, -50%) scale(2.8); }
-      15%  { opacity: .95; transform: translate(-50%, -50%) scale(1.6); }
-      40%  { opacity: .8; transform: translate(50px, -50%) scale(1); }
-      100% { opacity: 0; transform: translate(90px, -50%) scale(0.8); }
+    :root{
+      --onyx:#0a0a0a; --carbon:#1a1a1a; --steel:#2a2a2a;
+      --arena:#ffc107; --heat:#ff6b35; --alert:#ef4444;
+      --mist:#e5e7eb; --cool:#9ca3af;
     }
+    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--onyx),var(--carbon)); color:#fff}
+    .hero-bg{background:
+      radial-gradient(ellipse at center, rgba(255,193,7,.10) 0%, transparent 70%),
+      linear-gradient(135deg,#000 0%, #111 50%, #000 100%)}
+    .neon-text{color:var(--arena); text-shadow:0 0 10px rgba(255,193,7,.5)}
+    .neon-glow{box-shadow:0 0 20px rgba(255,193,7,.30)}
+    .cta-button{background:linear-gradient(45deg,var(--arena),var(--heat)); transition:.3s}
+    .cta-button:hover{transform:scale(1.05); box-shadow:0 10px 25px rgba(255,193,7,.4)}
+    .section-divider{height:2px; background:linear-gradient(90deg,transparent,var(--arena),transparent)}
+    .phase-card{background:linear-gradient(145deg,#1a1a1a,#2a2a2a); border:1px solid rgba(255,193,7,.2); transition:.3s}
+    .phase-card:hover{transform:translateY(-6px); box-shadow:0 10px 30px rgba(255,193,7,.2)}
+    .robot-icon{animation:float 3s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}}
 
-    /* Lang toggle pill */
-    .lang-pill { border:1px solid rgba(255,193,7,.35); }
-    .lang-active { background: #ffc107; color:#000; }
+    /* Language pill */
+    .lang-pill{border:1px solid rgba(255,193,7,.35); border-radius:9999px}
+    .lang-active{background:#ffc107;color:#000}
+
+    /* Big lens flare */
+    @keyframes bigFlare{
+      0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+      10%{opacity:1;transform:translate(-50%,-50%) scale(2.4)}
+      30%{opacity:.95;transform:translate(-50%,-50%) scale(1.4)}
+      60%{opacity:.6;transform:translate(-50%,-50%) scale(1.15)}
+      100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}
+    }
   </style>
 </head>
-<body class="bg-black text-white overflow-x-hidden">
+<body class="overflow-x-hidden">
 
   <!-- NAV -->
   <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-sm border-b border-yellow-500/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
-        <div class="flex items-center">
+        <a href="#top" class="flex items-center space-x-3">
           <span class="text-2xl font-bold font-montserrat neon-text" data-i18n="brand">BattleBots.me</span>
-        </div>
+        </a>
 
         <div class="hidden md:flex items-center space-x-8">
-          <a href="#about" class="hover:text-yellow-400 transition-colors" data-i18n="nav.about">About</a>
-          <a href="#how-it-works" class="hover:text-yellow-400 transition-colors" data-i18n="nav.how">How It Works</a>
-          <a href="#participants" class="hover:text-yellow-400 transition-colors" data-i18n="nav.participants">Participants</a>
-          <a href="#blog" class="hover:text-yellow-400 transition-colors" data-i18n="nav.blog">Blog</a>
+          <a href="#about" class="hover:text-yellow-400 transition-colors" data-i18n="nav.about">O projektu</a>
+          <a href="#how-it-works" class="hover:text-yellow-400 transition-colors" data-i18n="nav.how">Kako funkcioniše</a>
+          <a href="#participants" class="hover:text-yellow-400 transition-colors" data-i18n="nav.participants">Učesnici</a>
+          <a href="#blog" class="hover:text-yellow-400 transition-colors" data-i18n="nav.blog">Vijesti</a>
           <a href="#faq" class="hover:text-yellow-400 transition-colors" data-i18n="nav.faq">FAQ</a>
-          <a href="#contact" class="hover:text-yellow-400 transition-colors" data-i18n="nav.contact">Contact</a>
+          <a href="#contact" class="hover:text-yellow-400 transition-colors" data-i18n="nav.contact">Kontakt</a>
 
           <!-- Language toggle -->
-          <div class="ml-4 flex items-center rounded-full lang-pill overflow-hidden">
-            <button id="btn-en" class="px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black transition-colors" aria-pressed="true">EN</button>
-            <button id="btn-me" class="px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black transition-colors">ME</button>
+          <div class="ml-4 flex items-center lang-pill overflow-hidden">
+            <button id="btn-me" class="px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black transition-colors lang-active">ME</button>
+            <button id="btn-en" class="px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black transition-colors">EN</button>
           </div>
         </div>
       </div>
@@ -70,55 +73,58 @@
   </nav>
 
   <!-- HERO -->
-  <section class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+  <header id="top" class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-20 left-10 w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></div>
+      <div class="absolute top-40 right-20 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+      <div class="absolute bottom-40 left-1/4 w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+      <div class="absolute bottom-20 right-1/3 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+    </div>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-      <!-- Logo + flare -->
       <div class="robot-icon mb-8 relative inline-block">
-        <img 
-          src="battlebotslogo.png" 
-          alt="BattleBots.me Logo"
-          class="w-28 h-28 md:w-40 md:h-40 mx-auto object-contain select-none pointer-events-none"
-          id="bb-logo"
-        />
-        <!-- BIG lens-flare u centru oka -->
+        <img src="battlebotslogo.png" alt="BattleBots.me Logo"
+             class="w-28 h-28 md:w-40 md:h-40 mx-auto object-contain select-none pointer-events-none" id="bb-logo"/>
+
+        <!-- BIG lens-flare in the eye -->
         <span id="bb-flare" class="absolute opacity-0" style="left:52%;top:42%;transform:translate(-50%,-50%);">
           <span class="absolute w-6 h-6 rounded-full"
-            style="left:50%;top:50%;transform:translate(-50%,-50%);
-                   background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
-                   filter: drop-shadow(0 0 20px white) drop-shadow(0 0 40px white);"></span>
+                style="left:50%;top:50%;transform:translate(-50%,-50%);
+                       background:radial-gradient(circle,rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+                       filter:drop-shadow(0 0 20px white) drop-shadow(0 0 40px white);"></span>
           <span class="absolute h-1"
-            style="left:50%;top:50%;transform:translate(-50%,-50%);
-                   width:220px;background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
-                   filter: blur(3px) drop-shadow(0 0 10px white);"></span>
+                style="left:50%;top:50%;transform:translate(-50%,-50%);
+                       width:220px; filter:blur(3px) drop-shadow(0 0 10px white);
+                       background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);"></span>
         </span>
       </div>
 
       <h1 class="text-5xl md:text-7xl font-bold font-montserrat mb-6 neon-text" data-i18n="hero.title">BattleBots.me</h1>
-      <h2 class="text-2xl md:text-4xl font-semibold mb-4 text-gray-300" data-i18n="hero.subtitle">Montenegro's First STEAM Robotics Challenge</h2>
-      <p class="text-xl md:text-2xl mb-8 text-gray-400 max-w-3xl mx-auto" data-i18n="hero.tagline">Where young innovators design, build, and battle their own robots</p>
+      <h2 class="text-2xl md:text-4xl font-semibold mb-4 text-gray-300" data-i18n="hero.subtitle">Prvo STEAM takmičenje u robotici u Crnoj Gori</h2>
+      <p class="text-xl md:text-2xl mb-8 text-gray-400 max-w-3xl mx-auto" data-i18n="hero.tagline">Mjesto gdje mladi inovatori dizajniraju, prave i bore svoje robote</p>
 
       <button class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg neon-glow" onclick="scrollToSection('contact')" data-i18n="hero.cta">
-        Join the Competition
+        Prijavi se
       </button>
     </div>
-  </section>
+  </header>
 
   <!-- ABOUT -->
   <section id="about" class="py-20 bg-gray-900/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-montserrat neon-text" data-i18n="about.title">About the Project</h2>
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-montserrat neon-text" data-i18n="about.title">O projektu</h2>
 
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
         <div>
           <p class="text-lg text-gray-300 leading-relaxed mb-6" data-i18n="about.p1">
-            BattleBots.me is a national STEAM competition (Science, Technology, Engineering, Arts, Mathematics) for young people aged 15–30. Teams design, program, and build combat robots that face off in a live arena.
+            BattleBots.me je nacionalno STEAM takmičenje (nauka, tehnologija, inženjerstvo, umjetnost, matematika) za mlade uzrasta 15–30. Timovi osmišljavaju, programiraju i sklapaju borbene robote koji se nadmeću u live areni.
           </p>
           <p class="text-lg text-gray-300 leading-relaxed mb-6" data-i18n="about.p2">
-            The project is supported by Spark.me STEAM initiative and aims to inspire innovation, teamwork, and practical engineering skills among Montenegro's youth.
+            Projekat podržava Spark.me STEAM inicijativa i ima za cilj da podstakne inovacije, timski rad i praktične inženjerske vještine kod mladih u Crnoj Gori.
           </p>
           <p class="text-lg text-gray-300 leading-relaxed" data-i18n="about.p3">
-            This groundbreaking initiative combines education with entertainment, creating an engaging platform where theoretical knowledge meets practical application. Participants will gain invaluable experience in robotics, programming, mechanical design, and project management while competing in Montenegro's most exciting tech event.
+            Inicijativa spaja edukaciju i zabavu – teorijsko znanje se pretvara u praksu. Učesnici stiču iskustvo iz robotike, programiranja, mehaničkog dizajna i projektnog menadžmenta, takmičeći se u najuzbudljivijem tech događaju u zemlji.
           </p>
         </div>
         <div class="text-center">
@@ -128,23 +134,22 @@
         </div>
       </div>
 
-      <!-- Stats -->
       <div class="grid md:grid-cols-4 gap-8 text-center">
         <div class="phase-card p-6 rounded-xl">
           <div class="text-4xl font-bold text-yellow-400 mb-2" data-i18n="about.stat1n">5</div>
-          <p class="text-gray-300" data-i18n="about.stat1t">Cities Involved</p>
+          <p class="text-gray-300" data-i18n="about.stat1t">Gradova uključeno</p>
         </div>
         <div class="phase-card p-6 rounded-xl">
           <div class="text-4xl font-bold text-red-400 mb-2" data-i18n="about.stat2n">10</div>
-          <p class="text-gray-300" data-i18n="about.stat2t">Final Teams</p>
+          <p class="text-gray-300" data-i18n="about.stat2t">Finalnih timova</p>
         </div>
         <div class="phase-card p-6 rounded-xl">
           <div class="text-4xl font-bold text-yellow-400 mb-2" data-i18n="about.stat3n">100+</div>
-          <p class="text-gray-300" data-i18n="about.stat3t">Expected Participants</p>
+          <p class="text-gray-300" data-i18n="about.stat3t">Očekivanih učesnika</p>
         </div>
         <div class="phase-card p-6 rounded-xl">
           <div class="text-4xl font-bold text-red-400 mb-2" data-i18n="about.stat4n">6</div>
-          <p class="text-gray-300" data-i18n="about.stat4t">Months Duration</p>
+          <p class="text-gray-300" data-i18n="about.stat4t">Trajanje (mjeseci)</p>
         </div>
       </div>
     </div>
@@ -154,54 +159,51 @@
   <section id="how-it-works" class="py-20 bg-black">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="how.title">How It Works</h2>
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="how.title">Kako funkcioniše</h2>
+
       <div class="grid md:grid-cols-3 gap-8">
         <div class="phase-card p-8 rounded-xl">
           <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span class="text-black font-bold text-2xl">1</span>
-            </div>
-            <h3 class="text-2xl font-bold text-yellow-400 mb-4" data-i18n="how.p1title">Education Bootcamp</h3>
+            <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-black font-bold text-2xl">1</span></div>
+            <h3 class="text-2xl font-bold text-yellow-400 mb-4" data-i18n="how.p1title">Edukativni bootcamp</h3>
           </div>
-          <p class="text-gray-300 text-center mb-4" data-i18n="how.p1desc">Workshops in 5 cities covering robotics, Arduino, CAD, sensors, and programming fundamentals.</p>
+          <p class="text-gray-300 text-center mb-4" data-i18n="how.p1desc">Radionice u 5 gradova: robotika, Arduino, CAD, senzori i osnove programiranja.</p>
           <ul class="text-sm text-gray-400 space-y-2">
-            <li data-i18n="how.p1l1">• Arduino programming & electronics</li>
-            <li data-i18n="how.p1l2">• 3D CAD design & modeling</li>
-            <li data-i18n="how.p1l3">• Sensor integration & control systems</li>
-            <li data-i18n="how.p1l4">• Robot mechanics & movement</li>
-            <li data-i18n="how.p1l5">• Team building & project management</li>
+            <li data-i18n="how.p1l1">• Arduino programiranje i osnove elektronike</li>
+            <li data-i18n="how.p1l2">• 3D CAD dizajn i modelovanje</li>
+            <li data-i18n="how.p1l3">• Integracija senzora i upravljački sistemi</li>
+            <li data-i18n="how.p1l4">• Mehanika robota i kretanje</li>
+            <li data-i18n="how.p1l5">• Timski rad i projektni menadžment</li>
           </ul>
         </div>
+
         <div class="phase-card p-8 rounded-xl">
           <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span class="text-white font-bold text-2xl">2</span>
-            </div>
-            <h3 class="text-2xl font-bold text-red-400 mb-4" data-i18n="how.p2title">Robot Construction</h3>
+            <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-white font-bold text-2xl">2</span></div>
+            <h3 class="text-2xl font-bold text-red-400 mb-4" data-i18n="how.p2title">Konstrukcija robota</h3>
           </div>
-          <p class="text-gray-300 text-center mb-4" data-i18n="how.p2desc">10 selected teams build robots using identical kits with dedicated mentor support.</p>
+          <p class="text-gray-300 text-center mb-4" data-i18n="how.p2desc">10 izabranih timova pravi robote iz identičnih setova uz mentorsku podršku.</p>
           <ul class="text-sm text-gray-400 space-y-2">
-            <li data-i18n="how.p2l1">• 8-week construction period</li>
-            <li data-i18n="how.p2l2">• Weekly mentor check-ins</li>
-            <li data-i18n="how.p2l3">• Access to fabrication labs</li>
-            <li data-i18n="how.p2l4">• Safety training & protocols</li>
-            <li data-i18n="how.p2l5">• Testing & iteration cycles</li>
+            <li data-i18n="how.p2l1">• Period izrade: 8 nedjelja</li>
+            <li data-i18n="how.p2l2">• Nedjeljni check-in sa mentorima</li>
+            <li data-i18n="how.p2l3">• Pristup radionicama i alatima</li>
+            <li data-i18n="how.p2l4">• Obuka i bezbjednosni protokoli</li>
+            <li data-i18n="how.p2l5">• Testiranje i iteracije</li>
           </ul>
         </div>
+
         <div class="phase-card p-8 rounded-xl">
           <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span class="text-black font-bold text-2xl">3</span>
-            </div>
-            <h3 class="text-2xl font-bold text-yellow-400 mb-4" data-i18n="how.p3title">Live Arena</h3>
+            <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-black font-bold text-2xl">3</span></div>
+            <h3 class="text-2xl font-bold text-yellow-400 mb-4" data-i18n="how.p3title">Živa arena</h3>
           </div>
-          <p class="text-gray-300 text-center mb-4" data-i18n="how.p3desc">Spectacular final battle in a custom-built arena, judged by experts and streamed online.</p>
+          <p class="text-gray-300 text-center mb-4" data-i18n="how.p3desc">Spektakularno finale u specijalnoj areni, uz stručni žiri i live stream.</p>
           <ul class="text-sm text-gray-400 space-y-2">
-            <li data-i18n="how.p3l1">• Tournament-style elimination</li>
-            <li data-i18n="how.p3l2">• Live streaming & commentary</li>
-            <li data-i18n="how.p3l3">• Expert judging panel</li>
-            <li data-i18n="how.p3l4">• Awards ceremony</li>
-            <li data-i18n="how.p3l5">• Media coverage & interviews</li>
+            <li data-i18n="how.p3l1">• Eliminacioni turnir</li>
+            <li data-i18n="how.p3l2">• Live streaming i komentari</li>
+            <li data-i18n="how.p3l3">• Stručni žiri</li>
+            <li data-i18n="how.p3l4">• Ceremonija nagrada</li>
+            <li data-i18n="how.p3l5">• Medijska pokrivenost</li>
           </ul>
         </div>
       </div>
@@ -212,36 +214,36 @@
   <section class="py-20 bg-gray-900/30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="why.title">Why It Matters</h2>
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="why.title">Zašto je važno</h2>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="text-center">
           <div class="w-20 h-20 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-10 h-10 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/></svg>
           </div>
-          <h3 class="text-xl font-semibold mb-2 text-yellow-400" data-i18n="why.c1t">Inspire Innovation</h3>
-          <p class="text-gray-300" data-i18n="why.c1d">Apply STEAM knowledge in real-world scenarios</p>
+          <h3 class="text-xl font-semibold mb-2 text-yellow-400" data-i18n="why.c1t">Podstiče inovacije</h3>
+          <p class="text-gray-300" data-i18n="why.c1d">Primjena STEAM znanja u praksi</p>
         </div>
         <div class="text-center">
           <div class="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-10 h-10 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M16,4C18.11,4 19.8,5.69 19.8,7.8C19.8,8.81 19.39,9.73 18.72,10.39L18.72,10.39C18.68,10.44 18.63,10.47 18.59,10.5L12,17.09L5.41,10.5C5.37,10.47 5.32,10.44 5.28,10.39C4.61,9.73 4.2,8.81 4.2,7.8C4.2,5.69 5.89,4 8,4C9.26,4 10.41,4.65 11.13,5.67L12,6.91L12.87,5.67C13.59,4.65 14.74,4 16,4M16,2C14.35,2 12.78,2.85 12,4.27C11.22,2.85 9.65,2 8,2C4.69,2 2,4.69 2,8C2,9.74 2.85,11.27 4.14,12.38L11.29,19.53C11.68,19.92 12.32,19.92 12.71,19.53L19.86,12.38C21.15,11.27 22,9.74 22,8C22,4.69 19.31,2 16,2Z"/></svg>
           </div>
-          <h3 class="text-xl font-semibold mb-2 text-red-400" data-i18n="why.c2t">Build Teamwork</h3>
-          <p class="text-gray-300" data-i18n="why.c2d">Develop collaboration and problem-solving skills</p>
+          <h3 class="text-xl font-semibold mb-2 text-red-400" data-i18n="why.c2t">Gradi timski rad</h3>
+          <p class="text-gray-300" data-i18n="why.c2d">Saradnja i rješavanje problema</p>
         </div>
         <div class="text-center">
           <div class="w-20 h-20 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-10 h-10 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/></svg>
           </div>
-          <h3 class="text-xl font-semibold mb-2 text-yellow-400" data-i18n="why.c3t">Create Resources</h3>
-          <p class="text-gray-300" data-i18n="why.c3d">Open-source tutorials and reusable materials</p>
+          <h3 class="text-xl font-semibold mb-2 text-yellow-400" data-i18n="why.c3t">Stvara resurse</h3>
+          <p class="text-gray-300" data-i18n="why.c3d">Otvoreni tutorijali i materijali</p>
         </div>
         <div class="text-center">
           <div class="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-10 h-10 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z"/></svg>
           </div>
-          <h3 class="text-xl font-semibold mb-2 text-red-400" data-i18n="why.c4t">First in Montenegro</h3>
-          <p class="text-gray-300" data-i18n="why.c4d">Pioneering robotics battle competition</p>
+          <h3 class="text-xl font-semibold mb-2 text-red-400" data-i18n="why.c4t">Prvi u CG</h3>
+          <p class="text-gray-300" data-i18n="why.c4d">Pionirsko takmičenje borbenih robota</p>
         </div>
       </div>
     </div>
@@ -253,36 +255,35 @@
       <div class="section-divider mb-12"></div>
       <div class="grid lg:grid-cols-2 gap-16">
         <div class="phase-card p-8 rounded-xl">
-          <h3 class="text-3xl font-bold mb-6 text-yellow-400 text-center" data-i18n="part.title1">For Participants</h3>
+          <h3 class="text-3xl font-bold mb-6 text-yellow-400 text-center" data-i18n="part.title1">Za učesnike</h3>
           <ul class="space-y-4 text-gray-300">
-            <li data-i18n="part.l1" class="flex items-start"><span class="text-yellow-400 mr-3">✓</span><span>Free to join (open call for youth 15–30)</span></li>
-            <li data-i18n="part.l2" class="flex items-start"><span class="text-yellow-400 mr-3">✓</span><span>Learn by doing: hands-on skills in robotics & programming</span></li>
-            <li data-i18n="part.l3" class="flex items-start"><span class="text-yellow-400 mr-3">✓</span><span>Compete for recognition, trophies, and STEAM prizes</span></li>
+            <li data-i18n="part.l1" class="flex items-start"><span class="text-yellow-400 mr-3">✓</span><span>Besplatno učešće (otvoren poziv 15–30)</span></li>
+            <li data-i18n="part.l2" class="flex items-start"><span class="text-yellow-400 mr-3">✓</span><span>Učenje kroz praksu: robotika i programiranje</span></li>
+            <li data-i18n="part.l3" class="flex items-start"><span class="text-yellow-400 mr-3">✓</span><span>Borba za priznanja, pehare i STEAM nagrade</span></li>
           </ul>
         </div>
         <div class="phase-card p-8 rounded-xl">
-          <h3 class="text-3xl font-bold mb-6 text-red-400 text-center" data-i18n="part.title2">For Partners & Sponsors</h3>
+          <h3 class="text-3xl font-bold mb-6 text-red-400 text-center" data-i18n="part.title2">Za partnere i sponzore</h3>
           <ul class="space-y-4 text-gray-300">
-            <li data-i18n="part.p1" class="flex items-start"><span class="text-red-400 mr-3">✓</span><span>Visibility in national media and on-site branding</span></li>
-            <li data-i18n="part.p2" class="flex items-start"><span class="text-red-400 mr-3">✓</span><span>Support Montenegro's first robotics competition</span></li>
-            <li data-i18n="part.p3" class="flex items-start"><span class="text-red-400 mr-3">✓</span><span>Engage directly with youth, schools, and universities</span></li>
+            <li data-i18n="part.p1" class="flex items-start"><span class="text-red-400 mr-3">✓</span><span>Vidljivost u medijima i brendiranje na licu mjesta</span></li>
+            <li data-i18n="part.p2" class="flex items-start"><span class="text-red-400 mr-3">✓</span><span>Podržite prvo takmičenje u robotici u CG</span></li>
+            <li data-i18n="part.p3" class="flex items-start"><span class="text-red-400 mr-3">✓</span><span>Direktan kontakt sa mladima, školama i fakultetima</span></li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BLOG (naslove/teksove će takođe prevesti skripta) -->
+  <!-- BLOG -->
   <section id="blog" class="py-20 bg-black">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="blog.title">Latest Updates</h2>
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="blog.title">Najnovije vijesti</h2>
 
-      <!-- Radi kratkoće ostaje isti markup kao u tvojoj verziji -->
-      <!-- ... (tvoji blog kartice/dugmad) ... -->
+      <!-- Tvoje postojeće kartice/objave—zadrži markup; i18n radi na označenim elementima -->
 
       <div class="text-center mt-12">
-        <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="loadMorePosts && loadMorePosts(this)" data-i18n="blog.load">Load More Posts</button>
+        <button class="cta-button text-black font-bold py-3 px-6 rounded-full" data-i18n="blog.load">Učitaj još objava</button>
       </div>
     </div>
   </section>
@@ -291,23 +292,22 @@
   <section id="faq" class="py-20 bg-gray-900/50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="faq.title">Frequently Asked Questions</h2>
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text" data-i18n="faq.title">Najčešća pitanja</h2>
 
-      <!-- Primjer jedne stavke – ostatak zadrži svoje id-jeve i tekst; skripta može prevesti sve gdje dodaš data-i18n -->
       <div class="space-y-6">
         <div class="phase-card rounded-xl overflow-hidden">
           <button class="w-full p-6 text-left flex justify-between items-center hover:bg-gray-800/50 transition-colors" onclick="toggleFAQ('faq1')">
-            <h3 class="text-lg font-semibold text-white" data-i18n="faq.q1">Who can participate in BattleBots.me?</h3>
+            <h3 class="text-lg font-semibold text-white" data-i18n="faq.q1">Ko može da učestvuje u BattleBots.me?</h3>
             <svg class="w-6 h-6 text-yellow-400 transform transition-transform" id="faq1-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
           </button>
           <div class="hidden px-6 pb-6" id="faq1-content">
             <p class="text-gray-300 leading-relaxed" data-i18n="faq.a1">
-              The competition is open to young people aged 15-30 residing in Montenegro. Participants can join as individuals or teams (2-4 members). No prior robotics experience is required - our education bootcamp will provide all necessary foundational knowledge. We welcome students, young professionals, and anyone passionate about technology and innovation.
+              Takmičenje je za mlade 15–30 iz Crne Gore. Možete se prijaviti pojedinačno ili u timu (2–4 člana). Predznanje nije potrebno – bootcamp obezbjeđuje osnove.
             </p>
           </div>
         </div>
 
-        <!-- Dodaj data-i18n="faq.q2", "faq.a2", ... na ostale koje već imaš -->
+        <!-- Dodaj još FAQ stavki po istom principu -->
       </div>
     </div>
   </section>
@@ -316,29 +316,29 @@
   <section id="contact" class="py-20 bg-black">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="section-divider mb-12"></div>
-      <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat neon-text" data-i18n="contact.title">Want to join, mentor, or sponsor?</h2>
+      <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat neon-text" data-i18n="contact.title">Želiš da učestvuješ, mentoruješ ili sponzorišeš?</h2>
 
       <div class="phase-card p-8 rounded-xl max-w-2xl mx-auto">
-        <form id="contactForm" class="space-y-6" method="POST" onsubmit="handleFormSubmit && handleFormSubmit(event)">
-          <div><input name="name" id="name" type="text" placeholder="Your Name" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" data-i18n-ph="contact.name" /></div>
-          <div><input name="email" id="email" type="email" placeholder="Your Email" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" data-i18n-ph="contact.email" /></div>
+        <form id="contactForm" class="space-y-6" method="POST">
+          <div><input name="name" id="name" type="text" placeholder="Tvoje ime" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" data-i18n-ph="contact.name" /></div>
+          <div><input name="email" id="email" type="email" placeholder="Tvoj email" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" data-i18n-ph="contact.email" /></div>
           <div>
             <select name="interest" id="interest" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none" data-i18n-ph="contact.select">
-              <option value="" data-i18n="contact.o0">I want to...</option>
-              <option value="participate" data-i18n="contact.o1">Participate in the competition</option>
-              <option value="mentor" data-i18n="contact.o2">Become a mentor</option>
-              <option value="sponsor" data-i18n="contact.o3">Sponsor the event</option>
-              <option value="partner" data-i18n="contact.o4">Become a partner</option>
-              <option value="advertise" data-i18n="contact.o5">Advertise with us</option>
+              <option value="" data-i18n="contact.o0">Želim da...</option>
+              <option value="participate" data-i18n="contact.o1">Učestvujem na takmičenju</option>
+              <option value="mentor" data-i18n="contact.o2">Postanem mentor</option>
+              <option value="sponsor" data-i18n="contact.o3">Sponzorišem događaj</option>
+              <option value="partner" data-i18n="contact.o4">Postanem partner</option>
+              <option value="advertise" data-i18n="contact.o5">Oglašavam se kod vas</option>
             </select>
           </div>
-          <div><textarea name="message" id="message" placeholder="Tell us more about your interest..." rows="4" class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none resize-none" data-i18n-ph="contact.message"></textarea></div>
-          <button id="submitBtn" type="submit" class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full" data-i18n="contact.send">Send Message</button>
+          <div><textarea name="message" id="message" placeholder="Reci nam više o interesovanju..." rows="4" class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none resize-none" data-i18n-ph="contact.message"></textarea></div>
+          <button id="submitBtn" type="submit" class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full" data-i18n="contact.send">Pošalji poruku</button>
           <p id="formStatus" class="text-sm text-gray-300 pt-2"></p>
         </form>
 
         <div class="mt-8 pt-8 border-t border-gray-700">
-          <p class="text-gray-300 mb-4" data-i18n="contact.or">Or contact us directly:</p>
+          <p class="text-gray-300 mb-4" data-i18n="contact.or">Ili nas kontaktiraj direktno:</p>
           <p class="text-yellow-400 font-semibold mb-6">office@hiveagency.me</p>
         </div>
       </div>
@@ -348,181 +348,145 @@
   <!-- FOOTER -->
   <footer class="bg-gray-900 py-8 border-t border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-gray-400">© <span id="yearSpan">2024</span> <span data-i18n="footer.line1">BattleBots.me - Engineering Arena for the Next Generation</span></p>
-      <p class="text-gray-500 mt-2" data-i18n="footer.line2">Organized by Hive Agency | Supported by doMEn (.ME) – Spark.me STEAM Adventure</p>
+      <p class="text-gray-400">© <span id="yearSpan">2024</span> <span data-i18n="footer.line1">BattleBots.me – Inženjerska arena za novu generaciju</span></p>
+      <p class="text-gray-500 mt-2" data-i18n="footer.line2">Organizuje Hive Agency | Podržali doMEn (.ME) – Spark.me STEAM Adventure</p>
     </div>
   </footer>
 
   <!-- SCRIPTS -->
   <script>
-    // ===== CONFIG =====
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPWTSVE201n5E5inB1U-67Sg-be6cE-DDD4G5IGWbzQ4jBn9uATT1VHlL773uB4uLK/exec";
-
-    // Year in footer
+    // Year
     document.getElementById('yearSpan').textContent = new Date().getFullYear();
 
-    // Smooth scroll for all anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
         e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const t=document.querySelector(a.getAttribute('href'));
+        if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
       });
     });
 
-    // Sticky nav background toggle
-    window.addEventListener('scroll', () => {
-      const nav = document.querySelector('nav');
-      if (!nav) return;
-      if (window.scrollY > 100) {
-        nav.classList.add('bg-black'); nav.classList.remove('bg-black/90');
-      } else {
-        nav.classList.add('bg-black/90'); nav.classList.remove('bg-black');
-      }
-    });
-
-    // Helper
-    function scrollToSection(id) {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function toggleFAQ(id){
+      const c=document.getElementById(id+'-content');
+      const i=document.getElementById(id+'-icon');
+      if(!c||!i) return;
+      const hidden=c.classList.contains('hidden');
+      document.querySelectorAll('[id$="-content"]').forEach(el=>el.classList.add('hidden'));
+      document.querySelectorAll('[id$="-icon"]').forEach(el=>el.style.transform='rotate(0deg)');
+      if(hidden){c.classList.remove('hidden'); i.style.transform='rotate(180deg)';}
     }
 
-    // ===== FAQ Toggle =====
-    function toggleFAQ(faqId) {
-      const content = document.getElementById(faqId + '-content');
-      const icon = document.getElementById(faqId + '-icon');
-      if (!content || !icon) return;
-      const isHidden = content.classList.contains('hidden');
-      document.querySelectorAll('[id$="-content"]').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('[id$="-icon"]').forEach(el => el.style.transform = 'rotate(0deg)');
-      if (isHidden) { content.classList.remove('hidden'); icon.style.transform = 'rotate(180deg)'; }
+    function scrollToSection(id){
+      const el=document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
     }
 
-    // ===== HERO flare on load =====
-    window.addEventListener('load', () => {
-      const flare = document.getElementById('bb-flare');
-      if (flare) { flare.style.animation = 'flareBurst 0.9s ease-out 0.2s 1 both'; }
+    // HERO flare
+    window.addEventListener('load',()=>{
+      const flare=document.getElementById('bb-flare');
+      if(flare){ flare.style.animation='bigFlare 0.95s ease-out 0.2s 1 both'; }
     });
 
-    // ===== SIMPLE i18n =====
-    const i18n = {
-      en: {
-        "meta.title": "BattleBots.me – Engineering Arena for the Next Generation",
-        "meta.desc": "Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena. Join the competition!",
-        brand: "BattleBots.me",
-        "nav.about": "About",
-        "nav.how": "How It Works",
-        "nav.participants": "Participants",
-        "nav.blog": "Blog",
-        "nav.faq": "FAQ",
-        "nav.contact": "Contact",
-        "hero.title": "BattleBots.me",
-        "hero.subtitle": "Montenegro's First STEAM Robotics Challenge",
-        "hero.tagline": "Where young innovators design, build, and battle their own robots",
-        "hero.cta": "Join the Competition",
-        "about.title": "About the Project",
-        "about.p1": "BattleBots.me is a national STEAM competition (Science, Technology, Engineering, Arts, Mathematics) for young people aged 15–30. Teams design, program, and build combat robots that face off in a live arena.",
-        "about.p2": "The project is supported by Spark.me STEAM initiative and aims to inspire innovation, teamwork, and practical engineering skills among Montenegro's youth.",
-        "about.p3": "This groundbreaking initiative combines education with entertainment, creating an engaging platform where theoretical knowledge meets practical application. Participants will gain invaluable experience in robotics, programming, mechanical design, and project management while competing in Montenegro's most exciting tech event.",
-        "about.stat1t": "Cities Involved", "about.stat2t": "Final Teams", "about.stat3t": "Expected Participants", "about.stat4t": "Months Duration",
-        "how.title": "How It Works",
-        "how.p1title": "Education Bootcamp",
-        "how.p1desc": "Workshops in 5 cities covering robotics, Arduino, CAD, sensors, and programming fundamentals.",
-        "how.p1l1": "• Arduino programming & electronics",
-        "how.p1l2": "• 3D CAD design & modeling",
-        "how.p1l3": "• Sensor integration & control systems",
-        "how.p1l4": "• Robot mechanics & movement",
-        "how.p1l5": "• Team building & project management",
-        "how.p2title": "Robot Construction",
-        "how.p2desc": "10 selected teams build robots using identical kits with dedicated mentor support.",
-        "how.p2l1": "• 8-week construction period",
-        "how.p2l2": "• Weekly mentor check-ins",
-        "how.p2l3": "• Access to fabrication labs",
-        "how.p2l4": "• Safety training & protocols",
-        "how.p2l5": "• Testing & iteration cycles",
-        "how.p3title": "Live Arena",
-        "how.p3desc": "Spectacular final battle in a custom-built arena, judged by experts and streamed online.",
-        "how.p3l1": "• Tournament-style elimination",
-        "how.p3l2": "• Live streaming & commentary",
-        "how.p3l3": "• Expert judging panel",
-        "how.p3l4": "• Awards ceremony",
-        "how.p3l5": "• Media coverage & interviews",
-        "why.title": "Why It Matters",
+    // ===== i18n dictionary (EN/ME) =====
+    const I18N = {
+      en:{
+        "meta.title":"BattleBots.me – Engineering Arena for the Next Generation",
+        "meta.desc":"Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena. Join the competition!",
+        brand:"BattleBots.me",
+        "nav.about":"About","nav.how":"How It Works","nav.participants":"Participants","nav.blog":"Blog","nav.faq":"FAQ","nav.contact":"Contact",
+        "hero.title":"BattleBots.me",
+        "hero.subtitle":"Montenegro's First STEAM Robotics Challenge",
+        "hero.tagline":"Where young innovators design, build, and battle their own robots",
+        "hero.cta":"Join the Competition",
+        "about.title":"About the Project",
+        "about.p1":"BattleBots.me is a national STEAM competition (Science, Technology, Engineering, Arts, Mathematics) for young people aged 15–30. Teams design, program, and build combat robots that face off in a live arena.",
+        "about.p2":"The project is supported by the Spark.me STEAM initiative and aims to inspire innovation, teamwork, and practical engineering skills among Montenegro’s youth.",
+        "about.p3":"The initiative blends education and entertainment—turning theory into practice. Participants gain experience in robotics, programming, mechanical design, and project management while competing in the country’s most exciting tech event.",
+        "about.stat1t":"Cities Involved","about.stat2t":"Final Teams","about.stat3t":"Expected Participants","about.stat4t":"Months Duration",
+        "how.title":"How It Works",
+        "how.p1title":"Education Bootcamp",
+        "how.p1desc":"Workshops in 5 cities: robotics, Arduino, CAD, sensors, and programming fundamentals.",
+        "how.p1l1":"• Arduino programming & electronics",
+        "how.p1l2":"• 3D CAD design & modeling",
+        "how.p1l3":"• Sensor integration & control systems",
+        "how.p1l4":"• Robot mechanics & movement",
+        "how.p1l5":"• Team building & project management",
+        "how.p2title":"Robot Construction",
+        "how.p2desc":"10 selected teams build robots from identical kits with mentor support.",
+        "how.p2l1":"• 8-week build period",
+        "how.p2l2":"• Weekly mentor check-ins",
+        "how.p2l3":"• Access to workshops & tools",
+        "how.p2l4":"• Safety training & protocols",
+        "how.p2l5":"• Testing & iteration",
+        "how.p3title":"Live Arena",
+        "how.p3desc":"Spectacular finale in a custom arena, with expert judges and live stream.",
+        "how.p3l1":"• Tournament elimination",
+        "how.p3l2":"• Live streaming & commentary",
+        "how.p3l3":"• Expert judging panel",
+        "how.p3l4":"• Awards ceremony",
+        "how.p3l5":"• Media coverage",
+        "why.title":"Why It Matters",
         "why.c1t":"Inspire Innovation","why.c1d":"Apply STEAM knowledge in real-world scenarios",
-        "why.c2t":"Build Teamwork","why.c2d":"Develop collaboration and problem-solving skills",
-        "why.c3t":"Create Resources","why.c3d":"Open-source tutorials and reusable materials",
-        "why.c4t":"First in Montenegro","why.c4d":"Pioneering robotics battle competition",
+        "why.c2t":"Build Teamwork","why.c2d":"Develop collaboration & problem-solving",
+        "why.c3t":"Create Resources","why.c3d":"Open-source tutorials and materials",
+        "why.c4t":"First in Montenegro","why.c4d":"Pioneering combat-robot competition",
         "part.title1":"For Participants",
-        "part.l1":"Free to join (open call for youth 15–30)",
-        "part.l2":"Learn by doing: hands-on skills in robotics & programming",
-        "part.l3":"Compete for recognition, trophies, and STEAM prizes",
+        "part.l1":"Free to join (open call 15–30)",
+        "part.l2":"Learn by doing: robotics & coding",
+        "part.l3":"Compete for recognition, trophies & STEAM prizes",
         "part.title2":"For Partners & Sponsors",
         "part.p1":"Visibility in national media and on-site branding",
-        "part.p2":"Support Montenegro's first robotics competition",
-        "part.p3":"Engage directly with youth, schools, and universities",
-        "blog.title":"Latest Updates",
-        "blog.load":"Load More Posts",
+        "part.p2":"Support Montenegro’s first robotics competition",
+        "part.p3":"Engage directly with youth, schools & universities",
+        "blog.title":"Latest Updates","blog.load":"Load More Posts",
         "faq.title":"Frequently Asked Questions",
         "faq.q1":"Who can participate in BattleBots.me?",
-        "faq.a1":"The competition is open to young people aged 15-30 residing in Montenegro. Participants can join as individuals or teams (2-4 members). No prior robotics experience is required - our education bootcamp will provide all necessary foundational knowledge. We welcome students, young professionals, and anyone passionate about technology and innovation.",
+        "faq.a1":"The competition is open to young people aged 15–30 residing in Montenegro. You can apply solo or as a team (2–4 members). No prior experience is required—our bootcamp covers the basics.",
         "contact.title":"Want to join, mentor, or sponsor?",
-        "contact.name":"Your Name",
-        "contact.email":"Your Email",
-        "contact.select":"I want to...",
-        "contact.o0":"I want to...",
-        "contact.o1":"Participate in the competition",
-        "contact.o2":"Become a mentor",
-        "contact.o3":"Sponsor the event",
-        "contact.o4":"Become a partner",
-        "contact.o5":"Advertise with us",
-        "contact.message":"Tell us more about your interest...",
-        "contact.send":"Send Message",
-        "contact.or":"Or contact us directly:",
-        "footer.line1":"BattleBots.me - Engineering Arena for the Next Generation",
+        "contact.name":"Your Name","contact.email":"Your Email",
+        "contact.select":"I want to...","contact.o0":"I want to...","contact.o1":"Participate in the competition","contact.o2":"Become a mentor","contact.o3":"Sponsor the event","contact.o4":"Become a partner","contact.o5":"Advertise with us",
+        "contact.message":"Tell us more about your interest...","contact.send":"Send Message","contact.or":"Or contact us directly:",
+        "footer.line1":"BattleBots.me – Engineering Arena for the Next Generation",
         "footer.line2":"Organized by Hive Agency | Supported by doMEn (.ME) – Spark.me STEAM Adventure"
       },
-      me: {
-        "meta.title": "BattleBots.me – Inženjerska arena za novu generaciju",
-        "meta.desc": "Prvo STEAM takmičenje u robotici u Crnoj Gori za mlade 15–30. Dizajniraj, sastavi i odmjeri snage u našoj areni!",
-        brand: "BattleBots.me",
-        "nav.about": "O projektu",
-        "nav.how": "Kako funkcioniše",
-        "nav.participants": "Učesnici",
-        "nav.blog": "Vijesti",
-        "nav.faq": "FAQ",
-        "nav.contact": "Kontakt",
-        "hero.title": "BattleBots.me",
-        "hero.subtitle": "Prvo STEAM takmičenje u robotici u Crnoj Gori",
-        "hero.tagline": "Mjesto gdje mladi inovatori dizajniraju, prave i bore svoje robote",
-        "hero.cta": "Prijavi se",
-        "about.title": "O projektu",
-        "about.p1": "BattleBots.me je nacionalno STEAM takmičenje (nauka, tehnologija, inženjerstvo, umjetnost, matematika) za mlade uzrasta 15–30. Timovi osmišljavaju, programiraju i sklapaju borbene robote koji se nadmeću u live areni.",
-        "about.p2": "Projekat podržava Spark.me STEAM inicijativa i ima za cilj da podstakne inovacije, timski rad i praktične inženjerske vještine kod mladih u Crnoj Gori.",
-        "about.p3": "Inicijativa spaja edukaciju i zabavu – teorijsko znanje se pretvara u praksu. Učesnici stiču iskustvo iz robotike, programiranja, mehaničkog dizajna i projektnog menadžmenta dok se takmiče u najuzbudljivijem tech događaju u zemlji.",
-        "about.stat1t": "Gradova uključeno", "about.stat2t": "Finalnih timova", "about.stat3t": "Očekivanih učesnika", "about.stat4t": "Trajanje (mjeseci)",
-        "how.title": "Kako funkcioniše",
-        "how.p1title": "Edukativni bootcamp",
-        "how.p1desc": "Radionice u 5 gradova: robotika, Arduino, CAD, senzori i osnove programiranja.",
-        "how.p1l1": "• Arduino programiranje i osnove elektronike",
-        "how.p1l2": "• 3D CAD dizajn i modelovanje",
-        "how.p1l3": "• Integracija senzora i upravljački sistemi",
-        "how.p1l4": "• Mehanika robota i kretanje",
-        "how.p1l5": "• Timski rad i projektni menadžment",
-        "how.p2title": "Konstrukcija robota",
-        "how.p2desc": "10 izabranih timova pravi robote iz identičnih setova uz mentorsku podršku.",
-        "how.p2l1": "• Period izrade: 8 nedjelja",
-        "how.p2l2": "• Nedjeljni check-in sa mentorima",
-        "how.p2l3": "• Pristup radionicama i alatima",
-        "how.p2l4": "• Obuka i bezbjednosni protokoli",
-        "how.p2l5": "• Testiranje i iteracije",
-        "how.p3title": "Živa arena",
-        "how.p3desc": "Spektakularno finale u specijalnoj areni, uz stručni žiri i live stream.",
-        "how.p3l1": "• Eliminacioni turnir",
-        "how.p3l2": "• Live streaming i komentari",
-        "how.p3l3": "• Stručni žiri",
-        "how.p3l4": "• Ceremonija nagrada",
-        "how.p3l5": "• Medijska pokrivenost",
-        "why.title": "Zašto je važno",
+      me:{
+        "meta.title":"BattleBots.me – Inženjerska arena za novu generaciju",
+        "meta.desc":"Prvo STEAM takmičenje u robotici u Crnoj Gori za mlade 15–30. Dizajniraj, sastavi i odmjeri snage u našoj areni!",
+        brand:"BattleBots.me",
+        "nav.about":"O projektu","nav.how":"Kako funkcioniše","nav.participants":"Učesnici","nav.blog":"Vijesti","nav.faq":"FAQ","nav.contact":"Kontakt",
+        "hero.title":"BattleBots.me",
+        "hero.subtitle":"Prvo STEAM takmičenje u robotici u Crnoj Gori",
+        "hero.tagline":"Mjesto gdje mladi inovatori dizajniraju, prave i bore svoje robote",
+        "hero.cta":"Prijavi se",
+        "about.title":"O projektu",
+        "about.p1":"BattleBots.me je nacionalno STEAM takmičenje (nauka, tehnologija, inženjerstvo, umjetnost, matematika) za mlade uzrasta 15–30. Timovi osmišljavaju, programiraju i sklapaju borbene robote koji se nadmeću u live areni.",
+        "about.p2":"Projekat podržava Spark.me STEAM inicijativa i ima za cilj da podstakne inovacije, timski rad i praktične inženjerske vještine kod mladih u Crnoj Gori.",
+        "about.p3":"Inicijativa spaja edukaciju i zabavu – teorija prelazi u praksu. Učesnici stiču iskustvo iz robotike, programiranja, mehaničkog dizajna i projektnog menadžmenta, takmičeći se u najuzbudljivijem tech događaju u zemlji.",
+        "about.stat1t":"Gradova uključeno","about.stat2t":"Finalnih timova","about.stat3t":"Očekivanih učesnika","about.stat4t":"Trajanje (mjeseci)",
+        "how.title":"Kako funkcioniše",
+        "how.p1title":"Edukativni bootcamp",
+        "how.p1desc":"Radionice u 5 gradova: robotika, Arduino, CAD, senzori i osnove programiranja.",
+        "how.p1l1":"• Arduino programiranje i osnove elektronike",
+        "how.p1l2":"• 3D CAD dizajn i modelovanje",
+        "how.p1l3":"• Integracija senzora i upravljački sistemi",
+        "how.p1l4":"• Mehanika robota i kretanje",
+        "how.p1l5":"• Timski rad i projektni menadžment",
+        "how.p2title":"Konstrukcija robota",
+        "how.p2desc":"10 izabranih timova pravi robote iz identičnih setova uz mentorsku podršku.",
+        "how.p2l1":"• Period izrade: 8 nedjelja",
+        "how.p2l2":"• Nedjeljni check-in sa mentorima",
+        "how.p2l3":"• Pristup radionicama i alatima",
+        "how.p2l4":"• Obuka i bezbjednosni protokoli",
+        "how.p2l5":"• Testiranje i iteracije",
+        "how.p3title":"Živa arena",
+        "how.p3desc":"Spektakularno finale u specijalnoj areni, uz stručni žiri i live stream.",
+        "how.p3l1":"• Eliminacioni turnir",
+        "how.p3l2":"• Live streaming i komentari",
+        "how.p3l3":"• Stručni žiri",
+        "how.p3l4":"• Ceremonija nagrada",
+        "how.p3l5":"• Medijska pokrivenost",
+        "why.title":"Zašto je važno",
         "why.c1t":"Podstiče inovacije","why.c1d":"Primjena STEAM znanja u praksi",
         "why.c2t":"Gradi timski rad","why.c2d":"Saradnja i rješavanje problema",
         "why.c3t":"Stvara resurse","why.c3d":"Otvoreni tutorijali i materijali",
@@ -535,68 +499,51 @@
         "part.p1":"Vidljivost u medijima i brendiranje na licu mjesta",
         "part.p2":"Podržite prvo takmičenje u robotici u CG",
         "part.p3":"Direktan kontakt sa mladima, školama i fakultetima",
-        "blog.title":"Najnovije vijesti",
-        "blog.load":"Učitaj još objava",
+        "blog.title":"Najnovije vijesti","blog.load":"Učitaj još objava",
         "faq.title":"Najčešća pitanja",
         "faq.q1":"Ko može da učestvuje u BattleBots.me?",
-        "faq.a1":"Takmičenje je za mlade 15–30 iz Crne Gore. Možete se prijaviti pojedinačno ili u timu (2–4 člana). Predznanje nije potrebno – bootcamp obezbjeđuje osnove. Dobrodošli su srednjoškolci, studenti i svi koji vole tehnologiju i inovacije.",
+        "faq.a1":"Takmičenje je za mlade 15–30 iz Crne Gore. Možete se prijaviti pojedinačno ili u timu (2–4 člana). Predznanje nije potrebno – bootcamp obezbjeđuje osnove.",
         "contact.title":"Želiš da učestvuješ, mentoruješ ili sponzorišeš?",
-        "contact.name":"Tvoje ime",
-        "contact.email":"Tvoj email",
-        "contact.select":"Želim da...",
-        "contact.o0":"Želim da...",
-        "contact.o1":"Učestvujem na takmičenju",
-        "contact.o2":"Postanem mentor",
-        "contact.o3":"Sponzorišem događaj",
-        "contact.o4":"Postanem partner",
-        "contact.o5":"Oglašavam se kod vas",
-        "contact.message":"Reci nam više o interesovanju...",
-        "contact.send":"Pošalji poruku",
-        "contact.or":"Ili nas kontaktiraj direktno:",
+        "contact.name":"Tvoje ime","contact.email":"Tvoj email",
+        "contact.select":"Želim da...","contact.o0":"Želim da...","contact.o1":"Učestvujem na takmičenju","contact.o2":"Postanem mentor","contact.o3":"Sponzorišem događaj","contact.o4":"Postanem partner","contact.o5":"Oglašavam se kod vas",
+        "contact.message":"Reci nam više o interesovanju...","contact.send":"Pošalji poruku","contact.or":"Ili nas kontaktiraj direktno:",
         "footer.line1":"BattleBots.me – Inženjerska arena za novu generaciju",
         "footer.line2":"Organizuje Hive Agency | Podržali doMEn (.ME) – Spark.me STEAM Adventure"
       }
     };
 
-    function applyI18n(lang) {
-      const dict = i18n[lang] || i18n.en;
-
-      // Tekstovi (innerText/innerHTML)
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key] !== undefined) el.innerHTML = dict[key];
+    function applyI18n(lang){
+      const d=I18N[lang]||I18N.me;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const k=el.getAttribute('data-i18n');
+        if(d[k]!==undefined) el.innerHTML=d[k];
       });
-
-      // Placeholderi za input/select/textarea
-      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-        const key = el.getAttribute('data-i18n-ph');
-        if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+      document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+        const k=el.getAttribute('data-i18n-ph');
+        if(d[k]!==undefined) el.setAttribute('placeholder', d[k]);
       });
+      const titleEl=document.querySelector('title[data-i18n="meta.title"]');
+      if(titleEl && d["meta.title"]) titleEl.textContent=d["meta.title"];
+      const metaDesc=document.querySelector('meta[name="description"][data-i18n="meta.desc"]');
+      if(metaDesc && d["meta.desc"]) metaDesc.setAttribute('content', d["meta.desc"]);
 
-      // <title> i <meta description>
-      const titleEl = document.querySelector('title[data-i18n="meta.title"]');
-      if (titleEl && dict["meta.title"]) titleEl.textContent = dict["meta.title"];
-      const metaDesc = document.querySelector('meta[name="description"][data-i18n="meta.desc"]');
-      if (metaDesc && dict["meta.desc"]) metaDesc.setAttribute('content', dict["meta.desc"]);
+      document.getElementById('btn-en')?.classList.toggle('lang-active', lang==='en');
+      document.getElementById('btn-me')?.classList.toggle('lang-active', lang==='me');
 
-      // aktivni stil na dugmićima
-      document.getElementById('btn-en')?.classList.toggle('lang-active', lang === 'en');
-      document.getElementById('btn-me')?.classList.toggle('lang-active', lang === 'me');
-
-      // jezik na html tagu + localStorage
       document.documentElement.setAttribute('lang', lang);
       localStorage.setItem('bb-lang', lang);
     }
 
-    // Bind language buttons
-    document.getElementById('btn-en')?.addEventListener('click', () => applyI18n('en'));
-    document.getElementById('btn-me')?.addEventListener('click', () => applyI18n('me'));
+    // Bind
+    document.getElementById('btn-en')?.addEventListener('click',()=>applyI18n('en'));
+    document.getElementById('btn-me')?.addEventListener('click',()=>applyI18n('me'));
 
-    // Init language (memorija ili auto)
-    (function initLang(){
-      const saved = localStorage.getItem('bb-lang');
-      const fallback = (navigator.language || 'en').toLowerCase().startsWith('sr') || (navigator.language||'').toLowerCase().startsWith('hr') || (navigator.language||'').toLowerCase().startsWith('bs') ? 'me' : 'en';
-      applyI18n(saved || fallback);
+    // Init lang (remember or auto)
+    (function(){
+      const saved=localStorage.getItem('bb-lang');
+      const nav=(navigator.language||'en').toLowerCase();
+      const fallback=(nav.startsWith('sr')||nav.startsWith('hr')||nav.startsWith('bs')||nav.startsWith('me'))?'me':'en';
+      applyI18n(saved||fallback);
     })();
   </script>
 </body>
