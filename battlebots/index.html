@@ -79,22 +79,24 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind (tačno JEDNOM) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Custom CSS -->
+  <!-- Styles (uklj. flare) -->
   <style>
-    body { font-family:'Poppins',sans-serif; background:linear-gradient(135deg,#0a0a0a,#1a1a1a); color:#fff; }
-    .hero-bg { background:radial-gradient(ellipse at center, rgba(255,193,7,.10) 0%, transparent 70%), linear-gradient(135deg,#000,#111 50%,#000); }
-    .neon-text { color:#ffc107; text-shadow:0 0 10px rgba(255,193,7,.5); }
-    .cta-button { background:linear-gradient(45deg,#ffc107,#ff6b35); transition:.3s; }
-    .cta-button:hover { transform:scale(1.05); box-shadow:0 10px 25px rgba(255,193,7,.4); }
-    .robot-icon { animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a1a1a);color:#fff}
+    .hero-bg{background:
+      radial-gradient(ellipse at center, rgba(255,193,7,.10) 0%, transparent 70%),
+      linear-gradient(135deg,#000 0%, #111 50%, #000 100%)}
+    .neon-text{color:#ffc107;text-shadow:0 0 10px rgba(255,193,7,.5)}
+    .cta-button{background:linear-gradient(45deg,#ffc107,#ff6b35);transition:.3s}
+    .cta-button:hover{transform:scale(1.05);box-shadow:0 10px 25px rgba(255,193,7,.4)}
+    .robot-icon{animation:float 3s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
-    /* === Flare === */
-    #bb-flare {
-      width:20px; height:20px; border-radius:50%;
+    /* === FLARE (oko) === */
+    #bb-flare{
+      width:20px;height:20px;border-radius:50%;
       background:radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(255,255,255,0) 72%);
       filter:drop-shadow(0 0 12px rgba(255,255,255,1))
              drop-shadow(0 0 28px rgba(255,255,255,.95))
@@ -102,16 +104,16 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
       transform:translate(-50%,-50%);
       opacity:0;
     }
-    @keyframes flarePop {
-      0%   { opacity:0; transform:translate(-50%,-50%) scale(.35); }
-      6%   { opacity:1; transform:translate(-50%,-50%) scale(3.2); }
-      22%  { opacity:.98; transform:translate(-50%,-50%) scale(1.4); }
-      55%  { opacity:.75; transform:translate(-50%,-50%) translateX(15px) scale(1); }
-      100% { opacity:0; transform:translate(-50%,-50%) translateX(25px) scale(.9); }
+    @keyframes flarePop{
+      0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}
+      6%{opacity:1;transform:translate(-50%,-50%) scale(3.1)}
+      22%{opacity:.98;transform:translate(-50%,-50%) scale(1.35)}
+      55%{opacity:.75;transform:translate(-50%,-50%) translateX(15px) scale(1)}
+      100%{opacity:0;transform:translate(-50%,-50%) translateX(25px) scale(.9)}
     }
   </style>
 
-  <!-- Flare JS -->
+  <!-- Flare init -->
   <script>
     window.addEventListener('load', () => {
       const flare = document.getElementById('bb-flare');
@@ -119,6 +121,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
     });
   </script>
 </head>
+
 
 
 
