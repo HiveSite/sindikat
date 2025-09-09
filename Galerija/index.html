@@ -3,25 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sindikat – Galerija događaja</title>
-  <meta name="description" content="Foto i video galerija Sindikat događaja – pregled po kategorijama, lokacijama i godinama sa lightbox prikazom.">
+  <title>Sindikat – Popularni događaji, Blog & Galerija</title>
+  <meta name="description" content="Sindikat – popularni događaji, korisni blog savjeti i galerija radova. Filtriraj događaje, čitaj vodiče i pošalji upit.">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { montserrat: ['Montserrat','sans-serif'], inter: ['Inter','sans-serif'] },
-          colors: { gold: '#FFD700', 'electric-blue':'#00BFFF' }
-        }
-      }
-    }
+    tailwind.config = { theme:{ extend:{ fontFamily:{ montserrat:['Montserrat','sans-serif'], inter:['Inter','sans-serif'] }, colors:{ gold:'#FFD700', 'electric-blue':'#00BFFF' } } } }
   </script>
   <style>
     :root{ --nav-h:72px; }
     body{ padding-top:var(--nav-h); }
     html{ scroll-behavior:smooth; }
-    .gradient-gold{ background:linear-gradient(135deg,#FFD700, #FFA500); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+    .gradient-gold{ background:linear-gradient(135deg,#FFD700,#FFA500); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+    .gradient-blue{ background:linear-gradient(135deg,#00BFFF,#0080FF); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+    .card{ background:linear-gradient(135deg, rgba(0,0,0,.85), rgba(30,30,30,.95)); border:1px solid rgba(255,215,0,.18); }
+    .blog-card{ background:linear-gradient(135deg, rgba(255,215,0,.10), rgba(0,191,255,.10)); border:1px solid rgba(255,255,255,.10); backdrop-filter: blur(10px); }
     .gallery-item{ position:relative; overflow:hidden; cursor:pointer; }
     .gallery-item img{ transition:transform .5s ease; }
     .gallery-item:hover img{ transform:scale(1.08); }
@@ -35,23 +31,25 @@
     <div class="max-w-7xl mx-auto px-4 md:px-6 h-[72px] flex items-center justify-between">
       <a href="/" class="text-xl md:text-2xl font-bold font-montserrat gradient-gold">SINDIKAT</a>
       <div class="hidden md:flex items-center gap-6">
-        <a href="/" class="hover:text-gold">Početna</a>
+        <a href="#dogadjaji" class="hover:text-gold">Događaji</a>
+        <a href="#blog" class="hover:text-gold">Blog</a>
         <a href="#galerija" class="hover:text-gold">Galerija</a>
         <a href="#kontakt" class="bg-gold text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-500">Kontakt</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <header class="pt-28 pb-16 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold font-montserrat">Foto i Video <span class="gradient-gold">Galerija</span></h1>
-    <p class="mt-4 text-gray-300">3x3 mreža mockup fotografija sa lightbox prikazom.</p>
+  <!-- HERO / POČETNI DIO -->
+  <header class="pt-28 pb-16 text-center max-w-3xl mx-auto px-4">
+    <h1 class="text-4xl md:text-5xl font-bold font-montserrat">Popularni <span class="gradient-gold">događaji</span> + <span class="gradient-blue">Blog</span></h1>
+    <p class="mt-4 text-gray-300">Sve što ljudi najviše traže – i svi savjeti kako to uradimo bez stresa. Filtriraj po tipu, prelistaj ideje i pošalji upit za ponudu.</p>
   </header>
 
   <!-- GALERIJA -->
-  <main id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
+  <section id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
+    <h2 class="text-2xl md:text-3xl font-bold font-montserrat mb-8">Foto <span class="gradient-gold">galerija</span></h2>
     <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </main>
+  </section>
 
   <!-- LIGHTBOX -->
   <div id="lightbox" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50">
