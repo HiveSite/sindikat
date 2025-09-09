@@ -2192,22 +2192,53 @@ arrows[index].textContent = contents[index].classList.contains('active') ? '−'
 }
 
 // Form submission
-function handleSubmit(event) {
-event.preventDefault();
-const button = event.target.querySelector('button[type="submit"]');
-const originalText = button.textContent;
-const t = translations[currentLanguage];
+<script>
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxeLlYSaUqVvF8YJqj19W0cn5BBs_vntCgotqXr6RduNj360PGrEssYFiN1eVc1_YW1/exec";
 
-button.textContent = t.sending;
-button.disabled = true;
+  async function handleSubmit(event){
+    event.preventDefault();
 
-setTimeout(() => {
-alert(t.thankYou);
-button.textContent = originalText;
-button.disabled = false;
-event.target.reset();
-}, 1500);
-}
+    const form = event.target.closest('form') || document.getElementById('contactForm') || event.target;
+    // Pokupi SVE input/textarea/select iz forme po redosledu u DOM-u
+    const controls = Array.from(form.querySelectorAll('input, textarea, select'))
+      .filter(el => !el.disabled && el.type !== 'hidden' && el.type !== 'submit');
+
+    const fields = controls.map(el => (el.value ?? '').toString().trim());
+
+    // (opciono) disable dugme dok šalje
+    const btn = form.querySelector('[type="submit"], button[type="submit"]');
+    const originalBtnText = btn ? btn.textContent : null;
+    if (btn) { btn.disabled = true; btn.textContent = 'Slanje...'; }
+
+    const payload = {
+      fields,                 // niz vrijednosti po redosledu polja u formi
+      page: location.href     // dodatna meta info (vidi se u Sheet-u)
+    };
+
+    try{
+      const res = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json().catch(()=>({ok:false}));
+      if (res.ok && data?.ok) {
+        // uspjeh
+        form.reset?.();
+        alert('Hvala! Vaša poruka je uspješno poslata ✅');
+      } else {
+        throw new Error('Neuspješno slanje (server odgovor nije OK).');
+      }
+    } catch(err){
+      console.error(err);
+      alert('Uh! Došlo je do greške pri slanju. Pokušajte ponovo.');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = originalBtnText; }
+    }
+  }
+</script>
+
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2279,6 +2310,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
