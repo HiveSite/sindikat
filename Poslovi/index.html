@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sindikat Poslovi – Zaposli se ili nađi talente</title>
-  <meta name="description" content="Sindikat Poslovi – pretraži oglase, apliciraj u par klikova ili objavi posao. Kategorije, filteri, sačuvani oglasi, e‑mail upozorenja." />
+  <meta name="description" content="Sindikat Poslovi – pretraži oglase, apliciraj u par klikova ili objavi posao. Kategorije, filteri, sačuvani oglasi, e-mail upozorenja." />
   <meta name="keywords" content="poslovi, zapošljavanje, karijera, oglasi za posao, praksa, freelance, Montenegro, Podgorica, zaposli.me, prekoveze.me" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -32,54 +32,56 @@
     .chip{ border:1px solid rgba(255,255,255,.15); }
     .modal-bg{ background: rgba(0,0,0,.65); backdrop-filter: blur(6px); }
     .ad .ad-frame{ position:relative; border:1px dashed rgba(255,255,255,.18); background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); border-radius:12px; }
-  .ad .ad-frame::after{ content:''; position:absolute; inset:0; border-radius:inherit; box-shadow: inset 0 0 0 1px rgba(255,215,0,.15); pointer-events:none; }
-  .hero-bg{ position:relative; overflow:hidden; }
-</style>
+    .ad .ad-frame::after{ content:''; position:absolute; inset:0; border-radius:inherit; box-shadow: inset 0 0 0 1px rgba(255,215,0,.15); pointer-events:none; }
+    .hero-bg{ position:relative; overflow:hidden; }
 
-  <!-- Hotjar (zadržano) -->
-  <script>
-    (function(h,o,t,j,a,r){
-      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-      h._hjSettings={hjid:6507224,hjsv:6};
-      a=o.getElementsByTagName('head')[0]; r=o.createElement('script');r.async=1;
-      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv; a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-  </script>
-  <!-- GA (zadržano) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7PK0H518PG"></script>
-  <script> window.dataLayer=window.dataLayer||[]; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','G-7PK0H518PG'); </script>
+    /* === DODATO: util za mobile overlay === */
+    .touch-target{ padding:10px 4px; }
+    .mobile-open #mobileOverlay{ opacity:1; pointer-events:auto; }
+    .mobile-open #mobileMenuBtn{ outline:1px solid rgba(255,215,0,.35); }
+  </style>
 </head>
 <body>
   <!-- NAV -->
   <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
       <a href="#" class="text-2xl font-extrabold gradient-gold">SINDIKAT POSLOVI</a>
-     <div class="hidden md:flex items-center gap-6 text-sm">
-<a href="https://weareconnect.me/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-<a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-<a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-<a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-<a href="#about" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
-<a href="#contact" class="bg-gold hover:bg-yellow-500 text-black px-4 xl:px-6 py-2 rounded-full font-semibold transition-all hover:scale-105 btn-animate text-sm xl:text-base">Kontakt</a>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="https://weareconnect.me/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
+        <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
+        <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
+        <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
+        <a href="#about" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
+        <a href="#contact" class="bg-gold hover:bg-yellow-500 text-black px-4 xl:px-6 py-2 rounded-full font-semibold transition-all hover:scale-105 btn-animate text-sm xl:text-base">Kontakt</a>
         <button id="openPostJob" class="px-4 py-2 rounded-full bg-gold text-black font-semibold hover:brightness-95 shadow-glow">Objavi oglas</button>
-        
       </div>
-      <button id="mobileMenuBtn" class="md:hidden text-2xl">☰</button>
+
+      <!-- Hamburger (ostaje isti ID) -->
+      <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition"
+              aria-label="Otvori meni" aria-expanded="false" aria-controls="mobileOverlay">☰</button>
     </div>
-    <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-800 bg-black">
-      <div class="px-4 py-3 flex flex-col gap-2 text-sm">
-   <a href="#home" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Početna</a>
-<a href="https://weareconnect.me/poslovi/" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Poslovi</a>
-<a href="#https://weareconnect.me/blog/" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Blog</a>
-<a href="#https://weareconnect.me/galerija/" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">Galerija</a>
-<a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold transition-colors touch-target">O nama</a>
-<a href="#contact" onclick="toggleMobileMenu()" class="bg-gold hover:bg-yellow-500 text-black px-6 md:px-8 py-3 rounded-full font-semibold transition-all btn-animate">Kontakt</a>
-  </div>
-        <button id="openPostJobM" class="mt-2 px-4 py-2 rounded-full bg-gold text-black font-semibold">Objavi oglas</button>
-        
-      </div>
-    </div>
+
+    <!-- (postojeci) stari mobileMenu ostavljam, ali ga ne koristimo više -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-800 bg-black"></div>
   </nav>
+
+  <!-- DODATO: MOBILE OVERLAY MENI (crna pozadina) -->
+  <div id="mobileOverlay" class="fixed inset-0 z-[49] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="absolute top-[72px] left-0 right-0">
+      <nav class="px-4 pt-4 pb-16 space-y-2">
+        <a href="https://weareconnect.me/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
+        <a href="https://weareconnect.me/poslovi/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
+        <a href="https://weareconnect.me/blog/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
+        <a href="https://weareconnect.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
+        <a href="#about"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
+        <a href="#contact" class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+        <button id="openPostJobM" class="w-full mt-2 px-4 py-3 rounded-xl bg-gold text-black font-semibold hover:brightness-95">Objavi oglas</button>
+      </nav>
+    </div>
+    <button id="mobileClose" class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition" aria-label="Zatvori meni">
+      <span class="text-2xl leading-none">×</span>
+    </button>
+  </div>
 
   <!-- AD: Leaderboard -->
   <div class="ad ad-leaderboard border-y border-neutral-900 bg-neutral-950">
@@ -124,8 +126,8 @@
         <button id="searchBtn" class="px-6 py-3 rounded-xl bg-gold text-black font-bold hover:brightness-95">Pretraži</button>
       </div>
       <div class="mt-4 flex flex-wrap gap-2 justify-center text-sm">
-        <button class="chip px-3 py-1 rounded-full" data-chip>Full‑time</button>
-        <button class="chip px-3 py-1 rounded-full" data-chip>Part‑time</button>
+        <button class="chip px-3 py-1 rounded-full" data-chip>Full-time</button>
+        <button class="chip px-3 py-1 rounded-full" data-chip>Part-time</button>
         <button class="chip px-3 py-1 rounded-full" data-chip>Sezonski</button>
         <button class="chip px-3 py-1 rounded-full" data-chip>Praksa</button>
         <button class="chip px-3 py-1 rounded-full" data-chip>Remote</button>
@@ -225,25 +227,26 @@
         </div>
       </div>
     </section>
+
     <!-- Partner baneri -->
-  <section id="banners" class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 class="text-2xl md:text-3xl font-extrabold mb-6">Baneri partnera</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href="#" class="block">
-        <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
-      </a>
-      <a href="#" class="block">
-        <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
-      </a>
-      <a href="#" class="block">
-        <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
-      </a>
-      <a href="#" class="block">
-        <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
-      </a>
-    </div>
-  </section>
-</main>
+    <section id="banners" class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl md:text-3xl font-extrabold mb-6">Baneri partnera</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a href="#" class="block">
+          <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
+        </a>
+        <a href="#" class="block">
+          <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
+        </a>
+        <a href="#" class="block">
+          <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
+        </a>
+        <a href="#" class="block">
+          <div class="ad ad-banner"><div class="ad-frame h-28 flex items-center justify-center">BANER 300×250</div></div>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="border-t border-neutral-900 mt-10">
@@ -257,21 +260,20 @@
         <ul class="space-y-1 text-neutral-400">
           <li><a href="#jobs" class="hover:text-gold">Pretraga poslova</a></li>
           <li><a href="#categories" class="hover:text-gold">Kategorije</a></li>
-          <li><a href="#" id="openAlerts" class="hover:text-gold">E‑mail upozorenja</a></li>
+          <li><a href="#" id="openAlerts" class="hover:text-gold">E-mail upozorenja</a></li>
         </ul>
       </div>
       <div>
         <p class="font-bold mb-2">Za poslodavce</p>
         <ul class="space-y-1 text-neutral-400">
           <li><button id="openPostJob3" class="hover:text-gold">Objavi oglas</button></li>
-          
         </ul>
       </div>
     </div>
     <div class="text-center text-neutral-600 text-xs pb-8">© <span id="year"></span> Sindikat. Sva prava zadržana.</div>
   </footer>
 
-  <!-- MODALS -->
+  <!-- MODALS (neizmijenjeni) -->
   <!-- Post a Job Modal -->
   <div id="postJobModal" class="hidden fixed inset-0 z-[60] modal-bg flex items-center justify-center p-4">
     <div class="w-full max-w-2xl glass rounded-2xl p-6">
@@ -306,8 +308,8 @@
         <div>
           <label class="block mb-1">Tip</label>
           <select name="type" class="w-full bg-black/40 rounded-md px-3 py-2">
-            <option>Full‑time</option>
-            <option>Part‑time</option>
+            <option>Full-time</option>
+            <option>Part-time</option>
             <option>Praksa</option>
             <option>Sezonski</option>
             <option>Freelance</option>
@@ -323,7 +325,7 @@
           <textarea name="desc" rows="4" class="w-full bg-black/40 rounded-md px-3 py-2" placeholder="Kratak opis posla, odgovornosti, benefiti…"></textarea>
         </div>
         <div class="md:col-span-2">
-          <label class="block mb-1">Link za prijavu ili e‑mail</label>
+          <label class="block mb-1">Link za prijavu ili e-mail</label>
           <input name="apply" class="w-full bg-black/40 rounded-md px-3 py-2" placeholder="npr. hr@firma.me ili https://…" />
         </div>
         <div class="md:col-span-2 flex items-center justify-end gap-3 mt-2">
@@ -348,7 +350,7 @@
           <input name="name" required class="w-full bg-black/40 rounded-md px-3 py-2" />
         </div>
         <div>
-          <label class="block mb-1">E‑mail</label>
+          <label class="block mb-1">E-mail</label>
           <input name="email" type="email" required class="w-full bg-black/40 rounded-md px-3 py-2" />
         </div>
         <div>
@@ -371,7 +373,7 @@
   <div id="alertsModal" class="hidden fixed inset-0 z-[60] modal-bg flex items-center justify-center p-4">
     <div class="w-full max-w-md glass rounded-2xl p-6">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xl font-extrabold">E‑mail upozorenja</h3>
+        <h3 class="text-xl font-extrabold">E-mail upozorenja</h3>
         <button data-close class="text-2xl">✕</button>
       </div>
       <form id="alertsForm" class="grid gap-3 text-sm">
@@ -389,26 +391,26 @@
     // --- Data (mock + localStorage) ---
     const baseJobs = [
       { id: 'j1', title: 'Barmen (sezonski)', company: 'Hotel Splendid', location: 'Budva', category: 'Ugostiteljstvo', type: 'Sezonski', pay: 1000, posted: '2025-09-05', desc: 'Iskustvo u koktelima, rad u smjenama, obezbijeđen smještaj.', apply: 'hr@splendid.me' },
-      { id: 'j2', title: 'Junior Social Media Manager', company: 'HIVE Agency', location: 'Podgorica', category: 'Marketing & Dizajn', type: 'Full‑time', pay: 800, posted: '2025-09-03', desc: 'Kreiranje sadržaja, analitika, plan objava. Prednost poznavanje Canva & Meta Suite.', apply: 'https://forms.gle/example' },
+      { id: 'j2', title: 'Junior Social Media Manager', company: 'HIVE Agency', location: 'Podgorica', category: 'Marketing & Dizajn', type: 'Full-time', pay: 800, posted: '2025-09-03', desc: 'Kreiranje sadržaja, analitika, plan objava. Prednost poznavanje Canva & Meta Suite.', apply: 'https://forms.gle/example' },
       { id: 'j3', title: 'DJ za evente (freelance)', company: 'ProSound CG', location: 'Podgorica / terenski', category: 'Audio/Video & Produkcija', type: 'Freelance', pay: 70, posted: '2025-09-01', desc: 'Svirke po eventima, sopstvena oprema prednost.', apply: 'talents@prosnd.me' },
-      { id: 'j4', title: 'Koordinator događaja', company: 'Sindikat', location: 'Podgorica', category: 'Event menadžment', type: 'Full‑time', pay: 900, posted: '2025-08-30', desc: 'Organizacija i logistika, rad sa dobavljačima, vođenje timova.', apply: 'people@sindikat.me' },
-      { id: 'j5', title: 'Fotograf (part‑time)', company: 'HIVE Agency', location: 'Nikšić', category: 'Audio/Video & Produkcija', type: 'Part‑time', pay: 600, posted: '2025-09-06', desc: 'Event i lifestyle fotografija, portfolio obavezan.', apply: 'https://hive.me/jobs/foto' },
-      { id: 'j6', title: 'Front‑End praktikant', company: 'StartUp Podgorica', location: 'Remote', category: 'IT & Digital', type: 'Praksa', pay: 0, posted: '2025-08-28', desc: 'HTML/CSS/JS osnove, mentorstvo i realni projekti.', apply: 'dev@supg.me' },
+      { id: 'j4', title: 'Koordinator događaja', company: 'Sindikat', location: 'Podgorica', category: 'Event menadžment', type: 'Full-time', pay: 900, posted: '2025-08-30', desc: 'Organizacija i logistika, rad sa dobavljačima, vođenje timova.', apply: 'people@sindikat.me' },
+      { id: 'j5', title: 'Fotograf (part-time)', company: 'HIVE Agency', location: 'Nikšić', category: 'Audio/Video & Produkcija', type: 'Part-time', pay: 600, posted: '2025-09-06', desc: 'Event i lifestyle fotografija, portfolio obavezan.', apply: 'https://hive.me/jobs/foto' },
+      { id: 'j6', title: 'Front-End praktikant', company: 'StartUp Podgorica', location: 'Remote', category: 'IT & Digital', type: 'Praksa', pay: 0, posted: '2025-08-28', desc: 'HTML/CSS/JS osnove, mentorstvo i realni projekti.', apply: 'dev@supg.me' },
 
-      { id: 'j7', title: 'Konobar', company: 'Hard Rock Cafe Podgorica', location: 'Podgorica', category: 'Ugostiteljstvo', type: 'Full‑time', pay: 700, posted: '2025-09-08', desc: 'Usluživanje gostiju, rad u smjenama, poželjno iskustvo 1+ godina.', apply: 'jobs@hrcpg.me' },
-      { id: 'j8', title: 'Barista (part‑time)', company: 'Kafeterija Central', location: 'Podgorica', category: 'Ugostiteljstvo', type: 'Part‑time', pay: 450, posted: '2025-09-04', desc: 'Priprema espresso napitaka, rad sa gostima, higijena aparata.', apply: 'central@kafe.me' },
+      { id: 'j7', title: 'Konobar', company: 'Hard Rock Cafe Podgorica', location: 'Podgorica', category: 'Ugostiteljstvo', type: 'Full-time', pay: 700, posted: '2025-09-08', desc: 'Usluživanje gostiju, rad u smjenama, poželjno iskustvo 1+ godina.', apply: 'jobs@hrcpg.me' },
+      { id: 'j8', title: 'Barista (part-time)', company: 'Kafeterija Central', location: 'Podgorica', category: 'Ugostiteljstvo', type: 'Part-time', pay: 450, posted: '2025-09-04', desc: 'Priprema espresso napitaka, rad sa gostima, higijena aparata.', apply: 'central@kafe.me' },
       { id: 'j9', title: 'Hostesa (sezona)', company: 'Beach Club Tropic', location: 'Budva', category: 'Ugostiteljstvo', type: 'Sezonski', pay: 900, posted: '2025-09-02', desc: 'Komunikativnost i poznavanje engleskog. Smještaj obezbijeđen.', apply: 'apply@tropic.me' },
       { id: 'j10', title: 'Grafički dizajner', company: 'Studio Pixel', location: 'Remote', category: 'Marketing & Dizajn', type: 'Remote', pay: 1200, posted: '2025-09-07', desc: 'Adobe CC (AI, PS), brendiranje, social vizuali. Portfolio obavezan.', apply: 'https://pixel.me/hire' },
       { id: 'j11', title: 'Copywriter (freelance)', company: 'ContentLab', location: 'Remote', category: 'Marketing & Dizajn', type: 'Freelance', pay: 30, posted: '2025-09-04', desc: 'Pisanje kampanjskih i web tekstova. Plaćanje po satu/projektu.', apply: 'talent@contentlab.io' },
-      { id: 'j12', title: 'Backend Developer (Node.js)', company: 'Logate', location: 'Podgorica', category: 'IT & Digital', type: 'Full‑time', pay: 1800, posted: '2025-09-05', desc: 'Node.js, SQL/NoSQL, REST. Iskustvo sa Docker/K8s prednost.', apply: 'careers@logate.com' },
-      { id: 'j13', title: 'Video montažer', company: 'ProSound CG', location: 'Podgorica', category: 'Audio/Video & Produkcija', type: 'Part‑time', pay: 600, posted: '2025-09-03', desc: 'Rez i kolor korekcija, poznavanje Premiere/DaVinci.', apply: 'edit@prosnd.me' },
+      { id: 'j12', title: 'Backend Developer (Node.js)', company: 'Logate', location: 'Podgorica', category: 'IT & Digital', type: 'Full-time', pay: 1800, posted: '2025-09-05', desc: 'Node.js, SQL/NoSQL, REST. Iskustvo sa Docker/K8s prednost.', apply: 'careers@logate.com' },
+      { id: 'j13', title: 'Video montažer', company: 'ProSound CG', location: 'Podgorica', category: 'Audio/Video & Produkcija', type: 'Part-time', pay: 600, posted: '2025-09-03', desc: 'Rez i kolor korekcija, poznavanje Premiere/DaVinci.', apply: 'edit@prosnd.me' },
       { id: 'j14', title: 'Event asistent (praksa)', company: 'Sindikat', location: 'Podgorica', category: 'Event menadžment', type: 'Praksa', pay: 0, posted: '2025-09-06', desc: 'Terenska logistika, koordinacija partnera, rad vikendom po potrebi.', apply: 'events@sindikat.me' },
-      { id: 'j15', title: 'Recepcionar', company: 'Hotel Azul', location: 'Tivat', category: 'Ugostiteljstvo', type: 'Full‑time', pay: 800, posted: '2025-09-08', desc: 'Check‑in/out, rad sa PMS sistemom, engleski obavezan.', apply: 'hr@azul.me' },
+      { id: 'j15', title: 'Recepcionar', company: 'Hotel Azul', location: 'Tivat', category: 'Ugostiteljstvo', type: 'Full-time', pay: 800, posted: '2025-09-08', desc: 'Check-in/out, rad sa PMS sistemom, engleski obavezan.', apply: 'hr@azul.me' },
       { id: 'j16', title: 'QA Tester', company: 'DevWorks', location: 'Remote', category: 'IT & Digital', type: 'Remote', pay: 1000, posted: '2025-09-02', desc: 'Pisanje test slučajeva, manuelno testiranje web/app.', apply: 'qa@devworks.io' },
-      { id: 'j17', title: 'Office administrator', company: 'GreenBuild', location: 'Podgorica', category: 'Administracija', type: 'Full‑time', pay: 700, posted: '2025-09-01', desc: 'Dokumentacija, nabavke, koordinacija sastanaka. MS Office.', apply: 'office@greenbuild.me' },
-      { id: 'j18', title: 'Pomoćni kuvar', company: 'Seaside Restaurant', location: 'Kotor', category: 'Ugostiteljstvo', type: 'Full‑time', pay: 650, posted: '2025-08-31', desc: 'Priprema namirnica, pomoć glavnom kuvaru, održavanje higijene.', apply: 'kitchen@seaside.me' },
+      { id: 'j17', title: 'Office administrator', company: 'GreenBuild', location: 'Podgorica', category: 'Administracija', type: 'Full-time', pay: 700, posted: '2025-09-01', desc: 'Dokumentacija, nabavke, koordinacija sastanaka. MS Office.', apply: 'office@greenbuild.me' },
+      { id: 'j18', title: 'Pomoćni kuvar', company: 'Seaside Restaurant', location: 'Kotor', category: 'Ugostiteljstvo', type: 'Full-time', pay: 650, posted: '2025-08-31', desc: 'Priprema namirnica, pomoć glavnom kuvaru, održavanje higijene.', apply: 'kitchen@seaside.me' },
       { id: 'j19', title: 'Zvučni tehničar (freelance)', company: 'EventPro', location: 'Budva', category: 'Audio/Video & Produkcija', type: 'Freelance', pay: 80, posted: '2025-09-09', desc: 'Live ozvučenje i miks, rad na eventima. Plaćanje po satu.', apply: 'sound@eventpro.me' },
-      { id: 'j20', title: 'Community Manager (PT, remote)', company: 'StartUp Hub Montenegro', location: 'Remote', category: 'Marketing & Dizajn', type: 'Part‑time', pay: 500, posted: '2025-09-09', desc: 'Vođenje zajednice, moderacija Discord/Telegram, osnovni dizajn.', apply: 'https://startuphub.me/jobs/cm' }
+      { id: 'j20', title: 'Community Manager (PT, remote)', company: 'StartUp Hub Montenegro', location: 'Remote', category: 'Marketing & Dizajn', type: 'Part-time', pay: 500, posted: '2025-09-09', desc: 'Vođenje zajednice, moderacija Discord/Telegram, osnovni dizajn.', apply: 'https://startuphub.me/jobs/cm' }
     ];
 
     const perPage = 5;
@@ -445,7 +447,7 @@
         <div class="mt-4 flex items-center gap-3">
           <button class="apply px-4 py-2 rounded-md bg-gold text-black font-semibold" data-id="${j.id}">Prijavi se</button>
           ${j.apply?.startsWith('http')?`<a target="_blank" href="${j.apply}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Prijava na link</a>`:''}
-          ${j.apply?.includes('@')?`<a href="mailto:${j.apply}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Pošalji e‑mail</a>`:''}
+          ${j.apply?.includes('@')?`<a href="mailto:${j.apply}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Pošalji e-mail</a>`:''}
         </div>
       </article>`;
 
@@ -460,7 +462,7 @@
         </a>
       </div>`;
 
-    const types = ['Full‑time','Part‑time','Sezonski','Praksa','Freelance','Remote'];
+    const types = ['Full-time','Part-time','Sezonski','Praksa','Freelance','Remote'];
     const typeFiltersWrap = document.getElementById('typeFilters');
     if(typeFiltersWrap){
       types.forEach(t=>{
@@ -490,7 +492,7 @@
     document.getElementById('clearFilters').addEventListener('click', ()=>{
       chips.clear(); document.querySelectorAll('[data-chip]').forEach(c=>c.classList.remove('border-gold'));
       ['q','loc','cat','minPay','maxPay'].forEach(id=>{ const e=el(id); if(e) e.value=''; });
-    ;['cat','minPay','maxPay'].forEach(id=>{ const n=el(id); if(n) n.addEventListener('change', ()=>{ page=1; render(); }); });
+      ;['cat','minPay','maxPay'].forEach(id=>{ const n=el(id); if(n) n.addEventListener('change', ()=>{ page=1; render(); }); });
       document.querySelectorAll('#typeFilters input').forEach(cb=>cb.checked=false);
       page=1; render();
     });
@@ -599,12 +601,29 @@
     });
 
     document.getElementById('alertsForm').addEventListener('submit', (e)=>{
-      e.preventDefault(); toast('E‑mail upozorenje aktivirano ✅'); el('alertsModal').classList.add('hidden'); });
+      e.preventDefault(); toast('E-mail upozorenje aktivirano ✅'); el('alertsModal').classList.add('hidden'); });
 
-    // Mobile menu
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    mobileBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
+    /* === DODATO: Mobile overlay meni JS === */
+    const mobileBtn   = document.getElementById('mobileMenuBtn');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const mobileClose = document.getElementById('mobileClose');
+
+    function toggleMobileMenu(force){
+      const open = (typeof force === 'boolean') ? force : !document.body.classList.contains('mobile-open');
+      document.body.classList.toggle('mobile-open', open);
+      document.documentElement.classList.toggle('mobile-open', open);
+      mobileBtn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // Zaključaj skrol
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    window.toggleMobileMenu = toggleMobileMenu;
+
+    mobileBtn?.addEventListener('click', ()=>toggleMobileMenu());
+    mobileClose?.addEventListener('click', ()=>toggleMobileMenu(false));
+    mobileOverlay?.addEventListener('click', (e)=>{ if(e.target===mobileOverlay) toggleMobileMenu(false); });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') toggleMobileMenu(false); });
+    // Zatvori na klik bilo kog linka u overlay meniju
+    mobileOverlay?.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>toggleMobileMenu(false)));
 
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
