@@ -101,14 +101,62 @@
     </script>
 
 <script>
-  // === KONFIG: TVOJ Apps Script endpoint ===
+  // === KONFIG: tvoj Apps Script endpoint ===
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzszJfPVFsVbFBH980wgS_Rm3iL-GdttjPYzGdZp8UKlO4qJr39JqFzuHav-0TBhMfX/exec";
-
-  // UX poruke
-  const MSG_SENDING = "Šaljemo…";
+  const MSG_SENDING = "Šalje se...";
   const MSG_SUCCESS = "Hvala! Vaša poruka je primljena.";
   const MSG_ERROR   = "Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.";
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const form = e.target; // <- nema više zavisnosti od #contactForm
+    const btn  = form.querySelector('#submitBtn') || form.querySelector('button[type="submit"]');
+    const msg  = document.getElementById('formMsg');
+
+    // upiši URL stranice u hidden polje
+    const pageUrlField = form.querySelector('input[name="pageURL"]');
+    if (pageUrlField) pageUrlField.value = window.location.href;
+
+    const oldText = btn ? btn.textContent : '';
+
+    try {
+      if (btn) { btn.disabled = true; btn.textContent = MSG_SENDING; }
+      if (msg) { msg.style.display = 'none'; msg.textContent = ''; }
+
+      // brza validacija
+      const ime = (form.ime?.value || '').trim();
+      const email = (form.email?.value || '').trim();
+      if (ime.length < 2) throw new Error("Unesite ispravno ime.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Unesite ispravan email.");
+
+      // pošalji kao x-www-form-urlencoded (bez preflighta)
+      const body = new URLSearchParams(new FormData(form));
+      const res  = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8" },
+        body
+      });
+
+      let data = null;
+      try { data = await res.json(); } catch(_) {}
+      if (!res.ok || (data && data.ok === false)) {
+        const detail = data?.error ? ` Detalji: ${data.error}` : '';
+        throw new Error("Server je vratio grešku." + detail);
+      }
+
+      if (msg) { msg.textContent = MSG_SUCCESS; msg.style.color = "#16a34a"; msg.style.display = "block"; }
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      if (msg) { msg.textContent = err.message.includes("Unesite") ? err.message : MSG_ERROR; msg.style.color = "#dc2626"; msg.style.display = "block"; }
+      else alert(MSG_ERROR);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = oldText || "Pošalji"; }
+    }
+  }
 </script>
+
 
 </head>
 
@@ -1276,13 +1324,20 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-20 px-6 bg-black">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Stupite u <span class="gradient-gold">Kontakt</span></h2>
-            <div class="grid lg:grid-cols-3 gap-16">
-                <div class="fade-in lg:col-span-2">
-                    <h3 class="text-2xl font-semibold font-montserrat mb-8">Planirajmo Vaš Savršen Događaj</h3>
-                    <form id="contactForm" onsubmit="handleSubmit(event)">
+   <section id="contact" class="py-16 bg-gray-900">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8">Kontaktirajte nas</h2>
+
+    <!-- NOVA FORMA -->
+    <form id="contactForm" class="space-y-6" onsubmit="handleSubmit(event)">
+      ...
+      (sadržaj koji si mi poslao)
+      ...
+    </form>
+
+  </div>
+</section>
+
   <!-- Ime -->
   <input type="text" name="ime" id="ime" placeholder="Vaše ime" required>
 
@@ -2361,6 +2416,7 @@
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
