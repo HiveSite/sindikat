@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sindikat 2.0 – Nova generacija događaja</title>
+    <meta
+      name="description"
+      content="Nova verzija Sindikat sajta – moderni događaji, blog, galerija, poslovi, partneri. Brži, pregledniji, više interaktivnosti."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              montserrat: ["Montserrat", "sans-serif"],
+              inter: ["Inter", "sans-serif"],
+            },
+            colors: {
+              gold: "#FFD700",
+              "electric-blue": "#00BFFF",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --nav-h: 72px;
+      }
+      body {
+        padding-top: var(--nav-h);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      .gradient-gold {
+        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .gradient-blue {
+        background: linear-gradient(135deg, #00bfff 0%, #0080ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.85) 0%,
+          rgba(30, 30, 30, 0.95) 100%
+        );
+        border: 1px solid rgba(255, 215, 0, 0.18);
+      }
+      .btn-animate {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease;
+      }
+      .btn-animate::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        left: -120%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.22),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+      .btn-animate:hover::before {
+        left: 120%;
+      }
+      .btn-animate:hover {
+        transform: translateY(-2px);
+      }
+      .tag {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      .partners-scroller {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+      }
+      .partners-scroller > div {
+        scroll-snap-align: start;
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white font-inter">
+    <!-- Language Switcher -->
+    <div
+      class="lang-switch"
+      style="position: fixed; top: 16px; right: 16px; z-index: 100"
+    >
+      <button
+        id="langBtn"
+        class="bg-gold text-black px-4 py-2 rounded-full font-bold"
+      >
+        EN
+      </button>
+    </div>
+    <!-- NAV -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-gray-800"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 md:px-6 h-[72px] flex items-center justify-between"
+      >
+        <a
+          href="#"
+          class="text-xl md:text-2xl font-bold font-montserrat gradient-gold"
+          id="navBrand"
+          >SINDIKAT</a
+        >
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#dogadjaji" class="hover:text-gold">Događaji</a>
+          <a href="#blog" class="hover:text-gold">Blog</a>
+          <a href="#galerija" class="hover:text-gold">Galerija</a>
+          <a href="#poslovi" class="hover:text-gold">Poslovi</a>
+          <a
+            href="#kontakt"
+            class="bg-gold text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 btn-animate"
+            >Kontakt</a
+          >
+        </div>
+        <button id="navBtn" class="md:hidden text-2xl">&#9776;</button>
+      </div>
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden border-t border-gray-800 bg-black/98"
+      >
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-4 text-lg">
+          <a href="#dogadjaji" class="hover:text-gold">Događaji</a>
+          <a href="#blog" class="hover:text-gold">Blog</a>
+          <a href="#galerija" class="hover:text-gold">Galerija</a>
+          <a href="#poslovi" class="hover:text-gold">Poslovi</a>
+          <a
+            href="#kontakt"
+            class="bg-gold text-black px-5 py-3 rounded-full font-semibold hover:bg-yellow-500"
+            >Kontakt</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header
+      class="bg-[radial-gradient(ellipse_at_top,rgba(255,215,0,.08),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,191,255,.08),transparent_60%)]"
+    >
+      <div class="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 text-center">
+        <h1
+          class="text-4xl md:text-6xl font-bold font-montserrat leading-tight"
+          id="heroTitle"
+        >
+          Sve za vaš događaj <span class="gradient-gold">na jednom mestu</span>
+        </h1>
+        <p class="mt-6 text-gray-300 text-lg md:text-xl" id="heroDesc">
+          Brza organizacija, profesionalni tim, bez stresa.
+        </p>
+        <a
+          href="#dogadjaji"
+          class="mt-8 inline-block bg-gold text-black px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-500 btn-animate"
+          id="heroBtn"
+          >Pogledaj događaje</a
+        >
+      </div>
+    </header>
+
+    <!-- PARTNERI -->
+    <section
+      class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800"
+    >
+      <div
+        class="max-w-7xl mx-auto flex gap-3 overflow-x-auto partners-scroller"
+      >
+        <div
+          class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-gold/30"
+        >
+          <div class="text-center">
+            <div class="text-gold text-xs font-semibold" id="partner1">
+              PREMIUM PARTNER
+            </div>
+            <div class="font-bold">Hotel Splendid</div>
+          </div>
+        </div>
+        <div
+          class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-electric-blue/30"
+        >
+          <div class="text-center">
+            <div class="text-electric-blue text-xs font-semibold" id="partner2">
+              AUDIO PARTNER
+            </div>
+            <div class="font-bold">ProSound CG</div>
+          </div>
+        </div>
+        <div
+          class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-gold/30"
+        >
+          <div class="text-center">
+            <div class="text-gold text-xs font-semibold" id="partner3">
+              CATERING PARTNER
+            </div>
+            <div class="font-bold">Gourmet Events</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOGAĐAJI -->
+    <main id="dogadjaji" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
+      <h2 class="text-3xl font-bold font-montserrat mb-8">
+        <span id="eventsTitle"
+          >Popularni <span class="gradient-gold">događaji</span></span
+        >
+      </h2>
+      <div
+        class="flex gap-6 overflow-x-auto pb-4"
+        style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch"
+      >
+        <!-- Example event cards -->
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2" id="event1">
+            Korporativna konferencija
+          </h3>
+          <p class="text-gray-300 mb-2" id="event1desc">
+            Konferencijska produkcija, LED ekran, coffee break.
+          </p>
+          <span class="tag px-3 py-1 rounded-full text-xs" id="event1tag"
+            >Korporativni</span
+          >
+        </div>
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2" id="event2">
+            Team building na plaži
+          </h3>
+          <p class="text-gray-300 mb-2" id="event2desc">
+            Igre na pijesku, DJ, BBQ & kokteli.
+          </p>
+          <span class="tag px-3 py-1 rounded-full text-xs" id="event2tag"
+            >Team building</span
+          >
+        </div>
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2" id="event3">
+            Elegantno vjenčanje
+          </h3>
+          <p class="text-gray-300 mb-2" id="event3desc">
+            Ceremonija, bend, foto/video.
+          </p>
+          <span class="tag px-3 py-1 rounded-full text-xs" id="event3tag"
+            >Vjenčanja</span
+          >
+        </div>
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2">
+            Koncert na otvorenom
+          </h3>
+          <p class="text-gray-300 mb-2">
+            Bina, ozvučenje, rasvjeta, live streaming.
+          </p>
+          <span class="tag px-3 py-1 rounded-full text-xs">Koncert</span>
+        </div>
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2">Startup meetup</h3>
+          <p class="text-gray-300 mb-2">Pitch, networking, panel diskusija.</p>
+          <span class="tag px-3 py-1 rounded-full text-xs">Biznis</span>
+        </div>
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2">Porodični dan</h3>
+          <p class="text-gray-300 mb-2">Animatori, igre za djecu, roštilj.</p>
+          <span class="tag px-3 py-1 rounded-full text-xs">Porodično</span>
+        </div>
+        <div class="card rounded-2xl p-6 min-w-[320px] snap-start">
+          <h3 class="text-xl font-bold font-montserrat mb-2">
+            Sportski turnir
+          </h3>
+          <p class="text-gray-300 mb-2">Sudije, nagrade, sportska oprema.</p>
+          <span class="tag px-3 py-1 rounded-full text-xs">Sport</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- BLOG -->
+    <section id="blog" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
+      <h2 class="text-3xl font-bold font-montserrat mb-8">
+        <span id="blogTitle"
+          >Najnovije sa <span class="gradient-blue">bloga</span></span
+        >
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-montserrat font-bold text-lg" id="blog1">
+            Vodič: kako složiti budžet za event
+          </h3>
+          <p class="text-gray-300 text-sm mt-1" id="blog1desc">
+            Pametna raspodjela troškova bez iznenađenja.
+          </p>
+        </div>
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-montserrat font-bold text-lg" id="blog2">
+            Checklista za vjenčanje bez stresa
+          </h3>
+          <p class="text-gray-300 text-sm mt-1" id="blog2desc">
+            Od prve probe do zadnjeg plesa – korak po korak.
+          </p>
+        </div>
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-montserrat font-bold text-lg" id="blog3">
+            Kako izabrati pravu muziku
+          </h3>
+          <p class="text-gray-300 text-sm mt-1" id="blog3desc">
+            Publika, ton i dinamika – tri pravila za playlistu.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIJA -->
+    <section id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
+      <h2 class="text-3xl font-bold font-montserrat mb-8">
+        <span id="galleryTitle"
+          >Foto & Video <span class="gradient-gold">Galerija</span></span
+        >
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <img
+          src="https://picsum.photos/id/1011/600/400"
+          alt="Konferencija"
+          class="rounded-xl border border-gray-800"
+          id="gallery1"
+        />
+        <img
+          src="https://picsum.photos/id/1015/600/400"
+          alt="Team building"
+          class="rounded-xl border border-gray-800"
+          id="gallery2"
+        />
+        <img
+          src="https://picsum.photos/id/1016/600/400"
+          alt="Vjenčanje"
+          class="rounded-xl border border-gray-800"
+          id="gallery3"
+        />
+      </div>
+    </section>
+
+    <!-- POSLOVI -->
+    <section id="poslovi" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
+      <h2 class="text-3xl font-bold font-montserrat mb-8">
+        <span id="jobsTitle"
+          >Aktuelni <span class="gradient-blue">poslovi</span></span
+        >
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-montserrat font-bold text-lg" id="job1">
+            Barmen (sezonski)
+          </h3>
+          <p class="text-gray-300 text-sm mt-1" id="job1desc">
+            Hotel Splendid, Budva
+          </p>
+        </div>
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-montserrat font-bold text-lg" id="job2">
+            Junior Social Media Manager
+          </h3>
+          <p class="text-gray-300 text-sm mt-1" id="job2desc">
+            HIVE Agency, Podgorica
+          </p>
+        </div>
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-montserrat font-bold text-lg" id="job3">
+            DJ za evente (freelance)
+          </h3>
+          <p class="text-gray-300 text-sm mt-1" id="job3desc">
+            ProSound CG, Podgorica
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KONTAKT -->
+    <section id="kontakt" class="bg-gray-900 py-12">
+      <div class="max-w-5xl mx-auto px-4 md:px-6">
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold font-montserrat">
+              <span id="contactTitle"
+                >Zatraži <span class="gradient-gold">ponudu</span></span
+              >
+            </h2>
+            <p class="text-gray-300 mt-3">
+              <span id="contactDesc"
+                >Popuni zahtjev u 30 sekundi – javljamo se u roku od 24h.</span
+              >
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+              <li id="contactItem1">• Tip događaja, broj ljudi, datum</li>
+              <li id="contactItem2">• Lokacija i budžetski okvir</li>
+              <li id="contactItem3">• Šta je najvažnije za tvoj događaj</li>
+            </ul>
+          </div>
+          <form id="reqForm" class="space-y-4">
+            <input
+              name="name"
+              required
+              placeholder="Ime i prezime"
+              class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"
+              id="contactName"
+            />
+            <input
+              name="email"
+              required
+              type="email"
+              placeholder="Email"
+              class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"
+              id="contactEmail"
+            />
+            <textarea
+              name="message"
+              rows="4"
+              placeholder="Kratko opiši događaj"
+              class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"
+              id="contactMsg"
+            ></textarea>
+            <button
+              class="bg-gold text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-500 btn-animate"
+              id="contactBtn"
+            >
+              Pošalji zahtjev
+            </button>
+            <p id="formMsg" class="text-sm text-gray-400"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="py-8 text-center text-sm text-gray-500 border-t border-gray-800"
+    >
+      <div class="max-w-7xl mx-auto px-4">
+        © <span id="yearSpan"></span> SINDIKAT – Sve za vaš događaj.
+      </div>
+    </footer>
+
+    <script>
+      // Mobile nav
+      document.getElementById("navBtn").addEventListener("click", () => {
+        const mm = document.getElementById("mobileMenu");
+        mm.classList.toggle("hidden");
+      });
+      document.getElementById("yearSpan").textContent =
+        new Date().getFullYear();
+      document.getElementById("reqForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        document.getElementById("formMsg").textContent =
+          currentLang === "sr"
+            ? "Hvala! Tvoj zahtjev je poslat – javljamo se uskoro."
+            : "Thank you! Your request has been sent – we will reply soon.";
+        e.target.reset();
+      });
+
+      // Language switcher
+      let currentLang = "sr";
+      const langBtn = document.getElementById("langBtn");
+      langBtn.addEventListener("click", () => {
+        currentLang = currentLang === "sr" ? "en" : "sr";
+        updateLang();
+      });
+      function updateLang() {
+        if (currentLang === "en") {
+          langBtn.textContent = "SR";
+          document.getElementById("navBrand").textContent = "SINDIKAT";
+          document.getElementById("heroTitle").innerHTML =
+            'Everything for your event <span class="gradient-gold">in one place</span>';
+          document.getElementById("heroDesc").textContent =
+            "Fast organization, professional team, stress-free.";
+          document.getElementById("heroBtn").textContent = "See events";
+          document.getElementById("eventsTitle").innerHTML =
+            'Popular <span class="gradient-gold">events</span>';
+          document.getElementById("event1").textContent =
+            "Corporate Conference";
+          document.getElementById("event1desc").textContent =
+            "Conference production, LED screen, coffee break.";
+          document.getElementById("event1tag").textContent = "Corporate";
+          document.getElementById("event2").textContent = "Beach Team Building";
+          document.getElementById("event2desc").textContent =
+            "Beach games, DJ, BBQ & cocktails.";
+          document.getElementById("event2tag").textContent = "Team building";
+          document.getElementById("event3").textContent = "Elegant Wedding";
+          document.getElementById("event3desc").textContent =
+            "Ceremony, band, photo/video.";
+          document.getElementById("event3tag").textContent = "Weddings";
+          document.getElementById("blogTitle").innerHTML =
+            'Latest from the <span class="gradient-blue">blog</span>';
+          document.getElementById("blog1").textContent =
+            "Guide: How to set your event budget";
+          document.getElementById("blog1desc").textContent =
+            "Smart cost allocation without surprises.";
+          document.getElementById("blog2").textContent =
+            "Checklist for a stress-free wedding";
+          document.getElementById("blog2desc").textContent =
+            "From first rehearsal to last dance – step by step.";
+          document.getElementById("blog3").textContent =
+            "How to choose the right music";
+          document.getElementById("blog3desc").textContent =
+            "Audience, tone, and dynamics – three rules for your playlist.";
+          document.getElementById("galleryTitle").innerHTML =
+            'Photo & Video <span class="gradient-gold">Gallery</span>';
+          document.getElementById("gallery1").alt = "Conference";
+          document.getElementById("gallery2").alt = "Team building";
+          document.getElementById("gallery3").alt = "Wedding";
+          document.getElementById("jobsTitle").innerHTML =
+            'Current <span class="gradient-blue">jobs</span>';
+          document.getElementById("job1").textContent = "Bartender (seasonal)";
+          document.getElementById("job1desc").textContent =
+            "Hotel Splendid, Budva";
+          document.getElementById("job2").textContent =
+            "Junior Social Media Manager";
+          document.getElementById("job2desc").textContent =
+            "HIVE Agency, Podgorica";
+          document.getElementById("job3").textContent =
+            "DJ for events (freelance)";
+          document.getElementById("job3desc").textContent =
+            "ProSound CG, Podgorica";
+          document.getElementById("contactTitle").innerHTML =
+            'Request <span class="gradient-gold">an offer</span>';
+          document.getElementById("contactDesc").textContent =
+            "Fill out the request in 30 seconds – we reply within 24h.";
+          document.getElementById("contactItem1").textContent =
+            "• Event type, number of people, date";
+          document.getElementById("contactItem2").textContent =
+            "• Location and budget";
+          document.getElementById("contactItem3").textContent =
+            "• What is most important for your event";
+          document.getElementById("contactName").placeholder = "Full name";
+          document.getElementById("contactEmail").placeholder = "Email";
+          document.getElementById("contactMsg").placeholder =
+            "Briefly describe your event";
+          document.getElementById("contactBtn").textContent = "Send request";
+          document.getElementById("partner1").textContent = "PREMIUM PARTNER";
+          document.getElementById("partner2").textContent = "AUDIO PARTNER";
+          document.getElementById("partner3").textContent = "CATERING PARTNER";
+          // Navigation links
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[0].textContent = "Events";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[1].textContent = "Blog";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[2].textContent = "Gallery";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[3].textContent = "Jobs";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[4].textContent = "Contact";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[0].textContent = "Events";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[1].textContent = "Blog";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[2].textContent = "Gallery";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[3].textContent = "Jobs";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[4].textContent = "Contact";
+        } else {
+          langBtn.textContent = "EN";
+          document.getElementById("navBrand").textContent = "SINDIKAT";
+          document.getElementById("heroTitle").innerHTML =
+            'Sve za vaš događaj <span class="gradient-gold">na jednom mestu</span>';
+          document.getElementById("heroDesc").textContent =
+            "Brza organizacija, profesionalni tim, bez stresa.";
+          document.getElementById("heroBtn").textContent = "Pogledaj događaje";
+          document.getElementById("eventsTitle").innerHTML =
+            'Popularni <span class="gradient-gold">događaji</span>';
+          document.getElementById("event1").textContent =
+            "Korporativna konferencija";
+          document.getElementById("event1desc").textContent =
+            "Konferencijska produkcija, LED ekran, coffee break.";
+          document.getElementById("event1tag").textContent = "Korporativni";
+          document.getElementById("event2").textContent =
+            "Team building na plaži";
+          document.getElementById("event2desc").textContent =
+            "Igre na pijesku, DJ, BBQ & kokteli.";
+          document.getElementById("event2tag").textContent = "Team building";
+          document.getElementById("event3").textContent = "Elegantno vjenčanje";
+          document.getElementById("event3desc").textContent =
+            "Ceremonija, bend, foto/video.";
+          document.getElementById("event3tag").textContent = "Vjenčanja";
+          document.getElementById("blogTitle").innerHTML =
+            'Najnovije sa <span class="gradient-blue">bloga</span>';
+          document.getElementById("blog1").textContent =
+            "Vodič: kako složiti budžet za event";
+          document.getElementById("blog1desc").textContent =
+            "Pametna raspodjela troškova bez iznenađenja.";
+          document.getElementById("blog2").textContent =
+            "Checklista za vjenčanje bez stresa";
+          document.getElementById("blog2desc").textContent =
+            "Od prve probe do zadnjeg plesa – korak po korak.";
+          document.getElementById("blog3").textContent =
+            "Kako izabrati pravu muziku";
+          document.getElementById("blog3desc").textContent =
+            "Publika, ton i dinamika – tri pravila za playlistu.";
+          document.getElementById("galleryTitle").innerHTML =
+            'Foto & Video <span class="gradient-gold">Galerija</span>';
+          document.getElementById("gallery1").alt = "Konferencija";
+          document.getElementById("gallery2").alt = "Team building";
+          document.getElementById("gallery3").alt = "Vjenčanje";
+          document.getElementById("jobsTitle").innerHTML =
+            'Aktuelni <span class="gradient-blue">poslovi</span>';
+          document.getElementById("job1").textContent = "Barmen (sezonski)";
+          document.getElementById("job1desc").textContent =
+            "Hotel Splendid, Budva";
+          document.getElementById("job2").textContent =
+            "Junior Social Media Manager";
+          document.getElementById("job2desc").textContent =
+            "HIVE Agency, Podgorica";
+          document.getElementById("job3").textContent =
+            "DJ za evente (freelance)";
+          document.getElementById("job3desc").textContent =
+            "ProSound CG, Podgorica";
+          document.getElementById("contactTitle").innerHTML =
+            'Zatraži <span class="gradient-gold">ponudu</span>';
+          document.getElementById("contactDesc").textContent =
+            "Popuni zahtjev u 30 sekundi – javljamo se u roku od 24h.";
+          document.getElementById("contactItem1").textContent =
+            "• Tip događaja, broj ljudi, datum";
+          document.getElementById("contactItem2").textContent =
+            "• Lokacija i budžetski okvir";
+          document.getElementById("contactItem3").textContent =
+            "• Šta je najvažnije za tvoj događaj";
+          document.getElementById("contactName").placeholder = "Ime i prezime";
+          document.getElementById("contactEmail").placeholder = "Email";
+          document.getElementById("contactMsg").placeholder =
+            "Kratko opiši događaj";
+          document.getElementById("contactBtn").textContent = "Pošalji zahtjev";
+          document.getElementById("partner1").textContent = "PREMIUM PARTNER";
+          document.getElementById("partner2").textContent = "AUDIO PARTNER";
+          document.getElementById("partner3").textContent = "CATERING PARTNER";
+          // Navigation links
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[0].textContent = "Događaji";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[1].textContent = "Blog";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[2].textContent = "Galerija";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[3].textContent = "Poslovi";
+          document.querySelectorAll(
+            ".hidden.md\:flex.items-center.gap-6 a"
+          )[4].textContent = "Kontakt";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[0].textContent = "Događaji";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[1].textContent = "Blog";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[2].textContent = "Galerija";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[3].textContent = "Poslovi";
+          document.querySelectorAll(
+            ".max-w-7xl.mx-auto.px-4.py-4.flex.flex-col.gap-4.text-lg a"
+          )[4].textContent = "Kontakt";
+        }
+      }
+    </script>
+  </body>
+</html>
