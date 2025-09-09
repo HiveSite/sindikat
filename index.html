@@ -27,7 +27,6 @@ colors: {
 }
 </script>
 
-
 <!-- Hotjar Tracking Code for Site 6507224 (name missing) -->
 <script>
 (function(h,o,t,j,a,r){
@@ -87,19 +86,19 @@ scroll-snap-align: start;          /* svaka kartica snapuje na početak */
 
 <script>
 // Dinamički računa visinu navbara i postavlja je u --nav-h
-<script>
-(function () {
-  function setNavHeight() {
-    const nav = document.querySelector('nav');
-    if (!nav) return;
-    document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
-  }
-  window.addEventListener('load', setNavHeight);
-  window.addEventListener('resize', setNavHeight);
+(function() {
+function setNavHeight() {
+var nav = document.querySelector('nav');
+if (!nav) return;
+var h = nav.offsetHeight || 0;
+var safe = parseInt(getComputedStyle(document.documentElement)
+.getPropertyValue('env(safe-area-inset-top)')) || 0;
+document.documentElement.style.setProperty('--nav-h', (h + safe) + 'px');
+}
+window.addEventListener('load', setNavHeight);
+window.addEventListener('resize', setNavHeight);
 })();
 </script>
-
-
 </head>
 
 </script>
@@ -2192,112 +2191,23 @@ contents[index].classList.toggle('active');
 arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
 }
 
-<script>
-(function(){
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxeLlYSaUqVvF8YJqj19W0cn5BBs_vntCgotqXr6RduNj360PGrEssYFiN1eVc1_YW1/exec";
-
-  function findContactForm(){
-    const forms = Array.from(document.querySelectorAll('form'));
-    const wanted = ["vaše ime","email adresa","broj telefona","mm/dd/yyyy"];
-    for (const f of forms.reverse()){
-      const texts = Array.from(f.querySelectorAll('input, textarea, select'))
-        .map(el => (el.placeholder || '').toLowerCase().trim());
-      if (wanted.every(w => texts.some(t => t.includes(w)))) return f;
-    }
-    return forms[forms.length - 1] || null;
-  }
-
-  function collectFields(form){
-    const getByPh = (ph) => form.querySelector(`[placeholder*="${ph}"]`);
-    const val = el => (el && el.value ? String(el.value).trim() : "");
-    const nameEl   = getByPh("Vaše ime")     || getByPh("Ime");
-    const emailEl  = getByPh("Email adresa") || form.querySelector('input[type="email"]');
-    const phoneEl  = getByPh("Broj telefona")|| getByPh("Telefon");
-    const dateEl   = getByPh("mm/dd/yyyy")   || form.querySelector('input[type="date"]');
-    const detailEl = form.querySelector('textarea') || getByPh("Recite nam");
-    return [val(nameEl), val(emailEl), val(phoneEl), val(dateEl), val(detailEl)];
-  }
-
-  function bindSubmit(form){
-    if (!form) return;
-    form.addEventListener('submit', async function(e){
-      e.preventDefault();
-      const btn = form.querySelector('[type="submit"], button[type="submit"]');
-      const original = btn ? btn.textContent : null;
-      if (btn){ btn.disabled = true; btn.textContent = 'Slanje...'; }
-
-      const payload = { fields: collectFields(form), page: location.href };
-
-      try{
-        const res = await fetch(WEB_APP_URL, {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json().catch(()=>({ok:false}));
-        if (res.ok && data?.ok){ form.reset?.(); alert('Hvala! Vaša poruka je uspješno poslata ✅'); }
-        else { throw new Error('Server nije vratio OK.'); }
-      }catch(err){ console.error(err); alert('Uh! Došlo je do greške pri slanju. Pokušajte ponovo.'); }
-      finally { if (btn){ btn.disabled = false; btn.textContent = original; } }
-    }, { passive:false });
-  }
-
-  window.addEventListener('load', function(){
-    const form = findContactForm();
-    bindSubmit(form);
-  });
-})();
-</script>
-
-
-  
 // Form submission
-<script>
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxeLlYSaUqVvF8YJqj19W0cn5BBs_vntCgotqXr6RduNj360PGrEssYFiN1eVc1_YW1/exec";
+function handleSubmit(event) {
+event.preventDefault();
+const button = event.target.querySelector('button[type="submit"]');
+const originalText = button.textContent;
+const t = translations[currentLanguage];
 
-  async function handleSubmit(event){
-    event.preventDefault();
+button.textContent = t.sending;
+button.disabled = true;
 
-    const form = event.target.closest('form') || document.getElementById('contactForm') || event.target;
-    // Pokupi SVE input/textarea/select iz forme po redosledu u DOM-u
-    const controls = Array.from(form.querySelectorAll('input, textarea, select'))
-      .filter(el => !el.disabled && el.type !== 'hidden' && el.type !== 'submit');
-
-    const fields = controls.map(el => (el.value ?? '').toString().trim());
-
-    // (opciono) disable dugme dok šalje
-    const btn = form.querySelector('[type="submit"], button[type="submit"]');
-    const originalBtnText = btn ? btn.textContent : null;
-    if (btn) { btn.disabled = true; btn.textContent = 'Slanje...'; }
-
-    const payload = {
-      fields,                 // niz vrijednosti po redosledu polja u formi
-      page: location.href     // dodatna meta info (vidi se u Sheet-u)
-    };
-
-    try{
-      const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json().catch(()=>({ok:false}));
-      if (res.ok && data?.ok) {
-        // uspjeh
-        form.reset?.();
-        alert('Hvala! Vaša poruka je uspješno poslata ✅');
-      } else {
-        throw new Error('Neuspješno slanje (server odgovor nije OK).');
-      }
-    } catch(err){
-      console.error(err);
-      alert('Uh! Došlo je do greške pri slanju. Pokušajte ponovo.');
-    } finally {
-      if (btn) { btn.disabled = false; btn.textContent = originalBtnText; }
-    }
-  }
-</script>
-
+setTimeout(() => {
+alert(t.thankYou);
+button.textContent = originalText;
+button.disabled = false;
+event.target.reset();
+}, 1500);
+}
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2369,10 +2279,6 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
-
-
 
 
 
