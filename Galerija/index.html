@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sindikat – Galerija</title>
+  <meta name="description" content="Foto i video galerija Sindikat događaja – pregled po kategorijama, lokacijama i godinama sa lightbox prikazom.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { montserrat: ['Montserrat','sans-serif'], inter: ['Inter','sans-serif'] },
+          colors: { gold: '#FFD700', 'electric-blue':'#00BFFF' }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root{ --nav-h:72px; }
+    body{ padding-top:var(--nav-h); }
+    html{ scroll-behavior:smooth; }
+    .gradient-gold{ background:linear-gradient(135deg,#FFD700, #FFA500); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+    .gradient-blue{ background:linear-gradient(135deg,#00BFFF, #0080FF); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+    .tag{ border:1px solid rgba(255,255,255,.16); }
+    .glass{ background: linear-gradient(135deg, rgba(255,215,0,.10), rgba(0,191,255,.10)); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(10px); }
+    /* Grid layout umjesto masonry radi konzistentnijeg rasporeda */
+    .gallery-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    .img-card{ background:linear-gradient(135deg, rgba(0,0,0,.85), rgba(25,25,25,.95)); border:1px solid rgba(255,215,0,.18); }
+    .btn-animate{ position:relative; overflow:hidden; transition:transform .25s ease; }
+    .btn-animate::before{ content:''; position:absolute; inset:0; left:-120%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent); transition:left .6s ease; }
+    .btn-animate:hover::before{ left:120%; }
+    .btn-animate:hover{ transform:translateY(-2px); }
+    /* Lightbox */
+    .modal-wrap{ position:fixed; inset:0; display:none; }
+    .modal-wrap.active{ display:block; }
+  </style>
+</head>
+<body class="bg-black text-white font-inter">
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 h-[72px] flex items-center justify-between">
+      <a href="/" class="text-xl md:text-2xl font-bold font-montserrat gradient-gold">SINDIKAT</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="/" class="hover:text-gold">Početna</a>
+        <a href="#galerija" class="hover:text-gold">Galerija</a>
+        <a href="#kontakt" class="bg-gold text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 btn-animate">Kontakt</a>
+      </div>
+      <button id="navBtn" class="md:hidden text-2xl">☰</button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-gray-800 bg-black/98">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-4 text-lg">
+        <a href="/" class="hover:text-gold">Početna</a>
+        <a href="#galerija" class="hover:text-gold">Galerija</a>
+        <a href="#kontakt" class="bg-gold text-black px-5 py-3 rounded-full font-semibold hover:bg-yellow-500">Kontakt</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="bg-[radial-gradient(ellipse_at_top,rgba(255,215,0,.08),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,191,255,.08),transparent_60%)]">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-bold font-montserrat leading-tight">Foto & Video <span class="gradient-gold">Galerija</span></h1>
+          <p class="mt-4 text-gray-300 text-base md:text-lg">Najbolji momenti sa naših događaja. Filtriraj po tipu, lokaciji ili godini – klikni na fotku za fullscreen i detalje.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button data-filter="all" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Sve</button>
+            <button data-filter="korporativni" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Korporativni</button>
+            <button data-filter="vjenčanja" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Vjenčanja</button>
+            <button data-filter="privatne" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Privatne</button>
+            <button data-filter="festival" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Festivali</button>
+            <button data-filter="team" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Team building</button>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="rounded-3xl p-1 bg-gradient-to-br from-gold/20 to-electric-blue/20">
+            <div class="rounded-3xl bg-black/70 border border-gray-800 p-6 grid grid-cols-3 gap-3">
+              <div class="aspect-square rounded-2xl bg-[url('assets/images/gallery/teaser1.jpg')] bg-center bg-cover"></div>
+              <div class="aspect-square rounded-2xl bg-[url('assets/images/gallery/teaser2.jpg')] bg-center bg-cover"></div>
+              <div class="aspect-square rounded-2xl bg-[url('assets/images/gallery/teaser3.jpg')] bg-center bg-cover"></div>
+              <div class="aspect-square rounded-2xl bg-[url('assets/images/gallery/teaser4.jpg')] bg-center bg-cover"></div>
+              <div class="aspect-square rounded-2xl bg-[url('assets/images/gallery/teaser5.jpg')] bg-center bg-cover"></div>
+              <div class="aspect-square rounded-2xl bg-[url('assets/images/gallery/teaser6.jpg')] bg-center bg-cover"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTER BAR -->
+  <section class="border-y border-gray-800 bg-gray-900/40">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <div class="flex gap-3 items-center">
+        <select id="yearSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
+          <option value="all">Sve godine</option>
+          <option>2025</option>
+          <option>2024</option>
+          <option>2023</option>
+        </select>
+        <select id="locSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
+          <option value="all">Sve lokacije</option>
+          <option>Podgorica</option>
+          <option>Budva</option>
+          <option>Kotor</option>
+          <option>Tivat</option>
+        </select>
+        <select id="sortSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
+          <option value="new">Najnovije</option>
+          <option value="old">Najstarije</option>
+          <option value="az">A–Ž</option>
+        </select>
+      </div>
+      <div class="flex gap-3 items-center">
+        <input id="searchInp" placeholder="Pretraga (npr. 'DJ', 'plaža')" class="w-full md:w-72 bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold" />
+        <button id="clearBtn" class="px-3 py-2 rounded-xl border border-gray-700 hover:border-gold text-sm">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERI / BANERI -->
+  <section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto" style="scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;">
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-gold/30"> <div class="text-center"><div class="text-gold text-xs font-semibold">PARTNER</div><div class="font-bold">Hotel Splendid</div></div></div>
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-electric-blue/30"> <div class="text-center"><div class="text-electric-blue text-xs font-semibold">AUDIO</div><div class="font-bold">ProSound CG</div></div></div>
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-gold/30"> <div class="text-center"><div class="text-gold text-xs font-semibold">CATERING</div><div class="font-bold">Gourmet Events</div></div></div>
+    </div>
+  </section>
+
+  <!-- GALERIJA -->
+  <main id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-10">
+    <div id="galleryGrid" class="gallery-grid"></div>
+    <div class="flex items-center justify-center mt-6">
+      <button id="loadMore" class="px-5 py-3 rounded-full border border-gray-700 hover:border-gold btn-animate">Učitaj još</button>
+    </div>
+
+    <!-- Ad slot -->
+    <div class="mt-10 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-3xl p-8 text-center hover:border-gold/50 transition-all">
+      <div class="text-4xl mb-2">📣</div>
+      <h3 class="text-lg font-bold font-montserrat mb-2 text-gray-300">PNG Ad Banner Slot</h3>
+      <p class="text-gray-500 text-sm">336x280 / 728x90 – zadrži monetizaciju</p>
+    </div>
+  </main>
+
+  <!-- KONTAKT MINI-FORMA -->
+  <section id="kontakt" class="bg-gray-900 py-12">
+    <div class="max-w-5xl mx-auto px-4 md:px-6">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold font-montserrat">Zatraži <span class="gradient-gold">ponudu</span></h2>
+          <p class="text-gray-300 mt-3">Trebaš istu produkciju? Pošalji upit – odgovaramo u roku od 24h.</p>
+          <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+            <li>• Tip događaja, broj ljudi, datum</li>
+            <li>• Lokacija i budžetski okvir</li>
+            <li>• Šta je najvažnije za tvoj događaj</li>
+          </ul>
+        </div>
+        <form id="reqForm" class="space-y-4">
+          <input name="name" required placeholder="Ime i prezime" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
+          <input name="email" required type="email" placeholder="Email" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
+          <textarea name="message" rows="4" placeholder="Kratko opiši događaj" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"></textarea>
+          <button class="bg-gold text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-500 btn-animate">Pošalji zahtjev</button>
+          <p id="formMsg" class="text-sm text-gray-400"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 text-center text-sm text-gray-500 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4">© <span id="yearSpan"></span> SINDIKAT – Sve za vaš događaj.</div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div id="modal" class="modal-wrap bg-black/80 backdrop-blur-sm">
+    <div class="absolute inset-0" id="modalBg"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[94vw] max-w-5xl">
+      <div class="rounded-2xl bg-black border border-gray-800 p-4 md:p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 id="mTitle" class="text-lg md:text-xl font-bold font-montserrat"></h3>
+            <p id="mMeta" class="text-xs md:text-sm text-gray-400 mt-1"></p>
+          </div>
+          <button id="modalClose" class="text-2xl leading-none">×</button>
+        </div>
+        <div class="mt-4">
+          <img id="mImg" alt="preview" class="w-full rounded-xl object-contain max-h-[80vh]" />
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-2 justify-between">
+          <div id="mTags" class="flex gap-2 flex-wrap text-sm"></div>
+          <div class="flex gap-2">
+            <a id="dlBtn" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm cursor-pointer">Preuzmi</a>
+            <a id="waBtn" target="_blank" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile nav
+    document.getElementById('navBtn').addEventListener('click',()=>{
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+    document.getElementById('yearSpan').textContent = new Date().getFullYear();
+
+    const ITEMS = [
+      {id:'g1', title:'Konferencija – LED stage', cat:'korporativni', year:2025, loc:'Podgorica', tags:['stage','ozvučenje','LED'], img:'assets/images/gallery/konf-led.webp', thumb:'assets/images/gallery/thumbs/konf-led.jpg'},
+      {id:'g2', title:'Plažni team building', cat:'team', year:2025, loc:'Budva', tags:['plaža','igre','DJ'], img:'assets/images/gallery/team-plaza.webp', thumb:'assets/images/gallery/thumbs/team-plaza.jpg'},
