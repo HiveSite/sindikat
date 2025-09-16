@@ -533,51 +533,55 @@ Poslovi
 
 
 
-<!-- NAV: CSS-only burger (bez JS) -->
-<nav class="fixed top-0 w-full bg-black border-b border-gray-800 z-50 py-3 md:py-4">
-  <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-    <!-- Logo -->
-    <a href="/#home" class="text-xl md:text-2xl font-bold font-montserrat gradient-gold" aria-label="Početna">SINDIKAT</a>
+<!-- NAV: fixed, black, CSS-only burger -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-black border-b border-neutral-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+    <a href="https://weareconnect.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT POSLOVI</a>
 
-    <!-- Desktop meni -->
-    <div class="hidden lg:flex items-center space-x-6 xl:space-x-8">
-      <a data-nav="home"     href="/#home"                       class="hover:text-gold font-medium text-sm xl:text-base">Početna</a>
-      <a data-nav="poslovi"  href="https://weareconnect.me/poslovi/" class="hover:text-gold font-medium text-sm xl:text-base">Poslovi</a>
-      <a data-nav="blog"     href="https://weareconnect.me/blog/"    class="hover:text-gold font-medium text-sm xl:text-base">Blog</a>
-      <a data-nav="galerija" href="https://weareconnect.me/galerija/" class="hover:text-gold font-medium text-sm xl:text-base">Galerija</a>
-      <a data-nav="about"    href="/#about"                     class="hover:text-gold font-medium text-sm xl:text-base">O nama</a>
-      <a data-nav="contact"  href="/#contact"
-         class="bg-gold hover:bg-yellow-500 text-black px-4 xl:px-6 py-2 rounded-full font-semibold transition-all hover:scale-105 text-sm xl:text-base">
-         Kontakt
-      </a>
+    <!-- Desktop -->
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      <a href="https://weareconnect.me/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
+      <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
+      <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
+      <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
+      <a href="https://weareconnect.me/#about" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
+      <a href="https://weareconnect.me/#contact" class="bg-gold hover:bg-yellow-500 text-black px-4 xl:px-6 py-2 rounded-full font-semibold transition-all hover:scale-105 btn-animate text-sm xl:text-base">Kontakt</a>
+      <button id="openPostJob" class="px-4 py-2 rounded-full bg-gold text-black font-semibold hover:brightness-95 shadow-glow">Objavi oglas</button>
     </div>
 
-    <!-- Mobile burger (label vezan za checkbox) -->
-    <label for="menu" class="lg:hidden text-2xl cursor-pointer select-none" aria-label="Otvori meni">☰</label>
+    <!-- Burger = label (zadržavam tvoj ID) -->
+    <label id="mobileMenuBtn"
+           for="mobileNav"
+           class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
+           aria-label="Otvori meni" aria-controls="mobileOverlay" aria-expanded="false">☰</label>
   </div>
 
   <!-- Kontrolni checkbox (peer) -->
-  <input id="menu" type="checkbox" class="peer hidden" aria-hidden="true" />
+  <input id="mobileNav" type="checkbox" class="peer sr-only" />
 
-  <!-- Mobile FULL BLACK overlay (otvara se kada je checkbox čekiran) -->
-  <div class="fixed inset-0 bg-black z-[60] hidden lg:hidden peer-checked:block">
-    <!-- Close (X) -->
-    <label for="menu" class="absolute top-4 right-4 text-3xl cursor-pointer select-none" aria-label="Zatvori meni">✕</label>
+  <!-- Mobile FULL BLACK overlay -->
+  <div id="mobileOverlay" class="fixed inset-0 z-[60] hidden md:hidden peer-checked:block">
+    <div class="absolute inset-0 bg-black"></div>
 
-    <!-- Linkovi -->
-    <div class="h-full flex flex-col items-center justify-center space-y-7 text-white text-xl md:text-2xl">
-      <a data-nav="home"     href="/#home"                       class="hover:text-gold transition-colors">Početna</a>
-      <a data-nav="poslovi"  href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors">Poslovi</a>
-      <a data-nav="blog"     href="https://weareconnect.me/blog/"    class="hover:text-gold transition-colors">Blog</a>
-      <a data-nav="galerija" href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors">Galerija</a>
-      <a data-nav="about"    href="/#about"                     class="hover:text-gold transition-colors">O nama</a>
-      <a data-nav="contact"  href="/#contact"
-         class="bg-gold text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition-all">
-         Kontakt
-      </a>
+    <!-- Close -->
+    <label for="mobileNav" class="absolute top-4 right-4 text-3xl cursor-pointer select-none text-white" aria-label="Zatvori meni">✕</label>
+
+    <!-- Meni linkovi -->
+    <div class="relative h-full flex flex-col items-center justify-center gap-7 text-white text-xl md:text-2xl">
+      <a href="https://weareconnect.me/" class="hover:text-gold transition-colors">Početna</a>
+      <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors">Poslovi</a>
+      <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors">Blog</a>
+      <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors">Galerija</a>
+      <a href="https://weareconnect.me/#about" class="hover:text-gold transition-colors">O nama</a>
+      <a href="https://weareconnect.me/#contact" class="bg-gold text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition-all">Kontakt</a>
+      <button id="openPostJob" class="px-6 py-3 rounded-full bg-gold text-black font-semibold hover:brightness-95 shadow-glow">Objavi oglas</button>
     </div>
   </div>
+
+  <!-- (opciono) ostavi stari #mobileMenu ako ti treba za kompatibilnost -->
+  <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-800 bg-black"></div>
 </nav>
+
 
 
 <!-- Top Banner Ad -->
@@ -2288,6 +2292,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
