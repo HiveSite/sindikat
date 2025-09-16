@@ -48,7 +48,7 @@
         <a href="https://weareconnect.me/onama/" class="hover:text-gold transition-colors">O nama</a>
         <a href="#kontakt" class="bg-gold hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold transition-colors">Kontakt</a>
       </div>
-      <button id="menuBtn" class="md:hidden text-white text-2xl">☰</button>
+      <button id="menuBtn" class="md:hidden text-white text-2xl" aria-label="Otvori meni">☰</button>
     </div>
     <div id="mobileMenu" class="hidden md:hidden bg-black border-t border-neutral-800 px-6 py-4 space-y-4">
       <a href="https://weareconnect.me/" class="block hover:text-gold">Početna</a>
@@ -335,8 +335,8 @@
   </footer>
 
   <script>
-    // ===== CONFIG: WEB APP URL (tvoj gotovi endpoint) =====
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxtZZ1R9pbM6a2s4dEN_r07wBhYepW7lMSWHyLz_TDmAL63ByDsx3BDhTCsN3vOvd4EQQ/exec";
+    // ===== CONFIG: WEB APP URL (zamijeni ispod sa svojim /exec URL-om) =====
+    const WEBAPP_URL = "https://script.google.com/macros/s/PASTE_TVOJ_EXEC_URL_OVDJE/exec";
 
     // Burger meni
     document.getElementById('menuBtn')?.addEventListener('click',()=>{
@@ -352,7 +352,8 @@
       const show = v === 'Kompanija';
       companyFields.classList.toggle('hidden', !show);
       companyMore.classList.toggle('hidden', !show);
-      companyFields.querySelector('input[name="kompanija"]').required = show;
+      const compInput = companyFields.querySelector('input[name="kompanija"]');
+      if (compInput) compInput.required = show;
     }
     radios.forEach(r=>r.addEventListener('change', syncCompany));
     syncCompany();
@@ -366,7 +367,7 @@
     document.querySelector('input[name="utm_medium"]').value = params.get('utm_medium') || '';
     document.querySelector('input[name="utm_campaign"]').value = params.get('utm_campaign') || '';
 
-    // ===== Submit handler po uzoru na BattleBots (stabilno): URL-encoded + no-cors =====
+    // Submit handler: URL-encoded + no-cors
     function sendSindikat(e){
       e.preventDefault();
       const form = e.target;
@@ -425,7 +426,7 @@
         btn.textContent = original;
       });
     }
-    window.sendSindikat = sendSindikat; // attach na window zbog onsubmit atributa
+    window.sendSindikat = sendSindikat; // attach na window zbog onsubmit
   </script>
 </body>
 </html>
