@@ -50,6 +50,29 @@ gtag('config', 'G-7PK0H518PG');
 <style>
 :root { --nav-h: 0px; }
 
+<script>
+(function(){
+  const btn = document.getElementById('mobileMenuBtn');
+  const overlay = document.getElementById('mobileOverlay');
+  const close = document.getElementById('mobileClose');
+
+  function toggle(open){
+    const on = (typeof open==='boolean') ? open : !document.body.classList.contains('mobile-open');
+    document.body.classList.toggle('mobile-open', on);
+    document.documentElement.classList.toggle('mobile-open', on);
+    btn?.setAttribute('aria-expanded', on ? 'true':'false');
+    document.body.style.overflow = on ? 'hidden' : '';
+  }
+
+  btn?.addEventListener('click', ()=>toggle(true));
+  close?.addEventListener('click', ()=>toggle(false));
+  overlay?.addEventListener('click', e=>{ if(e.target===overlay) toggle(false); });
+  window.addEventListener('keydown', e=>{ if(e.key==='Escape') toggle(false); });
+  overlay?.querySelectorAll('a,button').forEach(el=> el.addEventListener('click', ()=>toggle(false)));
+})();
+</script>
+
+
 body {
 overflow-x: hidden;
 padding-top: var(--nav-h); /* odmak cijelog sajta ispod navigacije */
@@ -562,7 +585,7 @@ Poslovi
 </nav>
 
 <!-- MOBILE OVERLAY (isti stil) -->
-<div id="mobileOverlay" class="fixed inset-0 z-[49] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
+<div id="mobileOverlay" class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
   <div class="absolute top-[72px] left-0 right-0">
     <nav class="px-4 pt-4 pb-16 space-y-2">
       <a href="https://weareconnect.me/"           class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
@@ -2290,6 +2313,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
