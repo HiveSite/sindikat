@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sindikat – Kontakt & Saradnja</title>
   <meta name="description" content="Kontakt forma za saradnju – fizička lica i kompanije. Brz odgovor, jasni zahtjevi i ponuda prilagođena vašem događaju." />
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -33,7 +34,7 @@
 </head>
 <body class="font-inter">
 
-  <!-- NAVBAR (isti stil kao original) -->
+  <!-- NAVBAR -->
   <nav class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur border-b border-neutral-800">
     <div class="max-w-7xl mx-auto h-[72px] flex items-center justify-between px-6">
       <a href="https://weareconnect.me/" class="text-2xl font-extrabold font-montserrat bg-gradient-to-r from-gold to-yellow-500 bg-clip-text text-transparent">
@@ -45,7 +46,7 @@
         <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors">Blog</a>
         <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors">Galerija</a>
         <a href="https://weareconnect.me/onama/" class="hover:text-gold transition-colors">O nama</a>
-        <a href="https://weareconnect.me/kontakt/" class="bg-gold hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold transition-colors">Kontakt</a>
+        <a href="#kontakt" class="bg-gold hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold transition-colors">Kontakt</a>
       </div>
       <button id="menuBtn" class="md:hidden text-white text-2xl">☰</button>
     </div>
@@ -55,7 +56,7 @@
       <a href="https://weareconnect.me/blog/" class="block hover:text-gold">Blog</a>
       <a href="https://weareconnect.me/galerija/" class="block hover:text-gold">Galerija</a>
       <a href="https://weareconnect.me/onama/" class="block hover:text-gold">O nama</a>
-      <a href="https://weareconnect.me/kontakt/" class="block bg-gold text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-500">Kontakt</a>
+      <a href="#kontakt" class="block bg-gold text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-500">Kontakt</a>
     </div>
   </nav>
 
@@ -68,10 +69,10 @@
   </header>
 
   <!-- CONTACT SECTION -->
-  <section class="pb-20 px-6">
+  <section id="kontakt" class="pb-20 px-6">
     <div class="max-w-6xl mx-auto grid lg:grid-cols-5 gap-10">
 
-      <!-- INFO (kao footer stil) -->
+      <!-- INFO -->
       <aside class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
         <h3 class="text-xl font-semibold mb-4">Brzi kontakt</h3>
         <div class="space-y-4">
@@ -108,9 +109,9 @@
         </div>
       </aside>
 
-      <!-- FORM (footer stil) -->
+      <!-- FORM -->
       <div class="lg:col-span-3 bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-lg">
-        <form id="contactForm" class="space-y-6" novalidate>
+        <form id="contactForm" class="space-y-6" method="POST" onsubmit="sendSindikat(event)" novalidate>
           <!-- Honeypot -->
           <input type="text" name="website" class="hidden-robot" tabindex="-1" autocomplete="off"/>
 
@@ -272,11 +273,10 @@
     </div>
   </section>
 
-  <!-- FOOTER (2 kolone) -->
+  <!-- FOOTER -->
   <footer class="bg-gray-900 py-16 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="grid md:grid-cols-2 gap-12">
-
         <!-- Brzi kontakt -->
         <div>
           <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
@@ -319,7 +319,7 @@
         <!-- CTA -->
         <div class="flex flex-col justify-center">
           <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
-          <a href="https://weareconnect.me/kontakt/"
+          <a href="#kontakt"
              class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
             Idi na Kontakt Stranicu
           </a>
@@ -328,13 +328,16 @@
 
       <!-- Bottom -->
       <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+        <p class="text-gray-400">&copy; <span id="yearSpan">2024</span> Sindikat. Sva prava zadržana.</p>
         <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
       </div>
     </div>
   </footer>
 
   <script>
+    // ===== CONFIG: WEB APP URL (tvoj gotovi endpoint) =====
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPWTSVE201n5E5inB1U-67Sg-be6cE-DDD4G5IGWbzQ4jBn9uATT1VHlL773uB4uLK/exec";
+
     // Burger meni
     document.getElementById('menuBtn')?.addEventListener('click',()=>{
       document.getElementById('mobileMenu')?.classList.toggle('hidden');
@@ -354,23 +357,24 @@
     radios.forEach(r=>r.addEventListener('change', syncCompany));
     syncCompany();
 
+    // Year in footer
+    document.getElementById('yearSpan').textContent = new Date().getFullYear();
+
     // UTM capture
     const params = new URLSearchParams(location.search);
     document.querySelector('input[name="utm_source"]').value = params.get('utm_source') || '';
     document.querySelector('input[name="utm_medium"]').value = params.get('utm_medium') || '';
     document.querySelector('input[name="utm_campaign"]').value = params.get('utm_campaign') || '';
 
-    // Submit → Google Apps Script
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydFm7NX41YBFWaEyxaDSaobBt6-waodpeStF3EOHK60QzGRBMh0SgFLVrXwSGVzodDUw/exec'; // tvoj web app
-
-    const form = document.getElementById('contactForm');
-    const stateEl = document.getElementById('formState');
-    const submitBtn = document.getElementById('submitBtn');
-
-    form.addEventListener('submit', async (e) => {
+    // ===== Submit handler po uzoru na BattleBots (stabilno): URL-encoded + no-cors =====
+    function sendSindikat(e){
       e.preventDefault();
+      const form = e.target;
+      const stateEl = document.getElementById('formState');
+      const btn = document.getElementById('submitBtn');
+
       // Honeypot
-      if (form.website.value) return;
+      if (form.website && form.website.value) return;
 
       // Minimalna validacija
       if (!form.ime.value.trim() || !form.email.value.trim() || !form.poruka.value.trim()) {
@@ -379,62 +383,49 @@
         return;
       }
 
-      // Usluge (checkbox → array)
-      const usluge = Array.from(form.querySelectorAll('input[name="usluge"]:checked')).map(c=>c.value);
+      // Sastavi URL-encoded podatke iz forme
+      const fd = new FormData(form);
 
-      // Payload striktno po HEADERS redosledu
-      const payload = {
-        tip: form.querySelector('input[name="tip"]:checked')?.value || '',
-        ime: form.ime.value.trim(),
-        email: form.email.value.trim(),
-        telefon: form.telefon.value.trim(),
-        kompanija: form.kompanija?.value?.trim() || '',
-        pib: form.pib?.value?.trim() || '',
-        pozicija: form.pozicija?.value?.trim() || '',
-        tipDogadjaja: form.tipDogadjaja.value,
-        gosti: form.gosti.value,
-        datum: form.datum.value,
-        lokacija: form.lokacija.value.trim(),
-        budzet: form.budzet.value,
-        usluge,
-        poruka: form.poruka.value.trim(),
-        source: 'Sindikat – Kontakt strana',
-        utm_source: form['utm_source'].value,
-        utm_medium: form['utm_medium'].value,
-        utm_campaign: form['utm_campaign'].value,
-        userAgent: navigator.userAgent
-        // IP nije dostupan sa frontenda — u skripti već ima fallback
-      };
+      // usluge: više vrijednosti (usluge=...&usluge=...)
+      const uslugeChecked = form.querySelectorAll('input[name="usluge"]:checked');
+      fd.delete('usluge');
+      uslugeChecked.forEach(c => fd.append('usluge', c.value));
+
+      // dodaj userAgent
+      fd.append('userAgent', navigator.userAgent || '');
+
+      const body = new URLSearchParams(fd).toString();
 
       // UI state
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Šaljem...';
+      btn.disabled = true;
+      const original = btn.textContent;
+      btn.textContent = 'Šaljem...';
       stateEl.textContent = '';
       stateEl.className = 'text-sm text-gray-400';
 
-      try {
-        const res = await fetch(SCRIPT_URL, {
-          method:'POST',
-          headers:{ 'Content-Type':'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (data.ok) {
-          stateEl.textContent = 'Hvala! Vaš upit je uspješno poslat. Javićemo se uskoro.';
-          stateEl.className = 'text-sm text-green-400';
-          form.reset();
-          syncCompany();
-        } else {
-          throw new Error(data.error || 'Greška na serveru');
-        }
-      } catch (err) {
+      fetch(WEBAPP_URL, {
+        method: 'POST',
+        mode: 'no-cors', // izbjegava preflight/CORS
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body
+      })
+      .then(() => {
+        // u no-cors režimu ne čitamo odgovor — UX potvrda
+        stateEl.textContent = 'Hvala! Vaš upit je uspješno poslat. Javićemo se uskoro.';
+        stateEl.className = 'text-sm text-green-400';
+        form.reset();
+        syncCompany();
+      })
+      .catch(() => {
         stateEl.textContent = 'Ups, došlo je do greške. Pokušajte ponovo ili nas kontaktirajte na WhatsApp.';
         stateEl.className = 'text-sm text-red-400';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Pošalji upit';
-      }
-    });
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = original;
+      });
+    }
+    window.sendSindikat = sendSindikat; // attach na window zbog onsubmit atributa
   </script>
 </body>
 </html>
