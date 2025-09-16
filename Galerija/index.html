@@ -136,15 +136,19 @@
     </div>
   </section>
 
-  <!-- PARTNERI / BANERI -->
-   <!-- PARTNERI Top trak (zadrži ads prostor) -->
+<!-- PARTNERI / BANERI -->
+<!-- PARTNERI Top trak (zadrži ads prostor) -->
 <section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
-  <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto partners-scroller hide-scrollbar">
-    
+  <div
+    class="max-w-7xl mx-auto flex gap-3 overflow-x-auto hide-scrollbar justify-center touch-pan-x"
+    role="list"
+    aria-label="Partner logos"
+  >
+
     <!-- Jägermeister -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3">
-      <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png" 
-           alt="Jägermeister logo" 
+    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3 snap-start" role="listitem">
+      <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png"
+           alt="Jägermeister logo"
            class="w-12 h-12 object-contain">
       <div class="text-left">
         <div class="text-red-500 text-xs font-semibold">DRINK PARTNER</div>
@@ -153,9 +157,9 @@
     </div>
 
     <!-- Nikšićko Pivo -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3">
-      <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png" 
-           alt="Nikšićko Pivo logo" 
+    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3 snap-start" role="listitem">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Niksicko_Pivo_logo.png"
+           alt="Nikšićko Pivo logo"
            class="w-12 h-12 object-contain">
       <div class="text-left">
         <div class="text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
@@ -164,9 +168,9 @@
     </div>
 
     <!-- Hotel Maestral -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5K4XX1_pFUmFC7E2E3x1mIpvaNeZPdMr1gw&s" 
-           alt="Hotel Maestral logo" 
+    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3 snap-start" role="listitem">
+      <img src="https://www.maestral.me/sites/default/files/2021-03/logo_0.png"
+           alt="Hotel Maestral logo"
            class="w-12 h-12 object-contain bg-white rounded">
       <div class="text-left">
         <div class="text-blue-400 text-xs font-semibold">PREMIUM PARTNER</div>
@@ -175,9 +179,9 @@
     </div>
 
     <!-- Coca-Cola -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-400/30 flex items-center gap-3">
-      <img src="https://www.citypng.com/public/uploads/preview/hd-official-coca-cola-company-logo-png-701751694778501cwpnlq6cxs.png" 
-           alt="Coca-Cola logo" 
+    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-400/30 flex items-center gap-3 snap-start" role="listitem">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Coca-Cola_logo.svg"
+           alt="Coca-Cola logo"
            class="w-12 h-12 object-contain bg-white rounded">
       <div class="text-left">
         <div class="text-red-400 text-xs font-semibold">REFRESHMENT PARTNER</div>
@@ -186,9 +190,9 @@
     </div>
 
     <!-- m:tel -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3">
-      <img src="https://play-lh.googleusercontent.com/ioyCmGzjq9R0Ct_Zz3Qq_kJGCIHt1sXSzbAqRc1OcJdX-jAnyQR6T3nk9voaUw68nmwC" 
-           alt="m:tel logo" 
+    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3 snap-start" role="listitem">
+      <img src="https://mtel.me/sites/default/files/inline-images/mtel-logo.png"
+           alt="m:tel logo"
            class="w-12 h-12 object-contain bg-white rounded">
       <div class="text-left">
         <div class="text-pink-400 text-xs font-semibold">TECH PARTNER</div>
@@ -196,21 +200,30 @@
       </div>
     </div>
 
-    
+    <!-- ADS slot (zadržan prostor za baner) -->
+    <a href="#ads" class="min-w-[220px] px-6 py-3 rounded-lg border border-dashed border-gold/40 bg-black/30 flex items-center justify-center snap-start">
+      <div class="text-center">
+        <div class="text-gold text-xs font-semibold">AD SPACE</div>
+        <div class="text-sm text-gray-300">300×250 / 728×90</div>
+      </div>
+    </a>
 
   </div>
 </section>
 
-<!-- Custom CSS to hide scrollbar -->
+<!-- Custom CSS to hide scrollbar + smooth mobile scroll + snap -->
 <style>
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
   .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;     /* Firefox */
+    -ms-overflow-style: none;      /* IE/Edge */
+    scrollbar-width: none;         /* Firefox */
+    scroll-snap-type: x mandatory; /* snap cards */
+    -webkit-overflow-scrolling: touch; /* iOS momentum */
+    overscroll-behavior-x: contain;    /* prevent parent bounce */
   }
+  .hide-scrollbar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+  .snap-start { scroll-snap-align: start; }
 </style>
+
 
   <!-- GALERIJA -->
   <main id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-10">
