@@ -100,8 +100,17 @@ window.addEventListener('resize', setNavHeight);
 })();
 </script>
 </head>
+<style>
+  .floating-mobile-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 70;
+    transform: translateY(0) !important; /* uvijek vidljiv */
+  }
+</style>
 
-</script>
 <style>
 * {
 font-family: 'Inter', sans-serif;
@@ -1266,69 +1275,7 @@ Iskoristite Ponudu
 </div>
 </section>
 
-<!-- Contact -->
-<section id="contact" class="py-20 px-6 bg-black">
-<div class="max-w-7xl mx-auto">
-<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Stupite u <span class="gradient-gold">Kontakt</span></h2>
-<div class="grid lg:grid-cols-3 gap-16">
-<div class="fade-in lg:col-span-2">
-<h3 class="text-2xl font-semibold font-montserrat mb-8">Planirajmo Vaš Savršen Događaj</h3>
-<form class="space-y-6" onsubmit="handleSubmit(event)">
-<div class="grid sm:grid-cols-2 gap-4">
-<input type="text" placeholder="Vaše ime" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl focus:border-gold focus:outline-none transition-colors" required>
-<input type="email" placeholder="Email adresa" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl focus:border-gold focus:outline-none transition-colors" required>
-</div>
-<input type="tel" placeholder="Broj telefona" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl focus:border-gold focus:outline-none transition-colors">
-<input type="date" placeholder="Datum događaja" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl focus:border-gold focus:outline-none transition-colors">
-<textarea placeholder="Recite nam o vašem događaju - tip, lokacija, broj gostiju, potrebne usluge..." rows="5" class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl focus:border-gold focus:outline-none transition-colors resize-none" required></textarea>
-<button type="submit" class="w-full bg-gradient-to-r from-gold to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105 hover:shadow-lg">
-Pošaljite Poruku
-</button>
-</form>
-<p class="text-sm text-gray-400 mt-6 p-4 bg-gray-900 rounded-xl">
-<strong>Demo Forma:</strong> Ovo je primer kontakt forme za demonstraciju. Na pravom sajtu, ova forma bi poslala vašu poruku direktno Sindikat timu za trenutni odgovor.
-</p>
-</div>
-<div class="fade-in">
-<h3 class="text-2xl font-semibold font-montserrat mb-8">Brzi Kontakt</h3>
-<div class="space-y-6">
-<a href="https://wa.me/38267123456" class="flex items-center space-x-6 p-6 bg-green-600 hover:bg-green-700 rounded-2xl transition-all hover:scale-105 group">
-<div class="text-3xl group-hover:scale-110 transition-transform">📱</div>
-<div>
-<h4 class="font-semibold text-lg font-montserrat">WhatsApp</h4>
-<p class="text-green-100">+382 67 123 456</p>
-<p class="text-green-200 text-sm">Najbrži odgovor - obično u roku od nekoliko minuta</p>
-</div>
-</a>
-<a href="https://instagram.com/sindikat_events" class="flex items-center space-x-6 p-6 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-2xl transition-all hover:scale-105 group">
-<div class="text-3xl group-hover:scale-110 transition-transform">📸</div>
-<div>
-<h4 class="font-semibold text-lg font-montserrat">Instagram</h4>
-<p class="text-pink-100">@sindikat_events</p>
-<p class="text-pink-200 text-sm">Pogledajte naše najnovije događaje i iza kulisa</p>
-</div>
-</a>
-<div class="flex items-center space-x-6 p-6 bg-gray-800 rounded-2xl">
-<div class="text-3xl">📞</div>
-<div>
-<h4 class="font-semibold text-lg font-montserrat">Telefon</h4>
-<p class="text-gray-300">+382 20 123 456</p>
-<p class="text-gray-400 text-sm">Dostupni Pon-Pet 9-18h</p>
-</div>
-</div>
-<div class="flex items-center space-x-6 p-6 bg-gray-800 rounded-2xl">
-<div class="text-3xl">📍</div>
-<div>
-<h4 class="font-semibold text-lg font-montserrat">Lokacija</h4>
-<p class="text-gray-300">Podgorica, Crna Gora</p>
-<p class="text-gray-400 text-sm">Služimo celu Crnu Goru</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+
 
 <!-- Bottom Advertisement Banner -->
 <section class="py-12 px-6 bg-gradient-to-r from-electric-blue/20 via-purple-600/20 to-electric-blue/20 border-t border-electric-blue/30">
@@ -2311,6 +2258,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
