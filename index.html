@@ -508,23 +508,28 @@ transition-duration: 0.01ms !important;
 </div>
 
 <!-- Floating Mobile Banner -->
-<div id="floatingBanner" class="floating-mobile-banner">
-<div class="flex items-center justify-between">
-<div class="flex items-center space-x-3">
-<div class="text-2xl">💼</div>
-<div>
-<div class="text-black font-bold text-sm">Pretraži poslove</div>
-<div class="text-black/80 text-xs">Pronađi priliku za sebe</div>
+<div id="floatingBanner" class="floating-mobile-banner bg-white border border-gray-300 shadow-lg rounded-xl p-3">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="text-2xl">💼</div>
+      <div>
+        <div class="text-black font-bold text-sm">Pretraži poslove</div>
+        <div class="text-black/80 text-xs">Pronađi priliku za sebe</div>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <a href="https://weareconnect.me/poslovi/" 
+         class="bg-black text-gold px-4 py-2 rounded-full text-xs font-bold hover:bg-gray-800 transition-colors">
+        Poslovi
+      </a>
+      <button onclick="closeBanner()" 
+              class="text-black/60 hover:text-black text-lg font-bold">
+        ×
+      </button>
+    </div>
+  </div>
 </div>
-</div>
-<div class="flex items-center space-x-2">
-<a href="https://weareconnect.me/poslovi/" class="bg-black text-gold px-4 py-2 rounded-full text-xs font-bold hover:bg-gray-800 transition-colors">
-Poslovi
-</a>
-<button onclick="closeBanner()" class="text-black/60 hover:text-black text-lg font-bold">×</button>
-</div>
-</div>
-</div>
+
 
 
 
@@ -1336,7 +1341,7 @@ Rezerviši Sada
 
 <footer class="bg-gray-900 py-16 px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+    <div class="grid md:grid-cols-2 gap-12">
 
       <!-- Kolona 1: Brzi kontakt -->
       <div>
@@ -1389,14 +1394,6 @@ Rezerviši Sada
         </div>
       </div>
 
-      <!-- Kolona 3: Dugme za kontakt -->
-      <div class="flex flex-col justify-center">
-        <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
-        <a href="https://weareconnect.me/kontakt/"
-           class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
-          Idi na Kontakt Stranicu
-        </a>
-      </div>
     </div>
 
     <!-- Donji red -->
@@ -1406,6 +1403,7 @@ Rezerviši Sada
     </div>
   </div>
 </footer>
+
 
 <script>
 // Language data
@@ -2258,6 +2256,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
