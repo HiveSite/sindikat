@@ -1,131 +1,440 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="sr">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kontakt – minimal test</title>
-<body style="background:#111;color:#eee;font:16px/1.4 system-ui;padding:24px">
-  <h1>Kontakt – minimal</h1>
-  <form id="f" style="max-width:560px;background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:16px">
-    <div>
-      <label>Vi ste*:
-        <label><input type="radio" name="tip" value="Fizičko lice" checked> Fizičko lice</label>
-        <label><input type="radio" name="tip" value="Kompanija"> Kompanija</label>
-      </label>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sindikat – Kontakt & Saradnja</title>
+  <meta name="description" content="Kontakt forma za saradnju – fizička lica i kompanije. Brz odgovor, jasni zahtjevi i ponuda prilagođena vašem događaju." />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { montserrat:['Montserrat','sans-serif'], inter:['Inter','sans-serif'] },
+          colors: { gold:'#FFD700', 'electric-blue':'#00BFFF' }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root{ --nav-h:72px; }
+    body{ background:#000; color:#fff; padding-top:var(--nav-h); }
+    h1,h2,h3,h4{ font-family:'Montserrat',sans-serif }
+    .card{ background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(0,191,255,.07)); border:1px solid rgba(255,215,0,.12); backdrop-filter:blur(10px) }
+    .field{ background:#1a1a1a; border:1px solid #2a2a2a; border-radius:12px; padding:12px 16px; width:100%; outline:none; color:#fff }
+    .field:focus{ border-color:#FFD700; }
+    .btn{ border-radius:9999px; font-weight:700; padding:12px 22px }
+    .btn-gold{ background:#FFD700; color:#000; }
+    .btn-gold:hover{ background:#FFC300 }
+    .hidden-robot { position:absolute; left:-99999px; opacity:0; }
+    .gradient-title{ background:linear-gradient(135deg,#FFD700,#FFA500); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  </style>
+</head>
+<body class="font-inter">
+
+  <!-- NAVBAR (isti stil kao original) -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur border-b border-neutral-800">
+    <div class="max-w-7xl mx-auto h-[72px] flex items-center justify-between px-6">
+      <a href="https://weareconnect.me/" class="text-2xl font-extrabold font-montserrat bg-gradient-to-r from-gold to-yellow-500 bg-clip-text text-transparent">
+        SINDIKAT
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="https://weareconnect.me/" class="hover:text-gold transition-colors">Početna</a>
+        <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors">Poslovi</a>
+        <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors">Blog</a>
+        <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors">Galerija</a>
+        <a href="https://weareconnect.me/onama/" class="hover:text-gold transition-colors">O nama</a>
+        <a href="https://weareconnect.me/kontakt/" class="bg-gold hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold transition-colors">Kontakt</a>
+      </div>
+      <button id="menuBtn" class="md:hidden text-white text-2xl">☰</button>
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input name="ime" placeholder="Ime i prezime*" required style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-      <input id="komp" name="kompanija" placeholder="Kompanija*" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff;display:none">
+    <div id="mobileMenu" class="hidden md:hidden bg-black border-t border-neutral-800 px-6 py-4 space-y-4">
+      <a href="https://weareconnect.me/" class="block hover:text-gold">Početna</a>
+      <a href="https://weareconnect.me/poslovi/" class="block hover:text-gold">Poslovi</a>
+      <a href="https://weareconnect.me/blog/" class="block hover:text-gold">Blog</a>
+      <a href="https://weareconnect.me/galerija/" class="block hover:text-gold">Galerija</a>
+      <a href="https://weareconnect.me/onama/" class="block hover:text-gold">O nama</a>
+      <a href="https://weareconnect.me/kontakt/" class="block bg-gold text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-500">Kontakt</a>
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input type="email" name="email" placeholder="Email*" required style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-      <input name="telefon" placeholder="Telefon" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
+  </nav>
+
+  <!-- HERO -->
+  <header class="py-16 md:py-24 text-center px-6">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">Kontakt &nbsp;<span class="gradient-title">Saradnja</span></h1>
+    <p class="text-gray-300 max-w-2xl mx-auto">
+      Jedna forma za sve – <strong>fizička lica</strong> i <strong>kompanije</strong>. Odgovaramo brzo i jasno.
+    </p>
+  </header>
+
+  <!-- CONTACT SECTION -->
+  <section class="pb-20 px-6">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-5 gap-10">
+
+      <!-- INFO (kao footer stil) -->
+      <aside class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <h3 class="text-xl font-semibold mb-4">Brzi kontakt</h3>
+        <div class="space-y-4">
+          <a href="https://wa.me/38267123456" class="flex items-center gap-3 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105">
+            <span class="text-2xl">📱</span>
+            <div>
+              <div class="font-semibold">WhatsApp</div>
+              <div class="text-sm text-green-100">+382 67 123 456 • najbrži odgovor</div>
+            </div>
+          </a>
+          <a href="https://instagram.com/sindikat_events" class="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105">
+            <span class="text-2xl">📸</span>
+            <div>
+              <div class="font-semibold">@sindikat_events</div>
+              <div class="text-sm text-pink-100">pogledajte aktuelne događaje &amp; BTS</div>
+            </div>
+          </a>
+          <div class="p-4 bg-gray-900 rounded-xl border border-gray-800">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">📍</span>
+              <div>
+                <div class="font-semibold">Podgorica, Crna Gora</div>
+                <div class="text-sm text-gray-400">Služimo cijelu Crnu Goru</div>
+              </div>
+            </div>
+          </div>
+          <a href="tel:+38220123456" class="flex items-center gap-3 p-4 bg-gray-900 rounded-xl border border-gray-800 hover:border-gold transition">
+            <span class="text-2xl">📞</span>
+            <div>
+              <div class="font-semibold">+382 20 123 456</div>
+              <div class="text-sm text-gray-400">Pon–Pet 9–18h</div>
+            </div>
+          </a>
+        </div>
+      </aside>
+
+      <!-- FORM (footer stil) -->
+      <div class="lg:col-span-3 bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-lg">
+        <form id="contactForm" class="space-y-6" novalidate>
+          <!-- Honeypot -->
+          <input type="text" name="website" class="hidden-robot" tabindex="-1" autocomplete="off"/>
+
+          <!-- TIP: Fizičko lice / Kompanija -->
+          <div>
+            <label class="block mb-2 font-semibold text-gray-200">Vi ste*</label>
+            <div class="flex items-center gap-6 text-gray-300">
+              <label class="flex items-center gap-2">
+                <input type="radio" name="tip" value="Fizičko lice" checked class="accent-gold">
+                <span>Fizičko lice</span>
+              </label>
+              <label class="flex items-center gap-2">
+                <input type="radio" name="tip" value="Kompanija" class="accent-gold">
+                <span>Kompanija</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- OSNOVNO -->
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-2 text-gray-300">Ime i prezime*</label>
+              <input name="ime" required class="field" placeholder="Vaše ime i prezime">
+            </div>
+            <div id="companyFields" class="hidden">
+              <label class="block mb-2 text-gray-300">Naziv kompanije*</label>
+              <input name="kompanija" class="field" placeholder="Npr. Connect d.o.o.">
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-2 text-gray-300">Email*</label>
+              <input type="email" name="email" required class="field" placeholder="vas@email.com">
+            </div>
+            <div>
+              <label class="block mb-2 text-gray-300">Telefon</label>
+              <input type="tel" name="telefon" class="field" placeholder="+382 6x xxx xxx">
+            </div>
+          </div>
+
+          <!-- KOMPANIJSKA DODATNA (uslovno) -->
+          <div id="companyMore" class="grid sm:grid-cols-2 gap-4 hidden">
+            <div>
+              <label class="block mb-2 text-gray-300">PIB / Matični broj</label>
+              <input name="pib" class="field" placeholder="PIB/MB">
+            </div>
+            <div>
+              <label class="block mb-2 text-gray-300">Vaša pozicija</label>
+              <input name="pozicija" class="field" placeholder="Npr. Marketing menadžer">
+            </div>
+          </div>
+
+          <!-- DETALJI DOGAĐAJA -->
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-2 text-gray-300">Tip događaja</label>
+              <select name="tipDogadjaja" class="field">
+                <option value="">Odaberite…</option>
+                <option>Korpo event</option>
+                <option>Proslava / privatni event</option>
+                <option>Vjenčanje</option>
+                <option>Promo / lansiranje</option>
+                <option>Festivali / javni događaji</option>
+                <option>Drugo</option>
+              </select>
+            </div>
+            <div>
+              <label class="block mb-2 text-gray-300">Broj gostiju</label>
+              <select name="gosti" class="field">
+                <option value="">Odaberite…</option>
+                <option>do 50</option>
+                <option>50–150</option>
+                <option>150–300</option>
+                <option>300+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block mb-2 text-gray-300">Datum</label>
+              <input type="date" name="datum" class="field">
+            </div>
+            <div>
+              <label class="block mb-2 text-gray-300">Lokacija</label>
+              <input name="lokacija" class="field" placeholder="Grad / venue">
+            </div>
+            <div>
+              <label class="block mb-2 text-gray-300">Budžet</label>
+              <select name="budzet" class="field">
+                <option value="">Odaberite…</option>
+                <option>&lt; 1.000 €</option>
+                <option>1.000 – 3.000 €</option>
+                <option>3.000 – 7.000 €</option>
+                <option>7.000+ €</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- USLUGE (naša ponuda) -->
+          <div>
+            <label class="block mb-3 text-gray-300">Koje usluge su vam potrebne?</label>
+            <div class="grid sm:grid-cols-2 gap-2 text-sm">
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Planiranje i produkcija" class="accent-gold"> Planiranje i produkcija
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Barmeni i kokteli" class="accent-gold"> Barmeni i kokteli
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="DJ / Muzika uživo" class="accent-gold"> DJ / Muzika uživo
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Zvuk i rasvjeta" class="accent-gold"> Zvuk i rasvjeta
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Scenski dizajn i scenografija" class="accent-gold"> Scenski dizajn i scenografija
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Foto / Video" class="accent-gold"> Foto / Video
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Hostese i protokol" class="accent-gold"> Hostese i protokol
+              </label>
+              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
+                <input type="checkbox" name="usluge" value="Event namještaj / dekor" class="accent-gold"> Event namještaj / dekor
+              </label>
+            </div>
+          </div>
+
+          <!-- PORUKA -->
+          <div>
+            <label class="block mb-2 text-gray-300">Detalji / poruka*</label>
+            <textarea name="poruka" rows="4" required class="field" placeholder="Kratko opišite potrebe, ideje ili specifične zahtjeve…"></textarea>
+          </div>
+
+          <!-- SAGLASNOST -->
+          <label class="flex items-start gap-3 text-sm text-gray-400">
+            <input type="checkbox" required class="mt-[4px] accent-gold">
+            <span>Saglasan/na sam da Sindikat obradi moje podatke u svrhu izrade ponude i komunikacije u vezi sa događajem.</span>
+          </label>
+
+          <!-- HIDDEN META -->
+          <input type="hidden" name="source" value="Sindikat – Kontakt strana">
+          <input type="hidden" name="utm_source">
+          <input type="hidden" name="utm_medium">
+          <input type="hidden" name="utm_campaign">
+
+          <!-- SUBMIT -->
+          <div class="flex items-center gap-3">
+            <button id="submitBtn" class="bg-gold text-black font-bold px-6 py-3 rounded-full hover:bg-yellow-500 transition-all hover:scale-105" type="submit">
+              Pošalji upit
+            </button>
+            <span id="formState" class="text-sm text-gray-400"></span>
+          </div>
+        </form>
+      </div>
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <select name="tipDogadjaja" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-        <option value="">Tip događaja…</option>
-        <option>Korpo event</option><option>Privatni event</option><option>Vjenčanje</option><option>Promo</option>
-      </select>
-      <select name="gosti" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-        <option value="">Broj gostiju…</option>
-        <option>do 50</option><option>50–150</option><option>150–300</option><option>300+</option>
-      </select>
+  </section>
+
+  <!-- FOOTER (2 kolone) -->
+  <footer class="bg-gray-900 py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12">
+
+        <!-- Brzi kontakt -->
+        <div>
+          <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
+          <div class="space-y-6">
+            <a href="https://wa.me/38267123456" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
+              <div class="text-2xl">📱</div>
+              <div>
+                <h5 class="font-semibold">WhatsApp</h5>
+                <p class="text-sm">+382 67 123 456</p>
+                <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
+              </div>
+            </a>
+            <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
+              <div class="text-2xl">📸</div>
+              <div>
+                <h5 class="font-semibold">Instagram</h5>
+                <p class="text-sm">@sindikat_events</p>
+                <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
+              </div>
+            </a>
+            <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+              <div class="text-2xl">📞</div>
+              <div>
+                <h5 class="font-semibold">Telefon</h5>
+                <p class="text-sm">+382 20 123 456</p>
+                <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+              <div class="text-2xl">📍</div>
+              <div>
+                <h5 class="font-semibold">Lokacija</h5>
+                <p class="text-sm">Podgorica, Crna Gora</p>
+                <p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="flex flex-col justify-center">
+          <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
+          <a href="https://weareconnect.me/kontakt/"
+             class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
+            Idi na Kontakt Stranicu
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+        <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
+      </div>
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input type="date" name="datum" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-      <input name="lokacija" placeholder="Lokacija" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-      <select name="budzet" style="flex:1;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff">
-        <option value="">Budžet…</option>
-        <option>< 1.000 €</option><option>1.000 – 3.000 €</option><option>3.000 – 7.000 €</option><option>7.000+ €</option>
-      </select>
-    </div>
-    <fieldset style="margin-top:8px;border:1px solid #333;border-radius:8px;padding:8px">
-      <legend style="padding:0 6px">Usluge</legend>
-      <label><input type="checkbox" name="usluge" value="Planiranje i produkcija"> Planiranje i produkcija</label>
-      <label><input type="checkbox" name="usluge" value="Barmeni i kokteli"> Barmeni i kokteli</label>
-      <label><input type="checkbox" name="usluge" value="DJ / Muzika uživo"> DJ / Muzika uživo</label>
-      <label><input type="checkbox" name="usluge" value="Zvuk i rasvjeta"> Zvuk i rasvjeta</label>
-    </fieldset>
-    <div style="margin-top:8px">
-      <textarea name="poruka" rows="4" required placeholder="Detalji / poruka*" style="width:100%;background:#222;border:1px solid #444;border-radius:8px;padding:10px;color:#fff"></textarea>
-    </div>
-    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:8px;font-size:14px;color:#bbb">
-      <input type="checkbox" required style="margin-top:4px"> Saglasan/na sam da se podaci koriste za ponudu i komunikaciju.
-    </label>
-    <input type="hidden" name="source" value="Sindikat – Kontakt test">
-    <div style="display:flex;align-items:center;gap:10px;margin-top:12px">
-      <button id="btn" type="submit" style="background:#FFD700;color:#000;font-weight:700;border:0;border-radius:999px;padding:10px 18px">Pošalji upit</button>
-      <span id="state" style="font-size:14px;color:#aaa"></span>
-    </div>
-  </form>
+  </footer>
 
   <script>
-  (function(){
-    const SCRIPT_URL = 'PASTE_YOUR_EXEC_URL_HERE'; // <- tvoj /exec
-    const f = document.getElementById('f');
-    const btn = document.getElementById('btn');
-    const state = document.getElementById('state');
-    const komp = document.getElementById('komp');
-
-    // toggle Kompanija
-    f.addEventListener('change', (e)=>{
-      if(e.target.name==='tip'){
-        const show = (e.target.value==='Kompanija');
-        komp.style.display = show ? 'block' : 'none';
-        komp.required = show;
-      }
+    // Burger meni
+    document.getElementById('menuBtn')?.addEventListener('click',()=>{
+      document.getElementById('mobileMenu')?.classList.toggle('hidden');
     });
 
-    f.addEventListener('submit', async (e)=>{
-      e.preventDefault();
+    // Toggle kompanijskih polja
+    const radios = document.querySelectorAll('input[name="tip"]');
+    const companyFields = document.getElementById('companyFields');
+    const companyMore = document.getElementById('companyMore');
+    function syncCompany() {
+      const v = document.querySelector('input[name="tip"]:checked')?.value;
+      const show = v === 'Kompanija';
+      companyFields.classList.toggle('hidden', !show);
+      companyMore.classList.toggle('hidden', !show);
+      companyFields.querySelector('input[name="kompanija"]').required = show;
+    }
+    radios.forEach(r=>r.addEventListener('change', syncCompany));
+    syncCompany();
 
-      if(!f.ime.value.trim() || !f.email.value.trim() || !f.poruka.value.trim()){
-        state.textContent = 'Popunite: Ime, Email, Poruka.'; state.style.color='#f88'; return;
+    // UTM capture
+    const params = new URLSearchParams(location.search);
+    document.querySelector('input[name="utm_source"]').value = params.get('utm_source') || '';
+    document.querySelector('input[name="utm_medium"]').value = params.get('utm_medium') || '';
+    document.querySelector('input[name="utm_campaign"]').value = params.get('utm_campaign') || '';
+
+    // Submit → Google Apps Script
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydFm7NX41YBFWaEyxaDSaobBt6-waodpeStF3EOHK60QzGRBMh0SgFLVrXwSGVzodDUw/exec'; // tvoj web app
+
+    const form = document.getElementById('contactForm');
+    const stateEl = document.getElementById('formState');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Honeypot
+      if (form.website.value) return;
+
+      // Minimalna validacija
+      if (!form.ime.value.trim() || !form.email.value.trim() || !form.poruka.value.trim()) {
+        stateEl.textContent = 'Molimo popunite obavezna polja.';
+        stateEl.className = 'text-sm text-red-400';
+        return;
       }
 
-      const usluge = Array.from(f.querySelectorAll('input[name="usluge"]:checked')).map(x=>x.value);
+      // Usluge (checkbox → array)
+      const usluge = Array.from(form.querySelectorAll('input[name="usluge"]:checked')).map(c=>c.value);
 
+      // Payload striktno po HEADERS redosledu
       const payload = {
-        tip: (f.querySelector('input[name="tip"]:checked')||{}).value || '',
-        ime: f.ime.value.trim(),
-        email: f.email.value.trim(),
-        telefon: f.telefon.value.trim(),
-        kompanija: f.kompanija ? f.kompanija.value.trim() : '',
-        pib: '', pozicija: '',
-        tipDogadjaja: f.tipDogadjaja.value,
-        gosti: f.gosti.value,
-        datum: f.datum.value,
-        lokacija: f.lokacija.value.trim(),
-        budzet: f.budzet.value,
+        tip: form.querySelector('input[name="tip"]:checked')?.value || '',
+        ime: form.ime.value.trim(),
+        email: form.email.value.trim(),
+        telefon: form.telefon.value.trim(),
+        kompanija: form.kompanija?.value?.trim() || '',
+        pib: form.pib?.value?.trim() || '',
+        pozicija: form.pozicija?.value?.trim() || '',
+        tipDogadjaja: form.tipDogadjaja.value,
+        gosti: form.gosti.value,
+        datum: form.datum.value,
+        lokacija: form.lokacija.value.trim(),
+        budzet: form.budzet.value,
         usluge,
-        poruka: f.poruka.value.trim(),
-        source: f.source.value,
-        utm_source:'',utm_medium:'',utm_campaign:'',
+        poruka: form.poruka.value.trim(),
+        source: 'Sindikat – Kontakt strana',
+        utm_source: form['utm_source'].value,
+        utm_medium: form['utm_medium'].value,
+        utm_campaign: form['utm_campaign'].value,
         userAgent: navigator.userAgent
+        // IP nije dostupan sa frontenda — u skripti već ima fallback
       };
 
-      btn.disabled = true; btn.textContent='Šaljem…'; state.textContent=''; state.style.color='#aaa';
-      try{
-        const resp = await fetch(SCRIPT_URL, {
+      // UI state
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Šaljem...';
+      stateEl.textContent = '';
+      stateEl.className = 'text-sm text-gray-400';
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
           method:'POST',
-          headers:{ 'Content-Type':'text/plain;charset=utf-8' }, // simple request → nema preflight
+          headers:{ 'Content-Type':'application/json' },
           body: JSON.stringify(payload)
         });
-        const text = await resp.text();
-        let data={}; try{ data=JSON.parse(text); }catch(e){ data={ok:false,error:text.slice(0,200)} }
-        if(resp.ok && data.ok){
-          state.textContent='Hvala! Poslato ✅'; state.style.color='#6f6';
-          f.reset(); komp.style.display='none'; komp.required=false;
-        }else{
-          throw new Error(data.error || ('HTTP '+resp.status));
+        const data = await res.json();
+        if (data.ok) {
+          stateEl.textContent = 'Hvala! Vaš upit je uspješno poslat. Javićemo se uskoro.';
+          stateEl.className = 'text-sm text-green-400';
+          form.reset();
+          syncCompany();
+        } else {
+          throw new Error(data.error || 'Greška na serveru');
         }
-      }catch(err){
-        console.error(err);
-        state.textContent='Greška pri slanju. Probajte ponovo.'; state.style.color='#f88';
-      }finally{
-        btn.disabled=false; btn.textContent='Pošalji upit';
+      } catch (err) {
+        stateEl.textContent = 'Ups, došlo je do greške. Pokušajte ponovo ili nas kontaktirajte na WhatsApp.';
+        stateEl.className = 'text-sm text-red-400';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Pošalji upit';
       }
     });
-  })();
   </script>
 </body>
 </html>
