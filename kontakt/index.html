@@ -413,11 +413,11 @@
       stateEl.className = 'text-sm text-gray-400';
 
       try {
-        const res = await fetch(SCRIPT_URL, {
-          method:'POST',
-          headers:{ 'Content-Type':'application/json' },
-          body: JSON.stringify(payload)
-        });
+        onst res = await fetch(SCRIPT_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // simple request → bez preflight-a
+  body: JSON.stringify(payload)
+});
         const data = await res.json();
         if (data.ok) {
           stateEl.textContent = 'Hvala! Vaš upit je uspješno poslat. Javićemo se uskoro.';
