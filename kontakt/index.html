@@ -361,11 +361,112 @@
     document.querySelector('input[name="utm_campaign"]').value = params.get('utm_campaign') || '';
 
     // Submit → Google Apps Script
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaSo6mNznMDpuMUE-YOxaaFfLoD6YEAiC9yPHpijsO8p536vRj20W2YiWBetSW4a_Tsw/exec'; // tvoj web app
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydFm7NX41YBFWaEyxaDSaobBt6-waodpeStF3EOHK60QzGRBMh0SgFLVrXwSGVzodDUw/exec'; // tvoj /exec
+  const form     = document.getElementById('contactForm');
+  const stateEl  = document.getElementById('formState');
+  const submitBtn= document.getElementById('submitBtn');
 
-    const form = document.getElementById('contactForm');
-    const stateEl = document.getElementById('formState');
-    const submitBtn = document.getElementById('submitBtn');
+  // helper: toggle kompanija polja (ako koristiš)
+  function syncCompany(){
+    const isCompany = (document.querySelector('input[name="tip"]:checked')?.value === 'Kompanija');
+    const cf = document.getElementById('companyFields');
+    const cm = document.getElementById('companyMore');
+    if (cf) {
+      cf.classList.toggle('hidden', !isCompany);
+      const ci = cf.querySelector('input[name="kompanija"]');
+      if (ci) ci.required = isCompany;
+    }
+    if (cm) cm.classList.toggle('hidden', !isCompany);
+  }
+  document.querySelectorAll('input[name="tip"]').forEach(r => r.addEventListener('change', syncCompany));
+  syncCompany();
+
+  // UTM capture (opcionalno)
+  const params = new URLSearchParams(location.search);
+  const utmS = form.querySelector('input[name="utm_source"]');   if (utmS) utmS.value = params.get('utm_source') || '';
+  const utmM = form.querySelector('input[name="utm_medium"]');   if (utmM) utmM.value = params.get('utm_medium') || '';
+  const utmC = form.querySelector('input[name="utm_campaign"]'); if (utmC) utmC.value = params.get('utm_campaign') || '';
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault(); // spriječi reload / GET
+
+    // honeypot
+    if (form.website && form.website.value) return;
+
+    // osnovna validacija
+    if (!form.ime.value.trim() || !form.email.value.trim() || !form.poruka.value.trim()) {
+      stateEl.textContent = 'Molimo popunite obavezna polja.';
+      stateEl.className = 'text-sm text-red-400';
+      return;
+    }
+
+    // checkbox → array
+    const usluge = Array.from(form.querySelectorAll('input[name="usluge"]:checked')).map(c => c.value);
+
+    // priprema payload-a
+    const payload = {
+      tip:            form.querySelector('input[name="tip"]:checked')?.value || '',
+      ime:            form.ime.value.trim(),
+      email:          form.email.value.trim(),
+      telefon:        form.telefon.value.trim(),
+      kompanija:      form.kompanija ? form.kompanija.value.trim() : '',
+      pib:            form.pib ? form.pib.value.trim() : '',
+      pozicija:       form.pozicija ? form.pozicija.value.trim() : '',
+      tipDogadjaja:   form.tipDogadjaja ? form.tipDogadjaja.value : '',
+      gosti:          form.gosti ? form.gosti.value : '',
+      datum:          form.datum ? form.datum.value : '',
+      lokacija:       form.lokacija ? form.lokacija.value.trim() : '',
+      budzet:         form.budzet ? form.budzet.value : '',
+      usluge,
+      poruka:         form.poruka.value.trim(),
+      source:         (form.source ? form.source.value : 'Sindikat – Kontakt strana'),
+      utm_source:     form['utm_source'] ? form['utm_source'].value : '',
+      utm_medium:     form['utm_medium'] ? form['utm_medium'].value : '',
+      utm_campaign:   form['utm_campaign'] ? form['utm_campaign'].value : '',
+      userAgent:      navigator.userAgent
+    };
+
+    // UI state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Šaljem...';
+    stateEl.textContent = '';
+    stateEl.className = 'text-sm text-gray-400';
+
+    try {
+      // CORS bez preflight-a: text/plain
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      // Ako GAS vrati HTML (npr. 302 auth), pokušaj parsirati JSON, inače fallback
+      let data = {};
+      const text = await response.text();
+      try { data = JSON.parse(text); } catch(_) { data = { ok:false, error: text.slice(0,200) }; }
+
+      if (response.ok && data.ok) {
+        stateEl.textContent = 'Hvala! Vaš upit je uspješno poslat. Javićemo se uskoro.';
+        stateEl.className = 'text-sm text-green-400';
+        form.reset();
+        syncCompany();
+      } else {
+        throw new Error(data.error || ('HTTP ' + response.status + ' – ' + text.slice(0,200)));
+      }
+    } catch (err) {
+      stateEl.textContent = 'Ups, došlo je do greške. Pokušajte ponovo ili nas kontaktirajte na WhatsApp.';
+      stateEl.className = 'text-sm text-red-400';
+      console.error('Form submit error:', err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Pošalji upit';
+    }
+  });
+});
+</script>
+
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
