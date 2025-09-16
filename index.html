@@ -533,10 +533,11 @@ Poslovi
 
 
 
-<!-- NAV: fixed, black, CSS-only burger -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-black border-b border-neutral-800">
+<!-- NAV (isti stil) -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-    <a href="https://weareconnect.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT POSLOVI</a>
+    <!-- Logo vodi na jobs landing -->
+    <a href="https://weareconnect.me/poslovi/" class="text-2xl font-extrabold gradient-gold">SINDIKAT POSLOVI</a>
 
     <!-- Desktop -->
     <div class="hidden md:flex items-center gap-6 text-sm">
@@ -544,43 +545,40 @@ Poslovi
       <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
       <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
       <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
+      <!-- Sekcije na glavnoj -> pune rute + hash da radi sa svake podstranice -->
       <a href="https://weareconnect.me/#about" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
       <a href="https://weareconnect.me/#contact" class="bg-gold hover:bg-yellow-500 text-black px-4 xl:px-6 py-2 rounded-full font-semibold transition-all hover:scale-105 btn-animate text-sm xl:text-base">Kontakt</a>
       <button id="openPostJob" class="px-4 py-2 rounded-full bg-gold text-black font-semibold hover:brightness-95 shadow-glow">Objavi oglas</button>
     </div>
 
-    <!-- Burger = label (zadržavam tvoj ID) -->
-    <label id="mobileMenuBtn"
-           for="mobileNav"
-           class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-           aria-label="Otvori meni" aria-controls="mobileOverlay" aria-expanded="false">☰</label>
+    <!-- Burger (zadržavam tvoj ID i stil) -->
+    <button id="mobileMenuBtn"
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition"
+            aria-label="Otvori meni" aria-expanded="false" aria-controls="mobileOverlay">☰</button>
   </div>
 
-  <!-- Kontrolni checkbox (peer) -->
-  <input id="mobileNav" type="checkbox" class="peer sr-only" />
-
-  <!-- Mobile FULL BLACK overlay -->
-  <div id="mobileOverlay" class="fixed inset-0 z-[60] hidden md:hidden peer-checked:block">
-    <div class="absolute inset-0 bg-black"></div>
-
-    <!-- Close -->
-    <label for="mobileNav" class="absolute top-4 right-4 text-3xl cursor-pointer select-none text-white" aria-label="Zatvori meni">✕</label>
-
-    <!-- Meni linkovi -->
-    <div class="relative h-full flex flex-col items-center justify-center gap-7 text-white text-xl md:text-2xl">
-      <a href="https://weareconnect.me/" class="hover:text-gold transition-colors">Početna</a>
-      <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors">Poslovi</a>
-      <a href="https://weareconnect.me/blog/" class="hover:text-gold transition-colors">Blog</a>
-      <a href="https://weareconnect.me/galerija/" class="hover:text-gold transition-colors">Galerija</a>
-      <a href="https://weareconnect.me/#about" class="hover:text-gold transition-colors">O nama</a>
-      <a href="https://weareconnect.me/#contact" class="bg-gold text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition-all">Kontakt</a>
-      <button id="openPostJob" class="px-6 py-3 rounded-full bg-gold text-black font-semibold hover:brightness-95 shadow-glow">Objavi oglas</button>
-    </div>
-  </div>
-
-  <!-- (opciono) ostavi stari #mobileMenu ako ti treba za kompatibilnost -->
+  <!-- (stari #mobileMenu može ostati prazan) -->
   <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-800 bg-black"></div>
 </nav>
+
+<!-- MOBILE OVERLAY (isti stil) -->
+<div id="mobileOverlay" class="fixed inset-0 z-[49] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
+  <div class="absolute top-[72px] left-0 right-0">
+    <nav class="px-4 pt-4 pb-16 space-y-2">
+      <a href="https://weareconnect.me/"           class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
+      <a href="https://weareconnect.me/poslovi/"   class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
+      <a href="https://weareconnect.me/blog/"      class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
+      <a href="https://weareconnect.me/galerija/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
+      <a href="https://weareconnect.me/#about"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
+      <a href="https://weareconnect.me/#contact"   class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+      <button id="openPostJobM" class="w-full mt-2 px-4 py-3 rounded-xl bg-gold text-black font-semibold hover:brightness-95">Objavi oglas</button>
+    </nav>
+  </div>
+  <button id="mobileClose" class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition" aria-label="Zatvori meni">
+    <span class="text-2xl leading-none">×</span>
+  </button>
+</div>
+
 
 
 
@@ -2292,6 +2290,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
