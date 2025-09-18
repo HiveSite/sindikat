@@ -499,7 +499,20 @@ animation-iteration-count: 1 !important;
 transition-duration: 0.01ms !important;
 }
 }
+
+/* Zgusni i “ispravi” ad slotove na mobu */
+@media (max-width: 640px) {
+  .ad-slot { border-radius: 12px; padding: 10px; }
+  .ad-slot + .ad-slot { margin-top: 8px; }            /* minimalni razmak međusobno */
+  .ad-slot img { border-radius: 10px; display:block; }/* ukloni bijele linije oko img */
+}
+
+
+
 </style>
+
+
+
 </head>
 <body class="bg-black text-white overflow-x-hidden">
 <!-- Language Switcher -->
@@ -2350,6 +2363,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
