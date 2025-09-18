@@ -507,6 +507,56 @@ transition-duration: 0.01ms !important;
   .ad-slot img { border-radius: 10px; display:block; }/* ukloni bijele linije oko img */
 }
 
+/* === Center ALL ad banners, desktop & mobile === */
+
+/* 1) Inline PNG baneri: centriraj wrapper i ograniči max širinu po breakpoints */
+.ad-wrap{ 
+  margin-left:auto; 
+  margin-right:auto; 
+  max-width: 970px;            /* desktop XL */
+}
+@media (max-width:1024px){ .ad-wrap{ max-width: 728px; } } /* tablet/desktop */
+@media (max-width:640px){  .ad-wrap{ max-width: 320px; } } /* mobile */
+
+/* 2) Unutar wrappera, poravnaj sadržaj u sredinu */
+.ad-wrap,
+.ad-wrap > a{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* 3) Osiguraj da <img> ne “iskaču” i da su vizuelno centrirani */
+.ad-wrap img{
+  display:block;
+  max-width:100%;
+  height:auto;
+}
+
+/* 4) Ako koristiš utility širine (w-[728px], w-[970px]) – i dalje centrirano */
+.ad-wrap .w-\[970px\],
+.ad-wrap .w-\[728px\],
+.ad-wrap .w-\[320px\]{
+  margin-left:auto; 
+  margin-right:auto;
+}
+
+/* 5) Sticky top/bottom: geometrijsko centriranje + kompaktna širina */
+#stickyTopAd,
+#stickyBottomBanner{
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 24px) !important;   /* 12px bočni gutters */
+  max-width: 640px !important;           /* da ne budu preširoki na velikim ekranima */
+}
+
+/* 6) Floating “Poslovi” – isto centriranje */
+#floatingBanner{
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 24px) !important;
+  max-width: 640px !important;
+}
 
 
 </style>
@@ -2399,6 +2449,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
