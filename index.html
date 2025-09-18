@@ -500,6 +500,8 @@ transition-duration: 0.01ms !important;
 }
 }
 
+
+
 /* Zgusni i “ispravi” ad slotove na mobu */
 @media (max-width: 640px) {
   .ad-slot { border-radius: 12px; padding: 10px; }
@@ -557,6 +559,42 @@ transition-duration: 0.01ms !important;
   width: calc(100% - 24px) !important;
   max-width: 640px !important;
 }
+
+/* === HORIZONTAL SCROLL KILLER === */
+html, body { overflow-x: clip; }
+
+/* Sticky/floating baneri – centrirani i ograničeni */
+#stickyTopAd, #stickyBottomBanner, #floatingBanner {
+  position: fixed;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 24px) !important; /* 12px gutter sa svake strane */
+  max-width: 640px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+/* Svi glavni wrapperi neka klipuju eventualne "full-bleed" elemente */
+section, header, footer, .max-w-7xl, .container, .mx-auto { overflow-x: clip; }
+
+/* Slike/video nikad šire od roditelja */
+img, video { max-width: 100%; height: auto; }
+
+/* Flex/grid djeca smiju da se suze umjesto da guraju roditelja u širinu */
+.flex, .grid { min-width: 0; }
+.flex > * , .grid > * { min-width: 0; }
+
+/* Dugi nerasparčani stringovi (URL-ovi, kod) neka pucaju u red */
+.break-anywhere, pre, code, .prose * {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Ako negdje ima utility w-screen/100vw unutar stranice – svedi na 100% */
+[class*="w-screen"], .w-screen { width: 100% !important; }
+
+/* Bez negativnih bočnih margina koje guraju layout (po potrebi dopuni selektore) */
+.neg-x-fix { margin-left: 0 !important; margin-right: 0 !important; }
 
 
 </style>
@@ -2451,6 +2489,7 @@ imageObserver.observe(img);
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
