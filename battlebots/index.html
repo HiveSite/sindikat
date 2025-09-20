@@ -531,7 +531,7 @@ window.addEventListener('load', () => {
 </div>
 </section>
 
-<!-- BLOG – Zanimljivosti (6 kartica + modal) -->
+<!-- BLOG – Zanimljivosti (6 kartica + poboljšan modal sa slikama) -->
 <section id="blog" class="py-20 bg-black">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="section-divider mb-12"></div>
@@ -545,7 +545,7 @@ window.addEventListener('load', () => {
         <div class="mb-2"><span class="text-yellow-400 text-xs font-semibold">21. septembar 2025.</span></div>
         <h3 id="fact1-title" class="text-xl font-bold text-white mb-2">Zašto roboti „vole“ polumrak?</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          U ujednačenom, blažem svjetlu kamere i senzori dobijaju stabilniji kontrast bez odsjaja – manje grešaka u navigaciji.
+          U blažem, ujednačenom svjetlu kamere i senzori daju stabilniji kontrast – manje grešaka u navigaciji.
         </p>
         <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('fact1')">Pročitaj više →</button>
       </article>
@@ -555,7 +555,7 @@ window.addEventListener('load', () => {
         <div class="mb-2"><span class="text-red-400 text-xs font-semibold">21. septembar 2025.</span></div>
         <h3 id="fact2-title" class="text-xl font-bold text-white mb-2">Tajna brzih okreta: „tank drive“</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Diferencijalno upravljanje (lijeva/desna strana) omogućava okretanje u mjestu – jednostavno, pouzdano i brzo.
+          Diferencijalno upravljanje (lijeva/desna strana) omogućava okretanje u mjestu – jednostavno i ekstremno brzo.
         </p>
         <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openFact('fact2')">Pročitaj više →</button>
       </article>
@@ -565,7 +565,7 @@ window.addEventListener('load', () => {
         <div class="mb-2"><span class="text-yellow-400 text-xs font-semibold">21. septembar 2025.</span></div>
         <h3 id="fact3-title" class="text-xl font-bold text-white mb-2">Baterije vole umjerenu temperaturu</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Hladnoća smanjuje isporuku snage, a visoke temperature skraćuju vijek – zato je „sobna“ optimalna.
+          Hladno smanjuje isporuku snage, vruće skraćuje vijek – „sobna“ je zlatna sredina za borbe robota.
         </p>
         <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('fact3')">Pročitaj više →</button>
       </article>
@@ -575,7 +575,7 @@ window.addEventListener('load', () => {
         <div class="mb-2"><span class="text-red-400 text-xs font-semibold">21. septembar 2025.</span></div>
         <h3 id="fact4-title" class="text-xl font-bold text-white mb-2">3D štampa vs. metal: ko bolje trpi udarce?</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Kruta šasija je jaka, ali „elastični“ dijelovi često prežive udar jer apsorbuju energiju.
+          Kruto je snažno, ali „elastično“ često preživi udar – pametna kombinacija materijala pravi razliku.
         </p>
         <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openFact('fact4')">Pročitaj više →</button>
       </article>
@@ -585,7 +585,7 @@ window.addEventListener('load', () => {
         <div class="mb-2"><span class="text-yellow-400 text-xs font-semibold">21. septembar 2025.</span></div>
         <h3 id="fact5-title" class="text-xl font-bold text-white mb-2">„Fail-safe“: mali kod koji spašava meč</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Ako veza pukne, kontroler gasi pogon – bezbjednije za sve, a meč se nastavlja bez kazni.
+          Ako veza pukne, robot prelazi u sigurno stanje – bezbjednije za sve i fer prema rivalu.
         </p>
         <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('fact5')">Pročitaj više →</button>
       </article>
@@ -595,102 +595,181 @@ window.addEventListener('load', () => {
         <div class="mb-2"><span class="text-red-400 text-xs font-semibold">21. septembar 2025.</span></div>
         <h3 id="fact6-title" class="text-xl font-bold text-white mb-2">„Weight budget“: gram koji odlučuje</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Timovi vode „budžet težine“ kao finansijski excel – svaki gram ide tamo gdje donosi performanse.
+          Timovi vode excel za svaki gram – oslobođena težina ide tamo gdje donosi rezultat.
         </p>
         <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openFact('fact6')">Pročitaj više →</button>
       </article>
     </div>
   </div>
 
-  <!-- HIDDEN LONG CONTENT -->
+  <!-- HIDDEN LONG CONTENT (sa slikama pri dnu) -->
   <div class="hidden">
     <div id="fact1-content">
       <h4 class="text-xl font-semibold mb-3">Zašto roboti „vole“ polumrak?</h4>
       <p class="text-gray-200 leading-relaxed mb-3">
-        U arenama sa jakim reflektorima nastaju odsjaji, refleksije i „vruće tačke“ koje kamerama i pojedinim senzorima otežavaju posao.
-        Zato mnogi timovi preferiraju ujednačeno, blaže osvjetljenje ili mat površine – kontrast je stabilniji, a vizuelni tragovi (linije,
-        markeri, oblici) pouzdanije se detektuju. Ultrazvučni i neki infracrveni senzori takođe bolje rade kada nema smetnji od blještavila.
+        U arenama za borbe robota reflektori često stvaraju odsjaje i „vruće tačke“ na polikarbonatu i metalnim površinama. Takve anomalije kvare
+        ekspoziciju mini-kamera i otežavaju detekciju vizuelnih tragova (linije, markeri, konture rivala). Blaže, difuzno svjetlo daje stabilniji
+        histogram slike, pa sistemi za navođenje i vozači preko FPV feeda reaguju preciznije.
       </p>
-      <p class="text-gray-300 text-sm">
-        Bonus trik: mat crne ili teksturisane površine unutar robota i okolo kamere smanjuju interne refleksije i „šum“ u slici.
+      <p class="text-gray-200 leading-relaxed mb-3">
+        IR i ultrazvučni senzori takođe pate od refleksija. Mat površine unutar robota (oko kamere) i crne teksture u zoni senzora smanjuju interne
+        povratne odsjaje i „šum“. U praksi, bolje je imati manje intenzivno, ali ujednačeno osvjetljenje nego sirovu jačinu koja „zaslijepi“ optiku.
       </p>
+      <ul class="list-disc pl-5 text-gray-300 mb-4">
+        <li>Koristi <em>mat</em> ili teksturisane štitnike oko kamere da spriječiš „flare“.</li>
+        <li>Mali „sun hood“ (vizir) za FPV modul čini razliku.</li>
+        <li>Kalibriši ekspoziciju i balans bijele prije meča; izbjegavaj „auto“ ako „pumpa“ sliku.</li>
+      </ul>
+      <figure class="mt-6">
+        <!-- Zamijeni SRC svojim fajlom npr. /assets/blog/arena-lighting.jpg -->
+        <img src="/assets/blog/arena-lighting.jpg" alt="Arena u polumraku sa difuznim svjetlom" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+        <figcaption class="text-xs text-gray-400 mt-2">Difuzno osvjetljenje smanjuje odsjaj i pomaže kamerama i senzorima.</figcaption>
+      </figure>
     </div>
 
     <div id="fact2-content">
       <h4 class="text-xl font-semibold mb-3">Tajna brzih okreta: „tank drive“</h4>
       <p class="text-gray-200 leading-relaxed mb-3">
-        Diferencijalno upravljanje znači da lijeva i desna strana robota imaju nezavisnu kontrolu brzine i smjera.
-        Kada se strane vrte suprotno, robot se obrće oko svoje ose praktično u mjestu. To donosi jednostavan mehanički dizajn,
-        manje tačaka kvara i veoma brze promjene pravca – presudno u kontakt-borbama i izbjegavanju udaraca.
+        „Tank drive“ znači nezavisnu kontrolu lijevog i desnog pogona. Kada se strane vrte u suprotnim smjerovima, robot se obrće oko svoje ose i mijenja
+        pravac bez „širokog luka“. Manje pokretnih dijelova = manje tačaka kvara i niža latencija reakcije.
       </p>
-      <p class="text-gray-300 text-sm">
-        Mana? Pri ekstremnim brzinama preciznost opada – zato iskusni timovi kombinuju „tank drive“ sa pažljivo podešenim rampama ubrzanja i kočenja.
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Odnos <strong>širina traga : međuosovinsko rastojanje</strong> i prianjanje točkova određuju koliko će okret biti „živ“ a ipak kontrolisan.
+        Previše gripa = trzaji i preopterećenje motora; premalo = proklizavanje i gubitak potiska. Zato se često koriste gumene smjese srednje tvrdoće i
+        pažljivo podešene rampe ubrzanja/kočenja na ESC-u.
       </p>
+      <ul class="list-disc pl-5 text-gray-300 mb-4">
+        <li>Uvedi <em>mixing</em> na predajniku: throttle + yaw za preciznije manevre.</li>
+        <li>„Soft-start“ i limit vršne struje čuvaju prenos i bateriju.</li>
+        <li>Testiraj PID (ako ga koristiš) na podlozi sličnog trenja kao u areni.</li>
+      </ul>
+      <figure class="mt-6">
+        <img src="/assets/blog/tank-drive-wheels.jpg" alt="Bliski kadar pogonskih točkova robota" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+        <figcaption class="text-xs text-gray-400 mt-2">Diferencijalno upravljanje: precizni zaokreti uz jednostavan mehanizam.</figcaption>
+      </figure>
     </div>
 
     <div id="fact3-content">
       <h4 class="text-xl font-semibold mb-3">Baterije vole umjerenu temperaturu</h4>
       <p class="text-gray-200 leading-relaxed mb-3">
-        Litijumske baterije daju najbolju isporuku snage u umjerenim uslovima. Na niskim temperaturama opada napon pod opterećenjem,
-        pa robot djeluje „istrošeno“ i kada je baterija relativno puna. Na previsokim temperaturama hemija brže stari, što skraćuje vijek.
-        Zato timovi planiraju hlađenje elektronike i protok vazduha oko regulatora i baterija, ali izbjegavaju ekstremno hlađenje koje bi umanjilo performanse.
+        Litijumske baterije (LiPo/Li-ion) daju najbolji balans snage i dugovječnosti oko sobne temperature (18–25°C). Na hladnom raste unutrašnji otpor pa
+        pod opterećenjem napon „pada“ dublje – robot djeluje tromo iako ima kapaciteta. Na vrućem hemija ubrzano stari, povećava se rizik napuhavanja i gubitka
+        performansi u narednim mečevima.
       </p>
-      <p class="text-gray-300 text-sm">
-        Praktično: pametno rutiranje kablova i ventilacija u kućištu često su podjednako važni kao i sam kapacitet baterije.
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Dobar protok vazduha kroz kućište i razmak između regulatora i baterije sprječavaju toplotni „džep“. Ako koristiš aktivno hlađenje,
+        ne „preohladi“ ćelije prije starta – kratko „predgrijavanje“ do sobne temperature vraća vršnu isporuku struje.
       </p>
+      <ul class="list-disc pl-5 text-gray-300 mb-4">
+        <li>Storage napon ~3.8V/ćeliji između događaja; pun kapacitet pred meč.</li>
+        <li>Kvalitetne ćelije s realnim C-rejtingom, mehanička zaštita i „strain relief“.</li>
+        <li>Uvik imaj plan gašenja i LiPo kese/box za punjenje.</li>
+      </ul>
+      <figure class="mt-6">
+        <img src="/assets/blog/lipo-pack.jpg" alt="LiPo baterijski paketi sa zaštitom i kablovima" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+        <figcaption class="text-xs text-gray-400 mt-2">Temperatura i mehanička zaštita su ključ dugovječnosti baterije.</figcaption>
+      </figure>
     </div>
 
     <div id="fact4-content">
       <h4 class="text-xl font-semibold mb-3">3D štampa vs. metal: ko bolje trpi udarce?</h4>
       <p class="text-gray-200 leading-relaxed mb-3">
-        Metal (aluminijum, čelik) je odličan za šasiju i noseće dijelove – krut je i otporan. Ipak, 3D štampani „tampon“ dijelovi
-        ponekad prežive bolje jer elastično „popiju“ dio udarca. Mnogi timovi kombinuju: metalna jezgra za strukturu i štampane
-        branike, kaveze ili nosače senzora koji se lako mijenjaju. Orijentacija slojeva i rebra na 3D dijelu prave veliku razliku u čvrstoći.
+        Metal (Al/Čelik) nudi krutost i spremnik energije za „oružje“, ali je teži i sporiji za zamjenu. 3D štampani dijelovi od <strong>PETG</strong>, <strong>Nylona</strong> ili
+        <strong>CF-Nylona</strong> mogu elastično apsorbovati udare i zaštititi osjetljive sklopove. Kombinuj: metalna jezgra + štampani branici i nosači koji se lako mijenjaju.
       </p>
-      <p class="text-gray-300 text-sm">
-        „Kompliantni“ (blago savitljivi) dijelovi često štite skupe komponente – bolji je jeftin štit koji pukne nego oštećen kontroler.
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Snaga štampe leži u <em>orijentaciji slojeva</em> i <em>lokalnim ojačanjima</em>. Kritične zone: više perimetara, ribovi i zavrtnji kroz slojeve.
       </p>
+      <ul class="list-disc pl-5 text-gray-300 mb-4">
+        <li>PETG za fleks branike; CF-Nylon za krutost bez lomljivosti.</li>
+        <li>„Energy fuse“ dio koji smije da pukne umjesto skupog modula.</li>
+        <li>Set zamjenskih printova u boksu skraćuje downtime između rundi.</li>
+      </ul>
+      <figure class="mt-6">
+        <img src="/assets/blog/3d-print-bracket.jpg" alt="3D štampani nosač i metalni elementi robota" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+        <figcaption class="text-xs text-gray-400 mt-2">Kombinacija metala i štampe: čvrsto gdje treba, elastično gdje se isplati.</figcaption>
+      </figure>
     </div>
 
     <div id="fact5-content">
       <h4 class="text-xl font-semibold mb-3">„Fail-safe“: mali kod koji spašava meč</h4>
       <p class="text-gray-200 leading-relaxed mb-3">
-        Fail-safe logika je pravilo: ako kontroler izgubi signal ili očita nevalidne podatke sa prijemnika, robot mora u bezbjedno stanje – obustava pogona.
-        Time se sprječava nekontrolisano kretanje i čuvaju se i publika i oprema. Dodatno, sudije mogu brže nastaviti meč nakon kratkog prekida,
-        bez težih posljedica ili kazni. U praksi, to je nekoliko linija koda i pažljivo podešena „mrtva zona“ ulaza.
+        Ako kontroler izgubi validan signal (timeout) ili ulaz „poludi“, pogon prelazi u stanje minimalne snage ili se gasi. To sprječava
+        nekontrolisano kretanje i štetu. Implementacija je jednostavna: brojanje ms od posljednjeg validnog paketa + granice ulaza + „deadband“.
       </p>
-      <p class="text-gray-300 text-sm">
-        Profesionalni timovi testiraju prekide signala prije svakog nastupa – to je najjeftinije „osiguranje“ performansi.
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Pored softvera, „hard kill switch“ (dostupan spolja) često je obavezan. Sudija ili član tima može trenutno prekinuti napajanje pogona,
+        dok niskonaponski krug ostaje aktivan za telemetriju i logovanje (po pravilima događaja).
       </p>
+      <ul class="list-disc pl-5 text-gray-300 mb-4">
+        <li>Validiraj ulaze: odbaci „NaN“, out-of-range i „jitter“.</li>
+        <li>Timeout 250–500 ms prije safe režima.</li>
+        <li>Test prekida signala – obavezni dio pre-fight checklista.</li>
+      </ul>
+      <figure class="mt-6">
+        <img src="/assets/blog/failsafe-mcu.jpg" alt="Mikrokontroler i kablovi sa sigurnosnim prekidačem" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+        <figcaption class="text-xs text-gray-400 mt-2">Fail-safe + kill switch: najjeftinije osiguranje performansi.</figcaption>
+      </figure>
     </div>
 
     <div id="fact6-content">
       <h4 class="text-xl font-semibold mb-3">„Weight budget“: gram koji odlučuje</h4>
       <p class="text-gray-200 leading-relaxed mb-3">
-        Svaki robot ima maksimalnu dozvoljenu masu. Timovi vode „budžet težine“ po komponentama – od motora do vijaka.
-        Kada zafali 50–100 g, traže se kreativne uštede: kraći kablovi, perforacije na zaštitama, tanji, ali čvršći materijali,
-        pa čak i zamjena tipa vijaka. Taj „oslobođeni“ gram ide na ono što donosi rezultat: bolji prijenos, tvrđi disk, deblji branik ili veći točkovi.
+        Pravila limitiraju maksimalnu masu. Najbolji timovi vode tabelu mase po komponentama, <em>uključujući kablove, konektore i vijke</em>. Kada „nedostaje“
+        50–150 g, nastupa kreativna dijeta: kraći kablovi, tanje ploče uz rebra, perforacije na štitnicima, lakši točkovi i optimizovani nosači.
       </p>
-      <p class="text-gray-300 text-sm">
-        Pouka: brži robot nije nužno bolji – bolji je onaj koji je najpametnije „potrošio“ dozvoljene grame.
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Oslobođeni gramovi se „investiraju“ tamo gdje prave rezultat: veći zamah „oružja“, deblji branik, jači prenos ili dodatna zaštita kritične elektronike.
+        Poenta nije najlakši robot, već najpametnije raspoređena masa naspram strategije.
       </p>
+      <ul class="list-disc pl-5 text-gray-300 mb-4">
+        <li>Vagaj sve – i zip-ties i podloške ulaze u budžet.</li>
+        <li>Definiši prioritete mase po taktici meča.</li>
+        <li>Ostavi „upgrade slot“ 50–80 g za kasne promjene.</li>
+      </ul>
+      <figure class="mt-6">
+        <img src="/assets/blog/scale-robot-parts.jpg" alt="Digitalna vaga i djelovi robota tokom mjerenja mase" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+        <figcaption class="text-xs text-gray-400 mt-2">Gram po gram – budžet mase odlučuje detalje i pobjede.</figcaption>
+      </figure>
     </div>
   </div>
 
-  <!-- MODAL -->
-  <div id="postModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/70" onclick="closeFact()"></div>
-    <div class="relative max-w-2xl mx-auto mt-20 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl p-6">
-      <div class="flex items-start justify-between mb-4">
-        <h3 id="modalTitle" class="text-2xl font-bold text-white"></h3>
-        <button class="ml-4 text-gray-400 hover:text-white" onclick="closeFact()" aria-label="Zatvori">
-          ✕
-        </button>
+  <!-- MODAL (poboljšan dizajn, animacija i tipografija) -->
+  <div id="postModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <!-- Overlay -->
+    <div id="modalOverlay" class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-200" onclick="closeFact()"></div>
+
+    <!-- Panel -->
+    <div id="modalPanel" class="relative max-w-3xl mx-auto my-10 sm:my-16 opacity-0 scale-95 transition-all duration-200">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="px-6 py-4 border-b border-zinc-800 flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="h-9 w-9 rounded-lg ring-1 ring-zinc-800 bg-gradient-to-br from-yellow-400/20 to-red-400/20 flex items-center justify-center">⚙️</div>
+            <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white"></h3>
+          </div>
+          <button class="ml-4 h-9 w-9 rounded-lg border border-zinc-800 hover:bg-zinc-800/60 text-gray-300 hover:text-white transition" onclick="closeFact()" aria-label="Zatvori">
+            ✕
+          </button>
+        </div>
+
+        <!-- Body (scrollable) -->
+        <div class="px-6 py-5 max-h-[70vh] overflow-y-auto">
+          <div id="modalBody" class="content-body text-gray-200 leading-relaxed"></div>
+        </div>
       </div>
-      <div id="modalBody" class="prose prose-invert max-w-none text-gray-200"></div>
     </div>
   </div>
 </section>
+
+<!-- Minimalno stilizovanje tipografije unutar modala (radi i bez Tailwind Typography plugina) -->
+<style>
+  .content-body h4 { font-weight: 700; font-size: 1.125rem; margin-bottom: .75rem; }
+  .content-body p { margin-bottom: .75rem; }
+  .content-body ul { margin: .5rem 0 .75rem 1.25rem; list-style: disc; }
+  .content-body li { margin: .25rem 0; }
+  .content-body figure { margin-top: 1rem; }
+</style>
 
 <script>
   function openFact(id) {
@@ -698,21 +777,41 @@ window.addEventListener('load', () => {
     const contentEl = document.getElementById(id + '-content');
     if (!titleEl || !contentEl) return;
 
+    // Ubaci sadržaj
     document.getElementById('modalTitle').textContent = titleEl.textContent;
     document.getElementById('modalBody').innerHTML = contentEl.innerHTML;
 
+    // Prikaži modal s animacijom
     const modal = document.getElementById('postModal');
+    const overlay = document.getElementById('modalOverlay');
+    const panel = document.getElementById('modalPanel');
+
     modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
+
+    // animacija ulaza
+    requestAnimationFrame(() => {
+      overlay.classList.remove('opacity-0');
+      panel.classList.remove('opacity-0', 'scale-95');
+    });
   }
 
   function closeFact() {
     const modal = document.getElementById('postModal');
-    modal.classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
-    // opcionalno: očisti sadržaj
-    document.getElementById('modalTitle').textContent = '';
-    document.getElementById('modalBody').innerHTML = '';
+    const overlay = document.getElementById('modalOverlay');
+    const panel = document.getElementById('modalPanel');
+
+    // animacija izlaza
+    overlay.classList.add('opacity-0');
+    panel.classList.add('opacity-0', 'scale-95');
+
+    // nakon animacije sakrij modal i očisti
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      document.getElementById('modalTitle').textContent = '';
+      document.getElementById('modalBody').innerHTML = '';
+    }, 200);
   }
 
   // ESC za zatvaranje
