@@ -1349,60 +1349,52 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
           aria-label="Zatvori oglas">✕</button>
 
   <!-- Viewport for slides -->
-  <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
-    <!-- SLIDE 1 -->
-    <a class="banner active flex items-center justify-between gap-4 p-3 md:p-4"
-       href="https://live.staticflickr.com/5210/5378165787_ccd40d862d_b.jpg" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 1">
-      <img src="https://placehold.co/600x200?text=Banner+1" alt="Banner 1"
-           class="h-full object-cover rounded-lg border border-yellow-400/20" />
-      <div class="hidden md:flex items-center gap-3 ml-auto">
-        <span class="text-sm text-yellow-400/90">Premium partner</span>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                     bg-yellow-400 text-black">Saznaj više</span>
-      </div>
-    </a>
+ <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
+  <!-- SLIDE 1 -->
+  <a class="banner active grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+     href="https://example.com/partner-1" target="_blank" rel="noopener"
+     aria-label="Premium Sponsor 1">
+    <img src="https://sukhadia.com/cdn/shop/files/JANINE_-_Fafda_Jalebi_-_SP.jpg?crop=center&height=2733&v=1749661664&width=4100" alt="Banner 1"
+         class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
+    <p class="text-sm md:text-base text-gray-200 truncate">
+      Premium partner: arena naming & live stream branding.
+    </p>
+  </a>
 
-    <!-- SLIDE 2 -->
-    <a class="banner flex items-center justify-between gap-4 p-3 md:p-4"
-       href="https://e0.365dm.com/20/03/768x432/skysports-faf-du-plessis-south-africa_4953786.jpg?20200323145557" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 2">
-      <img src="https://placehold.co/600x200?text=Banner+2" alt="Banner 2"
-           class="h-full object-cover rounded-lg border border-red-400/20" />
-      <div class="hidden md:flex items-center gap-3 ml-auto">
-        <span class="text-sm text-red-400/90">Growth partner</span>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                     bg-red-500 text-white">Detalji</span>
-      </div>
-    </a>
+  <!-- SLIDE 2 -->
+  <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+     href="https://example.com/partner-2" target="_blank" rel="noopener"
+     aria-label="Premium Sponsor 2">
+    <img src="https://placehold.co/600x200?text=Banner+2" alt="Banner 2"
+         class="w-full h-full object-cover rounded-lg border border-red-400/20" />
+    <p class="text-sm md:text-base text-gray-200 truncate">
+      Growth paket: 2 premium bannera + logo u prenosu uživo.
+    </p>
+  </a>
 
-    <!-- SLIDE 3 -->
-    <a class="banner flex items-center justify-between gap-4 p-3 md:p-4"
-       href="https://example.com/partner-3" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 3">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Kq4BJU1zlVDoCdRd132ZYFePrzkuOe0c4w&s" alt="Banner 3"
-           class="h-full object-cover rounded-lg border border-yellow-400/20" />
-      <div class="hidden md:flex items-center gap-3 ml-auto">
-        <span class="text-sm text-yellow-400/90">Startup paket</span>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                     bg-yellow-400 text-black">Pogledaj</span>
-      </div>
-    </a>
+  <!-- SLIDE 3 -->
+  <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+     href="https://example.com/partner-3" target="_blank" rel="noopener"
+     aria-label="Premium Sponsor 3">
+    <img src="https://placehold.co/600x200?text=Banner+3" alt="Banner 3"
+         class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
+    <p class="text-sm md:text-base text-gray-200 truncate">
+      Startup paket: istaknut oglas + društvene mreže.
+    </p>
+  </a>
 
-    <!-- SLIDE 4 -->
-    <a class="banner flex items-center justify-between gap-4 p-3 md:p-4"
-       href="https://example.com/partner-4" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 4">
-      <img src="https://placehold.co/600x200?text=Banner+4" alt="Banner 4"
-           class="h-full object-cover rounded-lg border border-red-400/20" />
-      <div class="hidden md:flex items-center gap-3 ml-auto">
-        <span class="text-sm text-red-400/90">Community</span>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                     bg-red-500 text-white">Podrži</span>
-      </div>
-    </a>
-  </div>
+  <!-- SLIDE 4 -->
+  <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+     href="https://example.com/partner-4" target="_blank" rel="noopener"
+     aria-label="Premium Sponsor 4">
+    <img src="https://placehold.co/600x200?text=Banner+4" alt="Banner 4"
+         class="w-full h-full object-cover rounded-lg border border-red-400/20" />
+    <p class="text-sm md:text-base text-gray-200 truncate">
+      Community oglas: podrži lokalne inicijative i mlade inovatore.
+    </p>
+  </a>
 </div>
+
 
 <script>
 (() => {
