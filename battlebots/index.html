@@ -164,32 +164,119 @@ window.addEventListener('load', () => {
 
 
 <!-- ABOUT -->
+<!-- ABOUT (desktop inline + mobile modal trigger) -->
 <section id="about" class="py-20 bg-gray-900/50">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="section-divider mb-12"></div>
-<h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-montserrat neon-text">O Takmičenju</h2>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-divider mb-12"></div>
+    <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-montserrat neon-text">O Takmičenju</h2>
 
-<div class="grid md:grid-cols-2 gap-12 items-center mb-16">
-  <div>
-    <p class="text-lg text-gray-300 leading-relaxed mb-6">
-      BattleBots.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
-    </p>
-    <p class="text-lg text-gray-300 leading-relaxed mb-6">
-      BattleBots.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
-    </p>
-    <p class="text-lg text-gray-300 leading-relaxed">
-      BattleBots.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBots.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
-    </p>
-    <p class="text-lg text-gray-300 leading-relaxed mt-6">
-      Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
-    </p>
+    <!-- Mobile: button that opens modal -->
+    <div class="md:hidden text-center mb-8">
+      <button
+        onclick="openAbout()"
+        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-yellow-400 text-black font-semibold shadow hover:bg-yellow-300 transition"
+      >
+        📖 Pročitaj detalje
+      </button>
+    </div>
+
+    <!-- Desktop: original inline content (hidden on mobile, copied into modal body when opened) -->
+    <div id="about-inline" class="hidden md:block">
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div>
+          <p class="text-lg text-gray-300 leading-relaxed mb-6">
+            BattleBots.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
+          </p>
+          <p class="text-lg text-gray-300 leading-relaxed mb-6">
+            BattleBots.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
+          </p>
+          <p class="text-lg text-gray-300 leading-relaxed">
+            BattleBots.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBots.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
+          </p>
+          <p class="text-lg text-gray-300 leading-relaxed mt-6">
+            Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
+          </p>
+        </div>
+        <div class="text-center">
+          <svg class="w-64 h-64 mx-auto text-yellow-400 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12,2A2,2 0 0,1 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4A2,2 0 0,1 12,2ZM10,6H14L16,8H20V10H4V8H8L10,6ZM4.5,12L6,18H8L9,14H11V22H13V14H15L16,18H18L19.5,12H4.5Z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="text-center">
-    <svg class="w-64 h-64 mx-auto text-yellow-400 opacity-80" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12,2A2,2 0 0,1 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4A2,2 0 0,1 12,2ZM10,6H14L16,8H20V10H4V8H8L10,6ZM4.5,12L6,18H8L9,14H11V22H13V14H15L16,18H18L19.5,12H4.5Z"/>
-    </svg>
+</section>
+
+<!-- ABOUT MODAL (mobile only usage, but safe on all) -->
+<div id="aboutModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle">
+  <!-- Overlay -->
+  <div id="aboutOverlay" class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-200" onclick="closeAbout()"></div>
+
+  <!-- Panel -->
+  <div id="aboutPanel" class="relative max-w-3xl mx-auto my-10 sm:my-16 opacity-0 scale-95 transition-all duration-200">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden">
+      <!-- Header -->
+      <div class="px-6 py-4 border-b border-zinc-800 flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-lg ring-1 ring-zinc-800 bg-gradient-to-br from-yellow-400/20 to-red-400/20 flex items-center justify-center">ℹ️</div>
+          <h3 id="aboutModalTitle" class="text-xl sm:text-2xl font-bold text-white">O Takmičenju</h3>
+        </div>
+        <button class="ml-4 h-9 w-9 rounded-lg border border-zinc-800 hover:bg-zinc-800/60 text-gray-300 hover:text-white transition" onclick="closeAbout()" aria-label="Zatvori">✕</button>
+      </div>
+
+      <!-- Body (scrollable) -->
+      <div class="px-6 py-5 max-h-[70vh] overflow-y-auto">
+        <div id="aboutModalBody" class="text-gray-200 leading-relaxed"></div>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+  function openAbout() {
+    const inline = document.getElementById('about-inline');
+    const body = document.getElementById('aboutModalBody');
+    if (inline && body) {
+      body.innerHTML = inline.innerHTML; // kopira isti sadržaj iz desktop bloka
+    }
+
+    const modal = document.getElementById('aboutModal');
+    const overlay = document.getElementById('aboutOverlay');
+    const panel = document.getElementById('aboutPanel');
+
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+
+    // animacija ulaza
+    requestAnimationFrame(() => {
+      overlay.classList.remove('opacity-0');
+      panel.classList.remove('opacity-0', 'scale-95');
+    });
+  }
+
+  function closeAbout() {
+    const modal = document.getElementById('aboutModal');
+    const overlay = document.getElementById('aboutOverlay');
+    const panel = document.getElementById('aboutPanel');
+
+    // animacija izlaza
+    overlay.classList.add('opacity-0');
+    panel.classList.add('opacity-0', 'scale-95');
+
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      const body = document.getElementById('aboutModalBody');
+      if (body) body.innerHTML = '';
+    }, 200);
+  }
+
+  // ESC za zatvaranje
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAbout();
+  });
+</script>
+
 
 <!-- Stats -->
 <div class="grid md:grid-cols-4 gap-8 text-center">
