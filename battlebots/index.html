@@ -164,23 +164,38 @@ window.addEventListener('load', () => {
 
 
 <!-- ABOUT -->
-<!-- ABOUT (desktop inline + mobile modal trigger) -->
+<!-- ABOUT (desktop: full inline • mobile: preview + always-visible icon + modal for full text) -->
 <section id="about" class="py-20 bg-gray-900/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="section-divider mb-12"></div>
     <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-montserrat neon-text">O Takmičenju</h2>
 
-    <!-- Mobile: button that opens modal -->
-    <div class="md:hidden text-center mb-8">
-      <button
-        onclick="openAbout()"
-        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-yellow-400 text-black font-semibold shadow hover:bg-yellow-300 transition"
-      >
-        📖 Pročitaj detalje
-      </button>
+    <!-- MOBILE PREVIEW (ikonica uvijek vidljiva, kratak tekst + dugme za modal) -->
+    <div class="md:hidden">
+      <div class="phase-card p-5 rounded-2xl border border-zinc-800 bg-zinc-900/60">
+        <div class="flex items-center gap-4 mb-4">
+          <!-- Ikonica stalno vidljiva -->
+          <svg class="w-14 h-14 shrink-0 text-yellow-400 opacity-90" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12,2A2,2 0 0,1 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4A2,2 0 0,1 12,2ZM10,6H14L16,8H20V10H4V8H8L10,6ZM4.5,12L6,18H8L9,14H11V22H13V14H15L16,18H18L19.5,12H4.5Z"/>
+          </svg>
+          <div>
+            <p class="text-base text-gray-300 leading-relaxed">
+              BattleBots.me je nacionalno STEAM takmičenje za mlade (15–30) gdje timovi dizajniraju i grade borbene robote koji se nadmeću u posebno izrađenoj areni.
+            </p>
+            <p class="text-base text-gray-300 leading-relaxed mt-2">
+              Uz podršku Spark.me STEAM i doMEn-a, projekat spaja učenje, praksu i spektakl – razvija vještine i timski duh.
+            </p>
+          </div>
+        </div>
+        <div class="text-right">
+          <button onclick="openAbout()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition">
+            Pročitaj više →
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- Desktop: original inline content (hidden on mobile, copied into modal body when opened) -->
+    <!-- DESKTOP FULL (ostaje kao ranije) -->
     <div id="about-inline" class="hidden md:block">
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
         <div>
@@ -198,16 +213,32 @@ window.addEventListener('load', () => {
           </p>
         </div>
         <div class="text-center">
-          <svg class="w-64 h-64 mx-auto text-yellow-400 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+          <svg class="w-64 h-64 mx-auto text-yellow-400 opacity-80" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12,2A2,2 0 0,1 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4A2,2 0 0,1 12,2ZM10,6H14L16,8H20V10H4V8H8L10,6ZM4.5,12L6,18H8L9,14H11V22H13V14H15L16,18H18L19.5,12H4.5Z"/>
           </svg>
         </div>
       </div>
     </div>
+
+    <!-- HIDDEN FULL TEXT ZA MODAL (preuzet iz originalnih paragrafa) -->
+    <div id="about-full" class="hidden">
+      <p class="text-gray-200 leading-relaxed mb-4">
+        BattleBots.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
+      </p>
+      <p class="text-gray-200 leading-relaxed mb-4">
+        BattleBots.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
+      </p>
+      <p class="text-gray-200 leading-relaxed mb-4">
+        BattleBots.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBots.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
+      </p>
+      <p class="text-gray-200 leading-relaxed">
+        Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
+      </p>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT MODAL (mobile only usage, but safe on all) -->
+<!-- ABOUT MODAL (otvara se samo na klik, npr. na mobilnom) -->
 <div id="aboutModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle">
   <!-- Overlay -->
   <div id="aboutOverlay" class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-200" onclick="closeAbout()"></div>
@@ -234,11 +265,9 @@ window.addEventListener('load', () => {
 
 <script>
   function openAbout() {
-    const inline = document.getElementById('about-inline');
+    const src = document.getElementById('about-full'); // puni modal iz čistog teksta
     const body = document.getElementById('aboutModalBody');
-    if (inline && body) {
-      body.innerHTML = inline.innerHTML; // kopira isti sadržaj iz desktop bloka
-    }
+    if (src && body) body.innerHTML = src.innerHTML;
 
     const modal = document.getElementById('aboutModal');
     const overlay = document.getElementById('aboutOverlay');
@@ -247,7 +276,6 @@ window.addEventListener('load', () => {
     modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
 
-    // animacija ulaza
     requestAnimationFrame(() => {
       overlay.classList.remove('opacity-0');
       panel.classList.remove('opacity-0', 'scale-95');
@@ -259,7 +287,6 @@ window.addEventListener('load', () => {
     const overlay = document.getElementById('aboutOverlay');
     const panel = document.getElementById('aboutPanel');
 
-    // animacija izlaza
     overlay.classList.add('opacity-0');
     panel.classList.add('opacity-0', 'scale-95');
 
@@ -271,11 +298,11 @@ window.addEventListener('load', () => {
     }, 200);
   }
 
-  // ESC za zatvaranje
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeAbout();
   });
 </script>
+
 
 
 <!-- Stats -->
