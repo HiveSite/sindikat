@@ -531,152 +531,195 @@ window.addEventListener('load', () => {
 </div>
 </section>
 
-<!-- BLOG -->
+<!-- BLOG – Zanimljivosti (6 kartica + modal) -->
 <section id="blog" class="py-20 bg-black">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="section-divider mb-12"></div>
     <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">
-      Najnovija ažuriranja
+      Zanimljivosti iz BattleBots svijeta
     </h2>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Post 1 -->
+      <!-- Fact 1 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-yellow-400 text-sm font-semibold">20. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Otvorene prijave za edukativni bootcamp</h3>
+        <div class="mb-2"><span class="text-yellow-400 text-xs font-semibold">21. septembar 2025.</span></div>
+        <h3 id="fact1-title" class="text-xl font-bold text-white mb-2">Zašto roboti „vole“ polumrak?</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Startujemo! Prijavi se za besplatne radionice iz robotike, Arduino programiranja, CAD dizajna
-          i upravljanja senzorima. Radimo u malim timovima, uz mentore i jasne zadatke — idealno i
-          za početnike i za napredne učesnike.
+          U ujednačenom, blažem svjetlu kamere i senzori dobijaju stabilniji kontrast bez odsjaja – manje grešaka u navigaciji.
         </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Prijave • 5 gradova</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('prijave-bootcamp')">Pročitaj više →</button>
-        </div>
+        <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('fact1')">Pročitaj više →</button>
       </article>
 
-      <!-- Post 2 -->
+      <!-- Fact 2 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-red-400 text-sm font-semibold">18. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Predstavljena borbena arena: sigurnost + spektakl</h3>
+        <div class="mb-2"><span class="text-red-400 text-xs font-semibold">21. septembar 2025.</span></div>
+        <h3 id="fact2-title" class="text-xl font-bold text-white mb-2">Tajna brzih okreta: „tank drive“</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Nova artiljerija za ideje: ojačane polikarbonatne barijere, sistem za hitno zaustavljanje i
-          modularni pod za brze mehaničke izmjene. Dizajn je spreman za ozbiljne duele — uz potpunu bezbjednost publike i timova.
+          Diferencijalno upravljanje (lijeva/desna strana) omogućava okretanje u mjestu – jednostavno, pouzdano i brzo.
         </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Inženjering</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('arena-preview')">Pročitaj više →</button>
-        </div>
+        <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openFact('fact2')">Pročitaj više →</button>
       </article>
 
-      <!-- Post 3 -->
+      <!-- Fact 3 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-yellow-400 text-sm font-semibold">15. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Objavljeni gradovi i datumi radionica</h3>
+        <div class="mb-2"><span class="text-yellow-400 text-xs font-semibold">21. septembar 2025.</span></div>
+        <h3 id="fact3-title" class="text-xl font-bold text-white mb-2">Baterije vole umjerenu temperaturu</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Podgorica, Nikšić, Bar, Bijelo Polje i Pljevlja su domaćini ovogodišnjeg bootcampa.
-          Raspored termina i prijavni linkovi su online — rezerviši svoje mjesto na vrijeme.
+          Hladnoća smanjuje isporuku snage, a visoke temperature skraćuju vijek – zato je „sobna“ optimalna.
         </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Kalendar</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('gradovi-termini')">Pročitaj više →</button>
-        </div>
+        <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('fact3')">Pročitaj više →</button>
       </article>
 
-      <!-- Post 4 -->
+      <!-- Fact 4 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-red-400 text-sm font-semibold">12. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Mentori i žiri: ko stoji uz timove</h3>
+        <div class="mb-2"><span class="text-red-400 text-xs font-semibold">21. septembar 2025.</span></div>
+        <h3 id="fact4-title" class="text-xl font-bold text-white mb-2">3D štampa vs. metal: ko bolje trpi udarce?</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Predstavljamo iskusne inženjere, programere i edukatore koji će voditi sesije, pregledati
-          prototipe i žirirati finale. Fokus je na praktičnim savjetima, sigurnosti i fer igri.
+          Kruta šasija je jaka, ali „elastični“ dijelovi često prežive udar jer apsorbuju energiju.
         </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Mentorstvo</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('mentori-ziri')">Pročitaj više →</button>
-        </div>
+        <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openFact('fact4')">Pročitaj više →</button>
       </article>
 
-      <!-- Post 5 -->
+      <!-- Fact 5 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-yellow-400 text-sm font-semibold">10. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Šta dobijaju timovi: startni set komponenata</h3>
+        <div class="mb-2"><span class="text-yellow-400 text-xs font-semibold">21. septembar 2025.</span></div>
+        <h3 id="fact5-title" class="text-xl font-bold text-white mb-2">„Fail-safe“: mali kod koji spašava meč</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Svi selektovani timovi dobijaju identične pakete: motori, šasija, kontroler, senzori,
-          napajanje i potrošni materijal. Jednaki uslovi za sve — razlika je u ideji i izvedbi.
+          Ako veza pukne, kontroler gasi pogon – bezbjednije za sve, a meč se nastavlja bez kazni.
         </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Kit &amp; logistika</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('startni-set')">Pročitaj više →</button>
-        </div>
+        <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('fact5')">Pročitaj više →</button>
       </article>
 
-      <!-- Post 6 -->
+      <!-- Fact 6 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-red-400 text-sm font-semibold">7. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Pravila i bezbjednost: kako takmičenje funkcioniše</h3>
+        <div class="mb-2"><span class="text-red-400 text-xs font-semibold">21. septembar 2025.</span></div>
+        <h3 id="fact6-title" class="text-xl font-bold text-white mb-2">„Weight budget“: gram koji odlučuje</h3>
         <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Maksimalna masa, dozvoljene konfiguracije, ograničenja „oružja“, tehničke provjere,
-          parc ferme i sistemi za hitne intervencije. Sve procedure su javne i napisane jasno — fokus na fer borbi.
+          Timovi vode „budžet težine“ kao finansijski excel – svaki gram ide tamo gdje donosi performanse.
         </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Regulativa</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('pravila-bezbjednost')">Pročitaj više →</button>
-        </div>
-      </article>
-
-      <!-- Post 7 -->
-      <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-yellow-400 text-sm font-semibold">5. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Partnerstva i podrška: Spark.me STEAM je uz nas</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Generalni partner projekta je Spark.me STEAM avantura. Pozivamo i druge kompanije da podrže
-          edukaciju i inženjersku zajednicu — od sponzorstva opreme do mentorskih sesija.
-        </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Partneri</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('partnerstva-poziv')">Pročitaj više →</button>
-        </div>
-      </article>
-
-      <!-- Post 8 -->
-      <article class="phase-card p-6 rounded-xl">
-        <div class="mb-3">
-          <span class="text-red-400 text-sm font-semibold">1. septembar 2025.</span>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">After Movie &amp; medijski tim: prijave za volontere</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Planiramo profesionalni after movie finalnog događaja. Ako te zanima snimanje, fotografija
-          ili montaža — prijavi se i postani dio produkcione ekipe BattleBots.me.
-        </p>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Produkcija</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('after-movie-volonteri')">Pročitaj više →</button>
-        </div>
+        <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openFact('fact6')">Pročitaj više →</button>
       </article>
     </div>
+  </div>
 
-    <div class="text-center mt-12">
-      <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="loadMorePosts(this)">
-        Učitaj još objava
-      </button>
+  <!-- HIDDEN LONG CONTENT -->
+  <div class="hidden">
+    <div id="fact1-content">
+      <h4 class="text-xl font-semibold mb-3">Zašto roboti „vole“ polumrak?</h4>
+      <p class="text-gray-200 leading-relaxed mb-3">
+        U arenama sa jakim reflektorima nastaju odsjaji, refleksije i „vruće tačke“ koje kamerama i pojedinim senzorima otežavaju posao.
+        Zato mnogi timovi preferiraju ujednačeno, blaže osvjetljenje ili mat površine – kontrast je stabilniji, a vizuelni tragovi (linije,
+        markeri, oblici) pouzdanije se detektuju. Ultrazvučni i neki infracrveni senzori takođe bolje rade kada nema smetnji od blještavila.
+      </p>
+      <p class="text-gray-300 text-sm">
+        Bonus trik: mat crne ili teksturisane površine unutar robota i okolo kamere smanjuju interne refleksije i „šum“ u slici.
+      </p>
+    </div>
+
+    <div id="fact2-content">
+      <h4 class="text-xl font-semibold mb-3">Tajna brzih okreta: „tank drive“</h4>
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Diferencijalno upravljanje znači da lijeva i desna strana robota imaju nezavisnu kontrolu brzine i smjera.
+        Kada se strane vrte suprotno, robot se obrće oko svoje ose praktično u mjestu. To donosi jednostavan mehanički dizajn,
+        manje tačaka kvara i veoma brze promjene pravca – presudno u kontakt-borbama i izbjegavanju udaraca.
+      </p>
+      <p class="text-gray-300 text-sm">
+        Mana? Pri ekstremnim brzinama preciznost opada – zato iskusni timovi kombinuju „tank drive“ sa pažljivo podešenim rampama ubrzanja i kočenja.
+      </p>
+    </div>
+
+    <div id="fact3-content">
+      <h4 class="text-xl font-semibold mb-3">Baterije vole umjerenu temperaturu</h4>
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Litijumske baterije daju najbolju isporuku snage u umjerenim uslovima. Na niskim temperaturama opada napon pod opterećenjem,
+        pa robot djeluje „istrošeno“ i kada je baterija relativno puna. Na previsokim temperaturama hemija brže stari, što skraćuje vijek.
+        Zato timovi planiraju hlađenje elektronike i protok vazduha oko regulatora i baterija, ali izbjegavaju ekstremno hlađenje koje bi umanjilo performanse.
+      </p>
+      <p class="text-gray-300 text-sm">
+        Praktično: pametno rutiranje kablova i ventilacija u kućištu često su podjednako važni kao i sam kapacitet baterije.
+      </p>
+    </div>
+
+    <div id="fact4-content">
+      <h4 class="text-xl font-semibold mb-3">3D štampa vs. metal: ko bolje trpi udarce?</h4>
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Metal (aluminijum, čelik) je odličan za šasiju i noseće dijelove – krut je i otporan. Ipak, 3D štampani „tampon“ dijelovi
+        ponekad prežive bolje jer elastično „popiju“ dio udarca. Mnogi timovi kombinuju: metalna jezgra za strukturu i štampane
+        branike, kaveze ili nosače senzora koji se lako mijenjaju. Orijentacija slojeva i rebra na 3D dijelu prave veliku razliku u čvrstoći.
+      </p>
+      <p class="text-gray-300 text-sm">
+        „Kompliantni“ (blago savitljivi) dijelovi često štite skupe komponente – bolji je jeftin štit koji pukne nego oštećen kontroler.
+      </p>
+    </div>
+
+    <div id="fact5-content">
+      <h4 class="text-xl font-semibold mb-3">„Fail-safe“: mali kod koji spašava meč</h4>
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Fail-safe logika je pravilo: ako kontroler izgubi signal ili očita nevalidne podatke sa prijemnika, robot mora u bezbjedno stanje – obustava pogona.
+        Time se sprječava nekontrolisano kretanje i čuvaju se i publika i oprema. Dodatno, sudije mogu brže nastaviti meč nakon kratkog prekida,
+        bez težih posljedica ili kazni. U praksi, to je nekoliko linija koda i pažljivo podešena „mrtva zona“ ulaza.
+      </p>
+      <p class="text-gray-300 text-sm">
+        Profesionalni timovi testiraju prekide signala prije svakog nastupa – to je najjeftinije „osiguranje“ performansi.
+      </p>
+    </div>
+
+    <div id="fact6-content">
+      <h4 class="text-xl font-semibold mb-3">„Weight budget“: gram koji odlučuje</h4>
+      <p class="text-gray-200 leading-relaxed mb-3">
+        Svaki robot ima maksimalnu dozvoljenu masu. Timovi vode „budžet težine“ po komponentama – od motora do vijaka.
+        Kada zafali 50–100 g, traže se kreativne uštede: kraći kablovi, perforacije na zaštitama, tanji, ali čvršći materijali,
+        pa čak i zamjena tipa vijaka. Taj „oslobođeni“ gram ide na ono što donosi rezultat: bolji prijenos, tvrđi disk, deblji branik ili veći točkovi.
+      </p>
+      <p class="text-gray-300 text-sm">
+        Pouka: brži robot nije nužno bolji – bolji je onaj koji je najpametnije „potrošio“ dozvoljene grame.
+      </p>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div id="postModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70" onclick="closeFact()"></div>
+    <div class="relative max-w-2xl mx-auto mt-20 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl p-6">
+      <div class="flex items-start justify-between mb-4">
+        <h3 id="modalTitle" class="text-2xl font-bold text-white"></h3>
+        <button class="ml-4 text-gray-400 hover:text-white" onclick="closeFact()" aria-label="Zatvori">
+          ✕
+        </button>
+      </div>
+      <div id="modalBody" class="prose prose-invert max-w-none text-gray-200"></div>
     </div>
   </div>
 </section>
+
+<script>
+  function openFact(id) {
+    const titleEl = document.getElementById(id + '-title');
+    const contentEl = document.getElementById(id + '-content');
+    if (!titleEl || !contentEl) return;
+
+    document.getElementById('modalTitle').textContent = titleEl.textContent;
+    document.getElementById('modalBody').innerHTML = contentEl.innerHTML;
+
+    const modal = document.getElementById('postModal');
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeFact() {
+    const modal = document.getElementById('postModal');
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+    // opcionalno: očisti sadržaj
+    document.getElementById('modalTitle').textContent = '';
+    document.getElementById('modalBody').innerHTML = '';
+  }
+
+  // ESC za zatvaranje
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeFact();
+  });
+</script>
 
 
 <!-- FAQ -->
