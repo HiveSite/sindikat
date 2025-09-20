@@ -535,76 +535,149 @@ window.addEventListener('load', () => {
 <section id="blog" class="py-20 bg-black">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="section-divider mb-12"></div>
-    <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">Najnovija ažuriranja</h2>
+    <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">
+      Najnovija ažuriranja
+    </h2>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Post 1 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-4"><span class="text-yellow-400 text-sm font-semibold">15. decembar 2024.</span></div>
-        <h3 class="text-xl font-bold text-white mb-3">Otkriven dizajn arene BattleBots.me</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">Pogledajte ekskluzivni prikaz naše prilagođene arene sa ojačanim barijerama, više kamera i bezbjednosnim sistemima dizajniranim za maksimalno uzbuđenje i zaštitu takmičara.</p>
+        <div class="mb-3">
+          <span class="text-yellow-400 text-sm font-semibold">20. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Otvorene prijave za edukativni bootcamp</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Startujemo! Prijavi se za besplatne radionice iz robotike, Arduino programiranja, CAD dizajna
+          i upravljanja senzorima. Radimo u malim timovima, uz mentore i jasne zadatke — idealno i
+          za početnike i za napredne učesnike.
+        </p>
         <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Inženjerski tim</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('arena-design')">Pročitaj više →</button>
+          <span class="text-gray-400 text-xs">Prijave • 5 gradova</span>
+          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('prijave-bootcamp')">Pročitaj više →</button>
         </div>
       </article>
+
       <!-- Post 2 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-4"><span class="text-red-400 text-sm font-semibold">10. decembar 2024.</span></div>
-        <h3 class="text-xl font-bold text-white mb-3">Upoznajte naše stručne mentore</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">Predstavljamo profesionalce iz industrije i akademske stručnjake koji će voditi timove kroz fazu izrade robota, dijeleći decenije inženjerskog iskustva.</p>
+        <div class="mb-3">
+          <span class="text-red-400 text-sm font-semibold">18. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Predstavljena borbena arena: sigurnost + spektakl</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Nova artiljerija za ideje: ojačane polikarbonatne barijere, sistem za hitno zaustavljanje i
+          modularni pod za brze mehaničke izmjene. Dizajn je spreman za ozbiljne duele — uz potpunu bezbjednost publike i timova.
+        </p>
         <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Tim u fokusu</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('mentors')">Pročitaj više →</button>
+          <span class="text-gray-400 text-xs">Inženjering</span>
+          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('arena-preview')">Pročitaj više →</button>
         </div>
       </article>
+
       <!-- Post 3 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-4"><span class="text-yellow-400 text-sm font-semibold">5. decembar 2024.</span></div>
-        <h3 class="text-xl font-bold text-white mb-3">Otkrivene komponente seta za robota</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">Otkrijte Arduino komponente, senzore, motore i materijale koje će svaki tim dobiti. Pošteno takmičenje počinje identičnim resursima za sve učesnike.</p>
+        <div class="mb-3">
+          <span class="text-yellow-400 text-sm font-semibold">15. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Objavljeni gradovi i datumi radionica</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Podgorica, Nikšić, Bar, Bijelo Polje i Pljevlja su domaćini ovogodišnjeg bootcampa.
+          Raspored termina i prijavni linkovi su online — rezerviši svoje mjesto na vrijeme.
+        </p>
         <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Tehnički detalji</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('robot-kits')">Pročitaj više →</button>
+          <span class="text-gray-400 text-xs">Kalendar</span>
+          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('gradovi-termini')">Pročitaj više →</button>
         </div>
       </article>
+
       <!-- Post 4 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-4"><span class="text-red-400 text-sm font-semibold">28. novembar 2024.</span></div>
-        <h3 class="text-xl font-bold text-white mb-3">Objavljeni gradovi radionica</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">Podgorica, Nikšić, Bar, Bijelo Polje i Pljevlja izabrani su kao gradovi domaćini za fazu edukativnog bootcampa. Potvrđena su lokalna partnerstva sa školama i tech hubovima.</p>
+        <div class="mb-3">
+          <span class="text-red-400 text-sm font-semibold">12. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Mentori i žiri: ko stoji uz timove</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Predstavljamo iskusne inženjere, programere i edukatore koji će voditi sesije, pregledati
+          prototipe i žirirati finale. Fokus je na praktičnim savjetima, sigurnosti i fer igri.
+        </p>
         <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Obavještenja</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('workshop-cities')">Pročitaj više →</button>
+          <span class="text-gray-400 text-xs">Mentorstvo</span>
+          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('mentori-ziri')">Pročitaj više →</button>
         </div>
       </article>
+
       <!-- Post 5 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-4"><span class="text-yellow-400 text-sm font-semibold">20. novembar 2024.</span></div>
-        <h3 class="text-xl font-bold text-white mb-3">Bezbjednost prije svega: pravila takmičenja</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">Sveobuhvatni protokoli bezbjednosti i pravila takmičenja obezbjeđuju fer igru uz zadržavanje uzbuđenja borbi robota. Ograničenja težine, restrikcije oružja i smjernice za arenu.</p>
+        <div class="mb-3">
+          <span class="text-yellow-400 text-sm font-semibold">10. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Šta dobijaju timovi: startni set komponenata</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Svi selektovani timovi dobijaju identične pakete: motori, šasija, kontroler, senzori,
+          napajanje i potrošni materijal. Jednaki uslovi za sve — razlika je u ideji i izvedbi.
+        </p>
         <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Pravila i bezbjednost</span>
-          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('safety-rules')">Pročitaj više →</button>
+          <span class="text-gray-400 text-xs">Kit &amp; logistika</span>
+          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('startni-set')">Pročitaj više →</button>
         </div>
       </article>
+
       <!-- Post 6 -->
       <article class="phase-card p-6 rounded-xl">
-        <div class="mb-4"><span class="text-red-400 text-sm font-semibold">15. novembar 2024.</span></div>
-        <h3 class="text-xl font-bold text-white mb-3">Partnerstvo sa Spark.me STEAM</h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">Zvanično objavljujemo partnerstvo sa doMEn (.ME) i Spark.me STEAM Adventure, donoseći vrhunske STEAM edukativne resurse mladima u Crnoj Gori.</p>
+        <div class="mb-3">
+          <span class="text-red-400 text-sm font-semibold">7. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Pravila i bezbjednost: kako takmičenje funkcioniše</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Maksimalna masa, dozvoljene konfiguracije, ograničenja „oružja“, tehničke provjere,
+          parc ferme i sistemi za hitne intervencije. Sve procedure su javne i napisane jasno — fokus na fer borbi.
+        </p>
         <div class="flex items-center justify-between">
-          <span class="text-gray-400 text-xs">Partnerstva</span>
-          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('spark-partnership')">Pročitaj više →</button>
+          <span class="text-gray-400 text-xs">Regulativa</span>
+          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('pravila-bezbjednost')">Pročitaj više →</button>
+        </div>
+      </article>
+
+      <!-- Post 7 -->
+      <article class="phase-card p-6 rounded-xl">
+        <div class="mb-3">
+          <span class="text-yellow-400 text-sm font-semibold">5. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Partnerstva i podrška: Spark.me STEAM je uz nas</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Generalni partner projekta je Spark.me STEAM avantura. Pozivamo i druge kompanije da podrže
+          edukaciju i inženjersku zajednicu — od sponzorstva opreme do mentorskih sesija.
+        </p>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400 text-xs">Partneri</span>
+          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openBlogPost('partnerstva-poziv')">Pročitaj više →</button>
+        </div>
+      </article>
+
+      <!-- Post 8 -->
+      <article class="phase-card p-6 rounded-xl">
+        <div class="mb-3">
+          <span class="text-red-400 text-sm font-semibold">1. septembar 2025.</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">After Movie &amp; medijski tim: prijave za volontere</h3>
+        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+          Planiramo profesionalni after movie finalnog događaja. Ako te zanima snimanje, fotografija
+          ili montaža — prijavi se i postani dio produkcione ekipe BattleBots.me.
+        </p>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400 text-xs">Produkcija</span>
+          <button class="text-red-400 hover:text-red-300 text-sm font-semibold" onclick="openBlogPost('after-movie-volonteri')">Pročitaj više →</button>
         </div>
       </article>
     </div>
 
     <div class="text-center mt-12">
-      <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="loadMorePosts(this)">Učitaj još objava</button>
+      <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="loadMorePosts(this)">
+        Učitaj još objava
+      </button>
     </div>
   </div>
 </section>
+
 
 <!-- FAQ -->
 <section id="faq" class="py-20 bg-gray-900/50">
