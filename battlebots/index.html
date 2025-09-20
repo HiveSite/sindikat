@@ -1342,11 +1342,39 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 <div id="sticky-rotator"
      class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1150px)] px-4 py-3 rounded-2xl pb-[env(safe-area-inset-bottom)]
             border border-yellow-400/20">
-  <!-- Close -->
-  <button id="sticky-close"
-          class="close-btn absolute -top-2 -right-2 h-8 w-8 rounded-full border border-zinc-700/60 text-gray-300 hover:text-white
-                 flex items-center justify-center shadow-md"
-          aria-label="Zatvori oglas">✕</button>
+<script>
+(() => {
+  const box = document.getElementById('sticky-rotator');
+  if (!box) return;
+
+  const slides = Array.from(box.querySelectorAll('.banner'));
+  let i = 0;
+  let timer = null;
+
+  const show = (idx) => {
+    slides.forEach((s, j) => s.classList.toggle('active', j === idx));
+  };
+
+  const start = () => {
+    stop();
+    timer = setInterval(() => {
+      i = (i + 1) % slides.length;
+      show(i);
+    }, 3000);
+  };
+
+  const stop = () => { if (timer) clearInterval(timer); };
+
+  // Init
+  show(0);
+  start();
+
+  // Ako želiš da se nikad ne pauzira ni na hover, obriši ova dva listenera:
+  box.addEventListener('mouseenter', stop);
+  box.addEventListener('mouseleave', start);
+})();
+</script>
+
 
   <!-- Viewport for slides -->
  <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
