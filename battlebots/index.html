@@ -602,137 +602,137 @@ window.addEventListener('load', () => {
     </div>
   </div>
 
-  <!-- HIDDEN LONG CONTENT (sa slikama pri dnu) -->
-  <div class="hidden">
-    <div id="fact1-content">
-      <h4 class="text-xl font-semibold mb-3">Zašto roboti „vole“ polumrak?</h4>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        U arenama za borbe robota reflektori često stvaraju odsjaje i „vruće tačke“ na polikarbonatu i metalnim površinama. Takve anomalije kvare
-        ekspoziciju mini-kamera i otežavaju detekciju vizuelnih tragova (linije, markeri, konture rivala). Blaže, difuzno svjetlo daje stabilniji
-        histogram slike, pa sistemi za navođenje i vozači preko FPV feeda reaguju preciznije.
-      </p>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        IR i ultrazvučni senzori takođe pate od refleksija. Mat površine unutar robota (oko kamere) i crne teksture u zoni senzora smanjuju interne
-        povratne odsjaje i „šum“. U praksi, bolje je imati manje intenzivno, ali ujednačeno osvjetljenje nego sirovu jačinu koja „zaslijepi“ optiku.
-      </p>
-      <ul class="list-disc pl-5 text-gray-300 mb-4">
-        <li>Koristi <em>mat</em> ili teksturisane štitnike oko kamere da spriječiš „flare“.</li>
-        <li>Mali „sun hood“ (vizir) za FPV modul čini razliku.</li>
-        <li>Kalibriši ekspoziciju i balans bijele prije meča; izbjegavaj „auto“ ako „pumpa“ sliku.</li>
-      </ul>
-      <figure class="mt-6">
-        <!-- Zamijeni SRC svojim fajlom npr. /assets/blog/arena-lighting.jpg -->
-        <img src="/assets/blog/arena-lighting.jpg" alt="Arena u polumraku sa difuznim svjetlom" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
-        <figcaption class="text-xs text-gray-400 mt-2">Difuzno osvjetljenje smanjuje odsjaj i pomaže kamerama i senzorima.</figcaption>
-      </figure>
-    </div>
-
-    <div id="fact2-content">
-      <h4 class="text-xl font-semibold mb-3">Tajna brzih okreta: „tank drive“</h4>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        „Tank drive“ znači nezavisnu kontrolu lijevog i desnog pogona. Kada se strane vrte u suprotnim smjerovima, robot se obrće oko svoje ose i mijenja
-        pravac bez „širokog luka“. Manje pokretnih dijelova = manje tačaka kvara i niža latencija reakcije.
-      </p>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Odnos <strong>širina traga : međuosovinsko rastojanje</strong> i prianjanje točkova određuju koliko će okret biti „živ“ a ipak kontrolisan.
-        Previše gripa = trzaji i preopterećenje motora; premalo = proklizavanje i gubitak potiska. Zato se često koriste gumene smjese srednje tvrdoće i
-        pažljivo podešene rampe ubrzanja/kočenja na ESC-u.
-      </p>
-      <ul class="list-disc pl-5 text-gray-300 mb-4">
-        <li>Uvedi <em>mixing</em> na predajniku: throttle + yaw za preciznije manevre.</li>
-        <li>„Soft-start“ i limit vršne struje čuvaju prenos i bateriju.</li>
-        <li>Testiraj PID (ako ga koristiš) na podlozi sličnog trenja kao u areni.</li>
-      </ul>
-      <figure class="mt-6">
-        <img src="/assets/blog/tank-drive-wheels.jpg" alt="Bliski kadar pogonskih točkova robota" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
-        <figcaption class="text-xs text-gray-400 mt-2">Diferencijalno upravljanje: precizni zaokreti uz jednostavan mehanizam.</figcaption>
-      </figure>
-    </div>
-
-    <div id="fact3-content">
-      <h4 class="text-xl font-semibold mb-3">Baterije vole umjerenu temperaturu</h4>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Litijumske baterije (LiPo/Li-ion) daju najbolji balans snage i dugovječnosti oko sobne temperature (18–25°C). Na hladnom raste unutrašnji otpor pa
-        pod opterećenjem napon „pada“ dublje – robot djeluje tromo iako ima kapaciteta. Na vrućem hemija ubrzano stari, povećava se rizik napuhavanja i gubitka
-        performansi u narednim mečevima.
-      </p>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Dobar protok vazduha kroz kućište i razmak između regulatora i baterije sprječavaju toplotni „džep“. Ako koristiš aktivno hlađenje,
-        ne „preohladi“ ćelije prije starta – kratko „predgrijavanje“ do sobne temperature vraća vršnu isporuku struje.
-      </p>
-      <ul class="list-disc pl-5 text-gray-300 mb-4">
-        <li>Storage napon ~3.8V/ćeliji između događaja; pun kapacitet pred meč.</li>
-        <li>Kvalitetne ćelije s realnim C-rejtingom, mehanička zaštita i „strain relief“.</li>
-        <li>Uvik imaj plan gašenja i LiPo kese/box za punjenje.</li>
-      </ul>
-      <figure class="mt-6">
-        <img src="/assets/blog/lipo-pack.jpg" alt="LiPo baterijski paketi sa zaštitom i kablovima" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
-        <figcaption class="text-xs text-gray-400 mt-2">Temperatura i mehanička zaštita su ključ dugovječnosti baterije.</figcaption>
-      </figure>
-    </div>
-
-    <div id="fact4-content">
-      <h4 class="text-xl font-semibold mb-3">3D štampa vs. metal: ko bolje trpi udarce?</h4>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Metal (Al/Čelik) nudi krutost i spremnik energije za „oružje“, ali je teži i sporiji za zamjenu. 3D štampani dijelovi od <strong>PETG</strong>, <strong>Nylona</strong> ili
-        <strong>CF-Nylona</strong> mogu elastično apsorbovati udare i zaštititi osjetljive sklopove. Kombinuj: metalna jezgra + štampani branici i nosači koji se lako mijenjaju.
-      </p>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Snaga štampe leži u <em>orijentaciji slojeva</em> i <em>lokalnim ojačanjima</em>. Kritične zone: više perimetara, ribovi i zavrtnji kroz slojeve.
-      </p>
-      <ul class="list-disc pl-5 text-gray-300 mb-4">
-        <li>PETG za fleks branike; CF-Nylon za krutost bez lomljivosti.</li>
-        <li>„Energy fuse“ dio koji smije da pukne umjesto skupog modula.</li>
-        <li>Set zamjenskih printova u boksu skraćuje downtime između rundi.</li>
-      </ul>
-      <figure class="mt-6">
-        <img src="/assets/blog/3d-print-bracket.jpg" alt="3D štampani nosač i metalni elementi robota" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
-        <figcaption class="text-xs text-gray-400 mt-2">Kombinacija metala i štampe: čvrsto gdje treba, elastično gdje se isplati.</figcaption>
-      </figure>
-    </div>
-
-    <div id="fact5-content">
-      <h4 class="text-xl font-semibold mb-3">„Fail-safe“: mali kod koji spašava meč</h4>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Ako kontroler izgubi validan signal (timeout) ili ulaz „poludi“, pogon prelazi u stanje minimalne snage ili se gasi. To sprječava
-        nekontrolisano kretanje i štetu. Implementacija je jednostavna: brojanje ms od posljednjeg validnog paketa + granice ulaza + „deadband“.
-      </p>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Pored softvera, „hard kill switch“ (dostupan spolja) često je obavezan. Sudija ili član tima može trenutno prekinuti napajanje pogona,
-        dok niskonaponski krug ostaje aktivan za telemetriju i logovanje (po pravilima događaja).
-      </p>
-      <ul class="list-disc pl-5 text-gray-300 mb-4">
-        <li>Validiraj ulaze: odbaci „NaN“, out-of-range i „jitter“.</li>
-        <li>Timeout 250–500 ms prije safe režima.</li>
-        <li>Test prekida signala – obavezni dio pre-fight checklista.</li>
-      </ul>
-      <figure class="mt-6">
-        <img src="/assets/blog/failsafe-mcu.jpg" alt="Mikrokontroler i kablovi sa sigurnosnim prekidačem" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
-        <figcaption class="text-xs text-gray-400 mt-2">Fail-safe + kill switch: najjeftinije osiguranje performansi.</figcaption>
-      </figure>
-    </div>
-
-    <div id="fact6-content">
-      <h4 class="text-xl font-semibold mb-3">„Weight budget“: gram koji odlučuje</h4>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Pravila limitiraju maksimalnu masu. Najbolji timovi vode tabelu mase po komponentama, <em>uključujući kablove, konektore i vijke</em>. Kada „nedostaje“
-        50–150 g, nastupa kreativna dijeta: kraći kablovi, tanje ploče uz rebra, perforacije na štitnicima, lakši točkovi i optimizovani nosači.
-      </p>
-      <p class="text-gray-200 leading-relaxed mb-3">
-        Oslobođeni gramovi se „investiraju“ tamo gdje prave rezultat: veći zamah „oružja“, deblji branik, jači prenos ili dodatna zaštita kritične elektronike.
-        Poenta nije najlakši robot, već najpametnije raspoređena masa naspram strategije.
-      </p>
-      <ul class="list-disc pl-5 text-gray-300 mb-4">
-        <li>Vagaj sve – i zip-ties i podloške ulaze u budžet.</li>
-        <li>Definiši prioritete mase po taktici meča.</li>
-        <li>Ostavi „upgrade slot“ 50–80 g za kasne promjene.</li>
-      </ul>
-      <figure class="mt-6">
-        <img src="/assets/blog/scale-robot-parts.jpg" alt="Digitalna vaga i djelovi robota tokom mjerenja mase" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
-        <figcaption class="text-xs text-gray-400 mt-2">Gram po gram – budžet mase odlučuje detalje i pobjede.</figcaption>
-      </figure>
-    </div>
+ <!-- HIDDEN LONG CONTENT (sa slikama pri dnu – online linkovi) -->
+<div class="hidden">
+  <div id="fact1-content">
+    <h4 class="text-xl font-semibold mb-3">Zašto roboti „vole“ polumrak?</h4>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      U arenama za borbe robota reflektori često stvaraju odsjaje i „vruće tačke“ na polikarbonatu i metalnim površinama. Takve anomalije kvare
+      ekspoziciju mini-kamera i otežavaju detekciju vizuelnih tragova (linije, markeri, konture rivala). Blaže, difuzno svjetlo daje stabilniji
+      histogram slike, pa sistemi za navođenje i vozači preko FPV feeda reaguju preciznije.
+    </p>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      IR i ultrazvučni senzori takođe pate od refleksija. Mat površine unutar robota (oko kamere) i crne teksture u zoni senzora smanjuju interne
+      povratne odsjaje i „šum“. U praksi, bolje je imati manje intenzivno, ali ujednačeno osvjetljenje nego sirovu jačinu koja „zaslijepi“ optiku.
+    </p>
+    <ul class="list-disc pl-5 text-gray-300 mb-4">
+      <li>Koristi <em>mat</em> ili teksturisane štitnike oko kamere da spriječiš „flare“.</li>
+      <li>Mali „sun hood“ (vizir) za FPV modul čini razliku.</li>
+      <li>Kalibriši ekspoziciju i balans bijele prije meča; izbjegavaj „auto“ ako „pumpa“ sliku.</li>
+    </ul>
+    <figure class="mt-6">
+      <img src="https://source.unsplash.com/1600x900/?robotics,arena,lights" alt="Arena u polumraku sa difuznim svjetlom" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+      <figcaption class="text-xs text-gray-400 mt-2">Difuzno osvjetljenje smanjuje odsjaj i pomaže kamerama i senzorima.</figcaption>
+    </figure>
   </div>
+
+  <div id="fact2-content">
+    <h4 class="text-xl font-semibold mb-3">Tajna brzih okreta: „tank drive“</h4>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      „Tank drive“ znači nezavisnu kontrolu lijevog i desnog pogona. Kada se strane vrte u suprotnim smjerovima, robot se obrće oko svoje ose i mijenja
+      pravac bez „širokog luka“. Manje pokretnih dijelova = manje tačaka kvara i niža latencija reakcije.
+    </p>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Odnos <strong>širina traga : međuosovinsko rastojanje</strong> i prianjanje točkova određuju koliko će okret biti „živ“ a ipak kontrolisan.
+      Previše gripa = trzaji i preopterećenje motora; premalo = proklizavanje i gubitak potiska. Zato se često koriste gumene smjese srednje tvrdoće i
+      pažljivo podešene rampe ubrzanja/kočenja na ESC-u.
+    </p>
+    <ul class="list-disc pl-5 text-gray-300 mb-4">
+      <li>Uvedi <em>mixing</em> na predajniku: throttle + yaw za preciznije manevre.</li>
+      <li>„Soft-start“ i limit vršne struje čuvaju prenos i bateriju.</li>
+      <li>Testiraj PID (ako ga koristiš) na podlozi sličnog trenja kao u areni.</li>
+    </ul>
+    <figure class="mt-6">
+      <img src="https://source.unsplash.com/1600x900/?robot,wheels,engineering" alt="Bliski kadar pogonskih točkova robota" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+      <figcaption class="text-xs text-gray-400 mt-2">Diferencijalno upravljanje: precizni zaokreti uz jednostavan mehanizam.</figcaption>
+    </figure>
+  </div>
+
+  <div id="fact3-content">
+    <h4 class="text-xl font-semibold mb-3">Baterije vole umjerenu temperaturu</h4>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Litijumske baterije (LiPo/Li-ion) daju najbolji balans snage i dugovječnosti oko sobne temperature (18–25°C). Na hladnom raste unutrašnji otpor pa
+      pod opterećenjem napon „pada“ dublje – robot djeluje tromo iako ima kapaciteta. Na vrućem hemija ubrzano stari, povećava se rizik napuhavanja i gubitka
+      performansi u narednim mečevima.
+    </p>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Dobar protok vazduha kroz kućište i razmak između regulatora i baterije sprječavaju toplotni „džep“. Ako koristiš aktivno hlađenje,
+      ne „preohladi“ ćelije prije starta – kratko „predgrijavanje“ do sobne temperature vraća vršnu isporuku struje.
+    </p>
+    <ul class="list-disc pl-5 text-gray-300 mb-4">
+      <li>Storage napon ~3.8V/ćeliji između događaja; pun kapacitet pred meč.</li>
+      <li>Kvalitetne ćelije s realnim C-rejtingom, mehanička zaštita i „strain relief“.</li>
+      <li>Uvijek imaj plan gašenja i LiPo kese/box za punjenje.</li>
+    </ul>
+    <figure class="mt-6">
+      <img src="https://source.unsplash.com/1600x900/?lipo,battery,electronics" alt="LiPo baterijski paketi sa zaštitom i kablovima" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+      <figcaption class="text-xs text-gray-400 mt-2">Temperatura i mehanička zaštita su ključ dugovječnosti baterije.</figcaption>
+    </figure>
+  </div>
+
+  <div id="fact4-content">
+    <h4 class="text-xl font-semibold mb-3">3D štampa vs. metal: ko bolje trpi udarce?</h4>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Metal (Al/Čelik) nudi krutost i spremnik energije za „oružje“, ali je teži i sporiji za zamjenu. 3D štampani dijelovi od <strong>PETG</strong>, <strong>Nylona</strong> ili
+      <strong>CF-Nylona</strong> mogu elastično apsorbovati udare i zaštititi osjetljive sklopove. Kombinuj: metalna jezgra + štampani branici i nosači koji se lako mijenjaju.
+    </p>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Snaga štampe leži u <em>orijentaciji slojeva</em> i <em>lokalnim ojačanjima</em>. Kritične zone: više perimetara, rebra i zavrtnji kroz slojeve.
+    </p>
+    <ul class="list-disc pl-5 text-gray-300 mb-4">
+      <li>PETG za fleks branike; CF-Nylon za krutost bez lomljivosti.</li>
+      <li>„Energy fuse“ dio koji smije da pukne umjesto skupog modula.</li>
+      <li>Set zamjenskih printova u boksu skraćuje downtime između rundi.</li>
+    </ul>
+    <figure class="mt-6">
+      <img src="https://source.unsplash.com/1600x900/?3d-printing,nylon,engineering" alt="3D štampani nosač uz metalne elemente robota" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+      <figcaption class="text-xs text-gray-400 mt-2">Kombinacija metala i štampe: čvrsto gdje treba, elastično gdje se isplati.</figcaption>
+    </figure>
+  </div>
+
+  <div id="fact5-content">
+    <h4 class="text-xl font-semibold mb-3">„Fail-safe“: mali kod koji spašava meč</h4>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Ako kontroler izgubi validan signal (timeout) ili ulaz „poludi“, pogon prelazi u stanje minimalne snage ili se gasi. To sprječava
+      nekontrolisano kretanje i štetu. Implementacija je jednostavna: brojanje ms od posljednjeg validnog paketa + granice ulaza + „deadband“.
+    </p>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Pored softvera, „hard kill switch“ (dostupan spolja) često je obavezan. Sudija ili član tima može trenutno prekinuti napajanje pogona,
+      dok niskonaponski krug ostaje aktivan za telemetriju i logovanje (po pravilima događaja).
+    </p>
+    <ul class="list-disc pl-5 text-gray-300 mb-4">
+      <li>Validiraj ulaze: odbaci „NaN“, out-of-range i „jitter“.</li>
+      <li>Timeout 250–500 ms prije safe režima.</li>
+      <li>Test prekida signala – obavezni dio pre-fight checklista.</li>
+    </ul>
+    <figure class="mt-6">
+      <img src="https://source.unsplash.com/1600x900/?microcontroller,pcb,switch" alt="Mikrokontroler i kablovi sa sigurnosnim prekidačem" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+      <figcaption class="text-xs text-gray-400 mt-2">Fail-safe + kill switch: najjeftinije osiguranje performansi.</figcaption>
+    </figure>
+  </div>
+
+  <div id="fact6-content">
+    <h4 class="text-xl font-semibold mb-3">„Weight budget“: gram koji odlučuje</h4>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Pravila limitiraju maksimalnu masu. Najbolji timovi vode tabelu mase po komponentama, <em>uključujući kablove, konektore i vijke</em>. Kada „nedostaje“
+      50–150 g, nastupa kreativna dijeta: kraći kablovi, tanje ploče uz rebra, perforacije na štitnicima, lakši točkovi i optimizovani nosači.
+    </p>
+    <p class="text-gray-200 leading-relaxed mb-3">
+      Oslobođeni gramovi se „investiraju“ tamo gdje prave rezultat: veći zamah „oružja“, deblji branik, jači prenos ili dodatna zaštita kritične elektronike.
+      Poenta nije najlakši robot, već najpametnije raspoređena masa naspram strategije.
+    </p>
+    <ul class="list-disc pl-5 text-gray-300 mb-4">
+      <li>Vagaj sve – i zip-ties i podloške ulaze u budžet.</li>
+      <li>Definiši prioritete mase po taktici meča.</li>
+      <li>Ostavi „upgrade slot“ 50–80 g za kasne promjene.</li>
+    </ul>
+    <figure class="mt-6">
+      <img src="https://source.unsplash.com/1600x900/?scale,robot,parts" alt="Digitalna vaga i dijelovi robota tokom mjerenja mase" class="w-full h-56 sm:h-64 object-cover rounded-xl border border-zinc-800" loading="lazy">
+      <figcaption class="text-xs text-gray-400 mt-2">Gram po gram – budžet mase odlučuje detalje i pobjede.</figcaption>
+    </figure>
+  </div>
+</div>
+
 
   <!-- MODAL (poboljšan dizajn, animacija i tipografija) -->
   <div id="postModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
