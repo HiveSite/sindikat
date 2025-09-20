@@ -1299,5 +1299,162 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 }
 }
 </script>
+<!-- STICKY ROTATING BANNER — paste odmah iznad </body> (bila linija 1310) -->
+<style>
+  /* Sticky rotator styles */
+  #sticky-rotator {
+    /* soft glass / neon ring */
+    background: linear-gradient(135deg, rgba(255,193,7,.08), rgba(255,107,53,.08));
+    border: 1px solid rgba(255,193,7,.25);
+    box-shadow: 0 8px 30px rgba(255,193,7,.18);
+    backdrop-filter: blur(6px);
+  }
+  #sticky-rotator .banner {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(10px) scale(.98);
+    transition: opacity .5s ease, transform .5s ease, filter .5s ease;
+    filter: saturate(.95);
+    pointer-events: none;
+  }
+  #sticky-rotator .banner.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+    pointer-events: auto;
+  }
+  #sticky-rotator .close-btn:hover { background: rgba(255,255,255,.06); }
+
+  /* Subtle glow pulse on the container border */
+  @keyframes neonPulse {
+    0%,100% { box-shadow: 0 8px 30px rgba(255,193,7,.18); }
+    50%     { box-shadow: 0 12px 36px rgba(255,193,7,.28); }
+  }
+  #sticky-rotator { animation: neonPulse 3.5s ease-in-out infinite; }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #sticky-rotator, #sticky-rotator .banner { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div id="sticky-rotator"
+     class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1150px)] px-4 py-3 rounded-2xl pb-[env(safe-area-inset-bottom)]
+            border border-yellow-400/20">
+  <!-- Close -->
+  <button id="sticky-close"
+          class="close-btn absolute -top-2 -right-2 h-8 w-8 rounded-full border border-zinc-700/60 text-gray-300 hover:text-white
+                 flex items-center justify-center shadow-md"
+          aria-label="Zatvori oglas">✕</button>
+
+  <!-- Viewport for slides -->
+  <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
+    <!-- SLIDE 1 -->
+    <a class="banner active flex items-center justify-between gap-4 p-3 md:p-4"
+       href="https://example.com/partner-1" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 1">
+      <img src="https://placehold.co/600x200?text=Banner+1" alt="Banner 1"
+           class="h-full object-cover rounded-lg border border-yellow-400/20" />
+      <div class="hidden md:flex items-center gap-3 ml-auto">
+        <span class="text-sm text-yellow-400/90">Premium partner</span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                     bg-yellow-400 text-black">Saznaj više</span>
+      </div>
+    </a>
+
+    <!-- SLIDE 2 -->
+    <a class="banner flex items-center justify-between gap-4 p-3 md:p-4"
+       href="https://example.com/partner-2" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 2">
+      <img src="https://placehold.co/600x200?text=Banner+2" alt="Banner 2"
+           class="h-full object-cover rounded-lg border border-red-400/20" />
+      <div class="hidden md:flex items-center gap-3 ml-auto">
+        <span class="text-sm text-red-400/90">Growth partner</span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                     bg-red-500 text-white">Detalji</span>
+      </div>
+    </a>
+
+    <!-- SLIDE 3 -->
+    <a class="banner flex items-center justify-between gap-4 p-3 md:p-4"
+       href="https://example.com/partner-3" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 3">
+      <img src="https://placehold.co/600x200?text=Banner+3" alt="Banner 3"
+           class="h-full object-cover rounded-lg border border-yellow-400/20" />
+      <div class="hidden md:flex items-center gap-3 ml-auto">
+        <span class="text-sm text-yellow-400/90">Startup paket</span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                     bg-yellow-400 text-black">Pogledaj</span>
+      </div>
+    </a>
+
+    <!-- SLIDE 4 -->
+    <a class="banner flex items-center justify-between gap-4 p-3 md:p-4"
+       href="https://example.com/partner-4" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 4">
+      <img src="https://placehold.co/600x200?text=Banner+4" alt="Banner 4"
+           class="h-full object-cover rounded-lg border border-red-400/20" />
+      <div class="hidden md:flex items-center gap-3 ml-auto">
+        <span class="text-sm text-red-400/90">Community</span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                     bg-red-500 text-white">Podrži</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<script>
+(() => {
+  const box = document.getElementById('sticky-rotator');
+  const closeBtn = document.getElementById('sticky-close');
+  if (!box || !closeBtn) return;
+
+  // Respect previous close (session)
+  if (localStorage.getItem('bb_sticky_closed') === '1') {
+    box.style.display = 'none';
+    return;
+  }
+
+  const slides = Array.from(box.querySelectorAll('.banner'));
+  let i = 0;
+  let timer = null;
+
+  const show = (idx) => {
+    slides.forEach((s, j) => s.classList.toggle('active', j === idx));
+  };
+
+  const start = () => {
+    stop();
+    timer = setInterval(() => {
+      i = (i + 1) % slides.length;
+      show(i);
+    }, 3000); // 3s per slide
+  };
+
+  const stop = () => timer && clearInterval(timer);
+
+  // Init
+  show(0);
+  start();
+
+  // Pause on hover (desktop)
+  box.addEventListener('mouseenter', stop);
+  box.addEventListener('mouseleave', start);
+
+  // Close + remember
+  closeBtn.addEventListener('click', () => {
+    localStorage.setItem('bb_sticky_closed', '1');
+    box.style.display = 'none';
+  });
+
+  // Keep it under your modals (your modals/nav use z-50)
+  // This box uses z-40 via Tailwind class.
+})();
+</script>
+<!-- /STICKY ROTATING BANNER -->
+
+
+
 </body>
 </html>
