@@ -349,15 +349,24 @@ window.addEventListener('load', () => {
   </div>
 </div>
 
+<!-- ABOUT MODAL — koristimo isti blog modal (#postModal) -->
 <script>
   function openAbout() {
-    const src = document.getElementById('about-full'); // puni modal iz čistog teksta
-    const body = document.getElementById('aboutModalBody');
-    if (src && body) body.innerHTML = src.innerHTML;
+    const src = document.getElementById('about-full');
+    if (!src) return;
 
-    const modal = document.getElementById('aboutModal');
-    const overlay = document.getElementById('aboutOverlay');
-    const panel = document.getElementById('aboutPanel');
+    // Ubaci naslov + sadržaj u blog modal
+    const titleEl = document.getElementById('modalTitle');
+    const bodyEl  = document.getElementById('modalBody');
+    if (titleEl) titleEl.textContent = 'O Takmičenju';
+    if (bodyEl)  bodyEl.innerHTML = src.innerHTML;
+
+    // Prikaži postojeći blog modal
+    const modal   = document.getElementById('postModal');
+    const overlay = document.getElementById('modalOverlay');
+    const panel   = document.getElementById('modalPanel');
+
+    if (!modal || !overlay || !panel) return;
 
     modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
@@ -367,26 +376,6 @@ window.addEventListener('load', () => {
       panel.classList.remove('opacity-0', 'scale-95');
     });
   }
-
-  function closeAbout() {
-    const modal = document.getElementById('aboutModal');
-    const overlay = document.getElementById('aboutOverlay');
-    const panel = document.getElementById('aboutPanel');
-
-    overlay.classList.add('opacity-0');
-    panel.classList.add('opacity-0', 'scale-95');
-
-    setTimeout(() => {
-      modal.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-      const body = document.getElementById('aboutModalBody');
-      if (body) body.innerHTML = '';
-    }, 200);
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAbout();
-  });
 </script>
 
 
@@ -1533,6 +1522,32 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 <!-- /STICKY ROTATING BANNER -->
 
 
+<style>
+  .about-fab{
+    position:fixed;
+    left: var(--side-pad, 16px);
+    bottom: calc(16px + var(--rotator-h, 96px));
+    z-index: 60; /* iznad blog modala (z-50) */
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px;
+    border-radius:999px;
+    background:linear-gradient(135deg,rgba(18,18,18,.9),rgba(10,10,10,.9));
+    border:1px solid rgba(255,193,7,.25);
+    box-shadow:0 8px 24px rgba(0,0,0,.45);
+    color:#e5e7eb; font-weight:600; font-size:14px;
+    backdrop-filter: blur(8px);
+    cursor:pointer;
+    transition: transform .15s ease;
+  }
+  .about-fab:hover{ transform: translateY(-2px); }
+  .about-fab img{ width:22px; height:22px; border-radius:6px; display:block; }
+  @media (max-width:560px){ .about-fab{ font-size:13px; padding:9px 12px; gap:8px; } }
+</style>
+
+<button class="about-fab" type="button" onclick="openAbout()" aria-label="O Takmičenju">
+  <img src="battlebotslogo.png" alt="BBA logo" />
+  <span>O takmičenju</span>
+</button>
 
 
 
