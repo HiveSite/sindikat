@@ -250,56 +250,58 @@ window.addEventListener('load', () => {
 
 
 <!-- ABOUT -->
-<!-- ABOUT (blog-style: 1 kartica + koristi postojeći #postModal i openFact/closeFact) -->
+<!-- ABOUT (mobile = blog-kartica + modal; desktop = cijeli tekst odmah) -->
 <section id="about" class="py-20 bg-black">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="section-divider mb-12"></div>
     <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">O Takmičenju</h2>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <article class="phase-card p-6 rounded-xl">
-        <div class="mb-2">
-          <span class="text-yellow-400 text-xs font-semibold">2025/26 • Crna Gora</span>
-        </div>
-        <h3 id="about-title" class="text-xl font-bold text-white mb-2">
-          BattleBotsArena.me — nacionalno STEAM takmičenje
-        </h3>
-        <p class="text-gray-300 mb-4 text-sm leading-relaxed">
-          Od ideje do borbe, budi dio Spark.me avanture!
-        </p>
-        <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('about')">
-          Pročitaj više →
-        </button>
-      </article>
+    <!-- MOBILE: blog-style kartica + "Pročitaj više" (otvara #postModal preko openFact) -->
+    <div class="md:hidden">
+      <div class="grid grid-cols-1 gap-8">
+        <article class="phase-card p-6 rounded-xl">
+          <div class="mb-2">
+            <span class="text-yellow-400 text-xs font-semibold">2025/26 • Crna Gora</span>
+          </div>
+          <h3 id="about-title" class="text-xl font-bold text-white mb-2">
+            BattleBotsArena.me — nacionalno STEAM takmičenje
+          </h3>
+          <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+            Od ideje do borbe, budi dio Spark.me STEAM avanture!
+          </p>
+          <button class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold" onclick="openFact('about')">
+            Pročitaj više →
+          </button>
+        </article>
+      </div>
     </div>
 
-    <!-- Skriveni sadržaj koji puni zajednički blog modal (#postModal) -->
-    <div class="hidden">
-      <div id="about-content">
-        <p class="text-gray-200 leading-relaxed mb-4">
-          BattleBotsArena.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
-        </p>
-        <p class="text-gray-200 leading-relaxed mb-4">
-          BattleBotsArena.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
-        </p>
-        <p class="text-gray-200 leading-relaxed mb-4">
-          BattleBotsArena.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBotsArena.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
-        </p>
-        <p class="text-gray-200 leading-relaxed">
-          Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
-        </p>
-      </div>
+    <!-- DESKTOP: puni tekst odmah vidljiv (isti sadržaj koristi se i za modal na mob.) -->
+    <div id="about-content" class="hidden md:block">
+      <p class="text-gray-200 leading-relaxed mb-4">
+        BattleBotsArena.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
+      </p>
+      <p class="text-gray-200 leading-relaxed mb-4">
+        BattleBotsArena.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
+      </p>
+      <p class="text-gray-200 leading-relaxed mb-4">
+        BattleBotsArena.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBotsArena.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
+      </p>
+      <p class="text-gray-200 leading-relaxed">
+        Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- (Opcionalno) Ako imaš FAB dugme, preveži ga na novi modal -->
+<!-- (Opcionalno) Ako koristiš FAB dugme, samo ga preveži na isti modal handler -->
 <script>
   (function () {
     const fab = document.querySelector('.about-fab');
     if (fab) fab.setAttribute('onclick', "openFact('about')");
   })();
 </script>
+
 
 
 
