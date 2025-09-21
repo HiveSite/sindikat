@@ -1411,88 +1411,90 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 
 <!-- STICKY ROTATING BANNER -->
 <style>
-  /* Sticky rotator styles */
-  #sticky-rotator {
-    background: linear-gradient(135deg, rgba(255,193,7,.08), rgba(255,107,53,.08));
+  /* Čist, kompaktan izgled rotatora */
+  #sticky-rotator{
+    background: linear-gradient(135deg, rgba(27,27,27,.92), rgba(18,18,18,.92));
+    border: 1px solid rgba(255,193,7,.18);
+    border-radius: 14px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 24px rgba(0,0,0,.5);
+  }
+  #sticky-rotator .viewport{
+    position: relative;
+    height: 96px; /* md: 112px ispod preko utility klase */
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  #sticky-rotator .banner{
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    align-items: center;
+    padding: 12px 14px;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity .35s ease, transform .35s ease;
+    pointer-events: none;
+  }
+  #sticky-rotator .banner.active{
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+  }
+  #sticky-rotator .banner img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  #sticky-rotator .banner p{
+    color: #e5e7eb; /* gray-200 */
+    font-size: .95rem; line-height: 1.35;
+  }
+  #sticky-rotator .close-btn{
+    position: absolute; top: 8px; right: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 28px; width: 28px;
+    border-radius: 8px;
+    background: rgba(0,0,0,.35);
     border: 1px solid rgba(255,193,7,.25);
-    box-shadow: 0 8px 30px rgba(255,193,7,.18);
-    backdrop-filter: blur(6px);
-    animation: neonPulse 3.5s ease-in-out infinite;
+    color: #f3f4f6; cursor: pointer;
+    transition: background .2s ease, color .2s ease;
   }
-  #sticky-rotator .banner {
-    position: absolute; inset: 0; opacity: 0;
-    transform: translateY(10px) scale(.98);
-    transition: opacity .5s ease, transform .5s ease, filter .5s ease;
-    filter: saturate(.95); pointer-events: none;
-  }
-  #sticky-rotator .banner.active {
-    opacity: 1; transform: translateY(0) scale(1);
-    filter: saturate(1); pointer-events: auto;
-  }
-  #sticky-rotator .close-btn { position:absolute; top:8px; right:10px; border:1px solid rgba(255,193,7,.25); }
-  #sticky-rotator .close-btn:hover { background: rgba(255,255,255,.06); }
+  #sticky-rotator .close-btn:hover{ background: rgba(255,193,7,.08); color:#fff; }
 
-  @keyframes neonPulse {
-    0%,100% { box-shadow: 0 8px 30px rgba(255,193,7,.18); }
-    50%     { box-shadow: 0 12px 36px rgba(255,193,7,.28); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #sticky-rotator, #sticky-rotator .banner { animation: none !important; transition: none !important; }
+  @media (max-width: 480px){
+    #sticky-rotator .viewport{ height: 88px; }
+    #sticky-rotator .banner{ grid-template-columns: 1fr 1.2fr; gap: 10px; padding: 10px 12px; }
   }
 </style>
 
 <div id="sticky-rotator"
-     class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1150px)] px-4 py-3 rounded-2xl pb-[env(safe-area-inset-bottom)]
-            border border-yellow-400/20">
-
+     class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1100px)] px-3 py-3 rounded-xl pb-[env(safe-area-inset-bottom)]">
   <!-- Close -->
-  <button id="sticky-close" class="close-btn h-8 w-8 rounded-lg text-gray-300 hover:text-white bg-black/30 backdrop-blur border border-yellow-400/20">✕</button>
+  <button id="sticky-close" class="close-btn" aria-label="Zatvori rotator">✕</button>
 
   <!-- Viewport for slides -->
-  <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
+  <div class="viewport md:h-[112px]">
     <!-- SLIDE 1 -->
-    <a class="banner active grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-       href="https://example.com/partner-1" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 1">
-      <img src="https://digitalizuj.me/wp-content/uploads/2025/04/Avantura-1920x632-Prijave.png" alt="Baner: Premium sponzor 1"
-           class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
-      <p class="text-sm md:text-base text-gray-200 truncate">
-        Premium partner: imenovanje arene i brendiranje prenosa uživo.
-      </p>
+    <a class="banner active" href="https://example.com/partner-1" target="_blank" rel="noopener" aria-label="Premium Sponsor 1">
+      <img src="https://placehold.co/600x200/111827/ffc107?text=Premium+Partner+1" alt="Baner: Premium sponzor 1" />
+      <p>Premium partner: imenovanje arene i brendiranje prenosa uživo.</p>
     </a>
 
     <!-- SLIDE 2 -->
-    <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-       href="https://example.com/partner-2" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 2">
-      <img src="https://bankar.me/wp-content/uploads/2023/12/domain.me_-e1585050527717.jpg" alt="Baner: Premium sponzor 2"
-           class="w-full h-full object-cover rounded-lg border border-red-400/20" />
-      <p class="text-sm md:text-base text-gray-200 truncate">
-        Growth paket: 2 premium bannera + logo u prenosu uživo.
-      </p>
+    <a class="banner" href="https://example.com/partner-2" target="_blank" rel="noopener" aria-label="Premium Sponsor 2">
+      <img src="https://placehold.co/600x200/111827/ff6b35?text=Premium+Partner+2" alt="Baner: Premium sponzor 2" />
+      <p>Growth paket: 2 premium bannera + logo u prenosu uživo.</p>
     </a>
 
     <!-- SLIDE 3 -->
-    <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-       href="https://example.com/partner-3" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 3">
-      <img src="https://digitalizuj.me/wp-content/uploads/2025/04/Avantura-1920x632-1.png" alt="Baner: Premium sponzor 3"
-           class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
-      <p class="text-sm md:text-base text-gray-200 truncate">
-        Startap paket: istaknut oglas + društvene mreže.
-      </p>
+    <a class="banner" href="https://example.com/partner-3" target="_blank" rel="noopener" aria-label="Premium Sponsor 3">
+      <img src="https://placehold.co/600x200/111827/ffc107?text=Premium+Partner+3" alt="Baner: Premium sponzor 3" />
+      <p>Startap paket: istaknut oglas + društvene mreže.</p>
     </a>
 
     <!-- SLIDE 4 -->
-    <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-       href="https://example.com/partner-4" target="_blank" rel="noopener"
-       aria-label="Premium Sponsor 4">
-      <img src="https://bankar.me/wp-content/uploads/2023/12/domain.me_-e1585050527717.jpg" alt="Baner: Premium sponzor 4"
-           class="w-full h-full object-cover rounded-lg border border-red-400/20" />
-      <p class="text-sm md:text-base text-gray-200 truncate">
-        Community oglas: podrži lokalne inicijative i mlade inovatore.
-      </p>
+    <a class="banner" href="https://example.com/partner-4" target="_blank" rel="noopener" aria-label="Premium Sponsor 4">
+      <img src="https://placehold.co/600x200/111827/ff6b35?text=Premium+Partner+4" alt="Baner: Premium sponzor 4" />
+      <p>Community oglas: podrži lokalne inicijative i mlade inovatore.</p>
     </a>
   </div>
 </div>
@@ -1513,18 +1515,13 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 
   const slides = Array.from(box.querySelectorAll('.banner'));
   let i = 0, timer = null;
+  const show = (idx) => slides.forEach((s, j) => s.classList.toggle('active', j === idx));
 
-  const show = (idx) => { slides.forEach((s, j) => s.classList.toggle('active', j === idx)); };
-
-  const start = () => {
-    stop();
-    timer = setInterval(() => { i = (i + 1) % slides.length; show(i); }, 3000);
-  };
-  const stop = () => { if (timer) clearInterval(timer); };
+  const start = () => { stop(); timer = setInterval(() => { i = (i + 1) % slides.length; show(i); }, 3000); };
+  const stop  = () => { if (timer) clearInterval(timer); };
 
   // Init
-  show(0);
-  start();
+  show(0); start();
 
   // Hover (desktop)
   box.addEventListener('mouseenter', stop);
@@ -1532,17 +1529,16 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 
   // Close + zapamti
   if (localStorage.getItem('bb_sticky_closed') === '1') {
-    box.style.display = 'none';
-    applyRotatorPadding();
+    box.style.display = 'none'; applyRotatorPadding();
   }
   closeBtn.addEventListener('click', () => {
     localStorage.setItem('bb_sticky_closed', '1');
-    box.style.display = 'none';
-    applyRotatorPadding();
+    box.style.display = 'none'; applyRotatorPadding();
   });
 })();
 </script>
 <!-- /STICKY ROTATING BANNER -->
+
 
 
 
