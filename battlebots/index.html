@@ -1,90 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
+
+ 
 <head>
-<meta charset="UTF-8" />
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0" />
-<title>BattleBots.me – Inženjerska arena</title>
-<meta
-name="description"
-content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena. Join the competition!" />
-<meta
-name="keywords"
-content="BattleBots Montenegro, STEAM competition, robotics for youth, Arduino challenge, engineering arena, STEAM education Montenegro, combat robots competition, Spark.me STEAM" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com"></script>
+  <title>BattleBotsArena.me – Inženjerska arena</title>
+  <meta name="description" content="Montenegro's first STEAM robotics challenge for youth aged 15-30. Design, build, and battle robots in our engineering arena. Join the competition!" />
+  <meta name="keywords" content="BattleBots Montenegro, STEAM competition, robotics for youth, Arduino challenge, engineering arena, STEAM education Montenegro, combat robots competition, Spark.me STEAM" />
 
-<style>
-body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%); }
-.hero-bg { background: radial-gradient(ellipse at center, rgba(255,193,7,.1) 0%, transparent 70%), linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%); }
-.neon-glow { box-shadow: 0 0 20px rgba(255,193,7,.3); }
-.neon-text { text-shadow: 0 0 10px rgba(255,193,7,.5); color: #ffc107; }
-.robot-icon { animation: float 3s ease-in-out infinite; }
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-.phase-card { background: linear-gradient(145deg,#1a1a1a,#2a2a2a); border: 1px solid rgba(255,193,7,.2); transition: .3s ease; }
-.phase-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,193,7,.2); }
-.cta-button { background: linear-gradient(45deg,#ffc107,#ff6b35); transition: .3s ease; }
-.cta-button:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,193,7,.4); }
-.section-divider { background: linear-gradient(90deg,transparent,#ffc107,transparent); height: 2px; }
-.sponsor-banner { background: linear-gradient(135deg, rgba(255,193,7,.1), rgba(255,107,53,.1)); border: 1px solid rgba(255,193,7,.3); transition: .3s ease; }
-.sponsor-banner:hover { border-color: rgba(255,193,7,.5); box-shadow: 0 5px 20px rgba(255,193,7,.2); }
-.ad-space { background: linear-gradient(145deg,#2a2a2a,#1a1a1a); border: 2px dashed rgba(255,193,7,.3); transition: .3s ease; }
-.ad-space:hover { border-color: rgba(255,193,7,.6); background: linear-gradient(145deg,#3a3a3a,#2a2a2a); }
+  <!-- Open Graph / Twitter (SEO) -->
+  <meta property="og:title" content="BattleBotsArena.me – Inženjerska arena" />
+  <meta property="og:description" content="Prvo nacionalno STEAM takmičenje u robotici i programiranju u Crnoj Gori. Dizajniraj, izradi i takmiči se u areni robota." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://BattleBotsArena.me/" />
+  <meta property="og:image" content="https://BattleBotsArena.me/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BattleBotsArena.me – Inženjerska arena" />
+  <meta name="twitter:description" content="STEAM takmičenje za mlade 15–30 u Crnoj Gori — robotika, programiranje, inženjering." />
+  <meta name="twitter:image" content="https://BattleBotsArena.me/og-image.jpg" />
 
- /* Reset & sigurnost */
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-  *,*::before,*::after { box-sizing: border-box; }
-  body {
-    margin: 0;
-    max-width: 100vw;
-    overflow-x: hidden;
-    line-height: 1.6;
-    scrollbar-gutter: stable both-edges;
-    padding-bottom: var(--rotator-h, 96px); /* prostor za sticky baner */
-  }
-  img,video,canvas,svg { display:block; max-width:100%; height:auto; }
-  h1,h2,h3,p { overflow-wrap:anywhere; }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  /* Fluidno ali ograničeno skaliranje teksta */
-  :root{
-    --page-max: 1200px;                 /* promijeni po želji (1280/1360/1440) */
-    --side-pad: clamp(16px,4vw,28px);   /* dosljedni unutrašnji rubovi */
-  }
-  body { font-size: clamp(16px, 1.55vw, 18px); }
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  /* Ograniči Tailwind “gigant” headinge (zadržava responsivnost, ali bez pretjerivanja) */
-  .text-7xl { font-size: clamp(2.4rem, 6vw, 3.75rem) !important; }
-  .text-5xl { font-size: clamp(1.8rem, 4.5vw, 3rem) !important; }
-  .text-4xl { font-size: clamp(1.6rem, 3.8vw, 2.25rem) !important; }
-  .text-3xl { font-size: clamp(1.35rem, 3.2vw, 1.875rem) !important; }
+  <style>
+    /* ========= THEME / VARS ========= */
+    :root{
+      --page-max: 1200px;
+      --side-pad: clamp(16px,4vw,28px);
+      --brand-yellow: #ffc107;
+      --brand-red: #ff6b35;
+    }
 
-  /* Standardizuj wrapper koji već koristiš */
-  .max-w-7xl {
-    width: min(100% - var(--side-pad)*2, var(--page-max)) !important;
-    padding-inline: var(--side-pad) !important;
-    margin-inline: auto !important;
-  }
+    /* ========= RESET & BASE ========= */
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    *,*::before,*::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      max-width: 100vw;
+      overflow-x: hidden;
+      line-height: 1.6;
+      scrollbar-gutter: stable both-edges;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);
+      font-size: clamp(16px, 1.2vw, 18px);
+      padding-bottom: var(--rotator-h, 96px); /* prostor za sticky baner */
+    }
+    img,video,canvas,svg { display:block; max-width:100%; height:auto; }
 
-  /* Spriječi “pucanje” grid/flex rasporeda */
-  .grid, .flex { min-width: 0; }
-  .phase-card, .sponsor-banner, .ad-space { overflow: hidden; }
+    /* Prelomi teksta – naslovi i paragrafi odvojeno */
+    h1,h2,h3 { overflow-wrap: break-word; }
+    p { overflow-wrap: anywhere; }
 
-  /* Manje agresivan vizuelni efekat na very small ekranima */
-  @media (max-width: 480px){
-    .neon-glow, .phase-card:hover, .sponsor-banner:hover { box-shadow:none !important; transform:none !important; }
-    .robot-icon { animation:none !important; }
-  }
+    /* ========= UTIL FONTS ========= */
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
 
-  /* Formulari – bez iOS zoom-a i neočekivanih skokova */
-  input, select, textarea { font-size:16px; }
-  :focus-visible { outline:2px solid #ffc107; outline-offset:2px; }
+    /* ========= UI THEME UTIL ========= */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse at center, rgba(255,193,7,.1) 0%, transparent 70%),
+        linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+    }
+    .neon-glow { box-shadow: 0 0 20px rgba(255,193,7,.3); }
+    .neon-text { text-shadow: 0 0 10px rgba(255,193,7,.5); color: var(--brand-yellow); }
 
-</style>
+    .phase-card {
+      background: linear-gradient(145deg,#1a1a1a,#2a2a2a);
+      border: 1px solid rgba(255,193,7,.2);
+      transition: .3s ease;
+    }
+    .phase-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,193,7,.2); }
 
+    .cta-button {
+      background: linear-gradient(45deg,var(--brand-yellow),var(--brand-red));
+      transition: .3s ease;
+    }
+    .cta-button:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,193,7,.4); }
 
+    .section-divider { background: linear-gradient(90deg,transparent,var(--brand-yellow),transparent); height: 2px; }
+
+    .sponsor-banner {
+      background: linear-gradient(135deg, rgba(255,193,7,.1), rgba(255,107,53,.1));
+      border: 1px solid rgba(255,193,7,.3);
+      transition: .3s ease;
+    }
+    .sponsor-banner:hover { border-color: rgba(255,193,7,.5); box-shadow: 0 5px 20px rgba(255,193,7,.2); }
+
+    .ad-space {
+      background: linear-gradient(145deg,#2a2a2a,#1a1a1a);
+      border: 2px dashed rgba(255,193,7,.3);
+      transition: .3s ease;
+    }
+    .ad-space:hover { border-color: rgba(255,193,7,.6); background: linear-gradient(145deg,#3a3a3a,#2a2a2a); }
+
+    /* ========= LAYOUT ========= */
+    .max-w-7xl {
+      width: min(100%, var(--page-max)) !important;
+      margin-inline: auto !important;
+      /* padding rešavaš klasama u HTML (px-4 sm:px-6 lg:px-8) – da izbjegnemo dupli padding */
+    }
+    .grid, .flex { min-width: 0; }
+    .phase-card, .sponsor-banner, .ad-space { overflow: hidden; }
+
+    /* ========= TYPO SCALE LIMITS (Tailwind override) ========= */
+    .text-7xl { font-size: clamp(2.4rem, 6vw, 3.75rem) !important; }
+    .text-5xl { font-size: clamp(1.8rem, 4.5vw, 3rem) !important; }
+    .text-4xl { font-size: clamp(1.6rem, 3.8vw, 2.25rem) !important; }
+    .text-3xl { font-size: clamp(1.35rem, 3.2vw, 1.875rem) !important; }
+
+    /* ========= ANIMATIONS ========= */
+    .robot-icon { animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* flare (zadržano jer JS koristi @keyframes) */
+    @keyframes flareBurst {
+      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      15%  { opacity: 1; transform: translate(-50%, -50%) scale(2.2); }
+      30%  { opacity: 0.95; transform: translate(-50%, -50%) scale(1.6); }
+      60%  { opacity: .8; transform: translate(60px, -50%) scale(1.2); }
+      100% { opacity: 0; transform: translate(100px, -50%) scale(1); }
+    }
+    @keyframes flareRay {
+      0%   { width: 0; opacity: 0; }
+      20%  { width: 40px; opacity: 1; }
+      60%  { width: 100px; opacity: 0.9; transform: translateX(50px); }
+      100% { width: 120px; opacity: 0; transform: translateX(100px); }
+    }
+
+    /* ========= FORMS ========= */
+    input, select, textarea { font-size:16px; }
+    :focus-visible { outline:2px solid var(--brand-yellow); outline-offset:2px; }
+
+    /* ========= SMALL SCREENS: smanji efekte ========= */
+    @media (max-width: 480px){
+      .neon-glow, .phase-card:hover, .sponsor-banner:hover { box-shadow:none !important; transform:none !important; }
+      .robot-icon { animation:none !important; }
+    }
+  </style>
 </head>
+
+
+ 
 <body class="bg-black text-white overflow-x-hidden">
 
 <!-- NAV -->
@@ -92,7 +154,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex justify-between items-center h-16">
 <div class="flex items-center">
-<span class="text-2xl font-bold font-montserrat neon-text">BattleBots.me</span>
+<span class="text-2xl font-bold font-montserrat neon-text">BattleBotsArena.me</span>
 </div>
 <div class="hidden md:flex space-x-8">
 <a href="#about" class="hover:text-yellow-400 transition-colors">O Takmičenju</a>
@@ -115,7 +177,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg,#0
 <!-- osnovni logo -->
 <img 
 src="battlebotslogo.png" 
-alt="BattleBots.me Logo"
+alt="BattleBotsArena.me Logo"
 class="w-28 h-28 md:w-40 md:h-40 mx-auto object-contain select-none pointer-events-none"
 id="bb-logo"
 />
@@ -141,7 +203,7 @@ style="
 ></span>
 </div>
 
-<h1 class="text-5xl md:text-7xl font-bold font-montserrat mb-6 neon-text">BattleBots.me</h1>
+<h1 class="text-5xl md:text-7xl font-bold font-montserrat mb-6 neon-text">BattleBotsArena.me</h1>
 <h2 class="text-2xl md:text-4xl font-semibold mb-4 text-gray-300">
 Prvo nacionalno STEAM takmičenje u robotici i programiranju u Crnoj Gori
 </h2>
@@ -157,31 +219,7 @@ Pridruži se takmičenju!
 </div>
 </section>
 
-<style>
-/* animacija lebdenja cijelog loga */
-.robot-icon { animation: float 3s ease-in-out infinite; }
-@keyframes float { 
-  0%,100% { transform: translateY(0) } 
-  50% { transform: translateY(-8px) } 
-}
 
-/* flare burst – jači, svjetliji, kraće traje, manji pomak */
-@keyframes flareBurst {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-  15%  { opacity: 1; transform: translate(-50%, -50%) scale(2.2); }
-  30%  { opacity: 0.95; transform: translate(-50%, -50%) scale(1.6); }
-  60%  { opacity: .8; transform: translate(60px, -50%) scale(1.2); }
-  100% { opacity: 0; transform: translate(100px, -50%) scale(1); }
-}
-
-/* jedna linija zraka koja prati flare */
-@keyframes flareRay {
-  0%   { width: 0; opacity: 0; }
-  20%  { width: 40px; opacity: 1; }
-  60%  { width: 100px; opacity: 0.9; transform: translateX(50px); }
-  100% { width: 120px; opacity: 0; transform: translateX(100px); }
-}
-</style>
 
 <script>
 window.addEventListener('load', () => {
@@ -211,9 +249,6 @@ window.addEventListener('load', () => {
 
 
 
-
-
-
 <!-- ABOUT -->
 <!-- ABOUT (desktop: full inline • mobile: preview + always-visible icon + modal for full text) -->
 <section id="about" class="py-20 bg-gray-900/50">
@@ -231,7 +266,7 @@ window.addEventListener('load', () => {
           </svg>
           <div>
             <p class="text-base text-gray-300 leading-relaxed">
-              BattleBots.me je nacionalno STEAM takmičenje za mlade (15–30) gdje timovi dizajniraju i grade borbene robote koji se nadmeću u posebno izrađenoj areni.
+              BattleBotsArena.me je nacionalno STEAM takmičenje za mlade (15–30) gdje timovi dizajniraju i grade borbene robote koji se nadmeću u posebno izrađenoj areni.
             </p>
             <p class="text-base text-gray-300 leading-relaxed mt-2">
               Uz podršku Spark.me STEAM i doMEn-a, projekat spaja učenje, praksu i spektakl – razvija vještine i timski duh.
@@ -251,13 +286,13 @@ window.addEventListener('load', () => {
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
         <div>
           <p class="text-lg text-gray-300 leading-relaxed mb-6">
-            BattleBots.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
+            BattleBotsArena.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
           </p>
           <p class="text-lg text-gray-300 leading-relaxed mb-6">
-            BattleBots.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
+            BattleBotsArena.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
           </p>
           <p class="text-lg text-gray-300 leading-relaxed">
-            BattleBots.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBots.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
+            BattleBotsArena.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBotsArena.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
           </p>
           <p class="text-lg text-gray-300 leading-relaxed mt-6">
             Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
@@ -274,13 +309,13 @@ window.addEventListener('load', () => {
     <!-- HIDDEN FULL TEXT ZA MODAL (preuzet iz originalnih paragrafa) -->
     <div id="about-full" class="hidden">
       <p class="text-gray-200 leading-relaxed mb-4">
-        BattleBots.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
+        BattleBotsArena.me – nacionalno STEAM takmičenje u Crnoj Gori okuplja mlade uzrasta od 15 do 30 godina sa strašću za robotiku, programiranje, dizajn i inženjering. Timovi učesnika imaju zadatak da osmisle, programiraju i izrade borbene robote, koji će se nadmetati u posebno izrađenoj areni uživo, pred publikom i stručnim žirijem.
       </p>
       <p class="text-gray-200 leading-relaxed mb-4">
-        BattleBots.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
+        BattleBotsArena.me se realizuje uz podršku Spark.me STEAM avanture i kompanije doMEn. Cilj projekta je da podstakne kreativnost, praktične vještine i timski duh mladih u Crnoj Gori, kao i da izgradi održivu platformu koja povezuje obrazovanje, STEAM znanja i tehnološke inovacije.
       </p>
       <p class="text-gray-200 leading-relaxed mb-4">
-        BattleBots.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBots.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
+        BattleBotsArena.me nije samo takmičenje – to je prilika da mladi stvore nešto sopstvenim rukama, razviju samopouzdanje i nauče da rade u timu. Kroz radionice i mentorsku podršku, učesnici stiču znanja koja nisu dostupna u formalnom obrazovanju, a koja im otvaraju vrata prema budućim karijerama u tehnologiji i inženjeringu. BattleBotsArena.me je osmišljen da pruži mladima priliku da teorijsko znanje primijene u praksi i razviju kompetencije koje su ključne za tržište rada u budućnosti.
       </p>
       <p class="text-gray-200 leading-relaxed">
         Ovo inovativno takmičenje u robotici spaja obrazovanje i spektakl, stvarajući najuzbudljiviji tehnološki događaj u Crnoj Gori i inspirišući novu generaciju inovatora i lidera.
@@ -380,64 +415,74 @@ window.addEventListener('load', () => {
 
 <!-- HOW IT WORKS -->
 <section id="how-it-works" class="py-20 bg-black">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="section-divider mb-12"></div>
-<h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">How It Works</h2>
-<div class="grid md:grid-cols-3 gap-8">
-<!-- Phase 1 -->
-<div class="phase-card p-8 rounded-xl">
-<div class="text-center mb-6">
-<div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="text-black font-bold text-2xl">1</span>
-</div>
-<h3 class="text-2xl font-bold text-yellow-400 mb-4">Edukativni Bootcamp</h3>
-</div>
-<p class="text-gray-300 text-center mb-4">Prva faza takmičenja održava se u 5 gradova Crne Gore. Učesnici prolaze kroz radionice posvećene osnovama robotike, elektronike, programiranja, dizajna, integraciji senzora i timskom radu. Cilj je da svaki učesnik stekne praktično znanje i osnovne inženjerske vještine.</p>
-<ul class="text-sm text-gray-400 space-y-2">
-<li>• Programiranje i elktronika za početnike</li>
-<li>• 3D dizajn & modeliranje</li>
-<li>• Senzori i sistemi za kontrolu kretanja</li>
-<li>• Osnove robotike i konstrukcije</li>
-<li>• Upravljanje timom i planiranje projekata</li>
-</ul>
-</div>
-<!-- Phase 2 -->
-<div class="phase-card p-8 rounded-xl">
-<div class="text-center mb-6">
-<div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="text-white font-bold text-2xl">2</span>
-</div>
-<h3 class="text-2xl font-bold text-red-400 mb-4">Izrada robota</h3>
-</div>
-<p class="text-gray-300 text-center mb-4">Na osnovu rezultata iz prve faze, bira se 10 najboljih timova. Tokom osmonedjeljnog perioda izgradnje, timovi rade na dizajnu, konstrukciji i testiranju svojih robota.</p>
-<ul class="text-sm text-gray-400 space-y-2">
-<li>• 8-week construction period</li>
-<li>• Weekly mentor check-ins</li>
-<li>• Access to fabrication labs</li>
-<li>• Safety training & protocols</li>
-<li>• Testing & iteration cycles</li>
-</ul>
-</div>
-<!-- Phase 3 -->
-<div class="phase-card p-8 rounded-xl">
-<div class="text-center mb-6">
-<div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="text-black font-bold text-2xl">3</span>
-</div>
-<h3 class="text-2xl font-bold text-yellow-400 mb-4">Finalna borbena arena</h3>
-</div>
-<p class="text-gray-300 text-center mb-4">Kraj projekta je spektakularno takmičenje u posebno izrađenoj borbenoj areni, pred publikom, stručnim žirijem i medijima. Roboti se nadmeću u eliminacionom formatu, dok publika i prenos uživo prate svaki potez.</p>
-<ul class="text-sm text-gray-400 space-y-2">
-<li>• Tournament-style elimination</li>
-<li>• Live streaming & commentary</li>
-<li>• Expert judging panel</li>
-<li>• Awards ceremony</li>
-<li>• Media coverage & interviews</li>
-</ul>
-</div>
-</div>
-</div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-divider mb-12"></div>
+    <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 font-montserrat neon-text">Kako funkcioniše</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Faza 1 -->
+      <div class="phase-card p-8 rounded-xl">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-black font-bold text-2xl">1</span>
+          </div>
+          <h3 class="text-2xl font-bold text-yellow-400 mb-4">Edukativni bootcamp</h3>
+        </div>
+        <p class="text-gray-300 text-center mb-4">
+          Prva faza u 5 gradova. Radionice: osnove robotike, elektronike, programiranja, dizajna, senzora i timskog rada.
+        </p>
+        <ul class="text-sm text-gray-400 space-y-2">
+          <li>• Programiranje i <strong>elektronika</strong> za početnike</li>
+          <li>• 3D dizajn i modeliranje</li>
+          <li>• Senzori i sistemi za kontrolu kretanja</li>
+          <li>• Osnove robotike i konstrukcije</li>
+          <li>• Upravljanje timom i planiranje projekta</li>
+        </ul>
+      </div>
+
+      <!-- Faza 2 -->
+      <div class="phase-card p-8 rounded-xl">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-2xl">2</span>
+          </div>
+          <h3 class="text-2xl font-bold text-red-400 mb-4">Izrada robota</h3>
+        </div>
+        <p class="text-gray-300 text-center mb-4">
+          Bira se 10 najboljih timova. Tokom 8 nedjelja rade na dizajnu, konstrukciji i testiranju robota.
+        </p>
+        <ul class="text-sm text-gray-400 space-y-2">
+          <li>• 8-nedjeljni period izrade</li>
+          <li>• Nedjelni mentor pregledi</li>
+          <li>• Pristup radionicama / labovima</li>
+          <li>• Obuka bezbjednosti i protokoli</li>
+          <li>• Testiranje i iteracije</li>
+        </ul>
+      </div>
+
+      <!-- Faza 3 -->
+      <div class="phase-card p-8 rounded-xl">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-black font-bold text-2xl">3</span>
+          </div>
+          <h3 class="text-2xl font-bold text-yellow-400 mb-4">Finalna borbena arena</h3>
+        </div>
+        <p class="text-gray-300 text-center mb-4">
+          Spektakularno takmičenje u posebno izrađenoj areni, pred publikom, žirijem i medijima.
+        </p>
+        <ul class="text-sm text-gray-400 space-y-2">
+          <li>• Eliminacioni turnir</li>
+          <li>• Prenos uživo i komentatori</li>
+          <li>• Stručni žiri</li>
+          <li>• Dodjela nagrada</li>
+          <li>• Medijska pokrivenost i intervjui</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 <!-- WHY IT MATTERS -->
 <section class="py-20 bg-gray-900/30">
@@ -505,182 +550,184 @@ window.addEventListener('load', () => {
 
 <!-- PARTNERS & SPONSORS -->
 <section class="py-16 bg-gray-900/30">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="section-divider mb-12"></div>
-<h2 class="text-3xl font-bold text-center mb-12 text-yellow-400">Partneri i sponzori</h2>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-divider mb-12"></div>
+    <h2 class="text-3xl font-bold text-center mb-12 text-yellow-400">Partneri i sponzori</h2>
 
-<div class="grid md:grid-cols-3 gap-8 mb-12">
-<div class="sponsor-banner p-6 rounded-xl text-center">
-<div class="h-20 flex items-center justify-center mb-4"><div class="text-4xl font-bold text-yellow-400">.ME</div></div>
-<h3 class="text-lg font-semibold text-white mb-2">doMEn (.ME)</h3>
-<p class="text-gray-400 text-sm">Official Domain Partner</p>
-</div>
-<div class="sponsor-banner p-6 rounded-xl text-center">
-<div class="h-20 flex items-center justify-center mb-4">
-<svg class="w-16 h-16 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
-</div>
-<h3 class="text-lg font-semibold text-white mb-2">Spark.me STEAM</h3>
-<p class="text-gray-400 text-sm">Education Initiative Partner</p>
-</div>
-<div class="sponsor-banner p-6 rounded-xl text-center">
-<div class="h-20 flex items-center justify-center mb-4">
-<svg class="w-16 h-16 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
-</div>
-<h3 class="text-lg font-semibold text-white mb-2">Hive Agency</h3>
-<p class="text-gray-400 text-sm">Event Organizer</p>
-</div>
-</div>
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <div class="sponsor-banner p-6 rounded-xl text-center">
+        <div class="h-20 flex items-center justify-center mb-4"><div class="text-4xl font-bold text-yellow-400">.ME</div></div>
+        <h3 class="text-lg font-semibold text-white mb-2">doMEn (.ME)</h3>
+        <p class="text-gray-400 text-sm">Zvanični partner za domene</p>
+      </div>
+      <div class="sponsor-banner p-6 rounded-xl text-center">
+        <div class="h-20 flex items-center justify-center mb-4">
+          <svg class="w-16 h-16 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Spark.me STEAM</h3>
+        <p class="text-gray-400 text-sm">Partner edukativne inicijative</p>
+      </div>
+      <div class="sponsor-banner p-6 rounded-xl text-center">
+        <div class="h-20 flex items-center justify-center mb-4">
+          <svg class="w-16 h-16 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Hive Agency</h3>
+        <p class="text-gray-400 text-sm">Organizator događaja</p>
+      </div>
+    </div>
 
-<div class="sponsor-banner rounded-xl p-8 mb-8">
-<div class="flex items-center justify-center space-x-8">
-<div class="text-center">
-<div class="w-32 h-20 ad-space rounded-lg flex items-center justify-center mb-2">
-<span class="text-yellow-400 font-bold text-lg">PREMIUM</span>
-</div>
-<p class="text-gray-300 text-sm">Your Logo Here</p>
-</div>
-<div class="text-left flex-1">
-<h3 class="text-2xl font-bold text-yellow-400 mb-2">Become Our Premium Sponsor</h3>
-<p class="text-gray-300">Get maximum visibility with arena naming rights, live stream branding, and exclusive access to participants</p>
-<div class="mt-4">
-<span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm mr-2">Arena Naming Rights</span>
-<span class="inline-block bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm mr-2">Live Stream Branding</span>
-<span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm">VIP Access</span>
-</div>
-</div>
-</div>
-</div>
+    <div class="sponsor-banner rounded-xl p-8 mb-8">
+      <div class="flex items-center justify-center space-x-8">
+        <div class="text-center">
+          <div class="w-32 h-20 ad-space rounded-lg flex items-center justify-center mb-2">
+            <span class="text-yellow-400 font-bold text-lg">PREMIUM</span>
+          </div>
+          <p class="text-gray-300 text-sm">Vaš logo ovdje</p>
+        </div>
+        <div class="text-left flex-1">
+          <h3 class="text-2xl font-bold text-yellow-400 mb-2">Postanite premium sponzor</h3>
+          <p class="text-gray-300">Maksimalna vidljivost: imenovanje arene, brendiranje prenosa uživo i ekskluzivan pristup učesnicima.</p>
+          <div class="mt-4">
+            <span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm mr-2">Imenovanje arene</span>
+            <span class="inline-block bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm mr-2">Brendiranje prenosa</span>
+            <span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm">VIP pristup</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="grid md:grid-cols-4 gap-6 mb-8">
-<div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-<svg class="w-10 h-10 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-</div><p class="text-gray-400 text-xs">Technology Partner</p></div>
-<div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-<svg class="w-10 h-10 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-</div><p class="text-gray-400 text-xs">Hardware Sponsor</p></div>
-<div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-<svg class="w-10 h-10 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-</div><p class="text-gray-400 text-xs">Media Partner</p></div>
-<div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-<svg class="w-10 h-10 text-orange-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-</div><p class="text-gray-400 text-xs">Education Partner</p></div>
-</div>
+    <div class="grid md:grid-cols-4 gap-6 mb-8">
+      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
+        <svg class="w-10 h-10 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+      </div><p class="text-gray-400 text-xs">Tehnološki partner</p></div>
+      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
+        <svg class="w-10 h-10 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+      </div><p class="text-gray-400 text-xs">Hardver sponzor</p></div>
+      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
+        <svg class="w-10 h-10 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+      </div><p class="text-gray-400 text-xs">Medijski partner</p></div>
+      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
+        <svg class="w-10 h-10 text-orange-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+      </div><p class="text-gray-400 text-xs">Edukativni partner</p></div>
+    </div>
 
-<div class="text-center">
-<p class="text-gray-300 mb-4">Interested in sponsoring Montenegro's first robotics competition?</p>
-<button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="scrollToSection('contact')">Become a Sponsor</button>
-</div>
-</div>
+    <div class="text-center">
+      <p class="text-gray-300 mb-4">Zainteresovani za sponzorisanje prvog robotičkog takmičenja u Crnoj Gori?</p>
+      <button class="cta-button text-black font-bold py-3 px-6 rounded-full" onclick="scrollToSection('contact')">Postani sponzor</button>
+    </div>
+  </div>
 </section>
+
 
 <!-- AD BANNERS -->
 <section class="py-12 bg-black">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="section-divider mb-8"></div>
-<h3 class="text-2xl font-bold text-center mb-8 text-gray-300">Advertisement Opportunities</h3>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-divider mb-8"></div>
+    <h3 class="text-2xl font-bold text-center mb-8 text-gray-300">Mogućnosti oglašavanja</h3>
 
-<div class="ad-space rounded-xl p-8 mb-8 cursor-pointer" onclick="openAdInfo('horizontal')">
-<div class="flex items-center justify-between">
-<div class="flex-1">
-<h3 class="text-xl font-bold text-white mb-2">Premium Horizontal Banner</h3>
-<p class="text-gray-300 mb-2">Reach 100+ young innovators and thousands of online viewers</p>
-<div class="flex space-x-2">
-<span class="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs">High Visibility</span>
-<span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">Above Fold</span>
-<span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-xs">728x90</span>
-</div>
-</div>
-<div class="text-center">
-<div class="w-32 h-20 bg-yellow-400/20 border-2 border-dashed border-yellow-400/50 rounded-lg flex items-center justify-center">
-<span class="text-yellow-400 font-semibold text-sm">Your Ad Here</span>
-</div>
-</div>
-</div>
-</div>
+    <div class="ad-space rounded-xl p-8 mb-8 cursor-pointer" onclick="openAdInfo('horizontal')">
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          <h3 class="text-xl font-bold text-white mb-2">Premium horizontalni baner</h3>
+          <p class="text-gray-300 mb-2">Doseg do 100+ mladih inovatora i hiljada online gledalaca</p>
+          <div class="flex space-x-2">
+            <span class="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs">Visoka vidljivost</span>
+            <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">Iznad preloma</span>
+            <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-xs">728×90</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="w-32 h-20 bg-yellow-400/20 border-2 border-dashed border-yellow-400/50 rounded-lg flex items-center justify-center">
+            <span class="text-yellow-400 font-semibold text-sm">Vaš oglas ovdje</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="grid md:grid-cols-3 gap-6 mb-8">
-<div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('premium')">
-<div class="w-full h-32 bg-red-500/20 border-2 border-dashed border-red-500/50 rounded-lg flex items-center justify-center mb-4"><span class="text-red-400 font-semibold">300x200</span></div>
-<h4 class="text-white font-semibold mb-1">Premium Ad Space</h4>
-<p class="text-gray-400 text-sm mb-2">High engagement zone</p>
-<div class="flex justify-center space-x-1">
-<span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">Featured</span>
-<span class="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs">Top Position</span>
-</div>
-</div>
-<div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('standard')">
-<div class="w-full h-32 bg-yellow-400/20 border-2 border-dashed border-yellow-400/50 rounded-lg flex items-center justify-center mb-4"><span class="text-yellow-400 font-semibold">300x200</span></div>
-<h4 class="text-white font-semibold mb-1">Standard Ad Space</h4>
-<p class="text-gray-400 text-sm mb-2">Great visibility & value</p>
-<div class="flex justify-center space-x-1">
-<span class="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs">Popular</span>
-<span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Best Value</span>
-</div>
-</div>
-<div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('community')">
-<div class="w-full h-32 bg-blue-500/20 border-2 border-dashed border-blue-500/50 rounded-lg flex items-center justify-center mb-4"><span class="text-blue-400 font-semibold">300x200</span></div>
-<h4 class="text-white font-semibold mb-1">Community Ad Space</h4>
-<p class="text-gray-400 text-sm mb-2">Support local initiatives</p>
-<div class="flex justify-center space-x-1">
-<span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-xs">Community</span>
-<span class="bg-purple-500/20 text-purple-400 px-2 py-1 rounded text-xs">Affordable</span>
-</div>
-</div>
-</div>
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('premium')">
+        <div class="w-full h-32 bg-red-500/20 border-2 border-dashed border-red-500/50 rounded-lg flex items-center justify-center mb-4"><span class="text-red-400 font-semibold">300×200</span></div>
+        <h4 class="text-white font-semibold mb-1">Premium oglas</h4>
+        <p class="text-gray-400 text-sm mb-2">Zona visokog angažmana</p>
+        <div class="flex justify-center space-x-1">
+          <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">Izdvojeno</span>
+          <span class="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs">Vrh stranice</span>
+        </div>
+      </div>
+      <div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('standard')">
+        <div class="w-full h-32 bg-yellow-400/20 border-2 border-dashed border-yellow-400/50 rounded-lg flex items-center justify-center mb-4"><span class="text-yellow-400 font-semibold">300×200</span></div>
+        <h4 class="text-white font-semibold mb-1">Standard oglas</h4>
+        <p class="text-gray-400 text-sm mb-2">Odlična vidljivost i vrijednost</p>
+        <div class="flex justify-center space-x-1">
+          <span class="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs">Popularno</span>
+          <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Najbolja cijena</span>
+        </div>
+      </div>
+      <div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('community')">
+        <div class="w-full h-32 bg-blue-500/20 border-2 border-dashed border-blue-500/50 rounded-lg flex items-center justify-center mb-4"><span class="text-blue-400 font-semibold">300×200</span></div>
+        <h4 class="text-white font-semibold mb-1">Community oglas</h4>
+        <p class="text-gray-400 text-sm mb-2">Podržite lokalne inicijative</p>
+        <div class="flex justify-center space-x-1">
+          <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-xs">Zajednica</span>
+          <span class="bg-purple-500/20 text-purple-400 px-2 py-1 rounded text-xs">Pristupačno</span>
+        </div>
+      </div>
+    </div>
 
-<div class="grid md:grid-cols-2 gap-6">
-<div class="ad-space p-6 rounded-xl">
-<h4 class="text-white font-semibold mb-3">Mobile Banner (320x50)</h4>
-<div class="w-full h-16 bg-green-500/20 border-2 border-dashed border-green-500/50 rounded-lg flex items-center justify-center mb-3"><span class="text-green-400 font-semibold text-sm">Mobile Optimized</span></div>
-<p class="text-gray-400 text-sm">Perfect for mobile users during live streaming</p>
-</div>
-<div class="ad-space p-6 rounded-xl">
-<h4 class="text-white font-semibold mb-3">Video Pre-Roll (15-30s)</h4>
-<div class="w-full h-16 bg-purple-500/20 border-2 border-dashed border-purple-500/50 rounded-lg flex items-center justify-center mb-3"><span class="text-purple-400 font-semibold text-sm">Video Ad</span></div>
-<p class="text-gray-400 text-sm">Play before live stream and recorded content</p>
-</div>
-</div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="ad-space p-6 rounded-xl">
+        <h4 class="text-white font-semibold mb-3">Mobilni baner (320×50)</h4>
+        <div class="w-full h-16 bg-green-500/20 border-2 border-dashed border-green-500/50 rounded-lg flex items-center justify-center mb-3"><span class="text-green-400 font-semibold text-sm">Optimizovano za mobilne</span></div>
+        <p class="text-gray-400 text-sm">Idealno za korisnike tokom prenosa uživo</p>
+      </div>
+      <div class="ad-space p-6 rounded-xl">
+        <h4 class="text-white font-semibold mb-3">Video pre-roll (15–30s)</h4>
+        <div class="w-full h-16 bg-purple-500/20 border-2 border-dashed border-purple-500/50 rounded-lg flex items-center justify-center mb-3"><span class="text-purple-400 font-semibold text-sm">Video oglas</span></div>
+        <p class="text-gray-400 text-sm">Prikaz prije streama i snimljenog sadržaja</p>
+      </div>
+    </div>
 
-<div class="mt-12 text-center">
-<h4 class="text-xl font-bold text-white mb-6">Advertisement Packages</h4>
-<div class="grid md:grid-cols-3 gap-6">
-<div class="sponsor-banner p-6 rounded-xl">
-<h5 class="text-lg font-bold text-yellow-400 mb-2">Startup Package</h5>
-<p class="text-gray-300 text-sm mb-4">Perfect for local businesses and startups</p>
-<ul class="text-gray-400 text-sm space-y-1 mb-4">
-<li>• 1 Standard banner placement</li>
-<li>• Social media mentions</li>
-<li>• Event program listing</li>
-</ul>
-<button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Learn More</button>
-</div>
-<div class="sponsor-banner p-6 rounded-xl border-2 border-red-500/50">
-<div class="text-center mb-2"><span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">POPULAR</span></div>
-<h5 class="text-lg font-bold text-red-400 mb-2">Growth Package</h5>
-<p class="text-gray-300 text-sm mb-4">Ideal for growing companies</p>
-<ul class="text-gray-400 text-sm space-y-1 mb-4">
-<li>• 2 Premium banner placements</li>
-<li>• Live stream logo overlay</li>
-<li>• Mentor session branding</li>
-<li>• Press release inclusion</li>
-</ul>
-<button class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm hover:bg-red-500/30 transition-colors" onclick="scrollToSection('contact')">Get Started</button>
-</div>
-<div class="sponsor-banner p-6 rounded-xl">
-<h5 class="text-lg font-bold text-yellow-400 mb-2">Enterprise Package</h5>
-<p class="text-gray-300 text-sm mb-4">Maximum exposure for large organizations</p>
-<ul class="text-gray-400 text-sm space-y-1 mb-4">
-<li>• Arena naming rights</li>
-<li>• All digital placements</li>
-<li>• Custom activation space</li>
-<li>• Exclusive networking access</li>
-</ul>
-<button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Contact Us</button>
-</div>
-</div>
-</div>
-</div>
+    <div class="mt-12 text-center">
+      <h4 class="text-xl font-bold text-white mb-6">Paketi oglašavanja</h4>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="sponsor-banner p-6 rounded-xl">
+          <h5 class="text-lg font-bold text-yellow-400 mb-2">Startap paket</h5>
+          <p class="text-gray-300 text-sm mb-4">Za lokalne biznise i startape</p>
+          <ul class="text-gray-400 text-sm space-y-1 mb-4">
+            <li>• 1 standardna pozicija</li>
+            <li>• Objave na društvenim mrežama</li>
+            <li>• Listing u programu događaja</li>
+          </ul>
+          <button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Saznaj više</button>
+        </div>
+        <div class="sponsor-banner p-6 rounded-xl border-2 border-red-500/50">
+          <div class="text-center mb-2"><span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">POPULARNO</span></div>
+          <h5 class="text-lg font-bold text-red-400 mb-2">Rast paket</h5>
+          <p class="text-gray-300 text-sm mb-4">Za kompanije u razvoju</p>
+          <ul class="text-gray-400 text-sm space-y-1 mb-4">
+            <li>• 2 premium pozicije</li>
+            <li>• Logo u prenosu uživo</li>
+            <li>• Brendiranje mentorskih sesija</li>
+            <li>• Uključivanje u saopštenja za medije</li>
+          </ul>
+          <button class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm hover:bg-red-500/30 transition-colors" onclick="scrollToSection('contact')">Započni</button>
+        </div>
+        <div class="sponsor-banner p-6 rounded-xl">
+          <h5 class="text-lg font-bold text-yellow-400 mb-2">Enterprise paket</h5>
+          <p class="text-gray-300 text-sm mb-4">Maksimalna pokrivenost</p>
+          <ul class="text-gray-400 text-sm space-y-1 mb-4">
+            <li>• Prava imenovanja arene</li>
+            <li>• Sve digitalne pozicije</li>
+            <li>• Custom aktivacioni prostor</li>
+            <li>• Ekskluzivno umrežavanje</li>
+          </ul>
+          <button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Kontaktiraj nas</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 <!-- KEY INFO -->
 <section class="py-20 bg-gray-900/50">
@@ -996,7 +1043,7 @@ window.addEventListener('load', () => {
       <!-- FAQ template item -->
       <div class="phase-card rounded-xl overflow-hidden">
         <button class="w-full p-6 text-left flex justify-between items-center hover:bg-gray-800/50 transition-colors" onclick="toggleFAQ('faq1')">
-          <h3 class="text-lg font-semibold text-white">Ko može učestvovati u BattleBots.me?</h3>
+          <h3 class="text-lg font-semibold text-white">Ko može učestvovati u BattleBotsArena.me?</h3>
           <svg class="w-6 h-6 text-yellow-400 transform transition-transform" id="faq1-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </button>
         <div class="hidden px-6 pb-6" id="faq1-content">
@@ -1012,7 +1059,7 @@ window.addEventListener('load', () => {
           <svg class="w-6 h-6 text-yellow-400 transform transition-transform" id="faq2-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </button>
         <div class="hidden px-6 pb-6" id="faq2-content">
-          <p class="text-gray-300 leading-relaxed">Ne! Učešće na BattleBots.me je potpuno besplatno. Svi materijali za radionice, setovi za izradu robota, alati i mentorstvo obezbjeđeni su bez naknade.</p>
+          <p class="text-gray-300 leading-relaxed">Ne! Učešće na BattleBotsArena.me je potpuno besplatno. Svi materijali za radionice, setovi za izradu robota, alati i mentorstvo obezbjeđeni su bez naknade.</p>
         </div>
       </div>
 
@@ -1081,46 +1128,53 @@ window.addEventListener('load', () => {
 
 <!-- CONTACT (Apps Script forma) -->
 <section id="contact" class="py-20 bg-black">
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-<div class="section-divider mb-12"></div>
-<h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat neon-text">Want to join, mentor, or sponsor?</h2>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="section-divider mb-12"></div>
+    <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat neon-text">Želiš da učestvuješ, budeš mentor ili sponzor?</h2>
 
-<div class="phase-card p-8 rounded-xl max-w-2xl mx-auto">
-<form id="contactForm" class="space-y-6" method="POST" onsubmit="handleFormSubmit(event)">
-<div><input name="name" id="name" type="text" placeholder="Your Name" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" /></div>
-<div><input name="email" id="email" type="email" placeholder="Your Email" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" /></div>
-<div>
-<select name="interest" id="interest" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none">
-<option value="">I want to...</option>
-<option value="participate">Participate in the competition</option>
-<option value="mentor">Become a mentor</option>
-<option value="sponsor">Sponsor the event</option>
-<option value="partner">Become a partner</option>
-<option value="advertise">Advertise with us</option>
-</select>
-</div>
-<div><textarea name="message" id="message" placeholder="Tell us more about your interest..." rows="4" class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none resize-none"></textarea></div>
-<button id="submitBtn" type="submit" class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full">Send Message</button>
-<p id="formStatus" class="text-sm text-gray-300 pt-2"></p>
-</form>
+    <div class="phase-card p-8 rounded-xl max-w-2xl mx-auto">
+      <form id="contactForm" class="space-y-6" method="POST" onsubmit="handleFormSubmit(event)">
+        <div><input name="name" id="name" type="text" placeholder="Ime i prezime" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" /></div>
+        <div><input name="email" id="email" type="email" placeholder="E-mail" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none" /></div>
+        <div>
+          <select name="interest" id="interest" required class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none">
+            <option value="">Želim da...</option>
+            <option value="participate">Učestvujem na takmičenju</option>
+            <option value="mentor">Budem mentor</option>
+            <option value="sponsor">Sponzorišem događaj</option>
+            <option value="partner">Postanem partner</option>
+            <option value="advertise">Oglašavam se</option>
+          </select>
+        </div>
+        <div><textarea name="message" id="message" placeholder="Reci nam ukratko o tvom interesovanju..." rows="4" class="w-full p-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none resize-none"></textarea></div>
+        <button id="submitBtn" type="submit" class="cta-button text-black font-bold py-4 px-8 rounded-full text-lg w-full">Pošalji poruku</button>
+        <p id="formStatus" class="text-sm text-gray-300 pt-2"></p>
+      </form>
 
-<div class="mt-8 pt-8 border-t border-gray-700">
-<p class="text-gray-300 mb-4">Or contact us directly:</p>
-<p class="text-yellow-400 font-semibold mb-6">office@hiveagency.me</p>
-<div class="flex justify-center space-x-6">
-<a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.024-.105-.949-.199-2.403.041-3.439.219-.937 1.404-5.965 1.404-5.965s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.347-.09.375-.293 1.199-.334 1.363-.53.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.748-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/></svg></a>
-<a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
-<a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg></a>
-</div>
-</div>
-</div>
-</div>
+      <div class="mt-8 pt-8 border-t border-gray-700">
+        <p class="text-gray-300 mb-4">Ili nas kontaktiraj direktno:</p>
+        <p class="text-yellow-400 font-semibold mb-6">office@hiveagency.me</p>
+        <div class="flex justify-center space-x-6">
+          <a href="https://instagram.com/battlebotsme" target="_blank" rel="noopener" class="text-gray-400 hover:text-yellow-400 transition-colors" aria-label="Instagram">
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.5 1 .5.5.8.9 1 1.5.2.4.4 1.1.5 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-1 1.5-.5.5-.9.8-1.5 1-.4.2-1.1.4-2.3.5-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.5-1-.5-.5-.8-.9-1-1.5-.2-.4-.4-1.1-.5-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.9.5-2.3.2-.6.5-1 1-1.5.5-.5.9-.8 1.5-1 .4-.2 1.1-.4 2.3-.5C8.4 2.2 8.8 2.2 12 2.2zm0 2.1c-3.2 0-3.6 0-4.8.1-1 .1-1.6.2-1.9.4-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.2.3-.3.9-.4 1.9-.1 1.2-.1 1.6-.1 4.8s0 3.6.1 4.8c.1 1 .2 1.6.4 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.2.9.3 1.9.4 1.2.1 1.6.1 4.8.1s3.6 0 4.8-.1c1-.1 1.6-.2 1.9-.4.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.2-.3.3-.9.4-1.9.1-1.2.1-1.6.1-4.8s0-3.6-.1-4.8c-.1-1-.2-1.6-.4-1.9-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.3-.2-.9-.3-1.9-.4-1.2-.1-1.6-.1-4.8-.1zm0 2.6a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 2.1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.3-2.5a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/></svg>
+          </a>
+          <a href="https://twitter.com/battlebotsme" target="_blank" rel="noopener" class="text-gray-400 hover:text-yellow-400 transition-colors" aria-label="Twitter/X">
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.2 1.7-2.1-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7 11.6 11.6 0 0 1-8.4-4.3 4.1 4.1 0 0 0 1.3 5.4c-.6 0-1.2-.2-1.7-.5 0 2 1.5 3.8 3.5 4.2-.4.1-.8.2-1.2.2-.3 0-.6 0-.9-.1.6 1.8 2.3 3.1 4.3 3.1A8.3 8.3 0 0 1 2 19.5a11.7 11.7 0 0 0 6.3 1.8c7.6 0 11.8-6.3 11.8-11.8v-.5c.8-.6 1.4-1.2 1.9-1.9z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/battlebotsme" target="_blank" rel="noopener" class="text-gray-400 hover:text-yellow-400 transition-colors" aria-label="LinkedIn">
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6.94 6.5A2.44 2.44 0 1 1 4.5 4.06 2.44 2.44 0 0 1 6.94 6.5ZM4.75 8.75h4.38V20H4.75Zm7.5 0h4.2v1.54h.06a4.6 4.6 0 0 1 4.14-2.27c4.43 0 5.25 2.92 5.25 6.71V20h-4.38v-5.4c0-1.29 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.86V20h-4.38Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 <!-- FOOTER -->
 <footer class="bg-gray-900 py-8 border-t border-gray-800">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-<p class="text-gray-400">© <span id="yearSpan">2024</span> BattleBots.me - Engineering Arena for the Next Generation</p>
+<p class="text-gray-400">© <span id="yearSpan">2024</span> BattleBotsArena.me - Engineering Arena for the Next Generation</p>
 <p class="text-gray-500 mt-2">Organized by Hive Agency | Supported by doMEn (.ME) – Spark.me STEAM Adventure</p>
 </div>
 </footer>
@@ -1134,13 +1188,14 @@ const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPWTSVE201n5E5inB1U
 document.getElementById('yearSpan').textContent = new Date().getFullYear();
 
 // Smooth scroll for all anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-a.addEventListener('click', e => {
-e.preventDefault();
-const target = document.querySelector(a.getAttribute('href'));
-if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 });
-});
+
 
 // Sticky nav background toggle
 window.addEventListener('scroll', () => {
@@ -1212,7 +1267,7 @@ function getBlogContent(slug) {
 const map = {
 'arena-design': {
 date: 'December 15, 2024',
-title: 'BattleBots.me Arena Design Revealed',
+title: 'BattleBotsArena.me Arena Design Revealed',
 author: 'Engineering Team',
 content: `
            <p class="text-gray-300 leading-relaxed mb-6">
@@ -1289,7 +1344,7 @@ author: 'Partnerships',
 content: `<p class="text-gray-300">Official partnership with doMEn (.ME) and Spark.me STEAM Adventure to boost STEAM education in Montenegro.</p>`
 }
 };
-return map[slug] || { date: 'Coming Soon', title: 'Blog Post', author: 'BattleBots.me Team', content: '<p class="text-gray-300">This post is coming soon.</p>' };
+return map[slug] || { date: 'Coming Soon', title: 'Blog Post', author: 'BattleBotsArena.me Team', content: '<p class="text-gray-300">This post is coming soon.</p>' };
 }
 
 function loadMorePosts(el) {
@@ -1305,15 +1360,16 @@ el.style.cursor = 'not-allowed';
 
 // ===== Ads info (alert) =====
 function openAdInfo(type) {
-const map = {
-'horizontal': { title: 'Premium Horizontal Banner', size: '728x90 pixels', description: 'High-visibility banner above the fold.', features: ['Above fold','Responsive','Click tracking','Monthly reports'] },
-'premium':    { title: 'Premium Ad Space', size: '300x200 pixels', description: 'Featured high-engagement zone.',    features: ['Featured','High engagement','Social promo','Program listing'] },
-'standard':   { title: 'Standard Ad Space', size: '300x200 pixels', description: 'Great visibility and value.',       features: ['Good visibility','Cost-effective','Site placement','Basic analytics'] },
-'community':  { title: 'Community Ad Space', size: '300x200 pixels', description: 'Affordable for local orgs.',       features: ['Community focus','Affordable','Local support','Basic placement'] }
-};
-const info = map[type];
-if (info) alert(`${info.title}\n\nSize: ${info.size}\n\n${info.description}\n\nFeatures:\n${info.features.map(f=>'• '+f).join('\n')}\n`);
+  const map = {
+    horizontal: { title: 'Premium horizontalni baner', size: '728×90 piksela', description: 'Baner visoke vidljivosti iznad preloma.', features: ['Iznad preloma','Responzivan','Praćenje klikova','Mjesečni izvještaji'] },
+    premium:    { title: 'Premium oglas',               size: '300×200 piksela', description: 'Izdvojena zona visokog angažmana.',    features: ['Izdvojeno','Visok angažman','Promo na mrežama','Listing u programu'] },
+    standard:   { title: 'Standard oglas',              size: '300×200 piksela', description: 'Odlična vidljivost i vrijednost.',     features: ['Dobra vidljivost','Isplativo','Pozicija na sajtu','Osnovna analitika'] },
+    community:  { title: 'Community oglas',             size: '300×200 piksela', description: 'Pristupačno za lokalne organizacije.', features: ['Fokus na zajednicu','Pristupačno','Lokalna podrška','Osnovno pozicioniranje'] }
+  };
+  const info = map[type];
+  if (info) alert(`${info.title}\n\nDimenzije: ${info.size}\n\n${info.description}\n\nKarakteristike:\n${info.features.map(f=>'• '+f).join('\n')}\n`);
 }
+
 
 // ===== Apps Script submit =====
 async function handleFormSubmit(e) {
@@ -1325,7 +1381,7 @@ const original = btn ? btn.textContent : 'Send';
 const fd = new FormData(form);
 const params = new URLSearchParams(fd);
 
-if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+if (btn) { btn.disabled = true; btn.textContent = 'Slanje...'; }
 if (statusEl) statusEl.textContent = '';
 
 try {
@@ -1336,13 +1392,13 @@ mode: 'no-cors',
 headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
 body: params.toString()
 });
-if (btn) { btn.textContent = 'Message Sent! ✓'; btn.style.background = 'linear-gradient(45deg,#10b981,#059669)'; }
-if (statusEl) statusEl.textContent = 'Thank you! We will get back to you shortly.';
+if (btn) { btn.textContent = 'Poruka poslata! ✓'; btn.style.background = 'linear-gradient(45deg,#10b981,#059669)'; }
+if (statusEl) statusEl.textContent = 'Hvala! Javićemo ti se uskoro.';
 form.reset();
 } catch (err) {
 console.error(err);
-if (btn) { btn.textContent = 'Try again'; btn.style.background = 'linear-gradient(45deg,#ef4444,#b91c1c)'; }
-if (statusEl) statusEl.textContent = 'Something went wrong. Please email us at office@hiveagency.me.';
+if (btn) { btn.textContent = 'Pokušaj ponovo'; btn.style.background = 'linear-gradient(45deg,#ef4444,#b91c1c)'; }
+if (statusEl) statusEl.textContent = 'Došlo je do greške. Piši nam direktno na office@hiveagency.me.';
 } finally {
 setTimeout(() => {
 if (btn) { btn.disabled = false; btn.textContent = original; btn.style.background = 'linear-gradient(45deg,#ffc107,#ff6b35)'; }
@@ -1350,41 +1406,36 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 }
 }
 </script>
-<!-- STICKY ROTATING BANNER — paste odmah iznad </body> (bila linija 1310) -->
+
+
+<!-- STICKY ROTATING BANNER -->
 <style>
   /* Sticky rotator styles */
   #sticky-rotator {
-    /* soft glass / neon ring */
     background: linear-gradient(135deg, rgba(255,193,7,.08), rgba(255,107,53,.08));
     border: 1px solid rgba(255,193,7,.25);
     box-shadow: 0 8px 30px rgba(255,193,7,.18);
     backdrop-filter: blur(6px);
+    animation: neonPulse 3.5s ease-in-out infinite;
   }
   #sticky-rotator .banner {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
+    position: absolute; inset: 0; opacity: 0;
     transform: translateY(10px) scale(.98);
     transition: opacity .5s ease, transform .5s ease, filter .5s ease;
-    filter: saturate(.95);
-    pointer-events: none;
+    filter: saturate(.95); pointer-events: none;
   }
   #sticky-rotator .banner.active {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: saturate(1);
-    pointer-events: auto;
+    opacity: 1; transform: translateY(0) scale(1);
+    filter: saturate(1); pointer-events: auto;
   }
+  #sticky-rotator .close-btn { position:absolute; top:8px; right:10px; border:1px solid rgba(255,193,7,.25); }
   #sticky-rotator .close-btn:hover { background: rgba(255,255,255,.06); }
 
-  /* Subtle glow pulse on the container border */
   @keyframes neonPulse {
     0%,100% { box-shadow: 0 8px 30px rgba(255,193,7,.18); }
     50%     { box-shadow: 0 12px 36px rgba(255,193,7,.28); }
   }
-  #sticky-rotator { animation: neonPulse 3.5s ease-in-out infinite; }
 
-  /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     #sticky-rotator, #sticky-rotator .banner { animation: none !important; transition: none !important; }
   }
@@ -1393,87 +1444,57 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 <div id="sticky-rotator"
      class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1150px)] px-4 py-3 rounded-2xl pb-[env(safe-area-inset-bottom)]
             border border-yellow-400/20">
-<script>
-(() => {
-  const box = document.getElementById('sticky-rotator');
-  if (!box) return;
 
-  const slides = Array.from(box.querySelectorAll('.banner'));
-  let i = 0;
-  let timer = null;
-
-  const show = (idx) => {
-    slides.forEach((s, j) => s.classList.toggle('active', j === idx));
-  };
-
-  const start = () => {
-    stop();
-    timer = setInterval(() => {
-      i = (i + 1) % slides.length;
-      show(i);
-    }, 3000);
-  };
-
-  const stop = () => { if (timer) clearInterval(timer); };
-
-  // Init
-  show(0);
-  start();
-
-  // Ako želiš da se nikad ne pauzira ni na hover, obriši ova dva listenera:
-  box.addEventListener('mouseenter', stop);
-  box.addEventListener('mouseleave', start);
-})();
-</script>
-
+  <!-- Close -->
+  <button id="sticky-close" class="close-btn h-8 w-8 rounded-lg text-gray-300 hover:text-white bg-black/30 backdrop-blur border border-yellow-400/20">✕</button>
 
   <!-- Viewport for slides -->
- <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
-  <!-- SLIDE 1 -->
-  <a class="banner active grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-     href="https://example.com/partner-1" target="_blank" rel="noopener"
-     aria-label="Premium Sponsor 1">
-    <img src="https://sukhadia.com/cdn/shop/files/JANINE_-_Fafda_Jalebi_-_SP.jpg?crop=center&height=2733&v=1749661664&width=4100" alt="Banner 1"
-         class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
-    <p class="text-sm md:text-base text-gray-200 truncate">
-      Premium partner: arena naming & live stream branding.
-    </p>
-  </a>
+  <div class="relative h-20 md:h-24 overflow-hidden rounded-xl">
+    <!-- SLIDE 1 -->
+    <a class="banner active grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+       href="https://example.com/partner-1" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 1">
+      <img src="https://placehold.co/600x200?text=Partner+1" alt="Baner: Premium sponzor 1"
+           class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
+      <p class="text-sm md:text-base text-gray-200 truncate">
+        Premium partner: imenovanje arene i brendiranje prenosa uživo.
+      </p>
+    </a>
 
-  <!-- SLIDE 2 -->
-  <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-     href="https://example.com/partner-2" target="_blank" rel="noopener"
-     aria-label="Premium Sponsor 2">
-    <img src="https://placehold.co/600x200?text=Banner+2" alt="Banner 2"
-         class="w-full h-full object-cover rounded-lg border border-red-400/20" />
-    <p class="text-sm md:text-base text-gray-200 truncate">
-      Growth paket: 2 premium bannera + logo u prenosu uživo.
-    </p>
-  </a>
+    <!-- SLIDE 2 -->
+    <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+       href="https://example.com/partner-2" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 2">
+      <img src="https://placehold.co/600x200?text=Partner+2" alt="Baner: Premium sponzor 2"
+           class="w-full h-full object-cover rounded-lg border border-red-400/20" />
+      <p class="text-sm md:text-base text-gray-200 truncate">
+        Growth paket: 2 premium bannera + logo u prenosu uživo.
+      </p>
+    </a>
 
-  <!-- SLIDE 3 -->
-  <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-     href="https://example.com/partner-3" target="_blank" rel="noopener"
-     aria-label="Premium Sponsor 3">
-    <img src="https://placehold.co/600x200?text=Banner+3" alt="Banner 3"
-         class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
-    <p class="text-sm md:text-base text-gray-200 truncate">
-      Startup paket: istaknut oglas + društvene mreže.
-    </p>
-  </a>
+    <!-- SLIDE 3 -->
+    <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+       href="https://example.com/partner-3" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 3">
+      <img src="https://placehold.co/600x200?text=Partner+3" alt="Baner: Premium sponzor 3"
+           class="w-full h-full object-cover rounded-lg border border-yellow-400/20" />
+      <p class="text-sm md:text-base text-gray-200 truncate">
+        Startap paket: istaknut oglas + društvene mreže.
+      </p>
+    </a>
 
-  <!-- SLIDE 4 -->
-  <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
-     href="https://example.com/partner-4" target="_blank" rel="noopener"
-     aria-label="Premium Sponsor 4">
-    <img src="https://placehold.co/600x200?text=Banner+4" alt="Banner 4"
-         class="w-full h-full object-cover rounded-lg border border-red-400/20" />
-    <p class="text-sm md:text-base text-gray-200 truncate">
-      Community oglas: podrži lokalne inicijative i mlade inovatore.
-    </p>
-  </a>
+    <!-- SLIDE 4 -->
+    <a class="banner grid grid-cols-2 items-center gap-4 p-3 md:p-4 h-full w-full"
+       href="https://example.com/partner-4" target="_blank" rel="noopener"
+       aria-label="Premium Sponsor 4">
+      <img src="https://placehold.co/600x200?text=Partner+4" alt="Baner: Premium sponzor 4"
+           class="w-full h-full object-cover rounded-lg border border-red-400/20" />
+      <p class="text-sm md:text-base text-gray-200 truncate">
+        Community oglas: podrži lokalne inicijative i mlade inovatore.
+      </p>
+    </a>
+  </div>
 </div>
-
 
 <script>
 (() => {
@@ -1481,49 +1502,47 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
   const closeBtn = document.getElementById('sticky-close');
   if (!box || !closeBtn) return;
 
-  // Respect previous close (session)
-  if (localStorage.getItem('bb_sticky_closed') === '1') {
-    box.style.display = 'none';
-    return;
-  }
+  // Visina rotatora -> padding stranice
+  const applyRotatorPadding = () => {
+    const h = box.offsetHeight || 0;
+    document.documentElement.style.setProperty('--rotator-h', (h + 16) + 'px'); // +16px margine
+  };
+  window.addEventListener('load', applyRotatorPadding);
+  window.addEventListener('resize', applyRotatorPadding);
 
   const slides = Array.from(box.querySelectorAll('.banner'));
-  let i = 0;
-  let timer = null;
+  let i = 0, timer = null;
 
-  const show = (idx) => {
-    slides.forEach((s, j) => s.classList.toggle('active', j === idx));
-  };
+  const show = (idx) => { slides.forEach((s, j) => s.classList.toggle('active', j === idx)); };
 
   const start = () => {
     stop();
-    timer = setInterval(() => {
-      i = (i + 1) % slides.length;
-      show(i);
-    }, 3000); // 3s per slide
+    timer = setInterval(() => { i = (i + 1) % slides.length; show(i); }, 3000);
   };
-
-  const stop = () => timer && clearInterval(timer);
+  const stop = () => { if (timer) clearInterval(timer); };
 
   // Init
   show(0);
   start();
 
-  // Pause on hover (desktop)
+  // Hover (desktop)
   box.addEventListener('mouseenter', stop);
   box.addEventListener('mouseleave', start);
 
-  // Close + remember
+  // Close + zapamti
+  if (localStorage.getItem('bb_sticky_closed') === '1') {
+    box.style.display = 'none';
+    applyRotatorPadding();
+  }
   closeBtn.addEventListener('click', () => {
     localStorage.setItem('bb_sticky_closed', '1');
     box.style.display = 'none';
+    applyRotatorPadding();
   });
-
-  // Keep it under your modals (your modals/nav use z-50)
-  // This box uses z-40 via Tailwind class.
 })();
 </script>
 <!-- /STICKY ROTATING BANNER -->
+
 
 
 
