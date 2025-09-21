@@ -1411,7 +1411,6 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 
 <!-- STICKY ROTATING BANNER -->
 <style>
-  /* Kompaktan, centriran rotator (bez X dugmeta) */
   #sticky-rotator{
     background: linear-gradient(135deg, rgba(18,18,18,.96), rgba(10,10,10,.96));
     border: 1px solid rgba(255,193,7,.20);
@@ -1421,87 +1420,87 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
   }
   #sticky-rotator .viewport{
     position: relative;
-    height: clamp(90px, 12vw, 140px); /* malo viši da stanu slika + tekst */
+    height: clamp(90px, 12vw, 140px);
     overflow: hidden;
     border-radius: 12px;
   }
-
-  /* Svaki slajd = fleks, sve centrirano horizontalno i vertikalno */
+  /* 50/50 layout, minimalni razmaci od ivica */
   #sticky-rotator .banner{
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    gap: 16px; padding: 10px 16px;
-    opacity: 0; transform: translateY(4px);
+    position:absolute; inset:6px;               /* minimalno odstupanje od ivica */
+    display:grid; grid-template-columns:1fr 1fr; /* pola-pola */
+    align-items:center; justify-items:center;
+    column-gap:10px; padding:0;
+    opacity:0; transform: translateY(4px);
     transition: opacity .35s ease, transform .35s ease;
-    pointer-events: none; text-align: center;
+    pointer-events:none;
   }
-  #sticky-rotator .banner.active{ opacity: 1; transform: translateY(0); pointer-events: auto; }
+  #sticky-rotator .banner.active{ opacity:1; transform:translateY(0); pointer-events:auto; }
 
-  /* Slika se vidi CIJELA */
-  #sticky-rotator .banner img{
-    height: 70%;          /* proporcionalno visini viewporta */
-    max-height: 96px;     /* plafon na desktopu */
-    width: auto;          /* čuva proporcije */
-    max-width: clamp(120px, 24vw, 260px);
-    object-fit: contain;  /* ne reže sliku */
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.08);
+  /* Lijeva polovina = slika puni svoj dio (cover) */
+  #sticky-rotator .banner .pic{
+    width:100%; height:100%;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
     background:#0b0b0b;
   }
-
-  #sticky-rotator .banner p{
-    color: #e5e7eb;
-    font-size: clamp(.9rem, 1.05vw, 1rem);
-    line-height: 1.35;
-    max-width: 48ch;
-    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
-    margin: 0;
+  #sticky-rotator .banner img{
+    width:100%; height:100%;
+    object-fit:cover; object-position:center;
+    display:block;
   }
 
-  /* Tablet */
-  @media (max-width: 900px){
-    #sticky-rotator .viewport{ height: clamp(88px, 14vw, 120px); }
-    #sticky-rotator .banner img{ max-height: 84px; }
+  /* Desna polovina = jedna rečenica (bez prelamanja) */
+  #sticky-rotator .banner .copy{
+    width:100%;
+    color:#e5e7eb;
+    font-size:clamp(.95rem,1.05vw,1rem);
+    text-align:center;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
 
-  /* Mobile: slika iznad teksta, i dalje centrirano */
-  @media (max-width: 520px){
-    #sticky-rotator .viewport{ height: clamp(82px, 22vw, 110px); }
-    #sticky-rotator .banner{ flex-direction: column; gap: 8px; padding: 8px 12px; }
-    #sticky-rotator .banner img{ height: 44px; max-height: 56px; }
-    #sticky-rotator .banner p{ -webkit-line-clamp: 2; }
+  @media (max-width: 560px){
+    /* Na manjim, i dalje 50/50 ali viši prozor da sve diše */
+    #sticky-rotator .viewport{ height: clamp(96px, 22vw, 120px); }
+    #sticky-rotator .banner{ inset:6px; column-gap:8px; }
+    #sticky-rotator .banner .copy{ font-size:clamp(.9rem, 3.5vw, 1rem); }
   }
-
-  @media (prefers-reduced-motion: reduce){
-    #sticky-rotator .banner{ transition: none; }
-  }
+  @media (prefers-reduced-motion: reduce){ #sticky-rotator .banner{ transition:none; } }
 </style>
 
 <div id="sticky-rotator"
-     class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1100px)] px-3 py-3 rounded-xl pb-[env(safe-area-inset-bottom)]">
+     class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1100px)] px-2 py-2 rounded-xl pb-[env(safe-area-inset-bottom)]">
   <div class="viewport">
     <!-- SLIDE 1 -->
     <a class="banner active" href="https://example.com/partner-1" target="_blank" rel="noopener" aria-label="Premium Sponsor 1">
-      <img src="https://digitalizuj.me/wp-content/uploads/2025/04/Avantura-1920x632-Prijave.png" alt="Premium sponzor 1" />
-      <p>Premium partner: imenovanje arene i brendiranje prenosa uživo.</p>
+      <div class="pic">
+        <img src="https://placehold.co/1200x600/0b1220/ffc107?text=Premium+Partner+1" alt="Premium sponzor 1">
+      </div>
+      <p class="copy">Premium partner: imenovanje arene i brendiranje prenosa uživo.</p>
     </a>
 
     <!-- SLIDE 2 -->
     <a class="banner" href="https://example.com/partner-2" target="_blank" rel="noopener" aria-label="Premium Sponsor 2">
-      <img src="https://placehold.co/800x400/0b1220/ff6b35?text=Premium+Partner+2" alt="Premium sponzor 2" />
-      <p>Growth paket: 2 premium bannera + logo u prenosu uživo.</p>
+      <div class="pic">
+        <img src="https://placehold.co/1200x600/0b1220/ff6b35?text=Premium+Partner+2" alt="Premium sponzor 2">
+      </div>
+      <p class="copy">Growth paket: 2 premium bannera + logo u prenosu uživo.</p>
     </a>
 
     <!-- SLIDE 3 -->
     <a class="banner" href="https://example.com/partner-3" target="_blank" rel="noopener" aria-label="Premium Sponsor 3">
-      <img src="https://placehold.co/800x400/0b1220/ffc107?text=Premium+Partner+3" alt="Premium sponzor 3" />
-      <p>Startap paket: istaknut oglas + društvene mreže.</p>
+      <div class="pic">
+        <img src="https://placehold.co/1200x600/0b1220/ffc107?text=Premium+Partner+3" alt="Premium sponzor 3">
+      </div>
+      <p class="copy">Startap paket: istaknut oglas + društvene mreže.</p>
     </a>
 
     <!-- SLIDE 4 -->
     <a class="banner" href="https://example.com/partner-4" target="_blank" rel="noopener" aria-label="Premium Sponsor 4">
-      <img src="https://placehold.co/800x400/0b1220/ff6b35?text=Premium+Partner+4" alt="Premium sponzor 4" />
-      <p>Community oglas: podrži lokalne inicijative i mlade inovatore.</p>
+      <div class="pic">
+        <img src="https://placehold.co/1200x600/0b1220/ff6b35?text=Premium+Partner+4" alt="Premium sponzor 4">
+      </div>
+      <p class="copy">Community oglas: podrži lokalne inicijative i mlade inovatore.</p>
     </a>
   </div>
 </div>
@@ -1511,7 +1510,6 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
   const box = document.getElementById('sticky-rotator');
   if (!box) return;
 
-  // Dinamični padding da sadržaj ne bude prekriven
   const applyRotatorPadding = () => {
     const h = box.offsetHeight || 0;
     document.documentElement.style.setProperty('--rotator-h', (h + 16) + 'px');
@@ -1523,11 +1521,7 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
   let i = 0, timer = null;
 
   const show = (idx) => slides.forEach((s, j) => s.classList.toggle('active', j === idx));
-
-  const start = () => {
-    clearInterval(timer);
-    timer = setInterval(() => { i = (i + 1) % slides.length; show(i); }, 3500);
-  };
+  const start = () => { clearInterval(timer); timer = setInterval(() => { i = (i + 1) % slides.length; show(i); }, 3500); };
 
   box.addEventListener('mouseenter', () => clearInterval(timer));
   box.addEventListener('mouseleave', start);
