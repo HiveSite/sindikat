@@ -1061,7 +1061,7 @@ window.addEventListener('load', () => {
           <svg class="w-6 h-6 text-yellow-400 transform transition-transform" id="faq3-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </button>
         <div class="hidden px-6 pb-6" id="faq3-content">
-          <p class="text-gray-300 leading-relaxed">Arduino programiranje, osnove elektronike, 3D CAD dizajn, integracija senzora, upravljanje motorima, principi mehaničkog dizajna i upravljanje projektom.</p>
+          <p class="text-gray-300 leading-relaxed">Programiranje, osnove elektronike, 3D dizajn, integracija senzora, upravljanje motorima, principi mehaničkog dizajna i upravljanje projektom.</p>
         </div>
       </div>
 
@@ -1072,16 +1072,6 @@ window.addEventListener('load', () => {
         </button>
         <div class="hidden px-6 pb-6" id="faq4-content">
           <p class="text-gray-300 leading-relaxed">Selektovanje se zasniva na rezultatima na bootcampu, kvalitetu dizajnerskog prijedloga, timskoj saradnji i tehničkom razumijevanju demonstriranom na radionicama.</p>
-        </div>
-      </div>
-
-      <div class="phase-card rounded-xl overflow-hidden">
-        <button class="w-full p-6 text-left flex justify-between items-center hover:bg-gray-800/50 transition-colors" onclick="toggleFAQ('faq5')">
-          <h3 class="text-lg font-semibold text-white">Koje su bezbjednosne mjere?</h3>
-          <svg class="w-6 h-6 text-yellow-400 transform transition-transform" id="faq5-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-        </button>
-        <div class="hidden px-6 pb-6" id="faq5-content">
-          <p class="text-gray-300 leading-relaxed">Ojačana arena, sistemi za hitno zaustavljanje, pregledi i provjere, ograničenja težine i oružja, obuka o bezbjednosti i prisustvo medicinskog osoblja.</p>
         </div>
       </div>
 
@@ -1508,107 +1498,6 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 </script>
 
 
-
-<!-- BALLOON / CONFETTI FROM SINGLE IMAGE -->
-<style>
-  #bb-confetti {
-    position: fixed; inset: 0;
-    pointer-events: none; z-index: 9999; /* iznad svega */
-    overflow: hidden;
-  }
-  #bb-confetti .piece {
-    position: absolute; top: -12%;
-    will-change: top, transform, opacity;
-    opacity: 0;
-    /* kvadratne “konfete” – slika kao background */
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,.35));
-    border-radius: 10%; /* blago zaobljeno da liči na balončiće */
-  }
-
-  /* Vertikalni pad (animiramo 'top' – bez konflikta sa transform iz sway) */
-  @keyframes bb-fall {
-    0%   { top: -12%; opacity: 0; }
-    10%  { opacity: 1; }
-    100% { top: 112%; opacity: 1; }
-  }
-
-  /* Lateralno “ljuljanje” + rotacija (animiramo transform) */
-  @keyframes bb-sway {
-    0%   { transform: translateX(-18px) rotate(var(--rotA)) scale(var(--scale)); }
-    100% { transform: translateX( 18px) rotate(var(--rotB)) scale(var(--scale)); }
-  }
-
-  /* Poštuje korisnike koji su uključili reduce motion */
-  @media (prefers-reduced-motion: reduce){
-    #bb-confetti .piece { animation: none !important; }
-  }
-</style>
-
-<script>
-(function(){
-  const IMG_SRC = 'sindikat.png'; // tvoja slika iz foldera
-  const START_DELAY_MS = 10000;    // 10s nakon otvaranja
-  const DURATION_MS = 7000;        // trajanje jednog “pada”
-  const COUNT_DESKTOP = 90;        // koliko komada na desktopu
-  const COUNT_MOBILE  = 50;        // koliko komada na mobilu
-
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function runConfetti(){
-    if (prefersReduced) return; // isključi animaciju ako korisnik to traži
-    const overlay = document.createElement('div');
-    overlay.id = 'bb-confetti';
-    document.body.appendChild(overlay);
-
-    const isMobile = window.matchMedia('(max-width: 640px)').matches;
-    const COUNT = isMobile ? COUNT_MOBILE : COUNT_DESKTOP;
-
-    for (let i = 0; i < COUNT; i++) {
-      const el = document.createElement('span');
-      el.className = 'piece';
-      el.style.backgroundImage = `url("${IMG_SRC}")`;
-
-      // nasumične dimenzije, pozicije i parametri animacije
-      const size = Math.round(Math.random()*24 + 20); // 20–44px
-      const left = Math.random() * 100;               // 0–100%
-      const delay = Math.random() * 800;              // dodatno kašnjenje po komadu
-      const dur   = Math.round(DURATION_MS * (0.75 + Math.random()*0.7)); // 75%–145%
-      const swayDur = Math.round(dur * (0.55 + Math.random()*0.5));       // bočno ljuljanje
-      const rotA = Math.round(Math.random()*-120) + 'deg';
-      const rotB = Math.round(Math.random()* 120) + 'deg';
-      const scale = (isMobile ? 0.8 : 1) * (0.8 + Math.random()*0.6);
-
-      el.style.width = size + 'px';
-      el.style.height = size + 'px';
-      el.style.left = left + '%';
-      el.style.setProperty('--rotA', rotA);
-      el.style.setProperty('--rotB', rotB);
-      el.style.setProperty('--scale', scale);
-
-      el.style.animation = [
-        `bb-fall ${dur}ms linear ${delay}ms forwards`,
-        `bb-sway ${swayDur}ms ease-in-out ${delay}ms infinite alternate`
-      ].join(', ');
-
-      overlay.appendChild(el);
-    }
-
-    // automatsko čišćenje poslije animacije
-    setTimeout(() => {
-      overlay.remove();
-    }, DURATION_MS * 2);
-  }
-
-  // Preload (opciono) pa start posle 10s
-  const img = new Image();
-  img.onload = () => setTimeout(runConfetti, START_DELAY_MS);
-  img.onerror = () => setTimeout(runConfetti, START_DELAY_MS); // čak i ako preload ne uspije, pokreni
-  img.src = IMG_SRC;
-})();
-</script>
 
 
 </body>
