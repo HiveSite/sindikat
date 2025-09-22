@@ -470,26 +470,34 @@ window.addEventListener('load', () => {
     <div class="section-divider mb-12"></div>
     <h2 class="text-3xl font-bold text-center mb-12 text-yellow-400">Partneri i sponzori</h2>
 
-   <a href="/sindikat/battlebots/domen.png" class="sponsor-banner p-6 rounded-xl text-center block" target="_blank" rel="noopener">
-  <div class="h-20 flex items-center justify-center mb-4"><div class="text-4xl font-bold text-yellow-400">.ME</div></div>
-  <h3 class="text-lg font-semibold text-white mb-2">doMEn (.ME)</h3>
-  <p class="text-gray-400 text-sm">Zvanični partner za domene</p>
-</a>
-
-      <div class="sponsor-banner p-6 rounded-xl text-center">
+    <!-- 3 glavne kartice sa GIT slikama -->
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <!-- doMEn (.ME) -->
+      <a href="/sindikat/battlebots/domen.png" class="sponsor-banner p-6 rounded-xl text-center block" target="_blank" rel="noopener">
         <div class="h-20 flex items-center justify-center mb-4">
-          <svg class="w-16 h-16 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
+          <img src="/sindikat/battlebots/domen.png" alt=".ME logo" class="h-16 object-contain">
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">doMEn (.ME)</h3>
+        <p class="text-gray-400 text-sm">Zvanični partner za domene</p>
+      </a>
+
+      <!-- Spark.me STEAM -->
+      <a href="/sindikat/battlebots/spark&amp;me.png" class="sponsor-banner p-6 rounded-xl text-center block" target="_blank" rel="noopener">
+        <div class="h-20 flex items-center justify-center mb-4">
+          <img src="/sindikat/battlebots/spark.png" alt="Spark.me STEAM" class="h-16 object-contain">
         </div>
         <h3 class="text-lg font-semibold text-white mb-2">Spark.me STEAM</h3>
         <p class="text-gray-400 text-sm">Partner edukativne inicijative</p>
-      </div>
-      <div class="sponsor-banner p-6 rounded-xl text-center">
+      </a>
+
+      <!-- Hive Agency (koristi dostupnu sliku kao placeholder) -->
+      <a href="/sindikat/battlebots/battlebotslogo.png" class="sponsor-banner p-6 rounded-xl text-center block" target="_blank" rel="noopener">
         <div class="h-20 flex items-center justify-center mb-4">
-          <svg class="w-16 h-16 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
+          <img src="/sindikat/battlebots/battlebotslogo.png" alt="Hive Agency" class="h-16 object-contain">
         </div>
         <h3 class="text-lg font-semibold text-white mb-2">Hive Agency</h3>
         <p class="text-gray-400 text-sm">Organizator događaja</p>
-      </div>
+      </a>
     </div>
 
     <div class="sponsor-banner rounded-xl p-8 mb-8">
@@ -513,18 +521,30 @@ window.addEventListener('load', () => {
     </div>
 
     <div class="grid md:grid-cols-4 gap-6 mb-8">
-      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-        <svg class="w-10 h-10 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-      </div><p class="text-gray-400 text-xs">Tehnološki partner</p></div>
-      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-        <svg class="w-10 h-10 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-      </div><p class="text-gray-400 text-xs">Hardver sponzor</p></div>
-      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-        <svg class="w-10 h-10 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-      </div><p class="text-gray-400 text-xs">Medijski partner</p></div>
-      <div class="sponsor-banner p-4 rounded-lg text-center"><div class="h-12 flex items-center justify-center mb-2">
-        <svg class="w-10 h-10 text-orange-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
-      </div><p class="text-gray-400 text-xs">Edukativni partner</p></div>
+      <div class="sponsor-banner p-4 rounded-lg text-center">
+        <div class="h-12 flex items-center justify-center mb-2">
+          <svg class="w-10 h-10 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+        </div>
+        <p class="text-gray-400 text-xs">Tehnološki partner</p>
+      </div>
+      <div class="sponsor-banner p-4 rounded-lg text-center">
+        <div class="h-12 flex items-center justify-center mb-2">
+          <svg class="w-10 h-10 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+        </div>
+        <p class="text-gray-400 text-xs">Hardver sponzor</p>
+      </div>
+      <div class="sponsor-banner p-4 rounded-lg text-center">
+        <div class="h-12 flex items-center justify-center mb-2">
+          <svg class="w-10 h-10 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+        </div>
+        <p class="text-gray-400 text-xs">Medijski partner</p>
+      </div>
+      <div class="sponsor-banner p-4 rounded-lg text-center">
+        <div class="h-12 flex items-center justify-center mb-2">
+          <svg class="w-10 h-10 text-orange-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
+        </div>
+        <p class="text-gray-400 text-xs">Edukativni partner</p>
+      </div>
     </div>
 
     <div class="text-center">
@@ -533,6 +553,7 @@ window.addEventListener('load', () => {
     </div>
   </div>
 </section>
+
 
 
 <!-- AD BANNERS -->
