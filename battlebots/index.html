@@ -411,7 +411,7 @@ window.addEventListener('load', () => {
 <div class="w-20 h-20 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
 <svg class="w-10 h-10 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/></svg>
 </div>
-<h3 class="text-xl font-semibold mb-2 text-yellow-400">Podsticanje inovacija!</h3>
+<h3 class="text-xl font-semibold mb-2 text-yellow-400">Podsticanje inovacija</h3>
 <p class="text-gray-300">Mladi primjenjuju znanje iz STEAM oblasti na stvarnim projektima</p>
 </div>
 <div class="text-center">
@@ -616,67 +616,74 @@ window.addEventListener('load', () => {
       </div>
     </div>
 
-    <!-- Paketi sponzorstava (bez tag bedževa) -->
-    <div class="mt-12 text-center">
-      <h4 class="text-xl font-bold text-white mb-6">Paketi sponzorstava</h4>
-      <div class="grid md:grid-cols-3 gap-6">
+ <!-- PAKETI SPONZORSTAVA (responsive kao Participants) -->
+<section id="sponsor-packs" class="py-20 bg-black">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-divider mb-12"></div>
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-white">Paketi sponzorstava</h2>
 
-        <!-- STARTUP -->
-        <div class="sponsor-banner p-6 rounded-xl">
-          <h5 class="text-lg font-bold text-yellow-400 mb-1">STARTUP</h5>
-          <p class="text-gray-300 text-sm mb-3">Za lokalne biznise i nove brendove</p>
-          <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
-            <li>• Logo: sajt, program i zajednički vizuali</li>
-            <li>• Aftermovie kredit</li>
-            <li>• Foto paket do 3 selekcije</li>
-            <li>• Thank-you social objava</li>
-            <li>• On-site: logo na partners wall</li>
-            <li>• MC zahvalnica</li>
-            <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
-          </ul>
-          <button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Saznaj više</button>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- STARTUP -->
+      <div class="sponsor-banner p-6 rounded-xl h-full flex flex-col">
+        <h5 class="text-lg font-bold text-yellow-400 mb-1">STARTUP</h5>
+        <p class="text-gray-300 text-sm mb-3">Za lokalne biznise i nove brendove</p>
+        <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
+          <li>• Logo: sajt, program i zajednički vizuali</li>
+          <li>• Aftermovie kredit</li>
+          <li>• Foto paket do 3 selekcije</li>
+          <li>• Thank-you social objava</li>
+          <li>• On-site: logo na partners wall</li>
+          <li>• MC zahvalnica</li>
+          <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
+        </ul>
+        <button class="mt-auto bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">
+          Saznaj više
+        </button>
+      </div>
+
+      <!-- PREMIUM (featured) -->
+      <div class="sponsor-banner p-6 rounded-xl border-2 border-red-500/50 h-full flex flex-col">
+        <div class="text-center mb-2">
+          <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">NAJTRAŽENIJE</span>
         </div>
+        <h5 class="text-lg font-bold text-red-400 mb-1">PREMIUM</h5>
+        <p class="text-gray-300 text-sm mb-3">Maksimalna vidljivost i aktivacija</p>
+        <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
+          <li>• Prioritetni logo: sajt, program i zajednički vizuali</li>
+          <li>• Aftermovie kredit + kadar brend prisustva</li>
+          <li>• Foto paket do 10 selekcija</li>
+          <li>• Story set ×2 i dedicated post ×2</li>
+          <li>• On-site: do 2 roll-up + 2 pozicije na partners wall</li>
+          <li>• Brendiranje edukacije</li>
+          <li>• MC zahvalnica na otvaranju i proglašenju</li>
+          <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
+        </ul>
+        <button class="mt-auto bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm hover:bg-red-500/30 transition-colors" onclick="scrollToSection('contact')">
+          Započni
+        </button>
+      </div>
 
-        <!-- PREMIUM (featured) -->
-        <div class="sponsor-banner p-6 rounded-xl border-2 border-red-500/50">
-          <div class="text-center mb-2">
-            <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">NAJTRAŽENIJE</span>
-          </div>
-          <h5 class="text-lg font-bold text-red-400 mb-1">PREMIUM</h5>
-          <p class="text-gray-300 text-sm mb-3">Maksimalna vidljivost i aktivacija</p>
-          <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
-            <li>• Prioritetni logo: sajt, program i zajednički vizuali</li>
-            <li>• Aftermovie kredit + kadar brend prisustva</li>
-            <li>• Foto paket do 10 selekcija</li>
-            <li>• Story set ×2 i dedicated post ×2</li>
-            <li>• On-site: do 2 roll-up + 2 pozicije na partners wall</li>
-            <li>• Brendiranje edukacije</li>
-            <li>• MC zahvalnica na otvaranju i proglašenju</li>
-            <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
-          </ul>
-          <button class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm hover:bg-red-500/30 transition-colors" onclick="scrollToSection('contact')">Započni</button>
-        </div>
-
-        <!-- ENTERPRISE -->
-        <div class="sponsor-banner p-6 rounded-xl">
-          <h5 class="text-lg font-bold text-yellow-400 mb-1">ENTERPRISE</h5>
-          <p class="text-gray-300 text-sm mb-3">Široka pokrivenost za etablirane brendove</p>
-          <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
-            <li>• Logo: sajt, program i zajednički vizuali</li>
-            <li>• Aftermovie kredit</li>
-            <li>• Foto paket do 6 selekcija</li>
-            <li>• Story set ×1 i dedicated post ×1</li>
-            <li>• On-site: 1 roll-up + 1 pozicija na partners wall</li>
-            <li>• MC zahvalnica tokom proglašenja</li>
-            <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
-          </ul>
-          <button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Kontaktiraj nas</button>
-        </div>
-
+      <!-- ENTERPRISE -->
+      <div class="sponsor-banner p-6 rounded-xl h-full flex flex-col">
+        <h5 class="text-lg font-bold text-yellow-400 mb-1">ENTERPRISE</h5>
+        <p class="text-gray-300 text-sm mb-3">Široka pokrivenost za etablirane brendove</p>
+        <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
+          <li>• Logo: sajt, program i zajednički vizuali</li>
+          <li>• Aftermovie kredit</li>
+          <li>• Foto paket do 6 selekcija</li>
+          <li>• Story set ×1 i dedicated post ×1</li>
+          <li>• On-site: 1 roll-up + 1 pozicija na partners wall</li>
+          <li>• MC zahvalnica tokom proglašenja</li>
+          <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
+        </ul>
+        <button class="mt-auto bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">
+          Kontaktiraj nas
+        </button>
       </div>
     </div>
   </div>
 </section>
+
 
 
 
