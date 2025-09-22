@@ -541,6 +541,7 @@ window.addEventListener('load', () => {
     <div class="section-divider mb-8"></div>
     <h3 class="text-2xl font-bold text-center mb-8 text-gray-300">Mogućnosti oglašavanja</h3>
 
+    <!-- Premium horizontalni baner -->
     <div class="ad-space rounded-xl p-8 mb-8 cursor-pointer" onclick="openAdInfo('horizontal')">
       <div class="flex items-center justify-between">
         <div class="flex-1">
@@ -560,9 +561,12 @@ window.addEventListener('load', () => {
       </div>
     </div>
 
+    <!-- Tri formata oglasa -->
     <div class="grid md:grid-cols-3 gap-6 mb-8">
       <div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('premium')">
-        <div class="w-full h-32 bg-red-500/20 border-2 border-dashed border-red-500/50 rounded-lg flex items-center justify-center mb-4"><span class="text-red-400 font-semibold">300×200</span></div>
+        <div class="w-full h-32 bg-red-500/20 border-2 border-dashed border-red-500/50 rounded-lg flex items-center justify-center mb-4">
+          <span class="text-red-400 font-semibold">300×200</span>
+        </div>
         <h4 class="text-white font-semibold mb-1">Premium oglas</h4>
         <p class="text-gray-400 text-sm mb-2">Zona visokog angažmana</p>
         <div class="flex justify-center space-x-1">
@@ -571,7 +575,9 @@ window.addEventListener('load', () => {
         </div>
       </div>
       <div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('standard')">
-        <div class="w-full h-32 bg-yellow-400/20 border-2 border-dashed border-yellow-400/50 rounded-lg flex items-center justify-center mb-4"><span class="text-yellow-400 font-semibold">300×200</span></div>
+        <div class="w-full h-32 bg-yellow-400/20 border-2 border-dashed border-yellow-400/50 rounded-lg flex items-center justify-center mb-4">
+          <span class="text-yellow-400 font-semibold">300×200</span>
+        </div>
         <h4 class="text-white font-semibold mb-1">Standard oglas</h4>
         <p class="text-gray-400 text-sm mb-2">Odlična vidljivost i vrijednost</p>
         <div class="flex justify-center space-x-1">
@@ -580,7 +586,9 @@ window.addEventListener('load', () => {
         </div>
       </div>
       <div class="ad-space p-6 rounded-xl text-center cursor-pointer" onclick="openAdInfo('community')">
-        <div class="w-full h-32 bg-blue-500/20 border-2 border-dashed border-blue-500/50 rounded-lg flex items-center justify-center mb-4"><span class="text-blue-400 font-semibold">300×200</span></div>
+        <div class="w-full h-32 bg-blue-500/20 border-2 border-dashed border-blue-500/50 rounded-lg flex items-center justify-center mb-4">
+          <span class="text-blue-400 font-semibold">300×200</span>
+        </div>
         <h4 class="text-white font-semibold mb-1">Community oglas</h4>
         <p class="text-gray-400 text-sm mb-2">Podržite lokalne inicijative</p>
         <div class="flex justify-center space-x-1">
@@ -590,59 +598,101 @@ window.addEventListener('load', () => {
       </div>
     </div>
 
+    <!-- Dodatne pozicije -->
     <div class="grid md:grid-cols-2 gap-6">
       <div class="ad-space p-6 rounded-xl">
         <h4 class="text-white font-semibold mb-3">Mobilni baner (320×50)</h4>
-        <div class="w-full h-16 bg-green-500/20 border-2 border-dashed border-green-500/50 rounded-lg flex items-center justify-center mb-3"><span class="text-green-400 font-semibold text-sm">Optimizovano za mobilne</span></div>
+        <div class="w-full h-16 bg-green-500/20 border-2 border-dashed border-green-500/50 rounded-lg flex items-center justify-center mb-3">
+          <span class="text-green-400 font-semibold text-sm">Optimizovano za mobilne</span>
+        </div>
         <p class="text-gray-400 text-sm">Idealno za korisnike tokom prenosa uživo</p>
       </div>
       <div class="ad-space p-6 rounded-xl">
         <h4 class="text-white font-semibold mb-3">Video pre-roll (15–30s)</h4>
-        <div class="w-full h-16 bg-purple-500/20 border-2 border-dashed border-purple-500/50 rounded-lg flex items-center justify-center mb-3"><span class="text-purple-400 font-semibold text-sm">Video oglas</span></div>
+        <div class="w-full h-16 bg-purple-500/20 border-2 border-dashed border-purple-500/50 rounded-lg flex items-center justify-center mb-3">
+          <span class="text-purple-400 font-semibold text-sm">Video oglas</span>
+        </div>
         <p class="text-gray-400 text-sm">Prikaz prije streama i snimljenog sadržaja</p>
       </div>
     </div>
 
+    <!-- Paketi sponzorstava -->
     <div class="mt-12 text-center">
-      <h4 class="text-xl font-bold text-white mb-6">Paketi oglašavanja</h4>
+      <h4 class="text-xl font-bold text-white mb-6">Paketi sponzorstava</h4>
       <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- STARTUP -->
         <div class="sponsor-banner p-6 rounded-xl">
-          <h5 class="text-lg font-bold text-yellow-400 mb-2">Startap paket</h5>
-          <p class="text-gray-300 text-sm mb-4">Za lokalne biznise i startape</p>
-          <ul class="text-gray-400 text-sm space-y-1 mb-4">
-            <li>• 1 standardna pozicija</li>
-            <li>• Objave na društvenim mrežama</li>
-            <li>• Listing u programu događaja</li>
+          <h5 class="text-lg font-bold text-yellow-400 mb-1">STARTUP</h5>
+          <p class="text-gray-300 text-sm mb-3">Za lokalne biznise i nove brendove</p>
+          <div class="mb-3">
+            <span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-xs mr-2">Logo</span>
+            <span class="inline-block bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs mr-2">Partners wall</span>
+            <span class="inline-block bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs">Thank-you</span>
+          </div>
+          <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
+            <li>• Logo: sajt, program i zajednički vizuali</li>
+            <li>• Aftermovie kredit</li>
+            <li>• Foto paket do 3 selekcije</li>
+            <li>• Thank-you social objava</li>
+            <li>• On-site: logo na partners wall</li>
+            <li>• MC zahvalnica</li>
+            <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
           </ul>
           <button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Saznaj više</button>
         </div>
+
+        <!-- PREMIUM (featured) -->
         <div class="sponsor-banner p-6 rounded-xl border-2 border-red-500/50">
-          <div class="text-center mb-2"><span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">POPULARNO</span></div>
-          <h5 class="text-lg font-bold text-red-400 mb-2">Rast paket</h5>
-          <p class="text-gray-300 text-sm mb-4">Za kompanije u razvoju</p>
-          <ul class="text-gray-400 text-sm space-y-1 mb-4">
-            <li>• 2 premium pozicije</li>
-            <li>• Logo u prenosu uživo</li>
-            <li>• Brendiranje mentorskih sesija</li>
-            <li>• Uključivanje u saopštenja za medije</li>
+          <div class="text-center mb-2">
+            <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">NAJTRAŽENIJE</span>
+          </div>
+          <h5 class="text-lg font-bold text-red-400 mb-1">PREMIUM</h5>
+          <p class="text-gray-300 text-sm mb-3">Maksimalna vidljivost i aktivacija</p>
+          <div class="mb-3">
+            <span class="inline-block bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs mr-2">Prioritetni logo</span>
+            <span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-xs mr-2">Aftermovie</span>
+            <span class="inline-block bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs">Edukacija</span>
+          </div>
+          <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
+            <li>• Prioritetni logo: sajt, program i zajednički vizuali</li>
+            <li>• Aftermovie kredit + kadar brend prisustva</li>
+            <li>• Foto paket do 10 selekcija</li>
+            <li>• Story set ×2 i dedicated post ×2</li>
+            <li>• On-site: do 2 roll-up + 2 pozicije na partners wall</li>
+            <li>• Brendiranje edukacije</li>
+            <li>• MC zahvalnica na otvaranju i proglašenju</li>
+            <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
           </ul>
           <button class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm hover:bg-red-500/30 transition-colors" onclick="scrollToSection('contact')">Započni</button>
         </div>
+
+        <!-- ENTERPRISE -->
         <div class="sponsor-banner p-6 rounded-xl">
-          <h5 class="text-lg font-bold text-yellow-400 mb-2">Enterprise paket</h5>
-          <p class="text-gray-300 text-sm mb-4">Maksimalna pokrivenost</p>
-          <ul class="text-gray-400 text-sm space-y-1 mb-4">
-            <li>• Prava imenovanja arene</li>
-            <li>• Sve digitalne pozicije</li>
-            <li>• Custom aktivacioni prostor</li>
-            <li>• Ekskluzivno umrežavanje</li>
+          <h5 class="text-lg font-bold text-yellow-400 mb-1">ENTERPRISE</h5>
+          <p class="text-gray-300 text-sm mb-3">Široka pokrivenost za etablirane brendove</p>
+          <div class="mb-3">
+            <span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-xs mr-2">Logo</span>
+            <span class="inline-block bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs mr-2">On-site</span>
+            <span class="inline-block bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-xs">Social</span>
+          </div>
+          <ul class="text-gray-400 text-sm space-y-1.5 mb-4 text-left">
+            <li>• Logo: sajt, program i zajednički vizuali</li>
+            <li>• Aftermovie kredit</li>
+            <li>• Foto paket do 6 selekcija</li>
+            <li>• Story set ×1 i dedicated post ×1</li>
+            <li>• On-site: 1 roll-up + 1 pozicija na partners wall</li>
+            <li>• MC zahvalnica tokom proglašenja</li>
+            <li>• Štampani promo: plakati, flajeri, program vodič, certifikati, naljepnice</li>
           </ul>
           <button class="bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm hover:bg-yellow-400/30 transition-colors" onclick="scrollToSection('contact')">Kontaktiraj nas</button>
         </div>
+
       </div>
     </div>
   </div>
 </section>
+
 
 
 <!-- KEY INFO -->
