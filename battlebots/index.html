@@ -496,7 +496,7 @@ window.addEventListener('load', () => {
       <!-- Hive Agency (koristi dostupnu sliku kao placeholder) -->
       <a href="./sindikat.png" class="sponsor-banner p-6 rounded-xl text-center block" target="_blank" rel="noopener">
         <div class="h-20 flex items-center justify-center mb-4">
-          <img src="sindikat.png" alt="Hive Agency" class="h-16 object-contain">
+          <img src="sindikat.png" alt="Sindikat" class="h-16 object-contain">
         </div>
         <h3 class="text-lg font-semibold text-white mb-2">SINDIKAT</h3>
         <p class="text-gray-400 text-sm">Logistički partner</p>
@@ -523,7 +523,7 @@ window.addEventListener('load', () => {
       </div>
     </div>
 
-    <div class="grid md:grid-cols-4 gap-6 mb-8">
+  <!--  <div class="grid md:grid-cols-4 gap-6 mb-8">
       <div class="sponsor-banner p-4 rounded-lg text-center">
         <div class="h-12 flex items-center justify-center mb-2">
           <svg class="w-10 h-10 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/></svg>
@@ -1391,6 +1391,7 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 
 
 <!-- STICKY ROTATING BANNER -->
+<!-- STICKY ROTATING BANNER -->
 <style>
   #sticky-rotator{
     background: linear-gradient(135deg, rgba(18,18,18,.96), rgba(10,10,10,.96));
@@ -1405,10 +1406,9 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
     overflow: hidden;
     border-radius: 12px;
   }
-  /* 50/50 layout, minimalni razmaci od ivica */
   #sticky-rotator .banner{
-    position:absolute; inset:6px;               /* minimalno odstupanje od ivica */
-    display:grid; grid-template-columns:1fr 1fr; /* pola-pola */
+    position:absolute; inset:6px;
+    display:grid; grid-template-columns:1fr 1fr;
     align-items:center; justify-items:center;
     column-gap:10px; padding:0;
     opacity:0; transform: translateY(4px);
@@ -1416,32 +1416,21 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
     pointer-events:none;
   }
   #sticky-rotator .banner.active{ opacity:1; transform:translateY(0); pointer-events:auto; }
-
-  /* Lijeva polovina = slika puni svoj dio (cover) */
   #sticky-rotator .banner .pic{
     width:100%; height:100%;
-    border-radius:10px;
-    overflow:hidden;
+    border-radius:10px; overflow:hidden;
     border:1px solid rgba(255,255,255,.08);
     background:#0b0b0b;
   }
   #sticky-rotator .banner img{
-    width:100%; height:100%;
-    object-fit:cover; object-position:center;
-    display:block;
+    width:100%; height:100%; object-fit:cover; object-position:center; display:block;
   }
-
-  /* Desna polovina = jedna rečenica (bez prelamanja) */
   #sticky-rotator .banner .copy{
-    width:100%;
-    color:#e5e7eb;
+    width:100%; color:#e5e7eb;
     font-size:clamp(.95rem,1.05vw,1rem);
-    text-align:center;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-
   @media (max-width: 560px){
-    /* Na manjim, i dalje 50/50 ali viši prozor da sve diše */
     #sticky-rotator .viewport{ height: clamp(96px, 22vw, 120px); }
     #sticky-rotator .banner{ inset:6px; column-gap:8px; }
     #sticky-rotator .banner .copy{ font-size:clamp(.9rem, 3.5vw, 1rem); }
@@ -1452,37 +1441,33 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
 <div id="sticky-rotator"
      class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(96vw,1100px)] px-2 py-2 rounded-xl pb-[env(safe-area-inset-bottom)]">
   <div class="viewport">
-    <!-- SLIDE 1 -->
-    <a class="banner active" href="https://example.com/partner-1" target="_blank" rel="noopener" aria-label="Premium Sponsor 1">
+
+    <!-- doMEn (.ME) -->
+    <a class="banner active" href="https://domen.me/" target="_blank" rel="noopener noreferrer" aria-label="doMEn .ME">
       <div class="pic">
-        <img src="https://digitalizuj.me/wp-content/uploads/2025/04/Avantura-1920x632-Prijave.png" alt="Premium sponzor 1">
+        <img src="domen.png" alt="doMEn (.ME) logo" loading="lazy">
       </div>
-      <p class="copy">Premium partner: imenovanje arene i brendiranje prenosa uživo.</p>
+      <p class="copy">doMEn (.ME) — zvanični partner domena.</p>
     </a>
 
-    <!-- SLIDE 2 -->
-    <a class="banner" href="https://example.com/partner-2" target="_blank" rel="noopener" aria-label="Premium Sponsor 2">
+    <!-- We Are Connect (Sindikat) -->
+    <a class="banner" href="https://weareconnect.me/" target="_blank" rel="noopener noreferrer" aria-label="We Are Connect — Sindikat">
       <div class="pic">
-        <img src="https://placehold.co/1200x600/0b1220/ff6b35?text=Premium+Partner+2" alt="Premium sponzor 2">
+        <!-- Ako imaš poseban logo za Sindikat, zamijeni putanju ispod -->
+        <img src="battlebotslogo.png" alt="We Are Connect / Sindikat" loading="lazy">
       </div>
-      <p class="copy">Growth paket: 2 premium bannera + logo u prenosu uživo.</p>
+      <p class="copy">We Are Connect — Sindikat: organizaciona podrška.</p>
     </a>
 
-    <!-- SLIDE 3 -->
-    <a class="banner" href="https://example.com/partner-3" target="_blank" rel="noopener" aria-label="Premium Sponsor 3">
+    <!-- Spark.me STEAM avantura -->
+    <a class="banner" href="https://steamedukacija.me/spark-me-steam-avantura-8-projekata-krece-u-realizaciju-uz-podrsku-kompanije-domen/" target="_blank" rel="noopener noreferrer" aria-label="Spark.me STEAM avantura">
       <div class="pic">
-        <img src="https://placehold.co/1200x600/0b1220/ffc107?text=Premium+Partner+3" alt="Premium sponzor 3">
+        <!-- Napomena: '&' u nazivu fajla treba HTML-escape: &amp; -->
+        <img src="spark&amp;me.png" alt="Spark.me STEAM avantura" loading="lazy">
       </div>
-      <p class="copy">Startap paket: istaknut oglas + društvene mreže.</p>
+      <p class="copy">Spark.me STEAM avantura — partner edukacije.</p>
     </a>
 
-    <!-- SLIDE 4 -->
-    <a class="banner" href="https://example.com/partner-4" target="_blank" rel="noopener" aria-label="Premium Sponsor 4">
-      <div class="pic">
-        <img src="https://placehold.co/1200x600/0b1220/ff6b35?text=Premium+Partner+4" alt="Premium sponzor 4">
-      </div>
-      <p class="copy">Community oglas: podrži lokalne inicijative i mlade inovatore.</p>
-    </a>
   </div>
 </div>
 
@@ -1511,9 +1496,6 @@ if (btn) { btn.disabled = false; btn.textContent = original; btn.style.backgroun
   start();
 })();
 </script>
-<!-- /STICKY ROTATING BANNER -->
-
-
 
 
 
