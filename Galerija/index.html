@@ -39,20 +39,20 @@ html{ scroll-behavior:smooth; }
 
       <!-- Desktop -->
       
-  <!-- NAV (isti stil, SINDIKAT) -->
+<!-- NAV (isti stil, SINDIKAT) -->
 <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
     <!-- Logo -->
-    <a href="https://weareconnect.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
+    <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
 
     <!-- Desktop meni -->
     <div class="hidden md:flex items-center gap-6 text-sm">
-      <a href="https://weareconnect.me/"         class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-      <a href="https://weareconnect.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-      <a href="https://weareconnect.me/blog/"    class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-      <a href="https://weareconnect.me/galerija/"class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-      <a href="https://weareconnect.me/onama/" class="block w-full px-4 py-4 font-medium text-sm rounded-xl hover:border-gold transition">O nama</a>
-        <a href="https://weareconnect.me/#contact/"
+      <a href="https://sindikatevents.me/"         class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
+      <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
+      <a href="https://sindikatevents.me/blog/"    class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
+      <a href="https://sindikatevents.me/galerija/"class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
+      <a href="https://sindikatevents.me/onama/" class="block w-full font-medium text-sm hover:border-gold transition">O nama</a>
+        <a href="https://sindikatevents.me/kontakt/"
            class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
       </a>
     </div>
@@ -66,13 +66,6 @@ html{ scroll-behavior:smooth; }
   <!-- Kontrolni checkbox (peer) -->
   <input id="mobileNav" type="checkbox" class="peer sr-only" />
 
-      <!-- DODATO: Mobile hamburger -->
-      <button id="menuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-gray-800 hover:border-gold transition"
-              aria-label="Otvori meni" aria-expanded="false" aria-controls="mobileMenu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M3 6h18M3 12h18M3 18h18"/>
-        </svg>
-      </button>
   <!-- MOBILE OVERLAY (isti vizuelni jezik, bez JS) -->
   <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
               peer-checked:opacity-100 peer-checked:pointer-events-auto">
@@ -86,36 +79,17 @@ html{ scroll-behavior:smooth; }
     <!-- Linkovi (offset ispod nav bara) -->
     <div class="absolute top-[72px] left-0 right-0">
       <nav class="px-4 pt-4 pb-16 space-y-2">
-        <a href="https://weareconnect.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-        <a href="https://weareconnect.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-        <a href="https://weareconnect.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-        <a href="https://weareconnect.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-        <a href="https://weareconnect.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-        <a href="https://weareconnect.me/#contact/"
+        <a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
+        <a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
+        <a href="https://sindikatevents.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
+        <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
+        <a href="https://sindikatevents.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
+        <a href="https://sindikatevents.me/kontakt/"
            class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
       </nav>
-</div>
-  </nav>
+    </div>
   </div>
 </nav>
-
-  <!-- DODATO: MOBILE MENU overlay (crna pozadina) -->
-  <!-- MOBILE MENU overlay -->
-<div id="mobileMenu" class="fixed inset-0 z-40 bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
-<div class="absolute top-[72px] left-0 right-0">
-<nav class="px-4 pt-4 pb-8 space-y-2">
-<a href="https://weareconnect.me/blog/"  class="block w-full px-4 py-4 rounded-xl border border-gray-800 hover:border-gold transition">Početna</a>
-<a href="https://weareconnect.me/poslovi/" class="block w-full px-4 py-4 rounded-xl border border-gray-800 hover:border-gold transition">Poslovi</a>
-<a href="https://weareconnect.me/blog/"  class="block w-full px-4 py-4 rounded-xl border border-gray-800 hover:border-gold transition">Blog</a>
-<a href="https://weareconnect.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-gray-800 hover:border-gold transition">Galerija</a>
-<a href="#about"  class="block w-full px-4 py-4 rounded-xl border border-gray-800 hover:border-gold transition">O nama</a>
-<a href="#contact" class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:bg-yellow-500 transition">Kontakt</a>
-</nav>
-</div>
-<button id="menuClose" class="absolute top-4 right-4 p-2 rounded-lg border border-gray-800 hover:border-gold transition" aria-label="Zatvori meni">
-<span class="text-2xl leading-none">×</span>
-</button>
-</div>
 
 <!-- HERO / POČETNI DIO (samo Galerija) -->
 <header class="pt-28 pb-16 text-center max-w-3xl mx-auto px-4">
