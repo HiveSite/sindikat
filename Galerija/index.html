@@ -262,67 +262,74 @@ html{ scroll-behavior:smooth; }
     </div>
 
     <!-- Ad slot -->
-    <div class="mt-10 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-3xl p-8 text-center hover:border-gold/50 transition-all">
+  <!--    <div class="mt-10 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-3xl p-8 text-center hover:border-gold/50 transition-all">
       <div class="text-4xl mb-2">📣</div>
       <h3 class="text-lg font-bold font-montserrat mb-2 text-gray-300">PNG Ad Banner Slot</h3>
       <p class="text-gray-500 text-sm">336x280 / 728x90 – zadrži monetizaciju</p>
     </div>
-  </main>
+  </main> -->
 
-  <!-- KONTAKT MINI-FORMA -->
-  <section id="kontakt" class="bg-gray-900 py-12">
-    <div class="max-w-5xl mx-auto px-4 md:px-6">
-      <div class="grid md:grid-cols-2 gap-8 items-start">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-bold font-montserrat">Zatraži <span class="gradient-gold">ponudu</span></h2>
-          <p class="text-gray-300 mt-3">Trebaš istu produkciju? Pošalji upit – odgovaramo u roku od 24h.</p>
-          <ul class="mt-4 space-y-2 text-gray-400 text-sm">
-            <li>• Tip događaja, broj ljudi, datum</li>
-            <li>• Lokacija i budžetski okvir</li>
-            <li>• Šta je najvažnije za tvoj događaj</li>
-          </ul>
+
+<footer class="bg-gray-900 py-16 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12">
+
+      <!-- Kolona 1: Brzi kontakt -->
+      <div>
+        <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
+        <div class="space-y-6">
+          <a href="https://wa.me/38267123456" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
+            <div class="text-2xl">📱</div>
+            <div>
+              <h5 class="font-semibold">WhatsApp</h5>
+              <p class="text-sm">+382 67 123 456</p>
+              <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
+            </div>
+          </a>
+          <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
+            <div class="text-2xl">📸</div>
+            <div>
+              <h5 class="font-semibold">Instagram</h5>
+              <p class="text-sm">@sindikat_events</p>
+              <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
+            </div>
+          </a>
+          <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+            <div class="text-2xl">📞</div>
+            <div>
+              <h5 class="font-semibold">Telefon</h5>
+              <p class="text-sm">+382 20 123 456</p>
+              <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+            <div class="text-2xl">📍</div>
+            <div>
+              <h5 class="font-semibold">Lokacija</h5>
+              <p class="text-sm">Podgorica, Crna Gora</p>
+              <p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
+            </div>
+          </div>
         </div>
-        <form id="reqForm" class="space-y-4">
-          <input name="name" required placeholder="Ime i prezime" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
-          <input name="email" required type="email" placeholder="Email" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
-          <textarea name="message" rows="4" placeholder="Kratko opiši događaj" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"></textarea>
-          <button class="bg-gold text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-500 btn-animate">Pošalji zahtjev</button>
-          <p id="formMsg" class="text-sm text-gray-400"></p>
-        </form>
+      </div>
+
+      <!-- Kolona 2: Dugme za kontakt --> 
+      <div class="flex flex-col justify-center">
+        <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
+        <a href="https://sindikatevents.me/kontakt/"
+           class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
+          Idi na Kontakt Stranicu
+        </a>
       </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="py-8 text-center text-sm text-gray-500 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-4">© <span id="yearSpan"></span> SINDIKAT – Sve za vaš događaj.</div>
-  </footer>
-
-  <!-- LIGHTBOX / MODAL -->
-  <div id="modal" class="modal-wrap bg-black/80 backdrop-blur-sm">
-    <div class="absolute inset-0" id="modalBg"></div>
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[94vw] max-w-5xl">
-      <div class="rounded-2xl bg-black border border-gray-800 p-4 md:p-6">
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h3 id="mTitle" class="text-lg md:text-xl font-bold font-montserrat"></h3>
-            <p id="mMeta" class="text-xs md:text-sm text-gray-400 mt-1"></p>
-          </div>
-          <button id="modalClose" class="text-2xl leading-none">×</button>
-        </div>
-        <div class="mt-4">
-          <img id="mImg" alt="preview" class="w-full rounded-xl object-contain max-h-[80vh]" />
-        </div>
-        <div class="mt-4 flex flex-wrap items-center gap-2 justify-between">
-          <div id="mTags" class="flex gap-2 flex-wrap text-sm"></div>
-          <div class="flex gap-2">
-            <a id="dlBtn" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm cursor-pointer">Preuzmi</a>
-            <a id="waBtn" target="_blank" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm">WhatsApp</a>
-          </div>
-        </div>
-      </div>
+    <!-- Donji red -->
+    <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+      <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
     </div>
   </div>
+</footer>
 
 <script>
 // Year in footer
