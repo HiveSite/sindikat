@@ -506,16 +506,21 @@
           </div>
         </article>`;
 
-      const inlineAd = () => `
-        <div class="glass rounded-2xl p-0 overflow-hidden">
-          <a href="#" class="block">
-            <div class="ad ad-inline">
-              <div class="ad-frame h-40 md:h-56 w-full flex items-center justify-center">
-                <span class="text-neutral-400 text-xs md:text-sm">AD 970×250 / 728×90</span>
-              </div>
-            </div>
-          </a>
-        </div>`;
+     const inlineAd = () => `
+  <div class="glass rounded-2xl p-0 overflow-hidden">
+    <a href="#" target="_blank" rel="noopener" class="block group" aria-label="Sponzorisani baner">
+      <div class="w-full aspect-[970/250]">
+        <img
+          src="https://montenegro.socialimpactaward.net/app/uploads/sites/17/2025/07/0P3A5763-1200x600.jpg"
+          alt="Sponzorisani vizual"
+          loading="lazy"
+          class="w-full h-full object-cover transition-transform group-hover:scale-[1.01]"
+        />
+      </div>
+    </a>
+  </div>
+`;
+
 
       const types = ["Full-time","Part-time","Sezonski","Praksa","Freelance","Remote"];
       const typeFiltersWrap = document.getElementById("typeFilters");
