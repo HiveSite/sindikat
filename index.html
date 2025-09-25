@@ -786,12 +786,12 @@ img, video { max-width: 100%; height: auto; }
 </nav>
 
 
-<!-- PARTNERI / BANERI (mobile: scroll, desktop: centered & half height) -->
+<!-- PARTNERI / BANERI (mobile: half height + scroll from first, desktop: centered normal height) -->
 <style>
-  /* Osnovno: mobilni horizontalni skrol od prvog item-a */
+  /* Mobile default: half height — manji padding, manji logo, kompaktniji radius */
   .partners-scroller{
     display: flex;
-    gap: 12px;
+    gap: 10px;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -799,30 +799,42 @@ img, video { max-width: 100%; height: auto; }
     scroll-padding-left: 12px;
   }
   .partners-scroller > .partner-card{ scroll-snap-align: start; }
+
+  /* sakrij scrollbar, skrol i dalje radi */
   .hide-scrollbar::-webkit-scrollbar{ display:none; }
   .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
 
-  /* Desktop: centriraj, bez horizontalnog skrola, i “upola” niži kartice */
+  /* MOBILE “pola visine” */
+  .partner-card{
+    padding: 6px 12px !important;      /* bilo ~py-3 px-6 */
+    border-radius: 8px !important;      /* bilo 12px */
+  }
+  .partner-card .logo{
+    width: 24px !important;             /* bilo 48px (w-12) */
+    height: 24px !important;
+  }
+  .partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
+  .partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
+
+  /* DESKTOP (≥ md): centrirano, bez skrola, normalna visina nazad */
   @media (min-width: 768px){
     .partners-scroller{
-      justify-content: center;     /* centrirano */
-      overflow-x: visible;         /* nema skrola na desktopu */
+      justify-content: center;          /* centriraj red */
+      overflow-x: visible;              /* nema horizontalnog skrola */
       scroll-snap-type: none;
       scroll-padding-left: 0;
-      gap: 14px;                   /* malo kompaktnije među-kartično rastojanje */
+      gap: 12px;
     }
-    /* ~upola visine: smanji padding, logo, border-radius */
     .partner-card{
-      padding: 6px 12px !important;     /* bilo ~py-3 px-6 (12px/24px) */
-      border-radius: 8px !important;     /* bilo 12px */
+      padding: 12px 24px !important;    /* normalna visina */
+      border-radius: 12px !important;
     }
     .partner-card .logo{
-      width: 24px !important;            /* bilo 48px (w-12) */
-      height: 24px !important;
+      width: 48px !important;
+      height: 48px !important;
     }
-    /* sitno štelovanje teksta da zadrži balans visine bez gubitka čitljivosti */
-    .partner-card .kicker{ font-size: 10px !important; line-height: 1.1; }
-    .partner-card .brand { font-size: 0.95rem !important; line-height: 1.1; }
+    .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
+    .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
   }
 </style>
 
@@ -902,6 +914,7 @@ img, video { max-width: 100%; height: auto; }
     }
   })();
 </script>
+
 
 
 
@@ -2975,6 +2988,7 @@ imageObserver.observe(img);
 
 </body>
 </html>
+
 
 
 
