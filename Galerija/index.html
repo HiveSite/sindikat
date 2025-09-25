@@ -5,258 +5,241 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sindikat – Galerija</title>
 <meta name="description" content="Sindikat – foto i video galerija naših događaja. Filtriraj po godini, lokaciji i tipu. Klikni za fullscreen, preuzimanje ili dijeljenje.">
+
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config = { theme:{ extend:{ fontFamily:{ montserrat:['Montserrat','sans-serif'], inter:['Inter','sans-serif'] }, colors:{ gold:'#FFD700', 'electric-blue':'#00BFFF' } } } }
+tailwind.config = { theme:{ extend:{ fontFamily:{ montserrat:['Montserrat','sans-serif'], inter:['Inter','sans-serif'] }, colors:{ gold:'#FFD700', 'electric-blue':'00BFFF' } } } }
 </script>
+
 <style>
 :root{ --nav-h:72px; }
 body{ padding-top:var(--nav-h); }
 html{ scroll-behavior:smooth; }
+
 .gradient-gold{ background:linear-gradient(135deg,#FFD700,#FFA500); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.gradient-blue{ background:linear-gradient(135deg,#00BFFF,#0080FF); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.gradient-blue{  background:linear-gradient(135deg,#00BFFF,#0080FF); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
 .tag{ border:1px solid rgba(255,255,255,.16); }
 .btn-animate{ position:relative; overflow:hidden; transition:transform .25s ease; }
 .btn-animate::before{content:'';position:absolute;inset:0;left:-120%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .6s ease;}
 .btn-animate:hover::before{left:120%;}
 .btn-animate:hover{ transform:translateY(-2px);} 
+
 /* Lightbox */
 .modal-wrap{ position:fixed; inset:0; display:none; }
 .modal-wrap.active{ display:block; }
 
-/* === DODATO: util za linkove i mobile-open state === */
-.touch-target{ padding: 10px 4px; }
-.mobile-open #mobileMenu{ opacity:1; pointer-events:auto; }
-.mobile-open #menuBtn{ border-color:#FFD700; }
+/* Partners scroller */
+.partners-scroller{ -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory; overflow-x:auto; overflow-y:hidden; }
+.partners-scroller>div{ scroll-snap-align:start; }
+
+/* Utility */
+.touch-target{ padding:10px 4px; }
+.hide-scrollbar{ scrollbar-width:none; }
+.hide-scrollbar::-webkit-scrollbar{ display:none; }
 </style>
 </head>
+
 <body class="bg-black text-white font-inter">
-  <!-- NAV -->
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 h-[72px] flex items-center justify-between">
-      <a href="/" class="text-xl md:text-2xl font-bold font-montserrat gradient-gold">SINDIKAT</a>
+  <!-- NAV (jedan, ujednačen, CSS-only mobile) -->
+  <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+      <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
 
-      <!-- Desktop -->
-      
-<!-- NAV (isti stil, SINDIKAT) -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-    <!-- Logo -->
-    <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
+      <!-- Desktop meni -->
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="https://sindikatevents.me/"         class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
+        <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
+        <a href="https://sindikatevents.me/blog/"    class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
+        <a href="https://sindikatevents.me/galerija/"class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
+        <a href="https://sindikatevents.me/onama/"   class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
+        <a href="https://sindikatevents.me/kontakt/" class="block px-4 py-2 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+      </div>
 
-    <!-- Desktop meni -->
-    <div class="hidden md:flex items-center gap-6 text-sm">
-      <a href="https://sindikatevents.me/"         class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-      <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-      <a href="https://sindikatevents.me/blog/"    class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-      <a href="https://sindikatevents.me/galerija/"class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-      <a href="https://sindikatevents.me/onama/" class="block w-full font-medium text-sm hover:border-gold transition">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/"
-           class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-      </a>
+      <!-- Burger (CSS-only) -->
+      <label for="mobileNav"
+             class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
+             aria-label="Otvori meni">☰</label>
     </div>
 
-    <!-- Burger (CSS-only): label kontroliše checkbox ispod -->
-    <label for="mobileNav"
-           class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-           aria-label="Otvori meni">☰</label>
+    <!-- Kontrolni checkbox (peer) -->
+    <input id="mobileNav" type="checkbox" class="peer sr-only" />
+
+    <!-- MOBILE OVERLAY -->
+    <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
+                peer-checked:opacity-100 peer-checked:pointer-events-auto">
+      <!-- Close (X) -->
+      <label for="mobileNav"
+             class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
+             aria-label="Zatvori meni">
+        <span class="text-2xl leading-none">×</span>
+      </label>
+
+      <!-- Linkovi (offset ispod nav bara) -->
+      <div class="absolute top-[72px] left-0 right-0">
+        <nav class="px-4 pt-4 pb-16 space-y-2">
+          <a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
+          <a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
+          <a href="https://sindikatevents.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
+          <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
+          <a href="https://sindikatevents.me/onama/"    class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
+          <a href="https://sindikatevents.me/kontakt/"  class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+        </nav>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / POČETNI DIO (opciono za Galeriju možeš dodati) -->
+  <header class="pt-28 pb-6 text-center max-w-3xl mx-auto px-4">
+    <h1 class="text-4xl md:text-5xl font-bold font-montserrat">Foto & Video <span class="gradient-gold">Galerija</span></h1>
+    <p class="mt-4 text-gray-300">Najbolji momenti sa naših događaja. Filtriraj po godini, lokaciji ili tipu – klikni na fotku za fullscreen, preuzmi ili podijeli.</p>
+  </header>
+
+  <!-- FILTER BAR -->
+  <section class="border-y border-gray-800 bg-gray-900/40">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <div class="flex gap-3 items-center">
+        <select id="yearSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
+          <option value="all">Sve godine</option>
+          <option>2025</option>
+          <option>2024</option>
+          <option>2023</option>
+        </select>
+        <select id="locSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
+          <option value="all">Sve lokacije</option>
+          <option>Podgorica</option>
+          <option>Budva</option>
+          <option>Kotor</option>
+          <option>Tivat</option>
+        </select>
+        <select id="sortSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
+          <option value="new">Najnovije</option>
+          <option value="old">Najstarije</option>
+          <option value="az">A–Ž</option>
+        </select>
+      </div>
+      <div class="flex gap-3 items-center">
+        <input id="searchInp" placeholder="Pretraga (npr. 'DJ', 'plaža')" class="w-full md:w-72 bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold" />
+        <button id="clearBtn" class="px-3 py-2 rounded-xl border border-gray-700 hover:border-gold text-sm">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERI / BANERI -->
+  <section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto partners-scroller hide-scrollbar justify-center">
+      <!-- Jägermeister -->
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3">
+        <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png" alt="Jägermeister logo" class="w-12 h-12 object-contain">
+        <div class="text-left">
+          <div class="text-red-500 text-xs font-semibold">DRINK PARTNER</div>
+          <div class="font-bold">Jägermeister</div>
+        </div>
+      </div>
+      <!-- Nikšićko Pivo -->
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3">
+        <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png" alt="Nikšićko Pivo logo" class="w-12 h-12 object-contain">
+        <div class="text-left">
+          <div class="text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
+          <div class="font-bold">Nikšićko Pivo</div>
+        </div>
+      </div>
+      <!-- Hotel Maestral -->
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5K4XX1_pFUmFC7E2E3x1mIpvaNeZPdMr1gw&s" alt="Hotel Maestral logo" class="w-12 h-12 object-contain bg-white rounded">
+        <div class="text-left">
+          <div class="text-blue-400 text-xs font-semibold">PREMIUM PARTNER</div>
+          <div class="font-bold">Hotel Maestral</div>
+        </div>
+      </div>
+      <!-- Coca-Cola -->
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-400/30 flex items-center gap-3">
+        <img src="https://www.citypng.com/public/uploads/preview/hd-official-coca-cola-company-logo-png-701751694778501cwpnlq6cxs.png" alt="Coca-Cola logo" class="w-12 h-12 object-contain bg-white rounded">
+        <div class="text-left">
+          <div class="text-red-400 text-xs font-semibold">REFRESHMENT PARTNER</div>
+          <div class="font-bold">Coca-Cola</div>
+        </div>
+      </div>
+      <!-- m:tel -->
+      <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3">
+        <img src="https://play-lh.googleusercontent.com/ioyCmGzjq9R0Ct_Zz3Qq_kJGCIHt1sXSzbAqRc1OcJdX-jAnyQR6T3nk9voaUw68nmwC" alt="m:tel logo" class="w-12 h-12 object-contain bg-white rounded">
+        <div class="text-left">
+          <div class="text-pink-400 text-xs font-semibold">TECH PARTNER</div>
+          <div class="font-bold">m:tel</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIJA -->
+  <main id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-10">
+    <div id="masonry" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div class="flex items-center justify-center mt-6">
+      <button id="loadMore" class="px-5 py-3 rounded-full border border-gray-700 hover:border-gold btn-animate">Učitaj još</button>
+    </div>
+
+    <!-- Ad slot -->
+    <div class="mt-10 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-3xl p-8 text-center hover:border-gold/50 transition-all">
+      <div class="text-4xl mb-2">📣</div>
+      <h3 class="text-lg font-bold font-montserrat mb-2 text-gray-300">PNG Ad Banner Slot</h3>
+      <p class="text-gray-500 text-sm">336x280 / 728x90 – zadrži monetizaciju</p>
+    </div>
+  </main>
+
+  <!-- KONTAKT MINI-FORMA -->
+  <section id="kontakt" class="bg-gray-900 py-12">
+    <div class="max-w-5xl mx-auto px-4 md:px-6">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold font-montserrat">Zatraži <span class="gradient-gold">ponudu</span></h2>
+          <p class="text-gray-300 mt-3">Trebaš istu produkciju? Pošalji upit – odgovaramo u roku od 24h.</p>
+          <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+            <li>• Tip događaja, broj ljudi, datum</li>
+            <li>• Lokacija i budžetski okvir</li>
+            <li>• Šta je najvažnije za tvoj događaj</li>
+          </ul>
+        </div>
+        <form id="reqForm" class="space-y-4">
+          <input name="name" required placeholder="Ime i prezime" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
+          <input name="email" required type="email" placeholder="Email" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
+          <textarea name="message" rows="4" placeholder="Kratko opiši događaj" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"></textarea>
+          <button class="bg-gold text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-500 btn-animate">Pošalji zahtjev</button>
+          <p id="formMsg" class="text-sm text-gray-400"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 text-center text-sm text-gray-500 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4">© <span id="yearSpan"></span> SINDIKAT – Sve za vaš događaj.</div>
+  </footer>
+
+  <!-- LIGHTBOX / MODAL -->
+  <div id="modal" class="modal-wrap bg-black/80 backdrop-blur-sm">
+    <div class="absolute inset-0" id="modalBg"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[94vw] max-w-5xl">
+      <div class="rounded-2xl bg-black border border-gray-800 p-4 md:p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 id="mTitle" class="text-lg md:text-xl font-bold font-montserrat"></h3>
+            <p id="mMeta" class="text-xs md:text-sm text-gray-400 mt-1"></p>
+          </div>
+          <button id="modalClose" class="text-2xl leading-none">×</button>
+        </div>
+        <div class="mt-4">
+          <img id="mImg" alt="preview" class="w-full rounded-xl object-contain max-h-[80vh]" />
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-2 justify-between">
+          <div id="mTags" class="flex gap-2 flex-wrap text-sm"></div>
+          <div class="flex gap-2">
+            <a id="dlBtn" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm cursor-pointer">Preuzmi</a>
+            <a id="waBtn" target="_blank" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!-- Kontrolni checkbox (peer) -->
-  <input id="mobileNav" type="checkbox" class="peer sr-only" />
-
-  <!-- MOBILE OVERLAY (isti vizuelni jezik, bez JS) -->
-  <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
-              peer-checked:opacity-100 peer-checked:pointer-events-auto">
-    <!-- Close (X) kao label da zatvara meni -->
-    <label for="mobileNav"
-           class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-           aria-label="Zatvori meni">
-      <span class="text-2xl leading-none">×</span>
-    </label>
-
-    <!-- Linkovi (offset ispod nav bara) -->
-    <div class="absolute top-[72px] left-0 right-0">
-      <nav class="px-4 pt-4 pb-16 space-y-2">
-        <a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-        <a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-        <a href="https://sindikatevents.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-        <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-        <a href="https://sindikatevents.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/"
-           class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-      </nav>
-    </div>
-  </div>
-</nav>
-
-
-
-<!-- FILTER BAR -->
-<section class="border-y border-gray-800 bg-gray-900/40">
-<div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-<div class="flex gap-3 items-center">
-<select id="yearSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
-<option value="all">Sve godine</option>
-<option>2025</option>
-<option>2024</option>
-<option>2023</option>
-</select>
-<select id="locSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
-<option value="all">Sve lokacije</option>
-<option>Podgorica</option>
-<option>Budva</option>
-<option>Kotor</option>
-<option>Tivat</option>
-</select>
-<select id="sortSel" class="bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold">
-<option value="new">Najnovije</option>
-<option value="old">Najstarije</option>
-<option value="az">A–Ž</option>
-</select>
-</div>
-<div class="flex gap-3 items-center">
-<input id="searchInp" placeholder="Pretraga (npr. 'DJ', 'plaža')" class="w-full md:w-72 bg-black/70 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-gold" />
-<button id="clearBtn" class="px-3 py-2 rounded-xl border border-gray-700 hover:border-gold text-sm">Reset</button>
-</div>
-</div>
-</section>
-
-<!-- PARTNERI / BANERI -->
-<section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
-  <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto partners-scroller hide-scrollbar justify-center">
-
-    
-    <!-- Jägermeister -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3">
-      <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png" 
-           alt="Jägermeister logo" 
-           class="w-12 h-12 object-contain">
-      <div class="text-left">
-        <div class="text-red-500 text-xs font-semibold">DRINK PARTNER</div>
-        <div class="font-bold">Jägermeister</div>
-      </div>
-    </div>
-
-    <!-- Nikšićko Pivo -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3">
-      <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png" 
-           alt="Nikšićko Pivo logo" 
-           class="w-12 h-12 object-contain">
-      <div class="text-left">
-        <div class="text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
-        <div class="font-bold">Nikšićko Pivo</div>
-      </div>
-    </div>
-
-    <!-- Hotel Maestral -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5K4XX1_pFUmFC7E2E3x1mIpvaNeZPdMr1gw&s" 
-           alt="Hotel Maestral logo" 
-           class="w-12 h-12 object-contain bg-white rounded">
-      <div class="text-left">
-        <div class="text-blue-400 text-xs font-semibold">PREMIUM PARTNER</div>
-        <div class="font-bold">Hotel Maestral</div>
-      </div>
-    </div>
-
-    <!-- Coca-Cola -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-400/30 flex items-center gap-3">
-      <img src="https://www.citypng.com/public/uploads/preview/hd-official-coca-cola-company-logo-png-701751694778501cwpnlq6cxs.png" 
-           alt="Coca-Cola logo" 
-           class="w-12 h-12 object-contain bg-white rounded">
-      <div class="text-left">
-        <div class="text-red-400 text-xs font-semibold">REFRESHMENT PARTNER</div>
-        <div class="font-bold">Coca-Cola</div>
-      </div>
-    </div>
-
-    <!-- m:tel -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3">
-      <img src="https://play-lh.googleusercontent.com/ioyCmGzjq9R0Ct_Zz3Qq_kJGCIHt1sXSzbAqRc1OcJdX-jAnyQR6T3nk9voaUw68nmwC" 
-           alt="m:tel logo" 
-           class="w-12 h-12 object-contain bg-white rounded">
-      <div class="text-left">
-        <div class="text-pink-400 text-xs font-semibold">TECH PARTNER</div>
-        <div class="font-bold">m:tel</div>
-      </div>
-    </div>
-
-    
-
-  </div>
-</section>
-
-<!-- GALERIJA -->
-<main id="galerija" class="max-w-7xl mx-auto px-4 md:px-6 py-10">
-<div id="masonry" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-<div class="flex items-center justify-center mt-6">
-<button id="loadMore" class="px-5 py-3 rounded-full border border-gray-700 hover:border-gold btn-animate">Učitaj još</button>
-</div>
-
-<!-- Ad slot -->
-<div class="mt-10 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-3xl p-8 text-center hover:border-gold/50 transition-all">
-<div class="text-4xl mb-2">📣</div>
-<h3 class="text-lg font-bold font-montserrat mb-2 text-gray-300">PNG Ad Banner Slot</h3>
-<p class="text-gray-500 text-sm">336x280 / 728x90 – zadrži monetizaciju</p>
-</div>
-</main>
-
-<!-- KONTAKT MINI-FORMA -->
-<section id="kontakt" class="bg-gray-900 py-12">
-<div class="max-w-5xl mx-auto px-4 md:px-6">
-<div class="grid md:grid-cols-2 gap-8 items-start">
-<div>
-<h2 class="text-2xl md:text-3xl font-bold font-montserrat">Zatraži <span class="gradient-gold">ponudu</span></h2>
-<p class="text-gray-300 mt-3">Trebaš istu produkciju? Pošalji upit – odgovaramo u roku od 24h.</p>
-<ul class="mt-4 space-y-2 text-gray-400 text-sm">
-<li>• Tip događaja, broj ljudi, datum</li>
-<li>• Lokacija i budžetski okvir</li>
-<li>• Šta je najvažnije za tvoj događaj</li>
-</ul>
-</div>
-<form id="reqForm" class="space-y-4">
-<input name="name" required placeholder="Ime i prezime" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
-<input name="email" required type="email" placeholder="Email" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"/>
-<textarea name="message" rows="4" placeholder="Kratko opiši događaj" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-800 focus:border-gold outline-none"></textarea>
-<button class="bg-gold text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-500 btn-animate">Pošalji zahtjev</button>
-<p id="formMsg" class="text-sm text-gray-400"></p>
-</form>
-</div>
-</div>
-</section>
-
-<!-- FOOTER -->
-<footer class="py-8 text-center text-sm text-gray-500 border-t border-gray-800">
-<div class="max-w-7xl mx-auto px-4">© <span id="yearSpan"></span> SINDIKAT – Sve za vaš događaj.</div>
-</footer>
-
-<!-- LIGHTBOX / MODAL -->
-<div id="modal" class="modal-wrap bg-black/80 backdrop-blur-sm">
-<div class="absolute inset-0" id="modalBg"></div>
-<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[94vw] max-w-5xl">
-<div class="rounded-2xl bg-black border border-gray-800 p-4 md:p-6">
-<div class="flex items-start justify-between gap-4">
-<div>
-<h3 id="mTitle" class="text-lg md:text-xl font-bold font-montserrat"></h3>
-<p id="mMeta" class="text-xs md:text-sm text-gray-400 mt-1"></p>
-</div>
-<button id="modalClose" class="text-2xl leading-none">×</button>
-</div>
-<div class="mt-4">
-<img id="mImg" alt="preview" class="w-full rounded-xl object-contain max-h-[80vh]" />
-</div>
-<div class="mt-4 flex flex-wrap items-center gap-2 justify-between">
-<div id="mTags" class="flex gap-2 flex-wrap text-sm"></div>
-<div class="flex gap-2">
-<a id="dlBtn" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm cursor-pointer">Preuzmi</a>
-<a id="waBtn" target="_blank" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm">WhatsApp</a>
-</div>
-</div>
-</div>
-</div>
-</div>
 
 <script>
 // Year in footer
@@ -267,99 +250,101 @@ const perPage = 6; let shown = 0; let curFilter = 'all';
 
 // Kontrole
 const yearSel = document.getElementById('yearSel');
-const locSel = document.getElementById('locSel');
+const locSel  = document.getElementById('locSel');
 const sortSel = document.getElementById('sortSel');
 const searchInp = document.getElementById('searchInp');
 
 // Mockup ITEMS (thumb + full)
 const ITEMS = [
-{id:'g1', title:'Konferencija – LED stage', cat:'korporativni', year:2025, loc:'Podgorica', tags:['stage','ozvučenje','LED'], img:'https://picsum.photos/id/1011/1200/800', thumb:'https://picsum.photos/id/1011/600/400'},
-{id:'g2', title:'Plažni team building', cat:'team', year:2025, loc:'Budva', tags:['plaža','igre','DJ'], img:'https://picsum.photos/id/1015/1200/800', thumb:'https://picsum.photos/id/1015/600/400'},
-{id:'g3', title:'Vjenčanje – seaside', cat:'vjenčanja', year:2024, loc:'Kotor', tags:['dekor','bend','seaside'], img:'https://picsum.photos/id/1016/1200/800', thumb:'https://picsum.photos/id/1016/600/400'},
-{id:'g4', title:'Privatna žurka – lounge', cat:'privatne', year:2024, loc:'Podgorica', tags:['lounge','kokteli'], img:'https://picsum.photos/id/1021/1200/800', thumb:'https://picsum.photos/id/1021/600/400'},
-{id:'g5', title:'Festival craft koktela', cat:'festival', year:2023, loc:'Tivat', tags:['cocktail','bar'], img:'https://picsum.photos/id/1025/1200/800', thumb:'https://picsum.photos/id/1025/600/400'},
-{id:'g6', title:'STEM događaj – streaming', cat:'korporativni', year:2023, loc:'Podgorica', tags:['stream','radionice'], img:'https://picsum.photos/id/1035/1200/800', thumb:'https://picsum.photos/id/1035/600/400'},
-{id:'g7', title:'Wedding first dance', cat:'vjenčanja', year:2025, loc:'Kotor', tags:['first-dance','light'], img:'https://picsum.photos/id/1039/1200/800', thumb:'https://picsum.photos/id/1039/600/400'},
-{id:'g8', title:'Open air DJ set', cat:'festival', year:2025, loc:'Budva', tags:['DJ','lightshow'], img:'https://picsum.photos/id/1040/1200/800', thumb:'https://picsum.photos/id/1040/600/400'},
-{id:'g9', title:'Corporate award night', cat:'korporativni', year:2024, loc:'Podgorica', tags:['awards','photowall'], img:'https://picsum.photos/id/1041/1200/800', thumb:'https://picsum.photos/id/1041/600/400'}
+  {id:'g1', title:'Konferencija – LED stage', cat:'korporativni', year:2025, loc:'Podgorica', tags:['stage','ozvučenje','LED'], img:'https://picsum.photos/id/1011/1200/800', thumb:'https://picsum.photos/id/1011/600/400'},
+  {id:'g2', title:'Plažni team building',     cat:'team',        year:2025, loc:'Budva',     tags:['plaža','igre','DJ'],       img:'https://picsum.photos/id/1015/1200/800', thumb:'https://picsum.photos/id/1015/600/400'},
+  {id:'g3', title:'Vjenčanje – seaside',      cat:'vjenčanja',   year:2024, loc:'Kotor',     tags:['dekor','bend','seaside'],  img:'https://picsum.photos/id/1016/1200/800', thumb:'https://picsum.photos/id/1016/600/400'},
+  {id:'g4', title:'Privatna žurka – lounge',  cat:'privatne',    year:2024, loc:'Podgorica', tags:['lounge','kokteli'],        img:'https://picsum.photos/id/1021/1200/800', thumb:'https://picsum.photos/id/1021/600/400'},
+  {id:'g5', title:'Festival craft koktela',   cat:'festival',    year:2023, loc:'Tivat',     tags:['cocktail','bar'],          img:'https://picsum.photos/id/1025/1200/800', thumb:'https://picsum.photos/id/1025/600/400'},
+  {id:'g6', title:'STEM događaj – streaming', cat:'korporativni',year:2023, loc:'Podgorica', tags:['stream','radionice'],      img:'https://picsum.photos/id/1035/1200/800', thumb:'https://picsum.photos/id/1035/600/400'},
+  {id:'g7', title:'Wedding first dance',       cat:'vjenčanja',   year:2025, loc:'Kotor',     tags:['first-dance','light'],     img:'https://picsum.photos/id/1039/1200/800', thumb:'https://picsum.photos/id/1039/600/400'},
+  {id:'g8', title:'Open air DJ set',           cat:'festival',    year:2025, loc:'Budva',     tags:['DJ','lightshow'],          img:'https://picsum.photos/id/1040/1200/800', thumb:'https://picsum.photos/id/1040/600/400'},
+  {id:'g9', title:'Corporate award night',     cat:'korporativni',year:2024, loc:'Podgorica', tags:['awards','photowall'],      img:'https://picsum.photos/id/1041/1200/800', thumb:'https://picsum.photos/id/1041/600/400'}
 ];
 
 function applyFilters(list){
-return list.filter(x => (curFilter==='all' || x.cat===curFilter))
-.filter(x => (yearSel.value==='all' || String(x.year)===yearSel.value))
-.filter(x => (locSel.value==='all' || x.loc===locSel.value))
-.filter(x => {
-const q = searchInp.value.trim().toLowerCase();
-if(!q) return true; const inTags = x.tags.join(' ').toLowerCase();
-return x.title.toLowerCase().includes(q) || inTags.includes(q) || x.loc.toLowerCase().includes(q);
-})
-.sort((a,b)=>{
-if(sortSel.value==='new') return b.year - a.year;
-if(sortSel.value==='old') return a.year - b.year;
-return a.title.localeCompare(b.title);
-});
+  return list
+    .filter(x => (curFilter==='all' || x.cat===curFilter))
+    .filter(x => (yearSel.value==='all' || String(x.year)===yearSel.value))
+    .filter(x => (locSel.value==='all'  || x.loc===locSel.value))
+    .filter(x => {
+      const q = searchInp.value.trim().toLowerCase();
+      if(!q) return true;
+      const inTags = x.tags.join(' ').toLowerCase();
+      return x.title.toLowerCase().includes(q) || inTags.includes(q) || x.loc.toLowerCase().includes(q);
+    })
+    .sort((a,b)=>{
+      if(sortSel.value==='new') return b.year - a.year;
+      if(sortSel.value==='old') return a.year - b.year;
+      return a.title.localeCompare(b.title);
+    });
 }
 
 function render(reset=false){
-const filtered = applyFilters(ITEMS);
-if(reset){ shown = 0; masonry.innerHTML=''; }
-const next = filtered.slice(shown, shown+perPage);
-const html = next.map(x=>`
-       <figure class="rounded-2xl overflow-hidden border border-gray-800 group">
-         <a href="#${x.id}" data-open="${x.id}" class="block relative">
-           <img src="${x.thumb}" loading="lazy" alt="${x.title}" class="w-full aspect-[4/3] object-cover" />
-           <figcaption class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-             <div class="text-sm text-gray-300 flex items-center justify-between gap-3">
-               <span class="font-semibold">${x.title}</span>
-               <span class="px-2 py-0.5 rounded-full text-xs border border-gray-700">${x.cat}</span>
-             </div>
-           </figcaption>
-         </a>
-       </figure>`).join('');
-masonry.insertAdjacentHTML('beforeend', html);
-shown += next.length;
-document.getElementById('loadMore').disabled = shown >= filtered.length;
-document.getElementById('loadMore').classList.toggle('opacity-50', shown >= filtered.length);
+  const filtered = applyFilters(ITEMS);
+  if(reset){ shown = 0; masonry.innerHTML=''; }
+  const next = filtered.slice(shown, shown+perPage);
+  const html = next.map(x=>`
+    <figure class="rounded-2xl overflow-hidden border border-gray-800 group">
+      <a href="#${x.id}" data-open="${x.id}" class="block relative">
+        <img src="${x.thumb}" loading="lazy" alt="${x.title}" class="w-full aspect-[4/3] object-cover" />
+        <figcaption class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+          <div class="text-sm text-gray-300 flex items-center justify-between gap-3">
+            <span class="font-semibold">${x.title}</span>
+            <span class="px-2 py-0.5 rounded-full text-xs border border-gray-700">${x.cat}</span>
+          </div>
+        </figcaption>
+      </a>
+    </figure>`).join('');
+  masonry.insertAdjacentHTML('beforeend', html);
+  shown += next.length;
+  const lm = document.getElementById('loadMore');
+  lm.disabled = shown >= filtered.length;
+  lm.classList.toggle('opacity-50', lm.disabled);
 }
 
-// Filter dugmad iz hero (ako dodaš tag dugmad iznad galerije)
+// Dugmad iz nekog hero-a (ako dodaš)
 document.querySelectorAll('button[data-filter]').forEach(btn=>{
-btn.addEventListener('click',()=>{
-curFilter = btn.dataset.filter; render(true);
-document.querySelectorAll('button[data-filter]').forEach(b=>b.classList.remove('border-gold'));
-btn.classList.add('border-gold');
-});
+  btn.addEventListener('click',()=>{
+    curFilter = btn.dataset.filter; render(true);
+    document.querySelectorAll('button[data-filter]').forEach(b=>b.classList.remove('border-gold'));
+    btn.classList.add('border-gold');
+  });
 });
 
 // Ostale kontrole
 yearSel.addEventListener('change', ()=>render(true));
-locSel.addEventListener('change', ()=>render(true));
+locSel.addEventListener('change',  ()=>render(true));
 sortSel.addEventListener('change', ()=>render(true));
-searchInp.addEventListener('input', ()=>render(true));
+searchInp.addEventListener('input',()=>render(true));
 document.getElementById('clearBtn').addEventListener('click',()=>{
-curFilter='all'; yearSel.value='all'; locSel.value='all'; sortSel.value='new'; searchInp.value='';
-document.querySelectorAll('button[data-filter]').forEach(b=>b.classList.remove('border-gold'));
-render(true);
+  curFilter='all'; yearSel.value='all'; locSel.value='all'; sortSel.value='new'; searchInp.value='';
+  document.querySelectorAll('button[data-filter]').forEach(b=>b.classList.remove('border-gold'));
+  render(true);
 });
-
 document.getElementById('loadMore').addEventListener('click',()=>render());
 
 // LIGHTBOX (modal)
-const modal = document.getElementById('modal');
-const mImg = document.getElementById('mImg');
+const modal  = document.getElementById('modal');
+const mImg   = document.getElementById('mImg');
 const mTitle = document.getElementById('mTitle');
-const mMeta = document.getElementById('mMeta');
-const mTags = document.getElementById('mTags');
+const mMeta  = document.getElementById('mMeta');
+const mTags  = document.getElementById('mTags');
 
 function openModal(x){
-mImg.src = x.img; mTitle.textContent = x.title;
-mMeta.textContent = `${x.loc} • ${x.year}`;
-mTags.innerHTML = x.tags.map(t=>`<span class='px-2 py-1 rounded-full border border-gray-700'>#${t}</span>`).join('');
-const url = new URL(window.location); url.hash = x.id; history.replaceState(null,'',url);
-document.getElementById('dlBtn').setAttribute('href', x.img);
-document.getElementById('dlBtn').setAttribute('download', x.id + '.jpg');
-document.getElementById('waBtn').setAttribute('href', `https://wa.me/?text=${encodeURIComponent(x.title+' '+url.toString())}`);
-modal.classList.add('active');
+  mImg.src = x.img; mTitle.textContent = x.title;
+  mMeta.textContent = `${x.loc} • ${x.year}`;
+  mTags.innerHTML = x.tags.map(t=>`<span class='px-2 py-1 rounded-full border border-gray-700'>#${t}</span>`).join('');
+  const url = new URL(window.location); url.hash = x.id; history.replaceState(null,'',url);
+  document.getElementById('dlBtn').setAttribute('href', x.img);
+  document.getElementById('dlBtn').setAttribute('download', x.id + '.jpg');
+  document.getElementById('waBtn').setAttribute('href', `https://wa.me/?text=${encodeURIComponent(x.title+' '+url.toString())}`);
+  modal.classList.add('active');
 }
 function closeModal(){ modal.classList.remove('active'); }
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -367,50 +352,26 @@ document.getElementById('modalBg').addEventListener('click', closeModal);
 
 // Delegacija za otvaranje
 document.addEventListener('click', (e)=>{
-const a = e.target.closest('a[data-open]');
-if(a){ e.preventDefault(); const id=a.dataset.open; const x = ITEMS.find(i=>i.id===id); if(x) openModal(x); }
+  const a = e.target.closest('a[data-open]');
+  if(a){ e.preventDefault(); const id=a.dataset.open; const x = ITEMS.find(i=>i.id===id); if(x) openModal(x); }
 });
 
 // Kontakt forma (demo potvrda)
 document.getElementById('reqForm').addEventListener('submit',(e)=>{
-e.preventDefault();
-document.getElementById('formMsg').textContent = 'Hvala! Tvoj zahtjev je poslat – javljamo se uskoro.';
-e.target.reset();
+  e.preventDefault();
+  document.getElementById('formMsg').textContent = 'Hvala! Tvoj zahtjev je poslat – javljamo se uskoro.';
+  e.target.reset();
 });
 
 // Init
 render(true);
 
 // Ako dođemo direktno sa hash-om
-if(location.hash){ const id = location.hash.replace('#',''); const x = ITEMS.find(i=>i.id===id); if(x) openModal(x); }
-
-/* === DODATO: Mobile menu JS (integrisano u postojeći <script>) === */
-const menuBtn   = document.getElementById('menuBtn');
-const menuClose = document.getElementById('menuClose');
-const mobileMenu= document.getElementById('mobileMenu');
-
-function toggleMobileMenu(force){
-const open = (typeof force === 'boolean') ? force : !document.body.classList.contains('mobile-open');
-document.body.classList.toggle('mobile-open', open);
-document.documentElement.classList.toggle('mobile-open', open);
-if(menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-// Zaključaj skrol dok je meni otvoren
-document.body.style.overflow = open ? 'hidden' : '';
+if(location.hash){
+  const id = location.hash.replace('#','');
+  const x = ITEMS.find(i=>i.id===id);
+  if(x) openModal(x);
 }
-window.toggleMobileMenu = toggleMobileMenu;
-
-if(menuBtn)   menuBtn.addEventListener('click', ()=>toggleMobileMenu());
-if(menuClose) menuClose.addEventListener('click', ()=>toggleMobileMenu(false));
-if(mobileMenu) mobileMenu.addEventListener('click', (e)=>{
-if(e.target === mobileMenu) toggleMobileMenu(false);
-});
-window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') toggleMobileMenu(false); });
-if(mobileMenu){
-mobileMenu.querySelectorAll('a').forEach(a=>{
-a.addEventListener('click', ()=>toggleMobileMenu(false));
-});
-}
-/* === /Mobile menu JS === */
 </script>
 </body>
 </html>
