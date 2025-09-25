@@ -279,16 +279,66 @@
   </main>
 
   <!-- FOOTER (samo kontakt) -->
-  <footer class="bg-gray-900 py-16 px-6 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto text-center">
-      <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
-      <a href="https://sindikatevents.me/kontakt/"
-         class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
-        Idi na Kontakt Stranicu
-      </a>
-      <p class="text-gray-500 text-sm mt-6">© 2024 Sindikat — Sva prava zadržana.</p>
+ <footer class="bg-gray-900 py-16 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12">
+
+      <!-- Kolona 1: Brzi kontakt -->
+      <div>
+        <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
+        <div class="space-y-6">
+          <a href="https://wa.me/38267123456" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
+            <div class="text-2xl">📱</div>
+            <div>
+              <h5 class="font-semibold">WhatsApp</h5>
+              <p class="text-sm">+382 67 123 456</p>
+              <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
+            </div>
+          </a>
+          <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
+            <div class="text-2xl">📸</div>
+            <div>
+              <h5 class="font-semibold">Instagram</h5>
+              <p class="text-sm">@sindikat_events</p>
+              <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
+            </div>
+          </a>
+          <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+            <div class="text-2xl">📞</div>
+            <div>
+              <h5 class="font-semibold">Telefon</h5>
+              <p class="text-sm">+382 20 123 456</p>
+              <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+            <div class="text-2xl">📍</div>
+            <div>
+              <h5 class="font-semibold">Lokacija</h5>
+              <p class="text-sm">Podgorica, Crna Gora</p>
+              <p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kolona 2: Dugme za kontakt --> 
+      <div class="flex flex-col justify-center">
+        <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
+        <a href="https://sindikatevents.me/kontakt/"
+           class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
+          Idi na Kontakt Stranicu
+        </a>
+      </div>
     </div>
-  </footer>
+
+    <!-- Donji red -->
+    <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+      <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
+    </div>
+  </div>
+</footer>
 
   <!-- LIGHTBOX / MODAL -->
   <div id="modal" class="modal-wrap bg-black/80 backdrop-blur-sm">
