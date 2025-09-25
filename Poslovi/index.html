@@ -282,17 +282,21 @@
             <button id="clearFilters" class="mt-2 w-full px-3 py-2 rounded-md border border-neutral-700 hover:border-gold">Očisti filtere</button>
           </div>
           <div class="mt-5">
-          <div class="mt-5">
   <div class="text-xs text-neutral-400 mb-2">Sponsor</div>
-  <a href="#" class="block group" aria-label="Jägermeister oglas">
-    <img
-      src="https://www.drinksupermarket.com/media/catalog/product/cache/8240349af4c6b2aac4dc703710c4a1d6/j/a/jagermeister-liqueur-lifestyle3.jpg"
-      alt="Jägermeister – lifestyle vizual"
-      loading="lazy"
-      class="h-[600px] w-full object-cover rounded-xl border border-neutral-800 group-hover:border-gold transition"
-    />
-  </a>
+  <div class="overflow-hidden rounded-xl border border-neutral-800">
+    <div class="w-full aspect-[300/600]">
+      <img
+        src="https://www.drinksupermarket.com/media/catalog/product/cache/8240349af4c6b2aac4dc703710c4a1d6/j/a/jagermeister-liqueur-lifestyle3.jpg"
+        alt="Jägermeister – lifestyle vizual"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+        class="w-full h-full object-cover block"
+      />
+    </div>
+  </div>
 </div>
+
 
         </aside>
 
@@ -626,18 +630,17 @@
 
      const inlineAd = () => `
   <div class="glass rounded-2xl p-0 overflow-hidden">
-    <a href="#" target="_blank" rel="noopener" class="block group" aria-label="Sponzorisani baner">
-      <div class="w-full aspect-[970/250]">
-        <img
-          src="https://montenegro.socialimpactaward.net/app/uploads/sites/17/2025/07/0P3A5763-1200x600.jpg"
-          alt="Sponzorisani vizual"
-          loading="lazy"
-          class="w-full h-full object-cover transition-transform group-hover:scale-[1.01]"
-        />
-      </div>
-    </a>
+    <div class="w-full aspect-[970/250]">
+      <img
+        src="https://montenegro.socialimpactaward.net/app/uploads/sites/17/2025/07/0P3A5763-1200x600.jpg"
+        alt="Sponzorisani vizual"
+        loading="lazy"
+        class="w-full h-full object-cover block"
+      />
+    </div>
   </div>
 `;
+
 
 
       const types = ["Full-time","Part-time","Sezonski","Praksa","Freelance","Remote"];
