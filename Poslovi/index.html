@@ -411,28 +411,57 @@
       /* =========================
          MOCK DATA + LOCAL UX
       ==========================*/
-      const baseJobs = [
-        { id:"j1", title:"Barmen (sezonski)", company:"Hotel Splendid", location:"Budva", category:"Ugostiteljstvo", type:"Sezonski", pay:1000, posted:"2025-09-05", desc:"Iskustvo u koktelima, rad u smjenama, obezbijeđen smještaj.", apply:"hr@splendid.me" },
-        { id:"j2", title:"Junior Social Media Manager", company:"HIVE Agency", location:"Podgorica", category:"Marketing & Dizajn", type:"Full-time", pay:800, posted:"2025-09-03", desc:"Kreiranje sadržaja, analitika, plan objava. Prednost poznavanje Canva & Meta Suite.", apply:"https://forms.gle/example" },
-        { id:"j3", title:"DJ za evente (freelance)", company:"ProSound CG", location:"Podgorica / terenski", category:"Audio/Video & Produkcija", type:"Freelance", pay:70, posted:"2025-09-01", desc:"Svirke po eventima, sopstvena oprema prednost.", apply:"talents@prosnd.me" },
-        { id:"j4", title:"Koordinator događaja", company:"Sindikat", location:"Podgorica", category:"Event menadžment", type:"Full-time", pay:900, posted:"2025-08-30", desc:"Organizacija i logistika, rad sa dobavljačima, vođenje timova.", apply:"people@sindikat.me" },
-        { id:"j5", title:"Fotograf (part-time)", company:"HIVE Agency", location:"Nikšić", category:"Audio/Video & Produkcija", type:"Part-time", pay:600, posted:"2025-09-06", desc:"Event i lifestyle fotografija, portfolio obavezan.", apply:"https://hive.me/jobs/foto" },
-        { id:"j6", title:"Front-End praktikant", company:"StartUp Podgorica", location:"Remote", category:"IT & Digital", type:"Praksa", pay:0, posted:"2025-08-28", desc:"HTML/CSS/JS osnove, mentorstvo i realni projekti.", apply:"dev@supg.me" },
-        { id:"j7", title:"Konobar", company:"Hard Rock Cafe Podgorica", location:"Podgorica", category:"Ugostiteljstvo", type:"Full-time", pay:700, posted:"2025-09-08", desc:"Usluživanje gostiju, rad u smjenama, poželjno iskustvo 1+ godina.", apply:"jobs@hrcpg.me" },
-        { id:"j8", title:"Barista (part-time)", company:"Kafeterija Central", location:"Podgorica", category:"Ugostiteljstvo", type:"Part-time", pay:450, posted:"2025-09-04", desc:"Priprema espresso napitaka, rad sa gostima, higijena aparata.", apply:"central@kafe.me" },
-        { id:"j9", title:"Hostesa (sezona)", company:"Beach Club Tropic", location:"Budva", category:"Ugostiteljstvo", type:"Sezonski", pay:900, posted:"2025-09-02", desc:"Komunikativnost i poznavanje engleskog. Smještaj obezbijeđen.", apply:"apply@tropic.me" },
-        { id:"j10", title:"Grafički dizajner", company:"Studio Pixel", location:"Remote", category:"Marketing & Dizajn", type:"Remote", pay:1200, posted:"2025-09-07", desc:"Adobe CC (AI, PS), brendiranje, social vizuali. Portfolio obavezan.", apply:"https://pixel.me/hire" },
-        { id:"j11", title:"Copywriter (freelance)", company:"ContentLab", location:"Remote", category:"Marketing & Dizajn", type:"Freelance", pay:30, posted:"2025-09-04", desc:"Pisanje kampanjskih i web tekstova. Plaćanje po satu/projektu.", apply:"talent@contentlab.io" },
-        { id:"j12", title:"Backend Developer (Node.js)", company:"Logate", location:"Podgorica", category:"IT & Digital", type:"Full-time", pay:1800, posted:"2025-09-05", desc:"Node.js, SQL/NoSQL, REST. Iskustvo sa Docker/K8s prednost.", apply:"careers@logate.com" },
-        { id:"j13", title:"Video montažer", company:"ProSound CG", location:"Podgorica", category:"Audio/Video & Produkcija", type:"Part-time", pay:600, posted:"2025-09-03", desc:"Rez i kolor korekcija, poznavanje Premiere/DaVinci.", apply:"edit@prosnd.me" },
-        { id:"j14", title:"Event asistent (praksa)", company:"Sindikat", location:"Podgorica", category:"Event menadžment", type:"Praksa", pay:0, posted:"2025-09-06", desc:"Terenska logistika, koordinacija partnera, rad vikendom po potrebi.", apply:"events@sindikat.me" },
-        { id:"j15", title:"Recepcionar", company:"Hotel Azul", location:"Tivat", category:"Ugostiteljstvo", type:"Full-time", pay:800, posted:"2025-09-08", desc:"Check-in/out, rad sa PMS sistemom, engleski obavezan.", apply:"hr@azul.me" },
-        { id:"j16", title:"QA Tester", company:"DevWorks", location:"Remote", category:"IT & Digital", type:"Remote", pay:1000, posted:"2025-09-02", desc:"Pisanje test slučajeva, manuelno testiranje web/app.", apply:"qa@devworks.io" },
-        { id:"j17", title:"Office administrator", company:"GreenBuild", location:"Podgorica", category:"Administracija", type:"Full-time", pay:700, posted:"2025-09-01", desc:"Dokumentacija, nabavke, koordinacija sastanaka. MS Office.", apply:"office@greenbuild.me" },
-        { id:"j18", title:"Pomoćni kuvar", company:"Seaside Restaurant", location:"Kotor", category:"Ugostiteljstvo", type:"Full-time", pay:650, posted:"2025-08-31", desc:"Priprema namirnica, pomoć glavnom kuvaru, održavanje higijene.", apply:"kitchen@seaside.me" },
-        { id:"j19", title:"Zvučni tehničar (freelance)", company:"EventPro", location:"Budva", category:"Audio/Video & Produkcija", type:"Freelance", pay:80, posted:"2025-09-09", desc:"Live ozvučenje i miks, rad na eventima. Plaćanje po satu.", apply:"sound@eventpro.me" },
-        { id:"j20", title:"Community Manager (PT, remote)", company:"StartUp Hub Montenegro", location:"Remote", category:"Marketing & Dizajn", type:"Part-time", pay:500, posted:"2025-09-09", desc:"Vođenje zajednice, moderacija Discord/Telegram, osnovni dizajn.", apply:"https://startuphub.me/jobs/cm" },
-      ];
+     const baseJobs = [
+  {
+    id: "j1",
+    title: "Hostesa / Promoter",
+    company: "Sindikat",
+    location: "Crna Gora (više gradova)",
+    category: "Event menadžment",
+    type: "Part-time / Sezonski",
+    pay: 700,
+    posted: "2025-09-09",
+    desc: "Tražimo komunikativne hostese za događaje i promo aktivacije. Poželjno iskustvo u radu sa gostima i engleski jezik. Dinamičan raspored, obezbijeđena uniforma.",
+    apply: "talents@sindikatevents.me"
+  },
+  {
+    id: "j2",
+    title: "DJ za evente (freelance)",
+    company: "Sindikat",
+    location: "Podgorica / terenski",
+    category: "Audio/Video & Produkcija",
+    type: "Freelance",
+    pay: 80,
+    posted: "2025-09-09",
+    desc: "Svirke na korporativnim i privatnim događajima. Poželjno sopstvena oprema i raznovrstan muzički repertoar (pop, house, regionalni hitovi).",
+    apply: "talents@sindikatevents.me"
+  },
+  {
+    id: "j3",
+    title: "Barmen / Event bar",
+    company: "Sindikat",
+    location: "Budva • Podgorica • Kotor",
+    category: "Ugostiteljstvo",
+    type: "Sezonski / Part-time",
+    pay: 900,
+    posted: "2025-09-08",
+    desc: "Rad na mobilnim barovima, klasični i signature kokteli. Prednost iskustvo u event okruženju. Obuka za recepte i standarde na licu mjesta.",
+    apply: "talents@sindikatevents.me"
+  },
+  {
+    id: "j4",
+    title: "Social Media Manager (PT / remote)",
+    company: "Sindikat",
+    location: "Remote",
+    category: "Marketing & Dizajn",
+    type: "Part-time / Remote",
+    pay: 600,
+    posted: "2025-09-08",
+    desc: "Plan i vođenje sadržaja za Instagram/TikTok, copy, short-form video, osnovni dizajn (Canva/Adobe). Prednost iskustvo u event ili hospitality niši.",
+    apply: "talents@sindikatevents.me"
+  }
+];
+
 
       const perPage = 5;
       let page = 1;
