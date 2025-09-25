@@ -101,7 +101,7 @@ window.addEventListener('resize', setNavHeight);
 })();
 </script>
 
-!-- SINDIKAT: GLOBAL STYLE + TRACKERS (safe inject ako nedostaju) -->
+<!-- !-- SINDIKAT: GLOBAL STYLE + TRACKERS (safe inject ako nedostaju) -->
 <style>
   :root { --nav-h: 0px; }
   html{scroll-behavior:smooth;}
@@ -2524,6 +2524,150 @@ imageObserver.observe(img);
 });
 }
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+
+<!-- SINDIKAT: NAV + FOOTER NORMALIZER (ne dira tvoj sadržaj/skripte) -->
+<script>
+(function(){
+
+  /* === Uniform NAV – isti na svim stranicama (desktop + mobile) === */
+  var NAV_HTML = `
+<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+    <a href="https://weareconnect.me/" class="text-2xl font-extrabold" style="background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">SINDIKAT</a>
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      <a href="https://weareconnect.me/"         class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Početna</a>
+      <a href="https://weareconnect.me/poslovi/" class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Poslovi</a>
+      <a href="https://weareconnect.me/blog/"    class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Blog</a>
+      <a href="https://weareconnect.me/galerija/"class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Galerija</a>
+      <a href="https://weareconnect.me/onama/"   class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">O nama</a>
+      <a href="https://weareconnect.me/#contact/" class="block px-4 py-2 rounded-xl bg-[#FFD700] text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+    </div>
+    <label for="mobileNav" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-yellow-400 transition cursor-pointer" aria-label="Otvori meni">☰</label>
+  </div>
+
+  <input id="mobileNav" type="checkbox" class="peer sr-only" />
+
+  <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden peer-checked:opacity-100 peer-checked:pointer-events-auto">
+    <label for="mobileNav" class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-yellow-400 transition cursor-pointer" aria-label="Zatvori meni">
+      <span class="text-2xl leading-none">×</span>
+    </label>
+    <div class="absolute top-[72px] left-0 right-0">
+      <nav class="px-4 pt-4 pb-16 space-y-2">
+        <a href="https://weareconnect.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Početna</a>
+        <a href="https://weareconnect.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Poslovi</a>
+        <a href="https://weareconnect.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Blog</a>
+        <a href="https://weareconnect.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Galerija</a>
+        <a href="https://weareconnect.me/onama/"    class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">O nama</a>
+        <a href="https://weareconnect.me/#contact/" class="block w-full px-4 py-4 rounded-xl bg-[#FFD700] text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+      </nav>
+    </div>
+  </div>
+</nav>`.trim();
+
+  /* === Uniform FOOTER – isti kao na naslovnoj === */
+  var FOOTER_HTML = `
+<footer class="bg-gray-900 py-16 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12">
+      <div>
+        <h4 class="text-lg font-semibold mb-6">Brzi Kontakt</h4>
+        <div class="space-y-6">
+          <a href="https://wa.me/38267123456" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
+            <div class="text-2xl">📱</div>
+            <div>
+              <h5 class="font-semibold">WhatsApp</h5>
+              <p class="text-sm">+382 67 123 456</p>
+              <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
+            </div>
+          </a>
+          <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
+            <div class="text-2xl">📸</div>
+            <div>
+              <h5 class="font-semibold">Instagram</h5>
+              <p class="text-sm">@sindikat_events</p>
+              <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
+            </div>
+          </a>
+          <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+            <div class="text-2xl">📞</div>
+            <div>
+              <h5 class="font-semibold">Telefon</h5>
+              <p class="text-sm">+382 20 123 456</p>
+              <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+            <div class="text-2xl">📍</div>
+            <div>
+              <h5 class="font-semibold">Lokacija</h5>
+              <p class="text-sm">Podgorica, Crna Gora</p>
+              <p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col justify-center">
+        <h4 class="text-lg font-semibold mb-6">Kontaktirajte nas</h4>
+        <a href="https://weareconnect.me/kontakt/" class="inline-block text-center bg-[#FFD700] text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
+          Idi na Kontakt Stranicu
+        </a>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+      <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
+    </div>
+  </div>
+</footer>`.trim();
+
+  function replaceAllNavs(){
+    var navs = document.querySelectorAll('nav');
+    if(navs.length){
+      navs[0].insertAdjacentHTML('beforebegin', NAV_HTML);
+      navs[0].remove();
+      for(var i=1;i<navs.length;i++){ try{ navs[i].remove(); }catch(e){} }
+    }else{
+      document.body.insertAdjacentHTML('afterbegin', NAV_HTML);
+    }
+  }
+  function replaceFooter(){
+    var f = document.querySelector('footer');
+    if(f){ f.insertAdjacentHTML('beforebegin', FOOTER_HTML); f.remove(); }
+    else { document.body.insertAdjacentHTML('beforeend', FOOTER_HTML); }
+  }
+  function ensureContactAnchors(){
+    if(!document.getElementById('contact')){
+      var a=document.createElement('div'); a.id='contact';
+      a.style.position='relative'; a.style.width='1px'; a.style.height='1px'; a.style.overflow='hidden';
+      document.body.appendChild(a);
+    }
+    if(!document.getElementById('kontakt')){
+      var b=document.createElement('div'); b.id='kontakt';
+      b.style.position='relative'; b.style.width='1px'; b.style.height='1px'; b.style.overflow='hidden';
+      document.body.appendChild(b);
+    }
+  }
+  function unify(){
+    replaceAllNavs();
+    replaceFooter();
+    ensureContactAnchors();
+    setTimeout(function(){
+      var nav = document.querySelector('nav'); if(!nav) return;
+      var h = nav.offsetHeight||0;
+      var safe = parseInt(getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-top)'))||0;
+      document.documentElement.style.setProperty('--nav-h', (h+safe)+'px');
+    }, 50);
+  }
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', unify); } else { unify(); }
+})();
+</script>
+<!-- /SINDIKAT NORMALIZER -->
+
+
+
+</body>
 </html>
+
 
