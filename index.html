@@ -648,28 +648,86 @@ img, video { max-width: 100%; height: auto; }
 </button>
 </div>
 
-<!-- Floating Mobile Banner -->
-<!-- Floating jobs banner -->
+<!-- Floating Mobile Banner (responsive, centered on mobile, dismissible) -->
+<style>
+  /* geometrija i responsivnost */
+  #floatingBanner{
+    position: fixed;
+    z-index: 70;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;                 /* centrirano na mobu */
+    display: none;               /* start: skriven */
+    box-sizing: border-box;
+  }
+  /* na ≥640px prebacujemo s centra na desnu stranu, kompaktna širina */
+  @media (min-width: 640px){
+    #floatingBanner{
+      left: auto;
+      right: 20px;
+      width: 360px;
+    }
+  }
+  /* mali fokus ring radi pristupačnosti */
+  .focus-ring:focus-visible{
+    outline: 2px solid rgba(0,0,0,.6);
+    outline-offset: 3px;
+  }
+</style>
+
 <div id="floatingBanner"
-     class="fixed bottom-4 right-4 left-4 sm:left-auto z-50 bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center"
-     style="display:none;">
+     class="fixed z-50 bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center">
   <!-- tekst -->
-  <div>
-    <div class="text-sm font-bold leading-tight">Pretraži poslove</div>
+  <div class="min-w-0">
+    <div class="text-sm font-bold leading-tight truncate">Pretraži poslove</div>
     <div class="text-xs">Pronađi priliku za sebe</div>
   </div>
 
   <!-- CTA link -->
   <a href="/poslovi/"
-     class="px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold whitespace-nowrap">Poslovi</a>
+     class="px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold whitespace-nowrap focus-ring">Poslovi</a>
 
   <!-- X dugme (IZVAN linka) -->
   <button id="closeFloatingBanner"
           type="button"
           aria-label="Zatvori"
           onclick="closeBanner(event)"
-          class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg">×</button>
+          class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
 </div>
+
+<script>
+  (function(){
+    var KEY = 'bannerClosed';
+
+    // prikaži (samo ako nije ranije zatvoren)
+    window.showFloatingBanner = function(){
+      try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+      var el = document.getElementById('floatingBanner');
+      if(!el) return;
+      el.style.display = ''; // pokaži
+    };
+
+    // zatvori + zapamti
+    window.closeBanner = function(e){
+      if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
+      var el = document.getElementById('floatingBanner');
+      if(el){ el.style.display = 'none'; }
+      try{ localStorage.setItem(KEY,'1'); }catch(e){}
+    };
+
+    // auto-prikaz kratko nakon load-a (možeš promijeniti delay)
+    function boot(){
+      setTimeout(window.showFloatingBanner, 800);
+    }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', boot, { once:true });
+    } else {
+      boot();
+    }
+  })();
+</script>
+<!-- /Floating Mobile Banner -->
+
 
 
 
@@ -794,34 +852,24 @@ img, video { max-width: 100%; height: auto; }
 </section>
 
 
-<!-- Sticky Top Ad Banner (FIXED, RESPONSIVE, DISMISSIBLE) -->
+<!-- Sticky Top Ad Banner (responsive, dismissible) -->
 <style>
-  /* Geometrija + responsivnost */
-  #stickyTopAd {
+  #stickyTopAd{
     position: fixed;
     z-index: 40;
-    /* ispod fiksnog nav-a (koristi tvoju varijablu ako postoji) */
     top: calc(var(--nav-h, 72px) + 8px) !important;
     left: 50% !important;
-    transform: translate(-50%, -100%); /* start: sakriven (iznad) */
+    transform: translate(-50%, -100%); /* start: skriven iznad */
     width: calc(100% - 24px);
-    max-width: 960px;                /* šire na desktopu */
+    max-width: 960px;
     box-sizing: border-box;
     border-radius: 12px;
-  }
-  @media (max-width: 768px){
-    #stickyTopAd { max-width: 640px; }  /* kompaktnije na mobu */
-  }
-
-  /* Animacija/transition (poštuje reduced-motion) */
-  #stickyTopAd { 
     transition: transform 500ms ease;
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
   }
-  @media (prefers-reduced-motion: reduce){
-    #stickyTopAd { transition: none !important; }
-  }
+  @media (max-width: 768px){ #stickyTopAd{ max-width: 640px; } }
+  @media (prefers-reduced-motion: reduce){ #stickyTopAd{ transition: none !important; } }
 </style>
 
 <div id="stickyTopAd" role="region" aria-label="Promotivni baner"
@@ -834,20 +882,36 @@ img, video { max-width: 100%; height: auto; }
         <div class="text-white/80 text-xs truncate">Montenegro Events Expo 2024 - Glavni Sponzor</div>
       </div>
     </div>
-
     <div class="flex items-center gap-2 shrink-0">
       <button type="button"
               class="bg-white text-purple-700 px-3 py-1 rounded-full text-xs font-bold hover:bg-gray-100 transition-colors">
         Saznaj Više
       </button>
-      <button type="button" aria-label="Zatvori baner"
+      <button type="button" aria-label="Zatvori"
               onclick="closeStickyAd()"
-              class="h-8 w-8 grid place-items-center rounded-full text-white/80 hover:text-white text-lg leading-none">
-        ×
-      </button>
+              class="h-8 w-8 grid place-items-center rounded-full text-white/80 hover:text-white text-lg leading-none">×</button>
     </div>
   </div>
 </div>
+
+<script>
+  (function(){
+    var KEY = 'stickyTopAdClosed';
+    function show(){
+      try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+      var el = document.getElementById('stickyTopAd'); if(!el) return;
+      setTimeout(function(){ el.style.transform = 'translate(-50%, 0)'; }, 1000);
+    }
+    window.closeStickyAd = function(){
+      var el = document.getElementById('stickyTopAd');
+      if(el){ el.style.transform = 'translate(-50%, -100%)'; }
+      try{ localStorage.setItem(KEY,'1'); }catch(e){}
+    };
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', show, {once:true}); } else { show(); }
+  })();
+</script>
+<!-- /Sticky Top Ad Banner -->
+
 
 <script>
   (function(){
@@ -1731,29 +1795,25 @@ Iskoristite Ponudu
 </section>
 
 
-<!-- Sticky Bottom Banner (responsive, centered, dismissible) -->
+<!-- Sticky Bottom Banner (responsive, dismissible) -->
 <style>
   #stickyBottomBanner{
     position: fixed;
     bottom: 0;
     left: 50% !important;
-    transform: translate(-50%, 100%); /* start: skriven (ispod) */
+    transform: translate(-50%, 100%); /* start: skriven ispod */
     width: calc(100% - 24px);
-    max-width: 960px;          /* šire na desktopu */
+    max-width: 960px;
     z-index: 50;
     box-sizing: border-box;
-    border-top: 1px solid rgba(239, 68, 68, .3); /* border-red-500/30 */
-    border-radius: 12px 12px 0 0; /* meki gornji uglovi */
+    border-top: 1px solid rgba(239,68,68,.3);
+    border-radius: 12px 12px 0 0;
+    transition: transform 500ms ease;
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
-    transition: transform 500ms ease;
   }
-  @media (max-width: 768px){
-    #stickyBottomBanner{ max-width: 640px; }
-  }
-  @media (prefers-reduced-motion: reduce){
-    #stickyBottomBanner{ transition: none !important; }
-  }
+  @media (max-width: 768px){ #stickyBottomBanner{ max-width: 640px; } }
+  @media (prefers-reduced-motion: reduce){ #stickyBottomBanner{ transition: none !important; } }
 </style>
 
 <div id="stickyBottomBanner"
@@ -1772,11 +1832,9 @@ Iskoristite Ponudu
               class="bg-white text-red-600 px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-bold hover:bg-gray-100 transition-all hover:scale-105">
         Rezerviši Sada
       </button>
-      <button type="button" aria-label="Zatvori baner"
+      <button type="button" aria-label="Zatvori"
               onclick="closeStickyBottomBanner()"
-              class="h-8 w-8 md:h-10 md:w-10 grid place-items-center rounded-full text-white/80 hover:text-white text-xl md:text-2xl font-bold leading-none">
-        ×
-      </button>
+              class="h-8 w-8 md:h-10 md:w-10 grid place-items-center rounded-full text-white/80 hover:text-white text-xl md:text-2xl font-bold leading-none">×</button>
     </div>
   </div>
 </div>
@@ -1784,30 +1842,21 @@ Iskoristite Ponudu
 <script>
   (function(){
     var KEY = 'stickyBottomBannerClosed';
-
-    function showStickyBottomBanner(){
-      try { if(localStorage.getItem(KEY)==='true') return; } catch(e){}
-      var el = document.getElementById('stickyBottomBanner');
-      if(!el) return;
-      // iz translate(-50%, 100%) -> translate(-50%, 0)
-      setTimeout(function(){ el.style.transform = 'translate(-50%, 0)'; }, 800);
+    function show(){
+      try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+      var el = document.getElementById('stickyBottomBanner'); if(!el) return;
+      setTimeout(function(){ el.style.transform = 'translate(-50%, 0)'; }, 1000);
     }
-
-    // ostavljam isto ime funkcije kao kod tebe (kompatibilno sa postojećim pozivima)
     window.closeStickyBottomBanner = function(){
       var el = document.getElementById('stickyBottomBanner');
       if(el){ el.style.transform = 'translate(-50%, 100%)'; }
-      try { localStorage.setItem(KEY, 'true'); } catch(e){}
+      try{ localStorage.setItem(KEY,'1'); }catch(e){}
     };
-
-    if(document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', showStickyBottomBanner, { once:true });
-    } else {
-      showStickyBottomBanner();
-    }
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', show, {once:true}); } else { show(); }
   })();
 </script>
 <!-- /Sticky Bottom Banner -->
+
 
 <footer class="bg-gray-900 py-16 px-6">
   <div class="max-w-7xl mx-auto">
@@ -2873,6 +2922,7 @@ imageObserver.observe(img);
 
 </body>
 </html>
+
 
 
 
