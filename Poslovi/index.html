@@ -93,16 +93,134 @@
       </button>
     </div>
 
-    <!-- AD: Leaderboard -->
-    <div class="ad ad-leaderboard border-y border-neutral-900 bg-neutral-950">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <a href="#" class="block w-full">
-          <div class="ad-frame h-24 md:h-28 flex items-center justify-center rounded-xl">
-            <span class="text-neutral-400 text-xs md:text-sm">AD 728×90 / 970×250 – Zamijeni svojim banerom</span>
-          </div>
-        </a>
+  <!-- PARTNERI / BANERI (mobile: half height + scroll from first, desktop: centered normal height) -->
+<style>
+  /* Mobile default: half height — manji padding, manji logo, kompaktniji radius */
+  .partners-scroller{
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 12px;
+  }
+  .partners-scroller > .partner-card{ scroll-snap-align: start; }
+
+  /* sakrij scrollbar, skrol i dalje radi */
+  .hide-scrollbar::-webkit-scrollbar{ display:none; }
+  .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+
+  /* MOBILE “pola visine” */
+  .partner-card{
+    padding: 6px 12px !important;      /* bilo ~py-3 px-6 */
+    border-radius: 8px !important;      /* bilo 12px */
+  }
+  .partner-card .logo{
+    width: 24px !important;             /* bilo 48px (w-12) */
+    height: 24px !important;
+  }
+  .partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
+  .partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
+
+  /* DESKTOP (≥ md): centrirano, bez skrola, normalna visina nazad */
+  @media (min-width: 768px){
+    .partners-scroller{
+      justify-content: center;          /* centriraj red */
+      overflow-x: visible;              /* nema horizontalnog skrola */
+      scroll-snap-type: none;
+      scroll-padding-left: 0;
+      gap: 12px;
+    }
+    .partner-card{
+      padding: 12px 24px !important;    /* normalna visina */
+      border-radius: 12px !important;
+    }
+    .partner-card .logo{
+      width: 48px !important;
+      height: 48px !important;
+    }
+    .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
+    .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
+  }
+</style>
+
+<section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
+  <div id="partnersRow"
+       class="max-w-7xl mx-auto partners-scroller hide-scrollbar -mx-3 px-3"
+       role="list" aria-label="Naši partneri">
+    
+    <!-- Jägermeister -->
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Jägermeister, Drink partner">
+      <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png"
+           alt="Jägermeister logo" class="logo w-12 h-12 object-contain">
+      <div class="text-left">
+        <div class="kicker text-red-500 text-xs font-semibold">DRINK PARTNER</div>
+        <div class="brand font-bold">Jägermeister</div>
       </div>
     </div>
+
+    <!-- Nikšićko Pivo -->
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Nikšićko Pivo, Beer partner">
+      <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png"
+           alt="Nikšićko Pivo logo" class="logo w-12 h-12 object-contain">
+      <div class="text-left">
+        <div class="kicker text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
+        <div class="brand font-bold">Nikšićko Pivo</div>
+      </div>
+    </div>
+
+    <!-- Ploom -->
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Ploom, Premium partner">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Ploom_logo.svg"
+           alt="Ploom logo" class="logo w-12 h-12 object-contain bg-white rounded">
+      <div class="text-left">
+        <div class="kicker text-blue-400 text-xs font-semibold">PREMIUM PARTNER</div>
+        <div class="brand font-bold">Ploom</div>
+      </div>
+    </div>
+
+    <!-- Coca-Cola -->
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-700/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Jack Daniel's, Whiskey partner">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBC47xKaD9UIlcYYCZLLyhI7YiIfeLleB_fg&s"
+           alt="Jack Daniel's logo" class="logo w-12 h-12 object-contain bg-white rounded">
+      <div class="text-left">
+        <div class="kicker text-yellow-700 text-xs font-semibold">WHISKEY PARTNER</div>
+        <div class="brand font-bold">Jack Daniel's</div>
+      </div>
+    </div>
+
+    <!-- m:tel -->
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="m:tel, Tech partner">
+      <img src="https://evessio.s3.amazonaws.com/customer/38fdd951-ed5d-49f2-82f3-ed13e29bcfce/event/94c15195-a9ef-4019-abd1-7ed898236d6c/media/2fa1eb0e-profile_MONKEY_SHOULDER_LOGO_PRIMARY_BLACK_Large.png"
+           alt="m:tel logo" class="logo w-12 h-12 object-contain bg-white rounded">
+      <div class="text-left">
+        <div class="kicker text-pink-400 text-xs font-semibold">PARTNER</div>
+        <div class="brand font-bold">Monkey Shoulder</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Na mobilnom uvijek kreni od prvog elementa
+  (function(){
+    var row = document.getElementById('partnersRow');
+    if(!row) return;
+    function toStart(){ row.scrollLeft = 0; }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', toStart, { once:true });
+    } else {
+      toStart();
+    }
+  })();
+</script>
 
     <!-- HERO + SEARCH -->
     <header class="hero-bg">
@@ -640,7 +758,7 @@
       mobileOverlay?.addEventListener("click", (e)=>{ if (e.target===mobileOverlay) toggleMobileMenu(false); });
       window.addEventListener("keydown", (e)=>{ if (e.key==="Escape") toggleMobileMenu(false); });
       mobileOverlay?.querySelectorAll("a").forEach((a)=> a.addEventListener("click", ()=>toggleMobileMenu(false)));
-      document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("yearSpan").textContent = new Date().getFullYear();
 
       /* =========================
          BACKEND SEND HELPERS
