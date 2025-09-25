@@ -786,15 +786,40 @@ img, video { max-width: 100%; height: auto; }
 </nav>
 
 
-  <!-- PARTNERI / BANERI -->
-<section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
-  <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto partners-scroller hide-scrollbar justify-center">
+<!-- PARTNERI / BANERI (mobile horizontal scroll from first card) -->
+<style>
+  /* momentum scroll + snap + skrivanje skrolbarova */
+  .partners-scroller{
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 12px;
+  }
+  .partners-scroller > .partner-card{
+    scroll-snap-align: start;
+  }
+  /* sakrij skrolbar (ne utiče na skrol) */
+  .hide-scrollbar::-webkit-scrollbar{ display:none; }
+  .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
 
+  /* na većim ekranima dozvoli snap ali bez prisilnog centriranja */
+  @media (min-width: 768px){
+    .partners-scroller{ scroll-padding-left: 0; }
+  }
+</style>
+
+<section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
+  <!-- Uklonili smo justify-center da početak bude NA PRVOM elementu -->
+  <div id="partnersRow"
+       class="max-w-7xl mx-auto flex gap-3 partners-scroller hide-scrollbar -mx-3 px-3"
+       role="list" aria-label="Naši partneri (horizontalni spisak)">
     
     <!-- Jägermeister -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3">
-      <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png" 
-           alt="Jägermeister logo" 
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Jägermeister, Drink partner">
+      <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png"
+           alt="Jägermeister logo"
            class="w-12 h-12 object-contain">
       <div class="text-left">
         <div class="text-red-500 text-xs font-semibold">DRINK PARTNER</div>
@@ -803,9 +828,10 @@ img, video { max-width: 100%; height: auto; }
     </div>
 
     <!-- Nikšićko Pivo -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3">
-      <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png" 
-           alt="Nikšićko Pivo logo" 
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Nikšićko Pivo, Beer partner">
+      <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png"
+           alt="Nikšićko Pivo logo"
            class="w-12 h-12 object-contain">
       <div class="text-left">
         <div class="text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
@@ -814,9 +840,10 @@ img, video { max-width: 100%; height: auto; }
     </div>
 
     <!-- Hotel Maestral -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5K4XX1_pFUmFC7E2E3x1mIpvaNeZPdMr1gw&s" 
-           alt="Hotel Maestral logo" 
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Hotel Maestral, Premium partner">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5K4XX1_pFUmFC7E2E3x1mIpvaNeZPdMr1gw&s"
+           alt="Hotel Maestral logo"
            class="w-12 h-12 object-contain bg-white rounded">
       <div class="text-left">
         <div class="text-blue-400 text-xs font-semibold">PREMIUM PARTNER</div>
@@ -825,9 +852,10 @@ img, video { max-width: 100%; height: auto; }
     </div>
 
     <!-- Coca-Cola -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-400/30 flex items-center gap-3">
-      <img src="https://www.citypng.com/public/uploads/preview/hd-official-coca-cola-company-logo-png-701751694778501cwpnlq6cxs.png" 
-           alt="Coca-Cola logo" 
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="Coca-Cola, Refreshment partner">
+      <img src="https://www.citypng.com/public/uploads/preview/hd-official-coca-cola-company-logo-png-701751694778501cwpnlq6cxs.png"
+           alt="Coca-Cola logo"
            class="w-12 h-12 object-contain bg-white rounded">
       <div class="text-left">
         <div class="text-red-400 text-xs font-semibold">REFRESHMENT PARTNER</div>
@@ -836,9 +864,10 @@ img, video { max-width: 100%; height: auto; }
     </div>
 
     <!-- m:tel -->
-    <div class="min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3">
-      <img src="https://play-lh.googleusercontent.com/ioyCmGzjq9R0Ct_Zz3Qq_kJGCIHt1sXSzbAqRc1OcJdX-jAnyQR6T3nk9voaUw68nmwC" 
-           alt="m:tel logo" 
+    <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3"
+         role="listitem" tabindex="0" aria-label="m:tel, Tech partner">
+      <img src="https://play-lh.googleusercontent.com/ioyCmGzjq9R0Ct_Zz3Qq_kJGCIHt1sXSzbAqRc1OcJdX-jAnyQR6T3nk9voaUw68nmwC"
+           alt="m:tel logo"
            class="w-12 h-12 object-contain bg-white rounded">
       <div class="text-left">
         <div class="text-pink-400 text-xs font-semibold">TECH PARTNER</div>
@@ -846,10 +875,25 @@ img, video { max-width: 100%; height: auto; }
       </div>
     </div>
 
-    
-
   </div>
 </section>
+
+<script>
+  // Osiguraj da strip uvijek krene od početka (prvog item-a)
+  (function(){
+    var row = document.getElementById('partnersRow');
+    if(!row) return;
+    function toStart(){ row.scrollLeft = 0; }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', toStart, { once:true });
+    } else {
+      toStart();
+    }
+    // Ako neko drugi u kodu doda justify-center, ovo vraća poziciju
+    window.addEventListener('resize', toStart, { passive:true });
+  })();
+</script>
+
 
 
 <!-- Sticky Top Ad Banner (responsive, dismissible) -->
@@ -2922,6 +2966,7 @@ imageObserver.observe(img);
 
 </body>
 </html>
+
 
 
 
