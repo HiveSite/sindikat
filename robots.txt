@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sindikat.me/sitemap.xml
+Sitemap: https://sindikatevents.me/sitemap.xml
