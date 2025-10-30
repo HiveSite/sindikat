@@ -300,6 +300,41 @@
     </div>
   </section>
 
+
+
+        <script>
+const form = document.getElementById('contactForm');
+const formState = document.getElementById('formState');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  formState.textContent = "Šalje se...";
+  submitBtn.disabled = true;
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form)
+    });
+
+    const result = await response.json();
+
+    if (result.ok) {
+      form.reset();
+      formState.textContent = "✅ Upit je uspješno poslat!";
+    } else {
+      formState.textContent = "⚠️ Greška pri slanju: " + (result.error || '');
+    }
+  } catch (err) {
+    formState.textContent = "❌ Došlo je do greške na mreži.";
+  }
+
+  submitBtn.disabled = false;
+});
+</script>
+
  
 </body>
 </html>
