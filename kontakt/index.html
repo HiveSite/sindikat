@@ -39,302 +39,257 @@
 <!-- NAV (isti stil, SINDIKAT) -->
 <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-    <!-- Logo -->
     <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
-
-    <!-- Desktop meni -->
     <div class="hidden md:flex items-center gap-6 text-sm">
-      <a href="https://sindikatevents.me/"         class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-      <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-      <a href="https://sindikatevents.me/blog/"    class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-      <a href="https://sindikatevents.me/galerija/"class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-      <a href="https://sindikatevents.me/onama/" class="block w-full font-medium text-sm hover:border-gold transition">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/"
-           class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-      </a>
+      <a href="https://sindikatevents.me/" class="hover:text-gold transition-colors">Početna</a>
+      <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors">Poslovi</a>
+      <a href="https://sindikatevents.me/blog/" class="hover:text-gold transition-colors">Blog</a>
+      <a href="https://sindikatevents.me/galerija/" class="hover:text-gold transition-colors">Galerija</a>
+      <a href="https://sindikatevents.me/onama/" class="hover:text-gold transition-colors">O nama</a>
+      <a href="https://sindikatevents.me/kontakt/" class="px-4 py-2 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
     </div>
-
-    <!-- Burger (CSS-only): label kontroliše checkbox ispod -->
     <label for="mobileNav"
-           class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-           aria-label="Otvori meni">☰</label>
+           class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold cursor-pointer">☰</label>
   </div>
-
-  <!-- Kontrolni checkbox (peer) -->
   <input id="mobileNav" type="checkbox" class="peer sr-only" />
-
-  <!-- MOBILE OVERLAY (isti vizuelni jezik, bez JS) -->
-  <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
+  <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity md:hidden
               peer-checked:opacity-100 peer-checked:pointer-events-auto">
-    <!-- Close (X) kao label da zatvara meni -->
     <label for="mobileNav"
-           class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-           aria-label="Zatvori meni">
+           class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold cursor-pointer">
       <span class="text-2xl leading-none">×</span>
     </label>
-
-    <!-- Linkovi (offset ispod nav bara) -->
     <div class="absolute top-[72px] left-0 right-0">
       <nav class="px-4 pt-4 pb-16 space-y-2">
-        <a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-        <a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-        <a href="https://sindikatevents.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-        <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-        <a href="https://sindikatevents.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/"
-           class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+        <a href="https://sindikatevents.me/" class="block px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold">Početna</a>
+        <a href="https://sindikatevents.me/poslovi/" class="block px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold">Poslovi</a>
+        <a href="https://sindikatevents.me/blog/" class="block px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold">Blog</a>
+        <a href="https://sindikatevents.me/galerija/" class="block px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold">Galerija</a>
+        <a href="https://sindikatevents.me/onama/" class="block px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold">O nama</a>
+        <a href="https://sindikatevents.me/kontakt/" class="block px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95">Kontakt</a>
       </nav>
     </div>
   </div>
 </nav>
-  <!-- HERO -->
-  <header class="py-16 md:py-24 text-center px-6">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Kontakt &nbsp;<span class="gradient-title">Saradnja</span></h1>
-    <p class="text-gray-300 max-w-2xl mx-auto">
-      Jedna forma za sve – <strong>fizička lica</strong> i <strong>kompanije</strong>. Odgovaramo brzo i jasno.
-    </p>
-  </header>
 
-  <!-- CONTACT SECTION -->
-  <section id="kontakt" class="pb-20 px-6">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-5 gap-10">
+<!-- HERO -->
+<header class="py-16 md:py-24 text-center px-6">
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Kontakt &nbsp;<span class="gradient-title">Saradnja</span></h1>
+  <p class="text-gray-300 max-w-2xl mx-auto">
+    Jedna forma za sve – <strong>fizička lica</strong> i <strong>kompanije</strong>. Odgovaramo brzo i jasno.
+  </p>
+</header>
 
-      <!-- INFO -->
-      <aside class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h3 class="text-xl font-semibold mb-4">Brzi kontakt</h3>
-        <div class="space-y-4">
-          <a href="https://wa.me/38267123456" class="flex items-center gap-3 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105">
-            <span class="text-2xl">📱</span>
-            <div>
-              <div class="font-semibold">WhatsApp</div>
-              <div class="text-sm text-green-100">+382 67 506 440 • najbrži odgovor</div>
-            </div>
-          </a>
-          <a href="https://instagram.com/sindikat_events" class="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105">
-            <span class="text-2xl">📸</span>
-            <div>
-              <div class="font-semibold">@sindikat_events</div>
-              <div class="text-sm text-pink-100">pogledajte aktuelne događaje &amp; BTS</div>
-            </div>
-          </a>
-          <div class="p-4 bg-gray-900 rounded-xl border border-gray-800">
-            <div class="flex items-center gap-3">
-              <span class="text-2xl">📍</span>
-              <div>
-                <div class="font-semibold">Podgorica, Crna Gora</div>
-                <div class="text-sm text-gray-400">Služimo cijelu Crnu Goru</div>
-              </div>
-            </div>
-          </div>
-          <a href="tel:+38267506440" class="flex items-center gap-3 p-4 bg-gray-900 rounded-xl border border-gray-800 hover:border-gold transition">
-            <span class="text-2xl">📞</span>
-            <div>
-              <div class="font-semibold">+382 67 506 440</div>
-              <div class="text-sm text-gray-400">Pon–Pet 9–18h</div>
-            </div>
-          </a>
-        </div>
-      </aside>
+<!-- CONTACT SECTION -->
+<section id="kontakt" class="pb-20 px-6">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-5 gap-10">
 
-      <!-- FORM -->
-      <div class="lg:col-span-3 bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-lg">
-    <form id="contactForm" class="space-y-6" method="POST" action="https://script.google.com/macros/s/AKfycbwN7bF1KImcjH_0yAu0ilUEDkvd4297yvbR3geCrzP3a0WfeChZXS4j72Wavnjzkj_cLQ/exec" novalidate>
-          <!-- Honeypot -->
-          <input type="text" name="website" class="hidden-robot" tabindex="-1" autocomplete="off"/>
-
-          <!-- TIP: Fizičko lice / Kompanija -->
+    <!-- INFO -->
+    <aside class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
+      <h3 class="text-xl font-semibold mb-4">Brzi kontakt</h3>
+      <div class="space-y-4">
+        <a href="https://wa.me/38267123456" class="flex items-center gap-3 p-4 bg-green-600 hover:bg-green-700 rounded-xl hover:scale-105 transition-all">
+          <span class="text-2xl">📱</span>
           <div>
-            <label class="block mb-2 font-semibold text-gray-200">Vi ste*</label>
-            <div class="flex items-center gap-6 text-gray-300">
-              <label class="flex items-center gap-2">
-                <input type="radio" name="tip" value="Fizičko lice" checked class="accent-gold">
-                <span>Fizičko lice</span>
-              </label>
-              <label class="flex items-center gap-2">
-                <input type="radio" name="tip" value="Kompanija" class="accent-gold">
-                <span>Kompanija</span>
-              </label>
-            </div>
+            <div class="font-semibold">WhatsApp</div>
+            <div class="text-sm text-green-100">+382 67 506 440 • najbrži odgovor</div>
           </div>
-
-          <!-- OSNOVNO -->
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-2 text-gray-300">Ime i prezime*</label>
-              <input name="ime" required class="field" placeholder="Vaše ime i prezime">
-            </div>
-            <div id="companyFields" class="hidden">
-              <label class="block mb-2 text-gray-300">Naziv kompanije*</label>
-              <input name="kompanija" class="field" placeholder="Npr. Connect d.o.o.">
-            </div>
-          </div>
-
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-2 text-gray-300">Email*</label>
-              <input type="email" name="email" required class="field" placeholder="vas@email.com">
-            </div>
-            <div>
-              <label class="block mb-2 text-gray-300">Telefon</label>
-              <input type="tel" name="telefon" class="field" placeholder="+382 6x xxx xxx">
-            </div>
-          </div>
-
-          <!-- KOMPANIJSKA DODATNA (uslovno) -->
-          <div id="companyMore" class="grid sm:grid-cols-2 gap-4 hidden">
-            <div>
-              <label class="block mb-2 text-gray-300">PIB / Matični broj</label>
-              <input name="pib" class="field" placeholder="PIB/MB">
-            </div>
-            <div>
-              <label class="block mb-2 text-gray-300">Vaša pozicija</label>
-              <input name="pozicija" class="field" placeholder="Npr. Marketing menadžer">
-            </div>
-          </div>
-
-          <!-- DETALJI DOGAĐAJA -->
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-2 text-gray-300">Tip događaja</label>
-              <select name="tipDogadjaja" class="field">
-                <option value="">Odaberite…</option>
-                <option>Korpo event</option>
-                <option>Proslava / privatni event</option>
-                <option>Vjenčanje</option>
-                <option>Promo / lansiranje</option>
-                <option>Festivali / javni događaji</option>
-                <option>Drugo</option>
-              </select>
-            </div>
-            <div>
-              <label class="block mb-2 text-gray-300">Broj gostiju</label>
-              <select name="gosti" class="field">
-                <option value="">Odaberite…</option>
-                <option>do 50</option>
-                <option>50–150</option>
-                <option>150–300</option>
-                <option>300+</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block mb-2 text-gray-300">Datum</label>
-              <input type="date" name="datum" class="field">
-            </div>
-            <div>
-              <label class="block mb-2 text-gray-300">Lokacija</label>
-              <input name="lokacija" class="field" placeholder="Grad / venue">
-            </div>
-            <div>
-              <label class="block mb-2 text-gray-300">Budžet</label>
-              <select name="budzet" class="field">
-                <option value="">Odaberite…</option>
-                <option>&lt; 1.000 €</option>
-                <option>1.000 – 3.000 €</option>
-                <option>3.000 – 7.000 €</option>
-                <option>7.000+ €</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- USLUGE (naša ponuda) -->
+        </a>
+        <a href="https://instagram.com/sindikat_events" class="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl hover:scale-105 transition-all">
+          <span class="text-2xl">📸</span>
           <div>
-            <label class="block mb-3 text-gray-300">Koje usluge su vam potrebne?</label>
-            <div class="grid sm:grid-cols-2 gap-2 text-sm">
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Planiranje i produkcija" class="accent-gold"> Planiranje i produkcija
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Barmeni i kokteli" class="accent-gold"> Barmeni i kokteli
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="DJ / Muzika uživo" class="accent-gold"> DJ / Muzika uživo
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Zvuk i rasvjeta" class="accent-gold"> Zvuk i rasvjeta
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Scenski dizajn i scenografija" class="accent-gold"> Scenski dizajn i scenografija
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Foto / Video" class="accent-gold"> Foto / Video
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Hostese i protokol" class="accent-gold"> Hostese i protokol
-              </label>
-              <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition">
-                <input type="checkbox" name="usluge" value="Event namještaj / dekor" class="accent-gold"> Event namještaj / dekor
-              </label>
-            </div>
+            <div class="font-semibold">@sindikat_events</div>
+            <div class="text-sm text-pink-100">pogledajte aktuelne događaje &amp; BTS</div>
           </div>
-
-          <!-- PORUKA -->
-          <div>
-            <label class="block mb-2 text-gray-300">Detalji / poruka*</label>
-            <textarea name="poruka" rows="4" required class="field" placeholder="Kratko opišite potrebe, ideje ili specifične zahtjeve…"></textarea>
-          </div>
-
-          <!-- SAGLASNOST -->
-          <label class="flex items-start gap-3 text-sm text-gray-400">
-            <input type="checkbox" required class="mt-[4px] accent-gold">
-            <span>Saglasan/na sam da Sindikat obradi moje podatke u svrhu izrade ponude i komunikacije u vezi sa događajem.</span>
-          </label>
-
-          <!-- HIDDEN META -->
-          <input type="hidden" name="source" value="Sindikat – Kontakt strana">
-          <input type="hidden" name="utm_source">
-          <input type="hidden" name="utm_medium">
-          <input type="hidden" name="utm_campaign">
-
-          <!-- SUBMIT -->
+        </a>
+        <div class="p-4 bg-gray-900 rounded-xl border border-gray-800">
           <div class="flex items-center gap-3">
-            <button id="submitBtn" class="bg-gold text-black font-bold px-6 py-3 rounded-full hover:bg-yellow-500 transition-all hover:scale-105" type="submit">
-              Pošalji upit
-            </button>
-            <span id="formState" class="text-sm text-gray-400"></span>
+            <span class="text-2xl">📍</span>
+            <div>
+              <div class="font-semibold">Podgorica, Crna Gora</div>
+              <div class="text-sm text-gray-400">Služimo cijelu Crnu Goru</div>
+            </div>
           </div>
-        </form>
+        </div>
+        <a href="tel:+38267506440" class="flex items-center gap-3 p-4 bg-gray-900 rounded-xl border border-gray-800 hover:border-gold transition">
+          <span class="text-2xl">📞</span>
+          <div>
+            <div class="font-semibold">+382 67 506 440</div>
+            <div class="text-sm text-gray-400">Pon–Pet 9–18h</div>
+          </div>
+        </a>
       </div>
+    </aside>
+
+    <!-- FORM -->
+    <div class="lg:col-span-3 bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-lg">
+      <form id="contactForm" class="space-y-6" novalidate>
+        <input type="text" name="website" class="hidden-robot" tabindex="-1" autocomplete="off"/>
+
+        <div>
+          <label class="block mb-2 font-semibold text-gray-200">Vi ste*</label>
+          <div class="flex items-center gap-6 text-gray-300">
+            <label class="flex items-center gap-2">
+              <input type="radio" name="tip" value="Fizičko lice" checked class="accent-gold"><span>Fizičko lice</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="radio" name="tip" value="Kompanija" class="accent-gold"><span>Kompanija</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-2 text-gray-300">Ime i prezime*</label>
+            <input name="ime" required class="field" placeholder="Vaše ime i prezime">
+          </div>
+          <div id="companyFields" class="hidden">
+            <label class="block mb-2 text-gray-300">Naziv kompanije*</label>
+            <input name="kompanija" class="field" placeholder="Npr. Connect d.o.o.">
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-2 text-gray-300">Email*</label>
+            <input type="email" name="email" required class="field" placeholder="vas@email.com">
+          </div>
+          <div>
+            <label class="block mb-2 text-gray-300">Telefon</label>
+            <input type="tel" name="telefon" class="field" placeholder="+382 6x xxx xxx">
+          </div>
+        </div>
+
+        <div id="companyMore" class="grid sm:grid-cols-2 gap-4 hidden">
+          <div>
+            <label class="block mb-2 text-gray-300">PIB / Matični broj</label>
+            <input name="pib" class="field" placeholder="PIB/MB">
+          </div>
+          <div>
+            <label class="block mb-2 text-gray-300">Vaša pozicija</label>
+            <input name="pozicija" class="field" placeholder="Npr. Marketing menadžer">
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-2 text-gray-300">Tip događaja</label>
+            <select name="tipDogadjaja" class="field">
+              <option value="">Odaberite…</option>
+              <option>Korpo event</option>
+              <option>Proslava / privatni event</option>
+              <option>Vjenčanje</option>
+              <option>Promo / lansiranje</option>
+              <option>Festivali / javni događaji</option>
+              <option>Drugo</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-2 text-gray-300">Broj gostiju</label>
+            <select name="gosti" class="field">
+              <option value="">Odaberite…</option>
+              <option>do 50</option>
+              <option>50–150</option>
+              <option>150–300</option>
+              <option>300+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block mb-2 text-gray-300">Datum</label>
+            <input type="date" name="datum" class="field">
+          </div>
+          <div>
+            <label class="block mb-2 text-gray-300">Lokacija</label>
+            <input name="lokacija" class="field" placeholder="Grad / venue">
+          </div>
+          <div>
+            <label class="block mb-2 text-gray-300">Budžet</label>
+            <select name="budzet" class="field">
+              <option value="">Odaberite…</option>
+              <option>&lt; 1.000 €</option>
+              <option>1.000 – 3.000 €</option>
+              <option>3.000 – 7.000 €</option>
+              <option>7.000+ €</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-3 text-gray-300">Koje usluge su vam potrebne?</label>
+          <div class="grid sm:grid-cols-2 gap-2 text-sm">
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Planiranje i produkcija" class="accent-gold">Planiranje i produkcija</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Barmeni i kokteli" class="accent-gold">Barmeni i kokteli</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="DJ / Muzika uživo" class="accent-gold">DJ / Muzika uživo</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Zvuk i rasvjeta" class="accent-gold">Zvuk i rasvjeta</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Scenski dizajn i scenografija" class="accent-gold">Scenski dizajn i scenografija</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Foto / Video" class="accent-gold">Foto / Video</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Hostese i protokol" class="accent-gold">Hostese i protokol</label>
+            <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 hover:border-gold transition"><input type="checkbox" name="usluge" value="Event namještaj / dekor" class="accent-gold">Event namještaj / dekor</label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-2 text-gray-300">Detalji / poruka*</label>
+          <textarea name="poruka" rows="4" required class="field" placeholder="Kratko opišite potrebe, ideje ili specifične zahtjeve…"></textarea>
+        </div>
+
+        <label class="flex items-start gap-3 text-sm text-gray-400">
+          <input type="checkbox" required class="mt-[4px] accent-gold">
+          <span>Saglasan/na sam da Sindikat obradi moje podatke u svrhu izrade ponude i komunikacije u vezi sa događajem.</span>
+        </label>
+
+        <input type="hidden" name="source" value="Sindikat – Kontakt strana">
+        <input type="hidden" name="utm_source">
+        <input type="hidden" name="utm_medium">
+        <input type="hidden" name="utm_campaign">
+
+        <div class="flex items-center gap-3">
+          <button id="submitBtn" class="bg-gold text-black font-bold px-6 py-3 rounded-full hover:bg-yellow-500 transition-all hover:scale-105" type="submit">
+            Pošalji upit
+          </button>
+          <span id="formState" class="text-sm text-gray-400"></span>
+        </div>
+      </form>
     </div>
-  </section>
+  </div>
+</section>
 
-
-
-        <script>
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwN7bF1KImcjH_0yAu0ilUEDkvd4297yvbR3geCrzP3a0WfeChZXS4j72Wavnjzkj_cLQ/exec";
 const form = document.getElementById('contactForm');
 const formState = document.getElementById('formState');
 const submitBtn = document.getElementById('submitBtn');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  formState.textContent = "Šalje se...";
+  formState.textContent = "⏳ Šalje se...";
   submitBtn.disabled = true;
 
   try {
-    const response = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form)
-    });
-
-    const result = await response.json();
-
-    if (result.ok) {
+    const response = await fetch(SCRIPT_URL, { method: 'POST', body: new FormData(form) });
+    if (response.ok) {
       form.reset();
-      formState.textContent = "✅ Upit je uspješno poslat!";
+      formState.textContent = "✅ Super, upit je uspješno poslat!";
     } else {
-      formState.textContent = "⚠️ Greška pri slanju: " + (result.error || '');
+      formState.textContent = "⚠️ Greška pri slanju. Pokušajte ponovo.";
     }
   } catch (err) {
     formState.textContent = "❌ Došlo je do greške na mreži.";
   }
-
   submitBtn.disabled = false;
+});
+
+document.querySelectorAll('input[name="tip"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const isCompany = radio.value === 'Kompanija' && radio.checked;
+    document.getElementById('companyFields').classList.toggle('hidden', !isCompany);
+    document.getElementById('companyMore').classList.toggle('hidden', !isCompany);
+  });
 });
 </script>
 
- 
 </body>
+
 </html>
