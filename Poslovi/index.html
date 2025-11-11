@@ -540,14 +540,14 @@
       /* =========================
          MOCK DATA + LOCAL UX
       ==========================*/
-     const baseJobs = [
+    const baseJobs = [
   {
     id: "j1",
     title: "Hostesa / Promoter",
     company: "Sindikat",
     location: "Crna Gora (više gradova)",
     category: "Event menadžment",
-    type: "Part-time / Sezonski",
+    type: ["Part-time", "Sezonski"],
     pay: 700,
     posted: "2025-10-15",
     desc: "Tražimo komunikativne hostese za događaje i promo aktivacije. Poželjno iskustvo u radu sa gostima i engleski jezik. Dinamičan raspored, obezbijeđena uniforma.",
@@ -559,7 +559,7 @@
     company: "Sindikat",
     location: "Podgorica / terenski",
     category: "Audio/Video & Produkcija",
-    type: "Freelance",
+    type: ["Freelance"],
     pay: 80,
     posted: "2025-11-02",
     desc: "Svirke na korporativnim i privatnim događajima. Poželjno sopstvena oprema i raznovrstan muzički repertoar (pop, house, regionalni hitovi).",
@@ -571,7 +571,7 @@
     company: "Sindikat",
     location: "Budva • Podgorica • Kotor",
     category: "Ugostiteljstvo",
-    type: "Sezonski / Part-time",
+    type: ["Sezonski", "Part-time"],
     pay: 900,
     posted: "2025-09-30",
     desc: "Rad na mobilnim barovima, klasični i signature kokteli. Prednost iskustvo u event okruženju. Obuka za recepte i standarde na licu mjesta.",
@@ -583,25 +583,26 @@
     company: "Sindikat",
     location: "Remote",
     category: "Marketing & Dizajn",
-    type: "Part-time / Remote",
+    type: ["Part-time", "Remote"],
     pay: 600,
     posted: "2025-10-14",
     desc: "Plan i vođenje sadržaja za Instagram/TikTok, copy, short-form video, osnovni dizajn (Canva/Adobe). Prednost iskustvo u event ili hospitality niši.",
     apply: "sindikatevents@gmail.com"
   },
   {
-  id: "j5",
-  title: "Otvorena prijava",
-  company: "Sindikat",
-  location: "Crna Gora",
-  category: "Sve kategorije",
-  type: "Free application",
-  pay: "",
-  posted: "2025-10-10",
-  desc: "Ako želiš da radiš sa nama, ali trenutno nema oglasa koji ti odgovara — pošalji svoju otvorenu prijavu. Prilike se otvaraju stalno.",
-  apply: "sindikatevents@gmail.com"
-}
+    id: "j5",
+    title: "Otvorena prijava",
+    company: "Sindikat",
+    location: "Crna Gora",
+    category: "Sve kategorije",
+    type: ["Free application"],
+    pay: "",
+    posted: "2025-10-10",
+    desc: "Ako želiš da radiš sa nama, ali trenutno nema oglasa koji ti odgovara — pošalji svoju otvorenu prijavu. Prilike se otvaraju stalno.",
+    apply: "sindikatevents@gmail.com"
+  }
 ];
+
 
 
       const perPage = 5;
@@ -711,7 +712,11 @@
           const hitQ = !f.q || `${j.title} ${j.company} ${j.desc}`.toLowerCase().includes(f.q);
           const hitLoc = !f.loc || j.location.toLowerCase().includes(f.loc);
           const hitCat = !f.cat || j.category === f.cat;
-          const hitType = f.typeSet.size === 0 || f.typeSet.has(j.type);
+          const jobTypes = Array.isArray(j.type)
+  ? j.type
+  : j.type.split("/").map(x => x.trim());
+
+const hitType = f.typeSet.size === 0 || jobTypes.some(t => f.typeSet.has(t));
           const hitPayMin = isNaN(f.minPay) || (j.pay ?? 0) >= f.minPay;
           const hitPayMax = isNaN(f.maxPay) || (j.pay ?? Infinity) <= f.maxPay;
           return hitQ && hitLoc && hitCat && hitType && hitPayMin && hitPayMax;
