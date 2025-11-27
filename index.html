@@ -3243,6 +3243,41 @@ Kompletan bar nivoa najboljih klubova — ali prilagođen tvom prostoru, koncept
   djs: {
     title: 'DJ-jevi i Muzičari',
     text: `
+Naši DJ-jevi i muzičari kreiraju atmosferu koja drži energiju tokom cijelog događaja. Stil biramo pre<script>
+// Detalji usluga – sadržaj za popup (HTML formatiran)
+const serviceDetails = {
+  bartending: {
+    title: 'Barmeni i Kokteli',
+    text: `
+Naš tim miksologa donosi premium bar iskustvo na svaki događaj — od elegantnih koktel zabava do velikih korporativnih dešavanja. Pravimo autorske koktele, personalizovane menije i tematske barske postavke, uz maksimalnu brzinu i besprekoran stil.
+<br><br>
+
+<b>ŠTA JE UKLJUČENO:</b>
+<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc;">
+  <li>Autorski koktel meni + klasični kokteli</li>
+  <li>Premium alkohol i profesionalna oprema</li>
+  <li>Mobilni bar — elegantni, industrijski, crni ili drveni</li>
+  <li>Led, čaše, garnishes i kompletna barska logistika</li>
+  <li>Barmeni obučeni po event standardu</li>
+  <li>Opcije: flair show, barback, dodatno osoblje</li>
+</ul>
+
+<b>IDEALNO ZA:</b>
+<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc;">
+  <li>Svadbe i privatne proslave</li>
+  <li>Žurke i klupske večeri</li>
+  <li>Korporativne događaje</li>
+  <li>Festivale i VIP zone</li>
+</ul>
+
+<b>PREDNOST ZA KLIJENTE:</b><br>
+Kompletan bar nivoa najboljih klubova — ali prilagođen tvom prostoru, konceptu i gostima.
+`
+  },
+
+  djs: {
+    title: 'DJ-jevi i Muzičari',
+    text: `
 Naši DJ-jevi i muzičari kreiraju atmosferu koja drži energiju tokom cijelog događaja. Stil biramo prema publici — od lounge & chill vibea, preko RnB/house žurki, do kompletne žive muzike sa vokalom ili bendom.
 <br><br>
 
@@ -3285,7 +3320,7 @@ Donosimo kompletan tehnički setup za događaj — od čistog i stabilnog razgla
 </ul>
 
 <b>IDEALNO ZA:</b>
-<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc;">
+<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc%;">
   <li>Žurke i klupske večeri</li>
   <li>Svadbe i svečane proslave</li>
   <li>Korporativne evente i konferencije</li>
@@ -3305,7 +3340,7 @@ Ako ti treba kompletno bar rješenje — mi donosimo sve. Od mobilnih barova i o
 <br><br>
 
 <b>ŠTA JE UKLJUČENO:</b>
-<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc;">
+<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc%;">
   <li>Mobilni barovi (više stilova)</li>
   <li>Premium alkohol i craft opcije</li>
   <li>Konobari i barback tim</li>
@@ -3341,7 +3376,7 @@ Profesionalna event fotografija i video koji bilježe spontane, stvarne i energe
 </ul>
 
 <b>IDEALNO ZA:</b>
-<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc%;">
+<ul style="padding-left:18px;margin-top:6px;margin-bottom:12px;list-style-type:disc;">
   <li>Korporativne evente</li>
   <li>Žurke i noćne događaje</li>
   <li>Svadbe i gala večeri</li>
@@ -3445,6 +3480,66 @@ document.addEventListener('DOMContentLoaded', function () {
   const modal = document.getElementById('serviceModal');
   if (!modal || !cards.length) return;
 
+  const titleEl       = document.getElementById('serviceModalTitle');
+  const textEl        = document.getElementById('serviceModalText');
+  const closeBtnTop   = document.getElementById('serviceModalClose');
+  const closeBtnBottom= document.getElementById('serviceModalCloseBottom');
+
+  function openModal(key) {
+    const data = serviceDetails[key] || {};
+    if (titleEl) titleEl.textContent = data.title || 'Usluga';
+    if (textEl) {
+      textEl.innerHTML =
+        data.text ||
+        'Ovdje će stajati detaljan opis ove usluge. Možemo ga naknadno definisati po potrebi.';
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  // klik na kartice
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const key = card.getAttribute('data-service');
+      if (!key) return;
+      openModal(key);
+    });
+  });
+
+  // X i donje dugme
+  if (closeBtnTop)    closeBtnTop.addEventListener('click', closeModal);
+  if (closeBtnBottom) closeBtnBottom.addEventListener('click', closeModal);
+
+  // klik na pozadinu
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+
+  // ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+});
+</script>
+
+
+
+// Inicijalizacija modala kada je DOM spreman
+document.addEventListener('DOMContentLoaded', function () {
+  const cards = document.querySelectorAll('.js-service-card');
+  const modal = document.getElementById('serviceModal');
+  if (!modal || !cards.length) return;
+
   const titleEl = document.getElementById('serviceModalTitle');
   const textEl  = document.getElementById('serviceModalText');
   const closeBtnTop    = document.getElementById('serviceModalClose');
@@ -3536,5 +3631,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 ~
+
 
 
