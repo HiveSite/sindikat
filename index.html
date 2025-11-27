@@ -1046,6 +1046,21 @@ Naše usluge
 </div>
 </section>
 
+
+  <!-- Sindikat Announcement -->
+<div class="w-full bg-black border border-yellow-500/40 rounded-xl py-3 px-5 mt-6 mb-8 flex items-center gap-3 fade-in">
+  <span class="text-yellow-400 text-lg md:text-xl">✨</span>
+  <p class="text-gray-300 text-sm md:text-base leading-tight">
+    Vidimo se uskoro na <span class="text-yellow-400 font-semibold">Podgoričkom Pazaru</span> — prati nas na 
+    <a href="https://www.instagram.com/sindikat_events" 
+       target="_blank" 
+       class="text-yellow-400 underline hover:text-yellow-300 transition">
+       @sindikat_events
+    </a>
+  </p>
+</div>
+
+
 <!-- Highlights -->
 <section class="py-16 md:py-24 mobile-spacing bg-gray-900">
 <div class="max-w-7xl mx-auto">
@@ -3183,40 +3198,171 @@ imageObserver.observe(img);
 
 <script>
   // Detalji usluga - za sad placeholder, poslije možemo da ih razradimo
-  const serviceDetails = {
-    bartending: {
-      title: 'Barmeni i Kokteli',
-      text: 'Autorski koktel meni, klasični kokteli, welcome drink, shotovi, konzultacije oko liste pića i preporuka logistike za bar. Usluga se može prilagoditi za kućne žurke, klubove, korporativne događaje i festivale.'
-    },
-    djs: {
-      title: 'DJ-jevi i Muzičari',
-      text: 'DJ nastupi i live muzika za različite stilove događaja – od after work druženja i rođendana do velikih korporativnih žurki. Donosimo opremu po potrebi ili se uklapamo u postojeći setup.'
-    },
-    sound: {
-      title: 'Zvuk i Osvetljenje',
-      text: 'Profesionalni razglas, mikrofoni, monitoring, kao i rasvjeta za binu, plesni podijum ili ambijentalno osvjetljenje prostora. Moguće je i kompletno tehničko vođenje događaja.'
-    },
-    bar: {
-      title: 'Bar i Usluga Napitaka',
-      text: 'Mobilni bar, frižideri, čaše, led, garnishes i kompletna logistika za piće. Možemo raditi i kao full open bar, kao prodajni bar ili kombinovano, u zavisnosti od dogovora.'
-    },
-    photo: {
-      title: 'Fotografija i Video',
-      text: 'Event fotografija, kratki video recap, sadržaj za društvene mreže i portreti gostiju. Moguće je organizovati i poseban foto kutak ili brendirani photo corner.'
-    },
-    design: {
-      title: 'Dizajn i Društvene Mreže',
-      text: 'Vizuali za najavu događaja, story i feed templejti, brendiranje barova i zona, kao i live coverage na društvenim mrežama tokom samog eventa.'
-    },
-    hostesses: {
-      title: 'Profesionalne Hostese',
-      text: 'Hostese za dobrodošlicu gostima, registraciju, sampling, nagradne igre, info pult i promo aktivacije u tržnim centrima, klubovima i na ulici.'
-    },
-    furniture: {
-      title: 'Event Nameštaj',
-      text: 'Barski stolovi, stolice, lounge zone, separei, dekorativni elementi i ostali mobilijar potrebni da prostor izgleda kao pravi event, a ne obična sala.'
-    }
-  };
+const serviceDetails = {
+  bartending: {
+    title: 'Barmeni i Kokteli',
+    text: `
+Naš tim miksologa donosi premium bar iskustvo na svaki događaj — od elegantnih koktel zabava do velikih korporativnih dešavanja. Pravimo *autorske koktele*, prilagođene menije i tematske barske postavke, uz maksimalnu brzinu i besprekoran stil.
+
+ŠTA JE UKLJUČENO:
+• Autorski koktel meni + klasični kokteli  
+• Premium alkohol + profesionalna oprema  
+• Mobilni bar (više stilova: elegantni, industrijski, crni, drveni)  
+• Garnishes, led, čaše i kompletna garnitura  
+• Barmeni obučeni po event standardu  
+• Opcija: flair show, bar back, dodatni konobari  
+
+IDEALNO ZA:
+Svadbe, privatne proslave, žurke, firme, festivale, VIP zone.
+
+PREDNOST ZA KLIJENTE:
+Dobijaš kompletan bar na nivou najboljih klubova — ali prilagođen tvom događaju i prostoru.
+`
+  },
+
+  djs: {
+    title: 'DJ-jevi i Muzičari',
+    text: `
+Naši DJ-jevi i muzičari kreiraju atmosferu koja drži energiju tokom cijelog događaja. Stil biramo prema publici — od lounge & chill vibea, preko RnB/house žurki, do kompletne žive muzike sa vokalom ili bendom.
+
+ŠTA JE UKLJUČENO:
+• DJ nastup (2–5 h ili cijela noć)  
+• Priprema playliste po tvom briefu  
+• Mogućnost live muzike (vokal, saksofon, gitara, duo/bend)  
+• DJ pult i kablovi (po potrebi)  
+• Miks i ton kontrola  
+
+IDEALNO ZA:
+After work, žurke, svadbe, barske večeri, korporativne evente, promocije.
+
+PREDNOST ZA KLIJENTE:
+Dovodimo provjeren tim koji zna da čita publiku, podigne energiju i isporuči *atmosferu koja se pamti*.
+`
+  },
+
+  sound: {
+    title: 'Zvuk i Osvetljenje',
+    text: `
+Donosimo kompletan tehnički setup za događaj — od čistog i stabilnog razglasa do svjetla koje potpuno mijenja izgled prostora.
+
+ŠTA JE UKLJUČENO:
+• Premium ozvučenje (mali i veliki prostori)  
+• Ambijentalna i scenska rasvjeta  
+• Moving headovi, beam, efekti, dim mašina  
+• DJ monitori i mikrofonija  
+• Tehničar koji prati događaj od početka do kraja  
+
+IDEALNO ZA:
+Žurke, svadbe, dvorane, korporativne evente, restorane, otvorene prostore.
+
+PREDNOST ZA KLIJENTE:
+Tvoj event zvuči profesionalno i izgleda kao mali stage setup — bez improvizacije i nestabilne opreme.
+`
+  },
+
+  bar: {
+    title: 'Bar i Usluga Napitaka',
+    text: `
+Ako ti treba kompletno bar rješenje — mi donosimo sve. Od mobilnih barova i frižidera, do osoblja, alkohola i konzumne logistike. Radiš samo jedno: uživaš.
+
+ŠTA JE UKLJUČENO:
+• Mobilni barovi (različiti stilovi)  
+• Premium alkohol + craft opcije  
+• Konobari i bar back tim  
+• Led, čaše, garnishes, frižideri i dekor  
+• Organizacija prodajnog bara ili open-bara  
+
+DODATNE OPCIJE:
+• Welcome drink  
+• Shotovi  
+• Signature piće sa tvojim brendom  
+
+PREDNOST ZA KLIJENTE:
+Najlakši način da riješiš piće na eventu — sve je uključeno, bez stresa i bez skrivenih troškova.
+`
+  },
+
+  photo: {
+    title: 'Fotografija i Video',
+    text: `
+Profesionalna event fotografija i video produkcija koja bilježi prave momente — spontane, dinamične, prirodne i upotrebljive za društvene mreže odmah nakon događaja.
+
+ŠTA JE UKLJUČENO:
+• Event fotografija  
+• Video recap (kratak aftermovie)  
+• Portreti gostiju / brendirani photo corner  
+• Montaža + kolor korekcija  
+• Brza isporuka 24–72 h (po želji)  
+
+IDEALNO ZA:
+Korporativne evente, žurke, gala večeri, svadbe, team buildinge, promocije.
+
+PREDNOST ZA KLIJENTE:
+Dobijaš materijal koji izgleda profesionalno, moderno i spremno za Instagram/YT/TikTok odmah.
+`
+  },
+
+  design: {
+    title: 'Dizajn i Društvene Mreže',
+    text: `
+Kreiramo vizuelni identitet događaja i sav digitalni sadržaj koji ti treba za online najavu, promociju i live coverage.
+
+ŠTA JE UKLJUČENO:
+• Promo vizuali (feed/post/story)  
+• Event brending (karte, pozivnice, baneri)  
+• Story & reel produkcija na dan eventa  
+• Copywriting + strategija objavljivanja  
+• Foto/video integracija  
+
+IDEALNO ZA:
+Otvaranja, promocije, klubove, festivale, kompanije koje žele da event živi i online.
+
+PREDNOST ZA KLIJENTE:
+Događaj ne živi samo jednu noć — pravi sadržaj ti ostaje kao marketing alat još dugo.
+`
+  },
+
+  hostesses: {
+    title: 'Profesionalne Hostese',
+    text: `
+Hostese koje imaju kompletno iskustvo u radu sa gostima — od registracije i dočeka do info stola, sampling kampanja i VIP asistencije.
+
+ŠTA JE UKLJUČENO:
+• Doček gostiju, registracija, protokol  
+• Info pult i asistencija  
+• Sampling i promocije  
+• VIP podrška  
+• Ujednačen dress code (elegantno, minimalistički ili tematski)  
+
+IDEALNO ZA:
+Promocije, korporativne evente, sajmove, ceremonije, klubove, festivale.
+
+PREDNOST ZA KLIJENTE:
+Prvi utisak je najvažniji — zato biramo hostese koje podižu profesionalnost i stil događaja.
+`
+  },
+
+  furniture: {
+    title: 'Event Nameštaj',
+    text: `
+Dizajniramo prostor koji izgleda kao pravi event — ne kao prazna sala. Moderni lounge setovi, stolovi, stolice i dekoracija koja potpuno mijenja ambijent.
+
+ŠTA JE UKLJUČENO:
+• Lounge garniture i zone  
+• Barski stolovi i visoke stolice  
+• Dekorativni elementi i ambijentalno osvjetljenje  
+• Modularne postavke za male i velike prostore  
+• Dostava + postavljanje + uklanjanje  
+
+IDEALNO ZA:
+Žurke, svadbe, VIP zone, konferencije, festivale, gala večeri.
+
+PREDNOST ZA KLIJENTE:
+Prostor izgleda uređeno, luksuzno i fotogenično — što automatski podiže kvalitet cijelog događaja.
+`
+  }
+};
+
 
   (function initServiceModal() {
     const cards = document.querySelectorAll('.js-service-card');
@@ -3285,6 +3431,7 @@ imageObserver.observe(img);
 
 </body>
 </html>
+
 
 
 
