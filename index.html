@@ -3204,7 +3204,8 @@ imageObserver.observe(img);
 <script>
   // Detalji usluga - za sad placeholder, poslije možemo da ih razradimo
 <script>
-  const serviceDetails = {
+  // Detalji usluga – formatirani HTML unutar popup-a
+  window.serviceDetails = {
     bartending: {
       title: 'Barmeni i Kokteli',
       text: `
@@ -3432,6 +3433,62 @@ Prostor postaje elegantan, funkcionalan i fotogeničan — što podiže kvalitet
     }
   };
 
+  // Inicijalizacija modala kada je DOM spreman
+  document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('.js-service-card');
+    const modal = document.getElementById('serviceModal');
+    if (!modal || !cards.length) return;
+
+    const titleEl = document.getElementById('serviceModalTitle');
+    const textEl = document.getElementById('serviceModalText');
+    const closeBtnTop = document.getElementById('serviceModalClose');
+    const closeBtnBottom = document.getElementById('serviceModalCloseBottom');
+
+    function openModal(key) {
+      const data = window.serviceDetails[key] || {};
+      if (titleEl) titleEl.textContent = data.title || 'Usluga';
+      if (textEl) {
+        textEl.innerHTML =
+          data.text ||
+          'Ovdje će stajati detaljan opis ove usluge. Možemo ga naknadno definisati po potrebi.';
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-service');
+        openModal(key);
+      });
+    });
+
+    if (closeBtnTop) closeBtnTop.addEventListener('click', closeModal);
+    if (closeBtnBottom) closeBtnBottom.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  });
+</script>
+
+
   (function initServiceModal() {
     const cards = document.querySelectorAll('.js-service-card');
     const modal = document.getElementById('serviceModal');
@@ -3556,6 +3613,7 @@ Prostor postaje elegantan, funkcionalan i fotogeničan — što podiže kvalitet
 
 </body>
 </html>
+
 
 
 
