@@ -3203,10 +3203,11 @@ imageObserver.observe(img);
 
 <script>
   // Detalji usluga - za sad placeholder, poslije možemo da ih razradimo
-const serviceDetails = {
-  bartending: {
-    title: 'Barmeni i Kokteli',
-    text: `
+<script>
+  const serviceDetails = {
+    bartending: {
+      title: 'Barmeni i Kokteli',
+      text: `
 Naš tim miksologa donosi premium bar iskustvo na svaki događaj — od elegantnih koktel zabava do velikih korporativnih dešavanja. Pravimo autorske koktele, personalizovane menije i tematske barske postavke, uz maksimalnu brzinu i besprekoran stil.
 <br><br>
 
@@ -3231,11 +3232,11 @@ Naš tim miksologa donosi premium bar iskustvo na svaki događaj — od elegantn
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Kompletan bar nivoa najboljih klubova — ali prilagođen tvom prostoru, konceptu i gostima.
 `
-  },
+    },
 
-  djs: {
-    title: 'DJ-jevi i Muzičari',
-    text: `
+    djs: {
+      title: 'DJ-jevi i Muzičari',
+      text: `
 Naši DJ-jevi i muzičari kreiraju atmosferu koja drži energiju tokom cijelog događaja. Stil biramo prema publici — od lounge & chill vibea, preko RnB/house žurki, do kompletne žive muzike sa vokalom ili bendom.
 <br><br>
 
@@ -3260,11 +3261,11 @@ Naši DJ-jevi i muzičari kreiraju atmosferu koja drži energiju tokom cijelog d
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Dovodimo provjerene izvođače koji znaju da čitaju publiku, podignu energiju i isporuče atmosferu koja se pamti.
 `
-  },
+    },
 
-  sound: {
-    title: 'Zvuk i Osvetljenje',
-    text: `
+    sound: {
+      title: 'Zvuk i Osvetljenje',
+      text: `
 Donosimo kompletan tehnički setup za događaj — od čistog i stabilnog razglasa do svjetla koje mijenja izgled prostora i stvara atmosferu kao na profesionalnoj sceni.
 <br><br>
 
@@ -3289,11 +3290,11 @@ Donosimo kompletan tehnički setup za događaj — od čistog i stabilnog razgla
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Profesionalna produkcija bez improvizacija — stabilna, kvalitetna i spremna za svaki tip događaja.
 `
-  },
+    },
 
-  bar: {
-    title: 'Bar i Usluga Napitaka',
-    text: `
+    bar: {
+      title: 'Bar i Usluga Napitaka',
+      text: `
 Ako ti treba kompletno bar rješenje — mi donosimo sve. Od mobilnih barova i opreme, do osoblja i alkohola. Ti samo uživaš u događaju.
 <br><br>
 
@@ -3316,11 +3317,11 @@ Ako ti treba kompletno bar rješenje — mi donosimo sve. Od mobilnih barova i o
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Najlakši način da riješiš piće na eventu — sve uključeno, bez stresa i komplikacija.
 `
-  },
+    },
 
-  photo: {
-    title: 'Fotografija i Video',
-    text: `
+    photo: {
+      title: 'Fotografija i Video',
+      text: `
 Profesionalna event fotografija i video koji bilježe spontane, stvarne i energetske momente. Materijal se isporučuje brzo i spreman je za društvene mreže.
 <br><br>
 
@@ -3344,11 +3345,11 @@ Profesionalna event fotografija i video koji bilježe spontane, stvarne i energe
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Fotografije i video koji izgledaju profesionalno, moderno i spremno za Instagram/TikTok istog dana.
 `
-  },
+    },
 
-  design: {
-    title: 'Dizajn i Društvene Mreže',
-    text: `
+    design: {
+      title: 'Dizajn i Društvene Mreže',
+      text: `
 Kreiramo kompletan vizuelni identitet događaja i digitalni sadržaj koji pojačava vidljivost, stil i angažman.
 <br><br>
 
@@ -3372,11 +3373,11 @@ Kreiramo kompletan vizuelni identitet događaja i digitalni sadržaj koji pojač
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Event ne traje samo jednu noć — kvalitetan sadržaj ostaje kao marketing alat dugo nakon završetka.
 `
-  },
+    },
 
-  hostesses: {
-    title: 'Profesionalne Hostese',
-    text: `
+    hostesses: {
+      title: 'Profesionalne Hostese',
+      text: `
 Naše hostese obezbjeđuju profesionalan prvi utisak — od dočeka gostiju i informisanja, do VIP asistencije i promotivnih aktivnosti.
 <br><br>
 
@@ -3400,11 +3401,11 @@ Naše hostese obezbjeđuju profesionalan prvi utisak — od dočeka gostiju i in
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Elegantno, profesionalno i po standardu — hostese koje podižu stil i organizaciju tvog događaja.
 `
-  },
+    },
 
-  furniture: {
-    title: 'Event Nameštaj',
-    text: `
+    furniture: {
+      title: 'Event Nameštaj',
+      text: `
 Dizajniramo prostor koji izgleda kao pravi događaj — ne kao prazna sala. Moderni lounge setovi i dekoracija transformišu svaki ambijent.
 <br><br>
 
@@ -3428,8 +3429,63 @@ Dizajniramo prostor koji izgleda kao pravi događaj — ne kao prazna sala. Mode
 <b>PREDNOST ZA KLIJENTE:</b><br>
 Prostor postaje elegantan, funkcionalan i fotogeničan — što podiže kvalitet i utisak cijelog eventa.
 `
-  }
-};
+    }
+  };
+
+  (function initServiceModal() {
+    const cards = document.querySelectorAll('.js-service-card');
+    const modal = document.getElementById('serviceModal');
+    if (!modal || !cards.length) return;
+
+    const titleEl = document.getElementById('serviceModalTitle');
+    const textEl = document.getElementById('serviceModalText');
+    const closeBtnTop = document.getElementById('serviceModalClose');
+    const closeBtnBottom = document.getElementById('serviceModalCloseBottom');
+
+    function openModal(key) {
+      const data = serviceDetails[key] || {};
+      if (titleEl) titleEl.textContent = data.title || 'Usluga';
+      if (textEl) {
+        textEl.innerHTML =
+          data.text ||
+          'Ovdje će stajati detaljan opis ove usluge. Možemo ga naknadno definisati po potrebi.';
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-service');
+        openModal(key);
+      });
+    });
+
+    if (closeBtnTop) closeBtnTop.addEventListener('click', closeModal);
+    if (closeBtnBottom) closeBtnBottom.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  })();
+</script>
+
 
 
 
@@ -3500,6 +3556,7 @@ Prostor postaje elegantan, funkcionalan i fotogeničan — što podiže kvalitet
 
 </body>
 </html>
+
 
 
 
