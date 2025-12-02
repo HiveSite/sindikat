@@ -75,6 +75,49 @@
     @media (min-width: 640px) {
       .price-tag { font-size: 1rem; }
     }
+
+    /* Partner styles (preuzeto iz originala, ako zatreba) */
+    .partners-scroller{
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 12px;
+    }
+    .partners-scroller > .partner-card{ scroll-snap-align: start; }
+    .hide-scrollbar::-webkit-scrollbar{ display:none; }
+    .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+    .partner-card{
+      padding: 6px 12px !important;
+      border-radius: 8px !important;
+    }
+    .partner-card .logo{
+      width: 24px !important;
+      height: 24px !important;
+    }
+    .partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
+    .partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
+    @media (min-width: 768px){
+      .partners-scroller{
+        justify-content: center;
+        overflow-x: visible;
+        scroll-snap-type: none;
+        scroll-padding-left: 0;
+        gap: 12px;
+      }
+      .partner-card{
+        padding: 12px 24px !important;
+        border-radius: 12px !important;
+      }
+      .partner-card .logo{
+        width: 48px !important;
+        height: 48px !important;
+      }
+      .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
+      .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
+    }
   </style>
 </head>
 <body class="bg-black text-white font-inter">
@@ -146,51 +189,6 @@
       <span class="text-2xl leading-none">×</span>
     </button>
   </div>
-
-  <!-- (Ostavljeni partner styles iz originala – ako ti zatrebaju) -->
-  <style>
-    .partners-scroller{
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-      scroll-padding-left: 12px;
-    }
-    .partners-scroller > .partner-card{ scroll-snap-align: start; }
-    .hide-scrollbar::-webkit-scrollbar{ display:none; }
-    .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
-    .partner-card{
-      padding: 6px 12px !important;
-      border-radius: 8px !important;
-    }
-    .partner-card .logo{
-      width: 24px !important;
-      height: 24px !important;
-    }
-    .partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
-    .partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
-    @media (min-width: 768px){
-      .partners-scroller{
-        justify-content: center;
-        overflow-x: visible;
-        scroll-snap-type: none;
-        scroll-padding-left: 0;
-        gap: 12px;
-      }
-      .partner-card{
-        padding: 12px 24px !important;
-        border-radius: 12px !important;
-      }
-      .partner-card .logo{
-        width: 48px !important;
-        height: 48px !important;
-      }
-      .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
-      .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
-    }
-  </style>
 
   <!-- GLAVNI SADRŽAJ: PODGORIČKI PAZAR PAGE -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-20">
@@ -525,7 +523,7 @@
           <div class="card-blur rounded-3xl overflow-hidden shadow-xl">
             <div class="relative aspect-[4/3]">
               <img
-                src="https://sharemontenegro.me/wp-content/uploads/2019/01/82411c0f44117048d1dd91f8bacd351c-1280x711.jpg"
+                src="https://images.pexels.com/photos/886743/pexels-photo-886743.jpeg"
                 alt="Zimski pazar sa toplom atmosferom i svjetlima"
                 class="w-full h-full object-cover"
                 loading="lazy"
@@ -742,9 +740,19 @@
     </div>
   </footer>
 
-  <!-- Original script ostavljen (ako ti nešto od toga treba na drugim stranicama) -->
+  <!-- FLOATING INSTAGRAM DM BUBBLE -->
+  <a
+    href="https://www.instagram.com/sindikat_events"
+    target="_blank"
+    class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[80] flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 shadow-lg shadow-pink-900/40 hover:scale-105 hover:shadow-pink-500/60 transition-transform transition-shadow text-sm sm:text-base"
+    aria-label="Pošalji DM na Instagramu"
+  >
+    <span class="text-lg sm:text-xl">💬</span>
+    <span class="font-semibold hidden xs:inline sm:inline">@sindikat_events</span>
+  </a>
+
+  <!-- Original script iz tvog fajla (bez obaveznih elemenata) -->
   <script>
-    // (Ovi elementi trenutno ne postoje na ovoj stranici, ali script je ostavljen da ostane isti header/footer fajl)
     const menuBtn   = document.getElementById('menuBtn');
     const menuClose = document.getElementById('menuClose');
     const mobileMenu= document.getElementById('mobileMenu');
