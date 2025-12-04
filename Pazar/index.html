@@ -179,6 +179,12 @@
 
 
 
+/* MOBILNI – podigni Instagram DM dugme iznad sticky banera */
+@media (max-width: 1023px) {
+  .mobile-fix-dm {
+    bottom: 170px !important;
+  }
+}
 
 
 
@@ -812,16 +818,20 @@
     </div>
   </footer>
 
-    <!-- FLOATING INSTAGRAM DM BUBBLE -->
-  <a
+
+  
+
+<!-- FLOATING INSTAGRAM DM BUBBLE -->
+<a
     href="https://www.instagram.com/sindikat_events"
     target="_blank"
-    class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[80] flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 shadow-lg shadow-pink-900/40 hover:scale-105 hover:shadow-pink-500/60 transition-transform transition-shadow text-sm sm:text-base"
+    class="mobile-fix-dm fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[80] flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 shadow-lg shadow-pink-900/40 hover:scale-105 hover:shadow-pink-500/60 transition-transform transition-shadow text-sm sm:text-base"
     aria-label="Pošalji DM na Instagramu"
-  >
+>
     <span class="text-lg sm:text-xl">💬</span>
     <span class="font-semibold hidden xs:inline sm:inline">@sindikat_events</span>
-  </a>
+</a>
+
 
 
 <!-- MOBILNI STICKY PROMO BANER -->
@@ -835,6 +845,7 @@
     >
   </a>
 </div>
+
 
 
 
