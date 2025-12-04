@@ -126,38 +126,52 @@
 
 
 
-  /* SIDE PROMO STUBOVI – DESKTOP + MOBILNI */
-.promo-columns-desktop {
-  display: none;
-}
+  /* PROMO STUBOVI – DUGAČKI VERTIKALNI */
 
+/* Mobilni: jedan baner */
+.promo-mobile {
+  display: block;
+  margin: 16px auto;
+}
 .promo-banner {
   display: block;
   width: 100%;
-  height: 220px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(148, 163, 184, 0.35);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
 }
-
 .promo-banner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Desktop verzija: po jedan stub lijevo i desno */
+/* Desktop verzija – visoki stubovi */
+.promo-columns-desktop {
+  display: none;
+}
+
 @media (min-width: 1024px) {
+
+  .promo-mobile {
+    display: none;
+  }
+
   .promo-columns-desktop {
     display: block;
   }
 
   .promo-column {
     position: fixed;
-    top: calc(var(--nav-h) + 16px);
-    width: 140px;
+    top: calc(var(--nav-h) + 12px);
+    bottom: 16px;
+    width: 160px;
     z-index: 40;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 0 40px rgba(0,0,0,0.65);
   }
 
   .promo-column-left {
@@ -167,19 +181,15 @@
   .promo-column-right {
     right: 12px;
   }
-}
 
-/* Mobilna verzija: jedan baner ispod headera */
-.promo-mobile {
-  display: block;
-  margin-top: 12px;
-}
-
-@media (min-width: 1024px) {
-  .promo-mobile {
-    display: none;
+  .promo-column img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 }
+
 
 
 
@@ -831,36 +841,38 @@
   </a>
 
 
-  <!-- PROMO BANER – MOBILNA VERZIJA -->
+<!-- PROMO BANER – MOBILNA VERZIJA -->
 <div class="promo-mobile max-w-6xl mx-auto px-4">
   <a class="promo-banner" href="#pazar-menu">
     <img 
-      src="https://latrattoriaverde.rs/wp-content/uploads/2023/07/Niksicko-pivo-svetlo.webp" 
-      alt="Promo baner - mobilni"
+      src="https://latrattoriaverde.rs/wp-content/uploads/2023/07/Niksicko-pivo-svetlo.webp"
+      alt="Promo baner"
+      style="height: 220px;"
     >
   </a>
 </div>
 
 
-<!-- SIDE PROMO STUBOVI ZA DESKTOP -->
+
+<!-- PROMO STUBOVI ZA DESKTOP – DUGAČKI -->
 <div class="promo-columns-desktop">
 
-  <!-- Lijevi stub – samo jedan baner -->
+  <!-- Lijevi stub -->
   <div class="promo-column promo-column-left">
-    <a class="promo-banner" href="#pazar-menu">
+    <a href="#pazar-menu">
       <img 
-        src="https://latrattoriaverde.rs/wp-content/uploads/2023/07/Niksicko-pivo-svetlo.webp" 
-        alt="Promo baner - Niksicko"
+        src="https://latrattoriaverde.rs/wp-content/uploads/2023/07/Niksicko-pivo-svetlo.webp"
+        alt="Promo stub lijevi"
       >
     </a>
   </div>
 
-  <!-- Desni stub – samo jedan baner -->
+  <!-- Desni stub -->
   <div class="promo-column promo-column-right">
-    <a class="promo-banner" href="https://www.instagram.com/sindikat_events" target="_blank">
+    <a href="https://www.instagram.com/sindikat_events" target="_blank">
       <img 
-        src="https://latrattoriaverde.rs/wp-content/uploads/2023/07/Niksicko-pivo-svetlo.webp" 
-        alt="Promo baner - Niksicko"
+        src="https://latrattoriaverde.rs/wp-content/uploads/2023/07/Niksicko-pivo-svetlo.webp"
+        alt="Promo stub desni"
       >
     </a>
   </div>
