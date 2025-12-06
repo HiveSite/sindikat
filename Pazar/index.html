@@ -699,7 +699,7 @@
       </div>
     </section>
 
- <section class="mt-6 mb-10">
+<section id="cta-reservation" class="mt-6 mb-10">
   <div class="card-blur rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
     <div>
       <h2 class="text-xl sm:text-2xl font-semibold mb-2 font-montserrat">
@@ -786,16 +786,16 @@
     </div>
   </footer>
 
-  <!-- FLOATING INSTAGRAM DM BUBBLE -->
-  <a
-    href="https://www.instagram.com/sindikat_events"
-    target="_blank"
-    class="mobile-fix-dm fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[80] flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 shadow-lg shadow-pink-900/40 hover:scale-105 hover:shadow-pink-500/60 transition-transform transition-shadow text-sm sm:text-base"
-    aria-label="Pošalji DM na Instagramu"
-  >
-    <span class="text-lg sm:text-xl">💬</span>
-    <span class="font-semibold hidden xs:inline sm:inline">@sindikat_events</span>
-  </a>
+ <!-- STICKY CTA: Rezervacija stola -->
+<a
+  href="https://www.instagram.com/sindikat_events"
+  target="_blank"
+  id="stickyReserveBtn"
+  class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[90] flex items-center gap-2 px-5 py-3 rounded-full bg-gold text-black font-semibold shadow-lg shadow-yellow-500/30 hover:scale-105 transition-all text-sm sm:text-base"
+>
+  📩 Rezerviši sto preko Instagrama
+</a>
+
 
   <!-- MOBILNI STICKY PROMO BANER -->
   <div id="mobilePromo" class="mobile-sticky-banner">
@@ -836,5 +836,46 @@
     }
   </script>
 
+
+
+
+
+<script>
+  document.addEventListener("scroll", () => {
+    const stickyBtn = document.getElementById("stickyReserveBtn");
+    const ctaSection = document.getElementById("cta-reservation");
+
+    if (!stickyBtn || !ctaSection) return;
+
+    const rect = ctaSection.getBoundingClientRect();
+
+    // Ako je CTA na ekranu – sakrij sticky dugme
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      stickyBtn.style.opacity = "0";
+      stickyBtn.style.pointerEvents = "none";
+    } else {
+      stickyBtn.style.opacity = "1";
+      stickyBtn.style.pointerEvents = "auto";
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </body>
 </html>
