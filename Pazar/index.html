@@ -19,8 +19,7 @@ inter:['Inter','sans-serif']
 },
 colors:{
 gold:'#FFD700',
-            'electric-blue':'#00BFFF'
-            'electric-blue':'00BFFF'
+'electric-blue':'#00BFFF'
 }
 }
 }
@@ -213,23 +212,6 @@ object-fit: contain;
 @media (min-width: 1280px){
 .promo-columns-desktop{ display:block; }
 }
-
-    /* Isticanje aktivne kartice u scrollu na telefonu */
-    .menu-card {
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      border: 1px solid transparent;
-    }
-    .menu-card--active {
-      transform: scale(1.05) translateY(-4px);
-      border-color: #FFD700; /* gold */
-      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.5);
-    }
-    .menu-track {
-      scroll-snap-type: x mandatory;
-    }
-    .menu-track .menu-card {
-      scroll-snap-align: center;
-    }
 </style>
 </head>
 <body class="bg-black text-white font-inter">
@@ -299,15 +281,6 @@ class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:
 <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-20">
 
 <section id="pazar-menu" class="space-y-10 pt-4">
-<section id="pazar-menu" class="relative space-y-10 pt-4">
-  <!-- Background pattern / glow iza menija -->
-  <div
-    class="pointer-events-none absolute inset-x-0 -top-32 bottom-0 -z-10 opacity-60"
-    aria-hidden="true"
-  >
-    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(250,204,21,0.12),transparent_60%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.10),transparent_60%)]"></div>
-  </div>
-
 <!-- Header sa pozadinskom fotografijom -->
 <div class="relative overflow-hidden rounded-3xl border border-white/10 mb-4">
 <!-- Pozadinska fotka -->
@@ -332,7 +305,8 @@ Meni kućice<br />
 </h1>
 <p class="text-gray-200 text-sm sm:text-base max-w-xl mt-2">
 Skenirao/la si QR kod – ovo je <strong>aktuelni meni</strong> naše kućice:
-najbolje cijene pića, zalogajčića i kombinacija za ekipe.
+            fokus na piće, zalogajčiće za dijeljenje i kombo ponude za ekipe.
+            najbolje cijene pića, zalogajčića i kombinacija za ekipe.
 </p>
 
 <div class="mt-3 inline-flex flex-wrap gap-2 text-[11px] sm:text-xs">
@@ -355,9 +329,14 @@ Trg nezavisnosti, Podgorica
 </p>
 <p class="mt-2">
 <span class="text-gray-300 uppercase tracking-wide">Radno vrijeme</span><br />
-Svakog dana 17:00 – 00:00*
+            Svakog dana 10:00 – 00:00*
+          </p>
+          <p class="mt-2">
+            <span class="text-gray-300 uppercase tracking-wide">Napomena</span><br />
+            Cijene na tabli i šanku su uvijek važeće u odnosu na online meni.
+            Svakog dana 17:00 – 00:00*
 </p>
-
+         
 </div>
 </div>
 </div>
@@ -374,11 +353,9 @@ Svakog dana 17:00 – 00:00*
 </div>
 </div>
 
-    <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
-    <div class="menu-track flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
 <!-- Vino & pivo -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Vino & pivo</p>
 <h3 class="text-lg font-semibold font-montserrat">Osnovna ponuda</h3>
@@ -400,8 +377,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Rakije -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Rakije</p>
 <h3 class="text-lg font-semibold font-montserrat">Domaće & specijalne</h3>
@@ -426,8 +402,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Žestoka pića -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Žestoka pića</p>
 <h3 class="text-lg font-semibold font-montserrat">Shotovi & klasici</h3>
@@ -455,8 +430,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Kokteli & hot -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Kokteli & hot</p>
 <h3 class="text-lg font-semibold font-montserrat">Zimski miks</h3>
@@ -481,8 +455,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Bezalkoholno -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Bezalkoholno</p>
 <h3 class="text-lg font-semibold font-montserrat">Sokovi & toplo</h3>
@@ -510,8 +483,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Boce & paketi -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Boce & paketi</p>
 <h3 class="text-lg font-semibold font-montserrat">Za ekipe</h3>
@@ -553,11 +525,9 @@ Svakog dana 17:00 – 00:00*
 </div>
 </div>
 
-    <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
-    <div class="menu-track flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
 <!-- Zalogajčići -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4">
+<article class="min-w-[230px] card-blur rounded-2xl p-4">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Specijalitet kućice</p>
 <h3 class="text-lg font-semibold font-montserrat">Zalogajčići</h3>
@@ -576,8 +546,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Kifle & štapići -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4">
+<article class="min-w-[230px] card-blur rounded-2xl p-4">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Kifle & štapići</p>
 <h3 class="text-lg font-semibold font-montserrat">Za pivo & vino</h3>
@@ -593,8 +562,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Sendviči & Skočko -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4">
+<article class="min-w-[230px] card-blur rounded-2xl p-4">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Sendviči</p>
 <h3 class="text-lg font-semibold font-montserrat">Konkretniji zalogaj</h3>
@@ -613,8 +581,7 @@ Svakog dana 17:00 – 00:00*
 </article>
 
 <!-- Mini pizza & sos -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4">
+<article class="min-w-[230px] card-blur rounded-2xl p-4">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Ostalo</p>
 <h3 class="text-lg font-semibold font-montserrat">Mini pizza & sos</h3>
@@ -641,11 +608,9 @@ Svakog dana 17:00 – 00:00*
 </div>
 </div>
 
-    <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
-    <div class="menu-track flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
 <!-- Ciciban -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
 <h3 class="text-lg font-semibold font-montserrat">Ciciban</h3>
@@ -664,8 +629,7 @@ Kids porcija + 2 soka
 </article>
 
 <!-- Standard kombo -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
 <h3 class="text-lg font-semibold font-montserrat">Standard</h3>
@@ -684,8 +648,7 @@ Kids porcija + 2 soka
 </article>
 
 <!-- Family kombo -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
 <h3 class="text-lg font-semibold font-montserrat">Family</h3>
@@ -704,8 +667,7 @@ Kids porcija + 2 soka
 </article>
 
 <!-- Bavarska kombo -->
-      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
-      <article class="menu-card min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+<article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
 <header class="mb-2">
 <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
 <h3 class="text-lg font-semibold font-montserrat">Bavarska</h3>
@@ -870,7 +832,7 @@ alt="Promo banner mobile sticky"
 
 
 
-  
+
 
 <script>
 const menuBtn   = document.getElementById('menuBtn');
@@ -919,67 +881,22 @@ stickyBtn.style.pointerEvents = "auto";
 });
 </script>
 
-<script>
-  // Aktivna kartica u fokusu na scrollu (Pića / Hrana / Kombo)
-  function updateActiveCards(track) {
-    const cards = Array.from(track.querySelectorAll('.menu-card'));
-    if (!cards.length) return;
-
-    const trackRect = track.getBoundingClientRect();
-    const centerX = trackRect.left + trackRect.width / 2;
-
-    let closestCard = null;
-    let closestDist = Infinity;
-
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-      const cardCenter = rect.left + rect.width / 2;
-      const dist = Math.abs(cardCenter - centerX);
-
-      if (dist < closestDist) {
-        closestDist = dist;
-        closestCard = card;
-      }
-    });
-
-    cards.forEach(card => {
-      card.classList.toggle('menu-card--active', card === closestCard);
-    });
-  }
-
-  function initMenuTrackHighlight() {
-    const tracks = document.querySelectorAll('.menu-track');
-    if (!tracks.length) return;
-
-    tracks.forEach(track => {
-      const onScroll = () => {
-        window.requestAnimationFrame(() => updateActiveCards(track));
-      };
-
-      // inicijalno stanje
-      updateActiveCards(track);
-
-      track.addEventListener('scroll', onScroll);
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth < 1024) {
-      initMenuTrackHighlight();
-    }
-  });
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 1024) {
-      initMenuTrackHighlight();
-    }
-  });
-</script>
 
 
 
 
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
