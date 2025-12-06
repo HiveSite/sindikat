@@ -19,15 +19,13 @@
           },
           colors:{
             gold:'#FFD700',
-            'electric-blue':'00BFFF'
+            'electric-blue':'#00BFFF'
           }
         }
       }
     }
   </script>
   <style>
-
-
 .hide-scrollbar::-webkit-scrollbar{ display:none; }
 .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
 
@@ -45,190 +43,186 @@
   font-size: 11px;
 }
 
+:root{ --nav-h:72px; }
+body{ padding-top:var(--nav-h); }
+html{ scroll-behavior:smooth; }
+.gradient-gold{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.gradient-blue{
+  background:linear-gradient(135deg,#00BFFF,#0080FF);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.btn-animate{
+  position:relative;
+  overflow:hidden;
+  transition:transform .25s ease;
+}
+.btn-animate::before{
+  content:''; position:absolute; inset:0; left:-120%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transition:left .6s ease;
+}
+.btn-animate:hover::before{ left:120%; }
+.btn-animate:hover{ transform:translateY(-2px);} 
+.touch-target{ padding:10px 4px; }
+.mobile-open #mobileMenu{ opacity:1; pointer-events:auto; }
+.mobile-open #menuBtn{ border-color:#FFD700; }
 
+/* Pazar page dodatno */
+.card-blur {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  backdrop-filter: blur(16px);
+}
+.price-tag {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fde68a;
+  white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .price-tag { font-size: 1rem; }
+}
 
+.partners-scroller{
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 12px;
+}
+.partners-scroller > .partner-card{ scroll-snap-align: start; }
+.hide-scrollbar::-webkit-scrollbar{ display:none; }
+.hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+.partner-card{
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+}
+.partner-card .logo{
+  width: 24px !important;
+  height: 24px !important;
+}
+.partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
+.partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
+@media (min-width: 768px){
+  .partners-scroller{
+    justify-content: center;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    scroll-padding-left: 0;
+    gap: 12px;
+  }
+  .partner-card{
+    padding: 12px 24px !important;
+    border-radius: 12px !important;
+  }
+  .partner-card .logo{
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
+  .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
+}
 
-    
-    :root{ --nav-h:72px; }
-    body{ padding-top:var(--nav-h); }
-    html{ scroll-behavior:smooth; }
-    .gradient-gold{
-      background:linear-gradient(135deg,#FFD700,#FFA500);
-      -webkit-background-clip:text;
-      background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-    .gradient-blue{
-      background:linear-gradient(135deg,#00BFFF,#0080FF);
-      -webkit-background-clip:text;
-      background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-    .btn-animate{
-      position:relative;
-      overflow:hidden;
-      transition:transform .25s ease;
-    }
-    .btn-animate::before{
-      content:''; position:absolute; inset:0; left:-120%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
-      transition:left .6s ease;
-    }
-    .btn-animate:hover::before{ left:120%; }
-    .btn-animate:hover{ transform:translateY(-2px);} 
-    .touch-target{ padding:10px 4px; }
-    .mobile-open #mobileMenu{ opacity:1; pointer-events:auto; }
-    .mobile-open #menuBtn{ border-color:#FFD700; }
+/* MOBILNI STICKY PROMO BANER */
+.mobile-sticky-banner {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 420px;
+  z-index: 80;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+}
+.mobile-sticky-banner img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+}
+.mobile-sticky-banner .close-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+@media (min-width: 1024px) {
+  .mobile-sticky-banner { display: none; }
+}
 
-    /* Pazar page dodatno */
-    .card-blur {
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      backdrop-filter: blur(16px);
-    }
-    .price-tag {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #fde68a;
-      white-space: nowrap;
-    }
-    @media (min-width: 640px) {
-      .price-tag { font-size: 1rem; }
-    }
+/* MOBILNI – podigni Instagram DM dugme iznad sticky banera */
+@media (max-width: 1023px) {
+  .mobile-fix-dm { bottom: 170px !important; }
+}
 
-    .partners-scroller{
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-      scroll-padding-left: 12px;
-    }
-    .partners-scroller > .partner-card{ scroll-snap-align: start; }
-    .hide-scrollbar::-webkit-scrollbar{ display:none; }
-    .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
-    .partner-card{
-      padding: 6px 12px !important;
-      border-radius: 8px !important;
-    }
-    .partner-card .logo{
-      width: 24px !important;
-      height: 24px !important;
-    }
-    .partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
-    .partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
-    @media (min-width: 768px){
-      .partners-scroller{
-        justify-content: center;
-        overflow-x: visible;
-        scroll-snap-type: none;
-        scroll-padding-left: 0;
-        gap: 12px;
-      }
-      .partner-card{
-        padding: 12px 24px !important;
-        border-radius: 12px !important;
-      }
-      .partner-card .logo{
-        width: 48px !important;
-        height: 48px !important;
-      }
-      .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
-      .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
-    }
+/* Promo stubovi */
+.promo-columns-desktop {
+  position: fixed;
+  top: 120px;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 30;
+  display: none;
+}
+.promo-column {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+.promo-column-left { left: 0; justify-content: flex-start; }
+.promo-column-right { right: 0; justify-content: flex-end; }
+.promo-column img {
+  max-height: 80%;
+  object-fit: contain;
+}
+@media (min-width: 1280px){
+  .promo-columns-desktop{ display:block; }
+}
 
-    /* MOBILNI STICKY PROMO BANER */
-    .mobile-sticky-banner {
-      position: fixed;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 92%;
-      max-width: 420px;
-      z-index: 80;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(15, 15, 15, 0.85);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.55);
-    }
-    .mobile-sticky-banner img {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-    }
-    .mobile-sticky-banner .close-btn {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.55);
-      color: white;
-      font-size: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-    @media (min-width: 1024px) {
-      .mobile-sticky-banner { display: none; }
-    }
-
-    /* MOBILNI – podigni Instagram DM dugme iznad sticky banera */
-    @media (max-width: 1023px) {
-      .mobile-fix-dm { bottom: 170px !important; }
-    }
-
-    /* Promo stubovi – pretpostavljam da već imaš CSS negdje u glavnom fajlu, po potrebi dodaš */
-    .promo-columns-desktop {
-      position: fixed;
-      top: 120px;
-      bottom: 40px;
-      left: 0;
-      right: 0;
-      pointer-events: none;
-      z-index: 30;
-      display: none;
-    }
-    .promo-column {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 90px;
-      display: flex;
-      align-items: center;
-      pointer-events: auto;
-    }
-    .promo-column-left { left: 0; justify-content: flex-start; }
-    .promo-column-right { right: 0; justify-content: flex-end; }
-    .promo-column img {
-      max-height: 80%;
-      object-fit: contain;
-    }
-    @media (min-width: 1280px){
-      .promo-columns-desktop{ display:block; }
-    }
-
-    /* Isticanje aktivne kartice u scrollu na telefonu */
-    .menu-card {
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      border: 1px solid transparent;
-    }
-    .menu-card--active {
-      transform: scale(1.05) translateY(-4px);
-      border-color: #FFD700; /* gold */
-      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.5);
-    }
-    .menu-track {
-      scroll-snap-type: x mandatory;
-    }
-    .menu-track .menu-card {
-      scroll-snap-align: center;
-    }
+/* Isticanje aktivne kartice */
+.menu-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid transparent;
+}
+.menu-card--active {
+  transform: scale(1.03); /* manji scale, bez pomjeranja gore */
+  border-color: #FFD700;
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.5);
+}
+.menu-track {
+  scroll-snap-type: x mandatory;
+}
+.menu-track .menu-card {
+  scroll-snap-align: center;
+}
   </style>
 </head>
 <body class="bg-black text-white font-inter">
@@ -277,7 +271,7 @@
     </div>
   </nav>
 
-  <!-- Stari overlay koji ti stoji u fajlu (može i da se izbaci, ali ostavljam kako jesi) -->
+  <!-- Stari overlay koji ti stoji u fajlu -->
   <div id="mobileMenu" class="fixed inset-0 z-40 bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
     <div class="absolute top-[72px] left-0 right-0">
       <nav class="px-4 pt-4 pb-8 space-y-2">
@@ -297,15 +291,7 @@
   <!-- GLAVNI SADRŽAJ -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-20">
 
-<section id="pazar-menu" class="relative space-y-10 pt-4">
-  <!-- Background pattern / glow iza menija -->
-  <div
-    class="pointer-events-none absolute inset-x-0 -top-32 bottom-0 -z-10 opacity-60"
-    aria-hidden="true"
-  >
-    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(250,204,21,0.12),transparent_60%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.10),transparent_60%)]"></div>
-  </div>
-
+<section id="pazar-menu" class="space-y-10 pt-4">
   <!-- Header sa pozadinskom fotografijom -->
   <div class="relative overflow-hidden rounded-3xl border border-white/10 mb-4">
     <!-- Pozadinska fotka -->
@@ -355,7 +341,6 @@
             <span class="text-gray-300 uppercase tracking-wide">Radno vrijeme</span><br />
             Svakog dana 17:00 – 00:00*
           </p>
-         
         </div>
       </div>
     </div>
