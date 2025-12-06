@@ -26,6 +26,29 @@
     }
   </script>
   <style>
+
+
+.hide-scrollbar::-webkit-scrollbar{ display:none; }
+.hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+
+.scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280; /* gray-500 */
+}
+
+.scroll-hint span.arrows {
+  font-size: 11px;
+}
+
+
+
+
+    
     :root{ --nav-h:72px; }
     body{ padding-top:var(--nav-h); }
     html{ scroll-behavior:smooth; }
@@ -269,9 +292,22 @@
         <span class="gradient-gold">Podgorički Pazar</span>
       </h1>
       <p class="text-gray-300 text-sm sm:text-base max-w-xl mt-2">
-        Fokus na piće, onda hrana, pa kombo ponude.  
-        Na mobilnom <span class="text-yellow-300 font-semibold">prevuci lijevo–desno</span> kroz kartice.
+        Skenirao/la si QR kod – ovo je <strong>aktuelni meni</strong> naše kućice:
+        fokus na piće, zalogajčiće za dijeljenje i kombo ponude za ekipe.
       </p>
+
+      <!-- male “kategorije” ispod naslova -->
+      <div class="mt-3 inline-flex flex-wrap gap-2 text-[11px] sm:text-xs">
+        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">
+          🍹 Pića
+        </span>
+        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">
+          🥨 Hrana & snack
+        </span>
+        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">
+          🔗 Kombo ponude
+        </span>
+      </div>
     </div>
     <div class="text-xs sm:text-sm text-gray-400 sm:text-right">
       <p><span class="text-gray-500 uppercase tracking-wide">Lokacija</span><br />Trg nezavisnosti, Podgorica</p>
@@ -287,12 +323,13 @@
   </div>
 
   <!-- 1) PIĆA – kartice, horizontalni scroll -->
-  <div class="space-y-4">
-    <div class="flex items-baseline justify-between gap-2">
+  <div class="space-y-3">
+    <div class="flex items-center justify-between gap-2">
       <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Pića</h2>
-      <span class="text-[11px] sm:text-xs text-gray-400">
-        Prevučeš lijevo–desno za više kartica
-      </span>
+      <div class="scroll-hint">
+        <span class="arrows">⟵⟶</span>
+        <span>prevuci za još</span>
+      </div>
     </div>
 
     <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
@@ -458,10 +495,13 @@
   </div>
 
   <!-- 2) HRANA – kartice, horizontalni scroll -->
-  <div class="space-y-4">
-    <div class="flex items-baseline justify-between gap-2">
+  <div class="space-y-3">
+    <div class="flex items-center justify-between gap-2">
       <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Hrana</h2>
-      <span class="text-[11px] sm:text-xs text-gray-400">Snack & zalogajčići za svako piće</span>
+      <div class="scroll-hint">
+        <span class="arrows">⟵⟶</span>
+        <span>prevuci za još</span>
+      </div>
     </div>
 
     <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
@@ -538,12 +578,13 @@
   </div>
 
   <!-- 3) KOMBO – kartice, horizontalni scroll -->
-  <div class="space-y-4">
-    <div class="flex items-baseline justify-between gap-2">
+  <div class="space-y-3">
+    <div class="flex items-center justify-between gap-2">
       <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Kombo ponude</h2>
-      <span class="text-[11px] sm:text-xs text-gray-400">
-        Hrana + piće povoljnije nego odvojeno
-      </span>
+      <div class="scroll-hint">
+        <span class="arrows">⟵⟶</span>
+        <span>prevuci za još</span>
+      </div>
     </div>
 
     <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
@@ -627,6 +668,7 @@
 </section>
 
 
+
     <!-- INFO KARTICE -->
     <section class="space-y-6">
       <h2 class="text-sm sm:text-base font-semibold text-gray-200">
@@ -657,172 +699,31 @@
       </div>
     </section>
 
-    <!-- STORY + SLIKA -->
-    <section class="pt-4">
-      <div class="flex flex-col lg:flex-row items-start lg:items-center gap-10">
-        <div class="flex-1">
-          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 leading-tight font-montserrat">
-            Sindikat na<br />
-            <span class="gradient-gold">Podgoričkom Pazaru</span>
-          </h2>
-          <p class="text-gray-300 text-sm sm:text-base max-w-xl mb-4">
-            Kućica sa dobrom energijom, toplim napicima, zalogajčićima za dijeljenje
-            i kombo ponudama za ekipe. Dođi na pivo, vino, rakiju, koktele i ciciban /
-            family porcije – ili isplaniraj mini office party kod nas.
-          </p>
+ <section class="mt-6 mb-10">
+  <div class="card-blur rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div>
+      <h2 class="text-xl sm:text-2xl font-semibold mb-2 font-montserrat">
+        Rezerviši sto & piće ide od nas
+      </h2>
+      <p class="text-sm sm:text-base text-gray-300 max-w-xl">
+        Ako dolaziš sa ekipom ili kolegama, možeš da <strong>rezervišeš visoki sto</strong> unaprijed.
+        Uz svaku potvrđenu rezervaciju stiže i <strong>piće dobrodošlice po osobi</strong>
+        (vino, pivo ili bezalkoholno).
+      </p>
+      <p class="mt-3 text-xs sm:text-sm text-gray-400">
+        Pošalji nam poruku na Instagramu sa datumom, vremenom i brojem ljudi – odgovaramo brzo.
+      </p>
+    </div>
+    <a
+      href="https://www.instagram.com/sindikat_events"
+      target="_blank"
+      class="inline-flex justify-center items-center bg-gold text-black font-semibold px-6 py-3 rounded-full text-sm sm:text-base hover:bg-yellow-500 transition btn-animate"
+    >
+      📩 Rezerviši sto preko Instagrama
+    </a>
+  </div>
+</section>
 
-          <div class="mt-4 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onclick="document.getElementById('pazar-menu').scrollIntoView({behavior:'smooth'})"
-              class="bg-gold text-black font-semibold px-5 py-3 rounded-full text-sm sm:text-base hover:bg-yellow-500 transition btn-animate"
-            >
-              Nazad na meni
-            </button>
-            <a
-              href="https://www.instagram.com/sindikat_events"
-              target="_blank"
-              class="border border-gray-500 text-gray-200 px-5 py-3 rounded-full text-sm sm:text-base hover:bg-gray-900 transition btn-animate"
-            >
-              Pošalji DM na Instagramu
-            </a>
-          </div>
-
-          <div class="mt-6 flex flex-wrap gap-6 text-xs sm:text-sm text-gray-400">
-            <div>
-              <span class="block text-gray-500 uppercase tracking-wide">Period</span>
-              19. decembar – 7. januar
-            </div>
-            <div>
-              <span class="block text-gray-500 uppercase tracking-wide">Format</span>
-              dnevne ponude + večernji program po danima
-            </div>
-            <div>
-              <span class="block text-gray-500 uppercase tracking-wide">Kontakt</span>
-              <a href="https://www.instagram.com/sindikat_events" target="_blank" class="text-yellow-300 hover:underline">
-                DM @sindikat_events
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex-1 w-full">
-          <div class="card-blur rounded-3xl overflow-hidden shadow-xl">
-            <div class="relative aspect-[4/3]">
-              <img
-                src="https://images.pexels.com/photos/886743/pexels-photo-886743.jpeg"
-                alt="Zimski pazar sa toplom atmosferom i svjetlima"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
-              <div class="absolute bottom-3 left-3 bg-black/70 text-[10px] sm:text-xs px-3 py-1.5 rounded-full">
-                Sindikat kućica · Podgorički Pazar
-              </div>
-            </div>
-            <div class="p-4 sm:p-5 text-xs sm:text-sm text-gray-300">
-              Kombinujemo muziku, zimske ukuse i urbanu atmosferu – uz mogućnost dogovorenih termina,
-              paketa i brend aktivacija. Za sve dogovore: Instagram DM @sindikat_events.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HAPPY HOUR & PAKETI -->
-    <section class="space-y-8">
-      <div class="flex items-baseline justify-between gap-4">
-        <div>
-          <h2 class="text-2xl sm:text-3xl font-bold mb-1 font-montserrat">Happy hour & paketi za ekipe</h2>
-          <p class="text-gray-400 text-sm sm:text-base">
-            Idealno za after work, mini novogodišnju proslavu ili okupljanje prijatelja na Pazaru.
-          </p>
-        </div>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-blur rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-          <div>
-            <h3 class="text-lg font-semibold mb-2 font-montserrat">Happy Hour · After work</h3>
-            <p class="text-sm text-gray-300 mb-3">
-              U terminu 17–19h, posebne cijene na odabrana pića i jednostavne kombo ponude.
-            </p>
-            <ul class="text-xs text-gray-400 space-y-1">
-              <li>• Kuvano vino / pivo po sniženoj cijeni</li>
-              <li>• Piće + zalogajčići (Ciciban ili Standard) po promo cijeni</li>
-              <li>• Mogućnost rezervacije visokih stolova (piši u DM)</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card-blur rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-          <div>
-            <h3 class="text-lg font-semibold mb-2 font-montserrat">Mini office party paket</h3>
-            <p class="text-sm text-gray-300 mb-3">
-              Za male timove i firme koje žele opušteno novogodišnje okupljanje – bez formalne sale.
-            </p>
-            <ul class="text-xs text-gray-400 space-y-1 mb-3">
-              <li>• Dogovoreni broj pića po osobi</li>
-              <li>• Kombinacija Ciciban / Standard / Family komboa</li>
-              <li>• Rezervisani prostor kod kućice</li>
-              <li>• Opcija DJ / dodatnog programa</li>
-            </ul>
-          </div>
-          <a
-            href="https://www.instagram.com/sindikat_events"
-            target="_blank"
-            class="mt-3 inline-flex justify-center items-center bg-gold text-black text-xs font-semibold px-4 py-2 rounded-full hover:bg-yellow-500 transition"
-          >
-            Pošalji DM za office paket
-          </a>
-        </div>
-
-        <div class="card-blur rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-          <div>
-            <h3 class="text-lg font-semibold mb-2 font-montserrat">Custom dogovor & brend aktivacije</h3>
-            <p class="text-sm text-gray-300 mb-3">
-              Za brendove, partnere i organizatore – zajedničke aktivacije, sampling i special night koncepti.
-            </p>
-            <ul class="text-xs text-gray-400 space-y-1">
-              <li>• Brendirani kokteli / punčevi</li>
-              <li>• Sampling proizvoda kod kućice</li>
-              <li>• Nagradne igre i giveaway večeri</li>
-              <li>• Foto & social media podrška</li>
-            </ul>
-          </div>
-          <a
-            href="https://www.instagram.com/sindikat_events"
-            target="_blank"
-            class="mt-3 inline-flex justify-center items-center border border-gold text-xs font-semibold px-4 py-2 rounded-full hover:bg-yellow-500 hover:text-black transition"
-          >
-            Dogovori aktivaciju u DM-u
-          </a>
-        </div>
-      </div>
-    </section>
-
-   
-
-    <!-- DM CTA -->
-    <section class="mt-4 mb-4">
-      <div class="card-blur rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <h2 class="text-xl sm:text-2xl font-semibold mb-2 font-montserrat">
-            Hoćeš rezervaciju, paket ili brend aktivaciju?
-          </h2>
-          <p class="text-sm sm:text-base text-gray-300 max-w-xl">
-            Sve dogovore radimo isključivo preko Instagram DM-a.
-            Pošalji poruku sa brojem ljudi, datumom i otprilike šta biste voljeli – odgovaramo u najkraćem roku.
-          </p>
-        </div>
-        <a
-          href="https://www.instagram.com/sindikat_events"
-          target="_blank"
-          class="inline-flex justify-center items-center bg-gold text-black font-semibold px-6 py-3 rounded-full text-sm sm:text-base hover:bg-yellow-500 transition"
-        >
-          Pošalji DM na @sindikat_events
-        </a>
-      </div>
-    </section>
 
   </main>
 
