@@ -257,391 +257,375 @@
   <!-- GLAVNI SADRŽAJ -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-20">
 
-    <!-- MENI – GLAVNA SEKCIJA -->
-    <section id="pazar-menu" class="space-y-8 pt-4">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <p class="uppercase tracking-[0.3em] text-[11px] text-gray-500 mb-1">
-            Sindikat kućica · Podgorički Pazar
-          </p>
-          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight font-montserrat">
-            Meni kućice<br />
-            <span class="gradient-gold">Podgorički Pazar</span>
-          </h1>
-          <p class="text-gray-300 text-sm sm:text-base max-w-xl mt-2">
-            Skenirao/la si QR kod – ovo je <strong>aktuelni meni</strong> naše kućice:
-            zalogajčići u tri veličine, kifle, sendviči, plus puni bar sa vinom, pivom,
-            rakijama, koktelima i kombo ponudama.
-          </p>
-        </div>
-        <div class="text-xs sm:text-sm text-gray-400 sm:text-right">
-          <p><span class="text-gray-500 uppercase tracking-wide">Lokacija</span><br />Trg nezavisnosti, Podgorica</p>
-          <p class="mt-2">
-            <span class="text-gray-500 uppercase tracking-wide">Radno vrijeme</span><br />
-            Svakog dana 10:00 – 00:00*
-          </p>
-          <p class="mt-2">
-            <span class="text-gray-500 uppercase tracking-wide">Napomena</span><br />
-            Cijene na tabli i šanku su uvijek važeće u odnosu na online meni.
-          </p>
-        </div>
-      </div>
+<section id="pazar-menu" class="space-y-10 pt-4">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div>
+      <p class="uppercase tracking-[0.3em] text-[11px] text-gray-500 mb-1">
+        Sindikat kućica · Podgorički Pazar
+      </p>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight font-montserrat">
+        Meni kućice<br />
+        <span class="gradient-gold">Podgorički Pazar</span>
+      </h1>
+      <p class="text-gray-300 text-sm sm:text-base max-w-xl mt-2">
+        Fokus na piće, onda hrana, pa kombo ponude.  
+        Na mobilnom <span class="text-yellow-300 font-semibold">prevuci lijevo–desno</span> kroz kartice.
+      </p>
+    </div>
+    <div class="text-xs sm:text-sm text-gray-400 sm:text-right">
+      <p><span class="text-gray-500 uppercase tracking-wide">Lokacija</span><br />Trg nezavisnosti, Podgorica</p>
+      <p class="mt-2">
+        <span class="text-gray-500 uppercase tracking-wide">Radno vrijeme</span><br />
+        Svakog dana 10:00 – 00:00*
+      </p>
+      <p class="mt-2">
+        <span class="text-gray-500 uppercase tracking-wide">Napomena</span><br />
+        Cijene na tabli i šanku su uvijek važeće u odnosu na online meni.
+      </p>
+    </div>
+  </div>
 
-      <!-- GRID: HRANA · PIĆA · KOMBO -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- 1) PIĆA – kartice, horizontalni scroll -->
+  <div class="space-y-4">
+    <div class="flex items-baseline justify-between gap-2">
+      <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Pića</h2>
+      <span class="text-[11px] sm:text-xs text-gray-400">
+        Prevučeš lijevo–desno za više kartica
+      </span>
+    </div>
 
-        <!-- HRANA -->
-        <div class="card-blur rounded-2xl p-6 sm:p-7">
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4 flex items-center justify-between gap-2 font-montserrat">
-            <span>Hrana</span>
-            <span class="text-[11px] px-2 py-0.5 rounded-full bg-black/40 text-gray-300 uppercase tracking-wide">
-              zalogajčići · kifle · sendviči
-            </span>
-          </h2>
+    <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
+      <!-- Vino & pivo -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Vino & pivo</p>
+          <h3 class="text-lg font-semibold font-montserrat">Osnovna ponuda</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Vino (čaša)</span><span class="price-tag">2,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Kuvano vino</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Pivo 0,4 l</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Pivo 0,4 l 4+1</span><span class="price-tag">12,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-          <div class="space-y-3 text-sm sm:text-base">
+      <!-- Rakije -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Rakije</p>
+          <h3 class="text-lg font-semibold font-montserrat">Domaće & specijalne</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Šamar rakija</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Voćna rakija</span><span class="price-tag">2,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Makedonska loza</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Meduška</span><span class="price-tag">2,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Kuvana rakija</span><span class="price-tag">3,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Kids zalogajčići (5 kom)</p>
-              </div>
-              <span class="price-tag">3,50 €</span>
-            </div>
+      <!-- Žestoka pića -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Žestoka pića</p>
+          <h3 class="text-lg font-semibold font-montserrat">Shotovi & klasici</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Jägermeister shot</span><span class="price-tag">2,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Tequila Sierra shot</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Baileys</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Shanky’s Whip</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Pelinkovac</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Jack Daniel’s</span><span class="price-tag">4,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Standard zalogajčići (12 kom)</p>
-              </div>
-              <span class="price-tag">5,00 €</span>
-            </div>
+      <!-- Kokteli & hot -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Kokteli & hot</p>
+          <h3 class="text-lg font-semibold font-montserrat">Zimski miks</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Gin tonik</span><span class="price-tag">4,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Vodka + juice</span><span class="price-tag">4,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Alkoholni punč</span><span class="price-tag">4,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Koktel ljubavi</span><span class="price-tag">5,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Kuvani džin</span><span class="price-tag">3,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Family/Couple's (25 kom)</p>
-              </div>
-              <span class="price-tag">9,00 €</span>
-            </div>
+      <!-- Bezalkoholno -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Bezalkoholno</p>
+          <h3 class="text-lg font-semibold font-montserrat">Sokovi & toplo</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Gazirani sokovi</span><span class="price-tag">2,50 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Negazirani sokovi</span><span class="price-tag">2,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Bezalkoholni punč</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Čaj (čaša)</span><span class="price-tag">2,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Voda 0,5 l</span><span class="price-tag">1,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Kisjela bočica</span><span class="price-tag">2,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <hr class="border-gray-700/70 my-2">
+      <!-- Boce & paketi -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Boce & paketi</p>
+          <h3 class="text-lg font-semibold font-montserrat">Za ekipe</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Jack Daniel’s + 5 čaša</span><span class="price-tag">100,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Jägermeister + 5 čaša</span><span class="price-tag">100,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Meduška (boca)</span><span class="price-tag">50,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Vino (boca)</span><span class="price-tag">30,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Šampanjac</span><span class="price-tag">50,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Obična voda (boca)</span><span class="price-tag">4,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Kisela voda (boca)</span><span class="price-tag">4,00 €</span>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </div>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Bavarske kifle</p>
-              </div>
-              <span class="price-tag">3,00 €</span>
-            </div>
+  <!-- 2) HRANA – kartice, horizontalni scroll -->
+  <div class="space-y-4">
+    <div class="flex items-baseline justify-between gap-2">
+      <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Hrana</h2>
+      <span class="text-[11px] sm:text-xs text-gray-400">Snack & zalogajčići za svako piće</span>
+    </div>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Mini sendvič</p>
-              </div>
-              <span class="price-tag">3,00 €</span>
-            </div>
+    <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
+      <!-- Zalogajčići -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Specijalitet kućice</p>
+          <h3 class="text-lg font-semibold font-montserrat">Zalogajčići</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Kids (5 kom)</span><span class="price-tag">3,50 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Standard (12 kom)</span><span class="price-tag">5,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Family/Couple's (25 kom)</span><span class="price-tag">9,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Standard sendvič</p>
-              </div>
-              <span class="price-tag">6,00 €</span>
-            </div>
+      <!-- Kifle & štapići -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Kifle & štapići</p>
+          <h3 class="text-lg font-semibold font-montserrat">Za pivo & vino</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Bavarske kifle</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Integralni štapići</span><span class="price-tag">5,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Skočko</p>
-              </div>
-              <span class="price-tag">4,00 €</span>
-            </div>
+      <!-- Sendviči & Skočko -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Sendviči</p>
+          <h3 class="text-lg font-semibold font-montserrat">Konkretniji zalogaj</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Mini sendvič</span><span class="price-tag">3,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Standard sendvič</span><span class="price-tag">6,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Skočko</span><span class="price-tag">4,00 €</span>
+          </li>
+        </ul>
+      </article>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Integralni štapići</p>
-              </div>
-              <span class="price-tag">5,00 €</span>
-            </div>
+      <!-- Mini pizza & sos -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Ostalo</p>
+          <h3 class="text-lg font-semibold font-montserrat">Mini pizza & sos</h3>
+        </header>
+        <ul class="text-sm text-gray-200 space-y-1.5">
+          <li class="flex justify-between gap-3">
+            <span>Mini pizza zalogaji</span><span class="price-tag">5,00 €</span>
+          </li>
+          <li class="flex justify-between gap-3">
+            <span>Dodaci: sos (3 ukusa)</span><span class="price-tag">0,30 €</span>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </div>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Mini pizza zalogaji</p>
-              </div>
-              <span class="price-tag">5,00 €</span>
-            </div>
+  <!-- 3) KOMBO – kartice, horizontalni scroll -->
+  <div class="space-y-4">
+    <div class="flex items-baseline justify-between gap-2">
+      <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Kombo ponude</h2>
+      <span class="text-[11px] sm:text-xs text-gray-400">
+        Hrana + piće povoljnije nego odvojeno
+      </span>
+    </div>
 
-            <div class="flex justify-between gap-4">
-              <div>
-                <p class="font-semibold text-base sm:text-lg">Dodaci: sos (3 ukusa)</p>
-              </div>
-              <span class="price-tag">0,30 €</span>
-            </div>
+    <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
+      <!-- Ciciban -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+          <h3 class="text-lg font-semibold font-montserrat">Ciciban</h3>
+        </header>
+        <p class="text-sm text-gray-200 mb-3">
+          Kids porcija + 2 soka
+        </p>
+        <div class="text-xs text-gray-400">
+          <div class="flex justify-between mb-1">
+            <span>Cijena hrane</span><span>3,00 €</span>
           </div>
-
-          <p class="mt-5 text-[11px] sm:text-xs text-gray-500">
-            *Svi box-evi se mogu kombinovati po ukusu (neutral, slano, slatko) – pitaj na šanku šta je taj dan u ponudi.
-          </p>
-        </div>
-
-        <!-- PIĆA -->
-        <div class="card-blur rounded-2xl p-6 sm:p-7">
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4 flex items-center justify-between gap-2 font-montserrat">
-            <span>Pića</span>
-            <span class="text-[11px] px-2 py-0.5 rounded-full bg-black/40 text-gray-300 uppercase tracking-wide">
-              vino · pivo · žestina · bezalkoholno
-            </span>
-          </h2>
-
-          <div class="space-y-4 text-sm sm:text-base">
-
-            <!-- Alkoholna – čaše / shotovi -->
-            <div class="border-b border-gray-700/70 pb-3 mb-2">
-              <p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Alkoholna pića</p>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Vino (čaša)</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Kuvano vino</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Pivo 0,4 l</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Jägermeister shot</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Gin tonik</p></div>
-                <span class="price-tag">4,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Vodka + juice</p></div>
-                <span class="price-tag">4,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Tequila Sierra shot</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Baileys</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Shanky’s Whip</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Šamar rakija</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Voćna rakija</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Makedonska loza</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Meduška</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Kuvana rakija</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Jack Daniel’s</p></div>
-                <span class="price-tag">4,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Alkoholni punč</p></div>
-                <span class="price-tag">4,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4">
-                <div><p class="font-semibold text-base sm:text-lg">Pelinkovac</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-            </div>
-
-            <!-- Bezalkoholno -->
-            <div class="border-b border-gray-700/70 pb-3 mb-2">
-              <p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Bezalkoholna pića</p>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Gazirani sokovi</p></div>
-                <span class="price-tag">2,50 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Negazirani sokovi</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Voda 0,5 l</p></div>
-                <span class="price-tag">1,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Kisjela bočica</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Bezalkoholni punč</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4">
-                <div><p class="font-semibold text-base sm:text-lg">Čaj (čaša)</p></div>
-                <span class="price-tag">2,00 €</span>
-              </div>
-            </div>
-
-            <!-- Boce & paketi -->
-            <div>
-              <p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Boce & specijalne ponude</p>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Pivo 0,4 l 4+1</p></div>
-                <span class="price-tag">12,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Jack Daniel’s + 5 čaša</p></div>
-                <span class="price-tag">100,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Jägermeister + 5 čaša</p></div>
-                <span class="price-tag">100,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Meduška (boca)</p></div>
-                <span class="price-tag">50,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Obična voda (boca)</p></div>
-                <span class="price-tag">4,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Kisela voda (boca)</p></div>
-                <span class="price-tag">4,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Vino (boca)</p></div>
-                <span class="price-tag">30,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Šampanjac</p></div>
-                <span class="price-tag">50,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4 mb-1.5">
-                <div><p class="font-semibold text-base sm:text-lg">Koktel ljubavi</p></div>
-                <span class="price-tag">5,00 €</span>
-              </div>
-
-              <div class="flex justify-between gap-4">
-                <div><p class="font-semibold text-base sm:text-lg">Kuvani džin</p></div>
-                <span class="price-tag">3,00 €</span>
-              </div>
-            </div>
+          <div class="flex justify-between">
+            <span>Kombo cijena</span><span class="price-tag">6,00 €</span>
           </div>
-
-          <p class="mt-5 text-[11px] sm:text-xs text-gray-500">
-            *Određeni brendovi zavise od dostupnosti i saradnje sa partnerima. Uvijek vrijedi cijena istaknuta na kućici.
-          </p>
         </div>
+      </article>
 
-        <!-- KOMBO PONUDE -->
-        <div class="card-blur rounded-2xl p-6 sm:p-7 lg:col-span-1 md:col-span-2 lg:col-span-1">
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4 flex items-center justify-between gap-2 font-montserrat">
-            <span>Kombo ponude</span>
-            <span class="text-[11px] px-2 py-0.5 rounded-full bg-black/40 text-gray-300 uppercase tracking-wide">
-              hrana + piće
-            </span>
-          </h2>
-
-          <div class="space-y-4 text-sm sm:text-base">
-            <!-- Ciciban -->
-            <div class="border-b border-gray-700/70 pb-3">
-              <div class="flex justify-between gap-4 mb-1">
-                <p class="font-semibold text-base sm:text-lg">Ciciban</p>
-                <span class="price-tag">6,00 €</span>
-              </div>
-              <p class="text-xs sm:text-sm text-gray-400">
-                Kids porcija + 2 soka<br>
-                <span class="text-[11px] text-gray-500">Cijena hrane: 3,00 €</span>
-              </p>
-            </div>
-
-            <!-- Standard -->
-            <div class="border-b border-gray-700/70 pb-3">
-              <div class="flex justify-between gap-4 mb-1">
-                <p class="font-semibold text-base sm:text-lg">Standard kombo</p>
-                <span class="price-tag">9,00 €</span>
-              </div>
-              <p class="text-xs sm:text-sm text-gray-400">
-                12 kom zalogaja + 2 kuvana vina<br>
-                <span class="text-[11px] text-gray-500">Cijena hrane: 4,50 €</span>
-              </p>
-            </div>
-
-            <!-- Family -->
-            <div class="border-b border-gray-700/70 pb-3">
-              <div class="flex justify-between gap-4 mb-1">
-                <p class="font-semibold text-base sm:text-lg">Family kombo</p>
-                <span class="price-tag">14,00 €</span>
-              </div>
-              <p class="text-xs sm:text-sm text-gray-400">
-                25 kom zalogaja + 2 punča<br>
-                <span class="text-[11px] text-gray-500">Cijena hrane: 8,00 €</span>
-              </p>
-            </div>
-
-            <!-- Bavarska -->
-            <div>
-              <div class="flex justify-between gap-4 mb-1">
-                <p class="font-semibold text-base sm:text-lg">Bavarska</p>
-                <span class="price-tag">5,00 €</span>
-              </div>
-              <p class="text-xs sm:text-sm text-gray-400">
-                Bavarska kifla + pivo<br>
-                <span class="text-[11px] text-gray-500">Cijena hrane: 3,00 €</span>
-              </p>
-            </div>
+      <!-- Standard kombo -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+          <h3 class="text-lg font-semibold font-montserrat">Standard</h3>
+        </header>
+        <p class="text-sm text-gray-200 mb-3">
+          12 kom zalogaja + 2 kuvana vina
+        </p>
+        <div class="text-xs text-gray-400">
+          <div class="flex justify-between mb-1">
+            <span>Cijena hrane</span><span>4,50 €</span>
           </div>
-
-          <p class="mt-5 text-[11px] sm:text-xs text-gray-500">
-            *Kombo ponude su osmišljene da budu povoljnije od pojedinačnog naručivanja.
-            Pitaj na šanku za dnevne specijalne kombinacije.
-          </p>
+          <div class="flex justify-between">
+            <span>Kombo cijena</span><span class="price-tag">9,00 €</span>
+          </div>
         </div>
-      </div>
-    </section>
+      </article>
+
+      <!-- Family kombo -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+          <h3 class="text-lg font-semibold font-montserrat">Family</h3>
+        </header>
+        <p class="text-sm text-gray-200 mb-3">
+          25 kom zalogaja + 2 punča
+        </p>
+        <div class="text-xs text-gray-400">
+          <div class="flex justify-between mb-1">
+            <span>Cijena hrane</span><span>8,00 €</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Kombo cijena</span><span class="price-tag">14,00 €</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Bavarska kombo -->
+      <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+        <header class="mb-2">
+          <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+          <h3 class="text-lg font-semibold font-montserrat">Bavarska</h3>
+        </header>
+        <p class="text-sm text-gray-200 mb-3">
+          Bavarska kifla + pivo
+        </p>
+        <div class="text-xs text-gray-400">
+          <div class="flex justify-between mb-1">
+            <span>Cijena hrane</span><span>3,00 €</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Kombo cijena</span><span class="price-tag">5,00 €</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 
     <!-- INFO KARTICE -->
     <section class="space-y-6">
