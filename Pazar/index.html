@@ -66,16 +66,44 @@
     .mobile-open #mobileMenu{ opacity:1; pointer-events:auto; }
     .mobile-open #menuBtn{ border-color:#FFD700; }
 
-    /* Pazar page dodatno */
+    /* Blur card (ostavljeno za info/cta — po želji možeš i njih prebaciti na offer-card) */
     .card-blur{
       background: rgba(15, 23, 42, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.3);
       backdrop-filter: blur(16px);
     }
+
     .price-tag{
       font-size:.875rem; font-weight:600; color:#fde68a; white-space:nowrap;
     }
     @media (min-width:640px){ .price-tag{ font-size:1rem; } }
+
+    /* ===== KARTICE PONUDE: POZADINA SE SETUJE IZ JS KONFIGA ===== */
+    .offer-card{
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px; /* rounded-2xl */
+      border: 1px solid rgba(148, 163, 184, 0.30);
+      background-image: var(--offer-bg, none);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .offer-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.86) 72%,
+        rgba(0,0,0,0.94) 100%
+      );
+    }
+    .offer-card > *{
+      position: relative;
+      z-index: 1;
+    }
 
     /* MOBILNI STICKY PROMO BANER */
     .mobile-sticky-banner{
@@ -147,11 +175,51 @@
     </div>
   </nav>
 
-  <!-- GLAVNI SADRŽAJ -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-20">
 
+    <!-- ====== CONFIG SEKCIJA: OVDJE UBACUJEŠ LINKOVE SLIKA ZA KARTICE ======
+         Samo promijeni URL-ove u CARD_IMAGES.
+         Ključevi (npr. "drink_winebeer") moraju da odgovaraju data-card="..." na karticama ispod.
+    -->
+    <script>
+      const DEFAULT_OFFER_BG =
+        "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg";
+
+      const CARD_IMAGES = {
+        // PIĆA
+        "drink_winebeer": "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "drink_rakije":   "https://www.spiritstyle.rs/wp-content/uploads/2022/06/Samar-800.jpg",
+        "drink_spirits":  "https://i.redd.it/2v4qc5x3c9r41.jpg",
+        "drink_cocktail": "https://media.istockphoto.com/id/1303977626/photo/four-cocktails-in-drinking-glasses-on-marble-table.jpg?s=612x612&w=0&k=20&c=xjRkMxAYfSTaz6m5pH2W7hyQH-ec6vnFoHYCrYRIPfg=",
+        "drink_soft":     "https://citma.shorthandstories.com/6e7d13ef-02b7-42af-9d16-cce70df03f84/assets/G3zfKMJ2tq/shorthand-images5-2560x1440.jpg",
+        "drink_bottles":  "https://www.034portal.hr/images/27947.jpg",
+
+        // HRANA
+        "food_bites":     "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "food_pretzel":   "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "food_sandwich":  "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "food_pizza":     "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+
+        // KOMBO
+        "combo_ciciban":  "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "combo_standard": "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "combo_family":   "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+        "combo_bavarska": "https://www.catadelvino.com/uploads/que-significa-la-categoria-de-vino-de-mesa-4917-1.jpg",
+      };
+
+      function applyOfferCardBackgrounds() {
+        document.querySelectorAll(".offer-card[data-card]").forEach((card) => {
+          const key = card.getAttribute("data-card");
+          const url = (CARD_IMAGES[key] && CARD_IMAGES[key].trim()) ? CARD_IMAGES[key].trim() : DEFAULT_OFFER_BG;
+          card.style.setProperty("--offer-bg", `url('${url}')`);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", applyOfferCardBackgrounds);
+    </script>
+
     <section id="pazar-menu" class="space-y-10 pt-4">
-      <!-- Header sa pozadinskom fotografijom -->
+      <!-- Header -->
       <div class="relative overflow-hidden rounded-3xl border border-white/10 mb-4">
         <img
           src="https://sharemontenegro.me/wp-content/uploads/2023/12/podgori%C4%8Dki-pazar-nova-godina.jpg"
@@ -172,9 +240,8 @@
                 <span class="gradient-gold">Podgorički Pazar</span>
               </h1>
 
-              <!-- HAPPY HOUR (50% na svo piće 17-20) -->
               <div class="mt-4 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gold text-black font-semibold text-sm shadow-lg">
-                🍻 SVAKI DAN HAPPY HOUR <span class="font-bold">17:00 – 20:00</span> • 50% POPUST NA SVO PIĆE
+                SVAKI DAN HAPPY HOUR <span class="font-bold">17:00 – 20:00</span> • 50% POPUST NA SVO PIĆE
               </div>
 
               <p class="text-gray-200 text-sm sm:text-base max-w-xl mt-4">
@@ -183,9 +250,9 @@
               </p>
 
               <div class="mt-3 inline-flex flex-wrap gap-2 text-[11px] sm:text-xs">
-                <span class="px-3 py-1 rounded-full bg-black/40 border border-white/20">🍹 Pića</span>
-                <span class="px-3 py-1 rounded-full bg-black/40 border border-white/20">🥨 Hrana & snack</span>
-                <span class="px-3 py-1 rounded-full bg-black/40 border border-white/20">🔗 Kombo ponude</span>
+                <span class="px-3 py-1 rounded-full bg-black/40 border border-white/20">Pića</span>
+                <span class="px-3 py-1 rounded-full bg-black/40 border border-white/20">Hrana & snack</span>
+                <span class="px-3 py-1 rounded-full bg-black/40 border border-white/20">Kombo ponude</span>
               </div>
             </div>
 
@@ -203,7 +270,7 @@
         </div>
       </div>
 
-      <!-- 1) PIĆA -->
+      <!-- PIĆA -->
       <div class="space-y-3">
         <div class="flex items-center justify-between gap-2">
           <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Pića</h2>
@@ -212,29 +279,26 @@
 
         <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
 
-          <!-- Vino & pivo -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="drink_winebeer" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Vino & pivo</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Vino & pivo</p>
               <h3 class="text-lg font-semibold font-montserrat">Osnovna ponuda</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Vino (čaša)</span><span class="price-tag">2,50 €</span></li>
-                            <li class="flex justify-between gap-3"><span>Vino 0,187 l</span><span class="price-tag">4,80 €</span></li>
-
+              <li class="flex justify-between gap-3"><span>Vino 0,187 l</span><span class="price-tag">4,80 €</span></li>
               <li class="flex justify-between gap-3"><span>Kuvano vino</span><span class="price-tag">3,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Pivo 0,4L</span><span class="price-tag">3,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Pivo 0,4L 4+1</span><span class="price-tag">12,00 €</span></li>
             </ul>
           </article>
 
-          <!-- Rakije -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="drink_rakije" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Rakije</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Rakije</p>
               <h3 class="text-lg font-semibold font-montserrat">Domaće & specijalne</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Šamar rakija</span><span class="price-tag">3,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Voćna rakija</span><span class="price-tag">2,30 €</span></li>
               <li class="flex justify-between gap-3"><span>Makedonska loza</span><span class="price-tag">3,20 €</span></li>
@@ -243,13 +307,12 @@
             </ul>
           </article>
 
-          <!-- Žestoka pića -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="drink_spirits" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Žestoka pića</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Žestoka pića</p>
               <h3 class="text-lg font-semibold font-montserrat">Shotovi & klasici</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Jägermeister shot</span><span class="price-tag">2,40 €</span></li>
               <li class="flex justify-between gap-3"><span>Tequila shot</span><span class="price-tag">3,20 €</span></li>
               <li class="flex justify-between gap-3"><span>Tequila chilli shot</span><span class="price-tag">3,20 €</span></li>
@@ -260,13 +323,12 @@
             </ul>
           </article>
 
-          <!-- Kokteli & hot -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="drink_cocktail" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Kokteli & hot</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Kokteli & hot</p>
               <h3 class="text-lg font-semibold font-montserrat">Zimski miks</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Otkaz 0.05L</span><span class="price-tag">3,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Gin tonik</span><span class="price-tag">4,20 €</span></li>
               <li class="flex justify-between gap-3"><span>Vodka + juice</span><span class="price-tag">4,20 €</span></li>
@@ -277,13 +339,12 @@
             </ul>
           </article>
 
-          <!-- Bezalkoholno -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="drink_soft" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Bezalkoholno</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Bezalkoholno</p>
               <h3 class="text-lg font-semibold font-montserrat">Sokovi & topli napici</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Kuvana kafa</span><span class="price-tag">1,50 €</span></li>
               <li class="flex justify-between gap-3"><span>Gazirani sokovi</span><span class="price-tag">2,80 €</span></li>
               <li class="flex justify-between gap-3"><span>Negazirani sokovi</span><span class="price-tag">2,50 €</span></li>
@@ -296,13 +357,12 @@
             </ul>
           </article>
 
-          <!-- Boce & paketi -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="drink_bottles" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Boce & paketi</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Boce & paketi</p>
               <h3 class="text-lg font-semibold font-montserrat">Za ekipe</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Jack Daniel’s + 5x Coca-Cola</span><span class="price-tag">120,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Jägermeister + 5x Ultra Energy</span><span class="price-tag">100,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Meduška boca + 5x pivo</span><span class="price-tag">60,00 €</span></li>
@@ -314,7 +374,7 @@
         </div>
       </div>
 
-      <!-- 2) HRANA -->
+      <!-- HRANA -->
       <div class="space-y-3">
         <div class="flex items-center justify-between gap-2">
           <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Hrana</h2>
@@ -323,51 +383,47 @@
 
         <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
 
-          <!-- Zalogajčići -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4">
+          <article data-card="food_bites" class="min-w-[230px] offer-card rounded-2xl p-4">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Specijalitet kućice</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Specijalitet kućice</p>
               <h3 class="text-lg font-semibold font-montserrat">Zalogajčići</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Kids (5 kom)</span><span class="price-tag">3,50 €</span></li>
               <li class="flex justify-between gap-3"><span>Standard (12 kom)</span><span class="price-tag">5,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Family / Couple’s (25 kom)</span><span class="price-tag">9,00 €</span></li>
             </ul>
           </article>
 
-          <!-- Kifle & štapići -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4">
+          <article data-card="food_pretzel" class="min-w-[230px] offer-card rounded-2xl p-4">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Kifle & štapići</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Kifle & štapići</p>
               <h3 class="text-lg font-semibold font-montserrat">Za pivo & vino</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Bavarske kifle</span><span class="price-tag">3,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Integralni štapići</span><span class="price-tag">5,00 €</span></li>
             </ul>
           </article>
 
-          <!-- Sendviči & Skočko -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4">
+          <article data-card="food_sandwich" class="min-w-[230px] offer-card rounded-2xl p-4">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Sendviči</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Sendviči</p>
               <h3 class="text-lg font-semibold font-montserrat">Konkretniji zalogaj</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Mini sendvič</span><span class="price-tag">3,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Standard sendvič</span><span class="price-tag">6,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Skočko</span><span class="price-tag">4,00 €</span></li>
             </ul>
           </article>
 
-          <!-- Mini pizza & sos -->
-          <article class="min-w-[230px] card-blur rounded-2xl p-4">
+          <article data-card="food_pizza" class="min-w-[230px] offer-card rounded-2xl p-4">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Ostalo</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Ostalo</p>
               <h3 class="text-lg font-semibold font-montserrat">Mini pizza & sos</h3>
             </header>
-            <ul class="text-sm text-gray-200 space-y-1.5">
+            <ul class="text-sm text-gray-100 space-y-1.5">
               <li class="flex justify-between gap-3"><span>Mini pizza zalogaji</span><span class="price-tag">5,00 €</span></li>
               <li class="flex justify-between gap-3"><span>Dodaci: sos (3 ukusa)</span><span class="price-tag">0,30 €</span></li>
             </ul>
@@ -376,7 +432,7 @@
         </div>
       </div>
 
-      <!-- 3) KOMBO -->
+      <!-- KOMBO -->
       <div class="space-y-3">
         <div class="flex items-center justify-between gap-2">
           <h2 class="text-xl sm:text-2xl font-semibold font-montserrat">Kombo ponude</h2>
@@ -385,46 +441,46 @@
 
         <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-3 -mx-2 px-2">
 
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="combo_ciciban" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Kombo</p>
               <h3 class="text-lg font-semibold font-montserrat">Ciciban</h3>
             </header>
-            <p class="text-sm text-gray-200 mb-3">Kids porcija + 2 soka</p>
-            <div class="text-xs text-gray-400">
+            <p class="text-sm text-gray-100 mb-3">Kids porcija + 2 soka</p>
+            <div class="text-xs text-gray-200">
               <div class="flex justify-between"><span>Kombo cijena</span><span class="price-tag">6,00 €</span></div>
             </div>
           </article>
 
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="combo_standard" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Kombo</p>
               <h3 class="text-lg font-semibold font-montserrat">Standard kombo</h3>
             </header>
-            <p class="text-sm text-gray-200 mb-3">12 kom zalogajčića + 2 kuvana vina</p>
-            <div class="text-xs text-gray-400">
+            <p class="text-sm text-gray-100 mb-3">12 kom zalogajčića + 2 kuvana vina</p>
+            <div class="text-xs text-gray-200">
               <div class="flex justify-between"><span>Kombo cijena</span><span class="price-tag">9,00 €</span></div>
             </div>
           </article>
 
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="combo_family" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Kombo</p>
               <h3 class="text-lg font-semibold font-montserrat">Family kombo</h3>
             </header>
-            <p class="text-sm text-gray-200 mb-3">25 kom zalogajčića + 2 punča</p>
-            <div class="text-xs text-gray-400">
+            <p class="text-sm text-gray-100 mb-3">25 kom zalogajčića + 2 punča</p>
+            <div class="text-xs text-gray-200">
               <div class="flex justify-between"><span>Kombo cijena</span><span class="price-tag">14,00 €</span></div>
             </div>
           </article>
 
-          <article class="min-w-[230px] card-blur rounded-2xl p-4 flex flex-col justify-between">
+          <article data-card="combo_bavarska" class="min-w-[230px] offer-card rounded-2xl p-4 flex flex-col justify-between">
             <header class="mb-2">
-              <p class="text-[11px] uppercase tracking-wide text-gray-400">Kombo</p>
+              <p class="text-[11px] uppercase tracking-wide text-gray-300">Kombo</p>
               <h3 class="text-lg font-semibold font-montserrat">Bavarska</h3>
             </header>
-            <p class="text-sm text-gray-200 mb-3">Bavarska kifla + pivo</p>
-            <div class="text-xs text-gray-400">
+            <p class="text-sm text-gray-100 mb-3">Bavarska kifla + pivo</p>
+            <div class="text-xs text-gray-200">
               <div class="flex justify-between"><span>Kombo cijena</span><span class="price-tag">5,00 €</span></div>
             </div>
           </article>
@@ -433,13 +489,13 @@
       </div>
     </section>
 
-    <!-- INFO KARTICE -->
+    <!-- INFO KARTICE (bez emoji) -->
     <section class="space-y-6">
       <h2 class="text-sm sm:text-base font-semibold text-gray-200">Brze informacije & danas na Pazaru</h2>
 
       <div class="grid md:grid-cols-3 gap-4 text-xs sm:text-sm">
         <div class="card-blur rounded-2xl p-4 border border-gold">
-          <h3 class="font-semibold mb-1.5">✨ Happy hour</h3>
+          <h3 class="font-semibold mb-1.5">Happy hour</h3>
           <p class="text-gray-200">
             Svaki dan <strong>17:00 – 20:00</strong><br />
             <strong>50% popust na svo piće.</strong>
@@ -447,7 +503,7 @@
         </div>
 
         <div class="card-blur rounded-2xl p-4">
-          <h3 class="font-semibold mb-1.5">👥 Za ekipe i firme</h3>
+          <h3 class="font-semibold mb-1.5">Za ekipe i firme</h3>
           <p class="text-gray-200">
             Mogućnost rezervacije visokih stolova i dogovoren broj pića po osobi.
             Sve rezervacije → DM na @sindikat_events.
@@ -455,7 +511,7 @@
         </div>
 
         <div class="card-blur rounded-2xl p-4">
-          <h3 class="font-semibold mb-1.5">📣 Brend & aktivacije</h3>
+          <h3 class="font-semibold mb-1.5">Brend & aktivacije</h3>
           <p class="text-gray-200">
             Brendirani kokteli, sampling, nagradne igre i special night koncepti u saradnji sa partnerima.
             Dogovor ide preko Instagram DM-a.
@@ -475,13 +531,13 @@
         </div>
         <a href="https://www.instagram.com/sindikat_events" target="_blank"
           class="inline-flex justify-center items-center bg-gold text-black font-semibold px-6 py-3 rounded-full text-sm sm:text-base hover:bg-yellow-500 transition btn-animate">
-          📩 Rezerviši sto preko Instagrama
+          Rezerviši sto preko Instagrama
         </a>
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (emoji uklonjeni) -->
   <footer class="bg-gray-900 py-16 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="grid md:grid-cols-2 gap-12">
@@ -489,7 +545,7 @@
           <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
           <div class="space-y-6">
             <a href="https://wa.me/38267123456" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
-              <div class="text-2xl">📱</div>
+              <div class="text-lg font-semibold">WA</div>
               <div>
                 <h5 class="font-semibold">WhatsApp</h5>
                 <p class="text-sm">+382 67 506 440</p>
@@ -498,7 +554,7 @@
             </a>
 
             <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
-              <div class="text-2xl">📸</div>
+              <div class="text-lg font-semibold">IG</div>
               <div>
                 <h5 class="font-semibold">Instagram</h5>
                 <p class="text-sm">@sindikat_events</p>
@@ -507,7 +563,7 @@
             </a>
 
             <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-              <div class="text-2xl">📞</div>
+              <div class="text-lg font-semibold">TEL</div>
               <div>
                 <h5 class="font-semibold">Telefon</h5>
                 <p class="text-sm">+382 67 506 440</p>
@@ -516,7 +572,7 @@
             </div>
 
             <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-              <div class="text-2xl">📍</div>
+              <div class="text-lg font-semibold">PG</div>
               <div>
                 <h5 class="font-semibold">Lokacija</h5>
                 <p class="text-sm">Podgorica, Crna Gora</p>
@@ -538,15 +594,15 @@
 
       <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
         <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
-        <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
+        <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno za nezaboravne događaje</p>
       </div>
     </div>
   </footer>
 
-  <!-- STICKY CTA -->
+  <!-- STICKY CTA (emoji uklonjeni) -->
   <a href="https://www.instagram.com/sindikat_events" target="_blank" id="stickyReserveBtn"
     class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[90] flex items-center gap-2 px-5 py-3 rounded-full bg-gold text-black font-semibold shadow-lg shadow-yellow-500/30 hover:scale-105 transition-all text-sm sm:text-base">
-    📩 Rezerviši sto preko Instagrama
+    Rezerviši sto preko Instagrama
   </a>
 
   <!-- MOBILNI STICKY PROMO BANER -->
