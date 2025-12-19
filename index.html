@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="sr">
+
+
+
+
+
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta charset="UTF-8">
@@ -42,19 +46,19 @@ a.appendChild(r);
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
+
 gtag('config', 'G-7PK0H518PG');
 </script>
-
 <style>
 :root { --nav-h: 0px; }
 
 body {
 overflow-x: hidden;
-padding-top: var(--nav-h);
+padding-top: var(--nav-h); /* odmak cijelog sajta ispod navigacije */
 }
 
 #stickyTopAd {
-top: calc(var(--nav-h) + 8px) !important;
+top: calc(var(--nav-h) + 8px) !important; /* sticky baner uvijek ispod nav-a */
 }
 
 * {
@@ -69,31 +73,36 @@ scroll-behavior: smooth;
 h1, h2, h3, h4, h5, h6 {
 font-family: 'Montserrat', sans-serif;
 }
-
 /* PARTNERS – horizontalni scroller */
 .partners-scroller {
--webkit-overflow-scrolling: touch;
-scroll-snap-type: x mandatory;
+-webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+scroll-snap-type: x mandatory;     /* snap efekat na kartice */
 }
+
 .partners-scroller > div {
-scroll-snap-align: start;
+scroll-snap-align: start;          /* svaka kartica snapuje na početak */
 }
+
+/* ... (ostali tvoji postojeći stilovi ostaju ovdje nepromijenjeni) ... */
 </style>
 
 <script>
+// Dinamički računa visinu navbara i postavlja je u --nav-h
 (function() {
 function setNavHeight() {
 var nav = document.querySelector('nav');
 if (!nav) return;
 var h = nav.offsetHeight || 0;
-document.documentElement.style.setProperty('--nav-h', (h) + 'px');
+var safe = parseInt(getComputedStyle(document.documentElement)
+.getPropertyValue('env(safe-area-inset-top)')) || 0;
+document.documentElement.style.setProperty('--nav-h', (h + safe) + 'px');
 }
 window.addEventListener('load', setNavHeight);
 window.addEventListener('resize', setNavHeight);
 })();
 </script>
 
-<!-- SINDIKAT: GLOBAL STYLE + TRACKERS (safe inject ako nedostaju) -->
+<!-- !-- SINDIKAT: GLOBAL STYLE + TRACKERS (safe inject ako nedostaju) -->
 <style>
 :root { --nav-h: 0px; }
 html{scroll-behavior:smooth;}
@@ -123,6 +132,14 @@ img, video { max-width:100%; height:auto; }
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 
+
+
+<!-- /SINDIKAT: GLOBAL -->
+
+
+  
+
+
 <style>
 .floating-mobile-banner {
 position: fixed;
@@ -130,7 +147,7 @@ bottom: 16px;
 left: 16px;
 right: 16px;
 z-index: 70;
-transform: translateY(0) !important;
+transform: translateY(0) !important; /* uvijek vidljiv */
 }
 </style>
 
@@ -152,122 +169,480 @@ h1, h2, h3, h4, h5, h6 {
 font-family: 'Montserrat', sans-serif;
 }
 
-/* HERO BACKGROUND */
 .hero-bg {
 background:
-linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.9));
+linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)),
+    url('/fotke/pazar.jpg');
+url('/fotke/pazar.jpg');
 background-size: cover;
-background-position: center;
+background-position: center 35%;
+background-attachment: scroll;
 }
 
-/* Gradijent za gold tekst */
-.gradient-gold {
-background: linear-gradient(90deg, #FFD700, #E8B600);
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
+
+
+
+@media (min-width: 768px) {
+.hero-bg {
+background-attachment: fixed;
+}
 }
 
-/* Link hover */
-.hover-gold:hover {
-color: #FFD700;
-}
-
-/* Animacije */
+/* Enhanced Animations */
 .fade-in {
 opacity: 0;
-transform: translateY(8px);
-transition: opacity 0.6s ease, transform 0.6s ease;
+transform: translateY(30px);
+transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .fade-in.visible {
 opacity: 1;
 transform: translateY(0);
 }
-</style>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-const els = document.querySelectorAll(".fade-in");
-const io = new IntersectionObserver(entries => {
-entries.forEach(e => {
-if(e.isIntersecting) e.target.classList.add("visible");
-});
-}, { threshold: 0.1 });
-els.forEach(el => io.observe(el));
-});
-</script>
+.fade-in-left {
+opacity: 0;
+transform: translateX(-30px);
+transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-<style>
-/* Sakrij language switcher ako ga ne koristiš */
+.fade-in-left.visible {
+opacity: 1;
+transform: translateX(0);
+}
+
+.fade-in-right {
+opacity: 0;
+transform: translateX(30px);
+transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-right.visible {
+opacity: 1;
+transform: translateX(0);
+}
+
+.scale-in {
+opacity: 0;
+transform: scale(0.9);
+transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scale-in.visible {
+opacity: 1;
+transform: scale(1);
+}
+
+.hover-lift {
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+transform: translateY(-4px);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 768px) {
+.hover-lift:hover {
+transform: translateY(-8px);
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+}
+
+.cocktail-float {
+animation: cocktailFloat 4s ease-in-out infinite;
+}
+
+@keyframes cocktailFloat {
+0%, 100% { transform: translateY(0) rotate(0deg); }
+25% { transform: translateY(-10px) rotate(2deg); }
+75% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+.light-pulse {
+animation: lightPulse 3s ease-in-out infinite;
+}
+
+@keyframes lightPulse {
+0%, 100% { opacity: 1; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+50% { opacity: 0.4; box-shadow: 0 0 25px rgba(255, 215, 0, 0.9); }
+}
+
+.accordion-content {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-content.active {
+max-height: 300px;
+}
+
+.mobile-menu {
+transform: translateX(100%);
+transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.active {
+transform: translateX(0);
+}
+
+/* Mobile-first masonry */
+.masonry-grid {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+}
+
+@media (min-width: 640px) {
+.masonry-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 1.5rem;
+}
+}
+
+@media (min-width: 1024px) {
+.masonry-grid {
+grid-template-columns: repeat(3, 1fr);
+gap: 2rem;
+}
+}
+
+.masonry-item {
+break-inside: avoid;
+margin-bottom: 0;
+}
+
+.gradient-gold {
+background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.gradient-blue {
+background: linear-gradient(135deg, #00BFFF 0%, #0080FF 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.service-image {
+width: 100%;
+height: 160px;
+background-size: cover;
+background-position: center;
+border-radius: 1rem;
+margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+.service-image {
+height: 200px;
+}
+}
+
 .lang-switcher {
 display: none !important;
 }
-</style>
 
-<style>
-/* Sticky top ad */
-#stickyTopAd {
-position: fixed;
-top: 12px;
-left: 50%;
-transform: translateX(-50%);
-z-index: 60;
-width: calc(100% - 24px);
-max-width: 640px;
-display: none;
+.lang-switcher {
+display: none !important;
+}
 }
 
-/* Sticky bottom banner */
-#stickyBottomBanner {
-position: fixed;
-bottom: 14px;
-left: 50%;
-transform: translateX(-50%);
-z-index: 60;
-width: calc(100% - 24px);
-max-width: 640px;
-display: none;
-}
-
-/* Floating banner */
-#floatingBanner {
+.floating-mobile-banner {
 position: fixed;
 bottom: 16px;
 left: 16px;
 right: 16px;
 z-index: 70;
-display: none;
+background: linear-gradient(135deg, rgba(255,215,0,.95) 0%, rgba(255,165,0,.95) 100%);
+border-radius: 16px;
+padding: 12px;
+box-shadow: 0 8px 25px rgba(0,0,0,.5);
+transform: translateY(0) !important; /* uvijek vidljiv */
 }
-@media (min-width: 640px){
-#floatingBanner{
+
+
+.floating-mobile-banner.show {
+transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+.floating-mobile-banner {
+bottom: 20px;
 left: auto;
 right: 20px;
-width: 360px;
+max-width: 350px;
+padding: 16px;
+border-radius: 20px;
 }
 }
+
+.blog-card {
+background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%);
+border: 1px solid rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+}
+
+.popular-event-card {
+background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 30, 30, 0.9) 100%);
+border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+/* Button animations */
+.btn-animate {
+position: relative;
+overflow: hidden;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-animate::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+transition: left 0.5s;
+}
+
+.btn-animate:hover::before {
+left: 100%;
+}
+
+/* Improved mobile spacing */
+.mobile-spacing {
+padding-left: 1rem;
+padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+.mobile-spacing {
+padding-left: 1.5rem;
+padding-right: 1.5rem;
+}
+}
+
+@media (min-width: 768px) {
+.mobile-spacing {
+padding-left: 2rem;
+padding-right: 2rem;
+}
+}
+
+/* Prevent text overflow */
+.text-container {
+word-wrap: break-word;
+overflow-wrap: break-word;
+hyphens: auto;
+}
+
+/* Smooth card hover effects */
+.card-hover {
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+.card-hover:hover {
+transform: translateY(-4px);
+box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+}
+
+/* Staggered animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Loading animation */
+.loading-dots::after {
+content: '';
+animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+0%, 20% { content: ''; }
+40% { content: '.'; }
+60% { content: '..'; }
+80%, 100% { content: '...'; }
+}
+
+/* Parallax effect for mobile */
+.parallax-mobile {
+transform: translateZ(0);
+will-change: transform;
+}
+
+/* Improved sticky elements positioning */
+.sticky-safe {
+top: env(safe-area-inset-top, 0);
+}
+
+/* Better touch targets for mobile */
+.touch-target {
+min-height: 44px;
+min-width: 44px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* Touch device optimizations */
+.touch-device .hover-lift:hover {
+transform: none;
+}
+
+.touch-device .card-hover:active {
+transform: scale(0.98);
+}
+
+.touch-device .btn-animate:active {
+transform: scale(0.95);
+}
+
+/* Prevent zoom on input focus for iOS */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+select, textarea, input[type="text"], input[type="password"], 
+input[type="datetime"], input[type="datetime-local"], 
+input[type="date"], input[type="month"], input[type="time"], 
+input[type="week"], input[type="number"], input[type="email"], 
+input[type="url"], input[type="search"], input[type="tel"], 
+input[type="color"] {
+font-size: 16px;
+}
+}
+
+/* Smooth scrolling for mobile */
+@media (max-width: 768px) {
+html {
+scroll-padding-top: 80px;
+}
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after {
+animation-duration: 0.01ms !important;
+animation-iteration-count: 1 !important;
+transition-duration: 0.01ms !important;
+}
+}
+
+
+
+/* Zgusni i “ispravi” ad slotove na mobu */
+@media (max-width: 640px) {
+.ad-slot { border-radius: 12px; padding: 10px; }
+.ad-slot + .ad-slot { margin-top: 8px; }            /* minimalni razmak međusobno */
+.ad-slot img { border-radius: 10px; display:block; }/* ukloni bijele linije oko img */
+}
+
+/* === Center ALL ad banners, desktop & mobile === */
+
+/* 1) Inline PNG baneri: centriraj wrapper i ograniči max širinu po breakpoints */
+.ad-wrap{ 
+margin-left:auto; 
+margin-right:auto; 
+max-width: 970px;            /* desktop XL */
+}
+@media (max-width:1024px){ .ad-wrap{ max-width: 728px; } } /* tablet/desktop */
+@media (max-width:640px){  .ad-wrap{ max-width: 320px; } } /* mobile */
+
+/* 2) Unutar wrappera, poravnaj sadržaj u sredinu */
+.ad-wrap,
+.ad-wrap > a{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* 3) Osiguraj da <img> ne “iskaču” i da su vizuelno centrirani */
+.ad-wrap img{
+display:block;
+max-width:100%;
+height:auto;
+}
+
+/* 4) Ako koristiš utility širine (w-[728px], w-[970px]) – i dalje centrirano */
+.ad-wrap .w-\[970px\],
+.ad-wrap .w-\[728px\],
+.ad-wrap .w-\[320px\]{
+margin-left:auto; 
+margin-right:auto;
+}
+
+/* 5) Sticky top/bottom: geometrijsko centriranje + kompaktna širina */
+#stickyTopAd,
+#stickyBottomBanner{
+left: 50% !important;
+transform: translateX(-50%) !important;
+width: calc(100% - 24px) !important;   /* 12px bočni gutters */
+max-width: 640px !important;           /* da ne budu preširoki na velikim ekranima */
+}
+
+/* 6) Floating “Poslovi” – isto centriranje */
+#floatingBanner{
+left: 50% !important;
+transform: translateX(-50%) !important;
+width: calc(100% - 24px) !important;
+max-width: 640px !important;
+}
+
+/* === HORIZONTAL SCROLL KILLER === */
+html, body { overflow-x: clip; }
+
+/* Sticky/floating baneri – centrirani i ograničeni */
+#stickyTopAd, #stickyBottomBanner, #floatingBanner {
+position: fixed;
+left: 50% !important;
+transform: translateX(-50%) !important;
+width: calc(100% - 24px) !important; /* 12px gutter sa svake strane */
+max-width: 640px !important;
+box-sizing: border-box !important;
+margin: 0 !important;
+}
+
+/* Svi glavni wrapperi neka klipuju eventualne "full-bleed" elemente */
+section, header, footer, .max-w-7xl, .container, .mx-auto { overflow-x: clip; }
+
+/* Slike/video nikad šire od roditelja */
+img, video { max-width: 100%; height: auto; }
+
+/* Flex/grid djeca smiju da se suze umjesto da guraju roditelja u širinu */
+.flex, .grid { min-width: 0; }
+.flex > * , .grid > * { min-width: 0; }
+
+/* Dugi nerasparčani stringovi (URL-ovi, kod) neka pucaju u red */
+.break-anywhere, pre, code, .prose * {
+overflow-wrap: anywhere;
+word-break: break-word;
+}
+
+/* Ako negdje ima utility w-screen/100vw unutar stranice – svedi na 100% */
+[class*="w-screen"], .w-screen { width: 100% !important; }
+
+/* Bez negativnih bočnih margina koje guraju layout (po potrebi dopuni selektore) */
+.neg-x-fix { margin-left: 0 !important; margin-right: 0 !important; }
+
+
 </style>
 
-<script>
-function closeStickyAd(){
-const el = document.getElementById('stickyTopAd');
-if (el) el.style.display = 'none';
-}
-function closeBottomBanner(){
-const el = document.getElementById('stickyBottomBanner');
-if (el) el.style.display = 'none';
-}
-</script>
 
-<style>
-/* burger menu overlay helper */
-#mobileOverlay{
-display:none;
-}
-</style>
 
 </head>
 <body class="bg-black text-white overflow-x-hidden">
-
 <!-- Language Switcher -->
 <div class="lang-switcher">
 <button onclick="switchLanguage()" class="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-white hover:text-gold transition-colors">
@@ -276,41 +651,98 @@ display:none;
 </button>
 </div>
 
-<!-- Floating Mobile Banner -->
-<div id="floatingBanner" class="rounded-2xl border border-neutral-800 bg-gold text-black shadow-2xl p-4">
-<div class="font-extrabold">Specijalna ponuda</div>
-<div class="text-sm opacity-90">Popust do 20% danas</div>
-<div class="mt-3">
-<button onclick="scrollToContact()" class="w-full rounded-xl bg-black text-white py-2 font-semibold hover:opacity-95 transition">Kontakt</button>
-</div>
+<!-- Floating Mobile Banner (responsive, centered on mobile, dismissible) -->
+<style>
+/* geometrija i responsivnost */
+#floatingBanner{
+position: fixed;
+z-index: 70;
+bottom: 16px;
+left: 16px;
+right: 16px;                 /* centrirano na mobu */
+display: none;               /* start: skriven */
+box-sizing: border-box;
+}
+/* na ≥640px prebacujemo s centra na desnu stranu, kompaktna širina */
+@media (min-width: 640px){
+#floatingBanner{
+left: auto;
+right: 20px;
+width: 360px;
+}
+}
+/* mali fokus ring radi pristupačnosti */
+.focus-ring:focus-visible{
+outline: 2px solid rgba(0,0,0,.6);
+outline-offset: 3px;
+}
+</style>
+
+<div id="floatingBanner"
+class="fixed z-50 bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center">
+<!-- tekst -->
+<div class="min-w-0">
+<div class="text-sm font-bold leading-tight truncate">Pretraži poslove</div>
+<div class="text-xs">Pronađi priliku za sebe</div>
 </div>
 
-<!-- Sticky Top Ad -->
-<div id="stickyTopAd" class="rounded-2xl border border-neutral-800 bg-black/95 shadow-2xl p-4">
-<div class="text-white font-extrabold">Ekskluzivno partnerstvo</div>
-<div class="text-white/80 text-sm">Montenegro Expo</div>
-<div class="mt-3 flex gap-2">
-<button class="rounded-xl bg-gold text-black px-4 py-2 font-semibold hover:brightness-95 transition">Saznaj više</button>
-<button onclick="closeStickyAd()" class="rounded-xl border border-neutral-700 px-4 py-2 font-semibold hover:border-gold transition">×</button>
-</div>
+<!-- CTA link -->
+<a href="/poslovi/"
+class="px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold whitespace-nowrap focus-ring">Poslovi</a>
+
+<!-- X dugme (IZVAN linka) -->
+<button id="closeFloatingBanner"
+type="button"
+aria-label="Zatvori"
+onclick="closeBanner(event)"
+class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
 </div>
 
-<!-- Sticky Bottom Banner -->
-<div id="stickyBottomBanner" class="rounded-2xl border border-neutral-800 bg-black/95 shadow-2xl p-4">
-<div class="text-white font-extrabold">Ograničena ponuda</div>
-<div class="text-white/80 text-sm">Popust do 30%</div>
-<div class="mt-3 flex gap-2">
-<button onclick="scrollToContact()" class="rounded-xl bg-gold text-black px-4 py-2 font-semibold hover:brightness-95 transition">Rezerviši</button>
-<button onclick="closeBottomBanner()" class="rounded-xl border border-neutral-700 px-4 py-2 font-semibold hover:border-gold transition">×</button>
-</div>
-</div>
+<script>
+(function(){
+var KEY = 'bannerClosed';
 
-<!-- NAV -->
+// prikaži (samo ako nije ranije zatvoren)
+window.showFloatingBanner = function(){
+try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+var el = document.getElementById('floatingBanner');
+if(!el) return;
+el.style.display = ''; // pokaži
+};
+
+// zatvori + zapamti
+window.closeBanner = function(e){
+if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
+var el = document.getElementById('floatingBanner');
+if(el){ el.style.display = 'none'; }
+try{ localStorage.setItem(KEY,'1'); }catch(e){}
+};
+
+// auto-prikaz kratko nakon load-a (možeš promijeniti delay)
+function boot(){
+setTimeout(window.showFloatingBanner, 800);
+}
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', boot, { once:true });
+} else {
+boot();
+}
+})();
+</script>
+<!-- /Floating Mobile Banner -->
+
+
+
+
+
+
+<!-- NAV (isti stil, SINDIKAT) -->
 <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+    <!-- Logo -->
     <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
 
-    <!-- Desktop -->
+    <!-- Desktop meni -->
     <div class="hidden md:flex items-center gap-6 text-sm">
       <a href="https://sindikatevents.me/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
       <a href="https://sindikatevents.me/pazar/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Podgorički pazar</a>
@@ -328,9 +760,10 @@ display:none;
       aria-label="Otvori meni">☰</label>
   </div>
 
+  <!-- Kontrolni checkbox (peer) -->
   <input id="mobileNav" type="checkbox" class="peer sr-only" />
 
-  <!-- Mobile overlay -->
+  <!-- MOBILE OVERLAY -->
   <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
               peer-checked:opacity-100 peer-checked:pointer-events-auto">
     <label for="mobileNav"
@@ -353,374 +786,1832 @@ display:none;
 </nav>
 
 
-<!-- HERO -->
-<header class="hero-bg pt-[110px] pb-16">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="max-w-2xl">
-<h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
-Sve za vaš događaj <span class="gradient-gold">na jednom mestu</span>
-</h1>
-<p class="mt-4 text-lg text-gray-200">
-Profesionalni događaji bez stresa, sa stilom. Barmeni, DJ-jevi, oprema, fotografija — sve na jednom mestu.
-</p>
+<!-- PARTNERI / BANERI (mobile: half height + scroll from first, desktop: centered normal height) -->
+<style>
+ /* Mobile default: half height — manji padding, manji logo, kompaktniji radius */
+ .partners-scroller{
+   display: flex;
+   gap: 10px;
+   overflow-x: auto;
+   overflow-y: hidden;
+   -webkit-overflow-scrolling: touch;
+   scroll-snap-type: x mandatory;
+   scroll-padding-left: 12px;
+ }
+ .partners-scroller > .partner-card{ scroll-snap-align: start; }
 
-<div class="mt-8 flex flex-wrap gap-3">
-<button onclick="scrollToContact()" class="rounded-xl bg-gold text-black px-6 py-3 font-semibold hover:brightness-95 transition">Kontaktiraj nas</button>
-<button onclick="scrollToServices()" class="rounded-xl border border-neutral-700 px-6 py-3 font-semibold hover:border-gold transition">Naše usluge</button>
-</div>
+ /* sakrij scrollbar, skrol i dalje radi */
+ .hide-scrollbar::-webkit-scrollbar{ display:none; }
+ .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
 
-<div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4">
-<div class="fade-in rounded-2xl border border-neutral-800 bg-black/60 p-4">
-<p class="text-sm text-gray-200">Događaji</p>
-</div>
-<div class="fade-in rounded-2xl border border-neutral-800 bg-black/60 p-4">
-<p class="text-sm text-gray-200">Profesionalci</p>
-</div>
-<div class="fade-in rounded-2xl border border-neutral-800 bg-black/60 p-4">
-<p class="text-sm text-gray-200">Bez stresa</p>
-</div>
-<div class="fade-in rounded-2xl border border-neutral-800 bg-black/60 p-4">
-<p class="text-sm text-gray-200">Tim</p>
-</div>
-</div>
+ /* MOBILE “pola visine” */
+ .partner-card{
+   padding: 6px 12px !important;      /* bilo ~py-3 px-6 */
+   border-radius: 8px !important;      /* bilo 12px */
+ }
+ .partner-card .logo{
+   width: 24px !important;             /* bilo 48px (w-12) */
+   height: 24px !important;
+ }
+ .partner-card .kicker{ font-size: 10px !important; line-height: 1.15; }
+ .partner-card .brand { font-size: 0.95rem !important; line-height: 1.15; }
 
-</div>
-</div>
-</header>
+ /* DESKTOP (≥ md): centrirano, bez skrola, normalna visina nazad */
+ @media (min-width: 768px){
+   .partners-scroller{
+     justify-content: center;          /* centriraj red */
+     overflow-x: visible;              /* nema horizontalnog skrola */
+     scroll-snap-type: none;
+     scroll-padding-left: 0;
+     gap: 12px;
+   }
+   .partner-card{
+     padding: 12px 24px !important;    /* normalna visina */
+     border-radius: 12px !important;
+   }
+   .partner-card .logo{
+     width: 48px !important;
+     height: 48px !important;
+   }
+   .partner-card .kicker{ font-size: 12px !important; line-height: 1.2; }
+   .partner-card .brand { font-size: 1rem !important; line-height: 1.2; }
+ }
+</style>
+
+<section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
+ <div id="partnersRow"
+      class="max-w-7xl mx-auto partners-scroller hide-scrollbar -mx-3 px-3"
+      role="list" aria-label="Naši partneri">
+   
+  
+   <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3"
+        role="listitem" tabindex="0" aria-label="Jägermeister, Drink partner">
+     <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png"
+          alt="Jägermeister logo" class="logo w-12 h-12 object-contain">
+     <div class="text-left">
+       <div class="kicker text-red-500 text-xs font-semibold">DRINK PARTNER</div>
+       <div class="brand font-bold">Jägermeister</div>
+     </div>
+   </div>
+
+   
+   <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3"
+        role="listitem" tabindex="0" aria-label="Nikšićko Pivo, Beer partner">
+     <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png"
+          alt="Nikšićko Pivo logo" class="logo w-12 h-12 object-contain">
+     <div class="text-left">
+       <div class="kicker text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
+       <div class="brand font-bold">Nikšićko Pivo</div>
+     </div>
+   </div>
+
+   
+   <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3"
+        role="listitem" tabindex="0" aria-label="Ploom, Premium partner">
+     <img src="https://images.seeklogo.com/logo-png/47/1/coca-cola-logo-png_seeklogo-479016.png"
+          alt="Cola cola logo" class="logo w-12 h-12 object-contain bg-white rounded">
+     <div class="text-left">
+       <div class="kicker text-blue-400 text-xs font-semibold">DRINK PARTNER</div>
+       <div class="brand font-bold">Coca Cola</div>
+     </div>
+   </div>
+
+   
+   <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-700/30 flex items-center gap-3"
+        role="listitem" tabindex="0" aria-label="Jack Daniel's, Whiskey partner">
+     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBC47xKaD9UIlcYYCZLLyhI7YiIfeLleB_fg&s"
+          alt="Jack Daniel's logo" class="logo w-12 h-12 object-contain bg-white rounded">
+     <div class="text-left">
+       <div class="kicker text-yellow-700 text-xs font-semibold">WHISKEY PARTNER</div>
+       <div class="brand font-bold">Jack Daniel's</div>
+     </div>
+   </div>
+
+  
+   <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3"
+        role="listitem" tabindex="0" aria-label="g3, Tech partner">
+     <img src="https://api.mojedelo.com/uploaded-files/private/png/2025/8/8/0ef66c5b-89d1-4145-ae98-133a9555280c.png"
+          alt="g3 logo" class="logo w-12 h-12 object-contain bg-white rounded">
+     <div class="text-left">
+       <div class="kicker text-pink-400 text-xs font-semibold">PARTNER</div>
+       <div class="brand font-bold">G3 Spirits</div>
+     </div>
+   </div>
+
+ </div>
+</section>
 
 <script>
-function scrollToContact(){
-const el = document.getElementById('contact');
-if(el) el.scrollIntoView({behavior:'smooth'});
-}
-function scrollToServices(){
-const el = document.getElementById('services');
-if(el) el.scrollIntoView({behavior:'smooth'});
-}
+ // Na mobilnom uvijek kreni od prvog elementa
+ (function(){
+   var row = document.getElementById('partnersRow');
+   if(!row) return;
+   function toStart(){ row.scrollLeft = 0; }
+   if(document.readyState === 'loading'){
+     document.addEventListener('DOMContentLoaded', toStart, { once:true });
+   } else {
+     toStart();
+   }
+ })();
+</script> 
+
+
+
+
+<!-- Sticky Top Ad Banner (responsive, dismissible) -->
+<!--<style>
+ #stickyTopAd{
+   position: fixed;
+   z-index: 40;
+   top: calc(var(--nav-h, 72px) + 8px) !important;
+   left: 50% !important;
+   transform: translate(-50%, -100%); /* start: skriven iznad */
+   width: calc(100% - 24px);
+   max-width: 960px;
+   box-sizing: border-box;
+   border-radius: 12px;
+   transition: transform 500ms ease;
+   -webkit-backdrop-filter: blur(8px);
+   backdrop-filter: blur(8px);
+ }
+ @media (max-width: 768px){ #stickyTopAd{ max-width: 640px; } }
+ @media (prefers-reduced-motion: reduce){ #stickyTopAd{ transition: none !important; } }
+</style>
+
+<div id="stickyTopAd" role="region" aria-label="Promotivni baner"
+    class="bg-gradient-to-r from-purple-600/90 to-pink-600/90 py-3 px-6 shadow-lg">
+ <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+   <div class="flex items-center gap-3 min-w-0">
+     <div class="text-2xl shrink-0">🎊</div>
+     <div class="min-w-0">
+       <div class="text-white font-bold text-sm truncate">Ekskluzivno Partnerstvo</div>
+       <div class="text-white/80 text-xs truncate">Montenegro Events Expo 2024 - Glavni Sponzor</div>
+     </div>
+   </div>
+   <div class="flex items-center gap-2 shrink-0">
+     <button type="button"
+             class="bg-white text-purple-700 px-3 py-1 rounded-full text-xs font-bold hover:bg-gray-100 transition-colors">
+       Saznaj Više
+     </button>
+     <button type="button" aria-label="Zatvori"
+             onclick="closeStickyAd()"
+             class="h-8 w-8 grid place-items-center rounded-full text-white/80 hover:text-white text-lg leading-none">×</button>
+   </div>
+ </div>
+</div>
+
+<script>
+ (function(){
+   var KEY = 'stickyTopAdClosed';
+   function show(){
+     try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+     var el = document.getElementById('stickyTopAd'); if(!el) return;
+     setTimeout(function(){ el.style.transform = 'translate(-50%, 0)'; }, 1000);
+   }
+   window.closeStickyAd = function(){
+     var el = document.getElementById('stickyTopAd');
+     if(el){ el.style.transform = 'translate(-50%, -100%)'; }
+     try{ localStorage.setItem(KEY,'1'); }catch(e){}
+   };
+   if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', show, {once:true}); } else { show(); }
+ })();
 </script>
+<!-- /Sticky Top Ad Banner -->
 
-<!-- SERVICES -->
-<section id="services" class="py-16">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h2 class="text-3xl md:text-4xl font-extrabold">Usluge <span class="gradient-gold">Sindikata</span></h2>
-<p class="mt-3 text-gray-300 max-w-2xl">Sve što ti treba za ozbiljan event, na jednom mjestu.</p>
 
-<div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Barmeni</h3>
-<p class="mt-2 text-gray-300 text-sm">Profesionalna usluga i brzina.</p>
-</div>
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">DJ-evi</h3>
-<p class="mt-2 text-gray-300 text-sm">Selekcija i energija za svaki događaj.</p>
-</div>
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Ozvučenje</h3>
-<p class="mt-2 text-gray-300 text-sm">Kvalitetan zvuk i tehnička podrška.</p>
-</div>
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Mobilni bar</h3>
-<p class="mt-2 text-gray-300 text-sm">Bar setup gdje god treba.</p>
-</div>
+<script>
+(function(){
+var KEY = 'stickyTopAdClosed';
 
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Foto/Video</h3>
-<p class="mt-2 text-gray-300 text-sm">Uhvati trenutke kako treba.</p>
-</div>
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Dizajn</h3>
-<p class="mt-2 text-gray-300 text-sm">Vizuali, brending i promo.</p>
-</div>
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Hostese</h3>
-<p class="mt-2 text-gray-300 text-sm">Recepcija, protokol, promo timovi.</p>
-</div>
-<div class="fade-in rounded-3xl overflow-hidden border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Namještaj</h3>
-<p class="mt-2 text-gray-300 text-sm">Barski stolovi, lounge, postavke.</p>
-</div>
-</div>
-</div>
-</section>
-<!-- POPULAR EVENTS -->
-<section id="popular-events" class="py-16 border-t border-neutral-900">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h2 class="text-3xl md:text-4xl font-extrabold">Popularni <span class="gradient-gold">događaji</span></h2>
-<p class="mt-3 text-gray-300 max-w-2xl">Najčešći formati koje radimo — od privatnih do velikih.</p>
+// prikaži baner posle malog delay-a (ako nije ranije zatvoren)
+function showStickyAd(){
+try {
+if(localStorage.getItem(KEY)==='1') return;
+} catch(e) {}
+var el = document.getElementById('stickyTopAd');
+if(!el) return;
 
-<div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="fade-in rounded-3xl border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Korporativni događaji</h3>
-<p class="mt-2 text-gray-300 text-sm">Team building, proslave, konferencije.</p>
-</div>
-<div class="fade-in rounded-3xl border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Rođendani</h3>
-<p class="mt-2 text-gray-300 text-sm">Kompletna organizacija i realizacija.</p>
-</div>
-<div class="fade-in rounded-3xl border border-neutral-800 bg-black/60 p-6">
-<h3 class="text-xl font-bold">Klubske večeri</h3>
-<p class="mt-2 text-gray-300 text-sm">DJ lineup, promo, produkcija.</p>
-</div>
-</div>
-</div>
-</section>
+// nakon 1.2s “spusti” baner u kadar
+setTimeout(function(){
+// iz translate(-50%, -100%) -> translate(-50%, 0)
+el.style.transform = 'translate(-50%, 0)';
+}, 1200);
+}
 
-<!-- ABOUT -->
-<section id="about" class="py-16 border-t border-neutral-900">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-<div>
-<h2 class="text-3xl md:text-4xl font-extrabold">O <span class="gradient-gold">nama</span></h2>
-<p class="mt-4 text-gray-300 leading-relaxed">
-Sindikat je mreža ljudi i usluga za događaje: brz tim, provjerena oprema i jasna organizacija.
+// globalno dostupno (po tvom API-ju)
+window.closeStickyAd = function(){
+var el = document.getElementById('stickyTopAd');
+if(el){
+el.style.transform = 'translate(-50%, -100%)';
+}
+try { localStorage.setItem(KEY, '1'); } catch(e) {}
+};
+
+// ako imaš var(--nav-h) izračun u stranici, ovo će se automatski uskladiti;
+// ipak, nakon load-a još jednom probaj da "spustiš" baner
+if(document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', showStickyAd, { once:true });
+} else {
+showStickyAd();
+}
+// ako promijeniš veličinu prozora/navigacije, pozicija ostaje korektna
+window.addEventListener('resize', function(){
+// nema potrebe za reflowom; top je u CSS-u preko var(--nav-h)
+// ostavljamo prazan handler za buduća proširenja
+}, { passive:true });
+})();
+</script>
+<!-- /Sticky Top Ad Banner -->
+
+
+<!-- Hero Section -->
+<section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center mobile-spacing py-20">
+<div class="max-w-6xl mx-auto fade-in visible text-container">
+<h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-montserrat mb-6 md:mb-8 leading-tight">
+Sve za vaš događaj –<br>
+<span class="gradient-gold">na jednom mestu.</span>
+</h1>
+<p class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 md:mb-12 text-gray-200 font-medium max-w-3xl mx-auto">
+Mi se brinemo za sve – vi samo uživajte.
 </p>
-<div class="mt-6 space-y-4">
-<div class="flex gap-3 items-start">
-<span class="text-gold font-extrabold">•</span>
-<span class="text-gray-200">Jedna kontakt tačka – sve usluge</span>
-</div>
-<div class="flex gap-3 items-start">
-<span class="text-gold font-extrabold">•</span>
-<span class="text-gray-200">Provjereni partneri i realizacija</span>
-</div>
-<div class="flex gap-3 items-start">
-<span class="text-gold font-extrabold">•</span>
-<span class="text-gray-200">Fokus na kvalitet i brzinu</span>
-</div>
-</div>
-</div>
-
-<div class="rounded-3xl border border-neutral-800 bg-black/60 p-8">
-<h3 class="text-2xl font-extrabold">Rezervišite sada</h3>
-<p class="mt-2 text-gray-300">Za sve događaje, konsultacije i ponude — javite se.</p>
-<button onclick="scrollToContact()" class="mt-6 w-full rounded-xl bg-gold text-black py-3 font-semibold hover:brightness-95 transition">Kontakt</button>
+<div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
+<button onclick="scrollToContact()" class="w-full sm:w-auto bg-gold hover:bg-yellow-500 text-black px-8 md:px-10 py-4 md:py-5 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 hover:shadow-2xl btn-animate">
+Kontaktirajte nas
+</button>
+<button onclick="scrollToServices()" class="w-full sm:w-auto border-2 border-white hover:bg-white hover:text-black px-8 md:px-10 py-4 md:py-5 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105 btn-animate">
+Naše usluge
+</button>
 </div>
 </div>
 </section>
 
-<!-- PARTNERS -->
-<section class="py-16 border-t border-neutral-900">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h3 class="text-2xl md:text-3xl font-extrabold">Naši pouzdani partneri</h3>
 
-<div class="mt-6 partners-scroller flex gap-4 overflow-x-auto pb-2">
-<div class="min-w-[220px] rounded-2xl border border-neutral-800 bg-black/60 p-6">Partner 1</div>
-<div class="min-w-[220px] rounded-2xl border border-neutral-800 bg-black/60 p-6">Partner 2</div>
-<div class="min-w-[220px] rounded-2xl border border-neutral-800 bg-black/60 p-6">Partner 3</div>
-<div class="min-w-[220px] rounded-2xl border border-neutral-800 bg-black/60 p-6">Partner 4</div>
+<!-- Sindikat Announcement Bubble -->
+<div class="w-full flex justify-center mt-8 mb-10 fade-in">
+<div class="bg-black/70 backdrop-blur-sm border border-yellow-500/40 px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:shadow-yellow-500/20 transition">
+<span class="text-yellow-400 text-lg">✨</span>
+<p class="text-gray-200 text-sm md:text-base">
+Vidimo se uskoro na 
+<span class="text-yellow-400 font-semibold">Podgoričkom Pazaru</span> —
+prati nas na 
+<a href="https://www.instagram.com/sindikat_events"
+target="_blank"
+class="text-yellow-400 underline hover:text-yellow-300 transition">
+@sindikat_events
+</a>
+</p>
+</div>
+</div>
+
+
+
+<!-- Highlights -->
+<section class="py-16 md:py-24 mobile-spacing bg-gray-900">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+<div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-1">
+<div class="text-3xl md:text-5xl font-bold font-montserrat gradient-gold mb-2 md:mb-4">150+</div>
+<p class="text-gray-300 font-semibold text-sm md:text-lg">Događaja</p>
+</div>
+<div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-2">
+<div class="text-3xl md:text-5xl font-bold font-montserrat gradient-blue mb-2 md:mb-4">100+</div>
+<p class="text-gray-300 font-semibold text-sm md:text-lg">Mladih profesionalaca</p>
+</div>
+<div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-3">
+<div class="text-3xl md:text-5xl font-bold font-montserrat gradient-gold mb-2 md:mb-4">0%</div>
+<p class="text-gray-300 font-semibold text-sm md:text-lg">Stresa</p>
+</div>
+<div class="text-center fade-in hover-lift card-hover bg-black p-6 md:p-10 rounded-2xl md:rounded-3xl border border-gray-800 stagger-4">
+<div class="text-3xl md:text-5xl font-bold font-montserrat gradient-blue mb-2 md:mb-4">1</div>
+<p class="text-gray-300 font-semibold text-sm md:text-lg">Tim za sve</p>
+</div>
 </div>
 </div>
 </section>
+
+<!-- PNG Ad Banner #1 (Jack Daniel's) -->
+<!-- <section class="ad-section py-4 px-4">
+ <a href="#" target="_blank" rel="noopener" class="block">
+   <!-- Desktop XL: 970x250 -->
+<!--     <img
+     src="https://honest-reviews.in/wp-content/uploads/2020/08/jack-daniels-150th-anniversary-640x350-1.jpg"
+     alt="Jack Daniel's – promo"
+     width="970" height="250"
+     loading="lazy" decoding="async"
+     class="hidden xl:block ad-img ad-970x250" />
+
+   <!-- Desktop/Tablet: 728x90 -->
+<!--     <img
+     src="https://honest-reviews.in/wp-content/uploads/2020/08/jack-daniels-150th-anniversary-640x350-1.jpg"
+     alt="Jack Daniel's – promo"
+     width="728" height="90"
+     loading="lazy" decoding="async"
+     class="hidden sm:block xl:hidden ad-img ad-728x90" />
+
+   <!-- Mobile: 320x50 -->
+<!--     <img
+     src="https://honest-reviews.in/wp-content/uploads/2020/08/jack-daniels-150th-anniversary-640x350-1.jpg"
+     alt="Jack Daniel's – promo"
+     width="320" height="50"
+     loading="lazy" decoding="async"
+     class="sm:hidden ad-img ad-320x50" />
+ </a>
+</section>
+<!-- PNG Ad Banner #2 -->
+<!-- <section class="ad-section py-4 px-4">
+ <div class="max-w-7xl mx-auto ad-wrap">
+   <a href="#" target="_blank" rel="noopener" class="block">
+     <!-- Desktop/Tablet: 728x90 -->
+<!--      <img
+       src="https://montenegro.socialimpactaward.net/app/uploads/sites/17/2025/07/0P3A5763-1200x600.jpg"
+       alt="Partner promo – 728x90"
+       width="728" height="90"
+       loading="lazy" decoding="async"
+       class="hidden sm:block ad-img ad-728x90" />
+
+     <!-- Mobile: 320x50 -->
+<!--    <img
+       src="https://montenegro.socialimpactaward.net/app/uploads/sites/17/2025/07/0P3A5763-1200x600.jpg"
+       alt="Partner promo – 320x50"
+       width="320" height="50"
+       loading="lazy" decoding="async"
+       class="sm:hidden ad-img ad-320x50" />
+   </a>
+ </div>
+</section>
+
+
+<!-- About -->
+<section id="about" class="py-20 px-6 bg-black">
+<div class="max-w-7xl mx-auto">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div class="fade-in">
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat mb-8">Dobri događaji se grade na <span class="gradient-gold">detaljima i timskom radu.</span></h2>
+<p class="text-lg text-gray-300 mb-8 leading-relaxed">
+Mi smo Sindikat – tim iz sveta muzike, gastronomije i produkcije. 
+Svaki uspješan događaj počinje razumevanjem vaše vizije i završava se prevazilaženjem vaših očekivanja.
+</p>
+<div class="space-y-4">
+<div class="flex items-center space-x-4">
+<div class="w-3 h-3 bg-gold rounded-full light-pulse"></div>
+<span class="text-gray-300">Profesionalni tim sa višegodišnjim iskustvom</span>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-3 h-3 bg-electric-blue rounded-full light-pulse" style="animation-delay: 0.5s"></div>
+<span class="text-gray-300">Visokokvalitetna oprema i premium napici</span>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-3 h-3 bg-gold rounded-full light-pulse" style="animation-delay: 1s"></div>
+<span class="text-gray-300">Kompletna event rešenja pod jednim krovom</span>
+</div>
+</div>
+</div>
+<div class="fade-in">
+<div class="relative">
+<div class="bg-gradient-to-br from-gold/20 to-electric-blue/20 p-8 rounded-3xl backdrop-blur-sm">
+<!-- Photo Collage Placeholder -->
+<div class="grid grid-cols-2 gap-4 h-80">
+<div class="bg-gray-800 rounded-2xl flex items-center justify-center">
+<img src="https://www.vijesti.me/data/images/2019/02/18/00/3305523_20190218180220_5c6aea04b789684ea0feb8b1jpeg_ls.jpg"
+alt="Event foto 1"
+class="w-full h-full object-cover rounded-2xl">
+</div>
+<div class="bg-gray-800 rounded-2xl flex items-center justify-center">
+<img src="https://banjalucanke.com/wp-content/uploads/2015/12/zurka.jpg"
+alt="Event foto 2"
+class="w-full h-full object-cover rounded-2xl">
+</div>
+<div class="bg-gray-800 rounded-2xl flex items-center justify-center">
+<img src="https://volimpodgoricu.me/wp-content/uploads/2024/01/Beogradski-sindikat-22.jpg"
+alt="Event foto 3"
+class="w-full h-full object-cover rounded-2xl">
+</div>
+<div class="bg-gray-800 rounded-2xl flex items-center justify-center">
+<img src="https://www.atastars.rs/wp-content/uploads/2022/06/beogradski_sindikat_tas_11062022_0018.jpg"
+alt="Event foto 4"
+class="w-full h-full object-cover rounded-2xl">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- za brisat -->  
+
+<!-- FEATURED EVENTS / POPULAR TYPES -->
+<section id="featured" class="py-20 px-6 bg-black">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">
+Najtraženiji <span class="gradient-gold">Događaji</span>
+</h2>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+<div class="bg-gray-900 p-8 rounded-2xl hover-lift fade-in">
+<div class="text-5xl mb-4">🏢</div>
+<h3 class="text-xl font-bold mb-2 gradient-gold">Korporativne Proslave</h3>
+<p class="text-gray-400 text-sm leading-relaxed">Konferencije, cocktail receptori, team building i novogodišnje korporativne zabave.</p>
+</div>
+
+<div class="bg-gray-900 p-8 rounded-2xl hover-lift fade-in">
+<div class="text-5xl mb-4">🎉</div>
+<h3 class="text-xl font-bold mb-2 gradient-blue">Privatne Proslave</h3>
+<p class="text-gray-400 text-sm leading-relaxed">Rođendani, mature, diplomiranja, godišnjice i sve vrste personalnih okupljanja.</p>
+</div>
+
+<div class="bg-gray-900 p-8 rounded-2xl hover-lift fade-in">
+<div class="text-5xl mb-4">🎵</div>
+<h3 class="text-xl font-bold mb-2 gradient-gold">Festivali & Klubovi</h3>
+<p class="text-gray-400 text-sm leading-relaxed">DJ nastupi, muzičke večeri, event produkcija i profesionalni barmeni.</p>
+</div>
+
+<div class="bg-gray-900 p-8 rounded-2xl hover-lift fade-in">
+<div class="text-5xl mb-4">📣</div>
+<h3 class="text-xl font-bold mb-2 gradient-blue">Promo Aktivacije</h3>
+<p class="text-gray-400 text-sm leading-relaxed">Hostese, sampling timovi, brendirani promo pultovi i terenske kampanje.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- EVENT PROCESS -->
+<section id="process" class="py-20 px-6 bg-gray-900">
+<div class="max-w-7xl mx-auto">
+
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">
+Kako Izgleda <span class="gradient-blue">Proces</span> Organizacije
+</h2>
+
+<div class="grid md:grid-cols-3 gap-10">
+
+<div class="bg-black p-8 rounded-2xl hover-lift fade-in text-center">
+<div class="text-6xl mb-6">💬</div>
+<h3 class="text-xl font-semibold mb-3 gradient-gold">1. Konsultacije</h3>
+<p class="text-gray-400">Kratak razgovor o vašoj ideji, budžetu i tipu događaja. Predlažemo koncept i nudimo opcije.</p>
+</div>
+
+<div class="bg-black p-8 rounded-2xl hover-lift fade-in text-center">
+<div class="text-6xl mb-6">📋</div>
+<h3 class="text-xl font-semibold mb-3 gradient-blue">2. Planiranje & Produkcija</h3>
+<p class="text-gray-400">Biramo tim, opremu, bar setup, DJ-eve, hostese i sve što je potrebno za savršen event.</p>
+</div>
+
+<div class="bg-black p-8 rounded-2xl hover-lift fade-in text-center">
+<div class="text-6xl mb-6">🎊</div>
+<h3 class="text-xl font-semibold mb-3 gradient-gold">3. Izvođenje Događaja</h3>
+<p class="text-gray-400">Mi se brinemo za sve operacije. Vi samo uživate i ne brinete ni o jednom detalju.</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+
+<!-- za brisat -->  
+
+<section id="services" class="py-16 md:py-20 mobile-spacing bg-gray-900">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat text-center mb-12 md:mb-16 fade-in text-container">
+Naše <span class="gradient-gold">Usluge</span>
+</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+
+<!-- Barmeni i Kokteli -->
+<div
+class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-1 cursor-pointer js-service-card"
+data-service="bartending"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), 
+                   
+                   url('https://www.bilgihakkinda.com/wp-content/uploads/Barmen-Nasil-Olunur.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">
+Barmeni i Kokteli
+</h3>
+<p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">
+Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.
+</p>
+</div>
+
+<!-- DJ-jevi i Muzičari -->
+<div
+class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-2 cursor-pointer js-service-card"
+data-service="djs"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), 
+                   url('/fotke/mikeli.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">
+DJ-jevi i Muzičari
+</h3>
+<p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">
+Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.
+</p>
+</div>
+
+<!-- Zvuk i Osvetljenje -->
+<div
+class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-3 cursor-pointer js-service-card"
+data-service="sound"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),  
+                   url('https://d4n0y8dshd77z.cloudfront.net/listings/47313496/lg/NamRKfw9l42YjobXf7MI.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">
+Zvuk i Osvetljenje
+</h3>
+<p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">
+Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.
+</p>
+</div>
+
+<!-- Bar i Usluga Napitaka -->
+<div
+class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-4 cursor-pointer js-service-card"
+data-service="bar"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),  
+                   url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/fa86aa31179135.5644946d21d56.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">
+Bar i Usluga Napitaka
+</h3>
+<p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">
+Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.
+</p>
+</div>
+
+<!-- Fotografija i Video -->
+<div
+class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
+data-service="photo"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),  
+                   url('https://data.verticals.cz/files/yVB9FIwEMGJZ.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">
+Fotografija i Video
+</h3>
+<p class="text-gray-400 text-sm leading-relaxed">
+Profesionalni fotografi koji hvataju svaki dragoceni trenutak u najvišem kvalitetu.
+</p>
+</div>
+
+<!-- Dizajn i Društvene Mreže -->
+<div
+class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
+data-service="design"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),  
+                   url('https://www.haulpack.com/blog/wp-content/uploads/2024/12/Top-15-Memes-Pages-on-Instagram-1.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">
+Dizajn i Društvene Mreže
+</h3>
+<p class="text-gray-400 text-sm leading-relaxed">
+Kreativna dizajnerska rešenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.
+</p>
+</div>
+
+<!-- Profesionalne Hostese -->
+<div
+class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
+data-service="hostesses"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),  
+                   url('https://gtspirit.com/wp-content/gallery/girls-at-the-geneva-motor-show-2015-part-2/girls-of-the-geneva-motor-show-20151.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">
+Profesionalne Hostese
+</h3>
+<p class="text-gray-400 text-sm leading-relaxed">
+Elegantne i profesionalne hostese za dočekivanje i pomoć vašim gostima.
+</p>
+</div>
+
+<!-- Event Nameštaj -->
+<div
+class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
+data-service="furniture"
+>
+<div class="service-image mb-4 md:mb-6" 
+style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),  
+                   url('https://partyrentalhub.net/wp-content/uploads/2023/11/1701078233172.jpg'); 
+                   background-size: cover; 
+                   background-position: center; 
+                   border-radius: 12px; 
+                   height: 200px;">
+</div>
+<h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">
+Event Nameštaj
+</h3>
+<p class="text-gray-400 text-sm leading-relaxed">
+Stilski nameštaj i lounge postavke za kreiranje savršene atmosfere.
+</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- Service Details Modal -->
+<div
+  id="serviceModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70"
+>
+  <div class="bg-gray-900 rounded-2xl max-w-lg w-full mx-4 p-6 relative">
+    <!-- Close button -->
+    <button
+      type="button"
+      id="serviceModalClose"
+      class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl leading-none"
+      aria-label="Zatvori"
+    >
+      ×
+    </button>
+
+    <h3
+      id="serviceModalTitle"
+      class="text-2xl font-bold font-montserrat mb-4 gradient-gold"
+    >
+      Naziv usluge
+    </h3>
+
+    <p
+      id="serviceModalText"
+      class="text-gray-300 text-sm leading-relaxed mb-6"
+    >
+      Ovdje će ići detaljan opis usluge – šta tačno radite, šta je uključeno,
+      kako se naplaćuje, za koje tipove događaja je idealno, itd.
+    </p>
+
+    <div class="flex flex-wrap gap-3 justify-end">
+   <!-- Dugme: Pošalji upit -->
+<button
+  type="button"
+  onclick="window.location.href='https://sindikatevents.me/kontakt/'"
+  class="bg-gold text-black font-semibold px-5 py-2 rounded-full text-sm hover:bg-yellow-500 transition"
+>
+  Pošalji upit za ovu uslugu
+</button>
+
+<!-- Dugme: Zatvori -->
+<button
+  type="button"
+  id="serviceModalCloseBottom"
+  class="border border-gray-600 text-gray-200 px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition"
+>
+  Zatvori
+</button>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+  
+
+
+  
+
+  
+
+
+
+<!-- PNG Ad Banner #3 -->
+<!--<div class="mt-16 ad-wrap text-center">
+ <a href="#" target="_blank" rel="noopener" class="block">
+   <!-- Desktop/Tablet: 300x250 -->
+<!--    <img
+     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPFI5XiJsCyE4-jLjUQOXk6O3hLBiBjaY8ug&s"
+     alt="Partner promo – 300x250"
+     width="300" height="250"
+     loading="lazy" decoding="async"
+     class="hidden sm:block ad-img ad-300x250" />
+
+   <!-- Mobile: 320x100 -->
+<!--    <img
+     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPFI5XiJsCyE4-jLjUQOXk6O3hLBiBjaY8ug&s"
+     alt="Partner promo – 320x100"
+     width="320" height="100"
+     loading="lazy" decoding="async"
+     class="sm:hidden ad-img ad-320x100" />
+ </a>
+</div>
+
+
+<!-- Partners Banner -->
+<!--<section class="py-12 px-6 bg-gradient-to-r from-gray-900 via-black to-gray-900">
+<div class="max-w-7xl mx-auto">
+<h3 class="text-center text-lg font-semibold font-montserrat mb-8 gradient-gold">Naši Pouzdani Partneri</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+<div class="bg-black/50 p-6 rounded-xl border border-gray-700 hover:border-gold/50 transition-all hover:scale-105 cursor-pointer group">
+<div class="text-center">
+<div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🏨</div>
+<div class="text-white text-sm font-semibold">Hotel Splendid</div>
+<div class="text-gray-400 text-xs">Premium Venue</div>
+</div>
+</div>
+<div class="bg-black/50 p-6 rounded-xl border border-gray-700 hover:border-electric-blue/50 transition-all hover:scale-105 cursor-pointer group">
+<div class="text-center">
+<div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🎵</div>
+<div class="text-white text-sm font-semibold">ProSound CG</div>
+<div class="text-gray-400 text-xs">Audio Tech</div>
+</div>
+</div>
+<div class="bg-black/50 p-6 rounded-xl border border-gray-700 hover:border-gold/50 transition-all hover:scale-105 cursor-pointer group">
+<div class="text-center">
+<div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🍽️</div>
+<div class="text-white text-sm font-semibold">Gourmet Events</div>
+<div class="text-gray-400 text-xs">Catering</div>
+</div>
+</div>
+<div class="bg-black/50 p-6 rounded-xl border border-gray-700 hover:border-electric-blue/50 transition-all hover:scale-105 cursor-pointer group">
+<div class="text-center">
+<div class="text-3xl mb-2 group-hover:scale-110 transition-transform">💐</div>
+<div class="text-white text-sm font-semibold">Flora Design</div>
+<div class="text-gray-400 text-xs">Flowers</div>
+</div>
+</div>
+<div class="bg-black/50 p-6 rounded-xl border border-gray-700 hover:border-gold/50 transition-all hover:scale-105 cursor-pointer group">
+<div class="text-center">
+<div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🚗</div>
+<div class="text-white text-sm font-semibold">Luxury Transport</div>
+<div class="text-gray-400 text-xs">VIP Cars</div>
+</div>
+</div>
+<div class="bg-black/50 p-6 rounded-xl border border-gray-700 hover:border-electric-blue/50 transition-all hover:scale-105 cursor-pointer group">
+<div class="text-center">
+<div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🎂</div>
+<div class="text-white text-sm font-semibold">Sweet Dreams</div>
+<div class="text-gray-400 text-xs">Cakes & Desserts</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+
+<!-- PNG Ad Banner Placeholder 4 -->
+<!-- PNG Ad Banner #4 -->
+<!-- <section class="ad-section py-4 px-4">
+ <div class="max-w-7xl mx-auto ad-wrap">
+   <a href="#" target="_blank" rel="noopener" class="block">
+     <!-- Desktop XL: 970x90 -->
+<!--      <img
+       src="https://i.ytimg.com/vi/fE6D6WFJKeU/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGFIgZSgxMA8=&rs=AOn4CLDTpA01SMsAhr4PITFaCDcXc2Sn0Q"
+       alt="Partner promo – 970x90"
+       width="970" height="90"
+       loading="lazy" decoding="async"
+       class="hidden xl:block ad-img ad-970x250" />
+
+     <!-- Desktop/Tablet: 728x90 -->
+<!--       <img
+       src="https://i.ytimg.com/vi/fE6D6WFJKeU/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGFIgZSgxMA8=&rs=AOn4CLDTpA01SMsAhr4PITFaCDcXc2Sn0Q"
+       alt="Partner promo – 728x90"
+       width="728" height="90"
+       loading="lazy" decoding="async"
+       class="hidden sm:block xl:hidden ad-img ad-728x90" />
+
+     <!-- Mobile: 320x50 -->
+<!--       <img
+       src="https://i.ytimg.com/vi/fE6D6WFJKeU/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGFIgZSgxMA8=&rs=AOn4CLDTpA01SMsAhr4PITFaCDcXc2Sn0Q"
+       alt="Partner promo – 320x50"
+       width="320" height="50"
+       loading="lazy" decoding="async"
+       class="sm:hidden ad-img ad-320x50" />
+   </a>
+ </div>
+</section>
+
+
+<!-- Promotional Banner -->
+<!--<section class="py-16 px-6 bg-gradient-to-r from-gold/10 via-electric-blue/10 to-gold/10 border-y border-gold/20">
+<div class="max-w-7xl mx-auto">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="text-center md:text-left">
+<div class="inline-block bg-gold text-black px-4 py-2 rounded-full text-sm font-bold mb-4">SPECIJALNA PONUDA</div>
+<h3 class="text-3xl lg:text-4xl font-bold font-montserrat mb-4">
+Rezervišite sada i <span class="gradient-gold">uštedite 20%</span>
+</h3>
+<p class="text-gray-300 mb-6 leading-relaxed">
+Za sve događaje rezervisane do kraja meseca, nudimo ekskluzivni popust na kompletne event pakete.
+</p>
+<button onclick="scrollToContact()" class="bg-gradient-to-r from-gold to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105">
+Iskoristite Ponudu
+</button>
+</div>
+<div class="relative">
+<div class="bg-gradient-to-br from-black/80 to-gray-900/80 p-8 rounded-3xl border border-gold/30">
+<div class="grid grid-cols-2 gap-4">
+<div class="text-center p-4 bg-gold/10 rounded-xl">
+<div class="text-2xl mb-2">🎉</div>
+<div class="text-gold font-semibold text-sm">Kompletni Paketi</div>
+</div>
+<div class="text-center p-4 bg-electric-blue/10 rounded-xl">
+<div class="text-2xl mb-2">💰</div>
+<div class="text-electric-blue font-semibold text-sm">20% Popust</div>
+</div>
+<div class="text-center p-4 bg-gold/10 rounded-xl">
+<div class="text-2xl mb-2">⏰</div>
+<div class="text-gold font-semibold text-sm">Ograničeno Vreme</div>
+</div>
+<div class="text-center p-4 bg-electric-blue/10 rounded-xl">
+<div class="text-2xl mb-2">✨</div>
+<div class="text-electric-blue font-semibold text-sm">Premium Usluga</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PNG Ad Banner #5 -->
+<!-- <section class="ad-section py-4 px-4">
+ <div class="max-w-7xl mx-auto ad-wrap">
+   <a href="#" target="_blank" rel="noopener" class="block">
+     <!-- Desktop/Tablet: 640x360 -->
+<!--      <img
+       src="https://www.bondston.com/files/Fotky_k_popisom_1400x700/jagermeister/jagermeister-two-shot-glasses.jpg"
+       alt="Partner promo – 640x360"
+       width="640" height="360"
+       loading="lazy" decoding="async"
+       class="hidden sm:block ad-img" style="height:360px; object-fit:cover;" />
+
+     <!-- Mobile: 320x50 -->
+<!--      <img
+       src="https://www.bondston.com/files/Fotky_k_popisom_1400x700/jagermeister/jagermeister-two-shot-glasses.jpg"
+       alt="Partner promo – 320x50"
+       width="320" height="50"
+       loading="lazy" decoding="async"
+       class="sm:hidden ad-img ad-320x50" />
+   </a>
+ </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-20 px-6">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">
+Zašto Izabrati <span class="gradient-blue">Sindikat</span>
+</h2>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
+<div class="text-6xl mb-6">👥</div>
+<h3 class="text-xl font-semibold font-montserrat mb-4 gradient-gold">Ekspertski Tim</h3>
+<p class="text-gray-400 leading-relaxed">Mladi profesionalci sa strašću za kreiranje nezaboravnih događaja</p>
+</div>
+
+<div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
+<div class="text-6xl mb-6">⚡</div>
+<h3 class="text-xl font-semibold font-montserrat mb-4 gradient-blue">Kvalitetna Oprema i Napici</h3>
+<p class="text-gray-400 leading-relaxed">Premium oprema i napici najvišeg kvaliteta za izuzetna iskustva</p>
+</div>
+
+<div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
+<div class="text-6xl mb-6">🏆</div>
+<h3 class="text-xl font-semibold font-montserrat mb-4 gradient-gold">Dokazano Iskustvo</h3>
+<p class="text-gray-400 leading-relaxed">150+ uspešnih događaja i nebrojeno zadovoljnih klijenata širom Crne Gore</p>
+</div>
+
+<div class="text-center fade-in hover-lift bg-gray-900 p-8 rounded-2xl">
+<div class="text-6xl mb-6">🎯</div>
+<h3 class="text-xl font-semibold font-montserrat mb-4 gradient-blue">Sve na Jednom Mestu</h3>
+<p class="text-gray-400 leading-relaxed">Sve što vam treba za vaš događaj, koordinisano od strane jednog profesionalnog tima</p>
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- Gallery & Case Studies -->
+<!--<section id="gallery" class="py-20 px-6 bg-gray-900">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Galerija <span class="gradient-gold">Događaja</span></h2>
+<div class="masonry-grid">
+<div class="masonry-item relative group hover-lift fade-in">
+<div class="bg-gradient-to-br from-gold/30 to-orange-500/30 h-64 rounded-2xl flex items-center justify-center overflow-hidden">
+<div class="text-center">
+<svg class="w-20 h-20 mx-auto mb-4 text-gold" viewBox="0 0 100 100">
+<rect x="20" y="40" width="60" height="30" fill="currentColor" rx="4"/>
+<circle cx="35" cy="55" r="6" fill="#000"/>
+<circle cx="65" cy="55" r="6" fill="#000"/>
+<rect x="30" y="75" width="40" height="8" fill="#333" rx="2"/>
+</svg>
+<h4 class="text-lg font-semibold font-montserrat">Korporativni Događaj</h4>
+<p class="text-sm text-gray-300">150 gostiju • Podgorica</p>
+</div>
+</div>
+<div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center">
+<div class="text-center p-6">
+<h3 class="text-xl font-semibold font-montserrat mb-2">Tech Konferencija 2024</h3>
+<p class="text-gray-300 mb-4">Profesionalno umrežavanje sa premium uslugom</p>
+<div class="text-sm text-gold">
+<p>• 150 profesionalaca uključeno</p>
+<p>• 8-satno pokrivanje događaja</p>
+<p>• 100% zadovoljstvo klijenta</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="masonry-item relative group hover-lift fade-in">
+<div class="bg-gradient-to-br from-electric-blue/30 to-purple-500/30 h-80 rounded-2xl flex items-center justify-center overflow-hidden">
+<div class="text-center">
+<svg class="w-20 h-20 mx-auto mb-4 text-electric-blue cocktail-float" viewBox="0 0 100 100">
+<path d="M30 30 L70 30 L60 60 L40 60 Z" fill="currentColor"/>
+<rect x="47" y="60" width="6" height="20" fill="#8B4513"/>
+<circle cx="50" cy="85" r="8" fill="#333"/>
+</svg>
+<h4 class="text-lg font-semibold font-montserrat">Privatna Zabava</h4>
+<p class="text-sm text-gray-300">80 gostiju • Budva</p>
+</div>
+</div>
+<div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center">
+<div class="text-center p-6">
+<h3 class="text-xl font-semibold font-montserrat mb-2">Rođendanska Proslava</h3>
+<p class="text-gray-300 mb-4">Intimna luksuzna proslava uz more</p>
+<div class="text-sm text-electric-blue">
+<p>• Prilagođeni koktel meni</p>
+<p>• DJ nastup uživo</p>
+<p>• Profesionalna fotografija</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="masonry-item relative group hover-lift fade-in">
+<div class="bg-gradient-to-br from-green-500/30 to-teal-500/30 h-72 rounded-2xl flex items-center justify-center overflow-hidden">
+<div class="text-center">
+<svg class="w-20 h-20 mx-auto mb-4 text-green-500" viewBox="0 0 100 100">
+<circle cx="50" cy="40" r="15" fill="currentColor"/>
+<rect x="40" y="55" width="20" height="25" fill="currentColor" rx="3"/>
+<path d="M35 65 Q50 60 65 65" stroke="#333" stroke-width="2" fill="none"/>
+</svg>
+<h4 class="text-lg font-semibold font-montserrat">Venčani Prijem</h4>
+<p class="text-sm text-gray-300">200 gostiju • Nikšić</p>
+</div>
+</div>
+<div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center">
+<div class="text-center p-6">
+<h3 class="text-xl font-semibold font-montserrat mb-2">Venčanje iz Snova</h3>
+<p class="text-gray-300 mb-4">Čarobna proslava savršeno organizovana</p>
+<div class="text-sm text-green-400">
+<p>• 12-satna kompletna usluga</p>
+<p>• Bend uživo + DJ</p>
+<p>• Kompletno dizajniranje osvetljenja</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="masonry-item relative group hover-lift fade-in">
+<div class="bg-gradient-to-br from-pink-500/30 to-red-500/30 h-60 rounded-2xl flex items-center justify-center overflow-hidden">
+<div class="text-center">
+<svg class="w-20 h-20 mx-auto mb-4 text-pink-500" viewBox="0 0 100 100">
+<rect x="25" y="45" width="50" height="25" fill="currentColor" rx="3"/>
+<circle cx="40" cy="57" r="6" fill="#000"/>
+<circle cx="60" cy="57" r="6" fill="#000"/>
+<rect x="45" y="75" width="10" height="8" fill="#333" rx="2"/>
+</svg>
+<h4 class="text-lg font-semibold font-montserrat">Lansiranje Proizvoda</h4>
+<p class="text-sm text-gray-300">120 gostiju • Podgorica</p>
+</div>
+</div>
+<div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center">
+<div class="text-center p-6">
+<h3 class="text-xl font-semibold font-montserrat mb-2">Lansiranje Brenda</h3>
+<p class="text-gray-300 mb-4">Profesionalno lansiranje sa maksimalnim uticajem</p>
+<div class="text-sm text-pink-400">
+<p>• Medijsko pokrivanje</p>
+<p>• Interaktivne prezentacije</p>
+<p>• VIP ugostiteljska usluga</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Sponsor Banner in Gallery -->
+<!--<div class="mt-16 bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-3xl p-8 border border-gold/20">
+<div class="text-center mb-8">
+<h4 class="text-xl font-semibold font-montserrat gradient-gold mb-2">Podržano od strane</h4>
+<p class="text-gray-400">Naši sponzori čine naše događaje još boljima</p>
+</div>
+<div class="grid grid-cols-3 md:grid-cols-6 gap-6">
+<div class="bg-black/30 p-4 rounded-xl hover:bg-black/50 transition-all cursor-pointer group">
+<div class="text-center">
+<div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🥂</div>
+<div class="text-white text-xs font-semibold">Premium Wines</div>
+</div>
+</div>
+<div class="bg-black/30 p-4 rounded-xl hover:bg-black/50 transition-all cursor-pointer group">
+<div class="text-center">
+<div class="text-2xl mb-2 group-hover:scale-110 transition-transform">📱</div>
+<div class="text-white text-xs font-semibold">Tech Solutions</div>
+</div>
+</div>
+<div class="bg-black/30 p-4 rounded-xl hover:bg-black/50 transition-all cursor-pointer group">
+<div class="text-center">
+<div class="text-2xl mb-2 group-hover:scale-110 transition-transform">💎</div>
+<div class="text-white text-xs font-semibold">Luxury Brands</div>
+</div>
+</div>
+<div class="bg-black/30 p-4 rounded-xl hover:bg-black/50 transition-all cursor-pointer group">
+<div class="text-center">
+<div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🎭</div>
+<div class="text-white text-xs font-semibold">Entertainment</div>
+</div>
+</div>
+<div class="bg-black/30 p-4 rounded-xl hover:bg-black/50 transition-all cursor-pointer group">
+<div class="text-center">
+<div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🏆</div>
+<div class="text-white text-xs font-semibold">Awards Partner</div>
+</div>
+</div>
+<div class="bg-black/30 p-4 rounded-xl hover:bg-black/50 transition-all cursor-pointer group">
+<div class="text-center">
+<div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🌟</div>
+<div class="text-white text-xs font-semibold">VIP Services</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<!--<section class="py-20 px-6 bg-black">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Šta Kažu Naši <span class="gradient-blue">Klijenti</span></h2>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-gray-900 p-8 rounded-2xl fade-in hover-lift">
+<div class="flex items-center mb-6">
+<div class="w-16 h-16 bg-gradient-to-br from-gold to-orange-500 rounded-full flex items-center justify-center text-black font-bold text-xl font-montserrat">M</div>
+<div class="ml-4">
+<h4 class="font-semibold text-lg font-montserrat">Marko Petrović</h4>
+<p class="text-gray-400">CEO, Tech kompanija</p>
+</div>
+</div>
+<p class="text-gray-300 leading-relaxed">"Sindikat je transformisao naš korporativni događaj u nezaboravno iskustvo. Profesionalno, stilski i potpuno bez stresa. Naš tim još uvek priča o tome!"</p>
+</div>
+<div class="bg-gray-900 p-8 rounded-2xl fade-in hover-lift">
+<div class="flex items-center mb-6">
+<div class="w-16 h-16 bg-gradient-to-br from-electric-blue to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl font-montserrat">A</div>
+<div class="ml-4">
+<h4 class="font-semibold text-lg font-montserrat">Ana Milić</h4>
+<p class="text-gray-400">Mladenka</p>
+</div>
+</div>
+<p class="text-gray-300 leading-relaxed">"Naše vjenčanje je bilo apsolutno savršeno! Od koktela do muzike, osvetljenja i fotografije - oni su se brinuli za svaki detalj prekrasno. Nismo mogli tražiti više."</p>
+</div>
+<div class="bg-gray-900 p-8 rounded-2xl fade-in hover-lift">
+<div class="flex items-center mb-6">
+<div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-xl font-montserrat">N</div>
+<div class="ml-4">
+<h4 class="font-semibold text-lg font-montserrat">Nikola Jovanović</h4>
+<p class="text-gray-400">Organizator događaja</p>
+</div>
+</div>
+<p class="text-gray-300 leading-relaxed">"Rad sa Sindikatom je bio prekretnički. Njihov tim je doneo neverovatnu energiju, profesionalnu uslugu i pažnju na svaki detalj. Toplo preporučujem!"</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PNG Ad Banner #6 (uskladjen sa #1/#2) -->
+<!-- <section class="ad-section py-4 px-4">
+ <div class="max-w-7xl mx-auto ad-wrap">
+   <a href="https://www.jagermeister.com/" target="_blank" rel="noopener" class="block">
+     <!-- Desktop/Tablet: 728x90 -->
+<!--  <img
+       src="https://images.ctfassets.net/lzmdclvz8tzc/5bG4SyqbMMGbgtarEdEY4F/98b5ef11df7a0228125bb502eb4b9e5f/large-JM_INT_Family_Portrait_horizontal_January_2023.png"
+       alt="Partner promo"
+       width="728" height="90"
+       loading="lazy" decoding="async"
+       class="hidden sm:block ad-img ad-728x90 rounded-md" />
+
+     <!-- Mobile: 320x50 -->
+<!--    <img
+       src="https://images.ctfassets.net/lzmdclvz8tzc/5bG4SyqbMMGbgtarEdEY4F/98b5ef11df7a0228125bb502eb4b9e5f/large-JM_INT_Family_Portrait_horizontal_January_2023.png"
+       alt="Partner promo"
+       width="320" height="50"
+       loading="lazy" decoding="async"
+       class="sm:hidden ad-img ad-320x50 rounded-md" />
+   </a>
+ </div>
+</section>
+
+
 
 <!-- FAQ -->
-<section id="faq" class="py-16 border-t border-neutral-900">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h2 class="text-3xl md:text-4xl font-extrabold">FAQ</h2>
-<div class="mt-8 space-y-4">
-<div class="rounded-2xl border border-neutral-800 bg-black/60 p-6">
-<h3 class="font-bold">Koliko ranije treba rezervisati?</h3>
-<p class="mt-2 text-gray-300 text-sm">Preporuka je 7–14 dana, ali nekad možemo i brže.</p>
+<section id="faq" class="py-20 px-6 bg-gray-900">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">Često Postavljana <span class="gradient-gold">Pitanja</span></h2>
+<div class="space-y-4">
+<div class="bg-black rounded-2xl overflow-hidden fade-in">
+<button onclick="toggleAccordion(0)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+<span class="text-lg font-semibold">Da li organizujete male privatne događaje?</span>
+<span class="text-3xl accordion-arrow font-light">+</span>
+</button>
+<div class="accordion-content px-8 pb-8">
+<p class="text-gray-300 leading-relaxed">Da! Mi organizujemo događaje svih veličina, od intimnih okupljanja od 10 ljudi do velikih proslava sa stotinama gostiju. Svaki događaj dobija isti nivo profesionalne pažnje i brige.</p>
 </div>
-<div class="rounded-2xl border border-neutral-800 bg-black/60 p-6">
-<h3 class="font-bold">Da li radite van Podgorice?</h3>
-<p class="mt-2 text-gray-300 text-sm">Da — u cijeloj Crnoj Gori, po dogovoru.</p>
+</div>
+<div class="bg-black rounded-2xl overflow-hidden fade-in">
+<button onclick="toggleAccordion(1)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+<span class="text-lg font-semibold">Možemo li angažovati samo jednu uslugu (npr. DJ ili bar)?</span>
+<span class="text-3xl accordion-arrow font-light">+</span>
+</button>
+<div class="accordion-content px-8 pb-8">
+<p class="text-gray-300 leading-relaxed">Apsolutno! Možete rezervisati pojedinačne usluge ili kreirati prilagođeni paket koji odgovara vašim specifičnim potrebama i budžetu. Mi smo fleksibilni i radimo prema vašim zahtevima.</p>
+</div>
+</div>
+<div class="bg-black rounded-2xl overflow-hidden fade-in">
+<button onclick="toggleAccordion(2)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+<span class="text-lg font-semibold">Da li radite van Podgorice?</span>
+<span class="text-3xl accordion-arrow font-light">+</span>
+</button>
+<div class="accordion-content px-8 pb-8">
+<p class="text-gray-300 leading-relaxed">Da, pružamo naše usluge širom Crne Gore. Od Budve do Nikšića, donosimo isti kvalitet i profesionalizam svugde. Troškovi putovanja mogu se naplatiti za lokacije van Podgorice.</p>
+</div>
+</div>
+<div class="bg-black rounded-2xl overflow-hidden fade-in">
+<button onclick="toggleAccordion(3)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+<span class="text-lg font-semibold">Koliko unapred treba rezervisati?</span>
+<span class="text-3xl accordion-arrow font-light">+</span>
+</button>
+<div class="accordion-content px-8 pb-8">
+<p class="text-gray-300 leading-relaxed">Preporučujemo rezervaciju najmanje 2-4 nedelje unapred za optimalno planiranje, ali možemo prilagoditi i kraći rok ovisno o dostupnosti. Kontaktirajte nas čim imate datum u vidu!</p>
+</div>
+</div>
+<div class="bg-black rounded-2xl overflow-hidden fade-in">
+<button onclick="toggleAccordion(4)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+<span class="text-lg font-semibold">Da li obezbeđujete opremu za događaje na otvorenom?</span>
+<span class="text-3xl accordion-arrow font-light">+</span>
+</button>
+<div class="accordion-content px-8 pb-8">
+<p class="text-gray-300 leading-relaxed">Da! Imamo opremu otpornu na vremenske uslove i možemo obezbediti generatore, pokrivene bar postavke i svu potrebnu infrastrukturu za događaje na otvorenom. Mi se bavimo svim tehničkim zahtevima.</p>
+</div>
+</div>
+<div class="bg-black rounded-2xl overflow-hidden fade-in">
+<button onclick="toggleAccordion(5)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+<span class="text-lg font-semibold">Šta je uključeno u vašu fotografsku uslugu?</span>
+<span class="text-3xl accordion-arrow font-light">+</span>
+</button>
+<div class="accordion-content px-8 pb-8">
+<p class="text-gray-300 leading-relaxed">Naš fotografski paket uključuje profesionalno pokrivanje događaja, uređene fotografije visoke rezolucije dostavljene u roku od 48 sati i sadržaj spreman za društvene mreže. Video highlights su dostupni kao dodatak.</p>
+</div>
 </div>
 </div>
 </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="py-16 border-t border-neutral-900">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+
+<!-- Bottom Advertisement Banner (responsive, clickable cards) -->
+<!--<style>
+ /* fokus prsten za tastaturu (pristupačnost) */
+ .focus-ring:focus-visible{
+   outline: 2px solid rgba(255,215,0,.9);
+   outline-offset: 3px;
+   border-color: rgba(255,215,0,.7) !important;
+ }
+ /* suptilniji hover na mobilnim (gdje nema hover-a) */
+ @media (hover:none){
+   .hover\:scale-105:hover{ transform:none; }
+ }
+</style>
+
+<section class="py-12 px-6 bg-gradient-to-r from-electric-blue/20 via-purple-600/20 to-electric-blue/20 border-t border-electric-blue/30">
+ <div class="max-w-7xl mx-auto">
+   <div class="grid md:grid-cols-3 gap-8">
+
+     <!-- Kartica 1 -->
+<!--  <a href="#"
+        class="block bg-black/60 backdrop-blur-sm p-6 rounded-2xl border border-gold/30 hover:border-gold/60 transition-all hover:scale-105 cursor-pointer focus-ring"
+        target="_blank" rel="noopener"
+        aria-label="PREMIUM LOKACIJA — Event Center Podgorica. Rezervišite ekskluzivnu salu">
+       <div class="flex items-center gap-4">
+         <div class="text-4xl shrink-0">🎪</div>
+         <div class="min-w-0">
+           <div class="text-gold text-sm font-semibold">PREMIUM LOKACIJA</div>
+           <div class="text-white font-bold truncate">Event Center Podgorica</div>
+           <div class="text-gray-300 text-sm">Rezervišite ekskluzivnu salu</div>
+         </div>
+       </div>
+     </a>
+
+     <!-- Kartica 2 -->
+<!--  <a href="#"
+        class="block bg-black/60 backdrop-blur-sm p-6 rounded-2xl border border-electric-blue/30 hover:border-electric-blue/60 transition-all hover:scale-105 cursor-pointer focus-ring"
+        target="_blank" rel="noopener"
+        aria-label="PREMIUM NAPICI — Exclusive Beverages. Najkvalitetniji alkohol i kokteli">
+       <div class="flex items-center gap-4">
+         <div class="text-4xl shrink-0">🍾</div>
+         <div class="min-w-0">
+           <div class="text-electric-blue text-sm font-semibold">PREMIUM NAPICI</div>
+           <div class="text-white font-bold truncate">Exclusive Beverages</div>
+           <div class="text-gray-300 text-sm">Najkvalitetniji alkohol i kokteli</div>
+         </div>
+       </div>
+     </a>
+
+     <!-- Kartica 3 -->
+<!--    <a href="#"
+        class="block bg-black/60 backdrop-blur-sm p-6 rounded-2xl border border-gold/30 hover:border-gold/60 transition-all hover:scale-105 cursor-pointer focus-ring"
+        target="_blank" rel="noopener"
+        aria-label="PROFESIONALNO — Photo & Video Studio. Vrhunska produkcija sadržaja">
+       <div class="flex items-center gap-4">
+         <div class="text-4xl shrink-0">📸</div>
+         <div class="min-w-0">
+           <div class="text-gold text-sm font-semibold">PROFESIONALNO</div>
+           <div class="text-white font-bold truncate">Photo & Video Studio</div>
+           <div class="text-gray-300 text-sm">Vrhunska produkcija sadržaja</div>
+         </div>
+       </div>
+     </a>
+
+   </div>
+ </div>
+</section>
+
+
+<!-- Sticky Bottom Banner (responsive, dismissible) -->
+<!--<style>
+ #stickyBottomBanner{
+   position: fixed;
+   bottom: 0;
+   left: 50% !important;
+   transform: translate(-50%, 100%); /* start: skriven ispod */
+   width: calc(100% - 24px);
+   max-width: 960px;
+   z-index: 50;
+   box-sizing: border-box;
+   border-top: 1px solid rgba(239,68,68,.3);
+   border-radius: 12px 12px 0 0;
+   transition: transform 500ms ease;
+   -webkit-backdrop-filter: blur(8px);
+   backdrop-filter: blur(8px);
+ }
+ @media (max-width: 768px){ #stickyBottomBanner{ max-width: 640px; } }
+ @media (prefers-reduced-motion: reduce){ #stickyBottomBanner{ transition: none !important; } }
+</style>
+
+<div id="stickyBottomBanner"
+    class="bg-gradient-to-r from-red-600/95 via-orange-600/95 to-red-600/95 py-4 px-6">
+ <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+   <div class="flex items-center gap-3 min-w-0">
+     <div class="text-3xl animate-bounce shrink-0">🔥</div>
+     <div class="min-w-0">
+       <div class="text-white font-bold text-sm md:text-base truncate">Ograničena Ponuda - Samo Ovaj Mesec!</div>
+       <div class="text-white/90 text-xs md:text-sm truncate">30% popust na sve event pakete + BESPLATNA fotografija</div>
+     </div>
+   </div>
+   <div class="flex items-center gap-2 shrink-0">
+     <button type="button"
+             onclick="scrollToContact()"
+             class="bg-white text-red-600 px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-bold hover:bg-gray-100 transition-all hover:scale-105">
+       Rezerviši Sada
+     </button>
+     <button type="button" aria-label="Zatvori"
+             onclick="closeStickyBottomBanner()"
+             class="h-8 w-8 md:h-10 md:w-10 grid place-items-center rounded-full text-white/80 hover:text-white text-xl md:text-2xl font-bold leading-none">×</button>
+   </div>
+ </div>
+</div>
+
+<script>
+ (function(){
+   var KEY = 'stickyBottomBannerClosed';
+   function show(){
+     try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+     var el = document.getElementById('stickyBottomBanner'); if(!el) return;
+     setTimeout(function(){ el.style.transform = 'translate(-50%, 0)'; }, 1000);
+   }
+   window.closeStickyBottomBanner = function(){
+     var el = document.getElementById('stickyBottomBanner');
+     if(el){ el.style.transform = 'translate(-50%, 100%)'; }
+     try{ localStorage.setItem(KEY,'1'); }catch(e){}
+   };
+   if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', show, {once:true}); } else { show(); }
+ })();
+</script>
+<!-- /Sticky Bottom Banner -->
+
+
+<footer class="bg-gray-900 py-16 px-6">
+<div class="max-w-7xl mx-auto">
+<div class="grid md:grid-cols-2 gap-12">
+
+<!-- Kolona 1: Brzi kontakt -->
 <div>
-<h2 class="text-3xl md:text-4xl font-extrabold">Kontakt</h2>
-<p class="mt-3 text-gray-300 max-w-xl">Pošalji upit — odgovaramo brzo.</p>
-
-<div class="mt-6 space-y-2 text-gray-200">
-<p><span class="text-gray-400">Instagram:</span> @sindikat_events</p>
-<p><span class="text-gray-400">Web:</span> sindikatevents.me</p>
+<h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
+<div class="space-y-6">
+<a href="https://wa.me/38267506440" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
+<div class="text-2xl">📱</div>
+<div>
+<h5 class="font-semibold">WhatsApp</h5>
+<p class="text-sm">+382 67 506 440</p>
+<p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
+</div>
+</a>
+<a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
+<div class="text-2xl">📸</div>
+<div>
+<h5 class="font-semibold">Instagram</h5>
+<p class="text-sm">@sindikat_events</p>
+<p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
+</div>
+</a>
+<div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+<div class="text-2xl">📞</div>
+<div>
+<h5 class="font-semibold">Telefon</h5>
+<p class="text-sm">+382 67 506 440</p>
+<p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
+</div>
+</div>
+<div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+<div class="text-2xl">📍</div>
+<div>
+<h5 class="font-semibold">Lokacija</h5>
+<p class="text-sm">Podgorica, Crna Gora</p>
+<p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
+</div>
+</div>
 </div>
 </div>
 
-<form class="rounded-3xl border border-neutral-800 bg-black/60 p-8 space-y-4">
-<input class="w-full rounded-xl bg-black/60 border border-neutral-800 px-4 py-3 outline-none focus:border-gold transition" placeholder="Ime i prezime" />
-<input class="w-full rounded-xl bg-black/60 border border-neutral-800 px-4 py-3 outline-none focus:border-gold transition" placeholder="Telefon / Email" />
-<textarea class="w-full rounded-xl bg-black/60 border border-neutral-800 px-4 py-3 outline-none focus:border-gold transition" rows="5" placeholder="Poruka"></textarea>
-<button type="button" class="w-full rounded-xl bg-gold text-black py-3 font-semibold hover:brightness-95 transition">Pošalji</button>
-<p class="text-xs text-gray-400">*Ovo je demo forma (front-end).</p>
-</form>
+<!-- Kolona 2: Dugme za kontakt --> 
+<div class="flex flex-col justify-center">
+<h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
+<a href="https://sindikatevents.me/kontakt/"
+class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
+Idi na Kontakt Stranicu
+</a>
 </div>
-</section>
+</div>
 
-<!-- FOOTER -->
-<footer class="py-10 border-t border-neutral-900">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3">
-<div class="font-extrabold gradient-gold">SINDIKAT</div>
-<div class="text-gray-400 text-sm">© <span id="year"></span> Sindikat Events. Sva prava zadržana.</div>
+<!-- Donji red -->
+<div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+<p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
+</div>
 </div>
 </footer>
 
-<script>
-document.getElementById('year').textContent = new Date().getFullYear();
-</script>
 
-<!-- i18n (safe) -->
-<script>
-let currentLanguage = 'sr';
 
+<script>
+// Language data
 const translations = {
 sr: {
+// Navigation
 home: "Početna",
 services: "Usluge",
-popularEvents: "Događaji",
+popularEvents: "Popularni Događaji",
 gallery: "Galerija",
 blog: "Blog",
 about: "O nama",
 faq: "FAQ",
 contact: "Kontakt",
-heroTitle: 'Sve za vaš događaj <span class="gradient-gold">na jednom mestu</span>',
-heroSubtitle: "Profesionalni događaji bez stresa, sa stilom. Barmeni, DJ-jevi, oprema, fotografija — sve na jednom mestu.",
-contactUs: "Kontaktiraj nas",
+
+// Hero section
+heroTitle: "Sve za vaš događaj –<br><span class=\"gradient-gold\">na jednom mestu.</span>",
+heroSubtitle: "Mi se brinemo za sve – vi samo uživajte.",
+contactUs: "Kontaktirajte nas",
 ourServices: "Naše usluge",
-events: "Događaji",
-professionals: "Profesionalci",
-stress: "Bez stresa",
-team: "Tim",
-specialOffer: "Specijalna ponuda",
-discount20: "Popust do 20% danas",
-exclusivePartnership: "Ekskluzivno partnerstvo",
-montenegroExpo: "Montenegro Expo",
-learnMore: "Saznaj više",
-limitedOffer: "Ograničena ponuda",
-discount30: "Popust do 30%",
-reserveNow: "Rezerviši",
-aboutTitle: "O <span class=\"gradient-gold\">nama</span>",
-aboutText: "Sindikat je mreža ljudi i usluga za događaje: brz tim, provjerena oprema i jasna organizacija.",
-aboutPoint1: "Jedna kontakt tačka – sve usluge",
-aboutPoint2: "Provjereni partneri i realizacija",
-aboutPoint3: "Fokus na kvalitet i brzinu",
-servicesTitle: "Usluge <span class=\"gradient-gold\">Sindikata</span>",
-bartenders: "Barmeni",
-bartendersDesc: "Profesionalna usluga i brzina.",
-djs: "DJ-evi",
-djsDesc: "Selekcija i energija za svaki događaj.",
-sound: "Ozvučenje",
-soundDesc: "Kvalitetan zvuk i tehnička podrška.",
-bar: "Mobilni bar",
-barDesc: "Bar setup gdje god treba.",
-photo: "Foto/Video",
-photoDesc: "Uhvati trenutke kako treba.",
-design: "Dizajn",
-designDesc: "Vizuali, brending i promo.",
-hostesses: "Hostese",
-hostessesDesc: "Recepcija, protokol, promo timovi.",
-furniture: "Namještaj",
-furnitureDesc: "Barski stolovi, lounge, postavke.",
-trustedPartners: "Naši pouzdani partneri",
-popularTitle: "Popularni <span class=\"gradient-gold\">događaji</span>",
-corporate: "Korporativni događaji",
-birthday: "Rođendani",
-clubNights: "Klubske večeri"
+
+// Highlights
+events: "Događaja",
+professionals: "Mladih profesionalaca",
+stress: "Stresa",
+team: "Tim za sve",
+
+// About section
+aboutTitle: "Dobri događaji se grade na <span class=\"gradient-gold\">detaljima i timskom radu.</span>",
+aboutText: "Mi smo Sindikat — tim iz svijeta muzike, gastronomije i produkcije u Crnoj Gori. Svaki događaj u našoj realizaciji počinje razumijevanjem vaše vizije i završava se nadmašivanjem vaših očekivanja.",
+aboutPoint1: "Profesionalni tim sa višegodišnjim iskustvom",
+aboutPoint2: "Visokokvalitetna oprema i premium napici",
+aboutPoint3: "Kompletna event rešenja pod jednim krovom",
+
+// Services
+servicesTitle: "Naše <span class=\"gradient-gold\">Usluge</span>",
+bartenders: "Barmeni i Kokteli",
+bartendersDesc: "Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.",
+djs: "DJ-jevi i Muzičari",
+djsDesc: "Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.",
+sound: "Zvuk i Osvetljenje",
+soundDesc: "Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.",
+bar: "Bar i Usluga Napitaka",
+barDesc: "Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.",
+photo: "Fotografija i Video",
+photoDesc: "Profesionalni fotografi koji hvataju svaki dragocjeni trenutak u najvišem kvalitetu.",
+design: "Dizajn i Društvene Mreže",
+designDesc: "Kreativna dizajnerska rešenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.",
+hostesses: "Profesionalne Hostese",
+hostessesDesc: "Elegantne i profesionalne hostese za dočekivanje i pomoć vašim gostima.",
+furniture: "Event Nameštaj",
+furnitureDesc: "Stilski nameštaj i lounge postavke za kreiranje savršene atmosfere.",
+
+// Popular Events
+popularTitle: "Popularni <span class=\"gradient-gold\">Događaji</span>",
+corporate: "Korporativni Događaji",
+corporateDesc: "Profesionalni poslovni događaji, konferencije, team building aktivnosti i korporativne proslave.",
+weddings: "Venčanja",
+weddingsDesc: "Kompletna organizacija venčanja od ceremonije do proslave, sa svim potrebnim uslugama.",
+private: "Privatne Proslave",
+privateDesc: "Rođendani, godišnjice, diplomiranja i druge lične proslave prilagođene vašim željama.",
+
+// Why Choose Us
+whyTitle: "Zašto Izabrati <span class=\"gradient-blue\">Sindikat</span>",
+expertTeam: "Ekspertski Tim",
+expertDesc: "Iskusni profesionalci sa strašću za kreiranje nezaboravnih događaja",
+quality: "Kvalitetna Oprema i Napici",
+qualityDesc: "Premium oprema i napici najvišeg kvaliteta za izuzetna iskustva",
+experience: "Dokazano Iskustvo",
+experienceDesc: "50+ uspešnih događaja i nebrojeno zadovoljnih klijenata širom Crne Gore",
+oneStop: "Sve na Jednom Mestu",
+oneStopDesc: "Sve što vam treba za vaš događaj, koordinisano od strane jednog profesionalnog tima",
+
+// Gallery
+galleryTitle: "Galerija <span class=\"gradient-gold\">Događaja</span>",
+
+// Testimonials
+testimonialsTitle: "Šta Kažu Naši <span class=\"gradient-blue\">Klijenti</span>",
+
+// FAQ
+faqTitle: "Često Postavljana <span class=\"gradient-gold\">Pitanja</span>",
+
+// Contact
+contactTitle: "Stupite u <span class=\"gradient-gold\">Kontakt</span>",
+planEvent: "Planirajmo Vaš Savršen Događaj",
+quickContact: "Brzi Kontakt",
+sendMessage: "Pošaljite Poruku",
+
+// Form placeholders
+yourName: "Vaše ime",
+emailAddress: "Email adresa",
+phoneNumber: "Broj telefona",
+eventDate: "Datum događaja",
+eventDetails: "Recite nam o vašem događaju - tip, lokacija, broj gostiju, potrebne usluge...",
+
+// Footer
+quickLinks: "Brzi Linkovi",
+ourServicesFooter: "Naše Usluge",
+
+// Banners and additional content
+specialOffer: "Specijalna Ponuda!",
+discount20: "20% popust na sve pakete",
+limitedOffer: "Ograničena Ponuda - Samo Ovaj Mesec!",
+discount30: "30% popust na sve event pakete + BESPLATNA fotografija",
+reserveNow: "Rezerviši Sada",
+learnMore: "Saznaj Više",
+useOffer: "Iskoristite Ponudu",
+reserveAndSave: "Rezervišite sada i <span class=\"gradient-gold\">uštedite 20%</span>",
+offerText: "Za sve događaje rezervisane do kraja meseca, nudimo ekskluzivni popust na kompletne event pakete.",
+completePacks: "Kompletni Paketi",
+limitedTime: "Ograničeno Vreme",
+premiumService: "Premium Usluga",
+
+// Partners
+trustedPartners: "Naši Pouzdani Partneri",
+premiumPartner: "PREMIUM PARTNER",
+audioPartner: "AUDIO PARTNER",
+cateringPartner: "CATERING PARTNER",
+exclusivePartnership: "Ekskluzivno Partnerstvo",
+montenegroExpo: "Montenegro Events Expo 2024 - Glavni Sponzor",
+
+// Blog section
+blogTitle: "Saveti za <span class=\"gradient-blue\">Organizaciju Događaja</span>",
+timelinePlanning: "Planiranje Vremenske Linije",
+timelineText: "Ključ uspešnog događaja je detaljno planiranje. Počnite sa planiranjem najmanje 2-3 meseca unapred.",
+budgeting: "Budžetiranje Događaja",
+budgetText: "Pametno upravljanje budžetom omogućava vam da ostvarite maksimum uz optimalne troškove.",
+musicChoice: "Izbor Prave Muzike",
+musicText: "Muzika stvara atmosferu. Prilagodite playlist-u prema uzrastu gostiju i tipu događaja.",
+catering: "Catering i Meni",
+cateringText: "Hrana je srce svakog događaja. Vodite računa o dijetarnim ograničenjima gostiju.",
+photography: "Fotografisanje Događaja",
+photoText: "Sačuvajte uspomene profesionalno. Dobar fotograf vredi svaki dinar uložen.",
+eventDay: "Dan Događaja",
+eventDayText: "Pripremite se za neočekivano. Imajte plan B i ostanite fleksibilni tokom dana.",
+
+// FAQ Questions
+faqQ1: "Da li organizujete male privatne događaje?",
+faqA1: "Da! Mi organizujemo događaje svih veličina, od intimnih okupljanja od 10 ljudi do velikih proslava sa stotinama gostiju. Svaki događaj dobija isti nivo profesionalne pažnje i brige.",
+faqQ2: "Možemo li angažovati samo jednu uslugu (npr. DJ ili bar)?",
+faqA2: "Apsolutno! Možete rezervisati pojedinačne usluge ili kreirati prilagođeni paket koji odgovara vašim specifičnim potrebama i budžetu. Mi smo fleksibilni i radimo prema vašim zahtevima.",
+faqQ3: "Da li radite van Podgorice?",
+faqA3: "Da, pružamo naše usluge širom Crne Gore. Od Budve do Nikšića, donosimo isti kvalitet i profesionalizam svugde. Troškovi putovanja mogu se naplatiti za lokacije van Podgorice.",
+faqQ4: "Koliko unapred treba rezervisati?",
+faqA4: "Preporučujemo rezervaciju najmanje 2-4 nedelje unapred za optimalno planiranje, ali možemo prilagoditi i kraći rok ovisno o dostupnosti. Kontaktirajte nas čim imate datum u vidu!",
+faqQ5: "Da li obezbeđujete opremu za događaje na otvorenom?",
+faqA5: "Da! Imamo opremu otpornu na vremenske uslove i možemo obezbediti generatore, pokrivene bar postavke i svu potrebnu infrastrukturu za događaje na otvorenom. Mi se bavimo svim tehničkim zahtevima.",
+faqQ6: "Šta je uključeno u vašu fotografsku uslugu?",
+faqA6: "Naš fotografski paket uključuje profesionalno pokrivanje događaja, uređene fotografije visoke rezolucije dostavljene u roku od 48 sati i sadržaj spreman za društvene mreže. Video highlights su dostupni kao dodatak.",
+
+// Testimonials
+testimonial1: "Sindikat je transformisao naš korporativni događaj u nezaboravno iskustvo. Profesionalno, stilski i potpuno bez stresa. Naš tim još uvek priča o tome!",
+testimonial2: "Naše vjenčanje je bilo apsolutno savršeno! Od koktela do muzike, osvetljenja i fotografije - oni su se brinuli za svaki detalj prekrasno. Nismo mogli tražiti više.",
+testimonial3: "Rad sa Sindikatom je bio prekretnički. Njihov tim je doneo neverovatnu energiju, profesionalnu uslugu i pažnju na svaki detalj. Toplo preporučujem!",
+
+// Contact details
+fastestResponse: "Najbrži odgovor - obično u roku od nekoliko minuta",
+latestEvents: "Pogledajte naše najnovije događaje i iza kulisa",
+availableHours: "Dostupni Pon-Pet 9-18h",
+location: "Podgorica, Crna Gora",
+servesMontenegro: "Služimo celu Crnu Goru",
+
+// Footer
+footerTagline: "Sve za vaš događaj, bez stresa, sa stilom. Profesionalna event rešenja širom Crne Gore.",
+footerCopyright: "© 2024 Sindikat. Sva prava zadržana.",
+footerMade: "Napravljeno sa ⚡ za nezaboravne događaje",
+
+// Demo form message
+demoForm: "Demo Forma:",
+demoFormText: "Ovo je primer kontakt forme za demonstraciju. Na pravom sajtu, ova forma bi poslala vašu poruku direktno Sindikat timu za trenutni odgovor.",
+
+// Form submission
+sending: "Šalje se...",
+thankYou: "Hvala vam na poruci! Ovo je demo forma. Na pravom sajtu, vaša poruka bi bila poslata Sindikat timu za trenutni odgovor."
 },
 en: {
+// Navigation
 home: "Home",
 services: "Services",
-popularEvents: "Events",
+popularEvents: "Popular Events",
 gallery: "Gallery",
 blog: "Blog",
 about: "About",
 faq: "FAQ",
 contact: "Contact",
-heroTitle: 'Everything for your event <span class="gradient-gold">in one place</span>',
-heroSubtitle: "Stress-free professional events. Bartenders, DJs, equipment, photo — all in one place.",
-contactUs: "Contact us",
-ourServices: "Our services",
+
+// Hero section
+heroTitle: "Everything for your event –<br><span class=\"gradient-gold\">in one place.</span>",
+heroSubtitle: "We take care of everything – you just enjoy.",
+contactUs: "Contact Us",
+ourServices: "Our Services",
+
+// Highlights
 events: "Events",
-professionals: "Professionals",
-stress: "No stress",
-team: "Team",
-specialOffer: "Special offer",
-discount20: "Up to 20% off today",
-exclusivePartnership: "Exclusive partnership",
-montenegroExpo: "Montenegro Expo",
-learnMore: "Learn more",
-limitedOffer: "Limited offer",
-discount30: "Up to 30% off",
-reserveNow: "Book now",
-aboutTitle: "About <span class=\"gradient-gold\">us</span>",
-aboutText: "Sindikat is a network of people and event services: fast team, reliable gear and clear execution.",
-aboutPoint1: "Single point of contact",
-aboutPoint2: "Trusted partners and delivery",
-aboutPoint3: "Quality + speed focus",
-servicesTitle: "Sindikat <span class=\"gradient-gold\">services</span>",
-bartenders: "Bartenders",
-bartendersDesc: "Professional service and speed.",
-djs: "DJs",
-djsDesc: "Selection and energy for every event.",
-sound: "Sound",
-soundDesc: "Quality sound and technical support.",
-bar: "Mobile bar",
-barDesc: "Bar setup anywhere.",
-photo: "Photo/Video",
-photoDesc: "Capture moments properly.",
-design: "Design",
-designDesc: "Visuals, branding and promo.",
-hostesses: "Hostesses",
-hostessesDesc: "Reception, protocol, promo teams.",
-furniture: "Furniture",
-furnitureDesc: "Bar tables, lounge, setups.",
-trustedPartners: "Our trusted partners",
-popularTitle: "Popular <span class=\"gradient-gold\">events</span>",
-corporate: "Corporate events",
-birthday: "Birthdays",
-clubNights: "Club nights"
+professionals: "Young Professionals",
+stress: "Stress",
+team: "Team for Everything",
+
+// About section
+aboutTitle: "Great events are built on <span class=\"gradient-gold\">details and teamwork.</span>",
+aboutText: "We are Sindikat – a team from the world of music, gastronomy and production. Every successful event starts with understanding your vision and ends with exceeding your expectations.",
+aboutPoint1: "Professional team with years of experience",
+aboutPoint2: "High-quality equipment and premium beverages",
+aboutPoint3: "Complete event solutions under one roof",
+
+// Services
+servicesTitle: "Our <span class=\"gradient-gold\">Services</span>",
+bartenders: "Bartenders & Cocktails",
+bartendersDesc: "Professional mixologists who create signature cocktails and premium drinks for your event.",
+djs: "DJs & Musicians",
+djsDesc: "Talented DJs and live musicians who create the perfect soundtrack for every moment.",
+sound: "Sound & Lighting",
+soundDesc: "Professional audio systems and spectacular lighting effects for any space.",
+bar: "Bar & Beverage Service",
+barDesc: "Complete bar solutions with premium alcohol and elegant mobile setups.",
+photo: "Photography & Video",
+photoDesc: "Professional photographers who capture every precious moment in the highest quality.",
+design: "Design & Social Media",
+designDesc: "Creative design solutions and social media content that amplify your event.",
+hostesses: "Professional Hostesses",
+hostessesDesc: "Elegant and professional hostesses for welcoming and assisting your guests.",
+furniture: "Event Furniture",
+furnitureDesc: "Stylish furniture and lounge setups for creating the perfect atmosphere.",
+
+// Popular Events
+popularTitle: "Popular <span class=\"gradient-gold\">Events</span>",
+corporate: "Corporate Events",
+corporateDesc: "Professional business events, conferences, team building activities and corporate celebrations.",
+weddings: "Weddings",
+weddingsDesc: "Complete wedding organization from ceremony to celebration, with all necessary services.",
+private: "Private Celebrations",
+privateDesc: "Birthdays, anniversaries, graduations and other personal celebrations tailored to your wishes.",
+
+// Why Choose Us
+whyTitle: "Why Choose <span class=\"gradient-blue\">Sindikat</span>",
+expertTeam: "Expert Team",
+expertDesc: "Experienced professionals with passion for creating unforgettable events",
+quality: "Quality Equipment & Beverages",
+qualityDesc: "Premium equipment and highest quality beverages for exceptional experiences",
+experience: "Proven Experience",
+experienceDesc: "50+ successful events and countless satisfied clients across Montenegro",
+oneStop: "Everything in One Place",
+oneStopDesc: "Everything you need for your event, coordinated by one professional team",
+
+// Gallery
+galleryTitle: "Event <span class=\"gradient-gold\">Gallery</span>",
+
+// Testimonials
+testimonialsTitle: "What Our <span class=\"gradient-blue\">Clients</span> Say",
+
+// FAQ
+faqTitle: "Frequently Asked <span class=\"gradient-gold\">Questions</span>",
+
+// Contact
+contactTitle: "Get in <span class=\"gradient-gold\">Touch</span>",
+planEvent: "Let's Plan Your Perfect Event",
+quickContact: "Quick Contact",
+sendMessage: "Send Message",
+
+// Form placeholders
+yourName: "Your name",
+emailAddress: "Email address",
+phoneNumber: "Phone number",
+eventDate: "Event date",
+eventDetails: "Tell us about your event - type, location, number of guests, required services...",
+
+// Footer
+quickLinks: "Quick Links",
+ourServicesFooter: "Our Services",
+
+// Banners and additional content
+specialOffer: "Special Offer!",
+discount20: "20% discount on all packages",
+limitedOffer: "Limited Offer - This Month Only!",
+discount30: "30% discount on all event packages + FREE photography",
+reserveNow: "Reserve Now",
+learnMore: "Learn More",
+useOffer: "Use This Offer",
+reserveAndSave: "Book now and <span class=\"gradient-gold\">save 20%</span>",
+offerText: "For all events booked by the end of the month, we offer an exclusive discount on complete event packages.",
+completePacks: "Complete Packages",
+limitedTime: "Limited Time",
+premiumService: "Premium Service",
+
+// Partners
+trustedPartners: "Our Trusted Partners",
+premiumPartner: "PREMIUM PARTNER",
+audioPartner: "AUDIO PARTNER",
+cateringPartner: "CATERING PARTNER",
+exclusivePartnership: "Exclusive Partnership",
+montenegroExpo: "Montenegro Events Expo 2024 - Main Sponsor",
+
+// Blog section
+blogTitle: "Tips for <span class=\"gradient-blue\">Event Organization</span>",
+timelinePlanning: "Timeline Planning",
+timelineText: "The key to a successful event is detailed planning. Start planning at least 2-3 months in advance.",
+budgeting: "Event Budgeting",
+budgetText: "Smart budget management allows you to achieve maximum results with optimal costs.",
+musicChoice: "Choosing the Right Music",
+musicText: "Music creates atmosphere. Tailor your playlist to the age of guests and type of event.",
+catering: "Catering & Menu",
+cateringText: "Food is the heart of every event. Consider dietary restrictions of your guests.",
+photography: "Event Photography",
+photoText: "Preserve memories professionally. A good photographer is worth every penny invested.",
+eventDay: "Event Day",
+eventDayText: "Prepare for the unexpected. Have a plan B and stay flexible throughout the day.",
+
+// FAQ Questions
+faqQ1: "Do you organize small private events?",
+faqA1: "Yes! We organize events of all sizes, from intimate gatherings of 10 people to large celebrations with hundreds of guests. Every event receives the same level of professional attention and care.",
+faqQ2: "Can we hire just one service (e.g. DJ or bar)?",
+faqA2: "Absolutely! You can book individual services or create a custom package that fits your specific needs and budget. We are flexible and work according to your requirements.",
+faqQ3: "Do you work outside of Podgorica?",
+faqA3: "Yes, we provide our services throughout Montenegro. From Budva to Nikšić, we bring the same quality and professionalism everywhere. Travel costs may be charged for locations outside Podgorica.",
+faqQ4: "How far in advance should we book?",
+faqA4: "We recommend booking at least 2-4 weeks in advance for optimal planning, but we can accommodate shorter notice depending on availability. Contact us as soon as you have a date in mind!",
+faqQ5: "Do you provide equipment for outdoor events?",
+faqA5: "Yes! We have weather-resistant equipment and can provide generators, covered bar setups and all necessary infrastructure for outdoor events. We handle all technical requirements.",
+faqQ6: "What's included in your photography service?",
+faqA6: "Our photography package includes professional event coverage, edited high-resolution photos delivered within 48 hours and social media-ready content. Video highlights are available as an add-on.",
+
+// Testimonials
+testimonial1: "Sindikat transformed our corporate event into an unforgettable experience. Professional, stylish and completely stress-free. Our team is still talking about it!",
+testimonial2: "Our wedding was absolutely perfect! From cocktails to music, lighting and photography - they took care of every detail beautifully. We couldn't have asked for more.",
+testimonial3: "Working with Sindikat was a game-changer. Their team brought incredible energy, professional service and attention to every detail. Highly recommend!",
+
+// Contact details
+fastestResponse: "Fastest response - usually within minutes",
+latestEvents: "Check out our latest events and behind the scenes",
+availableHours: "Available Mon-Fri 9am-6pm",
+location: "Podgorica, Montenegro",
+servesMontenegro: "We serve all of Montenegro",
+
+// Footer
+footerTagline: "Everything for your event, stress-free, with style. Professional event solutions across Montenegro.",
+footerCopyright: "© 2024 Sindikat. All rights reserved.",
+footerMade: "Made with ⚡ for unforgettable events",
+
+// Demo form message
+demoForm: "Demo Form:",
+demoFormText: "This is a sample contact form for demonstration. On a real website, this form would send your message directly to the Sindikat team for immediate response.",
+
+// Form submission
+sending: "Sending...",
+thankYou: "Thank you for your message! This is a demo form. On a real website, your message would be sent to the Sindikat team for immediate response."
 }
 };
 
+let currentLanguage = 'sr';
+
+// Language switching functionality
 function switchLanguage() {
 currentLanguage = currentLanguage === 'sr' ? 'en' : 'sr';
-const langText = document.getElementById('langText');
-if (langText) {
-langText.textContent = (currentLanguage === 'en') ? 'SR' : 'EN';
-}
 updateContent();
+updateLanguageButton();
 }
 
-function __findByText(selectors, needles){
-  const els = document.querySelectorAll(selectors);
-  for (const el of els){
-    const t = (el.textContent || "").trim();
-    if (needles.some(n => t.includes(n))) return el;
-  }
-  return null;
+function updateLanguageButton() {
+const langText = document.getElementById('langText');
+const langButton = document.querySelector('.lang-switcher button span:first-child');
+
+if (currentLanguage === 'en') {
+langText.textContent = 'SR';
+langButton.textContent = '🇷🇸';
+} else {
+langText.textContent = 'EN';
+langButton.textContent = '🇬🇧';
+}
 }
 
 function updateContent() {
 const t = translations[currentLanguage];
 
-// Update navigation (safe)
-(function(){ const el=document.querySelector('a[href="#home"]'); if(el) el.textContent = t.home; })();
-(function(){ const el=document.querySelector('a[href="#services"]'); if(el) el.textContent = t.services; })();
-(function(){ const el=document.querySelector('a[href="#popular-events"]'); if(el) el.textContent = t.popularEvents; })();
-(function(){ const el=document.querySelector('a[href="#about"]'); if(el) el.textContent = t.about; })();
-(function(){ const el=document.querySelector('a[href="#faq"]'); if(el) el.textContent = t.faq; })();
+// Update navigation
+document.querySelector('a[href="#home"]').textContent = t.home;
+document.querySelector('a[href="#services"]').textContent = t.services;
+document.querySelector('a[href="#popular-events"]').textContent = t.popularEvents;
+document.querySelector('a[href="#gallery"]').textContent = t.gallery;
+document.querySelector('a[href="#blog"]').textContent = t.blog;
+document.querySelector('a[href="#about"]').textContent = t.about;
+document.querySelector('a[href="#faq"]').textContent = t.faq;
 document.querySelectorAll('a[href="#contact"]').forEach(el => {
-if (el.classList.contains('bg-gold')) el.textContent = t.contact;
+if (el.classList.contains('bg-gold')) {
+el.textContent = t.contact;
+}
 });
 
 // Update mobile menu
-const __mmLinks = document.querySelectorAll('#mobileMenu a');
-if (__mmLinks && __mmLinks.length) {
-  const navItems = [t.home, t.services, t.popularEvents, t.gallery, t.blog, t.about, t.faq, t.contact];
-  __mmLinks.forEach((link, index) => {
-    if (index < navItems.length) link.textContent = navItems[index];
-  });
+document.querySelectorAll('#mobileMenu a').forEach((link, index) => {
+const navItems = [t.home, t.services, t.popularEvents, t.gallery, t.blog, t.about, t.faq, t.contact];
+if (index < navItems.length) {
+link.textContent = navItems[index];
 }
+});
 
-// Update hero section (safe)
-{ const el=document.querySelector('h1'); if(el) el.innerHTML = t.heroTitle; }
-{ const el=document.querySelector('h1 + p'); if(el) el.textContent = t.heroSubtitle; }
-{ const el=document.querySelector('button[onclick="scrollToContact()"]'); if(el) el.textContent = t.contactUs; }
-{ const el=document.querySelector('button[onclick="scrollToServices()"]'); if(el) el.textContent = t.ourServices; }
+// Update hero section
+document.querySelector('h1').innerHTML = t.heroTitle;
+document.querySelector('h1 + p').textContent = t.heroSubtitle;
+document.querySelector('button[onclick="scrollToContact()"]').textContent = t.contactUs;
+document.querySelector('button[onclick="scrollToServices()"]').textContent = t.ourServices;
 
 // Update highlights
 const highlights = document.querySelectorAll('.fade-in p');
@@ -775,25 +2666,674 @@ aboutPoints[2].textContent = t.aboutPoint3;
 const servicesTitle = document.querySelector('#services h2');
 if (servicesTitle) servicesTitle.innerHTML = t.servicesTitle;
 
-// Update partners title (safe, no :contains)
-const partnersTitle = __findByText('h3', ["Naši Pouzdani Partneri", "Our Trusted Partners", "Naši pouzdani partneri", "Our trusted partners"]);
+const serviceCards = document.querySelectorAll('#services .bg-black h3, #services .bg-black p');
+if (serviceCards.length >= 16) {
+serviceCards[0].textContent = t.bartenders;
+serviceCards[1].textContent = t.bartendersDesc;
+serviceCards[2].textContent = t.djs;
+serviceCards[3].textContent = t.djsDesc;
+serviceCards[4].textContent = t.sound;
+serviceCards[5].textContent = t.soundDesc;
+serviceCards[6].textContent = t.bar;
+serviceCards[7].textContent = t.barDesc;
+serviceCards[8].textContent = t.photo;
+serviceCards[9].textContent = t.photoDesc;
+serviceCards[10].textContent = t.design;
+serviceCards[11].textContent = t.designDesc;
+serviceCards[12].textContent = t.hostesses;
+serviceCards[13].textContent = t.hostessesDesc;
+serviceCards[14].textContent = t.furniture;
+serviceCards[15].textContent = t.furnitureDesc;
+}
+
+// Update partners section
+const partnersTitle = document.querySelector('h3:contains("Naši Pouzdani Partneri"), h3:contains("Our Trusted Partners")');
 if (partnersTitle) partnersTitle.textContent = t.trustedPartners;
 
-// Update popular title
+// Update popular events
 const popularTitle = document.querySelector('#popular-events h2');
 if (popularTitle) popularTitle.innerHTML = t.popularTitle;
 
+const eventCards = document.querySelectorAll('#popular-events h3, #popular-events .text-gray-300');
+if (eventCards.length >= 6) {
+eventCards[0].textContent = t.corporate;
+eventCards[1].textContent = t.corporateDesc;
+eventCards[2].textContent = t.weddings;
+eventCards[3].textContent = t.weddingsDesc;
+eventCards[4].textContent = t.private;
+eventCards[5].textContent = t.privateDesc;
+}
+
+// Update blog section
+const blogTitle = document.querySelector('#blog h2');
+if (blogTitle) blogTitle.innerHTML = t.blogTitle;
+
+const blogCards = document.querySelectorAll('#blog h3, #blog .text-gray-300');
+if (blogCards.length >= 12) {
+blogCards[0].textContent = t.timelinePlanning;
+blogCards[1].textContent = t.timelineText;
+blogCards[2].textContent = t.budgeting;
+blogCards[3].textContent = t.budgetText;
+blogCards[4].textContent = t.musicChoice;
+blogCards[5].textContent = t.musicText;
+blogCards[6].textContent = t.catering;
+blogCards[7].textContent = t.cateringText;
+blogCards[8].textContent = t.photography;
+blogCards[9].textContent = t.photoText;
+blogCards[10].textContent = t.eventDay;
+blogCards[11].textContent = t.eventDayText;
+}
+
+// Update promotional banner
+const promoTitle = document.querySelector('h3:contains("Rezervišite sada"), h3:contains("Book now")');
+if (promoTitle) promoTitle.innerHTML = t.reserveAndSave;
+
+const promoText = document.querySelector('p:contains("Za sve događaje"), p:contains("For all events")');
+if (promoText) promoText.textContent = t.offerText;
+
+const promoBtn = document.querySelector('button:contains("Iskoristite"), button:contains("Use This")');
+if (promoBtn) promoBtn.textContent = t.useOffer;
+
+// Update why choose us
+const whyTitles = document.querySelectorAll('h2');
+whyTitles.forEach(h2 => {
+if (h2.textContent.includes('Zašto') || h2.textContent.includes('Why Choose')) {
+h2.innerHTML = t.whyTitle;
+}
+});
+
+const whyCards = document.querySelectorAll('.fade-in.hover-lift h3, .fade-in.hover-lift p');
+if (whyCards.length >= 8) {
+whyCards[0].textContent = t.expertTeam;
+whyCards[1].textContent = t.expertDesc;
+whyCards[2].textContent = t.quality;
+whyCards[3].textContent = t.qualityDesc;
+whyCards[4].textContent = t.experience;
+whyCards[5].textContent = t.experienceDesc;
+whyCards[6].textContent = t.oneStop;
+whyCards[7].textContent = t.oneStopDesc;
+}
+
+// Update gallery
+const galleryTitle = document.querySelector('#gallery h2');
+if (galleryTitle) galleryTitle.innerHTML = t.galleryTitle;
+
+// Update testimonials
+const allH2s = document.querySelectorAll('h2');
+allH2s.forEach(h2 => {
+if (h2.textContent.includes('Kažu') || h2.textContent.includes('Clients')) {
+h2.innerHTML = t.testimonialsTitle;
+}
+});
+
+const testimonialTexts = document.querySelectorAll('.bg-gray-900 .text-gray-300');
+if (testimonialTexts.length >= 3) {
+testimonialTexts[0].textContent = t.testimonial1;
+testimonialTexts[1].textContent = t.testimonial2;
+testimonialTexts[2].textContent = t.testimonial3;
+}
+
+// Update FAQ
+const faqTitle = document.querySelector('#faq h2');
+if (faqTitle) faqTitle.innerHTML = t.faqTitle;
+
+const faqQuestions = document.querySelectorAll('#faq button span:first-child');
+const faqAnswers = document.querySelectorAll('#faq .accordion-content p');
+if (faqQuestions.length >= 6 && faqAnswers.length >= 6) {
+faqQuestions[0].textContent = t.faqQ1;
+faqAnswers[0].textContent = t.faqA1;
+faqQuestions[1].textContent = t.faqQ2;
+faqAnswers[1].textContent = t.faqA2;
+faqQuestions[2].textContent = t.faqQ3;
+faqAnswers[2].textContent = t.faqA3;
+faqQuestions[3].textContent = t.faqQ4;
+faqAnswers[3].textContent = t.faqA4;
+faqQuestions[4].textContent = t.faqQ5;
+faqAnswers[4].textContent = t.faqA5;
+faqQuestions[5].textContent = t.faqQ6;
+faqAnswers[5].textContent = t.faqA6;
+}
+
+// Update contact
+const contactTitle = document.querySelector('#contact h2');
+if (contactTitle) contactTitle.innerHTML = t.contactTitle;
+
+const planEventTitle = document.querySelector('#contact h3');
+if (planEventTitle) planEventTitle.textContent = t.planEvent;
+
+const quickContactTitle = document.querySelectorAll('#contact h3')[1];
+if (quickContactTitle) quickContactTitle.textContent = t.quickContact;
+
+// Update contact details
+const contactDetails = document.querySelectorAll('#contact .text-pink-200, #contact .text-green-200, #contact .text-gray-400');
+if (contactDetails.length >= 4) {
+contactDetails[0].textContent = t.fastestResponse;
+contactDetails[1].textContent = t.latestEvents;
+contactDetails[2].textContent = t.availableHours;
+contactDetails[3].textContent = t.servesMontenegro;
+}
+
+// Update form
+const formInputs = document.querySelectorAll('#contact input, #contact textarea');
+if (formInputs.length >= 5) {
+formInputs[0].placeholder = t.yourName;
+formInputs[1].placeholder = t.emailAddress;
+formInputs[2].placeholder = t.phoneNumber;
+formInputs[3].placeholder = t.eventDate;
+formInputs[4].placeholder = t.eventDetails;
+}
+
+const submitButton = document.querySelector('button[type="submit"]');
+if (submitButton) submitButton.textContent = t.sendMessage;
+
+// Update demo form message
+const demoFormStrong = document.querySelector('strong:contains("Demo Forma"), strong:contains("Demo Form")');
+if (demoFormStrong) demoFormStrong.textContent = t.demoForm;
+
+const demoFormText = document.querySelector('p:contains("Ovo je primer"), p:contains("This is a sample")');
+if (demoFormText) {
+demoFormText.innerHTML = `<strong>${t.demoForm}</strong> ${t.demoFormText}`;
+}
+
+// Update footer
+const footerTitles = document.querySelectorAll('footer h4');
+if (footerTitles.length >= 2) {
+footerTitles[0].textContent = t.quickLinks;
+footerTitles[1].textContent = t.ourServicesFooter;
+}
+
+const footerTagline = document.querySelector('footer p');
+if (footerTagline) footerTagline.textContent = t.footerTagline;
+
+const footerCopyright = document.querySelector('footer .border-t p:first-child');
+if (footerCopyright) footerCopyright.textContent = t.footerCopyright;
+
+const footerMade = document.querySelector('footer .border-t p:last-child');
+if (footerMade) footerMade.textContent = t.footerMade;
+}
+
+// Sticky top ad functionality
+function showStickyAd() {
+const stickyAd = document.getElementById('stickyTopAd');
+setTimeout(() => {
+stickyAd.style.transform = 'translateY(0)';
+}, 5000); // Show after 5 seconds
+}
+
+function closeStickyAd() {
+const stickyAd = document.getElementById('stickyTopAd');
+stickyAd.style.transform = 'translateY(-100%)';
+localStorage.setItem('stickyAdClosed', 'true');
+}
+
+// Check if sticky ad was previously closed
+function checkStickyAdStatus() {
+const stickyAdClosed = localStorage.getItem('stickyAdClosed');
+if (!stickyAdClosed) {
+showStickyAd();
+}
+}
+
+// Sticky bottom banner functionality
+function showStickyBottomBanner() {
+const stickyBottomBanner = document.getElementById('stickyBottomBanner');
+setTimeout(() => {
+stickyBottomBanner.style.transform = 'translateY(0)';
+}, 8000); // Show after 8 seconds
+}
+
+function closeStickyBottomBanner() {
+const stickyBottomBanner = document.getElementById('stickyBottomBanner');
+stickyBottomBanner.style.transform = 'translateY(100%)';
+localStorage.setItem('stickyBottomBannerClosed', 'true');
+}
+
+// Check if sticky bottom banner was previously closed
+function checkStickyBottomBannerStatus() {
+const stickyBottomBannerClosed = localStorage.getItem('stickyBottomBannerClosed');
+if (!stickyBottomBannerClosed) {
+showStickyBottomBanner();
+}
+}
+
+// Floating banner functionality
+function showFloatingBanner() {
+// ne prikazuj ako je korisnik zatvorio
+if (localStorage.getItem('bannerClosed') === '1') return;
+const el = document.getElementById('floatingBanner');
+if (!el) return;
+el.style.display = ''; // pokaži
+}
+
+function closeBanner(e) {
+if (e) { e.preventDefault?.(); e.stopPropagation?.(); }
+const el = document.getElementById('floatingBanner');
+if (el) el.style.display = 'none';
+localStorage.setItem('bannerClosed', '1');
+}
+
+// automatsko pojavljivanje malo nakon učitavanja
+window.addEventListener('load', () => {
+setTimeout(showFloatingBanner, 800);
+});
+
+
+
+// Check if banner was previously closed
+function checkBannerStatus() {
+const bannerClosed = localStorage.getItem('bannerClosed');
+if (!bannerClosed) {
+showFloatingBanner();
+}
+}
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+const menu = document.getElementById('mobileMenu');
+menu.classList.toggle('active');
+}
+
+// Smooth scrolling
+function scrollToContact() {
+document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToServices() {
+document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Enhanced scroll animations with mobile optimization
+function handleScroll() {
+const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
+const windowHeight = window.innerHeight;
+const elementVisible = window.innerWidth < 768 ? 50 : 100; // Smaller threshold for mobile
+
+elements.forEach(element => {
+const elementTop = element.getBoundingClientRect().top;
+
+if (elementTop < windowHeight - elementVisible) {
+element.classList.add('visible');
+}
+});
+}
+
+// Throttled scroll handler for better performance
+let ticking = false;
+function requestTick() {
+if (!ticking) {
+requestAnimationFrame(handleScroll);
+ticking = true;
+setTimeout(() => { ticking = false; }, 16); // ~60fps
+}
+}
+
+// Accordion functionality
+function toggleAccordion(index) {
+const contents = document.querySelectorAll('.accordion-content');
+const arrows = document.querySelectorAll('.accordion-arrow');
+
+// Close all other accordions
+contents.forEach((content, i) => {
+if (i !== index) {
+content.classList.remove('active');
+arrows[i].textContent = '+';
+}
+});
+
+// Toggle current accordion
+contents[index].classList.toggle('active');
+arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
+}
+
+// Form submission
+function handleSubmit(event) {
+event.preventDefault();
+const button = event.target.querySelector('button[type="submit"]');
+const originalText = button.textContent;
+const t = translations[currentLanguage];
+
+button.textContent = t.sending;
+button.disabled = true;
+
+setTimeout(() => {
+alert(t.thankYou);
+button.textContent = originalText;
+button.disabled = false;
+event.target.reset();
+}, 1500);
+}
+
+// Smooth scroll for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+});
+});
+
+
+// Initialize scroll animations and banners with mobile optimization
+window.addEventListener('scroll', requestTick, { passive: true });
+window.addEventListener('load', () => {
+handleScroll();
+checkBannerStatus();
+checkStickyAdStatus();
+checkStickyBottomBannerStatus();
+
+// Add touch event support for mobile
+if ('ontouchstart' in window) {
+document.body.classList.add('touch-device');
+}
+});
+
+// Handle orientation change on mobile
+window.addEventListener('orientationchange', () => {
+setTimeout(() => {
+handleScroll();
+}, 100);
+});
+
+// Optimize for mobile viewport
+window.addEventListener('resize', () => {
+clearTimeout(window.resizeTimer);
+window.resizeTimer = setTimeout(() => {
+handleScroll();
+}, 100);
+});
+
+// Close mobile menu when clicking on links
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+link.addEventListener('click', () => {
+document.getElementById('mobileMenu').classList.remove('active');
+});
+});
+
+// Performance optimization - lazy loading for images
+if ('IntersectionObserver' in window) {
+const imageObserver = new IntersectionObserver((entries, observer) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+const img = entry.target;
+img.src = img.dataset.src;
+img.classList.remove('lazy');
+imageObserver.unobserve(img);
+}
+});
+});
+
+document.querySelectorAll('img[data-src]').forEach(img => {
+imageObserver.observe(img);
+});
 }
 </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+
+<!-- SINDIKAT: NAV + FOOTER NORMALIZER (ne dira tvoj sadržaj/skripte) -->
+<script>
+(function(){
+
+/* === Uniform NAV – isti na svim stranicama (desktop + mobile) === */
+var NAV_HTML = `
+<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+   <a href="https://sindikatevents.me/" class="text-2xl font-extrabold" style="background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">SINDIKAT</a>
+   <div class="hidden md:flex items-center gap-6 text-sm">
+     <a href="https://sindikatevents.me/"         class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Početna</a>
+     <a href="https://sindikatevents.me/poslovi/" class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Poslovi</a>
+     <a href="https://sindikatevents.me/blog/"    class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Blog</a>
+     <a href="https://sindikatevents.me/galerija/"class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Galerija</a>
+     <a href="https://sindikatevents.me/onama/"   class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">O nama</a>
+     <a href="https://sindikatevents.me/kontakt/" class="block px-4 py-2 rounded-xl bg-[#FFD700] text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+   </div>
+   <label for="mobileNav" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-yellow-400 transition cursor-pointer" aria-label="Otvori meni">☰</label>
+ </div>
+
+ <input id="mobileNav" type="checkbox" class="peer sr-only" />
+
+ <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden peer-checked:opacity-100 peer-checked:pointer-events-auto">
+   <label for="mobileNav" class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-yellow-400 transition cursor-pointer" aria-label="Zatvori meni">
+     <span class="text-2xl leading-none">×</span>
+   </label>
+   <div class="absolute top-[72px] left-0 right-0">
+     <nav class="px-4 pt-4 pb-16 space-y-2">
+       <a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Početna</a>
+       <a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Poslovi</a>
+       <a href="https://sindikatevents.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Blog</a>
+       <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Galerija</a>
+       <a href="https://sindikatevents.me/onama/"    class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">O nama</a>
+       <a href="https://sindikatevents.me/kontakt/" class="block w-full px-4 py-4 rounded-xl bg-[#FFD700] text-black font-semibold hover:brightness-95 transition">Kontakt</a>
+     </nav>
+   </div>
+ </div>
+</nav>`.trim();
+
+/* === Uniform FOOTER – isti kao na naslovnoj === */
+var FOOTER_HTML = `
+<footer class="bg-gray-900 py-16 px-6">
+ <div class="max-w-7xl mx-auto">
+   <div class="grid md:grid-cols-2 gap-12">
+     <div>
+       <h4 class="text-lg font-semibold mb-6">Brzi Kontakt</h4>
+       <div class="space-y-6">
+         <a href="https://wa.me/38267506440" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
+           <div class="text-2xl">📱</div>
+           <div>
+             <h5 class="font-semibold">WhatsApp</h5>
+             <p class="text-sm">+382 67 506 440</p>
+             <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
+           </div>
+         </a>
+         <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
+           <div class="text-2xl">📸</div>
+           <div>
+             <h5 class="font-semibold">Instagram</h5>
+             <p class="text-sm">@sindikat_events</p>
+             <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
+           </div>
+         </a>
+         <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+           <div class="text-2xl">📞</div>
+           <div>
+             <h5 class="font-semibold">Telefon</h5>
+             <p class="text-sm">+382 67 506 440</p>
+             <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
+           </div>
+         </div>
+         <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
+           <div class="text-2xl">📍</div>
+           <div>
+             <h5 class="font-semibold">Lokacija</h5>
+             <p class="text-sm">Podgorica, Crna Gora</p>
+             <p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="flex flex-col justify-center">
+       <h4 class="text-lg font-semibold mb-6">Kontaktirajte nas</h4>
+       <a href="https://sindikatevents.me/kontakt/" class="inline-block text-center bg-[#FFD700] text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
+         Idi na Kontakt Stranicu
+       </a>
+     </div>
+   </div>
+   <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+     <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
+     <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
+   </div>
+ </div>
+</footer>`.trim();
+
+function replaceAllNavs(){
+var navs = document.querySelectorAll('nav');
+if(navs.length){
+navs[0].insertAdjacentHTML('beforebegin', NAV_HTML);
+navs[0].remove();
+for(var i=1;i<navs.length;i++){ try{ navs[i].remove(); }catch(e){} }
+}else{
+document.body.insertAdjacentHTML('afterbegin', NAV_HTML);
+}
+}
+function replaceFooter(){
+var f = document.querySelector('footer');
+if(f){ f.insertAdjacentHTML('beforebegin', FOOTER_HTML); f.remove(); }
+else { document.body.insertAdjacentHTML('beforeend', FOOTER_HTML); }
+}
+function ensureContactAnchors(){
+if(!document.getElementById('contact')){
+var a=document.createElement('div'); a.id='contact';
+a.style.position='relative'; a.style.width='1px'; a.style.height='1px'; a.style.overflow='hidden';
+document.body.appendChild(a);
+}
+if(!document.getElementById('kontakt')){
+var b=document.createElement('div'); b.id='kontakt';
+b.style.position='relative'; b.style.width='1px'; b.style.height='1px'; b.style.overflow='hidden';
+document.body.appendChild(b);
+}
+}
+function unify(){
+replaceAllNavs();
+replaceFooter();
+ensureContactAnchors();
+setTimeout(function(){
+var nav = document.querySelector('nav'); if(!nav) return;
+var h = nav.offsetHeight||0;
+var safe = parseInt(getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-top)'))||0;
+document.documentElement.style.setProperty('--nav-h', (h+safe)+'px');
+}, 50);
+}
+if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', unify); } else { unify(); }
+})();
+</script>
+<!-- /SINDIKAT NORMALIZER -->
+
 
 <script>
-/* init banners example */
-window.addEventListener('load', () => {
-const fb = document.getElementById('floatingBanner');
-if (fb) fb.style.display = 'block';
-});
+  // Detalji usluga - za sad placeholder, poslije možemo da ih razradimo
+  const serviceDetails = {
+    bartending: {
+      title: 'Barmeni i Kokteli',
+      text: 'Autorski koktel meni, klasični kokteli, welcome drink, shotovi, konzultacije oko liste pića i preporuka logistike za bar. Usluga se može prilagoditi za kućne žurke, klubove, korporativne događaje i festivale.'
+    },
+    djs: {
+      title: 'DJ-jevi i Muzičari',
+      text: 'DJ nastupi i live muzika za različite stilove događaja – od after work druženja i rođendana do velikih korporativnih žurki. Donosimo opremu po potrebi ili se uklapamo u postojeći setup.'
+    },
+    sound: {
+      title: 'Zvuk i Osvetljenje',
+      text: 'Profesionalni razglas, mikrofoni, monitoring, kao i rasvjeta za binu, plesni podijum ili ambijentalno osvjetljenje prostora. Moguće je i kompletno tehničko vođenje događaja.'
+    },
+    bar: {
+      title: 'Bar i Usluga Napitaka',
+      text: 'Mobilni bar, frižideri, čaše, led, garnishes i kompletna logistika za piće. Možemo raditi i kao full open bar, kao prodajni bar ili kombinovano, u zavisnosti od dogovora.'
+    },
+    photo: {
+      title: 'Fotografija i Video',
+      text: 'Event fotografija, kratki video recap, sadržaj za društvene mreže i portreti gostiju. Moguće je organizovati i poseban foto kutak ili brendirani photo corner.'
+    },
+    design: {
+      title: 'Dizajn i Društvene Mreže',
+      text: 'Vizuali za najavu događaja, story i feed templejti, brendiranje barova i zona, kao i live coverage na društvenim mrežama tokom samog eventa.'
+    },
+    hostesses: {
+      title: 'Profesionalne Hostese',
+      text: 'Hostese za dobrodošlicu gostima, registraciju, sampling, nagradne igre, info pult i promo aktivacije u tržnim centrima, klubovima i na ulici.'
+    },
+    furniture: {
+      title: 'Event Nameštaj',
+      text: 'Barski stolovi, stolice, lounge zone, separei, dekorativni elementi i ostali mobilijar potrebni da prostor izgleda kao pravi event, a ne obična sala.'
+    }
+  };
+
+  (function initServiceModal() {
+    const cards = document.querySelectorAll('.js-service-card');
+    const modal = document.getElementById('serviceModal');
+    if (!modal || !cards.length) return;
+
+    const titleEl = document.getElementById('serviceModalTitle');
+    const textEl = document.getElementById('serviceModalText');
+    const closeBtnTop = document.getElementById('serviceModalClose');
+    const closeBtnBottom = document.getElementById('serviceModalCloseBottom');
+
+    function openModal(key) {
+      const data = serviceDetails[key] || {};
+      if (titleEl) titleEl.textContent = data.title || 'Usluga';
+      if (textEl) textEl.textContent =
+        data.text ||
+        'Ovdje će stajati detaljan opis ove usluge. Možemo ga naknadno definisati po potrebi.';
+
+      // prikaži modal (flex centriranje)
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      document.body.style.overflow = 'hidden'; // zabrani skrol u pozadini
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = ''; // vrati skrol
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-service');
+        openModal(key);
+      });
+    });
+
+    // zatvaranje na X i donje dugme
+    if (closeBtnTop) closeBtnTop.addEventListener('click', closeModal);
+    if (closeBtnBottom) closeBtnBottom.addEventListener('click', closeModal);
+
+    // klik na pozadinu
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // ESC zatvara
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  })();
 </script>
 
 
-  
-  
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
