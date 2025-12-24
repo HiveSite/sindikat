@@ -133,46 +133,80 @@
 
 <body class="bg-black text-white font-inter">
 
-  <!-- NAV -->
-  <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-      <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
+ <!-- SINDIKAT GLOBAL NAV -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
 
-      <div class="hidden md:flex items-center gap-6 text-sm">
-        <a href="https://sindikatevents.me/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-        <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-        <a href="https://sindikatevents.me/blog/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-        <a href="https://sindikatevents.me/galerija/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-        <a href="https://sindikatevents.me/onama/" class="block w-full rounded-xl border-neutral-800 font-medium text-sm hover:border-gold transition">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/" class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-      </div>
+    <a href="https://sindikatevents.me/"
+       class="text-2xl font-extrabold gradient-gold">
+      SINDIKAT
+    </a>
 
-      <label for="mobileNav"
-        class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-        aria-label="Otvori meni">☰</label>
+    <!-- DESKTOP -->
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      <a href="https://sindikatevents.me/pazar/"
+         class="hover:text-gold transition font-medium text-gold">
+        Podgorički pazar
+      </a>
+      <a href="https://sindikatevents.me/"
+         class="hover:text-gold transition font-medium">
+        Početna
+      </a>
+      <a href="https://sindikatevents.me/poslovi/"
+         class="hover:text-gold transition font-medium">
+        Poslovi
+      </a>
+      <a href="https://sindikatevents.me/onama/"
+         class="hover:text-gold transition font-medium">
+        O nama
+      </a>
+      <a href="https://sindikatevents.me/kontakt/"
+         class="px-4 py-2 rounded-xl bg-gold text-black font-semibold">
+        Kontakt
+      </a>
     </div>
 
-    <input id="mobileNav" type="checkbox" class="peer sr-only" />
+    <!-- MOBILE -->
+    <button id="mobileMenuBtn"
+            class="md:hidden p-2 border border-neutral-800 rounded-lg">
+      ☰
+    </button>
+  </div>
+</nav>
 
-    <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
-                peer-checked:opacity-100 peer-checked:pointer-events-auto">
-      <label for="mobileNav"
-        class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-        aria-label="Zatvori meni">
-        <span class="text-2xl leading-none">×</span>
-      </label>
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="fixed inset-0 z-[60] bg-black/95 hidden">
 
-      <div class="absolute top-[72px] left-0 right-0">
-        <nav class="px-4 pt-4 pb-16 space-y-2">
-          <a href="https://sindikatevents.me/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-          <a href="https://sindikatevents.me/poslovi/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-          <a href="https://sindikatevents.me/blog/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-          <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-          <a href="https://sindikatevents.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-          <a href="https://sindikatevents.me/kontakt/" class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-        </nav>
-      </div>
-    </div>
+  <button id="mobileClose"
+          class="absolute top-4 right-4 text-3xl">
+    ×
+  </button>
+
+  <div class="mt-[88px] px-6 space-y-3">
+    <a href="https://sindikatevents.me/pazar/"
+       class="block px-4 py-4 border border-gold rounded-xl text-gold">
+      Podgorički pazar
+    </a>
+    <a href="https://sindikatevents.me/"
+       class="block px-4 py-4 border border-neutral-800 rounded-xl">
+      Početna
+    </a>
+    <a href="https://sindikatevents.me/poslovi/"
+       class="block px-4 py-4 border border-neutral-800 rounded-xl">
+      Poslovi
+    </a>
+    <a href="https://sindikatevents.me/onama/"
+       class="block px-4 py-4 border border-neutral-800 rounded-xl">
+      O nama
+    </a>
+    <a href="https://sindikatevents.me/kontakt/"
+       class="block px-4 py-4 bg-gold text-black rounded-xl font-semibold">
+      Kontakt
+    </a>
+  </div>
+</div>
+
   </nav>
 
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-20">
@@ -633,5 +667,48 @@
     });
   </script>
 
+
+
+
+
+
+
+
+
+<script>
+(function(){
+  const openBtn = document.getElementById('mobileMenuBtn');
+  const closeBtn = document.getElementById('mobileClose');
+  const menu = document.getElementById('mobileMenu');
+
+  if(openBtn && closeBtn && menu){
+    openBtn.onclick = () => {
+      menu.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    };
+    closeBtn.onclick = () => {
+      menu.classList.add('hidden');
+      document.body.style.overflow = '';
+    };
+  }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </body>
 </html>
