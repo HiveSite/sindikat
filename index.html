@@ -773,8 +773,8 @@ boot();
     </label>
 
     <div class="absolute top-[72px] left-0 right-0 px-4 pt-4 pb-16 space-y-2" role="navigation">
-      <a href="https://sindikatevents.me/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
       <a href="https://sindikatevents.me/pazar/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Podgorički pazar</a>
+      <a href="https://sindikatevents.me/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
       <a href="https://sindikatevents.me/poslovi/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
       <a href="https://sindikatevents.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
       <a href="https://sindikatevents.me/kontakt/"
@@ -3072,40 +3072,77 @@ imageObserver.observe(img);
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97522d68c284ec20',t:'MTc1NjE5OTIzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 
 
-<!-- SINDIKAT: NAV + FOOTER NORMALIZER (ne dira tvoj sadržaj/skripte) -->
 <script>
 (function(){
 
-/* === Uniform NAV – isti na svim stranicama (desktop + mobile) === */
 var NAV_HTML = `
 <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-   <a href="https://sindikatevents.me/" class="text-2xl font-extrabold" style="background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">SINDIKAT</a>
-   <div class="hidden md:flex items-center gap-6 text-sm">
-     <a href="https://sindikatevents.me/"         class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Početna</a>
-     <a href="https://sindikatevents.me/poslovi/" class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-     <a href="https://sindikatevents.me/onama/"   class="hover:text-yellow-400 transition-colors font-medium text-sm xl:text-base">O nama</a>
-     <a href="https://sindikatevents.me/kontakt/" class="block px-4 py-2 rounded-xl bg-[#FFD700] text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-   </div>
-   <label for="mobileNav" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-yellow-400 transition cursor-pointer" aria-label="Otvori meni">☰</label>
- </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+    <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
 
- <input id="mobileNav" type="checkbox" class="peer sr-only" />
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      <a href="https://sindikatevents.me/pazar/" class="hover:text-gold transition font-medium">
+        Podgorički pazar
+      </a>
+      <a href="https://sindikatevents.me/" class="hover:text-gold transition font-medium">
+        Početna
+      </a>
+      <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition font-medium">
+        Poslovi
+      </a>
+      <a href="https://sindikatevents.me/onama/" class="hover:text-gold transition font-medium">
+        O nama
+      </a>
+      <a href="https://sindikatevents.me/kontakt/"
+         class="px-4 py-2 rounded-xl bg-gold text-black font-semibold">
+        Kontakt
+      </a>
+    </div>
 
- <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden peer-checked:opacity-100 peer-checked:pointer-events-auto">
-   <label for="mobileNav" class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-yellow-400 transition cursor-pointer" aria-label="Zatvori meni">
-     <span class="text-2xl leading-none">×</span>
-   </label>
-   <div class="absolute top-[72px] left-0 right-0">
-     <nav class="px-4 pt-4 pb-16 space-y-2">
-       <a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Početna</a>
-       <a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">Poslovi</a>
-       <a href="https://sindikatevents.me/onama/"    class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-yellow-400 transition">O nama</a>
-       <a href="https://sindikatevents.me/kontakt/" class="block w-full px-4 py-4 rounded-xl bg-[#FFD700] text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-     </nav>
-   </div>
- </div>
-</nav>`.trim();
+    <label for="mobileNav" class="md:hidden p-2 border border-neutral-800 rounded-lg cursor-pointer">☰</label>
+  </div>
+
+  <input id="mobileNav" type="checkbox" class="peer sr-only"/>
+
+  <div class="fixed inset-0 bg-black/95 z-[60] opacity-0 pointer-events-none
+              peer-checked:opacity-100 peer-checked:pointer-events-auto md:hidden">
+    <label for="mobileNav" class="absolute top-4 right-4 text-2xl">×</label>
+
+    <div class="absolute top-[72px] left-0 right-0 px-4 space-y-2">
+      <a href="https://sindikatevents.me/pazar/" class="block px-4 py-4 border border-neutral-800 rounded-xl">
+        Podgorički pazar
+      </a>
+      <a href="https://sindikatevents.me/" class="block px-4 py-4 border border-neutral-800 rounded-xl">
+        Početna
+      </a>
+      <a href="https://sindikatevents.me/poslovi/" class="block px-4 py-4 border border-neutral-800 rounded-xl">
+        Poslovi
+      </a>
+      <a href="https://sindikatevents.me/onama/" class="block px-4 py-4 border border-neutral-800 rounded-xl">
+        O nama
+      </a>
+      <a href="https://sindikatevents.me/kontakt/"
+         class="block px-4 py-4 rounded-xl bg-gold text-black font-semibold">
+        Kontakt
+      </a>
+    </div>
+  </div>
+</nav>
+`;
+
+function replaceAllNavs(){
+  var navs = document.querySelectorAll('nav');
+  if(navs.length){
+    navs[0].insertAdjacentHTML('beforebegin', NAV_HTML);
+    navs[0].remove();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', replaceAllNavs);
+
+})();
+</script>
+
 
 /* === Uniform FOOTER – isti kao na naslovnoj === */
 var FOOTER_HTML = `
@@ -3305,6 +3342,7 @@ if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoad
 
 </body>
 </html>
+
 
 
 
