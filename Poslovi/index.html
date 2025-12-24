@@ -59,41 +59,80 @@
     </style>
   </head>
   <body>
-    <!-- NAV -->
-    <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-        <a href="#" class="text-2xl font-extrabold gradient-gold">SINDIKAT POSLOVI</a>
-        <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="https://sindikatevents.me/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-          <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-          <a href="https://sindikatevents.me/blog/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-          <a href="https://sindikatevents.me/galerija/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-          <a href="https://sindikatevents.me/onama/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">O nama</a>
-          <a href="https://sindikatevents.me/kontakt/" class="inline-flex items-center justify-center px-4 py-3 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition text-center">Kontakt</a>
-          <button id="openPostJob" class="inline-flex items-center justify-center px-4 py-3 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition text-center whitespace-nowrap">Objavi oglas</button>
-        </div>
-        <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobileOverlay">☰</button>
-      </div>
-      <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-800 bg-black"></div>
-    </nav>
+   <!-- SINDIKAT GLOBAL NAV -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
 
-    <!-- MOBILE OVERLAY -->
-    <div id="mobileOverlay" class="fixed inset-0 z-[49] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200">
-      <div class="absolute top-[72px] left-0 right-0">
-        <nav class="px-4 pt-4 pb-16 space-y-2">
-          <a href="https://sindikatevents.me/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-          <a href="https://sindikatevents.me/poslovi/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-          <a href="https://sindikatevents.me/blog/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-          <a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-          <a href="https://sindikatevents.me/onama/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-          <a href="https://sindikatevents.me/kontakt/" class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-          <button id="openPostJobM" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Objavi oglas</button>
-        </nav>
-      </div>
-      <button id="mobileClose" class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition" aria-label="Zatvori meni">
-        <span class="text-2xl leading-none">×</span>
-      </button>
+    <a href="https://sindikatevents.me/"
+       class="text-2xl font-extrabold gradient-gold">
+      SINDIKAT
+    </a>
+
+    <!-- DESKTOP -->
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      <a href="https://sindikatevents.me/pazar/"
+         class="hover:text-gold transition font-medium">
+        Podgorički pazar
+      </a>
+      <a href="https://sindikatevents.me/"
+         class="hover:text-gold transition font-medium">
+        Početna
+      </a>
+      <a href="https://sindikatevents.me/poslovi/"
+         class="hover:text-gold transition font-medium text-gold">
+        Poslovi
+      </a>
+      <a href="https://sindikatevents.me/onama/"
+         class="hover:text-gold transition font-medium">
+        O nama
+      </a>
+      <a href="https://sindikatevents.me/kontakt/"
+         class="px-4 py-2 rounded-xl bg-gold text-black font-semibold">
+        Kontakt
+      </a>
     </div>
+
+    <!-- MOBILE BUTTON -->
+    <button id="mobileMenuBtn"
+            class="md:hidden p-2 border border-neutral-800 rounded-lg">
+      ☰
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="fixed inset-0 z-[60] bg-black/95 hidden">
+
+  <button id="mobileClose"
+          class="absolute top-4 right-4 text-3xl">
+    ×
+  </button>
+
+  <div class="mt-[88px] px-6 space-y-3">
+    <a href="https://sindikatevents.me/pazar/"
+       class="block px-4 py-4 border border-neutral-800 rounded-xl">
+      Podgorički pazar
+    </a>
+    <a href="https://sindikatevents.me/"
+       class="block px-4 py-4 border border-neutral-800 rounded-xl">
+      Početna
+    </a>
+    <a href="https://sindikatevents.me/poslovi/"
+       class="block px-4 py-4 border border-gold rounded-xl text-gold">
+      Poslovi
+    </a>
+    <a href="https://sindikatevents.me/onama/"
+       class="block px-4 py-4 border border-neutral-800 rounded-xl">
+      O nama
+    </a>
+    <a href="https://sindikatevents.me/kontakt/"
+       class="block px-4 py-4 bg-gold text-black rounded-xl font-semibold">
+      Kontakt
+    </a>
+  </div>
+</div>
+
 
   <!-- PARTNERI / BANERI (mobile: half height + scroll from first, desktop: centered normal height) -->
 <style>
@@ -549,7 +588,7 @@
     category: "Event menadžment",
     type: ["Part-time", "Sezonski"],
     pay: 700,
-    posted: "2025-10-15",
+    posted: "2025-12-15",
     desc: "Tražimo komunikativne hostese za događaje i promo aktivacije. Poželjno iskustvo u radu sa gostima i engleski jezik. Dinamičan raspored, obezbijeđena uniforma.",
     apply: "sindikatevents@gmail.com"
   },
@@ -561,7 +600,7 @@
     category: "Audio/Video & Produkcija",
     type: ["Freelance"],
     pay: 80,
-    posted: "2025-11-02",
+    posted: "2025-12-02",
     desc: "Svirke na korporativnim i privatnim događajima. Poželjno sopstvena oprema i raznovrstan muzički repertoar (pop, house, regionalni hitovi).",
     apply: "sindikatevents@gmail.com"
   },
@@ -573,7 +612,7 @@
     category: "Ugostiteljstvo",
     type: ["Sezonski", "Part-time"],
     pay: 900,
-    posted: "2025-09-30",
+    posted: "2025-11-30",
     desc: "Rad na mobilnim barovima, klasični i signature kokteli. Prednost iskustvo u event okruženju. Obuka za recepte i standarde na licu mjesta.",
     apply: "sindikatevents@gmail.com"
   },
@@ -585,7 +624,7 @@
     category: "Marketing & Dizajn",
     type: ["Part-time", "Remote"],
     pay: 600,
-    posted: "2025-10-14",
+    posted: "2025-11-14",
     desc: "Plan i vođenje sadržaja za Instagram/TikTok, copy, short-form video, osnovni dizajn (Canva/Adobe). Prednost iskustvo u event ili hospitality niši.",
     apply: "sindikatevents@gmail.com"
   },
@@ -882,5 +921,31 @@ document.getElementById("yearSpan").textContent = new Date().getFullYear();
       // initial render
       render();
     </script>
+
+
+
+<script>
+(function(){
+  const openBtn = document.getElementById('mobileMenuBtn');
+  const closeBtn = document.getElementById('mobileClose');
+  const menu = document.getElementById('mobileMenu');
+
+  if(openBtn && closeBtn && menu){
+    openBtn.onclick = () => {
+      menu.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    };
+    closeBtn.onclick = () => {
+      menu.classList.add('hidden');
+      document.body.style.overflow = '';
+    };
+  }
+})();
+</script>
+
+
+
+
+      
   </body>
 </html>
