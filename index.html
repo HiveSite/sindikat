@@ -3144,103 +3144,7 @@ document.addEventListener('DOMContentLoaded', replaceAllNavs);
 </script>
 
 
-/* === Uniform FOOTER – isti kao na naslovnoj === */
-var FOOTER_HTML = `
-<footer class="bg-gray-900 py-16 px-6">
- <div class="max-w-7xl mx-auto">
-   <div class="grid md:grid-cols-2 gap-12">
-     <div>
-       <h4 class="text-lg font-semibold mb-6">Brzi Kontakt</h4>
-       <div class="space-y-6">
-         <a href="https://wa.me/38267506440" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
-           <div class="text-2xl">📱</div>
-           <div>
-             <h5 class="font-semibold">WhatsApp</h5>
-             <p class="text-sm">+382 67 506 440</p>
-             <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
-           </div>
-         </a>
-         <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
-           <div class="text-2xl">📸</div>
-           <div>
-             <h5 class="font-semibold">Instagram</h5>
-             <p class="text-sm">@sindikat_events</p>
-             <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
-           </div>
-         </a>
-         <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-           <div class="text-2xl">📞</div>
-           <div>
-             <h5 class="font-semibold">Telefon</h5>
-             <p class="text-sm">+382 67 506 440</p>
-             <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
-           </div>
-         </div>
-         <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-           <div class="text-2xl">📍</div>
-           <div>
-             <h5 class="font-semibold">Lokacija</h5>
-             <p class="text-sm">Podgorica, Crna Gora</p>
-             <p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="flex flex-col justify-center">
-       <h4 class="text-lg font-semibold mb-6">Kontaktirajte nas</h4>
-       <a href="https://sindikatevents.me/kontakt/" class="inline-block text-center bg-[#FFD700] text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
-         Idi na Kontakt Stranicu
-       </a>
-     </div>
-   </div>
-   <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-     <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
-     <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
-   </div>
- </div>
-</footer>`.trim();
 
-function replaceAllNavs(){
-var navs = document.querySelectorAll('nav');
-if(navs.length){
-navs[0].insertAdjacentHTML('beforebegin', NAV_HTML);
-navs[0].remove();
-for(var i=1;i<navs.length;i++){ try{ navs[i].remove(); }catch(e){} }
-}else{
-document.body.insertAdjacentHTML('afterbegin', NAV_HTML);
-}
-}
-function replaceFooter(){
-var f = document.querySelector('footer');
-if(f){ f.insertAdjacentHTML('beforebegin', FOOTER_HTML); f.remove(); }
-else { document.body.insertAdjacentHTML('beforeend', FOOTER_HTML); }
-}
-function ensureContactAnchors(){
-if(!document.getElementById('contact')){
-var a=document.createElement('div'); a.id='contact';
-a.style.position='relative'; a.style.width='1px'; a.style.height='1px'; a.style.overflow='hidden';
-document.body.appendChild(a);
-}
-if(!document.getElementById('kontakt')){
-var b=document.createElement('div'); b.id='kontakt';
-b.style.position='relative'; b.style.width='1px'; b.style.height='1px'; b.style.overflow='hidden';
-document.body.appendChild(b);
-}
-}
-function unify(){
-replaceAllNavs();
-replaceFooter();
-ensureContactAnchors();
-setTimeout(function(){
-var nav = document.querySelector('nav'); if(!nav) return;
-var h = nav.offsetHeight||0;
-var safe = parseInt(getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-top)'))||0;
-document.documentElement.style.setProperty('--nav-h', (h+safe)+'px');
-}, 50);
-}
-if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', unify); } else { unify(); }
-})();
-</script>
 <!-- /SINDIKAT NORMALIZER -->
 
 
@@ -3342,6 +3246,7 @@ if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoad
 
 </body>
 </html>
+
 
 
 
