@@ -6,322 +6,86 @@
   <meta name="description" content="Kampanje i aktivacije koje dovode ljude." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Anime.js CDN -->
+  <!-- Anime.js -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 
   <style>
     :root{
       --bg:#0B0B0D;
-      --bg2:#141418;
+      --panel:#141418;
       --border:#2A2A31;
       --text:#FFFFFF;
       --muted:#A3A3A3;
-      --muted2:#7A7A7A;
       --accent:#F36A2E;
-      --shadow: 0 12px 40px rgba(0,0,0,.45);
-      --r:16px;
-      --r2:22px;
+      --radius:16px;
       --max:1120px;
     }
-
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
       background:var(--bg);
       color:var(--text);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      letter-spacing:.2px;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:var(--max);margin:0 auto;padding:20px 16px 80px}
 
-    /* subtle grain */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
-      opacity:.05;
-      mix-blend-mode:overlay;
+    /* NAV */
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 0 24px;
     }
-
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 22px 90px;}
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px;
-      padding:10px 0 26px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      font-weight:650;
-      letter-spacing:.8px;
-      text-transform:uppercase;
-      font-size:13px;
-    }
-    .mark{
-      width:30px; height:30px; border-radius:10px;
-      background:linear-gradient(135deg, rgba(243,106,46,.9), rgba(243,106,46,.15));
-      border:1px solid rgba(243,106,46,.35);
-      box-shadow:0 12px 30px rgba(243,106,46,.12);
-    }
-    nav{
-      display:flex; gap:18px; flex-wrap:wrap;
-      color:var(--muted);
-      font-size:13px;
-    }
-    nav a{padding:8px 10px; border-radius:12px}
-    nav a:hover{background:rgba(255,255,255,.04); color:var(--text)}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:13px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.02);
-      color:var(--text);
-      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow); border-color:rgba(243,106,46,.25)}
-    .btn.primary{
-      background:rgba(243,106,46,.08);
-      border-color:rgba(243,106,46,.35);
-      color:var(--text);
-    }
-    .dot{
-      width:7px; height:7px; border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 0 4px rgba(243,106,46,.14);
+    .brand{font-weight:700;letter-spacing:.8px}
+    .cta{
+      border:1px solid var(--accent);
+      color:var(--accent);
+      padding:10px 14px;border-radius:12px;font-size:14px;
     }
 
     /* HERO */
-    .hero{
-      padding:56px 0 36px;
-      border-top:1px solid rgba(255,255,255,.04);
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:26px;
-      align-items:stretch;
-    }
-    .kicker{
-      display:flex; align-items:center; gap:10px;
-      color:var(--muted);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:1.1px;
-      margin-bottom:14px;
-    }
-    h1{
-      margin:0;
-      font-size:52px;
-      line-height:1.06;
-      letter-spacing:-.7px;
-    }
-    .sub{
-      margin-top:18px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.6;
-      max-width:56ch;
-    }
-    .heroActions{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px}
-    .miniRow{
-      margin-top:26px;
-      display:flex; gap:16px; flex-wrap:wrap;
-      color:var(--muted2);
-      font-size:12px;
-    }
-    .miniRow span{
-      padding:8px 10px; border:1px solid rgba(255,255,255,.06);
-      border-radius:999px;
-      background:rgba(255,255,255,.02);
-    }
-
-    .heroCard{
-      border:1px solid var(--border);
-      border-radius:var(--r2);
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      box-shadow:0 18px 70px rgba(0,0,0,.55);
-      padding:22px;
-      display:flex; flex-direction:column; justify-content:space-between;
-      min-height:100%;
-    }
-    .heroCard .label{
-      display:flex; align-items:center; justify-content:space-between;
-      font-size:12px; color:var(--muted);
-      text-transform:uppercase; letter-spacing:1px;
-      margin-bottom:12px;
-    }
-    .statGrid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:10px;
-    }
-    .stat{
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:16px;
-      padding:14px 14px 12px;
-      background:rgba(11,11,13,.35);
-    }
-    .stat .num{
-      font-size:26px;
-      font-weight:700;
-      letter-spacing:-.4px;
-    }
-    .stat .cap{
-      margin-top:6px;
-      color:var(--muted2);
-      font-size:12px;
-    }
-    .progressRail{
-      height:8px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      overflow:hidden;
-      margin-top:16px;
-    }
-    .progressFill{
-      height:100%;
-      width:62%;
-      background:linear-gradient(90deg, rgba(243,106,46,.95), rgba(243,106,46,.25));
-      border-radius:999px;
-    }
-    .heroCard .foot{
-      margin-top:16px;
-      display:flex; justify-content:space-between; align-items:center;
-      color:var(--muted2);
-      font-size:12px;
-    }
+    .hero{padding:40px 0 24px}
+    .kicker{color:var(--muted);font-size:12px;text-transform:uppercase;margin-bottom:10px}
+    h1{font-size:44px;line-height:1.1;margin:0}
+    .sub{color:var(--muted);max-width:56ch;margin-top:16px}
+    .heroActions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 
     /* SECTIONS */
-    .section{
-      padding:56px 0;
-      border-top:1px solid rgba(255,255,255,.04);
-    }
-    .headRow{
-      display:flex; align-items:flex-end; justify-content:space-between;
-      gap:18px; flex-wrap:wrap;
-      margin-bottom:22px;
-    }
-    .h2{
-      font-size:22px;
-      letter-spacing:-.2px;
-      margin:0;
-    }
-    .desc{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
-      max-width:60ch;
-    }
+    .section{padding:56px 0;border-top:1px solid rgba(255,255,255,.05)}
+    .h2{font-size:22px;margin:0}
+    .desc{color:var(--muted);margin-top:8px;max-width:60ch}
 
-    .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
-    .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
-    .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+    .grid2,.grid4{
+      display:grid;gap:16px;margin-top:24px
+    }
+    .grid2{grid-template-columns:repeat(2,1fr)}
+    .grid4{grid-template-columns:repeat(4,1fr)}
 
     .card{
+      background:var(--panel);
       border:1px solid var(--border);
-      border-radius:var(--r);
-      background:rgba(255,255,255,.02);
+      border-radius:var(--radius);
       padding:18px;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-    }
-    .card:hover{transform:translateY(-2px); border-color:rgba(243,106,46,.22); box-shadow:var(--shadow)}
-    .card .top{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-      margin-bottom:10px;
     }
     .tag{
-      font-size:11px; color:rgba(243,106,46,.95);
-      border:1px solid rgba(243,106,46,.25);
-      padding:6px 10px; border-radius:999px;
-      background:rgba(243,106,46,.06);
-      white-space:nowrap;
+      font-size:11px;color:var(--accent);
+      border:1px solid rgba(243,106,46,.4);
+      padding:4px 8px;border-radius:999px;
     }
-    .card h3{margin:0; font-size:16px; letter-spacing:-.2px}
-    .card p{margin-top:10px; color:var(--muted); font-size:13px; line-height:1.55}
-    .bullets{margin-top:14px; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.55}
+    .card h3{margin:10px 0 6px}
+    .card p{color:var(--muted);font-size:14px}
+
+    .bullets{margin:12px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
     .bullets li{margin:6px 0}
 
-    /* Portfolio */
-    .portfolioCard{
-      padding:0;
-      overflow:hidden;
-    }
-    .thumb{
-      height:160px;
-      background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
-      border-bottom:1px solid rgba(255,255,255,.06);
-      position:relative;
-    }
-    .thumb:after{
-      content:"";
-      position:absolute; inset:0;
-      background:radial-gradient(400px 220px at 20% 20%, rgba(243,106,46,.12), transparent 60%);
-      opacity:.9;
-    }
-    .meta{
-      padding:16px 18px 18px;
-    }
-    .meta .k{
-      color:var(--muted2);
-      font-size:12px;
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:8px;
-    }
-    .meta .k span{
-      border:1px solid rgba(255,255,255,.06);
-      background:rgba(255,255,255,.02);
-      padding:6px 10px;
-      border-radius:999px;
-    }
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(18px)}
 
-    /* CTA band */
-    .ctaBand{
-      border:1px solid rgba(243,106,46,.22);
-      background:linear-gradient(180deg, rgba(243,106,46,.08), rgba(255,255,255,.02));
-      border-radius:26px;
-      padding:22px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px;
-    }
-    .ctaBand .left{
-      max-width:64ch;
-    }
-    .ctaBand .left .h2{font-size:20px}
-    .ctaBand .left .desc{margin-top:8px}
-
-    /* Footer */
-    footer{
-      border-top:1px solid rgba(255,255,255,.04);
-      padding:28px 0 8px;
-      color:var(--muted2);
-      font-size:12px;
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-    }
-
-    /* Reveal base */
-    .reveal{
-      opacity:0;
-      transform:translateY(18px);
-      will-change: transform, opacity;
-    }
-
-    @media (max-width: 980px){
-      .heroGrid{grid-template-columns:1fr}
-      h1{font-size:42px}
-      .grid4{grid-template-columns:repeat(2,1fr)}
-      .grid3{grid-template-columns:1fr}
-      .grid2{grid-template-columns:1fr}
-    }
-    @media (max-width: 520px){
-      .grid4{grid-template-columns:1fr}
-      .wrap{padding:18px 16px 72px}
+    @media(max-width:900px){
       h1{font-size:36px}
+      .grid4{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:520px){
+      .grid2,.grid4{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -329,381 +93,122 @@
 <body>
   <div class="wrap">
 
-    <!-- TOP BAR -->
-    <div class="topbar reveal">
-      <div class="brand">
-        <div class="mark" aria-hidden="true"></div>
-        <div>SINDIKAT</div>
-      </div>
-
-      <nav aria-label="Primary">
-        <a href="#services">Usluge</a>
-        <a href="#work">Portfolio</a>
-        <a href="#insights">Insights</a>
-        <a href="#contact">Kontakt</a>
-      </nav>
-
-      <a class="btn primary" href="#contact"><span class="dot"></span> Zatraži konsultacije</a>
+    <!-- NAV -->
+    <div class="nav reveal">
+      <div class="brand">SINDIKAT</div>
+      <a href="#contact" class="cta">Zakaži poziv</a>
     </div>
 
     <!-- HERO -->
     <section class="hero">
-      <div class="heroGrid">
-        <div>
-          <div class="kicker reveal"><span class="dot"></span> Performance & Activation Studio</div>
-
-          <h1 class="hero-title reveal">
-            Kampanje i aktivacije koje dovode ljude.
-          </h1>
-
-          <p class="sub reveal">
-            Spajamo performance marketing, sadržaj i terenske aktivacije u jedan sistem.
-            Event nije kraj — event je pojačivač kampanje, pažnje i konverzije.
-          </p>
-
-          <div class="heroActions reveal">
-            <a class="btn primary" href="#contact"><span class="dot"></span> Zakaži 30 min poziv</a>
-            <a class="btn" href="#services">Pogledaj proizvode</a>
-            <a class="btn" href="#work">Pogledaj case</a>
-          </div>
-
-          <div class="miniRow reveal">
-            <span>Bez cilja → nema ponude</span>
-            <span>Scope je zaključan</span>
-            <span>Rezultat > estetika</span>
-          </div>
-        </div>
-
-        <aside class="heroCard reveal" aria-label="Studio snapshot">
-          <div>
-            <div class="label">
-              <span>Studio snapshot</span>
-              <span style="color:rgba(243,106,46,.9)">Live</span>
-            </div>
-
-            <div class="statGrid">
-              <div class="stat">
-                <div class="num"><span class="counter" data-value="150">0</span>+</div>
-                <div class="cap">kampanja / aktivacija</div>
-              </div>
-              <div class="stat">
-                <div class="num"><span class="counter" data-value="48">0</span>h</div>
-                <div class="cap">tipičan turnaround</div>
-              </div>
-              <div class="stat">
-                <div class="num"><span class="counter" data-value="4">0</span></div>
-                <div class="cap">core proizvoda</div>
-              </div>
-              <div class="stat">
-                <div class="num"><span class="counter" data-value="1">0</span></div>
-                <div class="cap">owner po projektu</div>
-              </div>
-            </div>
-
-            <div class="progressRail" aria-hidden="true">
-              <div class="progressFill"></div>
-            </div>
-          </div>
-
-          <div class="foot">
-            <span>Podgorica • CG</span>
-            <span style="color:rgba(255,255,255,.85)">Campaigns • Content • Activations</span>
-          </div>
-        </aside>
+      <div class="kicker reveal">Performance & Activation Studio</div>
+      <h1 class="reveal">Kampanje i aktivacije koje dovode ljude.</h1>
+      <p class="sub reveal">
+        Spajamo Google i Meta kampanje, SEO osnove, sadržaj i terenske aktivacije u jedan sistem.
+        Event nije kraj — event je pojačivač kampanje, pažnje i konverzije.
+      </p>
+      <div class="heroActions reveal">
+        <a class="cta" href="#services">Kako to radimo</a>
+        <a class="cta" href="#contact">Konsultacije</a>
       </div>
     </section>
 
     <!-- SERVICES / PRODUCTS -->
     <section id="services" class="section">
-      <div class="headRow">
-        <div>
-          <h2 class="h2 reveal">Proizvodi (paketirani ishodi)</h2>
-          <p class="desc reveal">
-            Ne prodajemo “pojedinačne usluge”. Prodajemo jasne ishode sa scope-om, trajanjem i pravilima.
-          </p>
-        </div>
-        <div class="reveal">
-          <a class="btn" href="#contact">Traži ponudu</a>
-        </div>
-      </div>
+      <h2 class="h2 reveal">Šta zapravo nudimo</h2>
+      <p class="desc reveal">
+        Google/Meta, SEO, sadržaj i event produkcija nisu odvojene usluge.
+        Kod nas su to **paketirani proizvodi sa jasnim ciljem**.
+      </p>
 
       <div class="grid2">
-        <article class="card reveal">
-          <div class="top">
-            <h3>Strategy Day</h3>
-            <span class="tag">1 dan</span>
-          </div>
-          <p>Definišemo cilj, publiku, ponudu, budžet i plan. Izlaz: dokument koji vodi realizaciju.</p>
+        <div class="card reveal">
+          <span class="tag">1 dan</span>
+          <h3>Strategy Day</h3>
+          <p>Jednodnevne konsultacije i planiranje.</p>
           <ul class="bullets">
-            <li>Jasan cilj + KPI</li>
-            <li>Plan kanala (digital + teren)</li>
-            <li>Roadmap 30 dana</li>
+            <li>Definišemo cilj i KPI</li>
+            <li>Biramo Google/Meta/SEO</li>
+            <li>Odlučujemo da li event ima smisla</li>
           </ul>
-        </article>
+        </div>
 
-        <article class="card reveal">
-          <div class="top">
-            <h3>Monthly Performance</h3>
-            <span class="tag">30 dana</span>
-          </div>
-          <p>Vođenje i optimizacija kampanja. Fokus: rezultati (leadovi, posjete, prodaja).</p>
+        <div class="card reveal">
+          <span class="tag">30 dana</span>
+          <h3>Monthly Performance</h3>
+          <p>Vođenje digitalnih kampanja.</p>
           <ul class="bullets">
-            <li>Meta/Google kampanje</li>
-            <li>Testiranje kreative</li>
-            <li>1-page report + next steps</li>
+            <li>Google & Meta Ads</li>
+            <li>Osnovni SEO smjer</li>
+            <li>Optimizacija + report</li>
           </ul>
-        </article>
+        </div>
 
-        <article class="card reveal">
-          <div class="top">
-            <h3>Content Sprint</h3>
-            <span class="tag">7–10 dana</span>
-          </div>
-          <p>Produkcija sadržaja koji služi kampanji. Brzo, kontrolisano, spremno za ads.</p>
+        <div class="card reveal">
+          <span class="tag">7–10 dana</span>
+          <h3>Content Sprint</h3>
+          <p>Sadržaj napravljen za oglašavanje.</p>
           <ul class="bullets">
-            <li>Shot list + snimajući dan</li>
-            <li>Reels / ads cutovi</li>
-            <li>Pakovanje asseta</li>
+            <li>Video/foto produkcija</li>
+            <li>Ads formati (Reels, cutovi)</li>
+            <li>Materijal za kampanje</li>
           </ul>
-        </article>
+        </div>
 
-        <article class="card reveal">
-          <div class="top">
-            <h3>Activation / Event Booster</h3>
-            <span class="tag">projekat</span>
-          </div>
-          <p>Aktivacija ili događaj kao pojačanje kampanje: iskustvo + sadržaj + distribucija.</p>
+        <div class="card reveal">
+          <span class="tag">projekat</span>
+          <h3>Activation Booster</h3>
+          <p>Event i promo kao dio kampanje.</p>
           <ul class="bullets">
-            <li>Koncept + teren</li>
-            <li>Promo podrška (ads)</li>
-            <li>Post-content + recap</li>
+            <li>Event produkcija i podrška</li>
+            <li>Sadržaj sa terena</li>
+            <li>Digital → teren → digital</li>
           </ul>
-        </article>
+        </div>
       </div>
     </section>
 
-    <!-- HOW WE WORK -->
+    <!-- PROCESS -->
     <section class="section">
-      <div class="headRow">
-        <div>
-          <h2 class="h2 reveal">Kako radimo</h2>
-          <p class="desc reveal">Jednostavan proces. Jedna odgovorna osoba. Jasne granice.</p>
-        </div>
-      </div>
-
+      <h2 class="h2 reveal">Kako radimo</h2>
       <div class="grid4">
-        <div class="card reveal">
-          <div class="top">
-            <h3>1. Discovery</h3>
-            <span class="tag">cilj</span>
-          </div>
-          <p>Razumijemo cilj, budžet, rok i realna ograničenja.</p>
-        </div>
-        <div class="card reveal">
-          <div class="top">
-            <h3>2. Plan</h3>
-            <span class="tag">scope</span>
-          </div>
-          <p>Biramo proizvod, scope i timeline. Bez improvizacije.</p>
-        </div>
-        <div class="card reveal">
-          <div class="top">
-            <h3>3. Izvođenje</h3>
-            <span class="tag">delivery</span>
-          </div>
-          <p>Produkcija / kampanje / teren. Sve mjerljivo i kontrolisano.</p>
-        </div>
-        <div class="card reveal">
-          <div class="top">
-            <h3>4. Optimizacija</h3>
-            <span class="tag">result</span>
-          </div>
-          <p>Analiza, učenje i korekcija. Svaki ciklus jača sistem.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PORTFOLIO -->
-    <section id="work" class="section">
-      <div class="headRow">
-        <div>
-          <h2 class="h2 reveal">Portfolio (case format)</h2>
-          <p class="desc reveal">Ovdje idu stvarni projekti. Za sada placeholderi u istom stilu mockupa.</p>
-        </div>
-        <div class="reveal">
-          <a class="btn" href="#contact">Hoću ovako za moj brend</a>
-        </div>
-      </div>
-
-      <div class="grid3">
-        <article class="card portfolioCard reveal">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="meta">
-            <div class="top">
-              <h3>Launch kampanja + aktivacija</h3>
-              <span class="tag">Campaign + Field</span>
-            </div>
-            <p>Problem → Rješenje → Ishod. Fokus na dolazak ljudi i konverziju.</p>
-            <div class="k">
-              <span>Meta Ads</span><span>Content Sprint</span><span>Activation</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="card portfolioCard reveal">
-          <div class="thumb" aria-hidden="true" style="opacity:.95"></div>
-          <div class="meta">
-            <div class="top">
-              <h3>Always-on performance</h3>
-              <span class="tag">Monthly</span>
-            </div>
-            <p>Mjesečni sistem testiranja kreative i optimizacije kampanja.</p>
-            <div class="k">
-              <span>Lead Gen</span><span>Remarketing</span><span>Reporting</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="card portfolioCard reveal">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="meta">
-            <div class="top">
-              <h3>Brend aktivacija na terenu</h3>
-              <span class="tag">Activation</span>
-            </div>
-            <p>Iskustvo na terenu + sadržaj koji se dalje distribuira kroz kampanje.</p>
-            <div class="k">
-              <span>Sampling</span><span>UGC</span><span>Post-content</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- INSIGHTS (BLOG-LIKE) -->
-    <section id="insights" class="section">
-      <div class="headRow">
-        <div>
-          <h2 class="h2 reveal">Insights</h2>
-          <p class="desc reveal">Kratki tekstovi koji pokazuju kako razmišljamo: kampanje, aktivacije, performans.</p>
-        </div>
-      </div>
-
-      <div class="grid3">
-        <article class="card reveal">
-          <div class="top">
-            <h3>Kako “dovesti ljude” bez bacanja budžeta</h3>
-            <span class="tag">Strategy</span>
-          </div>
-          <p>Šta je dobar cilj, kako se mjeri i zašto event bez kampanje često ostaje “prazan”.</p>
-        </article>
-
-        <article class="card reveal">
-          <div class="top">
-            <h3>Zašto content mora biti napravljen za ads</h3>
-            <span class="tag">Content</span>
-          </div>
-          <p>Formati, hook, struktura i testiranje — kako sadržaj postaje “gorivo” kampanje.</p>
-        </article>
-
-        <article class="card reveal">
-          <div class="top">
-            <h3>Activation Booster: digital → teren → digital</h3>
-            <span class="tag">Activation</span>
-          </div>
-          <p>Kako se aktivacija planira kao dio funnel-a, a ne kao izolovan događaj.</p>
-        </article>
+        <div class="card reveal"><h3>1. Discovery</h3><p>Cilj, budžet, rok.</p></div>
+        <div class="card reveal"><h3>2. Plan</h3><p>Biramo proizvod i scope.</p></div>
+        <div class="card reveal"><h3>3. Izvođenje</h3><p>Kampanje, sadržaj, teren.</p></div>
+        <div class="card reveal"><h3>4. Optimizacija</h3><p>Mjerimo i pojačavamo.</p></div>
       </div>
     </section>
 
     <!-- CTA -->
     <section id="contact" class="section">
-      <div class="ctaBand reveal">
-        <div class="left">
-          <h2 class="h2">Spremni za sistem koji dovodi ljude?</h2>
-          <p class="desc">Počni sa 30-min pozivom: cilj, budžet, rok. Ako nema cilja — ne krećemo.</p>
-        </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a class="btn primary" href="#"><span class="dot"></span> Zakaži poziv</a>
-          <a class="btn" href="#services">Pogledaj proizvode</a>
-        </div>
+      <h2 class="h2 reveal">Spremni za rezultat?</h2>
+      <p class="desc reveal">
+        Počinjemo sa 30-min pozivom. Ako nema cilja — ne krećemo.
+      </p>
+      <div class="heroActions reveal">
+        <a class="cta" href="#">Zakaži poziv</a>
       </div>
     </section>
-
-    <footer class="reveal">
-      <div>© <span id="y"></span> Sindikat. Performance & Activation Studio.</div>
-      <div>Podgorica • hello@sindikatevents.me • @sindikat_events</div>
-    </footer>
 
   </div>
 
   <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // initial top load (subtle)
-    anime({
-      targets: '.topbar',
-      opacity: [0, 1],
-      translateY: [-10, 0],
-      easing: 'easeOutExpo',
-      duration: 900
-    });
-
-    // Scroll reveal system (IntersectionObserver + anime.js)
-    const revealEls = [...document.querySelectorAll('.reveal')];
-
-    // set initial styles (in case JS runs after paint)
-    revealEls.forEach(el => {
-      el.style.opacity = 0;
-      el.style.transform = 'translateY(18px)';
-    });
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const el = entry.target;
-        io.unobserve(el);
-
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting) return;
         anime({
-          targets: el,
-          opacity: [0, 1],
-          translateY: [18, 0],
-          easing: 'easeOutExpo',
-          duration: 850
+          targets:e.target,
+          opacity:[0,1],
+          translateY:[18,0],
+          duration:800,
+          easing:'easeOutExpo'
         });
+        io.unobserve(e.target);
       });
-    }, { threshold: 0.12 });
-
-    revealEls.forEach(el => io.observe(el));
-
-    // Counters: animate only when hero card is visible
-    const counters = [...document.querySelectorAll('.counter')];
-    let countersPlayed = false;
-
-    const counterIO = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting || countersPlayed) return;
-        countersPlayed = true;
-
-        counters.forEach((counter, idx) => {
-          anime({
-            targets: counter,
-            innerHTML: [0, counter.dataset.value],
-            round: 1,
-            easing: 'easeOutExpo',
-            duration: 1800,
-            delay: 150 * idx
-          });
-        });
-
-        counterIO.disconnect();
-      });
-    }, { threshold: 0.35 });
-
-    const heroCard = document.querySelector('.heroCard');
-    if (heroCard) counterIO.observe(heroCard);
+    },{threshold:.15});
+    els.forEach(el=>io.observe(el));
   </script>
 </body>
 </html>
