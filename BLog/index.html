@@ -1,484 +1,709 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-
-        <link rel="icon" type="image/png" href="/favicon.png">
-
-  <!-- META -->
   <meta charset="UTF-8" />
+  <title>Sindikat — Performance & Activation Studio</title>
+  <meta name="description" content="Kampanje i aktivacije koje dovode ljude." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sindikat – Popularni događaji & Blog</title>
-  <meta name="description" content="Najtraženiji tipovi događaja i korisni savjeti iz bloga – na jednom mjestu. Filtriraj događaje, čitaj vodiče i zatraži ponudu.">
 
-  <!-- FONTOVI + TAILWIND -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { montserrat:['Montserrat','sans-serif'], inter:['Inter','sans-serif'] },
-          colors: { gold:'#FFD700', 'electric-blue':'#00BFFF' }
-        }
-      }
-    } 
-  </script>
+  <!-- Anime.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 
-  <!-- GLOBAL STYLE -->
   <style>
-    :root { --nav-h: 0px; }
-    html { scroll-behavior: smooth; }
-    html, body { overflow-x: clip; }
-    body { padding-top: var(--nav-h); background:#000; color:#fff; font-family: 'Inter', sans-serif; }
-
-    .gradient-gold{ background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-    .gradient-blue{ background:linear-gradient(135deg,#00BFFF 0%,#0080FF 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-    .btn-animate{ position:relative; overflow:hidden; transition:transform .25s ease; }
-    .btn-animate::before{content:'';position:absolute;inset:0;left:-120%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .6s ease;}
-    .btn-animate:hover::before{left:120%;}
-    .btn-animate:hover{ transform:translateY(-2px);} 
-    .tag { border:1px solid rgba(255,255,255,.14); }
-    .card { background: linear-gradient(135deg, rgba(0,0,0,.85), rgba(30,30,30,.95)); border:1px solid rgba(255,215,0,.18); }
-
-    /* Partners scroller */
-    .partners-scroller{
-      display:flex; gap:10px; overflow-x:auto; overflow-y:hidden;
-      -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory; scroll-padding-left:12px;
-    }
-    .partners-scroller > .partner-card{ scroll-snap-align:start; }
-    .hide-scrollbar::-webkit-scrollbar{ display:none; }
-    .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
-    .partner-card{ padding:6px 12px !important; border-radius:8px !important; }
-    .partner-card .logo{ width:24px !important; height:24px !important; }
-    .partner-card .kicker{ font-size:10px !important; line-height:1.15; }
-    .partner-card .brand{ font-size:.95rem !important; line-height:1.15; }
-    @media (min-width:768px){
-      .partners-scroller{ justify-content:center; overflow-x:visible; scroll-snap-type:none; gap:12px; }
-      .partner-card{ padding:12px 24px !important; border-radius:12px !important; }
-      .partner-card .logo{ width:48px !important; height:48px !important; }
-      .partner-card .kicker{ font-size:12px !important; line-height:1.2; }
-      .partner-card .brand{ font-size:1rem !important; line-height:1.2; }
+    :root{
+      --bg:#0B0B0D;
+      --bg2:#141418;
+      --border:#2A2A31;
+      --text:#FFFFFF;
+      --muted:#A3A3A3;
+      --muted2:#7A7A7A;
+      --accent:#F36A2E;
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+      --r:16px;
+      --r2:22px;
+      --max:1120px;
     }
 
-    /* Modal helper */
-    .modal-wrap{ position:fixed; inset:0; display:none; }
-    .modal-wrap.active{ display:block; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing:.2px;
+    }
+
+    /* subtle grain */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+      opacity:.05;
+      mix-blend-mode:overlay;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 22px 90px;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+      padding:10px 0 26px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      font-weight:650;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      font-size:13px;
+    }
+    .mark{
+      width:30px; height:30px; border-radius:10px;
+      background:linear-gradient(135deg, rgba(243,106,46,.9), rgba(243,106,46,.15));
+      border:1px solid rgba(243,106,46,.35);
+      box-shadow:0 12px 30px rgba(243,106,46,.12);
+    }
+    nav{
+      display:flex; gap:18px; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:13px;
+    }
+    nav a{padding:8px 10px; border-radius:12px}
+    nav a:hover{background:rgba(255,255,255,.04); color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:13px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.02);
+      color:var(--text);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow); border-color:rgba(243,106,46,.25)}
+    .btn.primary{
+      background:rgba(243,106,46,.08);
+      border-color:rgba(243,106,46,.35);
+      color:var(--text);
+    }
+    .dot{
+      width:7px; height:7px; border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 4px rgba(243,106,46,.14);
+    }
+
+    /* HERO */
+    .hero{
+      padding:56px 0 36px;
+      border-top:1px solid rgba(255,255,255,.04);
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:26px;
+      align-items:stretch;
+    }
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.1px;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0;
+      font-size:52px;
+      line-height:1.06;
+      letter-spacing:-.7px;
+    }
+    .sub{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.6;
+      max-width:56ch;
+    }
+    .heroActions{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px}
+    .miniRow{
+      margin-top:26px;
+      display:flex; gap:16px; flex-wrap:wrap;
+      color:var(--muted2);
+      font-size:12px;
+    }
+    .miniRow span{
+      padding:8px 10px; border:1px solid rgba(255,255,255,.06);
+      border-radius:999px;
+      background:rgba(255,255,255,.02);
+    }
+
+    .heroCard{
+      border:1px solid var(--border);
+      border-radius:var(--r2);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      box-shadow:0 18px 70px rgba(0,0,0,.55);
+      padding:22px;
+      display:flex; flex-direction:column; justify-content:space-between;
+      min-height:100%;
+    }
+    .heroCard .label{
+      display:flex; align-items:center; justify-content:space-between;
+      font-size:12px; color:var(--muted);
+      text-transform:uppercase; letter-spacing:1px;
+      margin-bottom:12px;
+    }
+    .statGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:10px;
+    }
+    .stat{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      padding:14px 14px 12px;
+      background:rgba(11,11,13,.35);
+    }
+    .stat .num{
+      font-size:26px;
+      font-weight:700;
+      letter-spacing:-.4px;
+    }
+    .stat .cap{
+      margin-top:6px;
+      color:var(--muted2);
+      font-size:12px;
+    }
+    .progressRail{
+      height:8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      overflow:hidden;
+      margin-top:16px;
+    }
+    .progressFill{
+      height:100%;
+      width:62%;
+      background:linear-gradient(90deg, rgba(243,106,46,.95), rgba(243,106,46,.25));
+      border-radius:999px;
+    }
+    .heroCard .foot{
+      margin-top:16px;
+      display:flex; justify-content:space-between; align-items:center;
+      color:var(--muted2);
+      font-size:12px;
+    }
+
+    /* SECTIONS */
+    .section{
+      padding:56px 0;
+      border-top:1px solid rgba(255,255,255,.04);
+    }
+    .headRow{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:18px; flex-wrap:wrap;
+      margin-bottom:22px;
+    }
+    .h2{
+      font-size:22px;
+      letter-spacing:-.2px;
+      margin:0;
+    }
+    .desc{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+      max-width:60ch;
+    }
+
+    .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+    .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+    .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,.02);
+      padding:18px;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .card:hover{transform:translateY(-2px); border-color:rgba(243,106,46,.22); box-shadow:var(--shadow)}
+    .card .top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .tag{
+      font-size:11px; color:rgba(243,106,46,.95);
+      border:1px solid rgba(243,106,46,.25);
+      padding:6px 10px; border-radius:999px;
+      background:rgba(243,106,46,.06);
+      white-space:nowrap;
+    }
+    .card h3{margin:0; font-size:16px; letter-spacing:-.2px}
+    .card p{margin-top:10px; color:var(--muted); font-size:13px; line-height:1.55}
+    .bullets{margin-top:14px; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.55}
+    .bullets li{margin:6px 0}
+
+    /* Portfolio */
+    .portfolioCard{
+      padding:0;
+      overflow:hidden;
+    }
+    .thumb{
+      height:160px;
+      background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+      border-bottom:1px solid rgba(255,255,255,.06);
+      position:relative;
+    }
+    .thumb:after{
+      content:"";
+      position:absolute; inset:0;
+      background:radial-gradient(400px 220px at 20% 20%, rgba(243,106,46,.12), transparent 60%);
+      opacity:.9;
+    }
+    .meta{
+      padding:16px 18px 18px;
+    }
+    .meta .k{
+      color:var(--muted2);
+      font-size:12px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .meta .k span{
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+
+    /* CTA band */
+    .ctaBand{
+      border:1px solid rgba(243,106,46,.22);
+      background:linear-gradient(180deg, rgba(243,106,46,.08), rgba(255,255,255,.02));
+      border-radius:26px;
+      padding:22px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .ctaBand .left{
+      max-width:64ch;
+    }
+    .ctaBand .left .h2{font-size:20px}
+    .ctaBand .left .desc{margin-top:8px}
+
+    /* Footer */
+    footer{
+      border-top:1px solid rgba(255,255,255,.04);
+      padding:28px 0 8px;
+      color:var(--muted2);
+      font-size:12px;
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    }
+
+    /* Reveal base */
+    .reveal{
+      opacity:0;
+      transform:translateY(18px);
+      will-change: transform, opacity;
+    }
+
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns:1fr}
+      h1{font-size:42px}
+      .grid4{grid-template-columns:repeat(2,1fr)}
+      .grid3{grid-template-columns:1fr}
+      .grid2{grid-template-columns:1fr}
+    }
+    @media (max-width: 520px){
+      .grid4{grid-template-columns:1fr}
+      .wrap{padding:18px 16px 72px}
+      h1{font-size:36px}
+    }
   </style>
-
-  <!-- Dinamička visina NAV-a -->
-  <script>
-    (function() {
-      function setNavHeight(){
-        var nav = document.querySelector('nav');
-        if(!nav) return;
-        var h = nav.offsetHeight||0;
-        document.documentElement.style.setProperty('--nav-h', (h)+'px');
-      }
-      window.addEventListener('load', setNavHeight);
-      window.addEventListener('resize', setNavHeight);
-    })();
-  </script>
 </head>
 
 <body>
-  <!-- NAV -->
-  <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-      <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold font-montserrat">SINDIKAT</a>
-      <div class="hidden md:flex items-center gap-6 text-sm">
-        <a href="https://sindikatevents.me/"         class="hover:text-gold transition-colors font-medium">Početna</a>
-        <a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium">Poslovi</a>
-        <a href="https://sindikatevents.me/blog/"    class="hover:text-gold transition-colors font-medium">Blog</a>
-        <a href="https://sindikatevents.me/galerija/"class="hover:text-gold transition-colors font-medium">Galerija</a>
-        <a href="https://sindikatevents.me/onama/"   class="hover:text-gold transition-colors font-medium">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/" class="inline-flex items-center justify-center px-4 py-3 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-      </div>
-      <button id="navBtn" class="md:hidden text-2xl p-2 rounded-lg border border-neutral-800">☰</button>
-    </div>
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-800 bg-black">
-      <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-3 text-base">
-        <a href="https://sindikatevents.me/"         class="block w-full px-4 py-3 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-        <a href="https://sindikatevents.me/poslovi/" class="block w-full px-4 py-3 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-        <a href="https://sindikatevents.me/blog/"    class="block w-full px-4 py-3 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-        <a href="https://sindikatevents.me/galerija/"class="block w-full px-4 py-3 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-        <a href="https://sindikatevents.me/onama/"   class="block w-full px-4 py-3 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-        <a href="https://sindikatevents.me/kontakt/" class="block w-full px-4 py-3 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-      </div>
-    </div>
-  </nav>
+  <div class="wrap">
 
-  <!-- PARTNERI / BANERI (ispod NAV-a) -->
-   <section class="bg-gradient-to-r from-gray-900 via-black to-gray-900 py-3 px-4 md:px-6 border-b border-gray-800">
-    <div id="partnersRow"
-         class="max-w-7xl mx-auto partners-scroller hide-scrollbar -mx-3 px-3"
-         role="list" aria-label="Naši partneri">
-      
-      <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-red-500/30 flex items-center gap-3"
-           role="listitem" tabindex="0" aria-label="Jägermeister, Drink partner">
-        <img src="https://brandlogos.net/wp-content/uploads/2022/09/jagermeister-logo_brandlogos.net_pu6cx-512x512.png"
-             alt="Jägermeister logo" class="logo object-contain">
-        <div class="text-left">
-          <div class="kicker text-red-500 text-xs font-semibold">DRINK PARTNER</div>
-          <div class="brand font-bold">Jägermeister</div>
-        </div>
+    <!-- TOP BAR -->
+    <div class="topbar reveal">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>SINDIKAT</div>
       </div>
-      
-      <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-400/30 flex items-center gap-3"
-           role="listitem" tabindex="0" aria-label="Nikšićko Pivo, Beer partner">
-        <img src="https://cdn.freebiesupply.com/logos/large/2x/niksicko-pivo-logo-png-transparent.png"
-             alt="Nikšićko Pivo logo" class="logo object-contain">
-        <div class="text-left">
-          <div class="kicker text-yellow-400 text-xs font-semibold">BEER PARTNER</div>
-          <div class="brand font-bold">Nikšićko Pivo</div>
-        </div>
-      </div>
-      
-      <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-blue-400/30 flex items-center gap-3"
-           role="listitem" tabindex="0" aria-label="Ploom, Premium partner">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Ploom_logo.svg"
-             alt="Ploom logo" class="logo object-contain bg-white rounded">
-        <div class="text-left">
-          <div class="kicker text-blue-400 text-xs font-semibold">PREMIUM PARTNER</div>
-          <div class="brand font-bold">Ploom</div>
-        </div>
-      </div>
-     
-      <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-yellow-700/30 flex items-center gap-3"
-           role="listitem" tabindex="0" aria-label="Jack Daniel's, Whiskey partner">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBC47xKaD9UIlcYYCZLLyhI7YiIfeLleB_fg&s"
-             alt="Jack Daniel's logo" class="logo object-contain bg-white rounded">
-        <div class="text-left">
-          <div class="kicker text-yellow-700 text-xs font-semibold">WHISKEY PARTNER</div>
-          <div class="brand font-bold">Jack Daniel's</div>
-        </div>
-      </div>
-      
-      <div class="partner-card min-w-[220px] bg-black/50 px-6 py-3 rounded-lg border border-pink-400/30 flex items-center gap-3"
-           role="listitem" tabindex="0" aria-label="Monkey Shoulder, Partner">
-        <img src="https://evessio.s3.amazonaws.com/customer/38fdd951-ed5d-49f2-82f3-ed13e29bcfce/event/94c15195-a9ef-4019-abd1-7ed898236d6c/media/2fa1eb0e-profile_MONKEY_SHOULDER_LOGO_PRIMARY_BLACK_Large.png"
-             alt="Monkey Shoulder logo" class="logo object-contain bg-white rounded">
-        <div class="text-left">
-          <div class="kicker text-pink-400 text-xs font-semibold">PARTNER</div>
-          <div class="brand font-bold">Monkey Shoulder</div>
-        </div>
-      </div>
-    </div>
-  </section> 
 
-  <!-- HERO -->
-  <header class="bg-[radial-gradient(ellipse_at_top,rgba(255,215,0,.08),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(0,191,255,.08),transparent_60%)]">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16">
-      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <nav aria-label="Primary">
+        <a href="#services">Usluge</a>
+        <a href="#work">Portfolio</a>
+        <a href="#insights">Insights</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+
+      <a class="btn primary" href="#contact"><span class="dot"></span> Zatraži konsultacije</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="heroGrid">
         <div>
-          <h1 class="text-3xl md:text-5xl font-bold font-montserrat leading-tight">Popularni <span class="gradient-gold">događaji</span> + <span class="gradient-blue">Blog</span></h1>
-          <p class="mt-4 text-neutral-300 text-base md:text-lg">Sve što ljudi najviše traže – i svi savjeti kako to uradimo bez stresa. Filtriraj po tipu, prelistaj ideje i pošalji upit za ponudu.</p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <button data-filter="all" class="tag px-4 py-2 rounded-full text-sm hover:border-gold border-gold">Sve</button>
-            <button data-filter="korporativni" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Korporativni</button>
-            <button data-filter="vjenčanja" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Vjenčanja</button>
-            <button data-filter="privatne" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Privatne proslave</button>
-            <button data-filter="festival" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Festivali</button>
-            <button data-filter="team" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Team building</button>
-            <button data-filter="edukativni" class="tag px-4 py-2 rounded-full text-sm hover:border-gold">Edukativni</button>
+          <div class="kicker reveal"><span class="dot"></span> Performance & Activation Studio</div>
+
+          <h1 class="hero-title reveal">
+            Kampanje i aktivacije koje dovode ljude.
+          </h1>
+
+          <p class="sub reveal">
+            Spajamo performance marketing, sadržaj i terenske aktivacije u jedan sistem.
+            Event nije kraj — event je pojačivač kampanje, pažnje i konverzije.
+          </p>
+
+          <div class="heroActions reveal">
+            <a class="btn primary" href="#contact"><span class="dot"></span> Zakaži 30 min poziv</a>
+            <a class="btn" href="#services">Pogledaj proizvode</a>
+            <a class="btn" href="#work">Pogledaj case</a>
+          </div>
+
+          <div class="miniRow reveal">
+            <span>Bez cilja → nema ponude</span>
+            <span>Scope je zaključan</span>
+            <span>Rezultat > estetika</span>
           </div>
         </div>
-        <div class="hidden md:block">
-          <div class="rounded-3xl p-1 bg-gradient-to-br from-gold/20 to-electric-blue/20">
-            <div class="rounded-3xl bg-black/70 border border-gray-800 p-6">
-              <div class="grid grid-cols-3 gap-3">
-                <div class="aspect-[4/3] rounded-2xl bg-[url('assets/images/barmeni.png')] bg-center bg-cover"></div>
-                <div class="aspect-[4/3] rounded-2xl bg-[url('assets/images/dj.jpg')] bg-center bg-cover"></div>
-                <div class="aspect-[4/3] rounded-2xl bg-[url('assets/images/wedding.jpg')] bg-center bg-cover"></div>
-                <div class="aspect-[4/3] rounded-2xl bg-[url('assets/images/corporate.jpg')] bg-center bg-cover"></div>
-                <div class="aspect-[4/3] rounded-2xl bg-[url('assets/images/festival.jpg')] bg-center bg-cover"></div>
-                <div class="aspect-[4/3] rounded-2xl bg-[url('assets/images/team.jpg')] bg-center bg-cover"></div>
+
+        <aside class="heroCard reveal" aria-label="Studio snapshot">
+          <div>
+            <div class="label">
+              <span>Studio snapshot</span>
+              <span style="color:rgba(243,106,46,.9)">Live</span>
+            </div>
+
+            <div class="statGrid">
+              <div class="stat">
+                <div class="num"><span class="counter" data-value="150">0</span>+</div>
+                <div class="cap">kampanja / aktivacija</div>
+              </div>
+              <div class="stat">
+                <div class="num"><span class="counter" data-value="48">0</span>h</div>
+                <div class="cap">tipičan turnaround</div>
+              </div>
+              <div class="stat">
+                <div class="num"><span class="counter" data-value="4">0</span></div>
+                <div class="cap">core proizvoda</div>
+              </div>
+              <div class="stat">
+                <div class="num"><span class="counter" data-value="1">0</span></div>
+                <div class="cap">owner po projektu</div>
               </div>
             </div>
+
+            <div class="progressRail" aria-hidden="true">
+              <div class="progressFill"></div>
+            </div>
           </div>
+
+          <div class="foot">
+            <span>Podgorica • CG</span>
+            <span style="color:rgba(255,255,255,.85)">Campaigns • Content • Activations</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SERVICES / PRODUCTS -->
+    <section id="services" class="section">
+      <div class="headRow">
+        <div>
+          <h2 class="h2 reveal">Proizvodi (paketirani ishodi)</h2>
+          <p class="desc reveal">
+            Ne prodajemo “pojedinačne usluge”. Prodajemo jasne ishode sa scope-om, trajanjem i pravilima.
+          </p>
+        </div>
+        <div class="reveal">
+          <a class="btn" href="#contact">Traži ponudu</a>
         </div>
       </div>
-    </div>
-  </header>
 
-  <!-- GRID: Događaji + Blog -->
-  <main id="dogadjaji" class="max-w-7xl mx-auto px-4 md:px-6 py-12">
-    <div class="grid lg:grid-cols-3 gap-8">
-      <!-- Događaji -->
-      <section class="lg:col-span-2">
-        <h2 class="text-2xl md:text-3xl font-bold font-montserrat mb-6">Popularni <span class="gradient-gold">događaji</span></h2>
-        <div id="eventsGrid" class="grid sm:grid-cols-2 gap-6"></div>
-        <div class="mt-8 flex items-center justify-between">
-          <button id="prevPage" class="px-4 py-2 rounded-full border border-gray-700 hover:border-gold disabled:opacity-40">← Prethodna</button>
-          <div id="pageInfo" class="text-sm text-gray-400"></div>
-          <button id="nextPage" class="px-4 py-2 rounded-full border border-gray-700 hover:border-gold disabled:opacity-40">Sledeća →</button>
-        </div>
-      </section>
-
-      <!-- Blog -->
-      <aside id="blog" class="lg:col-span-1">
-        <h2 class="text-2xl md:text-3xl font-bold font-montserrat mb-6">Najnovije sa <span class="gradient-blue">bloga</span></h2>
-        <div id="blogList" class="space-y-6"></div>
-        <div class="mt-8 p-6 rounded-2xl border border-gray-800 bg-black/60">
-          <h3 class="font-montserrat font-bold text-lg">Trebaš pomoć oko ideje?</h3>
-          <p class="text-gray-300 text-sm mt-1">Pošalji nam kratko šta planiraš i dobićeš predlog formata + okvirni budžet.</p>
-          <a href="https://sindikatevents.me/kontakt/" class="inline-flex items-center gap-2 mt-4 bg-gold text-black px-5 py-3 rounded-full font-semibold hover:bg-yellow-500 btn-animate">Zatraži ponudu →</a>
-        </div>
-      </aside>
-    </div>
-  </main>
-
-  <!-- MODAL za blog -->
-  <div id="modal" class="modal-wrap bg-black/80 backdrop-blur-sm">
-    <div class="absolute inset-0" id="modalBg"></div>
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-2xl">
-      <div class="rounded-2xl bg-black border border-gray-800 p-6">
-        <div class="flex items-center justify-between">
-          <h3 id="modalTitle" class="text-xl font-bold font-montserrat"></h3>
-          <button id="modalClose" class="text-2xl leading-none">×</button>
-        </div>
-        <div id="modalBody" class="prose prose-invert max-w-none mt-4"></div>
-        <div class="mt-6 flex items-center justify-between gap-3 flex-wrap">
-          <div class="flex items-center gap-2 text-sm text-gray-400" id="modalTags"></div>
-          <div class="flex items-center gap-2">
-            <a id="shareCopy" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm cursor-pointer">Kopiraj link</a>
-            <a id="shareWA" target="_blank" class="px-3 py-2 rounded-lg border border-gray-700 hover:border-gold text-sm">WhatsApp</a>
+      <div class="grid2">
+        <article class="card reveal">
+          <div class="top">
+            <h3>Strategy Day</h3>
+            <span class="tag">1 dan</span>
           </div>
+          <p>Definišemo cilj, publiku, ponudu, budžet i plan. Izlaz: dokument koji vodi realizaciju.</p>
+          <ul class="bullets">
+            <li>Jasan cilj + KPI</li>
+            <li>Plan kanala (digital + teren)</li>
+            <li>Roadmap 30 dana</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="top">
+            <h3>Monthly Performance</h3>
+            <span class="tag">30 dana</span>
+          </div>
+          <p>Vođenje i optimizacija kampanja. Fokus: rezultati (leadovi, posjete, prodaja).</p>
+          <ul class="bullets">
+            <li>Meta/Google kampanje</li>
+            <li>Testiranje kreative</li>
+            <li>1-page report + next steps</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="top">
+            <h3>Content Sprint</h3>
+            <span class="tag">7–10 dana</span>
+          </div>
+          <p>Produkcija sadržaja koji služi kampanji. Brzo, kontrolisano, spremno za ads.</p>
+          <ul class="bullets">
+            <li>Shot list + snimajući dan</li>
+            <li>Reels / ads cutovi</li>
+            <li>Pakovanje asseta</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="top">
+            <h3>Activation / Event Booster</h3>
+            <span class="tag">projekat</span>
+          </div>
+          <p>Aktivacija ili događaj kao pojačanje kampanje: iskustvo + sadržaj + distribucija.</p>
+          <ul class="bullets">
+            <li>Koncept + teren</li>
+            <li>Promo podrška (ads)</li>
+            <li>Post-content + recap</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW WE WORK -->
+    <section class="section">
+      <div class="headRow">
+        <div>
+          <h2 class="h2 reveal">Kako radimo</h2>
+          <p class="desc reveal">Jednostavan proces. Jedna odgovorna osoba. Jasne granice.</p>
         </div>
       </div>
-    </div>
+
+      <div class="grid4">
+        <div class="card reveal">
+          <div class="top">
+            <h3>1. Discovery</h3>
+            <span class="tag">cilj</span>
+          </div>
+          <p>Razumijemo cilj, budžet, rok i realna ograničenja.</p>
+        </div>
+        <div class="card reveal">
+          <div class="top">
+            <h3>2. Plan</h3>
+            <span class="tag">scope</span>
+          </div>
+          <p>Biramo proizvod, scope i timeline. Bez improvizacije.</p>
+        </div>
+        <div class="card reveal">
+          <div class="top">
+            <h3>3. Izvođenje</h3>
+            <span class="tag">delivery</span>
+          </div>
+          <p>Produkcija / kampanje / teren. Sve mjerljivo i kontrolisano.</p>
+        </div>
+        <div class="card reveal">
+          <div class="top">
+            <h3>4. Optimizacija</h3>
+            <span class="tag">result</span>
+          </div>
+          <p>Analiza, učenje i korekcija. Svaki ciklus jača sistem.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="work" class="section">
+      <div class="headRow">
+        <div>
+          <h2 class="h2 reveal">Portfolio (case format)</h2>
+          <p class="desc reveal">Ovdje idu stvarni projekti. Za sada placeholderi u istom stilu mockupa.</p>
+        </div>
+        <div class="reveal">
+          <a class="btn" href="#contact">Hoću ovako za moj brend</a>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <article class="card portfolioCard reveal">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="meta">
+            <div class="top">
+              <h3>Launch kampanja + aktivacija</h3>
+              <span class="tag">Campaign + Field</span>
+            </div>
+            <p>Problem → Rješenje → Ishod. Fokus na dolazak ljudi i konverziju.</p>
+            <div class="k">
+              <span>Meta Ads</span><span>Content Sprint</span><span>Activation</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card portfolioCard reveal">
+          <div class="thumb" aria-hidden="true" style="opacity:.95"></div>
+          <div class="meta">
+            <div class="top">
+              <h3>Always-on performance</h3>
+              <span class="tag">Monthly</span>
+            </div>
+            <p>Mjesečni sistem testiranja kreative i optimizacije kampanja.</p>
+            <div class="k">
+              <span>Lead Gen</span><span>Remarketing</span><span>Reporting</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card portfolioCard reveal">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="meta">
+            <div class="top">
+              <h3>Brend aktivacija na terenu</h3>
+              <span class="tag">Activation</span>
+            </div>
+            <p>Iskustvo na terenu + sadržaj koji se dalje distribuira kroz kampanje.</p>
+            <div class="k">
+              <span>Sampling</span><span>UGC</span><span>Post-content</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- INSIGHTS (BLOG-LIKE) -->
+    <section id="insights" class="section">
+      <div class="headRow">
+        <div>
+          <h2 class="h2 reveal">Insights</h2>
+          <p class="desc reveal">Kratki tekstovi koji pokazuju kako razmišljamo: kampanje, aktivacije, performans.</p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <article class="card reveal">
+          <div class="top">
+            <h3>Kako “dovesti ljude” bez bacanja budžeta</h3>
+            <span class="tag">Strategy</span>
+          </div>
+          <p>Šta je dobar cilj, kako se mjeri i zašto event bez kampanje često ostaje “prazan”.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="top">
+            <h3>Zašto content mora biti napravljen za ads</h3>
+            <span class="tag">Content</span>
+          </div>
+          <p>Formati, hook, struktura i testiranje — kako sadržaj postaje “gorivo” kampanje.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="top">
+            <h3>Activation Booster: digital → teren → digital</h3>
+            <span class="tag">Activation</span>
+          </div>
+          <p>Kako se aktivacija planira kao dio funnel-a, a ne kao izolovan događaj.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="section">
+      <div class="ctaBand reveal">
+        <div class="left">
+          <h2 class="h2">Spremni za sistem koji dovodi ljude?</h2>
+          <p class="desc">Počni sa 30-min pozivom: cilj, budžet, rok. Ako nema cilja — ne krećemo.</p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="btn primary" href="#"><span class="dot"></span> Zakaži poziv</a>
+          <a class="btn" href="#services">Pogledaj proizvode</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <div>© <span id="y"></span> Sindikat. Performance & Activation Studio.</div>
+      <div>Podgorica • hello@sindikatevents.me • @sindikat_events</div>
+    </footer>
+
   </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-gray-900 py-16 px-6">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid md:grid-cols-2 gap-12">
-        <div>
-          <h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
-          <div class="space-y-6">
-            <a href="https://wa.me/38267123456" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
-              <div class="text-2xl">📱</div>
-              <div>
-                <h5 class="font-semibold">WhatsApp</h5>
-                <p class="text-sm">+382 67 506 440</p>
-                <p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
-              </div>
-            </a>
-            <a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
-              <div class="text-2xl">📸</div>
-              <div>
-                <h5 class="font-semibold">Instagram</h5>
-                <p class="text-sm">@sindikat_events</p>
-                <p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
-              </div>
-            </a>
-            <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-              <div class="text-2xl">📞</div>
-              <div>
-                <h5 class="font-semibold">Telefon</h5>
-                <p class="text-sm">+382 67 506 440</p>
-                <p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-              <div class="text-2xl">📍</div>
-              <div>
-                <h5 class="font-semibold">Lokacija</h5>
-                <p class="text-sm">Podgorica, Crna Gora</p>
-                <p class="text-xs text-gray-400">Služimo cijelu Crnu Goru</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col justify-center">
-          <h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte nas</h4>
-          <a href="https://sindikatevents.me/kontakt/"
-             class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
-            Idi na Kontakt Stranicu
-          </a>
-        </div>
-      </div>
-      <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400">&copy; <span id="yearSpan">2024</span> Sindikat. Sva prava zadržana.</p>
-        <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
-      </div>
-    </div>
-  </footer>
-
   <script>
-    // Mobile menu toggle
-    document.getElementById('navBtn')?.addEventListener('click',()=>{
-      const mm=document.getElementById('mobileMenu');
-      if(mm) mm.classList.toggle('hidden');
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // initial top load (subtle)
+    anime({
+      targets: '.topbar',
+      opacity: [0, 1],
+      translateY: [-10, 0],
+      easing: 'easeOutExpo',
+      duration: 900
     });
 
-    // Footer godina (sigurno)
-    (function(){
-      var ys = document.getElementById('yearSpan');
-      if (ys) ys.textContent = new Date().getFullYear();
-    })();
+    // Scroll reveal system (IntersectionObserver + anime.js)
+    const revealEls = [...document.querySelectorAll('.reveal')];
 
-    // Partneri: na mobilnom start od početka
-    (function(){
-      var row = document.getElementById('partnersRow');
-      if(!row) return;
-      function toStart(){ row.scrollLeft = 0; }
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', toStart, { once:true });
-      } else { toStart(); }
-    })();
+    // set initial styles (in case JS runs after paint)
+    revealEls.forEach(el => {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(18px)';
+    });
 
-    // Demo podaci
- const EVENTS = [
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
 
-  {
-    id:'e2',
-    title:'Team building na plaži',
-    cat:'team',
-    icon:'🏖️',
-    bullets:['Igre na pijesku','DJ & hostese','BBQ & kokteli'],
-    img:'https://dnwp63qf32y8i.cloudfront.net/cd4f3873008947416905646f4af40cdf8d7525b8'
-  },
-  {
-    id:'e4',
-    title:'Festival craft koktela',
-    cat:'festival',
-    icon:'🍹',
-    bullets:['Barski setup x3','Signature kokteli','Sponzorska aktivacija'],
-    img:'https://media.timeout.com/images/106174693/image.jpg'
-  },
+        const el = entry.target;
+        io.unobserve(el);
 
-  {
-    id:'e6',
-    title:'STEM / edukativni događaj',
-    cat:'edukativni',
-    icon:'🤖',
-    bullets:['Radionice','Stage & panel','Streaming'],
-    img:'https://i.ytimg.com/vi/hN8HkOCoEmo/maxresdefault.jpg'
-  },
-];
-
-
-    const BLOGS = [
-  { id:'b1', title:'Vodič: kako složiti budžet za event', tags:['budžet','korporativni'],
-    img:'https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=1200&auto=format&fit=crop',
-    excerpt:'Pametna raspodjela troškova bez iznenađenja.',
-    body:`<p>Prvo odredi ciljeve – šta je <em>must have</em>, a šta <em>nice to have</em>. Tipična raspodjela: 40% F&amp;B, 20% lokacija/dekor, 15% muzika/entertainment, 10% tehnička produkcija, 10% vizuali i promo, 5% nepredviđeno.</p><ul><li>Zaključaj velike stavke (lokacija, oprema) ranije.</li><li>Koristi paketne ponude partnera.</li><li>Uvijek planiraj 5–10% rezerve.</li></ul>` },
-  { id:'b2', title:'Checklista za vjenčanje bez stresa', tags:['vjenčanja'],
-    img:'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop',
-    excerpt:'Od prve probe do zadnjeg plesa – korak po korak.',
-    body:`<ol><li>Definiši stil i okvirni budžet.</li><li>Rezerviši datum i lokaciju.</li><li>Odaberi bend/DJ i fotografa.</li><li>Planiraj ceremoniju i protokol.</li><li>Test menija i seating plan.</li></ol>` },
-  { id:'b3', title:'Kako izabrati pravu muziku', tags:['muzika','privatne','korporativni'],
-    img:'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop',
-    excerpt:'Publika, ton i dinamika – tri pravila za playlistu.',
-    body:`<p>Muzika kreira atmosferu. Kombinuj hitove i žanrove po fazama večeri. Dodaj <em>moment of wow</em> – specijalni nastup ili zajedničku pjesmu.</p>` },
-  { id:'b4', title:'Event na otvorenom: plan B za vrijeme', tags:['logistika','festival','team'],
-    img:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
-    excerpt:'Kiša, vjetar i sunce – kako se spremiti pametno.',
-    body:`<p>Ugovori šator ili indoor backup, provjeri snagu i zaštitu opreme, pripremi set signalizacije i navlake za namještaj.</p>` },
-];
-
-
-    // Render helpers
-    const grid = document.getElementById('eventsGrid');
-    const blogList = document.getElementById('blogList');
-    const pageInfo = document.getElementById('pageInfo');
-    const perPage = 4; let curPage = 1; let curFilter = 'all';
-
-    function renderEvents(){
-      const items = EVENTS.filter(e => curFilter==='all' ? true : e.cat===curFilter);
-      const total = items.length; const pages = Math.max(1, Math.ceil(total/perPage));
-      if(curPage>pages) curPage = pages;
-      const start = (curPage-1)*perPage;
-      const slice = items.slice(start, start+perPage);
-      grid.innerHTML = slice.map(e=>`
-        <article class="card rounded-2xl overflow-hidden border border-gray-800 hover:-translate-y-0.5 transition">
-          <div class="aspect-[16/10] bg-center bg-cover" style="background-image:url('${e.img}')"></div>
-          <div class="p-5">
-            <div class="text-3xl mb-2 text-center">${e.icon}</div>
-            <h3 class="text-xl font-bold font-montserrat text-center mb-2">${e.title}</h3>
-            <ul class="text-sm text-gray-300 space-y-1 mb-4">
-              ${e.bullets.map(b=>`<li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-gold"></span>${b}</li>`).join('')}
-            </ul>
-            <div class="flex items-center justify-between">
-              <span class="text-xs px-2 py-1 rounded-full border border-gray-700">${e.cat}</span>
-              <a href="https://sindikatevents.me/kontakt/" class="px-4 py-2 rounded-full bg-gold text-black font-semibold hover:bg-yellow-500 btn-animate">Zatraži ponudu</a>
-            </div>
-          </div>
-        </article>`).join('');
-      pageInfo.textContent = `Strana ${curPage} / ${pages}`;
-      document.getElementById('prevPage').disabled = curPage===1;
-      document.getElementById('nextPage').disabled = curPage===pages;
-    }
-
-   function renderBlogs(){
-  const FALLBACK = 'https://picsum.photos/1200/675';
-  blogList.innerHTML = BLOGS.map(b=>`
-    <article class="rounded-2xl overflow-hidden" style="background:linear-gradient(135deg, rgba(255,215,0,.10), rgba(0,191,255,.10)); border:1px solid rgba(255,255,255,.10); backdrop-filter:blur(10px);">
-      <!-- Slika (nije link) -->
-      <div class="w-full aspect-[16/9] bg-black/30">
-        <img src="${b.img || FALLBACK}" alt="${b.title}" loading="lazy" decoding="async" class="w-full h-full object-cover">
-      </div>
-      <div class="p-5">
-        <h3 class="font-montserrat font-bold text-lg">${b.title}</h3>
-        <p class="text-gray-300 text-sm mt-1">${b.excerpt}</p>
-        <div class="flex items-center justify-between mt-4">
-          <div class="flex gap-2 flex-wrap">
-            ${b.tags.map(t=>`<span class='text-xs px-2 py-1 rounded-full border border-gray-700'>#${t}</span>`).join('')}
-          </div>
-          <button data-read="${b.id}" class="text-gold hover:underline">Pročitaj više</button>
-        </div>
-      </div>
-    </article>`).join('');
-}
-
-
-    // Filter dugmad
-    document.querySelectorAll('button[data-filter]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        curFilter = btn.dataset.filter; curPage = 1; renderEvents();
-        document.querySelectorAll('button[data-filter]').forEach(b=>b.classList.remove('border-gold'));
-        btn.classList.add('border-gold');
+        anime({
+          targets: el,
+          opacity: [0, 1],
+          translateY: [18, 0],
+          easing: 'easeOutExpo',
+          duration: 850
+        });
       });
-    });
+    }, { threshold: 0.12 });
 
-    // Paginacija
-    document.getElementById('prevPage').addEventListener('click',()=>{ if(curPage>1){ curPage--; renderEvents(); }});
-    document.getElementById('nextPage').addEventListener('click',()=>{ curPage++; renderEvents(); });
+    revealEls.forEach(el => io.observe(el));
 
-    // Modal
-    const modal = document.getElementById('modal');
-    const mTitle = document.getElementById('modalTitle');
-    const mBody = document.getElementById('modalBody');
-    const mTags = document.getElementById('modalTags');
-    function openModal(b){
-      mTitle.textContent = b.title;
-      mBody.innerHTML = b.body;
-      mTags.innerHTML = b.tags.map(t=>`<span class='px-2 py-1 rounded-full border border-gray-700'>#${t}</span>`).join('');
-      const url = new URL(window.location);
-      url.hash = b.id; history.replaceState(null, '', url);
-      document.getElementById('shareCopy').onclick = () => { navigator.clipboard.writeText(url.toString()); };
-      document.getElementById('shareWA').href = `https://wa.me/?text=${encodeURIComponent(b.title+' '+url.toString())}`;
-      modal.classList.add('active');
-    }
-    function closeModal(){ modal.classList.remove('active'); }
-    document.addEventListener('click', (e)=>{
-      const btn = e.target.closest('button[data-read]');
-      if(btn){ const id = btn.dataset.read; const b = BLOGS.find(x=>x.id===id); if(b) openModal(b); }
-    });
-    document.getElementById('modalClose').addEventListener('click', closeModal);
-    document.getElementById('modalBg').addEventListener('click', closeModal);
+    // Counters: animate only when hero card is visible
+    const counters = [...document.querySelectorAll('.counter')];
+    let countersPlayed = false;
 
-    // Init
-    renderEvents();
-    renderBlogs();
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || countersPlayed) return;
+        countersPlayed = true;
 
-    // Direktan link na blog (#b1 itd.)
-    if(location.hash){
-      const id = location.hash.replace('#','');
-      const b = BLOGS.find(x=>x.id===id);
-      if(b) openModal(b);
-    }
+        counters.forEach((counter, idx) => {
+          anime({
+            targets: counter,
+            innerHTML: [0, counter.dataset.value],
+            round: 1,
+            easing: 'easeOutExpo',
+            duration: 1800,
+            delay: 150 * idx
+          });
+        });
+
+        counterIO.disconnect();
+      });
+    }, { threshold: 0.35 });
+
+    const heroCard = document.querySelector('.heroCard');
+    if (heroCard) counterIO.observe(heroCard);
   </script>
 </body>
 </html>
