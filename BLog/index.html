@@ -1335,16 +1335,26 @@
       });
     });
 
-    // Split hero title into words for stagger animation
-    const titleEl = document.getElementById('heroTitle');
-    const raw = titleEl.textContent.trim();
-    const words = raw.split(' ');
-    titleEl.textContent = '';
-    words.forEach((w,i)=>{
-      const span = document.createElement('span');
-      span.textContent = w + (i === words.length-1 ? '' : ' ');
-      titleEl.appendChild(span);
-    });
+   const titleEl = document.getElementById('heroTitle');
+const raw = titleEl.textContent.trim();
+
+// razbij po bilo kojem broju razmaka
+const words = raw.split(/\s+/);
+
+titleEl.textContent = '';
+
+words.forEach((w, i) => {
+  const span = document.createElement('span');
+  span.textContent = w;
+  span.style.display = 'inline-block';
+  titleEl.appendChild(span);
+
+  // razmak kao poseban node (najčistije i najpouzdanije)
+  if (i < words.length - 1) {
+    titleEl.appendChild(document.createTextNode(' '));
+  }
+});
+
 
     // Reveal observer (clean, stable)
     const revealEls = document.querySelectorAll('.reveal');
