@@ -93,31 +93,28 @@
         linear-gradient(180deg, rgba(0,0,0,.25), rgba(6,1,13,.92) 62%, rgba(6,1,13,.98));
     }
 
-/* Background video */
-.bgVideo{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:0;
-  filter: saturate(1.1) contrast(1.08) brightness(.55);
-}
+    /* Background video */
+    .bgVideo{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      z-index:0;
+      filter: saturate(1.1) contrast(1.08) brightness(.55);
+    }
 
-/* Dark overlay for readability */
-.bgVideoOverlay{
-  position:fixed;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
-  background:
-    radial-gradient(900px 540px at 20% 20%, rgba(255,59,111,.12), transparent 60%),
-    radial-gradient(900px 540px at 80% 10%, rgba(24,245,255,.10), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.25), rgba(6,1,13,.82) 62%, rgba(6,1,13,.92));
-}
-
-
-    
+    /* Dark overlay for readability */
+    .bgVideoOverlay{
+      position:fixed;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 540px at 20% 20%, rgba(255,59,111,.12), transparent 60%),
+        radial-gradient(900px 540px at 80% 10%, rgba(24,245,255,.10), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(6,1,13,.82) 62%, rgba(6,1,13,.92));
+    }
 
     /* Subtle animated blobs (non-transparent, just light) */
     .blob{
@@ -520,6 +517,15 @@
       display:grid;
       gap:14px;
     }
+
+    /* NEW: About boxes side-by-side on desktop */
+    .aboutGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      align-items:start;
+    }
+
     .drop{
       border:3px solid rgba(255,255,255,.14);
       border-radius:var(--r2);
@@ -546,6 +552,36 @@
     .drop[open]{
       border-color:rgba(255,59,111,.55);
       box-shadow: var(--shadow);
+    }
+
+    /* NEW: Product body split (text + image, half/half) */
+    .dropBodySplit{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .dropText p{margin:0}
+    .dropMedia{
+      border:3px solid rgba(255,255,255,.12);
+      border-radius: var(--r2);
+      overflow:hidden;
+      min-height: 240px;
+      background:
+        radial-gradient(520px 260px at 18% 20%, rgba(255,59,111,.22), transparent 60%),
+        radial-gradient(520px 260px at 82% 25%, rgba(24,245,255,.14), transparent 62%),
+        linear-gradient(180deg, rgba(7,7,10,.25), rgba(7,7,10,.82)),
+        var(--img);
+      background-size: cover;
+      background-position: center;
+      box-shadow: var(--shadow2);
+      position:relative;
+    }
+    .dropMedia:after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.55));
+      pointer-events:none;
     }
 
     /* Portfolio */
@@ -779,6 +815,17 @@
       .ctaBand{flex-direction:column; align-items:flex-start}
       .splitRow{grid-template-columns:1fr}
       .stripGrid{grid-template-columns:1fr}
+
+      /* About side-by-side -> stack */
+      .aboutGrid{grid-template-columns:1fr}
+
+      /* Product split -> stack (no text over image) */
+      .dropBodySplit{
+        grid-template-columns:1fr;
+      }
+      .dropMedia{
+        min-height: 190px;
+      }
     }
     @media (max-width: 520px){
       .wrap{padding:16px 14px 72px}
@@ -790,18 +837,19 @@
       .topbarInner{padding:12px 14px}
       .mobileMenuInner{padding:12px 14px 16px}
       .thumb{height:165px}
+
+      .dropMedia{min-height:170px}
     }
   </style>
 </head>
 
-<!-- Background video -->
-<video class="bgVideo" autoplay muted loop playsinline preload="metadata">
-  <source src="https://videos.pexels.com/video-files/4774631/4774631-hd_1920_1080_25fps.mp4" type="video/mp4">
-</video>
-<div class="bgVideoOverlay" aria-hidden="true"></div>
-
-  
 <body>
+  <!-- Background video -->
+  <video class="bgVideo" autoplay muted loop playsinline preload="metadata">
+    <source src="https://videos.pexels.com/video-files/4774631/4774631-hd_1920_1080_25fps.mp4" type="video/mp4">
+  </video>
+  <div class="bgVideoOverlay" aria-hidden="true"></div>
+
   <!-- Background glow -->
   <div class="heroBg" id="heroBg" aria-hidden="true"></div>
 
@@ -925,7 +973,8 @@
         </div>
       </div>
 
-      <div class="aboutStack">
+      <!-- CHANGED: two boxes side-by-side on desktop -->
+      <div class="aboutGrid">
         <details class="drop reveal" open>
           <summary>
             <span>Šta smo</span>
@@ -975,71 +1024,99 @@
       </div>
 
       <div class="aboutStack">
+        <!-- Strategy Day -->
         <details class="drop reveal" open>
           <summary>
             <span>Strategy Day</span>
             <span class="tag">1 dan</span>
           </summary>
           <div class="dropBody">
-            <p>Jednodnevne konsultacije i planiranje cijelog sistema: cilj → kanali → budžet → prioriteti.</p>
-            <ul class="bullets">
-              <li>Discovery: cilj, publika, ponuda, funnel</li>
-              <li>Plan kanala: Meta / Google / SEO (osnove)</li>
-              <li>Mapa sadržaja: šta snimamo i zašto</li>
-              <li>Decision: da li aktivacija ima smisla (i kakva)</li>
-              <li>Output: 1-strana plan + checklista</li>
-            </ul>
+            <div class="dropBodySplit">
+              <div class="dropText">
+                <p>Jednodnevne konsultacije i planiranje cijelog sistema: cilj → kanali → budžet → prioriteti.</p>
+                <ul class="bullets">
+                  <li>Discovery: cilj, publika, ponuda, funnel</li>
+                  <li>Plan kanala: Meta / Google / SEO (osnove)</li>
+                  <li>Mapa sadržaja: šta snimamo i zašto</li>
+                  <li>Decision: da li aktivacija ima smisla (i kakva)</li>
+                  <li>Output: 1-strana plan + checklista</li>
+                </ul>
+              </div>
+
+              <div class="dropMedia" style="--img: url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=80');" aria-hidden="true"></div>
+            </div>
           </div>
         </details>
 
+        <!-- Monthly Performance -->
         <details class="drop reveal">
           <summary>
             <span>Monthly Performance</span>
             <span class="tag">30 dana</span>
           </summary>
           <div class="dropBody">
-            <p>Vođenje kampanja koje donose leadove/posjete/prodaju uz stalnu optimizaciju.</p>
-            <ul class="bullets">
-              <li>Meta Ads + Google Ads (setup i vođenje)</li>
-              <li>Struktura kampanja + testiranje kreativa</li>
-              <li>Landing smjernice + SEO osnove (on-page)</li>
-              <li>Week-to-week optimizacija</li>
-              <li>Mjesečni report (jasno, kratko, mjerljivo)</li>
-            </ul>
+            <div class="dropBodySplit">
+              <div class="dropText">
+                <p>Vođenje kampanja koje donose leadove/posjete/prodaju uz stalnu optimizaciju.</p>
+                <ul class="bullets">
+                  <li>Meta Ads + Google Ads (setup i vođenje)</li>
+                  <li>Struktura kampanja + testiranje kreativa</li>
+                  <li>Landing smjernice + SEO osnove (on-page)</li>
+                  <li>Week-to-week optimizacija</li>
+                  <li>Mjesečni report (jasno, kratko, mjerljivo)</li>
+                </ul>
+              </div>
+
+              <div class="dropMedia" style="--img: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=80');" aria-hidden="true"></div>
+            </div>
           </div>
         </details>
 
+        <!-- Content Sprint -->
         <details class="drop reveal">
           <summary>
             <span>Content Sprint</span>
             <span class="tag">7–10 dana</span>
           </summary>
           <div class="dropBody">
-            <p>Sadržaj koji se koristi u kampanjama. Ne “vođenje profila”, nego gorivo za performans.</p>
-            <ul class="bullets">
-              <li>Koncepti za ads (hook → poruka → CTA)</li>
-              <li>Produkcija (foto/video) + montaža varijanti</li>
-              <li>Reels/Shorts + cut-down ad verzije</li>
-              <li>Asset library spremna za Meta/Google</li>
-              <li>Plan distribucije (podrška kampanjama)</li>
-            </ul>
+            <div class="dropBodySplit">
+              <div class="dropText">
+                <p>Sadržaj koji se koristi u kampanjama. Ne “vođenje profila”, nego gorivo za performans.</p>
+                <ul class="bullets">
+                  <li>Koncepti za ads (hook → poruka → CTA)</li>
+                  <li>Produkcija (foto/video) + montaža varijanti</li>
+                  <li>Reels/Shorts + cut-down ad verzije</li>
+                  <li>Asset library spremna za Meta/Google</li>
+                  <li>Plan distribucije (podrška kampanjama)</li>
+                </ul>
+              </div>
+
+              <div class="dropMedia" style="--img: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80');" aria-hidden="true"></div>
+            </div>
           </div>
         </details>
 
+        <!-- Activation Booster -->
         <details class="drop reveal">
           <summary>
             <span>Activation Booster</span>
             <span class="tag">projekat</span>
           </summary>
           <div class="dropBody">
-            <p>Aktivacija ili event koji radi kao dio kampanje: digital → teren → digital.</p>
-            <ul class="bullets">
-              <li>Koncept aktivacije + plan izvođenja</li>
-              <li>Produkcija: tim, logistika, oprema, partneri</li>
-              <li>Promo mehanika (sampling, hostese, crowd pull)</li>
-              <li>Sadržaj sa terena (za ads + social support)</li>
-              <li>Mjerenje i follow-up (retarget + lead capture)</li>
-            </ul>
+            <div class="dropBodySplit">
+              <div class="dropText">
+                <p>Aktivacija ili event koji radi kao dio kampanje: digital → teren → digital.</p>
+                <ul class="bullets">
+                  <li>Koncept aktivacije + plan izvođenja</li>
+                  <li>Produkcija: tim, logistika, oprema, partneri</li>
+                  <li>Promo mehanika (sampling, hostese, crowd pull)</li>
+                  <li>Sadržaj sa terena (za ads + social support)</li>
+                  <li>Mjerenje i follow-up (retarget + lead capture)</li>
+                </ul>
+              </div>
+
+              <div class="dropMedia" style="--img: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=80');" aria-hidden="true"></div>
+            </div>
           </div>
         </details>
       </div>
@@ -1084,7 +1161,6 @@
         </div>
       </div>
 
-      <!-- Best-practice add-on (does not change any existing content) -->
       <div style="height:16px"></div>
       <div class="strip reveal">
         <div class="stripGrid">
@@ -1167,7 +1243,6 @@
           <div class="logo">Nikšićko</div>
           <div class="logo">Partner</div>
 
-          <!-- duplicate for seamless loop -->
           <div class="logo">Jägermeister</div>
           <div class="logo">Coca-Cola</div>
           <div class="logo">Jack Daniel’s</div>
@@ -1200,7 +1275,6 @@
         </div>
       </div>
 
-      <!-- Best-practice add-on: “what you get” strip -->
       <div style="height:16px"></div>
       <div class="strip reveal">
         <div class="top" style="margin-bottom:10px">
@@ -1344,8 +1418,6 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // No background video (static glow only)
-
     // Mobile menu toggle
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -1368,28 +1440,20 @@
       });
     });
 
-   const titleEl = document.getElementById('heroTitle');
-const raw = titleEl.textContent.trim();
+    // Split hero title into words (safe spacing)
+    const titleEl = document.getElementById('heroTitle');
+    const raw = titleEl.textContent.trim();
+    const words = raw.split(/\s+/);
+    titleEl.textContent = '';
+    words.forEach((w, i) => {
+      const span = document.createElement('span');
+      span.textContent = w;
+      span.style.display = 'inline-block';
+      titleEl.appendChild(span);
+      if (i < words.length - 1) titleEl.appendChild(document.createTextNode(' '));
+    });
 
-// razbij po bilo kojem broju razmaka
-const words = raw.split(/\s+/);
-
-titleEl.textContent = '';
-
-words.forEach((w, i) => {
-  const span = document.createElement('span');
-  span.textContent = w;
-  span.style.display = 'inline-block';
-  titleEl.appendChild(span);
-
-  // razmak kao poseban node (najčistije i najpouzdanije)
-  if (i < words.length - 1) {
-    titleEl.appendChild(document.createTextNode(' '));
-  }
-});
-
-
-    // Reveal observer (clean, stable)
+    // Reveal observer
     const revealEls = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
@@ -1430,7 +1494,7 @@ words.forEach((w, i) => {
         delay: 450
       });
 
-      // CTA “soft pulse” so it’s visible on mobile
+      // CTA soft pulse
       anime({
         targets: '.btn.primary',
         scale: [1, 1.02, 1],
@@ -1515,7 +1579,7 @@ words.forEach((w, i) => {
       });
     });
 
-    // Parallax video + blobs (very light, stable on mobile)
+    // Parallax + blobs
     const heroBg = document.getElementById('heroBg');
     const b1 = document.getElementById('blob1');
     const b2 = document.getElementById('blob2');
@@ -1530,7 +1594,6 @@ words.forEach((w, i) => {
     setBlobsBase();
     window.addEventListener('resize', setBlobsBase);
 
-    // continuous blob drift (anime)
     anime({
       targets: '#blob1',
       translateX: [0, 18, -10, 0],
@@ -1548,7 +1611,6 @@ words.forEach((w, i) => {
       loop: true
     });
 
-    // scroll parallax (small)
     let ticking = false;
     window.addEventListener('scroll', ()=>{
       if(ticking) return;
@@ -1582,3 +1644,5 @@ words.forEach((w, i) => {
   </script>
 </body>
 </html>
+
+
