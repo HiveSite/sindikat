@@ -11,19 +11,20 @@
 
   <style>
     :root{
-      --bg:#05070C;
-      --bg2:#0B1222;
-      --panel:#0C111E;
-      --panel2:#0A0F1B;
-      --border:rgba(255,255,255,.18);
-      --border2:rgba(255,255,255,.10);
+      --bg:#05010D;
+      --bg2:#12011F;
+      --panel:#0D0521;
+      --panel2:#13072B;
+      --border:rgba(255,255,255,.2);
+      --border2:rgba(255,255,255,.12);
       --text:#FFFFFF;
-      --muted:rgba(255,255,255,.75);
-      --muted2:rgba(255,255,255,.60);
-      --accent:#E5C46A;
-      --accent2:#B88A2B;
-      --neon:#67F5FF;
-      --neon2:#C86BFF;
+      --muted:rgba(255,255,255,.78);
+      --muted2:rgba(255,255,255,.62);
+      --accent:#FF3B6F;
+      --accent2:#FFB000;
+      --neon:#18F5FF;
+      --neon2:#A24CFF;
+      --neon3:#2BFF88;
 
       --shadow: 0 22px 75px rgba(0,0,0,.68);
       --shadow2: 0 14px 38px rgba(0,0,0,.48);
@@ -43,9 +44,10 @@
     body{
       margin:0;
       background:
-        radial-gradient(900px 540px at 12% 8%, rgba(229,196,106,.16), transparent 60%),
-        radial-gradient(900px 520px at 86% 0%, rgba(103,245,255,.10), transparent 55%),
-        radial-gradient(700px 500px at 70% 22%, rgba(200,107,255,.08), transparent 58%),
+        radial-gradient(820px 520px at 12% 10%, rgba(255,59,111,.25), transparent 60%),
+        radial-gradient(900px 520px at 88% 8%, rgba(24,245,255,.18), transparent 58%),
+        radial-gradient(760px 520px at 70% 28%, rgba(162,76,255,.16), transparent 60%),
+        radial-gradient(680px 480px at 20% 70%, rgba(255,176,0,.12), transparent 62%),
         linear-gradient(180deg, var(--bg), var(--bg2));
       color:var(--text);
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -70,32 +72,25 @@
     img{max-width:100%; display:block}
     .wrap{max-width:var(--max); margin:0 auto; padding:22px 18px 120px; position:relative; z-index:2}
 
-    /* Backdrop video hero */
+    /* Backdrop glow */
     .heroBg{
       position:fixed;
       inset:0;
       z-index:1;
       pointer-events:none;
       overflow:hidden;
-      background: #000;
-    }
-    .heroBg video{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transform: scale(1.06);
-      filter:saturate(1.08) contrast(1.16) brightness(.62);
-      opacity:.90;
+      background:
+        radial-gradient(900px 540px at 20% 20%, rgba(255,59,111,.20), transparent 60%),
+        radial-gradient(900px 540px at 80% 10%, rgba(24,245,255,.14), transparent 60%),
+        radial-gradient(720px 520px at 68% 55%, rgba(162,76,255,.16), transparent 60%);
     }
     .heroBg:after{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(700px 420px at 18% 20%, rgba(229,196,106,.26), transparent 60%),
-        radial-gradient(900px 520px at 70% 12%, rgba(103,245,255,.18), transparent 58%),
-        linear-gradient(180deg, rgba(0,0,0,.40), rgba(5,7,12,.92) 62%, rgba(5,7,12,.98));
+        radial-gradient(700px 420px at 18% 20%, rgba(255,59,111,.26), transparent 60%),
+        radial-gradient(900px 520px at 70% 12%, rgba(24,245,255,.2), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(6,1,13,.92) 62%, rgba(6,1,13,.98));
     }
 
     /* Subtle animated blobs (non-transparent, just light) */
@@ -105,7 +100,7 @@
       pointer-events:none;
       width:520px; height:520px;
       border-radius:999px;
-      background: radial-gradient(circle at 35% 30%, rgba(229,196,106,.18), transparent 58%);
+      background: radial-gradient(circle at 35% 30%, rgba(255,59,111,.22), transparent 58%);
       filter: blur(18px);
       opacity:.55;
       mix-blend-mode: screen;
@@ -113,7 +108,7 @@
     }
     .blob.b2{
       width:420px; height:420px;
-      background: radial-gradient(circle at 40% 35%, rgba(103,245,255,.12), transparent 60%);
+      background: radial-gradient(circle at 40% 35%, rgba(24,245,255,.18), transparent 60%);
       opacity:.45;
     }
 
@@ -151,9 +146,9 @@
     .mark{
       width:34px; height:34px; border-radius:10px;
       background:
-        radial-gradient(14px 14px at 35% 35%, rgba(103,245,255,.55), transparent 60%),
-        linear-gradient(145deg, rgba(229,196,106,.28), rgba(229,196,106,.08));
-      border:3px solid rgba(229,196,106,.45);
+        radial-gradient(14px 14px at 35% 35%, rgba(24,245,255,.65), transparent 60%),
+        linear-gradient(145deg, rgba(255,59,111,.32), rgba(255,59,111,.10));
+      border:3px solid rgba(255,59,111,.6);
       box-shadow:0 14px 28px rgba(0,0,0,.45), 0 0 0 3px rgba(0,0,0,.45) inset;
       transform: rotate(-2deg);
     }
@@ -171,7 +166,7 @@
       transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease);
       transform: translateY(0);
     }
-    nav a:hover{background:rgba(255,255,255,.05); color:var(--text); transform: translateY(-1px); border-color:rgba(229,196,106,.35)}
+    nav a:hover{background:rgba(255,255,255,.05); color:var(--text); transform: translateY(-1px); border-color:rgba(24,245,255,.45)}
 
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
@@ -186,16 +181,16 @@
       white-space:nowrap;
       box-shadow: 0 12px 30px rgba(0,0,0,.28);
     }
-    .btn:hover{transform:translateY(-3px); box-shadow:var(--shadow2); border-color:rgba(229,196,106,.38)}
+    .btn:hover{transform:translateY(-3px); box-shadow:var(--shadow2); border-color:rgba(255,59,111,.5)}
     .btn.primary{
-      background: linear-gradient(180deg, rgba(229,196,106,.26), rgba(229,196,106,.10));
-      border-color:rgba(229,196,106,.55);
-      box-shadow: 0 20px 60px rgba(229,196,106,.18), 0 10px 28px rgba(0,0,0,.28);
+      background: linear-gradient(180deg, rgba(255,59,111,.35), rgba(255,59,111,.14));
+      border-color:rgba(255,59,111,.6);
+      box-shadow: 0 20px 60px rgba(255,59,111,.22), 0 10px 28px rgba(0,0,0,.28);
     }
     .dot{
       width:8px; height:8px; border-radius:2px;
       background:var(--accent);
-      box-shadow:0 0 0 5px rgba(229,196,106,.18), 0 0 20px rgba(229,196,106,.35);
+      box-shadow:0 0 0 5px rgba(255,59,111,.22), 0 0 24px rgba(255,59,111,.48);
       transform: rotate(8deg);
     }
 
@@ -295,8 +290,8 @@
       border:3px solid rgba(255,255,255,.14);
       border-radius:var(--r3);
       background:
-        radial-gradient(520px 260px at 20% 18%, rgba(229,196,106,.22), transparent 62%),
-        radial-gradient(520px 260px at 76% 22%, rgba(103,245,255,.14), transparent 62%),
+        radial-gradient(520px 260px at 20% 18%, rgba(255,59,111,.26), transparent 62%),
+        radial-gradient(520px 260px at 76% 22%, rgba(24,245,255,.18), transparent 62%),
         linear-gradient(180deg, rgba(14,16,26,.92), rgba(7,8,19,.92));
       box-shadow:var(--shadow);
       padding:22px;
@@ -317,7 +312,7 @@
       content:"";
       position:absolute;
       inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(103,245,255,.22), transparent 60%);
+      background: radial-gradient(circle at 30% 30%, rgba(24,245,255,.26), transparent 60%);
       opacity:.35;
       transform: rotate(8deg);
       pointer-events:none;
@@ -348,7 +343,7 @@
       content:"";
       position:absolute;
       inset:-20%;
-      background: linear-gradient(90deg, rgba(229,196,106,.0), rgba(229,196,106,.22), rgba(103,245,255,.14), rgba(229,196,106,.0));
+      background: linear-gradient(90deg, rgba(255,59,111,.0), rgba(255,59,111,.28), rgba(24,245,255,.2), rgba(255,59,111,.0));
       transform: rotate(10deg);
       opacity:.25;
     }
@@ -374,9 +369,9 @@
     .progressFill{
       height:100%;
       width:0%;
-      background:linear-gradient(90deg, rgba(229,196,106,.95), rgba(103,245,255,.28), rgba(229,196,106,.65));
+      background:linear-gradient(90deg, rgba(255,59,111,.95), rgba(24,245,255,.3), rgba(255,176,0,.6));
       border-radius:var(--r2);
-      box-shadow: 0 10px 28px rgba(229,196,106,.20);
+      box-shadow: 0 10px 28px rgba(255,59,111,.25);
     }
     .heroCard .foot{
       margin-top:16px;
@@ -430,8 +425,8 @@
       position:absolute;
       inset:-35%;
       background:
-        radial-gradient(circle at 25% 25%, rgba(229,196,106,.20), transparent 60%),
-        radial-gradient(circle at 80% 30%, rgba(103,245,255,.12), transparent 60%);
+        radial-gradient(circle at 25% 25%, rgba(255,59,111,.24), transparent 60%),
+        radial-gradient(circle at 80% 30%, rgba(24,245,255,.18), transparent 60%);
       opacity:.5;
       transform: rotate(8deg);
       pointer-events:none;
@@ -440,13 +435,13 @@
       content:"";
       position:absolute;
       inset:0;
-      border:1px solid rgba(229,196,106,.18);
+      border:1px solid rgba(255,59,111,.24);
       opacity:.45;
       pointer-events:none;
     }
     .card:hover{
       transform:translateY(-6px);
-      border-color:rgba(229,196,106,.45);
+      border-color:rgba(255,59,111,.5);
       box-shadow:var(--shadow);
       filter: brightness(1.04);
     }
@@ -457,11 +452,11 @@
     }
     .tag{
       font-size:11px;
-      color:rgba(229,196,106,.98);
-      border:2px solid rgba(229,196,106,.28);
+      color:rgba(255,176,0,.98);
+      border:2px solid rgba(255,176,0,.32);
       padding:6px 10px;
       border-radius:10px;
-      background:rgba(229,196,106,.10);
+      background:rgba(255,176,0,.14);
       white-space:nowrap;
     }
     .card h3{margin:0; font-size:16px; letter-spacing:-.2px}
@@ -523,7 +518,7 @@
       padding:16px 18px 18px;
     }
     .drop[open]{
-      border-color:rgba(229,196,106,.45);
+      border-color:rgba(255,59,111,.55);
       box-shadow: var(--shadow);
     }
 
@@ -545,8 +540,8 @@
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(420px 240px at 18% 20%, rgba(229,196,106,.24), transparent 60%),
-        radial-gradient(420px 240px at 80% 20%, rgba(103,245,255,.16), transparent 60%),
+        radial-gradient(420px 240px at 18% 20%, rgba(255,59,111,.26), transparent 60%),
+        radial-gradient(420px 240px at 80% 20%, rgba(24,245,255,.2), transparent 60%),
         linear-gradient(180deg, rgba(7,7,10,.05), rgba(7,7,10,.85));
       opacity:1;
     }
@@ -595,7 +590,7 @@
       content:"";
       position:absolute;
       inset:-2px;
-      border:1px solid rgba(229,196,106,.24);
+      border:1px solid rgba(255,59,111,.3);
       border-radius:10px;
       opacity:.5;
       pointer-events:none;
@@ -603,10 +598,10 @@
 
     /* CTA Band */
     .ctaBand{
-      border:3px solid rgba(229,196,106,.40);
+      border:3px solid rgba(255,59,111,.55);
       background:
-        radial-gradient(520px 240px at 18% 20%, rgba(229,196,106,.22), transparent 62%),
-        radial-gradient(520px 240px at 82% 30%, rgba(103,245,255,.12), transparent 62%),
+        radial-gradient(520px 240px at 18% 20%, rgba(255,59,111,.28), transparent 62%),
+        radial-gradient(520px 240px at 82% 30%, rgba(24,245,255,.18), transparent 62%),
         linear-gradient(180deg, rgba(14,16,26,.90), rgba(7,8,19,.90));
       border-radius:var(--r3);
       padding:22px;
@@ -620,7 +615,7 @@
       content:"";
       position:absolute;
       inset:-40%;
-      background: linear-gradient(90deg, transparent, rgba(103,245,255,.18), transparent);
+      background: linear-gradient(90deg, transparent, rgba(24,245,255,.22), transparent);
       transform: rotate(25deg);
       opacity:.3;
       pointer-events:none;
@@ -725,8 +720,8 @@
       box-shadow: inset 0 0 0 1px rgba(0,0,0,.18), 0 10px 22px rgba(0,0,0,.2);
     }
     input:focus, textarea:focus{
-      border-color: rgba(229,196,106,.60);
-      box-shadow: 0 0 0 4px rgba(229,196,106,.14);
+      border-color: rgba(255,59,111,.7);
+      box-shadow: 0 0 0 4px rgba(255,59,111,.18);
     }
     textarea{min-height:110px; resize:vertical}
 
@@ -774,13 +769,8 @@
 </head>
 
 <body>
-  <!-- Background video hero -->
-  <div class="heroBg" id="heroBg" aria-hidden="true">
-    <video id="heroVideo" autoplay muted loop playsinline preload="metadata"
-      poster="https://cdn.coverr.co/videos/coverr-cheering-crowd-1136/thumbnail?width=1920">
-      <source src="https://cdn.coverr.co/videos/coverr-cheering-crowd-1136/1080p.mp4" type="video/mp4" />
-    </video>
-  </div>
+  <!-- Background glow -->
+  <div class="heroBg" id="heroBg" aria-hidden="true"></div>
 
   <div class="blob" id="blob1" aria-hidden="true"></div>
   <div class="blob b2" id="blob2" aria-hidden="true"></div>
@@ -858,7 +848,7 @@
           <div>
             <div class="label">
               <span>Studio snapshot</span>
-              <span style="color:rgba(229,196,106,.9)">Live</span>
+              <span style="color:rgba(255,176,0,.9)">Live</span>
             </div>
 
             <div class="statGrid">
@@ -1321,12 +1311,7 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Ensure video plays on mobile (some browsers block until interaction)
-    const heroVideo = document.getElementById('heroVideo');
-    const tryPlay = () => heroVideo && heroVideo.play().catch(()=>{});
-    document.addEventListener('visibilitychange', ()=> { if(!document.hidden) tryPlay(); });
-    window.addEventListener('touchstart', tryPlay, {once:true, passive:true});
-    window.addEventListener('click', tryPlay, {once:true});
+    // No background video (static glow only)
 
     // Mobile menu toggle
     const hamburger = document.getElementById('hamburger');
