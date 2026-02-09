@@ -636,67 +636,243 @@ const SOURCE_LABEL = "Sindikat Poslovi – website"; // ide u backend "source"
         MOCK DATA + LOCAL UX
      ==========================*/
 const baseJobs = [
-{
-id: "j1",
-title: "Hostesa / Promoter",
-company: "Sindikat",
-location: "Crna Gora (više gradova)",
-category: "Event menadžment",
-type: ["Part-time", "Sezonski"],
-pay: 700,
-posted: "2025-12-15",
-desc: "Tražimo komunikativne hostese za događaje i promo aktivacije. Poželjno iskustvo u radu sa gostima i engleski jezik. Dinamičan raspored, obezbijeđena uniforma.",
-apply: "sindikatevents@gmail.com"
-},
-{
-id: "j2",
-title: "DJ za evente (freelance)",
-company: "Sindikat",
-location: "Podgorica / terenski",
-category: "Audio/Video & Produkcija",
-type: ["Freelance"],
-pay: 80,
-posted: "2025-12-02",
-desc: "Svirke na korporativnim i privatnim događajima. Poželjno sopstvena oprema i raznovrstan muzički repertoar (pop, house, regionalni hitovi).",
-apply: "sindikatevents@gmail.com"
-},
-{
-id: "j3",
-title: "Barmen / Event bar",
-company: "Sindikat",
-location: "Budva • Podgorica • Kotor",
-category: "Ugostiteljstvo",
-type: ["Sezonski", "Part-time"],
-pay: 900,
-posted: "2025-11-30",
-desc: "Rad na mobilnim barovima, klasični i signature kokteli. Prednost iskustvo u event okruženju. Obuka za recepte i standarde na licu mjesta.",
-apply: "sindikatevents@gmail.com"
-},
-{
-id: "j4",
-title: "Social Media Manager (PT / remote)",
-company: "Sindikat",
-location: "Remote",
-category: "Marketing & Dizajn",
-type: ["Part-time", "Remote"],
-pay: 600,
-posted: "2025-11-14",
-desc: "Plan i vođenje sadržaja za Instagram/TikTok, copy, short-form video, osnovni dizajn (Canva/Adobe). Prednost iskustvo u event ili hospitality niši.",
-apply: "sindikatevents@gmail.com"
-},
-{
-id: "j5",
-title: "Otvorena prijava",
-company: "Sindikat",
-location: "Crna Gora",
-category: "Sve kategorije",
-type: ["Free application"],
-pay: "",
-posted: "2025-10-10",
-desc: "Ako želiš da radiš sa nama, ali trenutno nema oglasa koji ti odgovara — pošalji svoju otvorenu prijavu. Prilike se otvaraju stalno.",
-apply: "sindikatevents@gmail.com"
-}
+  {
+    id: "j1",
+    title: "Hostesa / Promoter",
+    company: "Sindikat",
+    location: "Crna Gora (više gradova)",
+    category: "Event menadžment",
+    type: ["Part-time", "Sezonski"],
+    pay: 700,
+    posted: "2025-12-15",
+    desc: "Tražimo komunikativne hostese za događaje i promo aktivacije. Poželjno iskustvo u radu sa gostima i engleski jezik. Dinamičan raspored, obezbijeđena uniforma.",
+    apply: "sindikatevents@gmail.com"
+  },
+  {
+    id: "j2",
+    title: "DJ za evente (freelance)",
+    company: "Sindikat",
+    location: "Podgorica / terenski",
+    category: "Audio/Video & Produkcija",
+    type: ["Freelance"],
+    pay: 80,
+    posted: "2025-12-02",
+    desc: "Svirke na korporativnim i privatnim događajima. Poželjno sopstvena oprema i raznovrstan muzički repertoar (pop, house, regionalni hitovi).",
+    apply: "sindikatevents@gmail.com"
+  },
+  {
+    id: "j3",
+    title: "Barmen / Event bar",
+    company: "Sindikat",
+    location: "Budva • Podgorica • Kotor",
+    category: "Ugostiteljstvo",
+    type: ["Sezonski", "Part-time"],
+    pay: 900,
+    posted: "2025-11-30",
+    desc: "Rad na mobilnim barovima, klasični i signature kokteli. Prednost iskustvo u event okruženju. Obuka za recepte i standarde na licu mjesta.",
+    apply: "sindikatevents@gmail.com"
+  },
+  {
+    id: "j4",
+    title: "Social Media Manager (PT / remote)",
+    company: "Sindikat",
+    location: "Remote",
+    category: "Marketing & Dizajn",
+    type: ["Part-time", "Remote"],
+    pay: 600,
+    posted: "2025-11-14",
+    desc: "Plan i vođenje sadržaja za Instagram/TikTok, copy, short-form video, osnovni dizajn (Canva/Adobe). Prednost iskustvo u event ili hospitality niši.",
+    apply: "sindikatevents@gmail.com"
+  },
+  {
+    id: "j5",
+    title: "Otvorena prijava",
+    company: "Sindikat",
+    location: "Crna Gora",
+    category: "Sve kategorije",
+    type: ["Free application"],
+    pay: "",
+    posted: "2025-10-10",
+    desc: "Ako želiš da radiš sa nama, ali trenutno nema oglasa koji ti odgovara — pošalji svoju otvorenu prijavu. Prilike se otvaraju stalno.",
+    apply: "sindikatevents@gmail.com"
+  },
+
+  /* =========================
+     NOVI EVENT OGLASI (Dec/Jan/Feb do 2026-02-09)
+     ========================= */
+
+  {
+    id: "e_2026_02_07_stage",
+    title: "Stagehand / Montažer bine",
+    company: "Sindikat",
+    location: "Podgorica (teren po potrebi)",
+    category: "Audio/Video & Produkcija",
+    type: ["Freelance", "Sezonski"],
+    pay: 12,
+    posted: "2026-02-07",
+    desc: "Montaža/demontaža bine, barijera i opreme. Rad u timu, fizička spremnost obavezna. Prednost iskustvo na koncertima i korporativnim eventima.",
+    apply: "crew@eventcrew.me"
+  },
+  {
+    id: "e_2026_02_05_light",
+    title: "Tehničar rasvjete (event)",
+    company: "Sindikat",
+    location: "Podgorica • Budva",
+    category: "Audio/Video & Produkcija",
+    type: ["Full-time", "Sezonski"],
+    pay: 1100,
+    posted: "2026-02-05",
+    desc: "Postavljanje i upravljanje rasvjetom na događajima (DMX, fokus, kabliranje). Poželjno iskustvo sa osnovnim kontrolerima i rad pod rokovima.",
+    apply: "jobs@prolight.me"
+  },
+  {
+    id: "e_2026_02_03_runner",
+    title: "Production Runner / Asistent produkcije",
+    company: "Sindikat",
+    location: "Podgorica",
+    category: "Event menadžment",
+    type: ["Part-time", "Sezonski"],
+    pay: 650,
+    posted: "2026-02-03",
+    desc: "Operativna podrška na dan eventa: checkliste, komunikacija sa dobavljačima, preuzimanja, koordinacija timova. Vozačka dozvola B je prednost.",
+    apply: "hr@adriaevents.me"
+  },
+  {
+    id: "e_2026_02_01_photo",
+    title: "Fotograf za evente",
+    company: "Sindikat",
+    location: "Crna Gora (terenski)",
+    category: "Audio/Video & Produkcija",
+    type: ["Freelance"],
+    pay: 120,
+    posted: "2026-02-01",
+    desc: "Reportažna fotografija događaja + brzi isporučivi set za društvene mreže (30–60 fotki u 24h). Sopstvena oprema obavezna.",
+    apply: "booking@studioframe.me"
+  },
+
+  {
+    id: "e_2026_01_28_sound",
+    title: "Tonac / Audio tehničar",
+    company: "Sindikat",
+    location: "Kotor • Budva",
+    category: "Audio/Video & Produkcija",
+    type: ["Full-time", "Sezonski"],
+    pay: 1200,
+    posted: "2026-01-28",
+    desc: "Postavljanje i miks na događajima (mikrofoni, stage box, monitori). Prednost iskustvo sa digitalnim miksetama (npr. X32/QL/TF).",
+    apply: "posao@prosoundcg.me"
+  },
+  {
+    id: "e_2026_01_24_bar",
+    title: "Barback / Pomoćni barmen (event)",
+    company: "Sindikat",
+    location: "Budva • Tivat",
+    category: "Ugostiteljstvo",
+    type: ["Sezonski", "Part-time"],
+    pay: 800,
+    posted: "2026-01-24",
+    desc: "Priprema stanice, led, garnishi, dopuna i logistika iza šanka. Brz tempo rada, urednost i timski rad.",
+    apply: "work@mobilebar.me"
+  },
+  {
+    id: "e_2026_01_20_coord",
+    title: "Koordinator događaja (junior)",
+    company: "Sindikat",
+    location: "Podgorica",
+    category: "Event menadžment",
+    type: ["Full-time"],
+    pay: 950,
+    posted: "2026-01-20",
+    desc: "Koordinacija dobavljača, timeline, komunikacija sa klijentom, terenski nadzor. Poželjno osnovno iskustvo i odlična organizacija.",
+    apply: "careers@hiveevents.me"
+  },
+  {
+    id: "e_2026_01_15_brand",
+    title: "Brand Promoter / Aktivacije",
+    company: "Sindiakts",
+    location: "Podgorica • Nikšić",
+    category: "Event menadžment",
+    type: ["Part-time", "Sezonski"],
+    pay: 35,
+    posted: "2026-01-15",
+    desc: "Promo aktivacije u lokalima i na događajima: sampling, komunikacija sa gostima, izvještaj i fotke sa terena. Smjene uglavnom večernje.",
+    apply: "promo@brandworks.me"
+  },
+  {
+    id: "e_2026_01_11_video",
+    title: "Snimatelj / Short-form video",
+    company: "Sindikatb",
+    location: "Podgorica",
+    category: "Marketing & Dizajn",
+    type: ["Freelance"],
+    pay: 150,
+    posted: "2026-01-11",
+    desc: "Snimanje kratkih videa sa događaja (Reels/TikTok), osnovna montaža i isporuka u 24–48h. Prednost iskustvo u event okruženju.",
+    apply: "studio@contentlab.me"
+  },
+  {
+    id: "e_2026_01_05_log",
+    title: "Logistika / Vozač kombija (event oprema)",
+    company: "Sindiakt",
+    location: "Podgorica (teren)",
+    category: "Event menadžment",
+    type: ["Full-time", "Sezonski"],
+    pay: 1000,
+    posted: "2026-01-05",
+    desc: "Transport šankova, stolova, rasvjete i ozvučenja; utovar/istovar; briga o opremi. Obavezna vozačka B, C je prednost.",
+    apply: "posao@logirent.me"
+  },
+
+  {
+    id: "e_2025_12_28_host",
+    title: "Host / Recepcija događaja",
+    company: "Sindikat",
+    location: "Tivat",
+    category: "Event menadžment",
+    type: ["Part-time", "Sezonski"],
+    pay: 700,
+    posted: "2025-12-28",
+    desc: "Doček gostiju, usmjeravanje, lista zvanica i komunikacija na licu mjesta. Potreban profesionalan nastup i osnove engleskog.",
+    apply: "venue@adriavenues.me"
+  },
+  {
+    id: "e_2025_12_22_decor",
+    title: "Dekorater / Set design asistent",
+    company: "Sindikat",
+    location: "Budva",
+    category: "Event menadžment",
+    type: ["Freelance", "Sezonski"],
+    pay: 60,
+    posted: "2025-12-22",
+    desc: "Montaža dekoracije, cvjetni aranžmani, postavka stolova i foto-kutaka. Prednost iskustvo na svadbama i korporativnim događajima.",
+    apply: "team@decorbloom.me"
+  },
+  {
+    id: "e_2025_12_18_eventadmin",
+    title: "Event administracija / Ticketing podrška",
+    company: "Sindikat",
+    location: "Podgorica",
+    category: "Administracija",
+    type: ["Part-time"],
+    pay: 550,
+    posted: "2025-12-18",
+    desc: "Unos i provjera prijava, komunikacija sa učesnicima, priprema badgeva i check-in podrška. Rad sa tabelama i osnovna pismenost obavezni.",
+    apply: "support@ticketpro.me"
+  },
+  {
+    id: "e_2025_12_09_stage_mgr",
+    title: "Stage Manager (junior)",
+    company: "Sindikat",
+    location: "Podgorica • Kotor",
+    category: "Audio/Video & Produkcija",
+    type: ["Freelance"],
+    pay: 100,
+    posted: "2025-12-09",
+    desc: "Koordinacija na bini: cue-ovi, komunikacija sa tehnikom i izvođačima, kontrola rasporeda. Prednost iskustvo na live nastupima.",
+    apply: "ops@liveops.me"
+  }
 ];
+
 
 
 
@@ -726,8 +902,13 @@ const jobCard = (j) => `
          </div>
          <div class="mt-3 flex flex-wrap gap-2 text-xs">
            <span class="badge px-2 py-1 rounded-full">${j.category}</span>
-           <span class="badge px-2 py-1 rounded-full">${j.type}</span>
-           ${ j.pay ? `<span class="badge px-2 py-1 rounded-full">€ ${j.pay}${j.type==="Freelance"?" / sat":""}</span>` : "" }
+           <span class="badge px-2 py-1 rounded-full">${Array.isArray(j.type) ? j.type.join(" • ") : j.type}</span>
+
+           ${ j.pay ? (() => {
+    const isHourly = (Array.isArray(j.type) ? j.type.includes("Freelance") : (j.type === "Freelance"));
+    return `<span class="badge px-2 py-1 rounded-full">€ ${j.pay}${isHourly ? " / sat" : ""}</span>`;
+})() : "" }
+
            <span class="px-2 py-1 rounded-full border border-neutral-700">Objavljeno: ${new Date(j.posted).toLocaleDateString()}</span>
          </div>
          <p class="mt-3 text-sm text-neutral-300">${j.desc}</p>
