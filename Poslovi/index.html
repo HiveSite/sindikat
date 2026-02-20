@@ -497,14 +497,15 @@
 
     // ✅ HARD RULE: svi poslovi moraju biti u ovom periodu (uključivo)
     const DATE_MIN = new Date("2025-12-01T00:00:00Z");
-    const DATE_MAX = new Date("2026-02-15T23:59:59Z");
+    const DATE_MAX = new Date("2026-02-13T23:59:59Z");
     const inAllowedRange = (d) => {
       const x = new Date(d + "T00:00:00Z");
       return x >= DATE_MIN && x <= DATE_MAX;
     };
 
     /* =========================
-            DATA (ALL within Dec 2025 – 15 Feb 2026)
+            DATA (ALL within Dec 2025 – 13 Feb 2026)
+            + 60% poslova: zarada po dogovoru
        ========================== */
     const baseJobs = [
       {
@@ -514,7 +515,7 @@
         location: "Crna Gora (više gradova)",
         category: "Event menadžment",
         type: ["Part-time", "Sezonski"],
-        pay: 700,
+        pay: "Po dogovoru",
         posted: "2025-12-15",
         desc: "Tražimo komunikativne hostese za događaje i promo aktivacije. Poželjno iskustvo u radu sa gostima i engleski jezik. Dinamičan raspored, obezbijeđena uniforma.",
         apply: "sindikatevents@gmail.com"
@@ -526,7 +527,7 @@
         location: "Podgorica / terenski",
         category: "Audio/Video & Produkcija",
         type: ["Freelance"],
-        pay: 80,
+        pay: "Po dogovoru",
         posted: "2025-12-02",
         desc: "Svirke na korporativnim i privatnim događajima. Poželjno sopstvena oprema i raznovrstan muzički repertoar (pop, house, regionalni hitovi).",
         apply: "sindikatevents@gmail.com"
@@ -550,7 +551,7 @@
         location: "Remote",
         category: "Marketing & Dizajn",
         type: ["Part-time", "Remote"],
-        pay: 600,
+        pay: "Po dogovoru",
         posted: "2025-12-12",
         desc: "Plan i vođenje sadržaja za Instagram/TikTok, copy, short-form video, osnovni dizajn (Canva/Adobe). Prednost iskustvo u event ili hospitality niši.",
         apply: "sindikatevents@gmail.com"
@@ -562,7 +563,7 @@
         location: "Crna Gora",
         category: "Sve kategorije",
         type: ["Free application"],
-        pay: "",
+        pay: "Po dogovoru",
         posted: "2025-12-20",
         desc: "Ako želiš da radiš sa nama, ali trenutno nema oglasa koji ti odgovara — pošalji svoju otvorenu prijavu. Prilike se otvaraju stalno.",
         apply: "sindikatevents@gmail.com"
@@ -576,7 +577,7 @@
         location: "Podgorica",
         category: "Event menadžment",
         type: ["Part-time", "Sezonski"],
-        pay: 40,
+        pay: "Po dogovoru",
         posted: "2026-02-12",
         desc: "Operativa na terenu: priprema prostora, usmjeravanje gostiju, pomoć produkciji, brze intervencije. Smjene često popodne/veče.",
         apply: "ops@sindikatevents.me"
@@ -612,7 +613,7 @@
         location: "Podgorica",
         category: "Event menadžment",
         type: ["Part-time", "Sezonski"],
-        pay: 650,
+        pay: "Po dogovoru",
         posted: "2026-02-03",
         desc: "Operativna podrška na dan eventa: checkliste, komunikacija sa dobavljačima, preuzimanja, koordinacija timova. Vozačka dozvola B je prednost.",
         apply: "hr@adriaevents.me"
@@ -672,7 +673,7 @@
         location: "Podgorica • Nikšić",
         category: "Event menadžment",
         type: ["Part-time", "Sezonski"],
-        pay: 35,
+        pay: "Po dogovoru",
         posted: "2026-01-15",
         desc: "Promo aktivacije u lokalima i na događajima: sampling, komunikacija sa gostima, izvještaj i fotke sa terena. Smjene uglavnom večernje.",
         apply: "promo@brandworks.me"
@@ -708,7 +709,7 @@
         location: "Tivat",
         category: "Event menadžment",
         type: ["Part-time", "Sezonski"],
-        pay: 700,
+        pay: "Po dogovoru",
         posted: "2025-12-28",
         desc: "Doček gostiju, usmjeravanje, lista zvanica i komunikacija na licu mjesta. Potreban profesionalan nastup i osnove engleskog.",
         apply: "venue@adriavenues.me"
@@ -720,7 +721,7 @@
         location: "Budva",
         category: "Event menadžment",
         type: ["Freelance", "Sezonski"],
-        pay: 60,
+        pay: "Po dogovoru",
         posted: "2025-12-22",
         desc: "Montaža dekoracije, cvjetni aranžmani, postavka stolova i foto-kutaka. Prednost iskustvo na svadbama i korporativnim događajima.",
         apply: "team@decorbloom.me"
@@ -732,7 +733,7 @@
         location: "Podgorica",
         category: "Administracija",
         type: ["Part-time"],
-        pay: 550,
+        pay: "Po dogovoru",
         posted: "2025-12-18",
         desc: "Unos i provjera prijava, komunikacija sa učesnicima, priprema badgeva i check-in podrška. Rad sa tabelama i osnovna pismenost obavezni.",
         apply: "support@ticketpro.me"
@@ -744,7 +745,7 @@
         location: "Podgorica • Kotor",
         category: "Audio/Video & Produkcija",
         type: ["Freelance"],
-        pay: 100,
+        pay: "Po dogovoru",
         posted: "2025-12-09",
         desc: "Koordinacija na bini: cue-ovi, komunikacija sa tehnikom i izvođačima, kontrola rasporeda. Prednost iskustvo na live nastupima.",
         apply: "ops@liveops.me"
@@ -771,11 +772,16 @@
       const posted = JSON.parse(localStorage.getItem("sindikat_jobs") || "[]");
 
       // normalizuj posted format (defanzivno)
-      const normalizedPosted = posted.map((p) => ({
-        ...p,
-        posted: (p.posted || "").slice(0, 10),
-        pay: p.pay === "" || p.pay === null || typeof p.pay === "undefined" ? "" : Number(p.pay),
-      }));
+      const normalizedPosted = posted.map((p) => {
+        const rawPay = (p.pay === "" || p.pay === null || typeof p.pay === "undefined") ? "" : p.pay;
+        const num = Number(rawPay);
+        const payNormalized = (rawPay === "" || Number.isNaN(num)) ? String(rawPay || "") : num;
+        return {
+          ...p,
+          posted: (p.posted || "").slice(0, 10),
+          pay: payNormalized,
+        };
+      });
 
       const merged = [
         ...normalizedPosted,
@@ -788,37 +794,48 @@
       return onlyAllowed.sort((a, b) => new Date(b.posted) - new Date(a.posted));
     };
 
-    const jobCard = (j) => `
-      <article class="glass rounded-2xl p-5 md:p-6">
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h3 class="text-lg md:text-xl font-extrabold">${escapeHtml(j.title)}</h3>
-            <p class="text-sm text-neutral-400">${escapeHtml(j.company)} • ${escapeHtml(j.location)}</p>
-          </div>
-          <button class="save text-xl" data-id="${escapeAttr(j.id)}" title="Sačuvaj">☆</button>
-        </div>
+    const jobCard = (j) => {
+      const payIsNumber = typeof j.pay === "number" && Number.isFinite(j.pay);
+      const payIsText = typeof j.pay === "string" && j.pay.trim() !== "";
 
-        <div class="mt-3 flex flex-wrap gap-2 text-xs">
-          <span class="badge px-2 py-1 rounded-full">${escapeHtml(j.category)}</span>
-          <span class="badge px-2 py-1 rounded-full">${escapeHtml(Array.isArray(j.type) ? j.type.join(" • ") : j.type)}</span>
-
-          ${j.pay !== "" && j.pay !== null && typeof j.pay !== "undefined" ? (() => {
+      const payBadge = payIsNumber
+        ? (() => {
             const isHourly = Array.isArray(j.type) ? j.type.includes("Freelance") : (j.type === "Freelance");
             return `<span class="badge px-2 py-1 rounded-full">€ ${escapeHtml(String(j.pay))}${isHourly ? " / sat" : ""}</span>`;
-          })() : ""}
+          })()
+        : payIsText
+          ? `<span class="badge px-2 py-1 rounded-full">Zarada: ${escapeHtml(j.pay)}</span>`
+          : "";
 
-          <span class="px-2 py-1 rounded-full border border-neutral-700">Objavljeno: ${new Date(j.posted + "T00:00:00").toLocaleDateString()}</span>
-        </div>
+      return `
+        <article class="glass rounded-2xl p-5 md:p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h3 class="text-lg md:text-xl font-extrabold">${escapeHtml(j.title)}</h3>
+              <p class="text-sm text-neutral-400">${escapeHtml(j.company)} • ${escapeHtml(j.location)}</p>
+            </div>
+            <button class="save text-xl" data-id="${escapeAttr(j.id)}" title="Sačuvaj">☆</button>
+          </div>
 
-        <p class="mt-3 text-sm text-neutral-300">${escapeHtml(j.desc || "")}</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="badge px-2 py-1 rounded-full">${escapeHtml(j.category)}</span>
+            <span class="badge px-2 py-1 rounded-full">${escapeHtml(Array.isArray(j.type) ? j.type.join(" • ") : j.type)}</span>
 
-        <div class="mt-4 flex items-center gap-3 flex-wrap">
-          <button class="apply px-4 py-2 rounded-md bg-gold text-black font-semibold" data-id="${escapeAttr(j.id)}">Prijavi se</button>
-          ${j.apply?.startsWith("http") ? `<a target="_blank" rel="noopener" href="${escapeAttr(j.apply)}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Prijava na link</a>` : ""}
-          ${j.apply?.includes("@") ? `<a href="mailto:${escapeAttr(j.apply)}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Pošalji e-mail</a>` : ""}
-        </div>
-      </article>
-    `;
+            ${payBadge}
+
+            <span class="px-2 py-1 rounded-full border border-neutral-700">Objavljeno: ${new Date(j.posted + "T00:00:00").toLocaleDateString()}</span>
+          </div>
+
+          <p class="mt-3 text-sm text-neutral-300">${escapeHtml(j.desc || "")}</p>
+
+          <div class="mt-4 flex items-center gap-3 flex-wrap">
+            <button class="apply px-4 py-2 rounded-md bg-gold text-black font-semibold" data-id="${escapeAttr(j.id)}">Prijavi se</button>
+            ${j.apply?.startsWith("http") ? `<a target="_blank" rel="noopener" href="${escapeAttr(j.apply)}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Prijava na link</a>` : ""}
+            ${j.apply?.includes("@") ? `<a href="mailto:${escapeAttr(j.apply)}" class="px-4 py-2 rounded-md border border-neutral-700 hover:border-gold">Pošalji e-mail</a>` : ""}
+          </div>
+        </article>
+      `;
+    };
 
     const inlineAd = () => `
       <div class="glass rounded-2xl p-0 overflow-hidden">
@@ -917,9 +934,11 @@
 
         const hitType = f.typeSet.size === 0 || jobTypes.some(t => f.typeSet.has(t));
 
-        const payVal = (j.pay === "" || j.pay === null || typeof j.pay === "undefined") ? null : Number(j.pay);
-        const hitPayMin = isNaN(f.minPay) || (payVal ?? 0) >= f.minPay;
-        const hitPayMax = isNaN(f.maxPay) || (payVal ?? Infinity) <= f.maxPay;
+        const payVal = (typeof j.pay === "number" && Number.isFinite(j.pay)) ? j.pay : null;
+
+        // Ako user koristi filter za platu — prikazuj samo poslove koji imaju brojčanu platu
+        const hitPayMin = isNaN(f.minPay) || (payVal !== null && payVal >= f.minPay);
+        const hitPayMax = isNaN(f.maxPay) || (payVal !== null && payVal <= f.maxPay);
 
         return hitQ && hitLoc && hitCat && hitType && hitPayMin && hitPayMax;
       });
@@ -1057,7 +1076,7 @@
       const iso = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())).toISOString().slice(0,10);
 
       if (!inAllowedRange(iso)){
-        toast("Objave su zaključane van perioda (Dec 2025 – 15 Feb 2026).");
+        toast("Objave su zaključane van perioda (Dec 2025 – 13 Feb 2026).");
         return;
       }
 
