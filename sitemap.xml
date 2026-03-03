@@ -1,50 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Početna -->
   <url>
     <loc>https://sindikatevents.me/</loc>
-    <lastmod>2025-09-30</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <priority>1.0</priority>
-    <changefreq>daily</changefreq>
-  </url>
-
-  <!-- Poslovi -->
-  <url>
-    <loc>https://sindikatevents.me/Poslovi/</loc>
-    <lastmod>2025-09-30</lastmod>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-
-  <!-- Kontakt -->
-  <url>
-    <loc>https://sindikatevents.me/kontakt/</loc>
-    <lastmod>2025-09-30</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- O nama -->
-  <url>
-    <loc>https://sindikatevents.me/ONama/</loc>
-    <lastmod>2025-09-30</lastmod>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- Galerija -->
-  <url>
-    <loc>https://sindikatevents.me/Galerija/</loc>
-    <lastmod>2025-09-30</lastmod>
-    <priority>0.5</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- Blog -->
-  <url>
-    <loc>https://sindikatevents.me/BLog/</loc>
-    <lastmod>2025-09-30</lastmod>
-    <priority>0.5</priority>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
