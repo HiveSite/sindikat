@@ -1,601 +1,713 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="sr-ME">
 <head>
-<link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIQELLY — DJ | Kurator energije</title>
+  <meta name="description" content="MIQELLY — DJ | Kurator energije | Majstor neočekivanih prelaza. Tematske žurke, privatni događaji, klubovi." />
+  <meta name="theme-color" content="#0b0b0c" />
+  <link rel="icon" href="/favicon.png" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DJ Miqelly – Neočekivani muzički putevi</title>
-<meta name="description" content="DJ Miqelly – neočekivani muzički putevi, Jugonostalgija setovi i energični rock/pop miks. Direktan booking preko Instagrama i WhatsApp-a. Sindikat preporučuje.">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-theme:{
-extend:{
-fontFamily:{
-montserrat:['Montserrat','sans-serif'],
-inter:['Inter','sans-serif']
-},
-colors:{
-gold:'#FFD700',
-'electric-blue':'#00BFFF'
-}
-}
-}
-}
-</script>
-<style>
-:root{ --nav-h:72px; }
-html{ scroll-behavior:smooth; }
-body{
-padding-top:var(--nav-h);
-background:
-radial-gradient(circle at 10% 0, rgba(0,191,255,0.25), transparent 55%),
-radial-gradient(circle at 90% 100%, rgba(255,0,80,0.28), transparent 55%),
-radial-gradient(circle at 50% 40%, #020617, #000000 70%);
-color:#f9fafb;
-font-family:'Inter',sans-serif;
-}
-.gradient-gold{
-background:linear-gradient(135deg,#FFD700,#FFA500);
--webkit-background-clip:text;
-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-.btn-animate{
-position:relative;
-overflow:hidden;
-transition:transform .25s ease;
-}
-.btn-animate::before{
-content:'';position:absolute;inset:0;left:-120%;
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
-transition:left .6s ease;
-}
-.btn-animate:hover::before{left:120%;}
-.btn-animate:hover{ transform:translateY(-2px);}
-.glass{
-background: rgba(15,23,42,0.9);
-backdrop-filter: blur(18px);
-}
-.section-shell{
-max-width:1120px;
-margin:0 auto;
-padding:4rem 1.5rem;
-}
-.section-kicker{
-font-size:0.7rem;
-letter-spacing:0.28em;
-text-transform:uppercase;
-color:#9ca3af;
-}
-.section-title{
-font-family:'Montserrat',sans-serif;
-font-weight:700;
-}
-.icon-pill{
-width:40px;
-height:40px;
-border-radius:999px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:0.85rem;
-background:radial-gradient(circle at 30% 20%,#fff,#eab308);
-color:#000;
-box-shadow:0 0 20px rgba(250,204,21,0.4);
-}
-</style>
+  <style>
+    :root{
+      --bg:#0b0b0c;
+      --card:#111114;
+      --text:#f5f5f5;
+      --muted:#b7b7b7;
+      --line:rgba(245,245,245,.12);
+      --accent:#b6ff3b; /* promijeni ako hoćeš: #ff3b30 ili #ffd400 */
+      --radius:18px;
+      --radius2:26px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.5;
+      letter-spacing:.1px;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:18px}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,11,12,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar .inner{
+      max-width:var(--max); margin:0 auto; padding:12px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700; letter-spacing:.8px;
+      text-transform:uppercase;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background:var(--accent);
+      box-shadow: 0 0 0 6px rgba(182,255,59,.08);
+    }
+    nav{
+      display:flex; gap:14px; align-items:center;
+      font-size:13px; color:var(--muted);
+    }
+    nav a{padding:8px 10px;border-radius:999px;border:1px solid transparent}
+    nav a:hover{border-color:var(--line); color:var(--text)}
+    .menuBtn{
+      display:none;
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+    }
+
+    /* Mobile nav */
+    .mobileNav{
+      display:none;
+      border-top:1px solid var(--line);
+      padding:10px 18px 14px;
+    }
+    .mobileNav a{
+      display:block;
+      padding:12px 10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      margin-top:10px;
+      color:var(--muted);
+    }
+    .mobileNav a:hover{color:var(--text)}
+
+    /* Hero */
+    .hero{
+      padding:34px 0 10px;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius2);
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    .kicker{
+      color:var(--accent);
+      font-weight:700;
+      letter-spacing:.9px;
+      text-transform:uppercase;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size:44px;
+      line-height:1.04;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .subtitle{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:15px;
+      max-width:60ch;
+    }
+    .actions{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top:14px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--text);
+      font-weight:650;
+      font-size:14px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn.primary{
+      border-color: rgba(182,255,59,.55);
+      background: rgba(182,255,59,.08);
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .btn:active{transform: translateY(0)}
+    .badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .badge{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:7px 10px;
+      background: rgba(255,255,255,.02);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      height:100%;
+    }
+    .stat{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      background: rgba(255,255,255,.02);
+    }
+    .stat .n{font-size:26px;font-weight:800;letter-spacing:.2px}
+    .stat .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.8px}
+
+    /* Sections */
+    section{padding:16px 0}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .h2{
+      margin:0 0 12px;
+      font-size:14px;
+      letter-spacing:.9px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .title{
+      margin:0 0 10px;
+      font-size:18px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+    }
+    .p{margin:0;color:var(--muted);font-size:14px}
+    .miniList{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+    .miniList li{
+      display:flex; gap:10px; align-items:flex-start;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .tick{
+      width:10px;height:10px;border-radius:999px;background:var(--accent);
+      margin-top:6px; flex:0 0 auto;
+      box-shadow: 0 0 0 5px rgba(182,255,59,.08);
+    }
+
+    /* Media embeds */
+    .mediaGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .embed{
+      border:1px solid var(--line);
+      border-radius:var(--radius2);
+      overflow:hidden;
+      background:#0f0f12;
+      min-height:260px;
+    }
+    .embedHeader{
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      display:flex; justify-content:space-between; align-items:center;
+      color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.8px;
+    }
+    .embedBody{padding:0}
+    iframe{width:100%; border:0; display:block}
+
+    /* Gallery */
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:10px;
+    }
+    .gItem{
+      grid-column: span 4;
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#0f0f12;
+      cursor:pointer;
+      min-height:150px;
+    }
+    .gItem img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.02) saturate(1.05);
+      transform: scale(1.02);
+    }
+    .gItem:hover img{transform:scale(1.06)}
+    .gCap{
+      position:absolute; left:10px; bottom:10px;
+      font-size:12px;
+      color:#fff;
+      background:rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;
+      padding:6px 10px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.72);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:100;
+      padding:18px;
+    }
+    .lightbox.open{display:flex}
+    .lbCard{
+      width:min(980px, 100%);
+      background:#0e0e10;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow: 0 40px 120px rgba(0,0,0,.65);
+    }
+    .lbTop{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      color:var(--muted); font-size:12px;
+    }
+    .lbTop strong{color:var(--text); letter-spacing:.6px; text-transform:uppercase}
+    .lbClose{
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      cursor:pointer;
+    }
+    .lbImg{
+      width:100%;
+      max-height:70vh;
+      object-fit:contain;
+      background:#0b0b0c;
+      display:block;
+    }
+
+    /* Footer */
+    footer{
+      padding:26px 0 40px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footerGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:12px;
+      align-items:start;
+    }
+    .contactRow{display:grid; gap:10px}
+    .field{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 12px;
+      background: rgba(255,255,255,.02);
+      color:var(--muted);
+      font-size:14px;
+    }
+    .field b{color:var(--text)}
+    .tiny{font-size:12px;color:rgba(245,245,245,.45)}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{grid-template-columns: 1fr; padding-top:22px}
+      .stats{grid-template-columns: 1fr 1fr}
+      h1{font-size:38px}
+      .mediaGrid{grid-template-columns: 1fr}
+    }
+    @media (max-width: 720px){
+      nav{display:none}
+      .menuBtn{display:inline-flex}
+      .mobileNav.show{display:block}
+      .grid3{grid-template-columns:1fr}
+      .gallery{grid-template-columns: repeat(6, 1fr)}
+      .gItem{grid-column: span 6}
+      h1{font-size:34px}
+      .stats{grid-template-columns: 1fr 1fr}
+    }
+    @media (max-width: 420px){
+      .stats{grid-template-columns:1fr}
+    }
+  </style>
 </head>
+
 <body>
 
-<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-<a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT</a>
+  <header class="topbar">
+    <div class="inner">
+      <div class="brand" aria-label="MIQELLY">
+        <span class="dot" aria-hidden="true"></span>
+        <span>MIQELLY</span>
+      </div>
 
-<div class="hidden md:flex items-center gap-6 text-sm">
-<a href="https://sindikatevents.me/"         class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Početna</a>
-<a href="https://sindikatevents.me/poslovi/" class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Poslovi</a>
-<a href="https://sindikatevents.me/blog/"    class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Blog</a>
-<a href="https://sindikatevents.me/galerija/"class="hover:text-gold transition-colors font-medium text-sm xl:text-base">Galerija</a>
-<a href="https://sindikatevents.me/onama/"   class="block w-full rounded-xl border-neutral-800 font-medium text-sm hover:border-gold transition">O nama</a>
-<a href="https://sindikatevents.me/kontakt/"
-class="block w-full px-4 py-2 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-</div>
+      <nav aria-label="Glavna navigacija">
+        <a href="#stil">Stil</a>
+        <a href="#teme">Teme</a>
+        <a href="#media">Media</a>
+        <a href="#galerija">Galerija</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
 
-<label for="mobileNav"
-class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-aria-label="Otvori meni">☰</label>
-</div>
-
-<input id="mobileNav" type="checkbox" class="peer sr-only" />
-
-<div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
-peer-checked:opacity-100 peer-checked:pointer-events-auto">
-<label for="mobileNav"
-class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-aria-label="Zatvori meni">
-<span class="text-2xl leading-none">×</span>
-</label>
-
-<div class="absolute top-[72px] left-0 right-0">
-<nav class="px-4 pt-4 pb-16 space-y-2">
-<a href="https://sindikatevents.me/"          class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Početna</a>
-<a href="https://sindikatevents.me/poslovi/"  class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Poslovi</a>
-<a href="https://sindikatevents.me/blog/"     class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Blog</a>
-<a href="https://sindikatevents.me/galerija/" class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">Galerija</a>
-<a href="https://sindikatevents.me/onama/"    class="block w-full px-4 py-4 rounded-xl border border-neutral-800 hover:border-gold transition">O nama</a>
-<a href="https://sindikatevents.me/kontakt/"
-class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">Kontakt</a>
-</nav>
-</div>
-</div>
-</nav>
-
-<main>
-
-<section id="hero" class="section-shell pt-24 pb-20">
-<div class="grid lg:grid-cols-[1.1fr,0.9fr] gap-10 items-center">
-<div>
-<p class="section-kicker mb-3">Welcome to the Party</p>
-<h1 class="section-title text-4xl md:text-5xl lg:text-6xl mb-3">
-DJ <span class="gradient-gold">Miqelly</span>
-</h1>
-<p class="text-lg text-gray-100 mb-4">
-Neočekivani muzički putevi, sudar rock, pop i elektronike i Jugonostalgija
-setovi zbog kojih cijeli klub pjeva u glas.
-</p>
-<p class="text-sm text-gray-300 mb-6">
-Najčešće vrtim energične rock/pop mixeve, ali moj pravi potpis je spajanje pjesama
-koje na papiru nemaju veze – dok ne čuješ prelaz. Svako veče je posebna vožnja.
-</p>
-
-<div class="flex flex-wrap items-center gap-4">
-<a href="#booking"
-class="inline-flex items-center gap-2 bg-gold text-black font-semibold px-6 py-3 rounded-full text-sm hover:bg-yellow-500 btn-animate">
-Bookuj nastup
-</a>
-<a href="#mixes"
-class="inline-flex items-center gap-2 text-sm text-gray-200 hover:text-gold transition">
-▶ Preslušaj mixeve
-</a>
-</div>
-</div>
-
-<div class="relative">
-<div class="absolute -inset-1 bg-gradient-to-tr from-fuchsia-500/40 via-cyan-400/30 to-transparent blur-2xl opacity-80"></div>
-<div class="relative glass rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-<div class="aspect-[4/5] bg-[url('/fotke/miqelly/miqelly-dj-pult-podgorica-performance.jpg')] bg-cover bg-center relative">
-<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 flex flex-col gap-1">
-<p class="text-xs uppercase tracking-[0.2em] text-gray-300">Live highlight</p>
-<p class="font-montserrat font-semibold text-xl">Jugonostalgija · Rock &amp; Friends</p>
-<p class="text-xs text-gray-400">
-Neočekivani prelazi, poznati refreni i podijum koji ne miruje.
-</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="about" class="section-shell border-t border-gray-800/60 bg-black/40">
-<div class="grid md:grid-cols-2 gap-10 items-start">
-<div>
-<p class="section-kicker mb-2">No.1 DJ Experience</p>
-<h2 class="section-title text-3xl md:text-4xl mb-4">O Miqelly-ju</h2>
-<p class="text-gray-300 mb-4">
-Ja sam DJ koji uživa u slaganju neočekivanih muzičkih puteva. Najčešće vrtim energične rock/pop mixeve,
-ali moj pravi potpis je spajanje pjesama koje po svemu djeluju nepovezivo. Upravo iz tog sudara nastaje set
-koji stalno mijenja ritam, boju i emociju, a publici drži osmijeh u pokretu.
-</p>
-<p class="text-gray-300 mb-4">
-Posebno mjesto u mom radu zauzima <span class="text-gold font-semibold">Jugonostalgija</span>, set posvećen
-legendarnim rock hitovima bivše Jugoslavije. To je prostor gdje se prošlost i sadašnjost druže bez žurbe,
-a publika se vraća zvucima koji su obilježili generacije.
-</p>
-<p class="text-gray-300">
-Volim rušiti žanrovske granice i stvarati atmosferu koja se ne ponavlja.
-Svaki nastup je <span class="text-electric-blue font-semibold">jedinstvena vožnja kroz muziku</span>.
-</p>
-</div>
-
-<div class="space-y-4">
-<div class="glass rounded-2xl border border-white/10 p-5">
-<h3 class="font-montserrat font-semibold text-sm mb-3 uppercase tracking-[0.18em]">Žanrovi</h3>
-<p class="text-sm text-gray-300">
-Rock, Pop, Dance/Electronic, Disco, Synthpop, Synthwave, Alternative/Indie
-</p>
-</div>
-<div class="glass rounded-2xl border border-gold/40 p-5">
-<h3 class="font-montserrat font-semibold text-sm mb-3 uppercase tracking-[0.18em] text-gold">Sindikat preporuka</h3>
-<p class="text-sm text-gray-200">
-Miqelly je dio šire mreže DJ-eva i izvođača sa kojima Sindikat sarađuje.
-Ako već planiraš događaj sa Sindikat produkcijom, ovo je DJ koji se savršeno uklapa u
-koncept večeri koja se pamti.
-</p>
-</div>
-</div>
-</div>
-</section>
-
-<section id="feature" class="section-shell">
-<div class="grid lg:grid-cols-[1.1fr,0.9fr] gap-10 items-center">
-<div>
-<p class="section-kicker mb-2">Live vibe</p>
-<h2 class="section-title text-3xl md:text-4xl mb-4">Jugonostalgija – uživo</h2>
-<p class="text-sm text-gray-300 mb-4">
-Jedan od setova koji najbolje opisuju ono što radim – spajanje kultnih ex-Yu rock hitova,
-modernog zvuka i publike koja zna svaki refren.
-</p>
-<p class="text-sm text-gray-300 mb-4">
-Ako želiš da tvoj događaj ima momenat totalnog kolektivnog pjevanja, Jugonostalgija blok je
-savršen dio večeri.
-</p>
-<a href="https://www.instagram.com/miqelly_/" target="_blank" rel="noopener"
-class="inline-flex items-center gap-2 text-sm text-gold hover:text-yellow-300">
-📸 Pogledaj još nastupa na Instagramu
-</a>
-</div>
-
-<div class="glass rounded-3xl border border-gray-700 p-0">
-<div class="relative w-full aspect-[16/9] overflow-hidden rounded-3xl border-none bg-black">
-<iframe
-src="https://www.instagram.com/reel/DMdiiHqoN4-/embed"
-class="absolute inset-0 w-full h-full"
-allowtransparency="true"
-allowfullscreen="true"
-scrolling="no">
-</iframe>
-</div>
-</div>
-</div>
-</section>
-
-<section id="vibe" class="section-shell bg-black/40 border-y border-gray-800/60">
-<div class="mb-8 text-center">
-<p class="section-kicker mb-2">Meet the vibe</p>
-<h2 class="section-title text-3xl md:text-4xl">Šta dobijaš sa Miqelly-jem</h2>
-</div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<div class="icon-pill">01</div>
-<h3 class="font-montserrat text-sm font-semibold uppercase tracking-[0.16em]">Neočekivani prelazi</h3>
-<p class="text-xs text-gray-300">
-Pjesme koje nikad ne bi spojio na papiru – ali u setu zvuče kao da su oduvijek bile zajedno.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<div class="icon-pill">02</div>
-<h3 class="font-montserrat text-sm font-semibold uppercase tracking-[0.16em]">Jugonostalgija</h3>
-<p class="text-xs text-gray-300">
-Kultni ex-Yu rock i pop u novoj energiji – momenat kada se cijeli prostor pretvara u jedan glas.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<div class="icon-pill">03</div>
-<h3 class="font-montserrat text-sm font-semibold uppercase tracking-[0.16em]">Čitanje publike</h3>
-<p class="text-xs text-gray-300">
-Nema unaprijed zaključanog playlista – set se gradi u hodu, prateći energiju na podijumu.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<div class="icon-pill">04</div>
-<h3 class="font-montserrat text-sm font-semibold uppercase tracking-[0.16em]">Profesionalan pristup</h3>
-<p class="text-xs text-gray-300">
-Precizno vrijeme, dogovor, rider i komunikacija – sve što treba da veče bude bez stresa.
-</p>
-</div>
-</div>
-</section>
-
-<section class="section-shell py-0">
-  <div class="aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden border border-gray-700 shadow-2xl">
-    <img src="/fotke/miqelly/miqelly-dj-pult-podgorica-performance.jpg"
-         alt="Live nastup DJ Miqelly-ja"
-         class="w-full h-full object-cover">
-  </div>
-</section>
-
-
-<section id="services" class="section-shell">
-<div class="mb-8 text-center">
-<p class="section-kicker mb-2">Idealno za</p>
-<h2 class="section-title text-3xl md:text-4xl">Gdje se Miqelly najbolje uklapa</h2>
-<p class="text-sm text-gray-400 mt-2">
-Nije isti pristup za klupsko veče, korporativnu zabavu ili festivalsku binu – set se prilagođava formatu.
-</p>
-</div>
-<div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-<div class="glass rounded-2xl border border-gray-700 p-5">
-<h3 class="font-montserrat font-semibold text-base mb-2">Klupske večeri</h3>
-<p class="text-sm text-gray-300">
-Late-night setovi sa fokusom na energiju, ples i neočekivane mashup-ove.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5">
-<h3 class="font-montserrat font-semibold text-base mb-2">Korporativne žurke</h3>
-<p class="text-sm text-gray-300">
-Muzika koja drži ljude na nogama, bez previše “tvrdih” momenata – idealno za afterwork i team building.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5">
-<h3 class="font-montserrat font-semibold text-base mb-2">Festivali &amp; open-air</h3>
-<p class="text-sm text-gray-300">
-Brži, čvršći setovi sa focusom na masovnu energiju i refrene koje publika zna.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5">
-<h3 class="font-montserrat font-semibold text-base mb-2">Privatne proslave</h3>
-<p class="text-sm text-gray-300">
-Rođendani, manje svadbe, proslave – setovi koji kombinuju ukus domaćina i vibe gostiju.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5">
-<h3 class="font-montserrat font-semibold text-base mb-2">Tematske večeri</h3>
-<p class="text-sm text-gray-300">
-Ex-Yu veče, rock night, 80s/90s, mashup maraton – tematski koncepti koji nose cijelu noć.
-</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5">
-<h3 class="font-montserrat font-semibold text-base mb-2">Support za live bendove</h3>
-<p class="text-sm text-gray-300">
-DJ prije i poslije benda, set koji nadovezuje i ne ruši atmosferu live nastupa.
-</p>
-</div>
-</div>
-</section>
-
-<section class="section-shell py-0">
-  <div class="aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden border border-gray-700 shadow-2xl">
-    <img src="/fotke/miqelly/miqelly-dj-pult-podgorica-performance.jpg"
-         alt="Live nastup DJ Miqelly-ja"
-         class="w-full h-full object-cover">
-  </div>
-</section>
-
-
-<section id="mixes" class="section-shell bg-black/40 border-y border-gray-800/60">
-<div class="mb-6">
-<p class="section-kicker mb-2">Set concepts</p>
-<h2 class="section-title text-3xl md:text-4xl mb-2">Tipovi setova &amp; večeri</h2>
-<p class="text-sm text-gray-400 max-w-2xl">
-Umjesto fiksnog kalendara, ovdje su koncepti koji najbolje opisuju šta možeš da očekuješ na nastupu –
-svaki od njih se prilagođava lokaciji i publici.
-</p>
-</div>
-
-<div class="grid grid-cols-2 gap-6">
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-2">
-<div class="text-xs uppercase tracking-[0.2em] text-gray-400">Jugonostalgija Night</div>
-<h3 class="font-montserrat text-xl font-semibold">Deep Ex-Yu Cuts</h3>
-<p class="text-xs text-gray-400">Idealno za: klub, veće privatne proslave</p>
-<p class="text-sm text-gray-300 mt-1">
-Kultni ex-Yu rock, pop i new wave, spojeni u set koji nosi cijelu noć.
-U jednom trenutku se pleše, u drugom svi stoje na stolicama i pjevaju.
-</p>
-</div>
-
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-2">
-<div class="text-xs uppercase tracking-[0.2em] text-gray-400">Rock / Pop Mashup</div>
-<h3 class="font-montserrat text-xl font-semibold">Unexpected Mix Session</h3>
-<p class="text-xs text-gray-400">Idealno za: korporativne žurke, mješovitu publiku</p>
-<p class="text-sm text-gray-300 mt-1">
-Brzi prelazi između rock, pop i hitova koje svi znaju, ali u aranžmanima na koje se ne očekuje.
-</p>
-</div>
-
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-2">
-<div class="text-xs uppercase tracking-[0.2em] text-gray-400">Late-night Synth</div>
-<h3 class="font-montserrat text-xl font-semibold">Synthwave &amp; Dance Drive</h3>
-<p class="text-xs text-gray-400">Idealno za: klub, after, festivalske bine</p>
-<p class="text-sm text-gray-300 mt-1">
-Mračniji, vožnja zvuk za kasne sate – synth, elektronika i dance momenti koji drže tempo.
-</p>
-</div>
-
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-2">
-<div class="text-xs uppercase tracking-[0.2em] text-gray-400">Custom Set</div>
-<h3 class="font-montserrat text-xl font-semibold">Po mjeri događaja</h3>
-<p class="text-xs text-gray-400">Idealno za: specifične brendove i privatne kliijente</p>
-<p class="text-sm text-gray-300 mt-1">
-Set sastavljen nakon kratkog brifa – žanrovi, energija i tempo se sklapaju tačno po potrebama događaja.
-</p>
-</div>
-</div>
-</section>
-
-<section class="section-shell py-0">
-  <div class="aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden border border-gray-700 shadow-2xl">
-    <img src="/fotke/miqelly/miqelly-dj-pult-podgorica-performance.jpg"
-         alt="Live nastup DJ Miqelly-ja"
-         class="w-full h-full object-cover">
-  </div>
-</section>
-
-
-<section id="booking" class="section-shell bg-black/40 border-y border-gray-800/60">
-<div class="max-w-2xl"> 
-    <p class="section-kicker mb-2">Contact</p>
-    <h2 class="section-title text-3xl md:text-4xl mb-3">Booking za DJ Miqelly-ja</h2>
-    <p class="text-sm text-gray-300 mb-4">
-    Želiš DJ set koji neće ličiti ni na jedan prethodni?
-    Idealno za klupske večeri, korporativne žurke, festivale i posebne događaje gdje je muzika jednako važna kao i atmosfera.
-    </p>
-    <p class="text-sm text-gray-300 mb-4">
-    Pošalji poruku sa kratkim opisom događaja, datumom i lokacijom – odgovor stiže direktno od Miqelly-ja.
-    </p>
-
-    <div class="space-y-3 text-sm text-gray-200">
-    <div>
-    <p class="font-montserrat text-xs uppercase tracking-[0.18em] text-gray-400 mb-1">Instagram</p>
-    <a href="https://www.instagram.com/miqelly_/" target="_blank" rel="noopener"
-    class="text-gold hover:text-yellow-300">@miqelly_</a>
-    </div>
+      <button class="menuBtn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">Menu</button>
     </div>
 
-    <p id="disclaimer-end" class="text-[11px] text-gray-500 mt-4">
-    *Sindikat ovaj profil preporučuje na osnovu iskustva sa događaja, ali svi dogovori oko termina i fee-a idu direktno sa DJ-em.
-    </p>
-</div>
-</section>
+    <div class="mobileNav" id="mobileNav">
+      <a href="#stil">Stil</a>
+      <a href="#teme">Teme</a>
+      <a href="#media">Media</a>
+      <a href="#galerija">Galerija</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+  </header>
 
-<section id="testimonials" class="section-shell">
-<div class="mb-8 text-center">
-<p class="section-kicker mb-2">They say</p>
-<h2 class="section-title text-3xl md:text-4xl">Utisci sa nastupa</h2>
-</div>
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<h3 class="font-montserrat font-semibold text-base">“Neočekivan, ali savršen”</h3>
-<p class="text-sm text-gray-300">
-“Prelazi koje radi su totalno neočekivani, ali svaki put pogodi momenat. Publika je bila na nogama do kraja.”
-</p>
-<p class="text-xs text-gray-400 mt-1">– Menadžer kluba</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<h3 class="font-montserrat font-semibold text-base">“Jugonostalgija moment”</h3>
-<p class="text-sm text-gray-300">
-“Onaj dio večeri sa ex-Yu blokom – svi pjevaju, niko ne snima. To je uvijek znak da je stvarno dobro.”
-</p>
-<p class="text-xs text-gray-400 mt-1">– Organizator festivala</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<h3 class="font-montserrat font-semibold text-base">“Lagano za saradnju”</h3>
-<p class="text-sm text-gray-300">
-“Brz dogovor, rider sređen, na licu mjesta bez stresa. Nama je to ključ kada radimo veće događaje.”
-</p>
-<p class="text-xs text-gray-400 mt-1">– Sindikat tim</p>
-</div>
-<div class="glass rounded-2xl border border-gray-700 p-5 flex flex-col gap-3">
-<h3 class="font-montserrat font-semibold text-base">“Veče koje se pamti”</h3>
-<p class="text-sm text-gray-300">
-“Gosti su danima poslije slali poruke ‘ko je bio DJ?’ – to je najlakši način da znamo da smo pogodili.”
-</p>
-<p class="text-xs text-gray-400 mt-1">– Privatni klijent</p>
-</div>
-</div>
-</section>
+  <main class="wrap">
 
+    <!-- HERO -->
+    <div class="hero" id="top">
+      <div class="card">
+        <div class="kicker">DJ | Kurator energije | Majstor neočekivanih prelaza</div>
+        <h1>MIQELLY</h1>
+        <p class="subtitle">
+          DJ sa misijom: svaku žurku pretvaram u iskustvo koje se pamti — neočekivano, ali smisleno.
+          Flow je sve: svaki prelaz je namjeran, svaki momenat ima vrhunac.
+        </p>
 
-</main>
+        <div class="actions">
+          <a class="btn primary" href="#kontakt">Book / Upit</a>
+          <a class="btn" href="#media">Listen / Watch</a>
+          <a class="btn" href="#galerija">Galerija</a>
+        </div>
 
-<a id="sticky-booking-btn" href="https://www.instagram.com/miqelly_/" target="_blank" rel="noopener"
-   class="fixed bottom-6 right-6 z-[100] bg-gold text-black font-bold px-5 py-3 rounded-full shadow-2xl hover:bg-yellow-500 transition-all transform hover:scale-105 btn-animate flex items-center gap-2 text-sm">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-    </svg>
-    REZERVIŠI NASTUP
-</a>
+        <div class="badgeRow" aria-label="Vibe">
+          <span class="badge">Rock/Pop</span>
+          <span class="badge">Ex-Yu</span>
+          <span class="badge">Urbana domaćica</span>
+          <span class="badge">Disco</span>
+          <span class="badge">Synth / Tech edge</span>
+        </div>
+      </div>
 
-<footer class="bg-gray-900 py-16 px-6">
-<div class="max-w-7xl mx-auto">
-<div class="grid md:grid-cols-2 gap-12">
+      <div class="card">
+        <div class="h2">Brzi pregled</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="n">∞</div>
+            <div class="l">Žanrovski miks</div>
+          </div>
+          <div class="stat">
+            <div class="n">100%</div>
+            <div class="l">Flow & narativ</div>
+          </div>
+          <div class="stat">
+            <div class="n">3</div>
+            <div class="l">Tematske noći</div>
+          </div>
+          <div class="stat">
+            <div class="n">1</div>
+            <div class="l">Cilj: pun podijum</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div>
-<h4 class="text-lg font-semibold font-montserrat mb-6">Brzi Kontakt</h4>
-<div class="space-y-6">
-<a href="https://wa.me/38267506440" class="flex items-center space-x-4 p-4 bg-green-600 hover:bg-green-700 rounded-xl transition-all hover:scale-105 group">
-<div class="text-2xl">📱</div>
-<div>
-<h5 class="font-semibold">WhatsApp</h5>
-<p class="text-sm">+382 67 506 440</p>
-<p class="text-xs text-green-100">Najbrži odgovor - obično u roku od nekoliko minuta</p>
-</div>
-</a>
-<a href="https://instagram.com/sindikat_events" class="flex items-center space-x-4 p-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-xl transition-all hover:scale-105 group">
-<div class="text-2xl">📸</div>
-<div>
-<h5 class="font-semibold">Instagram</h5>
-<p class="text-sm">@sindikat_events</p>
-<p class="text-xs text-pink-100">Pogledajte naše najnovije događaje i iza kulisa</p>
-</div>
-</a>
-<div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-<div class="text-2xl">📞</div>
-<div>
-<h5 class="font-semibold">Telefon</h5>
-<p class="text-sm">+382 67 506 440</p>
-<p class="text-xs text-gray-400">Dostupni Pon-Pet 9-18h</p>
-</div>
-</div>
-<div class="flex items-center space-x-4 p-4 bg-gray-800 rounded-xl">
-<div class="text-2xl">📍</div>
-<div>
-<h5 class="font-semibold">Lokacija</h5>
-<p class="text-sm">Podgorica, Crna Gora</p>
-<p class="text-xs text-gray-400">Služimo celu Crnu Goru</p>
-</div>
-</div>
-</div>
-</div>
+    <!-- STIL -->
+    <section id="stil">
+      <div class="h2">Moj stil</div>
+      <div class="grid3">
+        <div class="card">
+          <h3 class="title">Kreativna sloboda</h3>
+          <p class="p">Najbolje radim kad imam prostor da gradim energiju i priču — od prvog do zadnjeg prelaza.</p>
+        </div>
 
-<div class="flex flex-col justify-center">
-<h4 class="text-lg font-semibold font-montserrat mb-6">Kontaktirajte Sindikat</h4>
-<a href="https://sindikatevents.me/kontakt/"
-class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
-Idi na Kontakt Stranicu
-</a>
-</div>
-</div>
+        <div class="card">
+          <h3 class="title">Flow iznad svega</h3>
+          <p class="p">Pjesme su iz svih epoha i krajeva svijeta — ali u uvijek smislenom redosledu.</p>
+          <ul class="miniList">
+            <li><span class="tick"></span> Namjerni prelazi</li>
+            <li><span class="tick"></span> Gradnja dinamike</li>
+            <li><span class="tick"></span> Vrhunci sa razlogom</li>
+          </ul>
+        </div>
 
-<div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-<p class="text-gray-400">&copy; <span id="yearSpan">2024</span> Sindikat. Sva prava zadržana.</p>
-<p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
-</div>
-</div>
-</footer>
+        <div class="card">
+          <h3 class="title">Autentično, ne generički</h3>
+          <p class="p">Set je uvijek prilagođen publici, prostoru i energiji — bez “copy/paste” plejlista.</p>
+        </div>
+      </div>
+    </section>
 
-<script>
-document.getElementById('yearSpan').textContent = new Date().getFullYear();
+    <!-- TEME -->
+    <section id="teme">
+      <div class="h2">Tematske žurke</div>
 
-// LOGIKA ZA STICKY DUGME KOJE SE ZAUSTAVLJA
-const stickyBtn = document.getElementById('sticky-booking-btn');
-// Sada ciljamo TAČNO disklejmer paragraf
-const stopElement = document.getElementById('disclaimer-end'); 
-// 24px je ekvivalentno 'bottom-6' i 'right-6' u Tailwind-u (1.5rem)
-const bottomMargin = 24; 
+      <div class="grid3">
+        <div class="card">
+          <div class="kicker">GUILTY PLEASURE</div>
+          <h3 class="title">Hitovi koje svi znamo</h3>
+          <p class="p">Od modernog rocka do folk klasike — potpuno slobodno, maksimalno zabavno.</p>
+        </div>
 
-function checkStickyPosition() {
-    if (!stickyBtn || !stopElement) return;
+        <div class="card">
+          <div class="kicker">EX-YU / NOVIJA DOMAĆICA</div>
+          <h3 class="title">Balkan 1950 → danas</h3>
+          <p class="p">Bezvremenski hitovi, urbana scena, novi talas i savremeni regionalni zvuk.</p>
+        </div>
 
-    const btnHeight = stickyBtn.offsetHeight;
-    const stopRect = stopElement.getBoundingClientRect();
+        <div class="card">
+          <div class="kicker">SYNTHWAVE NIGHT</div>
+          <h3 class="title">Retro-futuristički ples</h3>
+          <p class="p">Neon estetika, emotivne melodije i ritam na ivici techna — hipnotički i vožnja kroz noć.</p>
+        </div>
+      </div>
 
-    // 1. Izračunavamo Y poziciju na kojoj se nalazi donja ivica FIXED dugmeta u viewportu.
-    const fixedButtonBottomY = window.innerHeight - bottomMargin;
+      <div class="card" style="margin-top:12px">
+        <div class="h2">Privatni događaji</div>
+        <p class="p">
+          Repertoar slažemo zajedno — prilagođeno publici, prostoru i energiji koju želiš.
+        </p>
+        <div class="badgeRow" style="margin-top:12px">
+          <span class="badge">Svadbe</span>
+          <span class="badge">Rođendani</span>
+          <span class="badge">Proslave</span>
+          <span class="badge">Korporativni eventi</span>
+          <span class="badge">Tematske zabave</span>
+        </div>
+      </div>
+    </section>
 
-    // 2. Uslov za ABSOLUTE: Donja ivica disklejmera (stopElement) je scroll-ovana na 
-    //    ili iznad mjesta gdje bi se donja ivica fiksiranog dugmeta nalazila.
-    if (stopRect.bottom <= fixedButtonBottomY) {
-        // Prebacivanje na absolute poziciju
-        stickyBtn.classList.remove('fixed', 'bottom-6', 'right-6');
-        stickyBtn.classList.add('absolute');
-        
-        // Izračunavanje apsolutne 'top' pozicije:
-        // Apsolutna Bottom pozicija bloka + scroll - Visina dugmeta - Donja margina (24px)
-        const stopElementBottomAbsolute = stopRect.bottom + window.scrollY;
-        
-        // Dugme se postavlja tačno iznad dna ciljanog bloka (sa marginom od 24px)
-        stickyBtn.style.top = `${stopElementBottomAbsolute - btnHeight - bottomMargin}px`;
-        stickyBtn.style.right = `${bottomMargin}px`; 
+    <!-- MEDIA -->
+    <section id="media">
+      <div class="h2">Listen / Watch / Instagram</div>
 
-    } else {
-        // Ostaje FIXED
-        stickyBtn.classList.remove('absolute');
-        stickyBtn.classList.add('fixed', 'bottom-6', 'right-6');
-        stickyBtn.style.top = '';
-        stickyBtn.style.right = '';
+      <div class="mediaGrid">
+        <div class="embed">
+          <div class="embedHeader">
+            <span>Spotify</span>
+            <span class="tiny">zalijepi embed link</span>
+          </div>
+          <div class="embedBody">
+            <!-- Zamijeni src sa svojim Spotify embed linkom -->
+            <iframe
+              style="border-radius:12px"
+              src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4dyzvuaRJ0n?utm_source=generator"
+              height="352"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="Spotify embed"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="embed">
+          <div class="embedHeader">
+            <span>YouTube</span>
+            <span class="tiny">set / live snippet</span>
+          </div>
+          <div class="embedBody">
+            <!-- Zamijeni VIDEO_ID -->
+            <iframe
+              height="352"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="YouTube video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
+          <span>Instagram</span>
+          <span class="tiny">profil ili post embed</span>
+        </div>
+
+        <!-- OPCIJA 1: Instagram post embed (najstabilnije vizuelno)
+             1) idi na IG post → Share → Embed → copy link
+             2) zamijeni href u blockquote -->
+        <blockquote class="instagram-media"
+          data-instgrm-permalink="https://www.instagram.com/p/CxXxXxXxXxX/"
+          data-instgrm-version="14"
+          style="background:#0f0f12; border:1px solid var(--line); border-radius:18px; margin:0; padding:12px;">
+          <a href="https://www.instagram.com/p/CxXxXxXxXxX/" target="_blank" rel="noopener" style="color:var(--muted);">
+            Učitaj Instagram embed (zamijeni link).
+          </a>
+        </blockquote>
+
+        <!-- OPCIJA 2: Profil link (ako neće embed, samo CTA dugme) -->
+        <div class="actions" style="margin-top:12px">
+          <a class="btn" href="https://www.instagram.com/miqelly/" target="_blank" rel="noopener">Instagram profil</a>
+        </div>
+      </div>
+
+      <!-- Instagram embed script -->
+      <script async src="https://www.instagram.com/embed.js"></script>
+    </section>
+
+    <!-- GALERIJA -->
+    <section id="galerija">
+      <div class="h2">Galerija</div>
+
+      <div class="gallery" id="gallery">
+        <!-- Zamijeni slike svojim URL-ovima -->
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1800&q=80" data-title="Live set — club night">
+          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80" alt="DJ set" loading="lazy" />
+          <div class="gCap">LIVE</div>
+        </div>
+
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1520694478161-93d56b1b74a3?auto=format&fit=crop&w=1800&q=80" data-title="Crowd energy">
+          <img src="https://images.unsplash.com/photo-1520694478161-93d56b1b74a3?auto=format&fit=crop&w=900&q=80" alt="Crowd" loading="lazy" />
+          <div class="gCap">ENERGY</div>
+        </div>
+
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=1800&q=80" data-title="Booth & lights">
+          <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="DJ booth" loading="lazy" />
+          <div class="gCap">BOOTH</div>
+        </div>
+
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1520694478161-93d56b1b74a3?auto=format&fit=crop&w=1800&q=80" data-title="Theme night — guilty pleasure">
+          <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="Theme night" loading="lazy" />
+          <div class="gCap">THEME</div>
+        </div>
+
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1800&q=80" data-title="Private event">
+          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80" alt="Private event" loading="lazy" />
+          <div class="gCap">PRIVATE</div>
+        </div>
+
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=1800&q=80" data-title="Synthwave night">
+          <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="Synthwave" loading="lazy" />
+          <div class="gCap">SYNTH</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KONTAKT -->
+    <section id="kontakt">
+      <div class="h2">Kontakt / Booking</div>
+
+      <div class="footerGrid">
+        <div class="card">
+          <h3 class="title">Šta možeš očekivati?</h3>
+          <ul class="miniList">
+            <li><span class="tick"></span> Neočekivane, ali smislene prelaze</li>
+            <li><span class="tick"></span> Dinamiku koja se gradi</li>
+            <li><span class="tick"></span> Miks nostalgije i savremenog zvuka</li>
+            <li><span class="tick"></span> Energiju koja drži podijum punim</li>
+            <li><span class="tick"></span> Autentičan set — nikad generički</li>
+          </ul>
+
+          <div class="actions" style="margin-top:14px">
+            <!-- Zamijeni mail i tel -->
+            <a class="btn primary" href="mailto:booking@miqelly.com?subject=Booking%20upit%20—%20MIQELLY">Pošalji email</a>
+            <a class="btn" href="tel:+382000000000">Pozovi</a>
+            <a class="btn" href="#top">Na vrh</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="contactRow">
+            <div class="field"><b>Email:</b> booking@miqelly.com</div>
+            <div class="field"><b>Telefon:</b> +382 00 000 000</div>
+            <div class="field"><b>Lokacija:</b> Podgorica / CG (putujem po regionu)</div>
+            <div class="field"><b>IG:</b> @miqelly</div>
+            <div class="tiny">Tip: ako želiš, dodaj Google Form ili Typeform umjesto mailto.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="card" style="box-shadow:none">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+          <div class="brand"><span class="dot" aria-hidden="true"></span><span>MIQELLY</span></div>
+          <div class="tiny">© <span id="year"></span> — DJ | Kurator energije</div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerija pregled">
+    <div class="lbCard">
+      <div class="lbTop">
+        <strong id="lbTitle">Preview</strong>
+        <button class="lbClose" id="lbClose">Zatvori</button>
+      </div>
+      <img class="lbImg" id="lbImg" src="" alt="Galerija preview" />
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = mobileNav.classList.toggle('show');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Close mobile nav on click
+    mobileNav?.querySelectorAll('a')?.forEach(a => {
+      a.addEventListener('click', () => {
+        mobileNav.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Gallery lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbTitle = document.getElementById('lbTitle');
+    const lbClose = document.getElementById('lbClose');
+
+    document.querySelectorAll('.gItem').forEach(item => {
+      item.addEventListener('click', () => {
+        const full = item.getAttribute('data-full');
+        const title = item.getAttribute('data-title') || 'Preview';
+        lbImg.src = full;
+        lbTitle.textContent = title;
+        lb.classList.add('open');
+      });
+    });
+
+    function closeLightbox(){
+      lb.classList.remove('open');
+      lbImg.src = '';
     }
-}
 
-// Inicijalni poziv i postavljanje listenera za scroll i resize
-window.addEventListener('scroll', checkStickyPosition);
-window.addEventListener('resize', checkStickyPosition);
-checkStickyPosition(); // Poziv pri učitavanju
-</script>
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 
 </body>
 </html>
