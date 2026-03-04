@@ -35,6 +35,7 @@
 
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:18px}
+
     .topbar{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
@@ -68,6 +69,7 @@
       color:var(--text);
       border-radius:12px;
       padding:10px 12px;
+      cursor:pointer;
     }
 
     /* Mobile nav */
@@ -86,20 +88,80 @@
     }
     .mobileNav a:hover{color:var(--text)}
 
-    /* Hero */
-    .hero{
-      padding:34px 0 10px;
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:18px;
-      align-items:stretch;
-    }
+    /* Cards / sections */
     .card{
       background:var(--card);
       border:1px solid var(--line);
       border-radius:var(--radius2);
       padding:20px;
       box-shadow:var(--shadow);
+    }
+    section{padding:16px 0}
+    .h2{
+      margin:0 0 12px;
+      font-size:14px;
+      letter-spacing:.9px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .title{
+      margin:0 0 10px;
+      font-size:18px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+    }
+    .p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Hero cover image (header photo) */
+    .heroCover{
+      border-radius: var(--radius2);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:#0f0f12;
+      box-shadow: var(--shadow);
+      margin: 16px 0 18px;
+      position:relative;
+    }
+    .heroCover img{
+      width:100%;
+      height: clamp(240px, 34vw, 460px);
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      filter: contrast(1.02) saturate(1.04);
+    }
+    /* NO gradients: just a simple solid overlay for readability */
+    .heroCover .overlay{
+      position:absolute;
+      inset:0;
+      background: rgba(11,11,12,.38);
+      pointer-events:none;
+    }
+    .heroCoverTag{
+      position:absolute;
+      left: 14px;
+      bottom: 14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size:12px;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+    }
+
+    /* Hero content */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:18px;
+      align-items:stretch;
+      padding: 0 0 10px;
     }
     .kicker{
       color:var(--accent);
@@ -170,27 +232,13 @@
     .stat .n{font-size:26px;font-weight:800;letter-spacing:.2px}
     .stat .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.8px}
 
-    /* Sections */
-    section{padding:16px 0}
+    /* Grids */
     .grid3{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap:12px;
     }
-    .h2{
-      margin:0 0 12px;
-      font-size:14px;
-      letter-spacing:.9px;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    .title{
-      margin:0 0 10px;
-      font-size:18px;
-      text-transform:uppercase;
-      letter-spacing:.6px;
-    }
-    .p{margin:0;color:var(--muted);font-size:14px}
+
     .miniList{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:8px}
     .miniList li{
       display:flex; gap:10px; align-items:flex-start;
@@ -328,8 +376,7 @@
 
     /* Responsive */
     @media (max-width: 900px){
-      .hero{grid-template-columns: 1fr; padding-top:22px}
-      .stats{grid-template-columns: 1fr 1fr}
+      .hero{grid-template-columns: 1fr}
       h1{font-size:38px}
       .mediaGrid{grid-template-columns: 1fr}
     }
@@ -379,6 +426,17 @@
   </header>
 
   <main class="wrap">
+
+    <!-- HEADER IMAGE (na vrh) -->
+    <div class="heroCover" aria-label="Miqelly header">
+      <!-- Zamijeni src njegovom slikom (idealno 2000px širine) -->
+      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=2400&q=80" alt="MIQELLY DJ header" loading="eager" />
+      <div class="overlay" aria-hidden="true"></div>
+      <div class="heroCoverTag">
+        <span class="dot" aria-hidden="true"></span>
+        <span>MIQELLY • LIVE</span>
+      </div>
+    </div>
 
     <!-- HERO -->
     <div class="hero" id="top">
@@ -501,7 +559,7 @@
         <div class="embed">
           <div class="embedHeader">
             <span>Spotify</span>
-            <span class="tiny">zalijepi embed link</span>
+            <span class="tiny">https://www.instagram.com/miqelly_/?hl=enhttps://www.instagram.com/miqelly_/?hl=enhttps://www.instagram.com/miqelly_/?hl=en</span>
           </div>
           <div class="embedBody">
             <!-- Zamijeni src sa svojim Spotify embed linkom -->
@@ -541,9 +599,7 @@
           <span class="tiny">profil ili post embed</span>
         </div>
 
-        <!-- OPCIJA 1: Instagram post embed (najstabilnije vizuelno)
-             1) idi na IG post → Share → Embed → copy link
-             2) zamijeni href u blockquote -->
+        <!-- Instagram post embed (zamijeni link) -->
         <blockquote class="instagram-media"
           data-instgrm-permalink="https://www.instagram.com/p/CxXxXxXxXxX/"
           data-instgrm-version="14"
@@ -553,13 +609,11 @@
           </a>
         </blockquote>
 
-        <!-- OPCIJA 2: Profil link (ako neće embed, samo CTA dugme) -->
         <div class="actions" style="margin-top:12px">
           <a class="btn" href="https://www.instagram.com/miqelly/" target="_blank" rel="noopener">Instagram profil</a>
         </div>
       </div>
 
-      <!-- Instagram embed script -->
       <script async src="https://www.instagram.com/embed.js"></script>
     </section>
 
@@ -568,7 +622,6 @@
       <div class="h2">Galerija</div>
 
       <div class="gallery" id="gallery">
-        <!-- Zamijeni slike svojim URL-ovima -->
         <div class="gItem" data-full="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1800&q=80" data-title="Live set — club night">
           <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80" alt="DJ set" loading="lazy" />
           <div class="gCap">LIVE</div>
@@ -584,7 +637,7 @@
           <div class="gCap">BOOTH</div>
         </div>
 
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1520694478161-93d56b1b74a3?auto=format&fit=crop&w=1800&q=80" data-title="Theme night — guilty pleasure">
+        <div class="gItem" data-full="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=1800&q=80" data-title="Theme night">
           <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="Theme night" loading="lazy" />
           <div class="gCap">THEME</div>
         </div>
@@ -617,7 +670,6 @@
           </ul>
 
           <div class="actions" style="margin-top:14px">
-            <!-- Zamijeni mail i tel -->
             <a class="btn primary" href="mailto:booking@miqelly.com?subject=Booking%20upit%20—%20MIQELLY">Pošalji email</a>
             <a class="btn" href="tel:+382000000000">Pozovi</a>
             <a class="btn" href="#top">Na vrh</a>
@@ -630,7 +682,7 @@
             <div class="field"><b>Telefon:</b> +382 00 000 000</div>
             <div class="field"><b>Lokacija:</b> Podgorica / CG (putujem po regionu)</div>
             <div class="field"><b>IG:</b> @miqelly</div>
-            <div class="tiny">Tip: ako želiš, dodaj Google Form ili Typeform umjesto mailto.</div>
+            <div class="tiny">Tip: možeš dodati Google Form/Typeform umjesto mailto.</div>
           </div>
         </div>
       </div>
