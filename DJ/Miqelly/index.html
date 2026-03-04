@@ -362,7 +362,11 @@
       gap:12px;
       align-items:start;
     }
-    .contactRow{display:grid; gap:10px}
+    .contactRow{
+      display:grid;
+      gap:10px;
+      grid-template-columns: 1fr; /* desktop default */
+    }
     .field{
       border:1px solid var(--line);
       border-radius:16px;
@@ -370,6 +374,7 @@
       background: rgba(255,255,255,.02);
       color:var(--muted);
       font-size:14px;
+      min-height:0;
     }
     .field b{color:var(--text)}
     .tiny{font-size:12px;color:rgba(245,245,245,.45)}
@@ -389,9 +394,16 @@
       .gItem{grid-column: span 6}
       h1{font-size:34px}
       .stats{grid-template-columns: 1fr 1fr}
+
+      /* contact section fix */
+      .footerGrid{grid-template-columns: 1fr !important;}
+      .card{padding:16px;}
+      .field{padding:10px 12px;}
+      .contactRow{grid-template-columns: 1fr 1fr; gap:10px;}
     }
     @media (max-width: 420px){
       .stats{grid-template-columns:1fr}
+      .contactRow{grid-template-columns: 1fr;}
     }
   </style>
 </head>
@@ -428,14 +440,20 @@
   <main class="wrap">
 
     <!-- HEADER IMAGE (na vrh) -->
-  <div class="heroCover" aria-label="Miqelly header">
-  <img src="fotke/mikeli.jpg" alt="MIQELLY DJ header" loading="eager" />
-  <div class="overlay" aria-hidden="true"></div>
-  <div class="heroCoverTag">
-    <span class="dot" aria-hidden="true"></span>
-    <span>MIQELLY • LIVE</span>
-  </div>
-</div>
+    <div class="heroCover" aria-label="Miqelly header">
+      <!-- Fallback: prvo relative (GitHub Pages u podfolderu), pa root -->
+      <img
+        src="./fotke/mikeli.jpg"
+        onerror="this.onerror=null; this.src='/fotke/mikeli.jpg';"
+        alt="MIQELLY DJ header"
+        loading="eager"
+      />
+      <div class="overlay" aria-hidden="true"></div>
+      <div class="heroCoverTag">
+        <span class="dot" aria-hidden="true"></span>
+        <span>MIQELLY • LIVE</span>
+      </div>
+    </div>
 
     <!-- HERO -->
     <div class="hero" id="top">
@@ -561,7 +579,6 @@
             <span class="tiny">Odabrana play lista ove nedelje</span>
           </div>
           <div class="embedBody">
-            <!-- Zamijeni src sa svojim Spotify embed linkom -->
             <iframe
               style="border-radius:12px"
               src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4dyzvuaRJ0n?utm_source=generator"
@@ -579,7 +596,6 @@
             <span class="tiny">set / live snippet</span>
           </div>
           <div class="embedBody">
-            <!-- Zamijeni VIDEO_ID -->
             <iframe
               height="352"
               src="https://www.youtube.com/embed/dQw4w9WgXcQ"
@@ -592,27 +608,26 @@
         </div>
       </div>
 
-      <div class="card" style="margin-top:12px">
-        <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
-          <span>Instagram</span>
-          <span class="tiny">profil ili post embed</span>
-        </div>
+     <div class="card" style="margin-top:12px">
+  <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
+    <span>Instagram</span>
+    <span class="tiny">najnoviji reel</span>
+  </div>
 
-        <!-- Instagram post embed (zamijeni link) -->
-        <blockquote class="instagram-media"
-          data-instgrm-permalink="https://www.instagram.com/miqelly_/"
-          data-instgrm-version="14"
-          style="background:#0f0f12; border:1px solid var(--line); border-radius:18px; margin:0; padding:12px;">
-          <a href="https://www.instagram.com/miqelly_/" target="_blank" rel="noopener" style="color:var(--muted);">
-        
-          </a>
-        </blockquote>
+  <blockquote
+    class="instagram-media"
+    data-instgrm-permalink="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4"
+    data-instgrm-version="14"
+    style="background:#0f0f12; border:1px solid var(--line); border-radius:18px; margin:0; padding:12px;">
+    <a href="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4" target="_blank" rel="noopener" style="color:var(--muted);">
+      Pogledaj reel na Instagramu
+    </a>
+  </blockquote>
 
-        <div class="actions" style="margin-top:12px">
-          <a class="btn" href="https://www.instagram.com/miqelly/" target="_blank" rel="noopener">Instagram profil</a>
-        </div>
-      </div>
-
+  <div class="actions" style="margin-top:12px">
+    <a class="btn" href="https://www.instagram.com/miqelly_/?hl=en" target="_blank" rel="noopener">Instagram profil</a>
+  </div>
+</div>
       <script async src="https://www.instagram.com/embed.js"></script>
     </section>
 
@@ -677,11 +692,13 @@
 
         <div class="card">
           <div class="contactRow">
-            <div class="field"><b>Email:</b> booking@miqelly.com</div>
-            <div class="field"><b>Telefon:</b> +382 00 000 000</div>
-            <div class="field"><b>Lokacija:</b> Podgorica / CG (putujem po regionu)</div>
-            <div class="field"><b>IG:</b> @miqelly</div>
-            <div class="tiny">Tip: možeš dodati Google Form/Typeform umjesto mailto.</div>
+            <div class="field"><b>Email:</b><br> booking@miqelly.com</div>
+            <div class="field"><b>Telefon:</b><br> +382 00 000 000</div>
+            <div class="field"><b>Lokacija:</b><br> Podgorica • Crna Gora</div>
+            <div class="field"><b>IG:</b><br> @miqelly_</div>
+            <div class="tiny" style="grid-column: 1 / -1;">
+              Tip: možeš dodati Google Form/Typeform umjesto mailto.
+            </div>
           </div>
         </div>
       </div>
