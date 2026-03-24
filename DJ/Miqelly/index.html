@@ -15,7 +15,7 @@
       --text:#f5f5f5;
       --muted:#b7b7b7;
       --line:rgba(245,245,245,.12);
-      --accent:#b6ff3b; /* promijeni ako hoćeš: #ff3b30 ili #ffd400 */
+      --accent:#b6ff3b;
       --radius:18px;
       --radius2:26px;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
@@ -36,6 +36,7 @@
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:18px}
 
+    /* Topbar (bez menija/hamburgera) */
     .topbar{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
@@ -50,43 +51,23 @@
       display:flex; align-items:center; gap:10px;
       font-weight:700; letter-spacing:.8px;
       text-transform:uppercase;
+      white-space:nowrap;
     }
     .dot{
       width:10px; height:10px; border-radius:999px;
       background:var(--accent);
       box-shadow: 0 0 0 6px rgba(182,255,59,.08);
     }
-    nav{
-      display:flex; gap:14px; align-items:center;
+    .navlinks{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
       font-size:13px; color:var(--muted);
     }
-    nav a{padding:8px 10px;border-radius:999px;border:1px solid transparent}
-    nav a:hover{border-color:var(--line); color:var(--text)}
-    .menuBtn{
-      display:none;
-      border:1px solid var(--line);
-      background:transparent;
-      color:var(--text);
-      border-radius:12px;
-      padding:10px 12px;
-      cursor:pointer;
+    .navlinks a{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
     }
-
-    /* Mobile nav */
-    .mobileNav{
-      display:none;
-      border-top:1px solid var(--line);
-      padding:10px 18px 14px;
-    }
-    .mobileNav a{
-      display:block;
-      padding:12px 10px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      margin-top:10px;
-      color:var(--muted);
-    }
-    .mobileNav a:hover{color:var(--text)}
+    .navlinks a:hover{border-color:var(--line); color:var(--text)}
 
     /* Cards / sections */
     .card{
@@ -112,7 +93,7 @@
     }
     .p{margin:0;color:var(--muted);font-size:14px}
 
-    /* Hero cover image (header photo) */
+    /* Hero cover image */
     .heroCover{
       border-radius: var(--radius2);
       overflow: hidden;
@@ -124,26 +105,20 @@
     }
     .heroCover img{
       width:100%;
-      height: clamp(240px, 34vw, 460px);
+      height: clamp(220px, 34vw, 420px);
       object-fit: cover;
       display:block;
       transform: scale(1.02);
       filter: contrast(1.02) saturate(1.04);
     }
-    /* NO gradients: just a simple solid overlay for readability */
     .heroCover .overlay{
-      position:absolute;
-      inset:0;
+      position:absolute; inset:0;
       background: rgba(11,11,12,.38);
       pointer-events:none;
     }
     .heroCoverTag{
-      position:absolute;
-      left: 14px;
-      bottom: 14px;
-      display:flex;
-      gap:10px;
-      align-items:center;
+      position:absolute; left: 14px; bottom: 14px;
+      display:flex; gap:10px; align-items:center;
       padding: 10px 12px;
       border-radius: 999px;
       border:1px solid rgba(255,255,255,.14);
@@ -239,11 +214,17 @@
       gap:12px;
     }
 
+    /* Lists */
     .miniList{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:8px}
     .miniList li{
       display:flex; gap:10px; align-items:flex-start;
       color:var(--muted);
       font-size:14px;
+    }
+    .miniList.twoCol{
+      grid-template-columns: 1fr 1fr;
+      column-gap:14px;
+      row-gap:10px;
     }
     .tick{
       width:10px;height:10px;border-radius:999px;background:var(--accent);
@@ -254,7 +235,7 @@
     /* Media embeds */
     .mediaGrid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap:12px;
     }
     .embed{
@@ -262,7 +243,6 @@
       border-radius:var(--radius2);
       overflow:hidden;
       background:#0f0f12;
-      min-height:260px;
     }
     .embedHeader{
       padding:12px 14px;
@@ -270,8 +250,23 @@
       display:flex; justify-content:space-between; align-items:center;
       color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.8px;
     }
-    .embedBody{padding:0}
     iframe{width:100%; border:0; display:block}
+
+    /* Instagram embed - NORMALAN i vidljiv */
+    .igBox{
+      background:#0f0f12;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+      overflow: visible; /* BITNO: da ne sjecemo embed */
+    }
+    /* IG skripta daje inline width; ovo ga “normalizuje” */
+    .igBox .instagram-media{
+      max-width: 460px !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+    }
 
     /* Gallery */
     .gallery{
@@ -350,7 +345,7 @@
       display:block;
     }
 
-    /* Footer */
+    /* Footer / Contact */
     footer{
       padding:26px 0 40px;
       color:var(--muted);
@@ -365,7 +360,7 @@
     .contactRow{
       display:grid;
       gap:10px;
-      grid-template-columns: 1fr; /* desktop default */
+      grid-template-columns: 1fr;
     }
     .field{
       border:1px solid var(--line);
@@ -383,23 +378,20 @@
     @media (max-width: 900px){
       .hero{grid-template-columns: 1fr}
       h1{font-size:38px}
-      .mediaGrid{grid-template-columns: 1fr}
-    }
-    @media (max-width: 720px){
-      nav{display:none}
-      .menuBtn{display:inline-flex}
-      .mobileNav.show{display:block}
       .grid3{grid-template-columns:1fr}
       .gallery{grid-template-columns: repeat(6, 1fr)}
       .gItem{grid-column: span 6}
+    }
+    @media (max-width: 720px){
       h1{font-size:34px}
       .stats{grid-template-columns: 1fr 1fr}
-
-      /* contact section fix */
       .footerGrid{grid-template-columns: 1fr !important;}
       .card{padding:16px;}
       .field{padding:10px 12px;}
       .contactRow{grid-template-columns: 1fr 1fr; gap:10px;}
+      .miniList.twoCol{grid-template-columns:1fr;}
+      .topbar .inner{align-items:flex-start}
+      .navlinks{justify-content:flex-start}
     }
     @media (max-width: 420px){
       .stats{grid-template-columns:1fr}
@@ -417,31 +409,21 @@
         <span>MIQELLY</span>
       </div>
 
-      <nav aria-label="Glavna navigacija">
+      <!-- NEMA MENI / NEMA HAMBURGER -->
+      <div class="navlinks" aria-label="Navigacija">
         <a href="#stil">Stil</a>
         <a href="#teme">Teme</a>
         <a href="#media">Media</a>
         <a href="#galerija">Galerija</a>
         <a href="#kontakt">Kontakt</a>
-      </nav>
-
-      <button class="menuBtn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">Menu</button>
-    </div>
-
-    <div class="mobileNav" id="mobileNav">
-      <a href="#stil">Stil</a>
-      <a href="#teme">Teme</a>
-      <a href="#media">Media</a>
-      <a href="#galerija">Galerija</a>
-      <a href="#kontakt">Kontakt</a>
+      </div>
     </div>
   </header>
 
   <main class="wrap">
 
-    <!-- HEADER IMAGE (na vrh) -->
+    <!-- HEADER IMAGE -->
     <div class="heroCover" aria-label="Miqelly header">
-      <!-- Fallback: prvo relative (GitHub Pages u podfolderu), pa root -->
       <img
         src="./fotke/mikeli.jpg"
         onerror="this.onerror=null; this.src='/fotke/mikeli.jpg';"
@@ -467,7 +449,7 @@
 
         <div class="actions">
           <a class="btn primary" href="#kontakt">Book / Upit</a>
-          <a class="btn" href="#media">Listen / Watch</a>
+          <a class="btn" href="#media">Listen</a>
           <a class="btn" href="#galerija">Galerija</a>
         </div>
 
@@ -515,10 +497,11 @@
         <div class="card">
           <h3 class="title">Flow iznad svega</h3>
           <p class="p">Pjesme su iz svih epoha i krajeva svijeta — ali u uvijek smislenom redosledu.</p>
-          <ul class="miniList">
+          <ul class="miniList twoCol">
             <li><span class="tick"></span> Namjerni prelazi</li>
             <li><span class="tick"></span> Gradnja dinamike</li>
             <li><span class="tick"></span> Vrhunci sa razlogom</li>
+            <li><span class="tick"></span> Set ima narativ</li>
           </ul>
         </div>
 
@@ -555,9 +538,7 @@
 
       <div class="card" style="margin-top:12px">
         <div class="h2">Privatni događaji</div>
-        <p class="p">
-          Repertoar slažemo zajedno — prilagođeno publici, prostoru i energiji koju želiš.
-        </p>
+        <p class="p">Repertoar slažemo zajedno — prilagođeno publici, prostoru i energiji koju želiš.</p>
         <div class="badgeRow" style="margin-top:12px">
           <span class="badge">Svadbe</span>
           <span class="badge">Rođendani</span>
@@ -570,65 +551,51 @@
 
     <!-- MEDIA -->
     <section id="media">
-      <div class="h2">Listen / Watch / Instagram</div>
+      <div class="h2">Listen / Instagram</div>
 
       <div class="mediaGrid">
+        <!-- Spotify -->
         <div class="embed">
           <div class="embedHeader">
             <span>Spotify</span>
-            <span class="tiny">Odabrana play lista ove nedelje</span>
+            <span class="tiny">Odabrana play lista</span>
           </div>
-          <div class="embedBody">
-            <iframe
-              style="border-radius:12px"
-              src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4dyzvuaRJ0n?utm_source=generator"
-              height="352"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title="Spotify embed"
-            ></iframe>
-          </div>
+          <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/playlist/7BE8Mf84mu47Ip9ewnDqh6"
+            height="352"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Spotify embed"
+          ></iframe>
         </div>
 
-        <div class="embed">
-          <div class="embedHeader">
-            <span>YouTube</span>
-            <span class="tiny">set / live snippet</span>
+        <!-- YouTube embed je izbačen / zakomentarisan (nema ga u DOM-u) -->
+
+        <!-- Instagram -->
+        <div class="card" style="padding:16px">
+          <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
+            <span>Instagram</span>
+            <span class="tiny">reel</span>
           </div>
-          <div class="embedBody">
-            <iframe
-              height="352"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="YouTube video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              loading="lazy"
-            ></iframe>
+
+          <div class="igBox">
+            <blockquote
+              class="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4"
+              data-instgrm-version="14"
+              style="background:#0f0f12; border:1px solid rgba(245,245,245,.12); border-radius:18px; margin:0; padding:12px;">
+              <a href="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4" target="_blank" rel="noopener" style="color:#b7b7b7;">
+                Pogledaj reel na Instagramu
+              </a>
+            </blockquote>
+          </div>
+
+          <div class="actions" style="margin-top:12px">
+            <a class="btn" href="https://www.instagram.com/miqelly_/?hl=en" target="_blank" rel="noopener">Instagram profil</a>
           </div>
         </div>
       </div>
-
-     <div class="card" style="margin-top:12px">
-  <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
-    <span>Instagram</span>
-    <span class="tiny">najnoviji reel</span>
-  </div>
-
-  <blockquote
-    class="instagram-media"
-    data-instgrm-permalink="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4"
-    data-instgrm-version="14"
-    style="background:#0f0f12; border:1px solid var(--line); border-radius:18px; margin:0; padding:12px;">
-    <a href="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4" target="_blank" rel="noopener" style="color:var(--muted);">
-      Pogledaj reel na Instagramu
-    </a>
-  </blockquote>
-
-  <div class="actions" style="margin-top:12px">
-    <a class="btn" href="https://www.instagram.com/miqelly_/?hl=en" target="_blank" rel="noopener">Instagram profil</a>
-  </div>
-</div>
-      <script async src="https://www.instagram.com/embed.js"></script>
     </section>
 
     <!-- GALERIJA -->
@@ -636,34 +603,31 @@
       <div class="h2">Galerija</div>
 
       <div class="gallery" id="gallery">
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1800&q=80" data-title="Live set — club night">
-          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80" alt="DJ set" loading="lazy" />
-          <div class="gCap">LIVE</div>
+        <!-- Ako ti se ove slike ne učitaju, znači da direct i.ibb.co URL-ovi nisu tačni za tvoje fajlove.
+             Tada pošalji direct linkove ili upload slike u repo. -->
+        <div class="gItem" data-full="https://i.ibb.co/mV2XyzwN/IMG-0108.jpg" data-title="Photo 1">
+          <img src="https://i.ibb.co/mV2XyzwN/IMG-0108.jpg" alt="Miqelly 1" loading="lazy" />
+          <div class="gCap">PHOTO</div>
         </div>
 
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1520694478161-93d56b1b74a3?auto=format&fit=crop&w=1800&q=80" data-title="Crowd energy">
-          <img src="https://images.unsplash.com/photo-1520694478161-93d56b1b74a3?auto=format&fit=crop&w=900&q=80" alt="Crowd" loading="lazy" />
-          <div class="gCap">ENERGY</div>
+        <div class="gItem" data-full="https://i.ibb.co/5bm37RP/IMG-0042.jpg" data-title="Photo 2">
+          <img src="https://i.ibb.co/5bm37RP/IMG-0042.jpg" alt="Miqelly 2" loading="lazy" />
+          <div class="gCap">PHOTO</div>
         </div>
 
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=1800&q=80" data-title="Booth & lights">
-          <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="DJ booth" loading="lazy" />
-          <div class="gCap">BOOTH</div>
+        <div class="gItem" data-full="https://i.ibb.co/gM99xN8p/IMG-7742-JPG.jpg" data-title="Photo 3">
+          <img src="https://i.ibb.co/gM99xN8p/IMG-7742-JPG.jpg" alt="Miqelly 3" loading="lazy" />
+          <div class="gCap">PHOTO</div>
         </div>
 
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=1800&q=80" data-title="Theme night">
-          <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="Theme night" loading="lazy" />
-          <div class="gCap">THEME</div>
+        <div class="gItem" data-full="https://i.ibb.co/d0d8jbPJ/IMG-0142.jpg" data-title="Photo 4">
+          <img src="https://i.ibb.co/d0d8jbPJ/IMG-0142.jpg" alt="Miqelly 4" loading="lazy" />
+          <div class="gCap">PHOTO</div>
         </div>
 
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1800&q=80" data-title="Private event">
-          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80" alt="Private event" loading="lazy" />
-          <div class="gCap">PRIVATE</div>
-        </div>
-
-        <div class="gItem" data-full="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=1800&q=80" data-title="Synthwave night">
-          <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=900&q=80" alt="Synthwave" loading="lazy" />
-          <div class="gCap">SYNTH</div>
+        <div class="gItem" data-full="https://i.ibb.co/Gm33GgY/IMG-0143.jpg" data-title="Photo 5">
+          <img src="https://i.ibb.co/Gm33GgY/IMG-0143.jpg" alt="Miqelly 5" loading="lazy" />
+          <div class="gCap">PHOTO</div>
         </div>
       </div>
     </section>
@@ -675,12 +639,14 @@
       <div class="footerGrid">
         <div class="card">
           <h3 class="title">Šta možeš očekivati?</h3>
-          <ul class="miniList">
+
+          <ul class="miniList twoCol">
             <li><span class="tick"></span> Neočekivane, ali smislene prelaze</li>
             <li><span class="tick"></span> Dinamiku koja se gradi</li>
             <li><span class="tick"></span> Miks nostalgije i savremenog zvuka</li>
             <li><span class="tick"></span> Energiju koja drži podijum punim</li>
             <li><span class="tick"></span> Autentičan set — nikad generički</li>
+            <li><span class="tick"></span> Set prilagođen publici</li>
           </ul>
 
           <div class="actions" style="margin-top:14px">
@@ -727,23 +693,6 @@
   </div>
 
   <script>
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileNav = document.getElementById('mobileNav');
-
-    menuBtn?.addEventListener('click', () => {
-      const isOpen = mobileNav.classList.toggle('show');
-      menuBtn.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    // Close mobile nav on click
-    mobileNav?.querySelectorAll('a')?.forEach(a => {
-      a.addEventListener('click', () => {
-        mobileNav.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded', 'false');
-      });
-    });
-
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -774,6 +723,14 @@
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+  <!-- Instagram embed.js mora biti na stranici + process -->
+  <script async src="https://www.instagram.com/embed.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
     });
   </script>
 
