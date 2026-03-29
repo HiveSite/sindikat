@@ -1,419 +1,540 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TerraInk-Style Map Poster Generator</title>
+  <title>Studio83 Mapa</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
   <style>
-    :root {
-      --app-bg: #ece7df;
-      --panel-bg: rgba(255, 255, 255, 0.78);
-      --panel-border: rgba(0, 0, 0, 0.08);
-      --text: #161616;
-      --muted: #6f6b64;
-      --shadow: 0 24px 64px rgba(0,0,0,0.12);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
+    :root{
+      --bg:#0b0b0d;
+      --bg2:#141418;
+      --panel:#121217;
+      --card:#16161d;
+      --card-2:#1b1b23;
+      --line:#2a2a31;
+      --text:#f3f3f5;
+      --muted:#9fa3ad;
+      --accent:#F36A2E;
+      --shadow:0 20px 60px rgba(0,0,0,.32);
+      --radius-xl:24px;
+      --radius-lg:18px;
+      --radius-md:14px;
+      --noise-opacity:.09;
     }
 
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.65), transparent 28%),
-        linear-gradient(180deg, #f4f1eb 0%, #e9e4db 100%);
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at top left, rgba(243,106,46,.08), transparent 18%),
+      linear-gradient(180deg,var(--bg),var(--bg2));
+      color:var(--text);}
+    body{
+      display:grid;
+      grid-template-columns:390px minmax(0,1fr);
+      gap:24px;
+      padding:24px;
     }
 
-    body {
-      display: grid;
-      grid-template-columns: 380px minmax(0, 1fr);
-      gap: 24px;
-      padding: 24px;
+    .sidebar{
+      position:sticky;
+      top:24px;
+      align-self:start;
+      background:linear-gradient(180deg,rgba(22,22,29,.95),rgba(14,14,18,.95));
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-
-    .panel {
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      padding: 22px;
-      align-self: start;
-      position: sticky;
-      top: 24px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.045);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #58544f;
-    }
-
-    h1 {
-      margin: 14px 0 10px;
-      font-size: 30px;
-      line-height: 1.02;
-      letter-spacing: -0.05em;
-    }
-
-    .lead {
-      margin: 0 0 20px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
-
-    .section {
-      margin-bottom: 14px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: #35322f;
-    }
-
-    input, select, button {
-      width: 100%;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.9);
-      border-radius: var(--radius-md);
-      padding: 13px 14px;
-      font: inherit;
-      color: var(--text);
-      outline: none;
-      transition: 180ms ease;
-    }
-
-    input:focus, select:focus {
-      border-color: rgba(0,0,0,0.18);
-      box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
-    }
-
-    button {
-      cursor: pointer;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .btn-dark {
-      background: #121212;
-      color: #fff;
-      border-color: #121212;
-    }
-
-    .btn-dark:hover {
-      background: #000;
-    }
-
-    .btn-light:hover {
-      background: #fff;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .meta {
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(0,0,0,0.045);
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .status {
-      min-height: 20px;
-      margin-top: 12px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #303030;
-    }
-
-    .stage {
-      min-width: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 8px;
-    }
-
-    .poster-shell {
-      width: min(100%, 900px);
-      background: rgba(255,255,255,0.42);
-      border: 1px solid rgba(255,255,255,0.78);
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-
-    .poster {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      border-radius: 22px;
-      background: #ebe6de;
-    }
-
-    #map {
-      position: absolute;
-      inset: 0;
-    }
-
-    .paper-grain {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-      opacity: 0.12;
-      mix-blend-mode: multiply;
+    .sidebar::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:var(--noise-opacity);
       background-image:
-        radial-gradient(rgba(0,0,0,0.18) 0.55px, transparent 0.6px),
-        radial-gradient(rgba(0,0,0,0.12) 0.4px, transparent 0.5px);
-      background-size: 8px 8px, 13px 13px;
-      background-position: 0 0, 4px 5px;
+        radial-gradient(rgba(255,255,255,.18) .6px, transparent .7px),
+        radial-gradient(rgba(255,255,255,.08) .6px, transparent .7px);
+      background-size:10px 10px, 15px 15px;
+      background-position:0 0, 4px 5px;
+      mix-blend-mode:soft-light;
     }
 
-    .poster-fade {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      pointer-events: none;
+    .sidebar-inner{
+      position:relative;
+      z-index:1;
+      padding:20px;
+      max-height:calc(100vh - 48px);
+      overflow:auto;
+    }
+    .sidebar-inner::-webkit-scrollbar{width:10px}
+    .sidebar-inner::-webkit-scrollbar-thumb{background:#2d2d35;border-radius:99px}
+    .sidebar-inner::-webkit-scrollbar-track{background:transparent}
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+    }
+    .brand-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.03);
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .brand-dot{
+      width:10px;height:10px;border-radius:50%;background:var(--accent);
+      box-shadow:0 0 14px rgba(243,106,46,.6);
+    }
+    h1{
+      margin:8px 0 8px;
+      font-size:32px;
+      line-height:1.02;
+      letter-spacing:-.05em;
+    }
+    .lead{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .section{
+      margin-bottom:14px;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+    }
+    .section-title{
+      margin:0 0 12px;
+      font-size:12px;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    label{
+      display:block;
+      margin:0 0 7px;
+      font-size:12px;
+      color:#d7d9de;
+      font-weight:700;
+      letter-spacing:.02em;
+    }
+    input,select,button{
+      width:100%;
+      border:1px solid var(--line);
+      background:#0f1014;
+      color:var(--text);
+      border-radius:14px;
+      padding:12px 13px;
+      font:inherit;
+      outline:none;
+      transition:.18s ease;
+    }
+    input:focus,select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px rgba(243,106,46,.12);
+    }
+    input::placeholder{color:#737784}
+    .field{margin-bottom:10px}
+    .small{font-size:12px;color:var(--muted);line-height:1.55}
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .btn{
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:-.01em;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+      border-color:var(--accent);
+    }
+    .btn-primary:hover{filter:brightness(1.05)}
+    .btn-secondary:hover{background:#17181f}
+    .btn-ghost{
+      background:transparent;
+    }
+
+    .toggle-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid var(--line);
+      background:#0f1014;
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:13px;
+      color:#d6d8de;
+    }
+    .toggle input{
+      width:auto;
+      accent-color:var(--accent);
+      transform:translateY(1px);
+      padding:0;
+    }
+    .status{
+      min-height:18px;
+      margin-top:12px;
+      font-size:13px;
+      font-weight:700;
+      color:#fff;
+    }
+
+    .stage{
+      min-width:0;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:6px;
+    }
+    .stage-shell{
+      width:min(100%, 1060px);
+      background:linear-gradient(180deg,rgba(22,22,29,.78),rgba(14,14,18,.78));
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .stage-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.05;
+      background-image:
+        radial-gradient(rgba(255,255,255,.2) .7px, transparent .8px),
+        radial-gradient(rgba(255,255,255,.06) .7px, transparent .8px);
+      background-size:11px 11px, 17px 17px;
+      background-position:0 0, 5px 6px;
+    }
+
+    .poster{
+      position:relative;
+      width:100%;
+      aspect-ratio:3/4;
+      overflow:hidden;
+      border-radius:22px;
+      background:#eae6df;
+    }
+    #map{
+      position:absolute;
+      inset:0;
+    }
+    .poster-noise{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:5;
+      opacity:.12;
+      mix-blend-mode:multiply;
+      background-image:
+        radial-gradient(rgba(0,0,0,.16) .6px, transparent .7px),
+        radial-gradient(rgba(0,0,0,.08) .6px, transparent .7px);
+      background-size:8px 8px, 13px 13px;
+      background-position:0 0, 4px 5px;
+    }
+    .poster-vignette{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:6;
       background:
-        linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 35%, rgba(255,255,255,0.09)),
-        radial-gradient(circle at top left, rgba(255,255,255,0.22), transparent 28%);
+        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(to bottom, rgba(255,255,255,.02), rgba(255,255,255,.01) 40%, rgba(0,0,0,.04));
+    }
+    .poster-copy{
+      position:absolute;
+      left:0;right:0;bottom:42px;
+      text-align:center;
+      z-index:7;
+      pointer-events:none;
+      padding:0 42px;
+    }
+    .poster-title{
+      margin:0;
+      text-transform:uppercase;
+      letter-spacing:.28em;
+      text-indent:.28em;
+      font-weight:300;
+      line-height:.95;
+      font-size:clamp(34px,5.6vw,76px);
+      color:#181818;
+    }
+    .poster-subtitle{
+      margin-top:16px;
+      font-size:clamp(13px,1.35vw,22px);
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      text-indent:.24em;
+      color:#303030;
+      font-weight:500;
+    }
+    .poster-coords{
+      margin-top:14px;
+      font-size:clamp(11px,.95vw,15px);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:#5d5d5d;
+      font-weight:500;
+    }
+    .poster-credit{
+      position:absolute;
+      left:18px;
+      bottom:14px;
+      z-index:7;
+      font-size:10px;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:rgba(70,70,70,.75);
+      pointer-events:none;
     }
 
-    .poster-copy {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 46px;
-      z-index: 6;
-      pointer-events: none;
-      text-align: center;
-      padding: 0 44px;
+    .preview-bar{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      position:relative;
+      z-index:1;
+    }
+    .stat{
+      border:1px solid var(--line);
+      background:#111218;
+      border-radius:16px;
+      padding:12px;
+    }
+    .stat-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+      font-weight:700;
+      margin-bottom:4px;
+    }
+    .stat-value{
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      word-break:break-word;
     }
 
-    .poster-title {
-      margin: 0;
-      text-transform: uppercase;
-      font-weight: 300;
-      font-size: clamp(34px, 5.5vw, 78px);
-      letter-spacing: 0.32em;
-      text-indent: 0.32em;
-      line-height: 0.94;
-      color: rgba(20,20,20,0.97);
-      font-family: "Montserrat", Inter, sans-serif;
+    .hidden-capture{
+      position:fixed;
+      left:-99999px;
+      top:-99999px;
+      width:1500px;
+      height:2000px;
+      opacity:0;
+      pointer-events:none;
+      overflow:hidden;
     }
 
-    .poster-subtitle {
-      margin-top: 16px;
-      text-transform: uppercase;
-      font-size: clamp(13px, 1.4vw, 22px);
-      letter-spacing: 0.24em;
-      text-indent: 0.24em;
-      color: rgba(44,44,44,0.92);
-      font-weight: 500;
-      font-family: "Inter", sans-serif;
+    @media (max-width:1150px){
+      body{grid-template-columns:1fr}
+      .sidebar{position:relative;top:0}
+      .stage{padding:0}
     }
-
-    .poster-coords {
-      margin-top: 14px;
-      text-transform: uppercase;
-      font-size: clamp(11px, 1vw, 15px);
-      letter-spacing: 0.16em;
-      color: rgba(82,82,82,0.88);
-      font-weight: 500;
-    }
-
-    .poster-credit {
-      position: absolute;
-      left: 18px;
-      bottom: 14px;
-      z-index: 6;
-      pointer-events: none;
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      color: rgba(70,70,70,0.74);
-      text-transform: uppercase;
-    }
-
-    .hidden-capture {
-      position: fixed;
-      left: -99999px;
-      top: -99999px;
-      width: 1500px;
-      height: 2000px;
-      opacity: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    @media (max-width: 1100px) {
-      body {
-        grid-template-columns: 1fr;
-      }
-      .panel {
-        position: relative;
-        top: 0;
-      }
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 14px;
-        gap: 14px;
-      }
-      .panel, .poster-shell {
-        padding: 14px;
-        border-radius: 22px;
-      }
-      .poster {
-        border-radius: 16px;
-      }
-      .grid-2, .actions {
-        grid-template-columns: 1fr;
-      }
-      h1 {
-        font-size: 24px;
-      }
-      .poster-copy {
-        padding: 0 18px;
-        bottom: 24px;
-      }
-      .poster-title {
-        letter-spacing: 0.18em;
-        text-indent: 0.18em;
-      }
-      .poster-subtitle {
-        letter-spacing: 0.14em;
-        text-indent: 0.14em;
-      }
+    @media (max-width:700px){
+      body{padding:14px;gap:14px}
+      .grid-2,.actions,.toggle-list,.preview-bar{grid-template-columns:1fr}
+      .sidebar-inner,.stage-shell{padding:14px}
+      h1{font-size:25px}
+      .poster-copy{bottom:24px;padding:0 18px}
+      .poster-title{letter-spacing:.16em;text-indent:.16em}
+      .poster-subtitle{letter-spacing:.12em;text-indent:.12em}
     }
   </style>
 </head>
 <body>
-  <aside class="panel">
-    <div class="badge">Single-file poster engine</div>
-    <h1>Generate detailed map posters</h1>
-    <p class="lead">
-      This version keeps the one-file setup, but uses a much richer basemap and better road/building styling so it feels much closer to the reference site.
-    </p>
-
-    <div class="section">
-      <label for="locationInput">Location</label>
-      <input id="locationInput" type="text" value="Podgorica, Montenegro" placeholder="City, country" />
-    </div>
-
-    <div class="grid-2">
-      <div class="section">
-        <label for="zoomInput">Zoom</label>
-        <input id="zoomInput" type="number" min="1" max="18" step="0.1" value="13.2" />
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="brand">
+        <div class="brand-badge"><span class="brand-dot"></span> Studio83 Mapa</div>
       </div>
+
+      <h1>Mapa poster generator</h1>
+      <p class="lead">
+        Dark UI u Studio83/Sindikat stilu, sa detaljnom kontrolom slojeva, paletama boja, automatskim nazivom grada i koordinatama, te exportom u PNG i PDF.
+      </p>
+
       <div class="section">
-        <label for="bearingInput">Rotation</label>
-        <input id="bearingInput" type="number" min="-180" max="180" step="1" value="0" />
+        <div class="section-title">Lokacija</div>
+        <div class="field">
+          <label for="locationInput">Grad / lokacija</label>
+          <input id="locationInput" value="Podgorica, Montenegro" placeholder="Unesi grad ili adresu" />
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="zoomInput">Zoom</label>
+            <input id="zoomInput" type="number" min="1" max="18" step="0.1" value="13.2" />
+          </div>
+          <div class="field">
+            <label for="bearingInput">Rotacija</label>
+            <input id="bearingInput" type="number" min="-180" max="180" step="1" value="0" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="pitchInput">Pitch</label>
+            <input id="pitchInput" type="number" min="0" max="60" step="1" value="0" />
+          </div>
+          <div class="field">
+            <label for="posterSizeInput">Format</label>
+            <select id="posterSizeInput">
+              <option value="3:4" selected>3:4 poster</option>
+              <option value="4:5">4:5 poster</option>
+              <option value="1:1">Square</option>
+              <option value="A4">A4 portrait</option>
+              <option value="A3">A3 portrait</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="generateBtn">Generiši</button>
+          <button class="btn btn-secondary" id="resetViewBtn">Reset view</button>
+        </div>
       </div>
-    </div>
 
-    <div class="grid-2">
       <div class="section">
-        <label for="pitchInput">Pitch</label>
-        <input id="pitchInput" type="number" min="0" max="60" step="1" value="0" />
+        <div class="section-title">Tekst i tipografija</div>
+        <div class="field">
+          <label for="titleInput">Naziv grada</label>
+          <input id="titleInput" value="PODGORICA" />
+        </div>
+        <div class="field">
+          <label for="subtitleInput">Podnaslov</label>
+          <input id="subtitleInput" value="MONTENEGRO" />
+        </div>
+        <div class="field">
+          <label for="coordsInput">Koordinate</label>
+          <input id="coordsInput" placeholder="Automatski popunjeno" />
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="titleFontInput">Font naslova</label>
+            <select id="titleFontInput">
+              <option value="Inter" selected>Inter</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="letterSpacingInput">Razmak slova</label>
+            <input id="letterSpacingInput" type="number" min="0.04" max="0.5" step="0.01" value="0.28" />
+          </div>
+        </div>
       </div>
+
       <div class="section">
-        <label for="themeInput">Theme</label>
-        <select id="themeInput">
-          <option value="paper" selected>Paper Gray</option>
-          <option value="ink">Japanese Ink</option>
-          <option value="noir">Noir</option>
-        </select>
+        <div class="section-title">Paleta i stil</div>
+        <div class="field">
+          <label for="paletteInput">Paleta boja</label>
+          <select id="paletteInput">
+            <option value="paper" selected>Paper Gray</option>
+            <option value="ink">Japanese Ink</option>
+            <option value="sand">Warm Sand</option>
+            <option value="blueprint">Blueprint</option>
+            <option value="noir">Noir</option>
+          </select>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="roadWeightInput">Jačina puteva</label>
+            <input id="roadWeightInput" type="range" min="0.7" max="1.8" step="0.05" value="1.15" />
+          </div>
+          <div class="field">
+            <label for="buildingOpacityInput">Zgrade</label>
+            <input id="buildingOpacityInput" type="range" min="0" max="1" step="0.05" value="0.95" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="terrainOpacityInput">Teren</label>
+            <input id="terrainOpacityInput" type="range" min="0" max="1" step="0.05" value="0.85" />
+          </div>
+          <div class="field">
+            <label for="noiseInput">Papir grain</label>
+            <input id="noiseInput" type="range" min="0" max="0.3" step="0.01" value="0.12" />
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <label for="titleInput">Title</label>
-      <input id="titleInput" type="text" value="PODGORICA" />
-    </div>
+      <div class="section">
+        <div class="section-title">Prikaz slojeva</div>
+        <div class="toggle-list">
+          <label class="toggle"><input type="checkbox" id="toggleRoads" checked> Putevi</label>
+          <label class="toggle"><input type="checkbox" id="toggleBuildings" checked> Zgrade</label>
+          <label class="toggle"><input type="checkbox" id="toggleWater" checked> Voda</label>
+          <label class="toggle"><input type="checkbox" id="toggleParks" checked> Zelenilo</label>
+          <label class="toggle"><input type="checkbox" id="toggleTerrain" checked> Teren</label>
+          <label class="toggle"><input type="checkbox" id="toggleRail" checked> Pruga</label>
+          <label class="toggle"><input type="checkbox" id="toggleBoundaries" checked> Granice</label>
+          <label class="toggle"><input type="checkbox" id="toggleLabels"> Labele</label>
+        </div>
+      </div>
 
-    <div class="section">
-      <label for="subtitleInput">Subtitle</label>
-      <input id="subtitleInput" type="text" value="MONTENEGRO" />
-    </div>
+      <div class="section">
+        <div class="section-title">Export</div>
+        <div class="actions">
+          <button class="btn btn-primary" id="exportPngBtn">Export PNG</button>
+          <button class="btn btn-primary" id="exportPdfBtn">Export PDF</button>
+        </div>
+        <div style="margin-top:10px" class="actions">
+          <button class="btn btn-ghost" id="fitBoundsBtn">Fit city bounds</button>
+          <button class="btn btn-ghost" id="centerOnMapBtn">Uzmi centar mape</button>
+        </div>
+        <p class="small" style="margin:12px 0 0">
+          Aplikacija je i dalje jedan HTML fajl. Samo ga stavi kao <strong>index.html</strong> u Git repo.
+        </p>
+      </div>
 
-    <div class="section">
-      <label for="coordsInput">Coordinates override</label>
-      <input id="coordsInput" type="text" placeholder="42.4304° N / 19.2594° E" />
+      <div id="status" class="status"></div>
     </div>
-
-    <div class="section">
-      <label for="fontInput">Title font</label>
-      <select id="fontInput">
-        <option value="Montserrat" selected>Montserrat</option>
-        <option value="Cormorant Garamond">Cormorant Garamond</option>
-        <option value="Inter">Inter</option>
-      </select>
-    </div>
-
-    <div class="actions">
-      <button id="generateBtn" class="btn-dark" type="button">Generate</button>
-      <button id="exportBtn" class="btn-light" type="button">Export PNG</button>
-    </div>
-
-    <div class="meta">
-      Uses MapLibre + CARTO Positron vector style + Nominatim geocoding. Still free and still one file, but much more detailed than the earlier demo setup.
-    </div>
-
-    <div id="status" class="status"></div>
   </aside>
 
   <main class="stage">
-    <div class="poster-shell">
+    <div class="stage-shell">
       <div id="poster" class="poster">
         <div id="map"></div>
-        <div class="paper-grain"></div>
-        <div class="poster-fade"></div>
+        <div class="poster-noise" id="posterNoise"></div>
+        <div class="poster-vignette"></div>
 
         <div class="poster-copy">
           <h2 id="posterTitle" class="poster-title">PODGORICA</h2>
@@ -423,75 +544,137 @@
 
         <div class="poster-credit">map data © OpenStreetMap contributors</div>
       </div>
+
+      <div class="preview-bar">
+        <div class="stat">
+          <div class="stat-label">Grad</div>
+          <div class="stat-value" id="statCity">Podgorica</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Koordinate</div>
+          <div class="stat-value" id="statCoords">42.4304 / 19.2594</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Paleta</div>
+          <div class="stat-value" id="statPalette">Paper Gray</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Format</div>
+          <div class="stat-value" id="statFormat">3:4</div>
+        </div>
+      </div>
     </div>
   </main>
 
-  <div id="captureRoot" class="hidden-capture"></div>
+  <div class="hidden-capture" id="captureRoot"></div>
 
   <script>
     const STYLE_URL = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
-    const themes = {
+    const paletteMap = {
       paper: {
+        label: "Paper Gray",
         posterBg: "#ebe6de",
-        title: "#161616",
-        subtitle: "#2d2d2d",
-        coords: "#5e5a54",
-        grainOpacity: 0.12,
+        title: "#181818",
+        subtitle: "#303030",
+        coords: "#5d5d5d",
         building: "#cdc6be",
         water: "#dfd9d1",
-        park: "#e5dfd7",
-        landcover: "#e7e0d8",
-        boundary: "#d9d1c8",
-        rail: "#938d86",
-        tunnel: "#b6b0a8",
+        park: "#e4ded6",
+        terrain: "#e8e1d9",
+        boundary: "#d7d0c7",
+        rail: "#8f8881",
+        tunnel: "#b7b0a7",
         minorRoad: "#c2bbb3",
-        mediumRoad: "#9c958e",
-        primaryRoad: "#5f5a56",
+        mediumRoad: "#9d968f",
+        primaryRoad: "#615c58",
         highway: "#232120",
-        bridge: "#474341",
-        hideLabels: true
+        bridge: "#494542"
       },
       ink: {
-        posterBg: "#efede8",
-        title: "#121212",
+        label: "Japanese Ink",
+        posterBg: "#f0ede7",
+        title: "#111111",
         subtitle: "#2a2a2a",
-        coords: "#57534c",
-        grainOpacity: 0.10,
-        building: "#c7c1b8",
-        water: "#e5e1da",
-        park: "#ece8e1",
-        landcover: "#ede9e3",
-        boundary: "#d9d3cb",
-        rail: "#7e7873",
-        tunnel: "#b4aea7",
-        minorRoad: "#bfb8b0",
-        mediumRoad: "#9b948c",
-        primaryRoad: "#595450",
-        highway: "#1c1b1a",
-        bridge: "#403c39",
-        hideLabels: true
+        coords: "#525252",
+        building: "#c2bbb2",
+        water: "#e7e2da",
+        park: "#ebe7df",
+        terrain: "#efebe4",
+        boundary: "#d8d2ca",
+        rail: "#7f7974",
+        tunnel: "#b3ada5",
+        minorRoad: "#bdb6ae",
+        mediumRoad: "#989189",
+        primaryRoad: "#56514d",
+        highway: "#1d1b1a",
+        bridge: "#403c39"
+      },
+      sand: {
+        label: "Warm Sand",
+        posterBg: "#efe3d3",
+        title: "#261d14",
+        subtitle: "#46382a",
+        coords: "#6a5a4c",
+        building: "#d1b99b",
+        water: "#e7d4bf",
+        park: "#e6d8c8",
+        terrain: "#efdfcb",
+        boundary: "#d4c3ad",
+        rail: "#947b63",
+        tunnel: "#c4aa91",
+        minorRoad: "#cfb79f",
+        mediumRoad: "#a17f63",
+        primaryRoad: "#6d503a",
+        highway: "#372519",
+        bridge: "#533a29"
+      },
+      blueprint: {
+        label: "Blueprint",
+        posterBg: "#e8eef4",
+        title: "#102131",
+        subtitle: "#24405a",
+        coords: "#47637d",
+        building: "#b8c7d6",
+        water: "#d6e4ef",
+        park: "#dfe8ef",
+        terrain: "#edf3f8",
+        boundary: "#cad7e2",
+        rail: "#758a9f",
+        tunnel: "#afbdc9",
+        minorRoad: "#bccbda",
+        mediumRoad: "#7a90a5",
+        primaryRoad: "#39516a",
+        highway: "#15283a",
+        bridge: "#22384f"
       },
       noir: {
+        label: "Noir",
         posterBg: "#121416",
         title: "#f4f4f4",
-        subtitle: "#dedede",
-        coords: "#b7bcc2",
-        grainOpacity: 0.06,
-        building: "#4d5258",
-        water: "#161a1d",
-        park: "#1a1e22",
-        landcover: "#1c2024",
-        boundary: "#2a2f34",
-        rail: "#8d949b",
-        tunnel: "#666d75",
-        minorRoad: "#6e757d",
-        mediumRoad: "#97a0a8",
-        primaryRoad: "#d0d6db",
+        subtitle: "#dfdfdf",
+        coords: "#b8bec5",
+        building: "#4c5157",
+        water: "#171b1f",
+        park: "#1a1f23",
+        terrain: "#1c2024",
+        boundary: "#2b3036",
+        rail: "#8f969e",
+        tunnel: "#676e76",
+        minorRoad: "#70767d",
+        mediumRoad: "#98a0a8",
+        primaryRoad: "#d2d7dc",
         highway: "#ffffff",
-        bridge: "#eceff2",
-        hideLabels: true
+        bridge: "#eef1f4"
       }
+    };
+
+    const sizeMap = {
+      "3:4": { aspect: "3 / 4", exportW: 1800, exportH: 2400, pdf: "a4" },
+      "4:5": { aspect: "4 / 5", exportW: 2000, exportH: 2500, pdf: "a4" },
+      "1:1": { aspect: "1 / 1", exportW: 2200, exportH: 2200, pdf: "a4" },
+      "A4": { aspect: "210 / 297", exportW: 2480, exportH: 3508, pdf: "a4" },
+      "A3": { aspect: "297 / 420", exportW: 3508, exportH: 4961, pdf: "a3" }
     };
 
     const els = {
@@ -499,18 +682,48 @@
       zoomInput: document.getElementById("zoomInput"),
       bearingInput: document.getElementById("bearingInput"),
       pitchInput: document.getElementById("pitchInput"),
-      themeInput: document.getElementById("themeInput"),
+      posterSizeInput: document.getElementById("posterSizeInput"),
+      generateBtn: document.getElementById("generateBtn"),
+      resetViewBtn: document.getElementById("resetViewBtn"),
+
       titleInput: document.getElementById("titleInput"),
       subtitleInput: document.getElementById("subtitleInput"),
       coordsInput: document.getElementById("coordsInput"),
-      fontInput: document.getElementById("fontInput"),
-      generateBtn: document.getElementById("generateBtn"),
-      exportBtn: document.getElementById("exportBtn"),
-      status: document.getElementById("status"),
+      titleFontInput: document.getElementById("titleFontInput"),
+      letterSpacingInput: document.getElementById("letterSpacingInput"),
+
+      paletteInput: document.getElementById("paletteInput"),
+      roadWeightInput: document.getElementById("roadWeightInput"),
+      buildingOpacityInput: document.getElementById("buildingOpacityInput"),
+      terrainOpacityInput: document.getElementById("terrainOpacityInput"),
+      noiseInput: document.getElementById("noiseInput"),
+
+      toggleRoads: document.getElementById("toggleRoads"),
+      toggleBuildings: document.getElementById("toggleBuildings"),
+      toggleWater: document.getElementById("toggleWater"),
+      toggleParks: document.getElementById("toggleParks"),
+      toggleTerrain: document.getElementById("toggleTerrain"),
+      toggleRail: document.getElementById("toggleRail"),
+      toggleBoundaries: document.getElementById("toggleBoundaries"),
+      toggleLabels: document.getElementById("toggleLabels"),
+
+      exportPngBtn: document.getElementById("exportPngBtn"),
+      exportPdfBtn: document.getElementById("exportPdfBtn"),
+      fitBoundsBtn: document.getElementById("fitBoundsBtn"),
+      centerOnMapBtn: document.getElementById("centerOnMapBtn"),
+
       poster: document.getElementById("poster"),
       posterTitle: document.getElementById("posterTitle"),
       posterSubtitle: document.getElementById("posterSubtitle"),
       posterCoords: document.getElementById("posterCoords"),
+      posterNoise: document.getElementById("posterNoise"),
+
+      statCity: document.getElementById("statCity"),
+      statCoords: document.getElementById("statCoords"),
+      statPalette: document.getElementById("statPalette"),
+      statFormat: document.getElementById("statFormat"),
+
+      status: document.getElementById("status"),
       captureRoot: document.getElementById("captureRoot")
     };
 
@@ -520,192 +733,268 @@
       zoom: 13.2,
       bearing: 0,
       pitch: 0,
+      lastSearchBounds: null,
       titleEdited: false,
-      subtitleEdited: false
+      subtitleEdited: false,
+      geocodeDisplayName: "Podgorica, Montenegro"
     };
 
-    function setStatus(message, error = false) {
-      els.status.textContent = message;
-      els.status.style.color = error ? "#a62a2a" : "#303030";
+    function setStatus(msg, error=false){
+      els.status.textContent = msg;
+      els.status.style.color = error ? "#ff9a9a" : "#ffffff";
     }
 
-    function formatCoord(lat, lon) {
+    function formatCoord(lat, lon){
       const latDir = lat >= 0 ? "N" : "S";
       const lonDir = lon >= 0 ? "E" : "W";
       return `${Math.abs(lat).toFixed(4)}° ${latDir} / ${Math.abs(lon).toFixed(4)}° ${lonDir}`;
     }
 
-    function locationToTitle(value) {
-      return (value.split(",")[0] || "CITY").trim().toUpperCase();
+    function cityNameFromDisplay(display){
+      return (display.split(",")[0] || "CITY").trim();
     }
 
-    function locationToSubtitle(value) {
-      const parts = value.split(",").map(v => v.trim()).filter(Boolean);
+    function countryNameFromDisplay(display){
+      const parts = display.split(",").map(s => s.trim()).filter(Boolean);
       return (parts[parts.length - 1] || "").toUpperCase();
     }
 
-    function updatePosterText(lat, lon) {
-      const locationText = els.locationInput.value.trim();
+    function applyPosterSize(){
+      const key = els.posterSizeInput.value;
+      const cfg = sizeMap[key];
+      els.poster.style.aspectRatio = cfg.aspect;
+      els.statFormat.textContent = key;
+    }
 
-      if (!state.titleEdited) {
-        els.titleInput.value = locationToTitle(locationText);
+    function syncTypography(){
+      const spacing = Number(els.letterSpacingInput.value || 0.28);
+      els.posterTitle.style.fontFamily = `"${els.titleFontInput.value}", Inter, sans-serif`;
+      els.posterTitle.style.letterSpacing = `${spacing}em`;
+      els.posterTitle.style.textIndent = `${spacing}em`;
+    }
+
+    function updatePosterText(lat, lon){
+      const display = state.geocodeDisplayName || els.locationInput.value.trim() || "City";
+      if(!state.titleEdited){
+        els.titleInput.value = cityNameFromDisplay(display).toUpperCase();
       }
-      if (!state.subtitleEdited) {
-        els.subtitleInput.value = locationToSubtitle(locationText);
+      if(!state.subtitleEdited){
+        els.subtitleInput.value = countryNameFromDisplay(display);
       }
 
       els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
       els.posterSubtitle.textContent = els.subtitleInput.value.trim() || "";
       els.posterCoords.textContent = els.coordsInput.value.trim() || formatCoord(lat, lon);
-      els.posterTitle.style.fontFamily = `"${els.fontInput.value}", Inter, sans-serif`;
+
+      els.statCity.textContent = cityNameFromDisplay(display);
+      els.statCoords.textContent = `${lat.toFixed(4)} / ${lon.toFixed(4)}`;
+
+      syncTypography();
     }
 
-    function safeSetPaint(id, prop, value) {
-      try {
-        state.map.setPaintProperty(id, prop, value);
-      } catch (e) {}
+    function getCurrentPalette(){
+      return paletteMap[els.paletteInput.value] || paletteMap.paper;
     }
 
-    function safeSetLayout(id, prop, value) {
-      try {
-        state.map.setLayoutProperty(id, prop, value);
-      } catch (e) {}
+    function getOptions(){
+      return {
+        roads: els.toggleRoads.checked,
+        buildings: els.toggleBuildings.checked,
+        water: els.toggleWater.checked,
+        parks: els.toggleParks.checked,
+        terrain: els.toggleTerrain.checked,
+        rail: els.toggleRail.checked,
+        boundaries: els.toggleBoundaries.checked,
+        labels: els.toggleLabels.checked,
+        roadWeight: Number(els.roadWeightInput.value || 1.15),
+        buildingOpacity: Number(els.buildingOpacityInput.value || 0.95),
+        terrainOpacity: Number(els.terrainOpacityInput.value || 0.85)
+      };
     }
 
-    function styleRoadLayer(layer, theme) {
+    function safeSetPaint(id, prop, value){
+      try { state.map.setPaintProperty(id, prop, value); } catch(e){}
+    }
+    function safeSetLayout(id, prop, value){
+      try { state.map.setLayoutProperty(id, prop, value); } catch(e){}
+    }
+
+    function multiplyWidth(value, factor){
+      if(typeof value === "number") return value * factor;
+      if(Array.isArray(value)) return value;
+      return value;
+    }
+
+    function styleLineLayer(layer, palette, opts){
       const id = layer.id.toLowerCase();
-      const type = layer.type;
+      const visible = opts.roads ? "visible" : "none";
 
-      if (type !== "line") return;
-
-      if (id.includes("rail")) {
-        safeSetPaint(layer.id, "line-color", theme.rail);
-        safeSetPaint(layer.id, "line-opacity", 0.8);
+      if(id.includes("rail")){
+        safeSetLayout(layer.id, "visibility", opts.rail ? "visible" : "none");
+        safeSetPaint(layer.id, "line-color", palette.rail);
+        safeSetPaint(layer.id, "line-opacity", opts.rail ? 0.85 : 0);
         return;
       }
 
-      if (id.includes("boundary")) {
-        safeSetPaint(layer.id, "line-color", theme.boundary);
-        safeSetPaint(layer.id, "line-opacity", 0.8);
+      if(id.includes("boundary")){
+        safeSetLayout(layer.id, "visibility", opts.boundaries ? "visible" : "none");
+        safeSetPaint(layer.id, "line-color", palette.boundary);
+        safeSetPaint(layer.id, "line-opacity", opts.boundaries ? 0.8 : 0);
         return;
       }
 
-      if (id.includes("tunnel")) {
-        safeSetPaint(layer.id, "line-color", theme.tunnel);
-        safeSetPaint(layer.id, "line-opacity", 0.65);
-      }
-
-      if (id.includes("motorway") || id.includes("highway") || id.includes("trunk")) {
-        safeSetPaint(layer.id, "line-color", theme.highway);
-        safeSetPaint(layer.id, "line-opacity", 1);
+      if(id.includes("water")){
+        safeSetLayout(layer.id, "visibility", opts.water ? "visible" : "none");
+        safeSetPaint(layer.id, "line-color", palette.water);
+        safeSetPaint(layer.id, "line-opacity", opts.water ? 1 : 0);
         return;
       }
 
-      if (id.includes("primary") || id.includes("bridge-primary") || id.includes("major")) {
-        safeSetPaint(layer.id, "line-color", theme.primaryRoad);
-        safeSetPaint(layer.id, "line-opacity", 0.98);
+      if(id.includes("tunnel")){
+        safeSetLayout(layer.id, "visibility", visible);
+        safeSetPaint(layer.id, "line-color", palette.tunnel);
+        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.65 : 0);
+      }
+
+      if(id.includes("motorway") || id.includes("highway") || id.includes("trunk")){
+        safeSetLayout(layer.id, "visibility", visible);
+        safeSetPaint(layer.id, "line-color", palette.highway);
+        safeSetPaint(layer.id, "line-opacity", opts.roads ? 1 : 0);
+        tryAdjustWidth(layer.id, 1.45 * opts.roadWeight);
         return;
       }
 
-      if (id.includes("secondary") || id.includes("tertiary")) {
-        safeSetPaint(layer.id, "line-color", theme.mediumRoad);
-        safeSetPaint(layer.id, "line-opacity", 0.94);
+      if(id.includes("primary") || id.includes("major")){
+        safeSetLayout(layer.id, "visibility", visible);
+        safeSetPaint(layer.id, "line-color", palette.primaryRoad);
+        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.98 : 0);
+        tryAdjustWidth(layer.id, 1.22 * opts.roadWeight);
+        if(id.includes("bridge")) safeSetPaint(layer.id, "line-color", palette.bridge);
         return;
       }
 
-      if (id.includes("street") || id.includes("minor") || id.includes("road") || id.includes("service")) {
-        safeSetPaint(layer.id, "line-color", theme.minorRoad);
-        safeSetPaint(layer.id, "line-opacity", 0.9);
+      if(id.includes("secondary") || id.includes("tertiary")){
+        safeSetLayout(layer.id, "visibility", visible);
+        safeSetPaint(layer.id, "line-color", palette.mediumRoad);
+        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.95 : 0);
+        tryAdjustWidth(layer.id, 1.08 * opts.roadWeight);
+        return;
       }
 
-      if (id.includes("bridge")) {
-        safeSetPaint(layer.id, "line-color", theme.bridge);
+      if(id.includes("street") || id.includes("minor") || id.includes("road") || id.includes("service") || id.includes("bridge")){
+        safeSetLayout(layer.id, "visibility", visible);
+        safeSetPaint(layer.id, "line-color", id.includes("bridge") ? palette.bridge : palette.minorRoad);
+        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.92 : 0);
+        tryAdjustWidth(layer.id, 1.0 * opts.roadWeight);
       }
     }
 
-    function applyTheme(themeName) {
-      const theme = themes[themeName] || themes.paper;
+    function tryAdjustWidth(layerId, factor){
+      try{
+        const style = state.map.getStyle();
+        const layer = style.layers.find(l => l.id === layerId);
+        if(!layer || !layer.paint) return;
+        const current = layer.paint["line-width"];
+        if(current === undefined) return;
+        if(typeof current === "number"){
+          state.map.setPaintProperty(layerId, "line-width", current * factor);
+        }
+      }catch(e){}
+    }
 
-      els.poster.style.background = theme.posterBg;
-      document.querySelector(".paper-grain").style.opacity = theme.grainOpacity;
-      els.posterTitle.style.color = theme.title;
-      els.posterSubtitle.style.color = theme.subtitle;
-      els.posterCoords.style.color = theme.coords;
-      els.posterTitle.style.fontFamily = `"${els.fontInput.value}", Inter, sans-serif`;
+    function applyThemeAndLayers(){
+      const palette = getCurrentPalette();
+      const opts = getOptions();
 
-      if (!state.map || !state.map.isStyleLoaded()) return;
+      els.poster.style.background = palette.posterBg;
+      els.posterTitle.style.color = palette.title;
+      els.posterSubtitle.style.color = palette.subtitle;
+      els.posterCoords.style.color = palette.coords;
+      els.posterNoise.style.opacity = Number(els.noiseInput.value || 0.12);
+      els.statPalette.textContent = palette.label;
+
+      if(!state.map || !state.map.isStyleLoaded()) return;
 
       const style = state.map.getStyle();
-      if (!style || !style.layers) return;
+      if(!style || !style.layers) return;
 
-      for (const layer of style.layers) {
+      for(const layer of style.layers){
         const id = layer.id.toLowerCase();
         const type = layer.type;
 
-        if (type === "background") {
-          safeSetPaint(layer.id, "background-color", theme.posterBg);
+        if(type === "background"){
+          safeSetPaint(layer.id, "background-color", palette.posterBg);
           continue;
         }
 
-        if (id.includes("water")) {
-          if (type === "fill") safeSetPaint(layer.id, "fill-color", theme.water);
-          if (type === "line") safeSetPaint(layer.id, "line-color", theme.water);
-          continue;
-        }
-
-        if (id.includes("park")) {
-          if (type === "fill") safeSetPaint(layer.id, "fill-color", theme.park);
-          if (type === "line") safeSetPaint(layer.id, "line-color", theme.park);
-          continue;
-        }
-
-        if (id.includes("landcover") || id.includes("grass") || id.includes("wood") || id.includes("forest")) {
-          if (type === "fill") safeSetPaint(layer.id, "fill-color", theme.landcover);
-          continue;
-        }
-
-        if (id.includes("building")) {
-          if (type === "fill") {
-            safeSetPaint(layer.id, "fill-color", theme.building);
-            safeSetPaint(layer.id, "fill-opacity", 0.95);
-          }
-          if (type === "line") {
-            safeSetPaint(layer.id, "line-color", theme.building);
-            safeSetPaint(layer.id, "line-opacity", 0.6);
+        if(id.includes("water")){
+          if(type === "fill"){
+            safeSetLayout(layer.id, "visibility", opts.water ? "visible" : "none");
+            safeSetPaint(layer.id, "fill-color", palette.water);
+            safeSetPaint(layer.id, "fill-opacity", opts.water ? 1 : 0);
+          } else if(type === "line") {
+            styleLineLayer(layer, palette, opts);
           }
           continue;
         }
 
-        if (type === "line") {
-          styleRoadLayer(layer, theme);
+        if(id.includes("park")){
+          if(type === "fill"){
+            safeSetLayout(layer.id, "visibility", opts.parks ? "visible" : "none");
+            safeSetPaint(layer.id, "fill-color", palette.park);
+            safeSetPaint(layer.id, "fill-opacity", opts.parks ? opts.terrainOpacity : 0);
+          } else if(type === "line") {
+            safeSetLayout(layer.id, "visibility", opts.parks ? "visible" : "none");
+            safeSetPaint(layer.id, "line-color", palette.park);
+            safeSetPaint(layer.id, "line-opacity", opts.parks ? 1 : 0);
+          }
           continue;
         }
 
-        if (type === "symbol" && theme.hideLabels) {
-          safeSetLayout(layer.id, "visibility", "none");
+        if(id.includes("landcover") || id.includes("grass") || id.includes("wood") || id.includes("forest") || id.includes("landuse")){
+          if(type === "fill"){
+            safeSetLayout(layer.id, "visibility", opts.terrain ? "visible" : "none");
+            safeSetPaint(layer.id, "fill-color", palette.terrain);
+            safeSetPaint(layer.id, "fill-opacity", opts.terrain ? opts.terrainOpacity : 0);
+          }
           continue;
         }
 
-        if ((id.includes("place") || id.includes("poi") || id.includes("label")) && theme.hideLabels) {
-          safeSetLayout(layer.id, "visibility", "none");
+        if(id.includes("building")){
+          if(type === "fill"){
+            safeSetLayout(layer.id, "visibility", opts.buildings ? "visible" : "none");
+            safeSetPaint(layer.id, "fill-color", palette.building);
+            safeSetPaint(layer.id, "fill-opacity", opts.buildings ? opts.buildingOpacity : 0);
+          } else if(type === "line"){
+            safeSetLayout(layer.id, "visibility", opts.buildings ? "visible" : "none");
+            safeSetPaint(layer.id, "line-color", palette.building);
+            safeSetPaint(layer.id, "line-opacity", opts.buildings ? 0.55 : 0);
+          }
+          continue;
+        }
+
+        if(type === "line"){
+          styleLineLayer(layer, palette, opts);
+          continue;
+        }
+
+        if(type === "symbol" || id.includes("label") || id.includes("place") || id.includes("poi")){
+          safeSetLayout(layer.id, "visibility", opts.labels ? "visible" : "none");
+          continue;
         }
       }
     }
 
-    async function geocode(query) {
+    async function geocode(query){
       const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
-      const res = await fetch(url, {
-        headers: {
-          "Accept": "application/json"
-        }
-      });
-      if (!res.ok) throw new Error("Geocoding failed.");
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      if(!res.ok) throw new Error("Geocoding failed.");
       const data = await res.json();
-      if (!data.length) throw new Error("Location not found.");
+      if(!data.length) throw new Error("Lokacija nije pronađena.");
       return data[0];
     }
 
-    function initMap() {
+    function initMap(){
       state.map = new maplibregl.Map({
         container: "map",
         style: STYLE_URL,
@@ -720,13 +1009,14 @@
       state.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
 
       state.map.on("load", () => {
-        applyTheme(els.themeInput.value);
+        applyPosterSize();
+        applyThemeAndLayers();
         updatePosterText(state.center[1], state.center[0]);
-        setStatus("Map ready.");
+        setStatus("Mapa spremna.");
       });
 
       state.map.on("styledata", () => {
-        applyTheme(els.themeInput.value);
+        applyThemeAndLayers();
       });
 
       state.map.on("moveend", () => {
@@ -740,34 +1030,39 @@
         els.bearingInput.value = Math.round(state.bearing);
         els.pitchInput.value = Math.round(state.pitch);
 
-        if (!els.coordsInput.value.trim()) {
+        if(!els.coordsInput.value.trim()){
           els.posterCoords.textContent = formatCoord(c.lat, c.lng);
         }
+        els.statCoords.textContent = `${c.lat.toFixed(4)} / ${c.lng.toFixed(4)}`;
       });
     }
 
-    async function generateMap() {
+    async function generateMap(){
       const query = els.locationInput.value.trim();
-      if (!query) {
-        setStatus("Enter a location first.", true);
+      if(!query){
+        setStatus("Unesi lokaciju.", true);
         return;
       }
-
-      try {
-        setStatus("Searching location...");
+      try{
+        setStatus("Tražim lokaciju...");
         els.generateBtn.disabled = true;
 
         const result = await geocode(query);
         const lat = Number(result.lat);
         const lon = Number(result.lon);
-        const zoom = Number(els.zoomInput.value) || 13.2;
-        const bearing = Number(els.bearingInput.value) || 0;
-        const pitch = Number(els.pitchInput.value) || 0;
+
+        state.geocodeDisplayName = result.display_name || query;
+        state.lastSearchBounds = result.boundingbox
+          ? [
+              [Number(result.boundingbox[2]), Number(result.boundingbox[0])],
+              [Number(result.boundingbox[3]), Number(result.boundingbox[1])]
+            ]
+          : null;
 
         state.center = [lon, lat];
-        state.zoom = zoom;
-        state.bearing = bearing;
-        state.pitch = pitch;
+        state.zoom = Number(els.zoomInput.value) || 13.2;
+        state.bearing = Number(els.bearingInput.value) || 0;
+        state.pitch = Number(els.pitchInput.value) || 0;
 
         state.map.jumpTo({
           center: state.center,
@@ -777,183 +1072,266 @@
         });
 
         updatePosterText(lat, lon);
-        applyTheme(els.themeInput.value);
-
-        setStatus("Map updated. Drag the map for final framing.");
-      } catch (err) {
-        setStatus(err.message || "Something went wrong.", true);
+        applyThemeAndLayers();
+        setStatus("Mapa ažurirana. Možeš ručno pomjerati kadar.");
+      } catch(err){
+        setStatus(err.message || "Greška.", true);
       } finally {
         els.generateBtn.disabled = false;
       }
     }
 
-    function buildCaptureNode() {
+    function resetView(){
+      state.map.jumpTo({
+        center: state.center,
+        zoom: Number(els.zoomInput.defaultValue || 13.2),
+        bearing: 0,
+        pitch: 0
+      });
+    }
+
+    function fitBoundsToCity(){
+      if(!state.lastSearchBounds){
+        setStatus("Prvo generiši lokaciju da bih znao bounds grada.", true);
+        return;
+      }
+      state.map.fitBounds(state.lastSearchBounds, { padding: 40, duration: 800 });
+      setStatus("Prikaz namješten na granice lokacije.");
+    }
+
+    function centerOnCurrentMap(){
+      const c = state.map.getCenter();
+      els.coordsInput.value = "";
+      updatePosterText(c.lat, c.lng);
+      setStatus("Koordinate uzete sa trenutnog centra mape.");
+    }
+
+    function buildCaptureNode(width, height){
+      const palette = getCurrentPalette();
+
       const wrapper = document.createElement("div");
-      wrapper.style.width = "1500px";
-      wrapper.style.height = "2000px";
+      wrapper.style.width = `${width}px`;
+      wrapper.style.height = `${height}px`;
       wrapper.style.position = "relative";
       wrapper.style.overflow = "hidden";
-      wrapper.style.borderRadius = "0";
-      wrapper.style.background = getComputedStyle(els.poster).background;
+      wrapper.style.background = palette.posterBg;
 
-      const mapCanvas = state.map.getCanvas();
       const mapImg = document.createElement("img");
-      mapImg.src = mapCanvas.toDataURL("image/png");
+      mapImg.src = state.map.getCanvas().toDataURL("image/png");
       mapImg.style.position = "absolute";
       mapImg.style.inset = "0";
       mapImg.style.width = "100%";
       mapImg.style.height = "100%";
       mapImg.style.objectFit = "cover";
 
-      const grain = document.querySelector(".paper-grain").cloneNode(true);
-      grain.style.opacity = getComputedStyle(document.querySelector(".paper-grain")).opacity;
+      const noise = document.createElement("div");
+      noise.style.position = "absolute";
+      noise.style.inset = "0";
+      noise.style.opacity = getComputedStyle(els.posterNoise).opacity;
+      noise.style.mixBlendMode = "multiply";
+      noise.style.backgroundImage = 'radial-gradient(rgba(0,0,0,.16) .6px, transparent .7px), radial-gradient(rgba(0,0,0,.08) .6px, transparent .7px)';
+      noise.style.backgroundSize = '8px 8px, 13px 13px';
+      noise.style.backgroundPosition = '0 0, 4px 5px';
 
-      const fade = document.querySelector(".poster-fade").cloneNode(true);
+      const vignette = document.createElement("div");
+      vignette.style.position = "absolute";
+      vignette.style.inset = "0";
+      vignette.style.background = 'radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 28%), linear-gradient(to bottom, rgba(255,255,255,.02), rgba(255,255,255,.01) 40%, rgba(0,0,0,.04))';
 
       const copy = document.createElement("div");
       copy.style.position = "absolute";
       copy.style.left = "0";
       copy.style.right = "0";
-      copy.style.bottom = "92px";
+      copy.style.bottom = Math.round(height * 0.03) + "px";
       copy.style.textAlign = "center";
-      copy.style.padding = "0 70px";
-      copy.style.zIndex = "6";
+      copy.style.padding = "0 " + Math.round(width * 0.028) + "px";
 
       const title = document.createElement("div");
       title.textContent = els.posterTitle.textContent;
       title.style.margin = "0";
       title.style.textTransform = "uppercase";
       title.style.fontWeight = "300";
-      title.style.fontSize = "86px";
-      title.style.letterSpacing = "0.32em";
-      title.style.textIndent = "0.32em";
-      title.style.lineHeight = "0.94";
+      title.style.lineHeight = ".95";
+      title.style.fontSize = Math.round(width * 0.05) + "px";
+      title.style.letterSpacing = els.posterTitle.style.letterSpacing || "0.28em";
+      title.style.textIndent = els.posterTitle.style.textIndent || "0.28em";
       title.style.color = getComputedStyle(els.posterTitle).color;
       title.style.fontFamily = getComputedStyle(els.posterTitle).fontFamily;
 
       const subtitle = document.createElement("div");
       subtitle.textContent = els.posterSubtitle.textContent;
-      subtitle.style.marginTop = "18px";
+      subtitle.style.marginTop = Math.round(width * 0.012) + "px";
       subtitle.style.textTransform = "uppercase";
-      subtitle.style.fontSize = "23px";
-      subtitle.style.letterSpacing = "0.24em";
-      subtitle.style.textIndent = "0.24em";
-      subtitle.style.fontWeight = "500";
+      subtitle.style.fontSize = Math.round(width * 0.014) + "px";
+      subtitle.style.letterSpacing = ".24em";
+      subtitle.style.textIndent = ".24em";
       subtitle.style.color = getComputedStyle(els.posterSubtitle).color;
-      subtitle.style.fontFamily = getComputedStyle(els.posterSubtitle).fontFamily;
+      subtitle.style.fontWeight = "500";
+      subtitle.style.fontFamily = "Inter, sans-serif";
 
       const coords = document.createElement("div");
       coords.textContent = els.posterCoords.textContent;
-      coords.style.marginTop = "18px";
+      coords.style.marginTop = Math.round(width * 0.01) + "px";
       coords.style.textTransform = "uppercase";
-      coords.style.fontSize = "15px";
-      coords.style.letterSpacing = "0.16em";
-      coords.style.fontWeight = "500";
+      coords.style.fontSize = Math.round(width * 0.01) + "px";
+      coords.style.letterSpacing = ".14em";
       coords.style.color = getComputedStyle(els.posterCoords).color;
-      coords.style.fontFamily = getComputedStyle(els.posterCoords).fontFamily;
+      coords.style.fontWeight = "500";
+      coords.style.fontFamily = "Inter, sans-serif";
 
       const credit = document.createElement("div");
       credit.textContent = "map data © OpenStreetMap contributors";
       credit.style.position = "absolute";
-      credit.style.left = "22px";
-      credit.style.bottom = "16px";
+      credit.style.left = "18px";
+      credit.style.bottom = "14px";
       credit.style.fontSize = "10px";
-      credit.style.letterSpacing = "0.06em";
+      credit.style.letterSpacing = ".05em";
       credit.style.textTransform = "uppercase";
-      credit.style.color = "rgba(70,70,70,0.74)";
-      credit.style.zIndex = "6";
+      credit.style.color = palette.label === "Noir" ? "rgba(220,220,220,.72)" : "rgba(70,70,70,.75)";
       credit.style.fontFamily = "Inter, sans-serif";
 
       copy.appendChild(title);
-      copy.appendChild(subtitle);
+      if(els.posterSubtitle.textContent.trim()) copy.appendChild(subtitle);
       copy.appendChild(coords);
 
       wrapper.appendChild(mapImg);
-      wrapper.appendChild(grain);
-      wrapper.appendChild(fade);
+      wrapper.appendChild(noise);
+      wrapper.appendChild(vignette);
       wrapper.appendChild(copy);
       wrapper.appendChild(credit);
 
       return wrapper;
     }
 
-    async function exportPNG() {
-      try {
-        setStatus("Rendering PNG...");
-        els.exportBtn.disabled = true;
+    async function renderExportCanvas(){
+      const cfg = sizeMap[els.posterSizeInput.value];
+      const node = buildCaptureNode(cfg.exportW, cfg.exportH);
+      els.captureRoot.innerHTML = "";
+      els.captureRoot.appendChild(node);
 
-        await new Promise(resolve => setTimeout(resolve, 350));
+      const canvas = await html2canvas(node, {
+        backgroundColor: null,
+        scale: 1,
+        useCORS: true,
+        logging: false
+      });
 
-        const captureNode = buildCaptureNode();
-        els.captureRoot.innerHTML = "";
-        els.captureRoot.appendChild(captureNode);
+      els.captureRoot.innerHTML = "";
+      return canvas;
+    }
 
-        const canvas = await html2canvas(captureNode, {
-          backgroundColor: null,
-          scale: 1,
-          useCORS: true,
-          logging: false
-        });
+    function fileSlug(){
+      return (els.titleInput.value.trim() || "studio83-mapa")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
 
+    async function exportPNG(){
+      try{
+        setStatus("Renderujem PNG...");
+        els.exportPngBtn.disabled = true;
+        const canvas = await renderExportCanvas();
         const link = document.createElement("a");
-        const fileName = (els.titleInput.value.trim() || "map-poster")
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-+|-+$/g, "");
-
-        link.download = `${fileName || "map-poster"}.png`;
+        link.download = `${fileSlug()}.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
-
-        els.captureRoot.innerHTML = "";
-        setStatus("PNG exported.");
-      } catch (err) {
-        setStatus("Export failed. Try again after the map fully loads.", true);
-      } finally {
-        els.exportBtn.disabled = false;
+        setStatus("PNG export gotov.");
+      }catch(err){
+        setStatus("PNG export nije uspio.", true);
+      }finally{
+        els.exportPngBtn.disabled = false;
       }
     }
 
-    els.titleInput.addEventListener("input", () => {
-      state.titleEdited = true;
-      els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
-    });
+    async function exportPDF(){
+      try{
+        setStatus("Renderujem PDF...");
+        els.exportPdfBtn.disabled = true;
+        const canvas = await renderExportCanvas();
+        const img = canvas.toDataURL("image/png");
 
-    els.subtitleInput.addEventListener("input", () => {
-      state.subtitleEdited = true;
-      els.posterSubtitle.textContent = els.subtitleInput.value.trim() || "";
-    });
+        const { jsPDF } = window.jspdf;
+        const pdfFormat = sizeMap[els.posterSizeInput.value].pdf || "a4";
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: "px",
+          format: pdfFormat,
+          compress: true
+        });
 
-    els.coordsInput.addEventListener("input", () => {
-      const manual = els.coordsInput.value.trim();
-      if (manual) {
-        els.posterCoords.textContent = manual;
-      } else {
-        const c = state.map.getCenter();
-        els.posterCoords.textContent = formatCoord(c.lat, c.lng);
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        pdf.addImage(img, "PNG", 0, 0, pageW, pageH, undefined, "FAST");
+        pdf.save(`${fileSlug()}.pdf`);
+        setStatus("PDF export gotov.");
+      }catch(err){
+        setStatus("PDF export nije uspio.", true);
+      }finally{
+        els.exportPdfBtn.disabled = false;
       }
-    });
+    }
 
-    els.fontInput.addEventListener("change", () => {
-      els.posterTitle.style.fontFamily = `"${els.fontInput.value}", Inter, sans-serif`;
-    });
+    function bindLiveUpdates(){
+      els.titleInput.addEventListener("input", () => {
+        state.titleEdited = true;
+        els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
+      });
 
-    els.themeInput.addEventListener("change", () => {
-      applyTheme(els.themeInput.value);
-    });
+      els.subtitleInput.addEventListener("input", () => {
+        state.subtitleEdited = true;
+        els.posterSubtitle.textContent = els.subtitleInput.value.trim() || "";
+      });
 
-    els.generateBtn.addEventListener("click", generateMap);
-    els.exportBtn.addEventListener("click", exportPNG);
+      els.coordsInput.addEventListener("input", () => {
+        const manual = els.coordsInput.value.trim();
+        if(manual){
+          els.posterCoords.textContent = manual;
+        } else {
+          const c = state.map.getCenter();
+          els.posterCoords.textContent = formatCoord(c.lat, c.lng);
+        }
+      });
 
-    els.locationInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        generateMap();
-      }
-    });
+      els.titleFontInput.addEventListener("change", syncTypography);
+      els.letterSpacingInput.addEventListener("input", syncTypography);
+
+      [
+        els.paletteInput,
+        els.roadWeightInput,
+        els.buildingOpacityInput,
+        els.terrainOpacityInput,
+        els.noiseInput,
+        els.toggleRoads,
+        els.toggleBuildings,
+        els.toggleWater,
+        els.toggleParks,
+        els.toggleTerrain,
+        els.toggleRail,
+        els.toggleBoundaries,
+        els.toggleLabels
+      ].forEach(el => el.addEventListener("input", applyThemeAndLayers));
+
+      els.posterSizeInput.addEventListener("change", applyPosterSize);
+
+      els.generateBtn.addEventListener("click", generateMap);
+      els.resetViewBtn.addEventListener("click", resetView);
+      els.fitBoundsBtn.addEventListener("click", fitBoundsToCity);
+      els.centerOnMapBtn.addEventListener("click", centerOnCurrentMap);
+      els.exportPngBtn.addEventListener("click", exportPNG);
+      els.exportPdfBtn.addEventListener("click", exportPDF);
+
+      els.locationInput.addEventListener("keydown", e => {
+        if(e.key === "Enter") generateMap();
+      });
+    }
 
     window.addEventListener("load", () => {
+      applyPosterSize();
+      syncTypography();
       initMap();
       updatePosterText(state.center[1], state.center[0]);
+      bindLiveUpdates();
     });
   </script>
 </body>
