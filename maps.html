@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map Poster Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg: #eceae6;
+      --panel: rgba(255,255,255,0.78);
+      --line: rgba(0,0,0,0.08);
+      --text: #171717;
+      --muted: #626262;
+      --shadow: 0 20px 60px rgba(0,0,0,0.12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #f7f5f1 0%, #ebe8e2 100%);
+      color: var(--text);
+      min-height: 100%;
+    }
+
+    body {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .sidebar {
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      align-self: start;
+      position: sticky;
+      top: 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.04);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .subtext {
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .group {
+      margin-bottom: 18px;
+    }
+
+    .group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2f2f2f;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    input, select, button, textarea {
+      width: 100%;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.84);
+      border-radius: 16px;
+      padding: 14px 14px;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+      transition: 180ms ease;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 76px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(0,0,0,0.22);
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-dark {
+      background: #131313;
+      color: white;
+      border-color: #131313;
+    }
+
+    .btn-dark:hover { background: #000; }
+
+    .btn-light:hover { background: rgba(255,255,255,1); }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .hint {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.04);
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .status {
+      margin-top: 14px;
+      min-height: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .workspace {
+      min-width: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .poster-wrap {
+      background: rgba(255,255,255,0.45);
+      border-radius: 30px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.7);
+      width: min(100%, 860px);
+    }
+
+    .poster {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #efede8;
+    }
+
+    #map {
+      position: absolute;
+      inset: 0;
+    }
+
+    .poster-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom, rgba(239,237,232,0.06) 0%, rgba(239,237,232,0.02) 50%, rgba(239,237,232,0.16) 100%),
+        radial-gradient(circle at top left, rgba(255,255,255,0.20), transparent 30%);
+      z-index: 5;
+    }
+
+    .poster-text {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 42px;
+      text-align: center;
+      z-index: 6;
+      padding: 0 40px;
+      pointer-events: none;
+    }
+
+    .poster-title {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.34em;
+      font-weight: 300;
+      font-size: clamp(32px, 5vw, 72px);
+      color: rgba(20,20,20,0.96);
+      text-indent: 0.34em;
+    }
+
+    .poster-subtitle {
+      margin: 16px 0 0;
+      font-size: clamp(16px, 1.6vw, 28px);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(36,36,36,0.92);
+      font-weight: 400;
+    }
+
+    .poster-coords {
+      margin-top: 12px;
+      font-size: clamp(11px, 1vw, 16px);
+      letter-spacing: 0.16em;
+      color: rgba(70,70,70,0.86);
+      text-transform: uppercase;
+    }
+
+    .poster-credit {
+      position: absolute;
+      left: 18px;
+      bottom: 14px;
+      z-index: 6;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      color: rgba(60,60,60,0.72);
+      pointer-events: none;
+    }
+
+    @media (max-width: 1100px) {
+      body {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        top: 0;
+      }
+
+      .workspace {
+        padding: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 14px; gap: 14px; }
+      .sidebar, .poster-wrap { border-radius: 22px; padding: 14px; }
+      .poster { border-radius: 18px; }
+      .row, .btn-row { grid-template-columns: 1fr; }
+      h1 { font-size: 24px; }
+      .poster-text { bottom: 26px; padding: 0 18px; }
+      .poster-title { letter-spacing: 0.22em; text-indent: 0.22em; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="eyebrow">Poster Map Generator</div>
+    <h1>Generate minimalist city map posters</h1>
+    <p class="subtext">Single-file app using MapLibre, OpenStreetMap and browser export. Enter a city, tweak the layout, then export a PNG.</p>
+
+    <div class="group">
+      <label for="locationInput">City / location</label>
+      <input id="locationInput" value="Podgorica, Montenegro" placeholder="Podgorica, Montenegro" />
+    </div>
+
+    <div class="row">
+      <div class="group">
+        <label for="zoomInput">Zoom</label>
+        <input id="zoomInput" type="number" min="1" max="18" step="0.1" value="12.8" />
+      </div>
+      <div class="group">
+        <label for="bearingInput">Rotation</label>
+        <input id="bearingInput" type="number" min="-180" max="180" step="1" value="0" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="group">
+        <label for="pitchInput">Pitch</label>
+        <input id="pitchInput" type="number" min="0" max="60" step="1" value="0" />
+      </div>
+      <div class="group">
+        <label for="themeInput">Theme</label>
+        <select id="themeInput">
+          <option value="paper" selected>Paper Gray</option>
+          <option value="ink">Soft Ink</option>
+          <option value="dark">Dark Mono</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="group">
+      <label for="titleInput">Poster title</label>
+      <input id="titleInput" value="PODGORICA" placeholder="PODGORICA" />
+    </div>
+
+    <div class="group">
+      <label for="subtitleInput">Subtitle</label>
+      <input id="subtitleInput" value="MONTENEGRO" placeholder="MONTENEGRO" />
+    </div>
+
+    <div class="group">
+      <label for="coordsInput">Coordinates override (optional)</label>
+      <input id="coordsInput" placeholder="Example: 42.4375° N / 19.2694° E" />
+    </div>
+
+    <div class="btn-row">
+      <button id="searchBtn" class="btn-dark">Generate map</button>
+      <button id="exportBtn" class="btn-light">Export PNG</button>
+    </div>
+
+    <div class="hint">
+      Free stack: MapLibre GL JS + OpenStreetMap vector style from MapTiler demo source. For production traffic, replace the style URL with your own tile/style endpoint.
+    </div>
+
+    <div id="status" class="status"></div>
+  </aside>
+
+  <main class="workspace">
+    <div class="poster-wrap">
+      <div id="poster" class="poster">
+        <div id="map"></div>
+        <div class="poster-overlay"></div>
+        <div class="poster-text">
+          <h2 id="posterTitle" class="poster-title">PODGORICA</h2>
+          <div id="posterSubtitle" class="poster-subtitle">MONTENEGRO</div>
+          <div id="posterCoords" class="poster-coords">42.4375° N / 19.2694° E</div>
+        </div>
+        <div class="poster-credit">map data © OpenStreetMap contributors</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const stylePresets = {
+      paper: {
+        background: '#efede8',
+        water: '#e5e2dc',
+        park: '#e7e3dd',
+        building: '#cfcac4',
+        minorRoad: '#c1bcb5',
+        majorRoad: '#69645f',
+        highway: '#3e3b39',
+        boundary: '#d9d4cd',
+        label: 'rgba(0,0,0,0)'
+      },
+      ink: {
+        background: '#f2f1ee',
+        water: '#eceae7',
+        park: '#ece9e4',
+        building: '#bebbb6',
+        minorRoad: '#b0aca6',
+        majorRoad: '#5a5652',
+        highway: '#242321',
+        boundary: '#d8d4ce',
+        label: 'rgba(0,0,0,0)'
+      },
+      dark: {
+        background: '#111214',
+        water: '#16181b',
+        park: '#17191c',
+        building: '#474b52',
+        minorRoad: '#666b73',
+        majorRoad: '#c7ccd2',
+        highway: '#ffffff',
+        boundary: '#23262b',
+        label: 'rgba(0,0,0,0)'
+      }
+    };
+
+    const state = {
+      map: null,
+      currentCenter: [19.2594, 42.4304],
+      currentZoom: 12.8,
+      currentBearing: 0,
+      currentPitch: 0
+    };
+
+    const els = {
+      locationInput: document.getElementById('locationInput'),
+      zoomInput: document.getElementById('zoomInput'),
+      bearingInput: document.getElementById('bearingInput'),
+      pitchInput: document.getElementById('pitchInput'),
+      themeInput: document.getElementById('themeInput'),
+      titleInput: document.getElementById('titleInput'),
+      subtitleInput: document.getElementById('subtitleInput'),
+      coordsInput: document.getElementById('coordsInput'),
+      searchBtn: document.getElementById('searchBtn'),
+      exportBtn: document.getElementById('exportBtn'),
+      status: document.getElementById('status'),
+      posterTitle: document.getElementById('posterTitle'),
+      posterSubtitle: document.getElementById('posterSubtitle'),
+      posterCoords: document.getElementById('posterCoords'),
+      poster: document.getElementById('poster')
+    };
+
+    function setStatus(message, isError = false) {
+      els.status.textContent = message;
+      els.status.style.color = isError ? '#a12626' : '#333';
+    }
+
+    function toTitleFromLocation(raw) {
+      return raw.split(',')[0].trim().toUpperCase();
+    }
+
+    function formatCoord(lat, lon) {
+      const latAbs = Math.abs(lat).toFixed(4);
+      const lonAbs = Math.abs(lon).toFixed(4);
+      const latDir = lat >= 0 ? 'N' : 'S';
+      const lonDir = lon >= 0 ? 'E' : 'W';
+      return `${latAbs}° ${latDir} / ${lonAbs}° ${lonDir}`;
+    }
+
+    function updatePosterText(lat, lon) {
+      const locationValue = els.locationInput.value.trim();
+      if (!els.titleInput.dataset.userEditedTitle) {
+        els.titleInput.value = toTitleFromLocation(locationValue || 'City');
+      }
+      if (!els.subtitleInput.dataset.userEditedSubtitle) {
+        const parts = locationValue.split(',').map(s => s.trim()).filter(Boolean);
+        els.subtitleInput.value = (parts[parts.length - 1] || '').toUpperCase();
+      }
+
+      els.posterTitle.textContent = els.titleInput.value.trim() || 'CITY';
+      els.posterSubtitle.textContent = els.subtitleInput.value.trim() || '';
+      els.posterCoords.textContent = els.coordsInput.value.trim() || formatCoord(lat, lon);
+    }
+
+    function applyPosterTheme(themeName) {
+      const theme = stylePresets[themeName] || stylePresets.paper;
+      const posterBg = theme.background;
+      els.poster.style.background = posterBg;
+      document.documentElement.style.setProperty('--bg', posterBg);
+
+      if (!state.map || !state.map.isStyleLoaded()) return;
+
+      const style = state.map.getStyle();
+      if (!style || !style.layers) return;
+
+      for (const layer of style.layers) {
+        const id = layer.id;
+        const type = layer.type;
+
+        if (type === 'background') {
+          safeSetPaint(id, 'background-color', theme.background);
+        }
+
+        if (id.includes('water')) {
+          safeSetPaint(id, `${type}-color`, theme.water);
+        }
+
+        if (id.includes('park') || id.includes('landcover') || id.includes('wood') || id.includes('grass')) {
+          safeSetPaint(id, `${type}-color`, theme.park);
+        }
+
+        if (id.includes('building')) {
+          safeSetPaint(id, `${type}-color`, theme.building);
+          if (type === 'fill-extrusion') safeSetPaint(id, 'fill-extrusion-color', theme.building);
+        }
+
+        if (type === 'line') {
+          if (id.includes('motorway') || id.includes('trunk') || id.includes('primary')) {
+            safeSetPaint(id, 'line-color', theme.highway);
+          } else if (id.includes('secondary') || id.includes('tertiary') || id.includes('major')) {
+            safeSetPaint(id, 'line-color', theme.majorRoad);
+          } else if (id.includes('road') || id.includes('street') || id.includes('minor')) {
+            safeSetPaint(id, 'line-color', theme.minorRoad);
+          } else if (id.includes('boundary')) {
+            safeSetPaint(id, 'line-color', theme.boundary);
+          }
+        }
+
+        if (type === 'symbol') {
+          safeSetPaint(id, 'text-color', theme.label);
+          safeSetPaint(id, 'text-halo-color', theme.label);
+          safeSetPaint(id, 'icon-opacity', 0);
+          safeSetLayout(id, 'visibility', 'none');
+        }
+      }
+    }
+
+    function safeSetPaint(layerId, prop, value) {
+      try { state.map.setPaintProperty(layerId, prop, value); } catch (e) {}
+    }
+
+    function safeSetLayout(layerId, prop, value) {
+      try { state.map.setLayoutProperty(layerId, prop, value); } catch (e) {}
+    }
+
+    function initMap() {
+      state.map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://demotiles.maplibre.org/style.json',
+        center: state.currentCenter,
+        zoom: state.currentZoom,
+        bearing: state.currentBearing,
+        pitch: state.currentPitch,
+        attributionControl: false,
+        preserveDrawingBuffer: true
+      });
+
+      state.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+
+      state.map.on('load', () => {
+        applyPosterTheme(els.themeInput.value);
+        updatePosterText(state.currentCenter[1], state.currentCenter[0]);
+        setStatus('Map ready.');
+      });
+
+      state.map.on('moveend', () => {
+        const center = state.map.getCenter();
+        state.currentCenter = [center.lng, center.lat];
+        state.currentZoom = state.map.getZoom();
+        state.currentBearing = state.map.getBearing();
+        state.currentPitch = state.map.getPitch();
+        els.zoomInput.value = state.currentZoom.toFixed(1);
+        els.bearingInput.value = Math.round(state.currentBearing);
+        els.pitchInput.value = Math.round(state.currentPitch);
+        if (!els.coordsInput.value.trim()) {
+          els.posterCoords.textContent = formatCoord(center.lat, center.lng);
+        }
+      });
+
+      state.map.on('styledata', () => {
+        applyPosterTheme(els.themeInput.value);
+      });
+    }
+
+    async function geocodeLocation(query) {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
+      const response = await fetch(url, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Geocoding request failed.');
+      }
+
+      const data = await response.json();
+      if (!data.length) throw new Error('Location not found.');
+      return data[0];
+    }
+
+    async function generateMap() {
+      const query = els.locationInput.value.trim();
+      if (!query) {
+        setStatus('Enter a location first.', true);
+        return;
+      }
+
+      try {
+        setStatus('Searching location...');
+        els.searchBtn.disabled = true;
+
+        const result = await geocodeLocation(query);
+        const lat = Number(result.lat);
+        const lon = Number(result.lon);
+        const zoom = Number(els.zoomInput.value) || 12.8;
+        const bearing = Number(els.bearingInput.value) || 0;
+        const pitch = Number(els.pitchInput.value) || 0;
+
+        state.currentCenter = [lon, lat];
+        state.currentZoom = zoom;
+        state.currentBearing = bearing;
+        state.currentPitch = pitch;
+
+        state.map.jumpTo({
+          center: state.currentCenter,
+          zoom: state.currentZoom,
+          bearing: state.currentBearing,
+          pitch: state.currentPitch
+        });
+
+        updatePosterText(lat, lon);
+        setStatus('Map updated. Drag the map to fine-tune the framing.');
+      } catch (error) {
+        setStatus(error.message || 'Something went wrong.', true);
+      } finally {
+        els.searchBtn.disabled = false;
+      }
+    }
+
+    async function exportPoster() {
+      try {
+        setStatus('Rendering PNG...');
+        els.exportBtn.disabled = true;
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        const canvas = await html2canvas(els.poster, {
+          backgroundColor: null,
+          scale: 2,
+          useCORS: true,
+          logging: false
+        });
+
+        const link = document.createElement('a');
+        const safeTitle = (els.titleInput.value.trim() || 'map-poster')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        link.download = `${safeTitle || 'map-poster'}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        setStatus('PNG exported.');
+      } catch (error) {
+        setStatus('Export failed. Check tile CORS support or try again.', true);
+      } finally {
+        els.exportBtn.disabled = false;
+      }
+    }
+
+    els.titleInput.addEventListener('input', () => {
+      els.titleInput.dataset.userEditedTitle = 'true';
+      els.posterTitle.textContent = els.titleInput.value.trim() || 'CITY';
+    });
+
+    els.subtitleInput.addEventListener('input', () => {
+      els.subtitleInput.dataset.userEditedSubtitle = 'true';
+      els.posterSubtitle.textContent = els.subtitleInput.value.trim();
+    });
+
+    els.coordsInput.addEventListener('input', () => {
+      const value = els.coordsInput.value.trim();
+      if (value) {
+        els.posterCoords.textContent = value;
+      } else {
+        const center = state.map.getCenter();
+        els.posterCoords.textContent = formatCoord(center.lat, center.lng);
+      }
+    });
+
+    els.themeInput.addEventListener('change', () => applyPosterTheme(els.themeInput.value));
+    els.searchBtn.addEventListener('click', generateMap);
+    els.exportBtn.addEventListener('click', exportPoster);
+    els.locationInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') generateMap();
+    });
+
+    window.addEventListener('load', () => {
+      initMap();
+      updatePosterText(state.currentCenter[1], state.currentCenter[0]);
+    });
+  </script>
+</body>
+</html>
