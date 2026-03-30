@@ -2,7 +2,7 @@
 <html lang="sr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Studio83 Mapa</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +19,8 @@
       --bg2:#141418;
       --panel:#121217;
       --card:#16161d;
-      --card-2:#1b1b23;
       --line:#2a2a31;
+      --line-2:#353540;
       --text:#f3f3f5;
       --muted:#9fa3ad;
       --accent:#F36A2E;
@@ -28,14 +28,22 @@
       --radius-xl:24px;
       --radius-lg:18px;
       --radius-md:14px;
-      --noise-opacity:.09;
+      --safe-top:env(safe-area-inset-top,0px);
+      --safe-bottom:env(safe-area-inset-bottom,0px);
     }
 
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
-      radial-gradient(circle at top left, rgba(243,106,46,.08), transparent 18%),
-      linear-gradient(180deg,var(--bg),var(--bg2));
-      color:var(--text);}
+    html,body{
+      margin:0;
+      padding:0;
+      min-height:100%;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(243,106,46,.08), transparent 18%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      color:var(--text);
+    }
+
     body{
       display:grid;
       grid-template-columns:390px minmax(0,1fr);
@@ -43,49 +51,56 @@
       padding:24px;
     }
 
+    .mobile-topbar{display:none}
+
     .sidebar{
       position:sticky;
       top:24px;
       align-self:start;
-      background:linear-gradient(180deg,rgba(22,22,29,.95),rgba(14,14,18,.95));
+      height:calc(100vh - 48px);
+      background:linear-gradient(180deg,rgba(22,22,29,.96),rgba(14,14,18,.96));
       border:1px solid var(--line);
       border-radius:28px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .sidebar::before{
+
+    .sidebar::before,
+    .stage-shell::before{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
-      opacity:var(--noise-opacity);
+      opacity:.05;
       background-image:
-        radial-gradient(rgba(255,255,255,.18) .6px, transparent .7px),
-        radial-gradient(rgba(255,255,255,.08) .6px, transparent .7px);
-      background-size:10px 10px, 15px 15px;
-      background-position:0 0, 4px 5px;
-      mix-blend-mode:soft-light;
+        radial-gradient(rgba(255,255,255,.18) .7px, transparent .8px),
+        radial-gradient(rgba(255,255,255,.06) .7px, transparent .8px);
+      background-size:11px 11px, 17px 17px;
+      background-position:0 0, 5px 6px;
     }
 
     .sidebar-inner{
       position:relative;
       z-index:1;
-      padding:20px;
-      max-height:calc(100vh - 48px);
+      height:100%;
       overflow:auto;
+      padding:18px;
+      overscroll-behavior:contain;
     }
+
     .sidebar-inner::-webkit-scrollbar{width:10px}
     .sidebar-inner::-webkit-scrollbar-thumb{background:#2d2d35;border-radius:99px}
     .sidebar-inner::-webkit-scrollbar-track{background:transparent}
 
-    .brand{
+    .brand-row{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      margin-bottom:16px;
+      margin-bottom:14px;
     }
-    .brand-badge{
+
+    .badge{
       display:inline-flex;
       align-items:center;
       gap:10px;
@@ -98,31 +113,40 @@
       font-weight:700;
       letter-spacing:.12em;
       text-transform:uppercase;
+      white-space:nowrap;
     }
-    .brand-dot{
-      width:10px;height:10px;border-radius:50%;background:var(--accent);
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--accent);
       box-shadow:0 0 14px rgba(243,106,46,.6);
+      flex:none;
     }
+
     h1{
       margin:8px 0 8px;
       font-size:32px;
       line-height:1.02;
       letter-spacing:-.05em;
     }
+
     .lead{
-      margin:0 0 18px;
+      margin:0 0 16px;
       color:var(--muted);
       font-size:14px;
       line-height:1.6;
     }
 
     .section{
-      margin-bottom:14px;
+      margin-bottom:12px;
       padding:14px;
       border:1px solid var(--line);
       border-radius:18px;
       background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
     }
+
     .section-title{
       margin:0 0 12px;
       font-size:12px;
@@ -132,11 +156,44 @@
       text-transform:uppercase;
     }
 
+    .tabs{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-bottom:12px;
+    }
+
+    .tab-btn{
+      width:100%;
+      min-height:40px;
+      border:1px solid var(--line);
+      background:#0f1014;
+      color:#cfd2d9;
+      border-radius:12px;
+      font:inherit;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.02em;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .tab-btn.active{
+      background:rgba(243,106,46,.16);
+      border-color:rgba(243,106,46,.55);
+      color:#fff;
+    }
+
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
     .grid-2{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:10px;
     }
+
+    .field{margin-bottom:10px}
 
     label{
       display:block;
@@ -146,8 +203,10 @@
       font-weight:700;
       letter-spacing:.02em;
     }
+
     input,select,button{
       width:100%;
+      min-height:46px;
       border:1px solid var(--line);
       background:#0f1014;
       color:var(--text);
@@ -157,39 +216,47 @@
       outline:none;
       transition:.18s ease;
     }
+
     input:focus,select:focus{
       border-color:var(--accent);
       box-shadow:0 0 0 4px rgba(243,106,46,.12);
     }
+
     input::placeholder{color:#737784}
-    .field{margin-bottom:10px}
-    .small{font-size:12px;color:var(--muted);line-height:1.55}
+
+    .small{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
     .actions{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:10px;
     }
+
     .btn{
       cursor:pointer;
       font-weight:700;
       letter-spacing:-.01em;
     }
+
     .btn-primary{
       background:var(--accent);
       color:white;
       border-color:var(--accent);
     }
+
     .btn-primary:hover{filter:brightness(1.05)}
-    .btn-secondary:hover{background:#17181f}
-    .btn-ghost{
-      background:transparent;
-    }
+    .btn-secondary:hover,.btn-ghost:hover{background:#17181f}
 
     .toggle-list{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:8px;
     }
+
     .toggle{
       display:flex;
       align-items:center;
@@ -200,13 +267,69 @@
       padding:10px 12px;
       font-size:13px;
       color:#d6d8de;
+      min-height:46px;
+      line-height:1.2;
     }
+
     .toggle input{
       width:auto;
-      accent-color:var(--accent);
-      transform:translateY(1px);
+      min-height:auto;
+      margin:0;
       padding:0;
+      accent-color:var(--accent);
+      flex:none;
     }
+
+    .palette-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .palette-chip{
+      border:1px solid var(--line);
+      background:#0f1014;
+      border-radius:14px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      min-height:54px;
+    }
+
+    .palette-chip.active{
+      border-color:rgba(243,106,46,.55);
+      box-shadow:0 0 0 2px rgba(243,106,46,.12) inset;
+    }
+
+    .palette-swatches{
+      display:flex;
+      gap:4px;
+      flex:none;
+    }
+
+    .palette-swatches span{
+      width:14px;height:14px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.08);
+      display:block;
+    }
+
+    .palette-name{
+      font-size:12px;
+      font-weight:700;
+      color:#fff;
+      line-height:1.2;
+    }
+
+    .range-value{
+      margin-top:5px;
+      font-size:11px;
+      color:var(--muted);
+      font-weight:700;
+    }
+
     .status{
       min-height:18px;
       margin-top:12px;
@@ -222,8 +345,9 @@
       align-items:flex-start;
       padding:6px;
     }
+
     .stage-shell{
-      width:min(100%, 1060px);
+      width:min(100%,1060px);
       background:linear-gradient(180deg,rgba(22,22,29,.78),rgba(14,14,18,.78));
       border:1px solid var(--line);
       border-radius:28px;
@@ -231,18 +355,6 @@
       padding:18px;
       position:relative;
       overflow:hidden;
-    }
-    .stage-shell::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:.05;
-      background-image:
-        radial-gradient(rgba(255,255,255,.2) .7px, transparent .8px),
-        radial-gradient(rgba(255,255,255,.06) .7px, transparent .8px);
-      background-size:11px 11px, 17px 17px;
-      background-position:0 0, 5px 6px;
     }
 
     .poster{
@@ -253,10 +365,9 @@
       border-radius:22px;
       background:#eae6df;
     }
-    #map{
-      position:absolute;
-      inset:0;
-    }
+
+    #map{position:absolute;inset:0}
+
     .poster-noise{
       position:absolute;
       inset:0;
@@ -270,6 +381,7 @@
       background-size:8px 8px, 13px 13px;
       background-position:0 0, 4px 5px;
     }
+
     .poster-vignette{
       position:absolute;
       inset:0;
@@ -279,6 +391,7 @@
         radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 28%),
         linear-gradient(to bottom, rgba(255,255,255,.02), rgba(255,255,255,.01) 40%, rgba(0,0,0,.04));
     }
+
     .poster-copy{
       position:absolute;
       left:0;right:0;bottom:42px;
@@ -287,6 +400,7 @@
       pointer-events:none;
       padding:0 42px;
     }
+
     .poster-title{
       margin:0;
       text-transform:uppercase;
@@ -297,6 +411,7 @@
       font-size:clamp(34px,5.6vw,76px);
       color:#181818;
     }
+
     .poster-subtitle{
       margin-top:16px;
       font-size:clamp(13px,1.35vw,22px);
@@ -306,6 +421,7 @@
       color:#303030;
       font-weight:500;
     }
+
     .poster-coords{
       margin-top:14px;
       font-size:clamp(11px,.95vw,15px);
@@ -314,6 +430,7 @@
       color:#5d5d5d;
       font-weight:500;
     }
+
     .poster-credit{
       position:absolute;
       left:18px;
@@ -334,12 +451,15 @@
       position:relative;
       z-index:1;
     }
+
     .stat{
       border:1px solid var(--line);
       background:#111218;
       border-radius:16px;
       padding:12px;
+      min-width:0;
     }
+
     .stat-label{
       font-size:11px;
       text-transform:uppercase;
@@ -348,6 +468,7 @@
       font-weight:700;
       margin-bottom:4px;
     }
+
     .stat-value{
       font-size:14px;
       font-weight:800;
@@ -366,163 +487,302 @@
       overflow:hidden;
     }
 
-    @media (max-width:1150px){
-      body{grid-template-columns:1fr}
-      .sidebar{position:relative;top:0}
+    .drawer-overlay{display:none}
+
+    @media (max-width:1180px){
+      body{
+        grid-template-columns:1fr;
+        gap:14px;
+        padding:calc(var(--safe-top) + 14px) 14px calc(var(--safe-bottom) + 14px);
+      }
+
+      .mobile-topbar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        position:sticky;
+        top:calc(var(--safe-top) + 10px);
+        z-index:40;
+        padding:12px;
+        border:1px solid var(--line);
+        border-radius:18px;
+        background:linear-gradient(180deg,rgba(22,22,29,.94),rgba(14,14,18,.94));
+        box-shadow:var(--shadow);
+      }
+
+      .mobile-topbar .left{min-width:0}
+      .mobile-topbar h2{
+        margin:4px 0 0;
+        font-size:18px;
+        line-height:1.05;
+        letter-spacing:-.03em;
+      }
+      .mobile-topbar p{
+        margin:6px 0 0;
+        color:var(--muted);
+        font-size:12px;
+      }
+
+      .menu-btn{
+        width:auto;
+        min-width:112px;
+        padding:12px 14px;
+        border-radius:14px;
+        background:var(--accent);
+        border:1px solid var(--accent);
+        color:#fff;
+        font-weight:800;
+      }
+
+      .sidebar{
+        position:fixed;
+        top:0;
+        left:0;
+        bottom:0;
+        width:min(92vw,430px);
+        height:auto;
+        border-radius:0 24px 24px 0;
+        z-index:50;
+        transform:translateX(-104%);
+        transition:transform .24s ease;
+      }
+
+      .sidebar.open{transform:translateX(0)}
+
+      .drawer-overlay{
+        display:block;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.48);
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .24s ease;
+        z-index:45;
+      }
+
+      .drawer-overlay.show{
+        opacity:1;
+        pointer-events:auto;
+      }
+
       .stage{padding:0}
+      .stage-shell{
+        width:100%;
+        padding:12px;
+        border-radius:20px;
+      }
+
+      .preview-bar{grid-template-columns:1fr 1fr}
     }
-    @media (max-width:700px){
-      body{padding:14px;gap:14px}
-      .grid-2,.actions,.toggle-list,.preview-bar{grid-template-columns:1fr}
-      .sidebar-inner,.stage-shell{padding:14px}
-      h1{font-size:25px}
-      .poster-copy{bottom:24px;padding:0 18px}
-      .poster-title{letter-spacing:.16em;text-indent:.16em}
-      .poster-subtitle{letter-spacing:.12em;text-indent:.12em}
+
+    @media (max-width:760px){
+      .tabs{grid-template-columns:repeat(2,1fr)}
+      .grid-2,.actions,.toggle-list,.preview-bar,.palette-grid{
+        grid-template-columns:1fr;
+      }
+
+      .sidebar-inner{padding:16px 14px calc(var(--safe-bottom) + 16px)}
+      .stage-shell{padding:10px}
+      .poster{border-radius:16px}
+      .poster-copy{
+        bottom:24px;
+        padding:0 18px;
+      }
+      .poster-title{
+        letter-spacing:.16em;
+        text-indent:.16em;
+        font-size:clamp(28px,8vw,48px);
+      }
+      .poster-subtitle{
+        margin-top:10px;
+        letter-spacing:.12em;
+        text-indent:.12em;
+        font-size:12px;
+      }
+      .poster-coords{
+        margin-top:10px;
+        font-size:11px;
+        letter-spacing:.1em;
+      }
+      .stat{padding:10px}
+      .stat-value{font-size:13px}
+      h1{font-size:24px}
     }
   </style>
 </head>
 <body>
-  <aside class="sidebar">
+  <div class="mobile-topbar">
+    <div class="left">
+      <div class="badge"><span class="dot"></span> Studio83 Mapa</div>
+      <h2>Mapa poster generator</h2>
+      <p>Opcije su u bočnom panelu.</p>
+    </div>
+    <button id="openMenuBtn" class="menu-btn">Opcije</button>
+  </div>
+
+  <div id="drawerOverlay" class="drawer-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
-      <div class="brand">
-        <div class="brand-badge"><span class="brand-dot"></span> Studio83 Mapa</div>
+      <div class="brand-row">
+        <div class="badge"><span class="dot"></span> Studio83 Mapa</div>
+        <button id="closeMenuBtn" class="btn" style="width:auto;min-width:94px;">Zatvori</button>
       </div>
 
       <h1>Mapa poster generator</h1>
       <p class="lead">
-        Dark UI u Studio83/Sindikat stilu, sa detaljnom kontrolom slojeva, paletama boja, automatskim nazivom grada i koordinatama, te exportom u PNG i PDF.
+        Optimizovan za desktop, tablet i telefon. Na manjim ekranima sve opcije izlaze iz bočnog drawer panela, a interfejs je podijeljen u tabove radi lakšeg korišćenja.
       </p>
 
-      <div class="section">
-        <div class="section-title">Lokacija</div>
-        <div class="field">
-          <label for="locationInput">Grad / lokacija</label>
-          <input id="locationInput" value="Podgorica, Montenegro" placeholder="Unesi grad ili adresu" />
-        </div>
-        <div class="grid-2">
-          <div class="field">
-            <label for="zoomInput">Zoom</label>
-            <input id="zoomInput" type="number" min="1" max="18" step="0.1" value="13.2" />
-          </div>
-          <div class="field">
-            <label for="bearingInput">Rotacija</label>
-            <input id="bearingInput" type="number" min="-180" max="180" step="1" value="0" />
-          </div>
-        </div>
-        <div class="grid-2">
-          <div class="field">
-            <label for="pitchInput">Pitch</label>
-            <input id="pitchInput" type="number" min="0" max="60" step="1" value="0" />
-          </div>
-          <div class="field">
-            <label for="posterSizeInput">Format</label>
-            <select id="posterSizeInput">
-              <option value="3:4" selected>3:4 poster</option>
-              <option value="4:5">4:5 poster</option>
-              <option value="1:1">Square</option>
-              <option value="A4">A4 portrait</option>
-              <option value="A3">A3 portrait</option>
-            </select>
-          </div>
-        </div>
-        <div class="actions">
-          <button class="btn btn-primary" id="generateBtn">Generiši</button>
-          <button class="btn btn-secondary" id="resetViewBtn">Reset view</button>
-        </div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-location">Lokacija</button>
+        <button class="tab-btn" data-tab="tab-style">Stil</button>
+        <button class="tab-btn" data-tab="tab-layers">Slojevi</button>
+        <button class="tab-btn" data-tab="tab-export">Export</button>
       </div>
 
-      <div class="section">
-        <div class="section-title">Tekst i tipografija</div>
-        <div class="field">
-          <label for="titleInput">Naziv grada</label>
-          <input id="titleInput" value="PODGORICA" />
-        </div>
-        <div class="field">
-          <label for="subtitleInput">Podnaslov</label>
-          <input id="subtitleInput" value="MONTENEGRO" />
-        </div>
-        <div class="field">
-          <label for="coordsInput">Koordinate</label>
-          <input id="coordsInput" placeholder="Automatski popunjeno" />
-        </div>
-        <div class="grid-2">
+      <div id="tab-location" class="tab-panel active">
+        <div class="section">
+          <div class="section-title">Lokacija</div>
           <div class="field">
-            <label for="titleFontInput">Font naslova</label>
-            <select id="titleFontInput">
-              <option value="Inter" selected>Inter</option>
-              <option value="Georgia">Georgia</option>
-              <option value="Times New Roman">Times New Roman</option>
-            </select>
+            <label for="locationInput">Grad / lokacija</label>
+            <input id="locationInput" value="Podgorica, Montenegro" placeholder="Unesi grad ili adresu" />
           </div>
-          <div class="field">
-            <label for="letterSpacingInput">Razmak slova</label>
-            <input id="letterSpacingInput" type="number" min="0.04" max="0.5" step="0.01" value="0.28" />
+          <div class="grid-2">
+            <div class="field">
+              <label for="zoomInput">Zoom</label>
+              <input id="zoomInput" type="number" min="1" max="18" step="0.1" value="13.2" />
+            </div>
+            <div class="field">
+              <label for="bearingInput">Rotacija</label>
+              <input id="bearingInput" type="number" min="-180" max="180" step="1" value="0" />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="pitchInput">Pitch</label>
+              <input id="pitchInput" type="number" min="0" max="60" step="1" value="0" />
+            </div>
+            <div class="field">
+              <label for="posterSizeInput">Format</label>
+              <select id="posterSizeInput">
+                <option value="3:4" selected>3:4 poster</option>
+                <option value="4:5">4:5 poster</option>
+                <option value="1:1">Square</option>
+                <option value="A4">A4 portrait</option>
+                <option value="A3">A3 portrait</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" id="generateBtn">Generiši</button>
+            <button class="btn btn-secondary" id="resetViewBtn">Reset view</button>
+          </div>
+          <div style="margin-top:10px" class="actions">
+            <button class="btn btn-secondary" id="fitBoundsBtn">Fit city bounds</button>
+            <button class="btn btn-secondary" id="centerOnMapBtn">Uzmi centar mape</button>
           </div>
         </div>
-      </div>
 
-      <div class="section">
-        <div class="section-title">Paleta i stil</div>
-        <div class="field">
-          <label for="paletteInput">Paleta boja</label>
-          <select id="paletteInput">
-            <option value="paper" selected>Paper Gray</option>
-            <option value="ink">Japanese Ink</option>
-            <option value="sand">Warm Sand</option>
-            <option value="blueprint">Blueprint</option>
-            <option value="noir">Noir</option>
-          </select>
-        </div>
-        <div class="grid-2">
+        <div class="section">
+          <div class="section-title">Tekst</div>
           <div class="field">
-            <label for="roadWeightInput">Jačina puteva</label>
-            <input id="roadWeightInput" type="range" min="0.7" max="1.8" step="0.05" value="1.15" />
+            <label for="titleInput">Naziv grada</label>
+            <input id="titleInput" value="PODGORICA" />
           </div>
           <div class="field">
-            <label for="buildingOpacityInput">Zgrade</label>
-            <input id="buildingOpacityInput" type="range" min="0" max="1" step="0.05" value="0.95" />
-          </div>
-        </div>
-        <div class="grid-2">
-          <div class="field">
-            <label for="terrainOpacityInput">Teren</label>
-            <input id="terrainOpacityInput" type="range" min="0" max="1" step="0.05" value="0.85" />
+            <label for="subtitleInput">Podnaslov</label>
+            <input id="subtitleInput" value="MONTENEGRO" />
           </div>
           <div class="field">
-            <label for="noiseInput">Papir grain</label>
-            <input id="noiseInput" type="range" min="0" max="0.3" step="0.01" value="0.12" />
+            <label for="coordsInput">Koordinate</label>
+            <input id="coordsInput" placeholder="Automatski popunjeno" />
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="titleFontInput">Font naslova</label>
+              <select id="titleFontInput">
+                <option value="Inter" selected>Inter</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Arial">Arial</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="letterSpacingInput">Razmak slova</label>
+              <input id="letterSpacingInput" type="number" min="0.04" max="0.5" step="0.01" value="0.28" />
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">Prikaz slojeva</div>
-        <div class="toggle-list">
-          <label class="toggle"><input type="checkbox" id="toggleRoads" checked> Putevi</label>
-          <label class="toggle"><input type="checkbox" id="toggleBuildings" checked> Zgrade</label>
-          <label class="toggle"><input type="checkbox" id="toggleWater" checked> Voda</label>
-          <label class="toggle"><input type="checkbox" id="toggleParks" checked> Zelenilo</label>
-          <label class="toggle"><input type="checkbox" id="toggleTerrain" checked> Teren</label>
-          <label class="toggle"><input type="checkbox" id="toggleRail" checked> Pruga</label>
-          <label class="toggle"><input type="checkbox" id="toggleBoundaries" checked> Granice</label>
-          <label class="toggle"><input type="checkbox" id="toggleLabels"> Labele</label>
+      <div id="tab-style" class="tab-panel">
+        <div class="section">
+          <div class="section-title">Palete boja</div>
+          <div class="field">
+            <label for="paletteInput">Aktivna paleta</label>
+            <select id="paletteInput"></select>
+          </div>
+          <div id="paletteGrid" class="palette-grid"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Fino podešavanje</div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="roadWeightInput">Jačina puteva</label>
+              <input id="roadWeightInput" type="range" min="0.7" max="1.8" step="0.05" value="1.15" />
+              <div id="roadWeightValue" class="range-value">1.15x</div>
+            </div>
+            <div class="field">
+              <label for="buildingOpacityInput">Opacity zgrada</label>
+              <input id="buildingOpacityInput" type="range" min="0" max="1" step="0.05" value="0.95" />
+              <div id="buildingOpacityValue" class="range-value">95%</div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="terrainOpacityInput">Opacity terena</label>
+              <input id="terrainOpacityInput" type="range" min="0" max="1" step="0.05" value="0.85" />
+              <div id="terrainOpacityValue" class="range-value">85%</div>
+            </div>
+            <div class="field">
+              <label for="noiseInput">Papir grain</label>
+              <input id="noiseInput" type="range" min="0" max="0.3" step="0.01" value="0.12" />
+              <div id="noiseValue" class="range-value">12%</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">Export</div>
-        <div class="actions">
-          <button class="btn btn-primary" id="exportPngBtn">Export PNG</button>
-          <button class="btn btn-primary" id="exportPdfBtn">Export PDF</button>
+      <div id="tab-layers" class="tab-panel">
+        <div class="section">
+          <div class="section-title">Prikaz slojeva</div>
+          <div class="toggle-list">
+            <label class="toggle"><input type="checkbox" id="toggleRoads" checked> Putevi</label>
+            <label class="toggle"><input type="checkbox" id="toggleBuildings" checked> Zgrade</label>
+            <label class="toggle"><input type="checkbox" id="toggleWater" checked> Voda</label>
+            <label class="toggle"><input type="checkbox" id="toggleParks" checked> Zelenilo</label>
+            <label class="toggle"><input type="checkbox" id="toggleTerrain" checked> Teren</label>
+            <label class="toggle"><input type="checkbox" id="toggleRail" checked> Pruga</label>
+            <label class="toggle"><input type="checkbox" id="toggleBoundaries" checked> Granice</label>
+            <label class="toggle"><input type="checkbox" id="toggleLabels"> Labele</label>
+          </div>
         </div>
-        <div style="margin-top:10px" class="actions">
-          <button class="btn btn-ghost" id="fitBoundsBtn">Fit city bounds</button>
-          <button class="btn btn-ghost" id="centerOnMapBtn">Uzmi centar mape</button>
+      </div>
+
+      <div id="tab-export" class="tab-panel">
+        <div class="section">
+          <div class="section-title">Export</div>
+          <div class="actions">
+            <button class="btn btn-primary" id="exportPngBtn">Export PNG</button>
+            <button class="btn btn-primary" id="exportPdfBtn">Export PDF</button>
+          </div>
+          <p class="small" style="margin:12px 0 0">
+            Fajl je i dalje jedan HTML dokument. Za javni sajt kasnije zamijeni free style endpoint sopstvenim tile/style servisom.
+          </p>
         </div>
-        <p class="small" style="margin:12px 0 0">
-          Aplikacija je i dalje jedan HTML fajl. Samo ga stavi kao <strong>index.html</strong> u Git repo.
-        </p>
       </div>
 
       <div id="status" class="status"></div>
@@ -533,7 +793,7 @@
     <div class="stage-shell">
       <div id="poster" class="poster">
         <div id="map"></div>
-        <div class="poster-noise" id="posterNoise"></div>
+        <div id="posterNoise" class="poster-noise"></div>
         <div class="poster-vignette"></div>
 
         <div class="poster-copy">
@@ -542,31 +802,31 @@
           <div id="posterCoords" class="poster-coords">42.4304° N / 19.2594° E</div>
         </div>
 
-        <div class="poster-credit">map data © OpenStreetMap contributors</div>
+        <div id="posterCredit" class="poster-credit">map data © OpenStreetMap contributors</div>
       </div>
 
       <div class="preview-bar">
         <div class="stat">
           <div class="stat-label">Grad</div>
-          <div class="stat-value" id="statCity">Podgorica</div>
+          <div id="statCity" class="stat-value">Podgorica</div>
         </div>
         <div class="stat">
           <div class="stat-label">Koordinate</div>
-          <div class="stat-value" id="statCoords">42.4304 / 19.2594</div>
+          <div id="statCoords" class="stat-value">42.4304 / 19.2594</div>
         </div>
         <div class="stat">
           <div class="stat-label">Paleta</div>
-          <div class="stat-value" id="statPalette">Paper Gray</div>
+          <div id="statPalette" class="stat-value">Paper Gray</div>
         </div>
         <div class="stat">
           <div class="stat-label">Format</div>
-          <div class="stat-value" id="statFormat">3:4</div>
+          <div id="statFormat" class="stat-value">3:4</div>
         </div>
       </div>
     </div>
   </main>
 
-  <div class="hidden-capture" id="captureRoot"></div>
+  <div id="captureRoot" class="hidden-capture"></div>
 
   <script>
     const STYLE_URL = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
@@ -574,10 +834,12 @@
     const paletteMap = {
       paper: {
         label: "Paper Gray",
+        swatches: ["#ebe6de","#cdc6be","#615c58","#232120"],
         posterBg: "#ebe6de",
         title: "#181818",
         subtitle: "#303030",
         coords: "#5d5d5d",
+        credit: "rgba(70,70,70,.75)",
         building: "#cdc6be",
         water: "#dfd9d1",
         park: "#e4ded6",
@@ -593,10 +855,12 @@
       },
       ink: {
         label: "Japanese Ink",
+        swatches: ["#f0ede7","#c2bbb2","#56514d","#1d1b1a"],
         posterBg: "#f0ede7",
         title: "#111111",
         subtitle: "#2a2a2a",
         coords: "#525252",
+        credit: "rgba(70,70,70,.75)",
         building: "#c2bbb2",
         water: "#e7e2da",
         park: "#ebe7df",
@@ -612,10 +876,12 @@
       },
       sand: {
         label: "Warm Sand",
+        swatches: ["#efe3d3","#d1b99b","#6d503a","#372519"],
         posterBg: "#efe3d3",
         title: "#261d14",
         subtitle: "#46382a",
         coords: "#6a5a4c",
+        credit: "rgba(90,65,42,.82)",
         building: "#d1b99b",
         water: "#e7d4bf",
         park: "#e6d8c8",
@@ -631,10 +897,12 @@
       },
       blueprint: {
         label: "Blueprint",
+        swatches: ["#e8eef4","#b8c7d6","#39516a","#15283a"],
         posterBg: "#e8eef4",
         title: "#102131",
         subtitle: "#24405a",
         coords: "#47637d",
+        credit: "rgba(36,64,90,.8)",
         building: "#b8c7d6",
         water: "#d6e4ef",
         park: "#dfe8ef",
@@ -650,10 +918,12 @@
       },
       noir: {
         label: "Noir",
+        swatches: ["#121416","#4c5157","#d2d7dc","#ffffff"],
         posterBg: "#121416",
         title: "#f4f4f4",
         subtitle: "#dfdfdf",
         coords: "#b8bec5",
+        credit: "rgba(220,220,220,.72)",
         building: "#4c5157",
         water: "#171b1f",
         park: "#1a1f23",
@@ -666,6 +936,90 @@
         primaryRoad: "#d2d7dc",
         highway: "#ffffff",
         bridge: "#eef1f4"
+      },
+      forest: {
+        label: "Forest Mist",
+        swatches: ["#e8ede7","#b8c4b2","#5f6b59","#283026"],
+        posterBg: "#e8ede7",
+        title: "#1f271d",
+        subtitle: "#3a4636",
+        coords: "#62715f",
+        credit: "rgba(58,70,54,.78)",
+        building: "#b8c4b2",
+        water: "#dbe6dc",
+        park: "#dbe8d9",
+        terrain: "#e6ede3",
+        boundary: "#ccd7ca",
+        rail: "#7d8878",
+        tunnel: "#b2bcad",
+        minorRoad: "#c0cabd",
+        mediumRoad: "#879381",
+        primaryRoad: "#5f6b59",
+        highway: "#283026",
+        bridge: "#404b3d"
+      },
+      blush: {
+        label: "Blush Stone",
+        swatches: ["#f1e7e4","#d6bbb4","#7a5a53","#3b2824"],
+        posterBg: "#f1e7e4",
+        title: "#2b201d",
+        subtitle: "#4e3b36",
+        coords: "#755f5a",
+        credit: "rgba(78,59,54,.78)",
+        building: "#d6bbb4",
+        water: "#ead9d5",
+        park: "#efe0dd",
+        terrain: "#f3e8e6",
+        boundary: "#dbc8c4",
+        rail: "#9a7d76",
+        tunnel: "#c9aea8",
+        minorRoad: "#d8c1bc",
+        mediumRoad: "#9e7e77",
+        primaryRoad: "#7a5a53",
+        highway: "#3b2824",
+        bridge: "#5a403b"
+      },
+      slate: {
+        label: "Slate Mono",
+        swatches: ["#dfe2e6","#aeb5bd","#58606a","#262c33"],
+        posterBg: "#dfe2e6",
+        title: "#1e242b",
+        subtitle: "#39424c",
+        coords: "#5f6974",
+        credit: "rgba(57,66,76,.8)",
+        building: "#aeb5bd",
+        water: "#d2d9e1",
+        park: "#d8dee4",
+        terrain: "#e6eaee",
+        boundary: "#c7ced6",
+        rail: "#808992",
+        tunnel: "#adb5bd",
+        minorRoad: "#bcc3cb",
+        mediumRoad: "#7b8590",
+        primaryRoad: "#58606a",
+        highway: "#262c33",
+        bridge: "#414850"
+      },
+      terracotta: {
+        label: "Terracotta",
+        swatches: ["#f0ded4","#d9ad92","#8f583d","#43271a"],
+        posterBg: "#f0ded4",
+        title: "#2e1c13",
+        subtitle: "#55372a",
+        coords: "#7a574a",
+        credit: "rgba(85,55,42,.8)",
+        building: "#d9ad92",
+        water: "#e8cfc0",
+        park: "#ecd9ce",
+        terrain: "#f3e4db",
+        boundary: "#ddc0af",
+        rail: "#a07359",
+        tunnel: "#cca48e",
+        minorRoad: "#deb99f",
+        mediumRoad: "#ab775d",
+        primaryRoad: "#8f583d",
+        highway: "#43271a",
+        bridge: "#613b29"
       }
     };
 
@@ -678,6 +1032,11 @@
     };
 
     const els = {
+      sidebar: document.getElementById("sidebar"),
+      drawerOverlay: document.getElementById("drawerOverlay"),
+      openMenuBtn: document.getElementById("openMenuBtn"),
+      closeMenuBtn: document.getElementById("closeMenuBtn"),
+
       locationInput: document.getElementById("locationInput"),
       zoomInput: document.getElementById("zoomInput"),
       bearingInput: document.getElementById("bearingInput"),
@@ -685,6 +1044,8 @@
       posterSizeInput: document.getElementById("posterSizeInput"),
       generateBtn: document.getElementById("generateBtn"),
       resetViewBtn: document.getElementById("resetViewBtn"),
+      fitBoundsBtn: document.getElementById("fitBoundsBtn"),
+      centerOnMapBtn: document.getElementById("centerOnMapBtn"),
 
       titleInput: document.getElementById("titleInput"),
       subtitleInput: document.getElementById("subtitleInput"),
@@ -693,10 +1054,15 @@
       letterSpacingInput: document.getElementById("letterSpacingInput"),
 
       paletteInput: document.getElementById("paletteInput"),
+      paletteGrid: document.getElementById("paletteGrid"),
       roadWeightInput: document.getElementById("roadWeightInput"),
       buildingOpacityInput: document.getElementById("buildingOpacityInput"),
       terrainOpacityInput: document.getElementById("terrainOpacityInput"),
       noiseInput: document.getElementById("noiseInput"),
+      roadWeightValue: document.getElementById("roadWeightValue"),
+      buildingOpacityValue: document.getElementById("buildingOpacityValue"),
+      terrainOpacityValue: document.getElementById("terrainOpacityValue"),
+      noiseValue: document.getElementById("noiseValue"),
 
       toggleRoads: document.getElementById("toggleRoads"),
       toggleBuildings: document.getElementById("toggleBuildings"),
@@ -709,14 +1075,13 @@
 
       exportPngBtn: document.getElementById("exportPngBtn"),
       exportPdfBtn: document.getElementById("exportPdfBtn"),
-      fitBoundsBtn: document.getElementById("fitBoundsBtn"),
-      centerOnMapBtn: document.getElementById("centerOnMapBtn"),
 
       poster: document.getElementById("poster"),
       posterTitle: document.getElementById("posterTitle"),
       posterSubtitle: document.getElementById("posterSubtitle"),
       posterCoords: document.getElementById("posterCoords"),
       posterNoise: document.getElementById("posterNoise"),
+      posterCredit: document.getElementById("posterCredit"),
 
       statCity: document.getElementById("statCity"),
       statCoords: document.getElementById("statCoords"),
@@ -724,7 +1089,9 @@
       statFormat: document.getElementById("statFormat"),
 
       status: document.getElementById("status"),
-      captureRoot: document.getElementById("captureRoot")
+      captureRoot: document.getElementById("captureRoot"),
+      tabButtons: Array.from(document.querySelectorAll(".tab-btn")),
+      tabPanels: Array.from(document.querySelectorAll(".tab-panel"))
     };
 
     const state = {
@@ -742,6 +1109,28 @@
     function setStatus(msg, error=false){
       els.status.textContent = msg;
       els.status.style.color = error ? "#ff9a9a" : "#ffffff";
+    }
+
+    function isMobile(){
+      return window.innerWidth <= 1180;
+    }
+
+    function openDrawer(){
+      if(!isMobile()) return;
+      els.sidebar.classList.add("open");
+      els.drawerOverlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDrawer(){
+      els.sidebar.classList.remove("open");
+      els.drawerOverlay.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    function activateTab(tabId){
+      els.tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));
+      els.tabPanels.forEach(panel => panel.classList.toggle("active", panel.id === tabId));
     }
 
     function formatCoord(lat, lon){
@@ -764,6 +1153,7 @@
       const cfg = sizeMap[key];
       els.poster.style.aspectRatio = cfg.aspect;
       els.statFormat.textContent = key;
+      if(state.map) state.map.resize();
     }
 
     function syncTypography(){
@@ -785,10 +1175,8 @@
       els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
       els.posterSubtitle.textContent = els.subtitleInput.value.trim() || "";
       els.posterCoords.textContent = els.coordsInput.value.trim() || formatCoord(lat, lon);
-
       els.statCity.textContent = cityNameFromDisplay(display);
       els.statCoords.textContent = `${lat.toFixed(4)} / ${lon.toFixed(4)}`;
-
       syncTypography();
     }
 
@@ -815,14 +1203,21 @@
     function safeSetPaint(id, prop, value){
       try { state.map.setPaintProperty(id, prop, value); } catch(e){}
     }
+
     function safeSetLayout(id, prop, value){
       try { state.map.setLayoutProperty(id, prop, value); } catch(e){}
     }
 
-    function multiplyWidth(value, factor){
-      if(typeof value === "number") return value * factor;
-      if(Array.isArray(value)) return value;
-      return value;
+    function tryAdjustWidth(layerId, factor){
+      try{
+        const style = state.map.getStyle();
+        const layer = style.layers.find(l => l.id === layerId);
+        if(!layer || !layer.paint) return;
+        const current = layer.paint["line-width"];
+        if(typeof current === "number"){
+          state.map.setPaintProperty(layerId, "line-width", current * factor);
+        }
+      }catch(e){}
     }
 
     function styleLineLayer(layer, palette, opts){
@@ -868,8 +1263,8 @@
         safeSetLayout(layer.id, "visibility", visible);
         safeSetPaint(layer.id, "line-color", palette.primaryRoad);
         safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.98 : 0);
-        tryAdjustWidth(layer.id, 1.22 * opts.roadWeight);
         if(id.includes("bridge")) safeSetPaint(layer.id, "line-color", palette.bridge);
+        tryAdjustWidth(layer.id, 1.22 * opts.roadWeight);
         return;
       }
 
@@ -889,19 +1284,6 @@
       }
     }
 
-    function tryAdjustWidth(layerId, factor){
-      try{
-        const style = state.map.getStyle();
-        const layer = style.layers.find(l => l.id === layerId);
-        if(!layer || !layer.paint) return;
-        const current = layer.paint["line-width"];
-        if(current === undefined) return;
-        if(typeof current === "number"){
-          state.map.setPaintProperty(layerId, "line-width", current * factor);
-        }
-      }catch(e){}
-    }
-
     function applyThemeAndLayers(){
       const palette = getCurrentPalette();
       const opts = getOptions();
@@ -910,8 +1292,18 @@
       els.posterTitle.style.color = palette.title;
       els.posterSubtitle.style.color = palette.subtitle;
       els.posterCoords.style.color = palette.coords;
+      els.posterCredit.style.color = palette.credit;
       els.posterNoise.style.opacity = Number(els.noiseInput.value || 0.12);
       els.statPalette.textContent = palette.label;
+
+      els.roadWeightValue.textContent = `${opts.roadWeight.toFixed(2)}x`;
+      els.buildingOpacityValue.textContent = `${Math.round(opts.buildingOpacity * 100)}%`;
+      els.terrainOpacityValue.textContent = `${Math.round(opts.terrainOpacity * 100)}%`;
+      els.noiseValue.textContent = `${Math.round(Number(els.noiseInput.value || 0.12) * 100)}%`;
+
+      document.querySelectorAll(".palette-chip").forEach(chip => {
+        chip.classList.toggle("active", chip.dataset.palette === els.paletteInput.value);
+      });
 
       if(!state.map || !state.map.isStyleLoaded()) return;
 
@@ -943,7 +1335,7 @@
             safeSetLayout(layer.id, "visibility", opts.parks ? "visible" : "none");
             safeSetPaint(layer.id, "fill-color", palette.park);
             safeSetPaint(layer.id, "fill-opacity", opts.parks ? opts.terrainOpacity : 0);
-          } else if(type === "line") {
+          } else if(type === "line"){
             safeSetLayout(layer.id, "visibility", opts.parks ? "visible" : "none");
             safeSetPaint(layer.id, "line-color", palette.park);
             safeSetPaint(layer.id, "line-opacity", opts.parks ? 1 : 0);
@@ -1074,9 +1466,10 @@
         updatePosterText(lat, lon);
         applyThemeAndLayers();
         setStatus("Mapa ažurirana. Možeš ručno pomjerati kadar.");
-      } catch(err){
+        if(isMobile()) closeDrawer();
+      }catch(err){
         setStatus(err.message || "Greška.", true);
-      } finally {
+      }finally{
         els.generateBtn.disabled = false;
       }
     }
@@ -1084,7 +1477,7 @@
     function resetView(){
       state.map.jumpTo({
         center: state.center,
-        zoom: Number(els.zoomInput.defaultValue || 13.2),
+        zoom: 13.2,
         bearing: 0,
         pitch: 0
       });
@@ -1095,8 +1488,9 @@
         setStatus("Prvo generiši lokaciju da bih znao bounds grada.", true);
         return;
       }
-      state.map.fitBounds(state.lastSearchBounds, { padding: 40, duration: 800 });
+      state.map.fitBounds(state.lastSearchBounds, { padding: 40, duration: 700 });
       setStatus("Prikaz namješten na granice lokacije.");
+      if(isMobile()) closeDrawer();
     }
 
     function centerOnCurrentMap(){
@@ -1104,6 +1498,7 @@
       els.coordsInput.value = "";
       updatePosterText(c.lat, c.lng);
       setStatus("Koordinate uzete sa trenutnog centra mape.");
+      if(isMobile()) closeDrawer();
     }
 
     function buildCaptureNode(width, height){
@@ -1187,7 +1582,7 @@
       credit.style.fontSize = "10px";
       credit.style.letterSpacing = ".05em";
       credit.style.textTransform = "uppercase";
-      credit.style.color = palette.label === "Noir" ? "rgba(220,220,220,.72)" : "rgba(70,70,70,.75)";
+      credit.style.color = palette.credit;
       credit.style.fontFamily = "Inter, sans-serif";
 
       copy.appendChild(title);
@@ -1237,6 +1632,7 @@
         link.href = canvas.toDataURL("image/png");
         link.click();
         setStatus("PNG export gotov.");
+        if(isMobile()) closeDrawer();
       }catch(err){
         setStatus("PNG export nije uspio.", true);
       }finally{
@@ -1265,6 +1661,7 @@
         pdf.addImage(img, "PNG", 0, 0, pageW, pageH, undefined, "FAST");
         pdf.save(`${fileSlug()}.pdf`);
         setStatus("PDF export gotov.");
+        if(isMobile()) closeDrawer();
       }catch(err){
         setStatus("PDF export nije uspio.", true);
       }finally{
@@ -1272,7 +1669,26 @@
       }
     }
 
+    function populatePalettes(){
+      const keys = Object.keys(paletteMap);
+      els.paletteInput.innerHTML = keys.map(key => `<option value="${key}">${paletteMap[key].label}</option>`).join("");
+      els.paletteGrid.innerHTML = keys.map(key => {
+        const p = paletteMap[key];
+        const swatches = p.swatches.map(color => `<span style="background:${color}"></span>`).join("");
+        return `
+          <button class="palette-chip" type="button" data-palette="${key}">
+            <div class="palette-swatches">${swatches}</div>
+            <div class="palette-name">${p.label}</div>
+          </button>
+        `;
+      }).join("");
+    }
+
     function bindLiveUpdates(){
+      els.tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+      });
+
       els.titleInput.addEventListener("input", () => {
         state.titleEdited = true;
         els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
@@ -1312,6 +1728,13 @@
         els.toggleLabels
       ].forEach(el => el.addEventListener("input", applyThemeAndLayers));
 
+      els.paletteGrid.addEventListener("click", (e) => {
+        const chip = e.target.closest(".palette-chip");
+        if(!chip) return;
+        els.paletteInput.value = chip.dataset.palette;
+        applyThemeAndLayers();
+      });
+
       els.posterSizeInput.addEventListener("change", applyPosterSize);
 
       els.generateBtn.addEventListener("click", generateMap);
@@ -1324,14 +1747,31 @@
       els.locationInput.addEventListener("keydown", e => {
         if(e.key === "Enter") generateMap();
       });
+
+      els.openMenuBtn.addEventListener("click", openDrawer);
+      els.closeMenuBtn.addEventListener("click", closeDrawer);
+      els.drawerOverlay.addEventListener("click", closeDrawer);
+
+      window.addEventListener("resize", () => {
+        if(!isMobile()) closeDrawer();
+        if(state.map) state.map.resize();
+      });
+
+      document.addEventListener("keydown", e => {
+        if(e.key === "Escape") closeDrawer();
+      });
     }
 
     window.addEventListener("load", () => {
+      populatePalettes();
+      els.paletteInput.value = "paper";
+      activateTab("tab-location");
       applyPosterSize();
       syncTypography();
       initMap();
       updatePosterText(state.center[1], state.center[0]);
       bindLiveUpdates();
+      applyThemeAndLayers();
     });
   </script>
 </body>
