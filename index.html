@@ -2,7 +2,7 @@
 <html lang="sr-ME">
 <head>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <meta charset="UTF-8"> 
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sindikat - Sve za vaš događaj na jednom mestu!</title>
   <meta name="description" content="Profesionalni događaji bez stresa, sa stilom. Barmeni, DJ-jevi, oprema, fotografija - sve na jednom mestu.">
@@ -15,11 +15,11 @@
       theme: {
         extend: {
           fontFamily: {
-            'montserrat': ['Montserrat', 'sans-serif'],
-            'inter': ['Inter', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
           },
           colors: {
-            'gold': '#FFD700',
+            gold: '#FFD700',
             'electric-blue': '#00BFFF',
           }
         }
@@ -29,14 +29,14 @@
 
   <!-- Hotjar Tracking Code for Sindikat Events -->
   <script>
-  (function(h,o,t,j,a,r){
-    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-    h._hjSettings={hjid:6560540,hjsv:6};
-    a=o.getElementsByTagName('head')[0];
-    r=o.createElement('script');r.async=1;
-    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-    a.appendChild(r);
-  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:6560540,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
   </script>
 
   <!-- Google tag (gtag.js) -->
@@ -51,53 +51,70 @@
   <style>
     :root { --nav-h: 0px; }
 
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
     body {
       overflow-x: hidden;
       padding-top: var(--nav-h);
     }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
+
+    section, header, footer, .max-w-7xl, .container, .mx-auto { overflow-x: clip; }
+    img, video { max-width:100%; height:auto; }
+    .flex, .grid { min-width:0; }
+    .flex > *, .grid > * { min-width:0; }
 
     #stickyTopAd {
       top: calc(var(--nav-h) + 8px) !important;
     }
 
-    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
-
-    /* PARTNERS – horizontalni scroller */
-    .partners-scroller { -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
+    .partners-scroller {
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
     .partners-scroller > div { scroll-snap-align: start; }
 
-    /* GLOBAL anti horizontal scroll */
-    html, body { overflow-x: clip; }
-    section, header, footer, .max-w-7xl, .container, .mx-auto { overflow-x: clip; }
-    img, video { max-width:100%; height:auto; }
-    .flex, .grid { min-width:0; } .flex > *, .grid > * { min-width:0; }
-
-    /* centriranje i dimenzije banera */
-    .ad-wrap{ margin-left:auto; margin-right:auto; max-width:970px; display:flex; justify-content:center; align-items:center; }
-    @media (max-width:1024px){ .ad-wrap{ max-width: 728px; } }
-    @media (max-width:640px){ .ad-wrap{ max-width: 320px; } }
+    .ad-wrap{
+      margin-left:auto;
+      margin-right:auto;
+      max-width:970px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    @media (max-width:1024px){ .ad-wrap{ max-width:728px; } }
+    @media (max-width:640px){ .ad-wrap{ max-width:320px; } }
     .ad-wrap img{ display:block; max-width:100%; height:auto; }
 
-    /* sticky/floating uvek centrirani i ograničeni */
     #stickyTopAd, #stickyBottomBanner, #floatingBanner{
       position: fixed;
-      left: 50% !important; transform: translateX(-50%) !important;
-      width: calc(100% - 24px) !important; max-width: 640px !important; box-sizing: border-box !important; margin:0 !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: calc(100% - 24px) !important;
+      max-width: 640px !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
     }
 
-    /* utility */
     .peer{ position:absolute; opacity:0; pointer-events:none; }
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
 
-    /* ===== HERO background (ZAMIJENJENO) ===== */
     .hero-bg{
       background:
         radial-gradient(1200px 600px at 20% 15%, rgba(0,191,255,.18), transparent 55%),
         radial-gradient(900px 500px at 80% 20%, rgba(255,215,0,.14), transparent 55%),
         linear-gradient(rgba(0,0,0,.50), rgba(0,0,0,.80)),
-        url('/fotke/hero-events.jpg'); /* <-- stavi novu sliku ovdje */
+        url('/fotke/hero-events.jpg');
       background-size: cover;
       background-position: center 30%;
       background-attachment: scroll;
@@ -106,22 +123,59 @@
       .hero-bg { background-attachment: fixed; }
     }
 
-    /* Enhanced Animations */
-    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    .fade-in-left { opacity: 0; transform: translateX(-30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .fade-in-left.visible { opacity: 1; transform: translateX(0); }
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fade-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
-    .fade-in-right { opacity: 0; transform: translateX(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .fade-in-right.visible { opacity: 1; transform: translateX(0); }
+    .fade-in-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fade-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
-    .scale-in { opacity: 0; transform: scale(0.9); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-    .scale-in.visible { opacity: 1; transform: scale(1); }
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
 
-    .hover-lift { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); }
-    @media (min-width: 768px) { .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); } }
+    .hover-lift {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    @media (min-width: 768px) {
+      .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+    }
 
     .light-pulse { animation: lightPulse 3s ease-in-out infinite; }
     @keyframes lightPulse {
@@ -129,17 +183,24 @@
       50% { opacity: 0.4; box-shadow: 0 0 25px rgba(255, 215, 0, 0.9); }
     }
 
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .accordion-content.active { max-height: 300px; }
 
     .gradient-gold {
       background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+
     .gradient-blue {
       background: linear-gradient(135deg, #00BFFF 0%, #0080FF 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
@@ -159,18 +220,34 @@
     @media (min-width: 640px) { .mobile-spacing { padding-left: 1.5rem; padding-right: 1.5rem; } }
     @media (min-width: 768px) { .mobile-spacing { padding-left: 2rem; padding-right: 2rem; } }
 
-    .text-container { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+    .text-container {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
 
-    .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
-    @media (min-width: 768px) { .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); } }
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    @media (min-width: 768px) {
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+      }
+    }
 
     .stagger-1 { animation-delay: 0.1s; }
     .stagger-2 { animation-delay: 0.2s; }
     .stagger-3 { animation-delay: 0.3s; }
     .stagger-4 { animation-delay: 0.4s; }
 
-    @media (max-width: 768px) { html { scroll-padding-top: 80px; } }
+    @media (max-width: 768px) {
+      html { scroll-padding-top: 80px; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -180,11 +257,32 @@
       }
     }
 
-    /* ===== Floating Studio83 Sticky (NOVO) ===== */
+    .focus-ring:focus-visible{
+      outline: 2px solid rgba(255,215,0,.9);
+      outline-offset: 3px;
+    }
+
+    #floatingBanner{
+      position: fixed;
+      z-index: 70;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      display: none;
+      box-sizing: border-box;
+    }
+    @media (min-width: 640px){
+      #floatingBanner{
+        left: auto;
+        right: 20px;
+        width: 360px;
+      }
+    }
+
     #studio83Sticky{
       position: fixed;
       z-index: 75;
-      bottom: 92px; /* iznad "Poslovi" floatera */
+      bottom: 92px;
       left: 16px;
       right: 16px;
       display: none;
@@ -195,22 +293,14 @@
         left: auto;
         right: 20px;
         width: 420px;
-        bottom: 20px; /* na desktopu neka bude niže */
+        bottom: 20px;
       }
     }
-    .focus-ring:focus-visible{
-      outline: 2px solid rgba(255,215,0,.9);
-      outline-offset: 3px;
-    }
-  </style>
 
-
-  <!-- ===== Floating Saradnik Mjeseca Sticky (NOVO) ===== -->
-  <style>
     #collabSticky{
       position: fixed;
       z-index: 76;
-      bottom: 168px; /* iznad ostalih floating elemenata na mobile */
+      bottom: 168px;
       left: 16px;
       right: 16px;
       display: none;
@@ -221,13 +311,165 @@
         left: auto;
         right: 20px;
         width: 420px;
-        bottom: 120px; /* iznad Studio83 i Poslovi na desktopu */
+        bottom: 120px;
       }
     }
   </style>
 
+  <script>
+    (function() {
+      function setNavHeight() {
+        var nav = document.querySelector('nav');
+        if (!nav) return;
+        var h = nav.offsetHeight || 0;
+        var safe = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('env(safe-area-inset-top)')) || 0;
+        document.documentElement.style.setProperty('--nav-h', (h + safe) + 'px');
+      }
+      window.addEventListener('load', setNavHeight);
+      window.addEventListener('resize', setNavHeight);
+    })();
+  </script>
+</head>
+
+<body class="bg-black text-white overflow-x-hidden">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+      <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT EVENTS</a>
+
+      <div class="hidden md:flex items-center">
+        <a href="https://www.sindikatstudio83.me/sr-me/kontakt/"
+           class="px-4 py-2 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">
+          Kontakt
+        </a>
+      </div>
+
+      <label for="mobileNav"
+        class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
+        aria-label="Otvori meni">☰</label>
+    </div>
+
+    <input id="mobileNav" type="checkbox" class="peer sr-only" />
+
+    <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden peer-checked:opacity-100 peer-checked:pointer-events-auto">
+      <label for="mobileNav"
+        class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
+        aria-label="Zatvori meni">
+        <span class="text-2xl leading-none">×</span>
+      </label>
+
+      <div class="absolute top-[72px] left-0 right-0 px-4 pt-4 pb-16 space-y-2" role="navigation">
+        <a href="https://www.sindikatstudio83.me/sr-me/kontakt/"
+           class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">
+          Kontakt
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating Mobile Banner -->
+  <div id="floatingBanner" class="fixed z-50 bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center">
+    <div class="min-w-0">
+      <div class="text-sm font-bold leading-tight truncate">Pretraži poslove</div>
+      <div class="text-xs">Pronađi priliku za sebe</div>
+    </div>
+
+    <a href="/poslovi/" class="px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold whitespace-nowrap focus-ring">Poslovi</a>
+
+    <button id="closeFloatingBanner" type="button" aria-label="Zatvori"
+      onclick="closeBanner(event)"
+      class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
+  </div>
+
+  <script>
+    (function(){
+      var KEY = 'bannerClosed';
+
+      window.showFloatingBanner = function(){
+        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+        var el = document.getElementById('floatingBanner');
+        if(!el) return;
+        el.style.display = '';
+      };
+
+      window.closeBanner = function(e){
+        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
+        var el = document.getElementById('floatingBanner');
+        if(el){ el.style.display = 'none'; }
+        try{ localStorage.setItem(KEY,'1'); }catch(e){}
+      };
+
+      function boot(){
+        setTimeout(window.showFloatingBanner, 800);
+      }
+
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', boot, { once:true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
+
+  <!-- Floating Studio83 Sticky -->
+  <div id="studio83Sticky" class="rounded-2xl border border-gold/20 bg-black/70 backdrop-blur-md shadow-2xl">
+    <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start relative">
+      <div class="min-w-0">
+        <div class="text-xs tracking-widest text-gray-400 mb-1">SINDIKAT STUDIO 83</div>
+        <div class="text-sm md:text-base font-bold leading-snug">
+          Vidi kako da događaj uklopiš u veću priču
+        </div>
+        <div class="text-xs text-gray-300 mt-1">
+          Kampanja, sadržaj i aktivacija — da event donese rezultat, ne samo “dobar vibe”.
+        </div>
+      </div>
+
+      <a href="https://www.sindikatstudio83.me/" target="_blank" rel="noopener"
+         class="px-3 py-2 bg-gold text-black rounded-xl text-sm font-semibold whitespace-nowrap hover:brightness-95 transition focus-ring">
+        Pogledaj
+      </a>
+
+      <button type="button" aria-label="Zatvori"
+        onclick="closeStudio83Sticky(event)"
+        class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var KEY = 'studio83StickyClosed';
+
+      window.showStudio83Sticky = function(){
+        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+        var el = document.getElementById('studio83Sticky');
+        if(!el) return;
+        el.style.display = '';
+      };
+
+      window.closeStudio83Sticky = function(e){
+        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
+        var el = document.getElementById('studio83Sticky');
+        if(el){ el.style.display = 'none'; }
+        try{ localStorage.setItem(KEY,'1'); }catch(e){}
+      };
+
+      function boot(){
+        setTimeout(window.showStudio83Sticky, 1700);
+      }
+
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', boot, { once:true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
+
+  <!-- Floating Saradnik Mjeseca Sticky -->
   <div id="collabSticky" class="rounded-2xl border border-electric-blue/20 bg-black/70 backdrop-blur-md shadow-2xl">
-    <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start">
+    <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start relative">
       <div class="min-w-0">
         <div class="text-xs tracking-widest text-gray-400 mb-1">SARADNIK MJESECA</div>
         <div class="text-sm md:text-base font-bold leading-snug gradient-blue">
@@ -279,195 +521,10 @@
     })();
   </script>
 
-  
-  <script>
-    // Dinamički računa visinu navbara i postavlja je u --nav-h
-    (function() {
-      function setNavHeight() {
-        var nav = document.querySelector('nav');
-        if (!nav) return;
-        var h = nav.offsetHeight || 0;
-        var safe = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('env(safe-area-inset-top)')) || 0;
-        document.documentElement.style.setProperty('--nav-h', (h + safe) + 'px');
-      }
-      window.addEventListener('load', setNavHeight);
-      window.addEventListener('resize', setNavHeight);
-    })();
-  </script>
-</head>
-
-<body class="bg-black text-white overflow-x-hidden">
-
-  <!-- NAV (minimal: samo logo + Kontakt) -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-    <!-- Logo -->
-    <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT EVENTS</a>
-
-    <!-- Desktop: samo Kontakt -->
-    <div class="hidden md:flex items-center">
-      <a href="https://www.sindikatstudio83.me/sr-me/kontakt/"
-         class="px-4 py-2 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">
-        Kontakt
-      </a>
-    </div>
-
-    <!-- Burger (mobile) -->
-    <label for="mobileNav"
-      class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-      aria-label="Otvori meni">☰</label>
-  </div>
-
-  <!-- Kontrolni checkbox (peer) -->
-  <input id="mobileNav" type="checkbox" class="peer sr-only" />
-
-  <!-- MOBILE OVERLAY: samo Kontakt -->
-  <div class="fixed inset-0 z-[60] bg-black/95 opacity-0 pointer-events-none transition-opacity duration-200 md:hidden
-              peer-checked:opacity-100 peer-checked:pointer-events-auto">
-    <label for="mobileNav"
-      class="absolute top-4 right-4 p-2 rounded-lg border border-neutral-800 hover:border-gold transition cursor-pointer"
-      aria-label="Zatvori meni">
-      <span class="text-2xl leading-none">×</span>
-    </label>
-
-    <div class="absolute top-[72px] left-0 right-0 px-4 pt-4 pb-16 space-y-2" role="navigation">
-      <a href="https://www.sindikatstudio83.me/sr-me/kontakt/"
-         class="block w-full px-4 py-4 rounded-xl bg-gold text-black font-semibold hover:brightness-95 transition">
-        Kontakt
-      </a>
-    </div>
-  </div>
-</nav>
-
-  
-
-  <script>
-    (function(){
-      var row = document.getElementById('partnersRow');
-      if(!row) return;
-      function toStart(){ row.scrollLeft = 0; }
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', toStart, { once:true });
-      } else { toStart(); }
-    })();
-  </script>
-
-  <!-- Floating Mobile Banner (Poslovi) -->
-  <style>
-    #floatingBanner{
-      position: fixed;
-      z-index: 70;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
-      display: none;
-      box-sizing: border-box;
-    }
-    @media (min-width: 640px){
-      #floatingBanner{
-        left: auto;
-        right: 20px;
-        width: 360px;
-      }
-    }
-  </style>
-
-  <div id="floatingBanner" class="fixed z-50 bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center">
-    <div class="min-w-0">
-      <div class="text-sm font-bold leading-tight truncate">Pretraži poslove</div>
-      <div class="text-xs">Pronađi priliku za sebe</div>
-    </div>
-
-    <a href="/poslovi/" class="px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold whitespace-nowrap focus-ring">Poslovi</a>
-
-    <button id="closeFloatingBanner" type="button" aria-label="Zatvori"
-      onclick="closeBanner(event)"
-      class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
-  </div>
-
-  <script>
-    (function(){
-      var KEY = 'bannerClosed';
-
-      window.showFloatingBanner = function(){
-        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
-        var el = document.getElementById('floatingBanner');
-        if(!el) return;
-        el.style.display = '';
-      };
-
-      window.closeBanner = function(e){
-        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
-        var el = document.getElementById('floatingBanner');
-        if(el){ el.style.display = 'none'; }
-        try{ localStorage.setItem(KEY,'1'); }catch(e){}
-      };
-
-      function boot(){ setTimeout(window.showFloatingBanner, 800); }
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', boot, { once:true });
-      } else { boot(); }
-    })();
-  </script>
-
-  <!-- ===== Floating Studio83 Sticky (NOVO) ===== -->
-  <div id="studio83Sticky" class="rounded-2xl border border-gold/20 bg-black/70 backdrop-blur-md shadow-2xl">
-    <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start">
-      <div class="min-w-0">
-        <div class="text-xs tracking-widest text-gray-400 mb-1">SINDIKAT STUDIO 83</div>
-        <div class="text-sm md:text-base font-bold leading-snug">
-          Vidi kako da događaj uklopiš u veću priču
-        </div>
-        <div class="text-xs text-gray-300 mt-1">
-          Kampanja, sadržaj i aktivacija — da event donese rezultat, ne samo “dobar vibe”.
-        </div>
-      </div>
-
-      <a href="https://www.sindikatstudio83.me/" target="_blank" rel="noopener"
-         class="px-3 py-2 bg-gold text-black rounded-xl text-sm font-semibold whitespace-nowrap hover:brightness-95 transition focus-ring">
-        Pogledaj
-      </a>
-
-      <button type="button" aria-label="Zatvori"
-        onclick="closeStudio83Sticky(event)"
-        class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
-    </div>
-  </div>
-
-  <script>
-    (function(){
-      var KEY = 'studio83StickyClosed';
-
-      window.showStudio83Sticky = function(){
-        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
-        var el = document.getElementById('studio83Sticky');
-        if(!el) return;
-        el.style.display = '';
-      };
-
-      window.closeStudio83Sticky = function(e){
-        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
-        var el = document.getElementById('studio83Sticky');
-        if(el){ el.style.display = 'none'; }
-        try{ localStorage.setItem(KEY,'1'); }catch(e){}
-      };
-
-      function boot(){
-        // malo kasnije od poslovi floatera, da ne bude spammy
-        setTimeout(window.showStudio83Sticky, 1700);
-      }
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', boot, { once:true });
-      } else { boot(); }
-    })();
-  </script>
-
   <!-- Hero Section -->
   <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center mobile-spacing py-20">
     <div class="max-w-6xl mx-auto fade-in visible text-container">
 
-      <!-- "powered by" ribbon (NOVO) -->
       <div class="inline-flex items-center gap-2 bg-black/60 border border-gold/20 rounded-full px-4 py-2 mb-6">
         <span class="text-xs font-semibold text-gold">SINDIKAT EVENTS</span>
         <span class="text-xs text-gray-400">powered by</span>
@@ -486,12 +543,9 @@
         Mi se brinemo za sve – vi samo uživajte.
       </p>
 
-  
-
-        <button onclick="scrollToServices()" class="w-full sm:w-auto border-2 border-white hover:bg-white hover:text-black px-8 md:px-10 py-4 md:py-5 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105">
-          Naše usluge
-        </button>
-      </div>
+      <button onclick="scrollToServices()" class="w-full sm:w-auto border-2 border-white hover:bg-white hover:text-black px-8 md:px-10 py-4 md:py-5 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105">
+        Naše usluge
+      </button>
     </div>
   </section>
 
@@ -645,74 +699,58 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
 
-        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-1 cursor-pointer js-service-card"
-             data-service="bartending">
+        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-1 cursor-pointer js-service-card" data-service="bartending">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://www.bilgihakkinda.com/wp-content/uploads/Barmen-Nasil-Olunur.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://www.bilgihakkinda.com/wp-content/uploads/Barmen-Nasil-Olunur.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">Barmeni i Kokteli</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.</p>
         </div>
 
-        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-2 cursor-pointer js-service-card"
-             data-service="djs">
+        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-2 cursor-pointer js-service-card" data-service="djs">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/fotke/mikeli.jpeg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/fotke/mikeli.jpeg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">DJ-jevi i Muzičari</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.</p>
         </div>
 
-        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-3 cursor-pointer js-service-card"
-             data-service="sound">
+        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-3 cursor-pointer js-service-card" data-service="sound">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://d4n0y8dshd77z.cloudfront.net/listings/47313496/lg/NamRKfw9l42YjobXf7MI.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://d4n0y8dshd77z.cloudfront.net/listings/47313496/lg/NamRKfw9l42YjobXf7MI.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">Zvuk i Osvetljenje</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.</p>
         </div>
 
-        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-4 cursor-pointer js-service-card"
-             data-service="bar">
+        <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-4 cursor-pointer js-service-card" data-service="bar">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/fa86aa31179135.5644946d21d56.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/fa86aa31179135.5644946d21d56.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">Bar i Usluga Napitaka</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.</p>
         </div>
 
-        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
-             data-service="photo">
+        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="photo">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://data.verticals.cz/files/yVB9FIwEMGJZ.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://data.verticals.cz/files/yVB9FIwEMGJZ.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Fotografija i Video</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Profesionalni fotografi koji hvataju svaki dragoceni trenutak u najvišem kvalitetu.</p>
         </div>
 
-        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
-             data-service="design">
+        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="design">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://www.haulpack.com/blog/wp-content/uploads/2024/12/Top-15-Memes-Pages-on-Instagram-1.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://www.haulpack.com/blog/wp-content/uploads/2024/12/Top-15-Memes-Pages-on-Instagram-1.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Dizajn i Društvene Mreže</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Kreativna dizajnerska rešenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.</p>
         </div>
 
-        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
-             data-service="hostesses">
+        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="hostesses">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://gtspirit.com/wp-content/gallery/girls-at-the-geneva-motor-show-2015-part-2/girls-of-the-geneva-motor-show-20151.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://gtspirit.com/wp-content/gallery/girls-at-the-geneva-motor-show-2015-part-2/girls-of-the-geneva-motor-show-20151.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Profesionalne Hostese</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Elegantne i profesionalne hostese za dočekivanje i pomoć vašim gostima.</p>
         </div>
 
-        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card"
-             data-service="furniture">
+        <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="furniture">
           <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://partyrentalhub.net/wp-content/uploads/2023/11/1701078233172.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;">
-          </div>
+               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://partyrentalhub.net/wp-content/uploads/2023/11/1701078233172.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Event Nameštaj</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Stilski nameštaj i lounge postavke za kreiranje savršene atmosfere.</p>
         </div>
@@ -741,8 +779,6 @@
       <div id="serviceModalBullets" class="grid gap-2 text-sm text-gray-300 mb-6"></div>
 
       <div class="flex flex-wrap gap-3 justify-end">
-    
-
         <button type="button" id="serviceModalCloseBottom"
           class="border border-gray-600 text-gray-200 px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">
           Zatvori
@@ -752,101 +788,101 @@
   </div>
 
   <!-- FAQ -->
-<section id="faq" class="py-20 px-6 bg-gray-900">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">
-      Često Postavljana <span class="gradient-gold">Pitanja</span>
-    </h2>
+  <section id="faq" class="py-20 px-6 bg-gray-900">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-4xl lg:text-5xl font-bold font-montserrat text-center mb-16">
+        Često Postavljana <span class="gradient-gold">Pitanja</span>
+      </h2>
 
-    <div class="space-y-4">
-      <div class="bg-black rounded-2xl overflow-hidden fade-in">
-        <button onclick="toggleAccordion(0)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-          <span class="text-lg font-semibold">Da li radite i male privatne događaje?</span>
-          <span class="text-3xl accordion-arrow font-light">+</span>
-        </button>
-        <div class="accordion-content px-8 pb-8">
-          <p class="text-gray-300 leading-relaxed">
-            Da — često radimo i manje proslave, kućne žurke i intimna okupljanja. Kod manjih događaja obično preporučimo
-            “pametan setup”: DJ ili muzika + bar servis (ili samo jedna od te dvije stvari), uz minimalnu logistiku.
-            Cilj je da sve izgleda i funkcioniše profesionalno, bez previše komplikovanja i troškova.
-          </p>
+      <div class="space-y-4">
+        <div class="bg-black rounded-2xl overflow-hidden fade-in">
+          <button onclick="toggleAccordion(0)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+            <span class="text-lg font-semibold">Da li radite i male privatne događaje?</span>
+            <span class="text-3xl accordion-arrow font-light">+</span>
+          </button>
+          <div class="accordion-content px-8 pb-8">
+            <p class="text-gray-300 leading-relaxed">
+              Da — često radimo i manje proslave, kućne žurke i intimna okupljanja. Kod manjih događaja obično preporučimo
+              “pametan setup”: DJ ili muzika + bar servis (ili samo jedna od te dvije stvari), uz minimalnu logistiku.
+              Cilj je da sve izgleda i funkcioniše profesionalno, bez previše komplikovanja i troškova.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="bg-black rounded-2xl overflow-hidden fade-in">
-        <button onclick="toggleAccordion(1)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-          <span class="text-lg font-semibold">Mogu li angažovati samo jednu uslugu (DJ / bar / foto)?</span>
-          <span class="text-3xl accordion-arrow font-light">+</span>
-        </button>
-        <div class="accordion-content px-8 pb-8">
-          <p class="text-gray-300 leading-relaxed">
-            Naravno. Možeš uzeti samo jednu uslugu (npr. DJ, barmene, foto/video, zvuk/rasvjetu ili hostese), ili napraviti
-            paket po mjeri. U praksi prvo pitamo: tip događaja, broj gostiju i lokaciju — i onda predložimo opciju koja ima
-            najbolji odnos budžeta i efekta. Ako već imaš dio tima/opreme, uklapamo se u postojeći setup.
-          </p>
+        <div class="bg-black rounded-2xl overflow-hidden fade-in">
+          <button onclick="toggleAccordion(1)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+            <span class="text-lg font-semibold">Mogu li angažovati samo jednu uslugu (DJ / bar / foto)?</span>
+            <span class="text-3xl accordion-arrow font-light">+</span>
+          </button>
+          <div class="accordion-content px-8 pb-8">
+            <p class="text-gray-300 leading-relaxed">
+              Naravno. Možeš uzeti samo jednu uslugu (npr. DJ, barmene, foto/video, zvuk/rasvjetu ili hostese), ili napraviti
+              paket po mjeri. U praksi prvo pitamo: tip događaja, broj gostiju i lokaciju — i onda predložimo opciju koja ima
+              najbolji odnos budžeta i efekta. Ako već imaš dio tima/opreme, uklapamo se u postojeći setup.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="bg-black rounded-2xl overflow-hidden fade-in">
-        <button onclick="toggleAccordion(2)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-          <span class="text-lg font-semibold">Da li radite van Podgorice i koliko se to naplaćuje?</span>
-          <span class="text-3xl accordion-arrow font-light">+</span>
-        </button>
-        <div class="accordion-content px-8 pb-8">
-          <p class="text-gray-300 leading-relaxed">
-            Da, radimo širom Crne Gore. Trošak zavisi od grada, trajanja eventa i količine opreme/tima koji se prenosi.
-            Najčešće se dogovaraju putni troškovi i logistika (transport, montaža/demontaža), a sve je transparentno u ponudi
-            prije potvrde. Ako je događaj više dana ili zahtijeva veći setup, predložimo plan koji ima smisla i operativno i finansijski.
-          </p>
+        <div class="bg-black rounded-2xl overflow-hidden fade-in">
+          <button onclick="toggleAccordion(2)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+            <span class="text-lg font-semibold">Da li radite van Podgorice i koliko se to naplaćuje?</span>
+            <span class="text-3xl accordion-arrow font-light">+</span>
+          </button>
+          <div class="accordion-content px-8 pb-8">
+            <p class="text-gray-300 leading-relaxed">
+              Da, radimo širom Crne Gore. Trošak zavisi od grada, trajanja eventa i količine opreme/tima koji se prenosi.
+              Najčešće se dogovaraju putni troškovi i logistika (transport, montaža/demontaža), a sve je transparentno u ponudi
+              prije potvrde. Ako je događaj više dana ili zahtijeva veći setup, predložimo plan koji ima smisla i operativno i finansijski.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="bg-black rounded-2xl overflow-hidden fade-in">
-        <button onclick="toggleAccordion(3)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-          <span class="text-lg font-semibold">Koliko unaprijed treba rezervisati termin?</span>
-          <span class="text-3xl accordion-arrow font-light">+</span>
-        </button>
-        <div class="accordion-content px-8 pb-8">
-          <p class="text-gray-300 leading-relaxed">
-            Preporuka je 2–4 nedelje unaprijed za standardne događaje, jer tako imamo dovoljno vremena da zaključamo tim,
-            opremu i detalje. Za veće evente (korporativi, festivali, svadbe) idealno je i ranije.
-            Ako je “hitno”, javi se — često možemo da pokrijemo i kraće rokove, samo zavisi od dostupnosti i obima produkcije.
-          </p>
+        <div class="bg-black rounded-2xl overflow-hidden fade-in">
+          <button onclick="toggleAccordion(3)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+            <span class="text-lg font-semibold">Koliko unaprijed treba rezervisati termin?</span>
+            <span class="text-3xl accordion-arrow font-light">+</span>
+          </button>
+          <div class="accordion-content px-8 pb-8">
+            <p class="text-gray-300 leading-relaxed">
+              Preporuka je 2–4 nedelje unaprijed za standardne događaje, jer tako imamo dovoljno vremena da zaključamo tim,
+              opremu i detalje. Za veće evente (korporativi, festivali, svadbe) idealno je i ranije.
+              Ako je “hitno”, javi se — često možemo da pokrijemo i kraće rokove, samo zavisi od dostupnosti i obima produkcije.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="bg-black rounded-2xl overflow-hidden fade-in">
-        <button onclick="toggleAccordion(4)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-          <span class="text-lg font-semibold">Da li radite outdoor događaje i šta sve treba za to?</span>
-          <span class="text-3xl accordion-arrow font-light">+</span>
-        </button>
-        <div class="accordion-content px-8 pb-8">
-          <p class="text-gray-300 leading-relaxed">
-            Da — outdoor je čest scenario. Bitno je da se isplanira struja, vremenski uslovi i logistika prostora.
-            Po potrebi obezbjeđujemo odgovarajuću rasvjetu, razglas, zaštitu za opremu i bar setup koji može da radi napolju.
-            Ako lokacija nema stabilno napajanje ili je teren specifičan, predložimo rješenje i plan B da event ne zavisi od “sreće”.
-          </p>
+        <div class="bg-black rounded-2xl overflow-hidden fade-in">
+          <button onclick="toggleAccordion(4)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+            <span class="text-lg font-semibold">Da li radite outdoor događaje i šta sve treba za to?</span>
+            <span class="text-3xl accordion-arrow font-light">+</span>
+          </button>
+          <div class="accordion-content px-8 pb-8">
+            <p class="text-gray-300 leading-relaxed">
+              Da — outdoor je čest scenario. Bitno je da se isplanira struja, vremenski uslovi i logistika prostora.
+              Po potrebi obezbjeđujemo odgovarajuću rasvjetu, razglas, zaštitu za opremu i bar setup koji može da radi napolju.
+              Ako lokacija nema stabilno napajanje ili je teren specifičan, predložimo rješenje i plan B da event ne zavisi od “sreće”.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="bg-black rounded-2xl overflow-hidden fade-in">
-        <button onclick="toggleAccordion(5)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
-          <span class="text-lg font-semibold">Šta tačno dobijam u foto/video paketu?</span>
-          <span class="text-3xl accordion-arrow font-light">+</span>
-        </button>
-        <div class="accordion-content px-8 pb-8">
-          <p class="text-gray-300 leading-relaxed">
-            U osnovi dobijaš profesionalno pokrivanje događaja + selekciju i edit fotografija u visokoj rezoluciji.
-            Ako želiš, radimo i “social pack” — brzu isporuku top fotki/klipova za Instagram u toku večeri ili odmah sjutra.
-            Video recap (kratki highlights/reels) je čest dodatak, pogotovo za korporative i promocije.
-            Sve se dogovara unaprijed: koliko sati, koliko ljudi, stil editovanja i rok isporuke.
-          </p>
+        <div class="bg-black rounded-2xl overflow-hidden fade-in">
+          <button onclick="toggleAccordion(5)" class="w-full p-8 text-left flex justify-between items-center hover:bg-gray-800 transition-colors">
+            <span class="text-lg font-semibold">Šta tačno dobijam u foto/video paketu?</span>
+            <span class="text-3xl accordion-arrow font-light">+</span>
+          </button>
+          <div class="accordion-content px-8 pb-8">
+            <p class="text-gray-300 leading-relaxed">
+              U osnovi dobijaš profesionalno pokrivanje događaja + selekciju i edit fotografija u visokoj rezoluciji.
+              Ako želiš, radimo i “social pack” — brzu isporuku top fotki/klipova za Instagram u toku večeri ili odmah sjutra.
+              Video recap (kratki highlights/reels) je čest dodatak, pogotovo za korporative i promocije.
+              Sve se dogovara unaprijed: koliko sati, koliko ljudi, stil editovanja i rok isporuke.
+            </p>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-gray-900 py-16 px-6">
@@ -900,12 +936,10 @@
             class="inline-block text-center bg-gold text-black font-bold px-6 py-4 rounded-full hover:bg-yellow-500 transition-all hover:scale-105">
             Idi na Kontakt Stranicu
           </a>
-
-    
         </div>
 
       </div>
- 
+
       <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
         <p class="text-gray-400">&copy; 2024 Sindikat. Sva prava zadržana.</p>
         <p class="text-gray-500 text-sm mt-4 md:mt-0">Napravljeno sa ⚡ za nezaboravne događaje</p>
@@ -913,13 +947,7 @@
     </div>
   </footer>
 
-
-      </div>
-    </div>
-  </div>
-
   <script>
-    // ===== Offer modal logic =====
     let offerState = { source: '', offer: 'PRO', goals: [] };
 
     function openOfferModal(source){
@@ -966,7 +994,6 @@
       window.location.href = url;
     }
 
-    // selection handlers
     document.addEventListener('DOMContentLoaded', function(){
       document.querySelectorAll('.offer-choice').forEach(btn=>{
         btn.addEventListener('click', function(){
@@ -978,7 +1005,6 @@
         });
       });
 
-      // default selection
       const pro = document.querySelector('.offer-choice[data-offer="PRO"]');
       if(pro) pro.click();
 
@@ -997,34 +1023,38 @@
         });
       });
 
-      // close on backdrop
       const modal = document.getElementById('offerModal');
       if(modal){
         modal.addEventListener('click', (e)=>{ if(e.target === modal) closeOfferModal(); });
       }
-      // esc close
+
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeOfferModal(); } });
     });
 
-    // ===== Scroll + accordion =====
-    function scrollToServices(){ document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }
+    function scrollToServices(){
+      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
     function handleScroll(){
       const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
       const windowHeight = window.innerHeight;
       const elementVisible = window.innerWidth < 768 ? 50 : 100;
+
       elements.forEach(el=>{
         const top = el.getBoundingClientRect().top;
         if(top < windowHeight - elementVisible) el.classList.add('visible');
       });
     }
-    let ticking=false;
+
+    let ticking = false;
     function requestTick(){
       if(!ticking){
         requestAnimationFrame(handleScroll);
-        ticking=true;
-        setTimeout(()=>{ ticking=false; },16);
+        ticking = true;
+        setTimeout(()=>{ ticking = false; },16);
       }
     }
+
     window.addEventListener('scroll', requestTick, { passive:true });
     window.addEventListener('load', ()=>{ handleScroll(); });
 
@@ -1043,7 +1073,6 @@
       arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
     }
 
-    // ===== Service modal content (SMISLENO) =====
     const serviceDetails = {
       bartending: {
         title: 'Barmeni i Kokteli',
@@ -1181,6 +1210,3 @@
 
 </body>
 </html>
-
-
-
