@@ -433,13 +433,32 @@
       }
     }
 
-    @media (max-width: 420px){
-      .stats{grid-template-columns:1fr}
-      .contactRow{grid-template-columns: 1fr;}
-      .footerLogo{
-        width:96px;
-      }
-    }
+    @media (max-width: 720px){
+  :root{
+    --spotifyBarH: 102px;
+  }
+  h1{font-size:34px}
+  .stats{grid-template-columns: 1fr 1fr}
+  .footerGrid{grid-template-columns: 1fr !important;}
+  .card{padding:16px;}
+  .field{padding:10px 12px;}
+  .contactRow{grid-template-columns: 1fr 1fr; gap:10px;}
+  .miniList.twoCol{grid-template-columns:1fr;}
+  .spotifySticky{
+    padding:8px 8px 10px;
+  }
+  .spotifySticky iframe{
+    height:84px;
+  }
+}
+
+@media (max-width: 420px){
+  .stats{grid-template-columns: 1fr 1fr;}
+  .contactRow{grid-template-columns: 1fr;}
+  .footerLogo{
+    width:96px;
+  }
+}
   </style>
 </head>
 
