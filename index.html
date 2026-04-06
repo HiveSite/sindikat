@@ -204,6 +204,82 @@
     }
   </style>
 
+
+  <!-- ===== Floating Saradnik Mjeseca Sticky (NOVO) ===== -->
+  <style>
+    #collabSticky{
+      position: fixed;
+      z-index: 76;
+      bottom: 168px; /* iznad ostalih floating elemenata na mobile */
+      left: 16px;
+      right: 16px;
+      display: none;
+      box-sizing: border-box;
+    }
+    @media (min-width: 640px){
+      #collabSticky{
+        left: auto;
+        right: 20px;
+        width: 420px;
+        bottom: 120px; /* iznad Studio83 i Poslovi na desktopu */
+      }
+    }
+  </style>
+
+  <div id="collabSticky" class="rounded-2xl border border-electric-blue/20 bg-black/70 backdrop-blur-md shadow-2xl">
+    <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start">
+      <div class="min-w-0">
+        <div class="text-xs tracking-widest text-gray-400 mb-1">SARADNIK MJESECA</div>
+        <div class="text-sm md:text-base font-bold leading-snug gradient-blue">
+          Upoznaj MIQELLY
+        </div>
+        <div class="text-xs text-gray-300 mt-1">
+          DJ selekcija za evente, klubove i privatne žurke.
+        </div>
+      </div>
+
+      <a href="https://sindikatevents.me/dj/miqelly/" target="_blank" rel="noopener"
+         class="px-3 py-2 bg-electric-blue text-black rounded-xl text-sm font-semibold whitespace-nowrap hover:brightness-95 transition focus-ring">
+        Pogledaj
+      </a>
+
+      <button type="button" aria-label="Zatvori"
+        onclick="closeCollabSticky(event)"
+        class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var KEY = 'collabStickyClosed';
+
+      window.showCollabSticky = function(){
+        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+        var el = document.getElementById('collabSticky');
+        if(!el) return;
+        el.style.display = '';
+      };
+
+      window.closeCollabSticky = function(e){
+        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
+        var el = document.getElementById('collabSticky');
+        if(el){ el.style.display = 'none'; }
+        try{ localStorage.setItem(KEY,'1'); }catch(e){}
+      };
+
+      function boot(){
+        setTimeout(window.showCollabSticky, 1200);
+      }
+
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', boot, { once:true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
+
+  
   <script>
     // Dinamički računa visinu navbara i postavlja je u --nav-h
     (function() {
