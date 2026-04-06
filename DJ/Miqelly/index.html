@@ -20,6 +20,7 @@
       --radius2:26px;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --max: 1120px;
+      --spotifyBarH: 104px;
     }
 
     *{box-sizing:border-box}
@@ -31,43 +32,11 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       line-height:1.5;
       letter-spacing:.1px;
+      padding-bottom: calc(var(--spotifyBarH) + 22px);
     }
 
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:18px}
-
-    /* Topbar (bez menija/hamburgera) */
-    .topbar{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(11,11,12,.72);
-      border-bottom:1px solid var(--line);
-    }
-    .topbar .inner{
-      max-width:var(--max); margin:0 auto; padding:12px 18px;
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:700; letter-spacing:.8px;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background:var(--accent);
-      box-shadow: 0 0 0 6px rgba(182,255,59,.08);
-    }
-    .navlinks{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-      font-size:13px; color:var(--muted);
-    }
-    .navlinks a{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid transparent;
-    }
-    .navlinks a:hover{border-color:var(--line); color:var(--text)}
 
     /* Cards / sections */
     .card{
@@ -100,7 +69,7 @@
       border: 1px solid var(--line);
       background:#0f0f12;
       box-shadow: var(--shadow);
-      margin: 16px 0 18px;
+      margin: 0 0 18px;
       position:relative;
     }
     .heroCover img{
@@ -252,15 +221,14 @@
     }
     iframe{width:100%; border:0; display:block}
 
-    /* Instagram embed - NORMALAN i vidljiv */
+    /* Instagram embed */
     .igBox{
       background:#0f0f12;
       border:1px solid var(--line);
       border-radius:18px;
       padding:12px;
-      overflow: visible; /* BITNO: da ne sjecemo embed */
+      overflow: visible;
     }
-    /* IG skripta daje inline width; ovo ga “normalizuje” */
     .igBox .instagram-media{
       max-width: 460px !important;
       width: 100% !important;
@@ -374,6 +342,46 @@
     .field b{color:var(--text)}
     .tiny{font-size:12px;color:rgba(245,245,245,.45)}
 
+    .footerLogoWrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin-top:18px;
+    }
+    .footerLogo{
+      width:120px;
+      max-width:42vw;
+      height:auto;
+      display:block;
+      opacity:.95;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,.35));
+    }
+
+    /* Sticky Spotify bottom bar */
+    .spotifySticky{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:90;
+      padding:10px 12px 12px;
+      background: linear-gradient(to top, rgba(11,11,12,.98), rgba(11,11,12,.88));
+      border-top:1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .spotifyStickyInner{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+    .spotifySticky .embed{
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    .spotifySticky iframe{
+      height:80px;
+    }
+
     /* Responsive */
     @media (max-width: 900px){
       .hero{grid-template-columns: 1fr}
@@ -383,6 +391,9 @@
       .gItem{grid-column: span 6}
     }
     @media (max-width: 720px){
+      :root{
+        --spotifyBarH: 96px;
+      }
       h1{font-size:34px}
       .stats{grid-template-columns: 1fr 1fr}
       .footerGrid{grid-template-columns: 1fr !important;}
@@ -390,35 +401,24 @@
       .field{padding:10px 12px;}
       .contactRow{grid-template-columns: 1fr 1fr; gap:10px;}
       .miniList.twoCol{grid-template-columns:1fr;}
-      .topbar .inner{align-items:flex-start}
-      .navlinks{justify-content:flex-start}
+      .spotifySticky{
+        padding:8px 8px 10px;
+      }
+      .spotifySticky iframe{
+        height:76px;
+      }
     }
     @media (max-width: 420px){
       .stats{grid-template-columns:1fr}
       .contactRow{grid-template-columns: 1fr;}
+      .footerLogo{
+        width:96px;
+      }
     }
   </style>
 </head>
 
 <body>
-
-  <header class="topbar">
-    <div class="inner">
-      <div class="brand" aria-label="MIQELLY">
-        <span class="dot" aria-hidden="true"></span>
-        <span>MIQELLY</span>
-      </div>
-
-      <!-- NEMA MENI / NEMA HAMBURGER -->
-      <div class="navlinks" aria-label="Navigacija">
-        <a href="#stil">Stil</a>
-        <a href="#teme">Teme</a>
-        <a href="#media">Media</a>
-        <a href="#galerija">Galerija</a>
-        <a href="#kontakt">Kontakt</a>
-      </div>
-    </div>
-  </header>
 
   <main class="wrap">
 
@@ -432,7 +432,7 @@
       />
       <div class="overlay" aria-hidden="true"></div>
       <div class="heroCoverTag">
-        <span class="dot" aria-hidden="true"></span>
+        <span class="tick" aria-hidden="true" style="margin-top:0;"></span>
         <span>MIQELLY • LIVE</span>
       </div>
     </div>
@@ -551,27 +551,9 @@
 
     <!-- MEDIA -->
     <section id="media">
-      <div class="h2">Listen / Instagram</div>
+      <div class="h2">Instagram</div>
 
       <div class="mediaGrid">
-        <!-- Spotify -->
-        <div class="embed">
-          <div class="embedHeader">
-            <span>Spotify</span>
-            <span class="tiny">Odabrana play lista</span>
-          </div>
-          <iframe
-            style="border-radius:12px"
-            src="https://open.spotify.com/embed/playlist/7BE8Mf84mu47Ip9ewnDqh6"
-            height="352"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            title="Spotify embed"
-          ></iframe>
-        </div>
-
-        <!-- YouTube embed je izbačen / zakomentarisan (nema ga u DOM-u) -->
-
         <!-- Instagram -->
         <div class="card" style="padding:16px">
           <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
@@ -603,8 +585,6 @@
       <div class="h2">Galerija</div>
 
       <div class="gallery" id="gallery">
-        <!-- Ako ti se ove slike ne učitaju, znači da direct i.ibb.co URL-ovi nisu tačni za tvoje fajlove.
-             Tada pošalji direct linkove ili upload slike u repo. -->
         <div class="gItem" data-full="https://i.ibb.co/mV2XyzwN/IMG-0108.jpg" data-title="Photo 1">
           <img src="https://i.ibb.co/mV2XyzwN/IMG-0108.jpg" alt="Miqelly 1" loading="lazy" />
           <div class="gCap">PHOTO</div>
@@ -672,8 +652,22 @@
 
     <footer>
       <div class="card" style="box-shadow:none">
-        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
-          <div class="brand"><span class="dot" aria-hidden="true"></span><span>MIQELLY</span></div>
+        <div style="display:flex;flex-direction:column;justify-content:center;gap:14px;flex-wrap:wrap;align-items:center;text-align:center">
+          <div class="brand" style="display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;">
+            <span class="tick" aria-hidden="true" style="margin-top:0;"></span>
+            <span>MIQELLY</span>
+          </div>
+
+          <div class="footerLogoWrap">
+            <img
+              class="footerLogo"
+              src="fotke/83.png"
+              onerror="this.onerror=null; this.src='/fotke/83.png';"
+              alt="Studio 83 logo"
+              loading="lazy"
+            />
+          </div>
+
           <div class="tiny">© <span id="year"></span> — DJ | Kurator energije</div>
         </div>
       </div>
@@ -689,6 +683,21 @@
         <button class="lbClose" id="lbClose">Zatvori</button>
       </div>
       <img class="lbImg" id="lbImg" src="" alt="Galerija preview" />
+    </div>
+  </div>
+
+  <!-- STICKY SPOTIFY -->
+  <div class="spotifySticky" aria-label="Sticky Spotify player">
+    <div class="spotifyStickyInner">
+      <div class="embed">
+        <iframe
+          style="border-radius:12px"
+          src="https://open.spotify.com/embed/playlist/7BE8Mf84mu47Ip9ewnDqh6?utm_source=generator&theme=0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title="Spotify sticky player"
+        ></iframe>
+      </div>
     </div>
   </div>
 
@@ -726,7 +735,7 @@
     });
   </script>
 
-  <!-- Instagram embed.js mora biti na stranici + process -->
+  <!-- Instagram embed.js -->
   <script async src="https://www.instagram.com/embed.js"></script>
   <script>
     window.addEventListener('load', () => {
