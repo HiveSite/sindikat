@@ -49,76 +49,82 @@
   </script>
 
   <style>
-    :root { --nav-h: 0px; }
+    :root {
+      --nav-h: 0px;
+      --float-gap: 12px;
+      --float-side-mobile: 16px;
+      --float-side-desktop: 20px;
+      --float-bottom-mobile: 16px;
+      --float-bottom-desktop: 20px;
+    }
 
-    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; overflow-x: clip; }
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: clip;
+    }
+
     body {
       overflow-x: hidden;
       padding-top: var(--nav-h);
-    }
-    h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
-
-    section, header, footer, .max-w-7xl, .container, .mx-auto { overflow-x: clip; }
-    img, video { max-width:100%; height:auto; }
-    .flex, .grid { min-width:0; }
-    .flex > *, .grid > * { min-width:0; }
-
-    #stickyTopAd {
-      top: calc(var(--nav-h) + 8px) !important;
+      background: #000;
+      color: #fff;
     }
 
-    .partners-scroller {
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-    }
-    .partners-scroller > div { scroll-snap-align: start; }
-
-    .ad-wrap{
-      margin-left:auto;
-      margin-right:auto;
-      max-width:970px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-    @media (max-width:1024px){ .ad-wrap{ max-width:728px; } }
-    @media (max-width:640px){ .ad-wrap{ max-width:320px; } }
-    .ad-wrap img{ display:block; max-width:100%; height:auto; }
-
-    #stickyTopAd, #stickyBottomBanner, #floatingBanner{
-      position: fixed;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      width: calc(100% - 24px) !important;
-      max-width: 640px !important;
-      box-sizing: border-box !important;
-      margin: 0 !important;
+    h1,h2,h3,h4,h5,h6 {
+      font-family: 'Montserrat', sans-serif;
     }
 
-    .peer{ position:absolute; opacity:0; pointer-events:none; }
-    .sr-only{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
+    section, header, footer, .max-w-7xl, .container, .mx-auto {
+      overflow-x: clip;
+    }
+
+    img, video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .flex, .grid {
+      min-width: 0;
+    }
+
+    .flex > *, .grid > * {
+      min-width: 0;
+    }
+
+    .peer {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .hero-bg{
       background:
         radial-gradient(1200px 600px at 20% 15%, rgba(0,191,255,.18), transparent 55%),
         radial-gradient(900px 500px at 80% 20%, rgba(255,215,0,.14), transparent 55%),
-        linear-gradient(rgba(0,0,0,.50), rgba(0,0,0,.80)),
-        url('/fotke/hero-events.jpg');
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.78)),
+        url('https://sumfinity.com/wp-content/uploads/2018/03/Podgorica-Millennium-Bridge-Montenegro-sunny.jpg');
       background-size: cover;
-      background-position: center 30%;
+      background-position: center center;
       background-attachment: scroll;
     }
+
     @media (min-width: 768px) {
       .hero-bg { background-attachment: fixed; }
     }
@@ -128,6 +134,7 @@
       transform: translateY(30px);
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
@@ -138,6 +145,7 @@
       transform: translateX(-30px);
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .fade-in-left.visible {
       opacity: 1;
       transform: translateX(0);
@@ -148,6 +156,7 @@
       transform: translateX(30px);
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .fade-in-right.visible {
       opacity: 1;
       transform: translateX(0);
@@ -158,6 +167,7 @@
       transform: scale(0.9);
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .scale-in.visible {
       opacity: 1;
       transform: scale(1);
@@ -166,10 +176,12 @@
     .hover-lift {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .hover-lift:hover {
       transform: translateY(-4px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
+
     @media (min-width: 768px) {
       .hover-lift:hover {
         transform: translateY(-8px);
@@ -177,7 +189,10 @@
       }
     }
 
-    .light-pulse { animation: lightPulse 3s ease-in-out infinite; }
+    .light-pulse {
+      animation: lightPulse 3s ease-in-out infinite;
+    }
+
     @keyframes lightPulse {
       0%,100% { opacity: 1; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
       50% { opacity: 0.4; box-shadow: 0 0 25px rgba(255, 215, 0, 0.9); }
@@ -188,7 +203,10 @@
       overflow: hidden;
       transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .accordion-content.active { max-height: 300px; }
+
+    .accordion-content.active {
+      max-height: 300px;
+    }
 
     .gradient-gold {
       background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
@@ -212,13 +230,29 @@
       border-radius: 1rem;
       margin-bottom: 1rem;
     }
-    @media (min-width: 768px) { .service-image { height: 200px; } }
 
-    .lang-switcher { display: none !important; }
+    @media (min-width: 768px) {
+      .service-image { height: 200px; }
+    }
 
-    .mobile-spacing { padding-left: 1rem; padding-right: 1rem; }
-    @media (min-width: 640px) { .mobile-spacing { padding-left: 1.5rem; padding-right: 1.5rem; } }
-    @media (min-width: 768px) { .mobile-spacing { padding-left: 2rem; padding-right: 2rem; } }
+    .mobile-spacing {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .mobile-spacing {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .mobile-spacing {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
 
     .text-container {
       word-wrap: break-word;
@@ -229,10 +263,12 @@
     .card-hover {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .card-hover:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
+
     @media (min-width: 768px) {
       .card-hover:hover {
         transform: translateY(-4px);
@@ -257,62 +293,59 @@
       }
     }
 
-    .focus-ring:focus-visible{
+    .focus-ring:focus-visible {
       outline: 2px solid rgba(255,215,0,.9);
       outline-offset: 3px;
     }
 
-    #floatingBanner{
+    /* Floating stack system */
+    .floating-card {
       position: fixed;
       z-index: 70;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
+      left: var(--float-side-mobile);
+      right: var(--float-side-mobile);
       display: none;
       box-sizing: border-box;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: opacity .25s ease, transform .25s ease, bottom .25s ease;
+      max-width: calc(100vw - (var(--float-side-mobile) * 2));
     }
-    @media (min-width: 640px){
-      #floatingBanner{
+
+    .floating-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 640px) {
+      .floating-card {
         left: auto;
-        right: 20px;
-        width: 360px;
+        right: var(--float-side-desktop);
+        width: min(420px, calc(100vw - 40px));
+        max-width: 420px;
       }
     }
 
-    #studio83Sticky{
-      position: fixed;
-      z-index: 75;
-      bottom: 92px;
-      left: 16px;
-      right: 16px;
-      display: none;
-      box-sizing: border-box;
-    }
-    @media (min-width: 640px){
-      #studio83Sticky{
-        left: auto;
-        right: 20px;
-        width: 420px;
-        bottom: 20px;
-      }
-    }
+    #floatingBanner { z-index: 70; }
+    #studio83Sticky { z-index: 75; }
+    #collabSticky { z-index: 76; }
 
-    #collabSticky{
-      position: fixed;
-      z-index: 76;
-      bottom: 168px;
-      left: 16px;
-      right: 16px;
-      display: none;
-      box-sizing: border-box;
-    }
-    @media (min-width: 640px){
-      #collabSticky{
-        left: auto;
-        right: 20px;
-        width: 420px;
-        bottom: 120px;
-      }
+    .floating-card .close-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.72);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 8px 20px rgba(0,0,0,.28);
+      border: 0;
+      cursor: pointer;
     }
   </style>
 
@@ -321,10 +354,7 @@
       function setNavHeight() {
         var nav = document.querySelector('nav');
         if (!nav) return;
-        var h = nav.offsetHeight || 0;
-        var safe = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('env(safe-area-inset-top)')) || 0;
-        document.documentElement.style.setProperty('--nav-h', (h + safe) + 'px');
+        document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
       }
       window.addEventListener('load', setNavHeight);
       window.addEventListener('resize', setNavHeight);
@@ -335,7 +365,7 @@
 <body class="bg-black text-white overflow-x-hidden">
 
   <!-- NAV -->
-  <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-black/90 border-b border-neutral-800 backdrop-blur-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
       <a href="https://sindikatevents.me/" class="text-2xl font-extrabold gradient-gold">SINDIKAT EVENTS</a>
 
@@ -370,53 +400,21 @@
   </nav>
 
   <!-- Floating Mobile Banner -->
-  <div id="floatingBanner" class="fixed z-50 bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center">
-    <div class="min-w-0">
+  <div id="floatingBanner" class="floating-card bg-yellow-400 text-black rounded-xl p-4 shadow-xl grid grid-cols-[1fr_auto] gap-3 items-center">
+    <div class="min-w-0 pr-4">
       <div class="text-sm font-bold leading-tight truncate">Pretraži poslove</div>
       <div class="text-xs">Pronađi priliku za sebe</div>
     </div>
 
     <a href="/poslovi/" class="px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold whitespace-nowrap focus-ring">Poslovi</a>
 
-    <button id="closeFloatingBanner" type="button" aria-label="Zatvori"
-      onclick="closeBanner(event)"
-      class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
+    <button type="button" aria-label="Zatvori" onclick="closeFloatingCard('floatingBanner', event)" class="close-btn focus-ring">×</button>
   </div>
 
-  <script>
-    (function(){
-      var KEY = 'bannerClosed';
-
-      window.showFloatingBanner = function(){
-        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
-        var el = document.getElementById('floatingBanner');
-        if(!el) return;
-        el.style.display = '';
-      };
-
-      window.closeBanner = function(e){
-        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
-        var el = document.getElementById('floatingBanner');
-        if(el){ el.style.display = 'none'; }
-        try{ localStorage.setItem(KEY,'1'); }catch(e){}
-      };
-
-      function boot(){
-        setTimeout(window.showFloatingBanner, 800);
-      }
-
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', boot, { once:true });
-      } else {
-        boot();
-      }
-    })();
-  </script>
-
   <!-- Floating Studio83 Sticky -->
-  <div id="studio83Sticky" class="rounded-2xl border border-gold/20 bg-black/70 backdrop-blur-md shadow-2xl">
+  <div id="studio83Sticky" class="floating-card rounded-2xl border border-gold/20 bg-black/70 backdrop-blur-md shadow-2xl">
     <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start relative">
-      <div class="min-w-0">
+      <div class="min-w-0 pr-4">
         <div class="text-xs tracking-widest text-gray-400 mb-1">SINDIKAT STUDIO 83</div>
         <div class="text-sm md:text-base font-bold leading-snug">
           Vidi kako da događaj uklopiš u veću priču
@@ -431,46 +429,14 @@
         Pogledaj
       </a>
 
-      <button type="button" aria-label="Zatvori"
-        onclick="closeStudio83Sticky(event)"
-        class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
+      <button type="button" aria-label="Zatvori" onclick="closeFloatingCard('studio83Sticky', event)" class="close-btn focus-ring">×</button>
     </div>
   </div>
 
-  <script>
-    (function(){
-      var KEY = 'studio83StickyClosed';
-
-      window.showStudio83Sticky = function(){
-        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
-        var el = document.getElementById('studio83Sticky');
-        if(!el) return;
-        el.style.display = '';
-      };
-
-      window.closeStudio83Sticky = function(e){
-        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
-        var el = document.getElementById('studio83Sticky');
-        if(el){ el.style.display = 'none'; }
-        try{ localStorage.setItem(KEY,'1'); }catch(e){}
-      };
-
-      function boot(){
-        setTimeout(window.showStudio83Sticky, 1700);
-      }
-
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', boot, { once:true });
-      } else {
-        boot();
-      }
-    })();
-  </script>
-
   <!-- Floating Saradnik Mjeseca Sticky -->
-  <div id="collabSticky" class="rounded-2xl border border-electric-blue/20 bg-black/70 backdrop-blur-md shadow-2xl">
+  <div id="collabSticky" class="floating-card rounded-2xl border border-electric-blue/20 bg-black/70 backdrop-blur-md shadow-2xl">
     <div class="p-4 grid grid-cols-[1fr_auto] gap-3 items-start relative">
-      <div class="min-w-0">
+      <div class="min-w-0 pr-4">
         <div class="text-xs tracking-widest text-gray-400 mb-1">SARADNIK MJESECA</div>
         <div class="text-sm md:text-base font-bold leading-snug gradient-blue">
           Upoznaj MIQELLY
@@ -485,41 +451,9 @@
         Pogledaj
       </a>
 
-      <button type="button" aria-label="Zatvori"
-        onclick="closeCollabSticky(event)"
-        class="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/70 text-white text-lg grid place-items-center shadow-lg leading-none focus-ring">×</button>
+      <button type="button" aria-label="Zatvori" onclick="closeFloatingCard('collabSticky', event)" class="close-btn focus-ring">×</button>
     </div>
   </div>
-
-  <script>
-    (function(){
-      var KEY = 'collabStickyClosed';
-
-      window.showCollabSticky = function(){
-        try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
-        var el = document.getElementById('collabSticky');
-        if(!el) return;
-        el.style.display = '';
-      };
-
-      window.closeCollabSticky = function(e){
-        if(e){ e.preventDefault?.(); e.stopPropagation?.(); }
-        var el = document.getElementById('collabSticky');
-        if(el){ el.style.display = 'none'; }
-        try{ localStorage.setItem(KEY,'1'); }catch(e){}
-      };
-
-      function boot(){
-        setTimeout(window.showCollabSticky, 1200);
-      }
-
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', boot, { once:true });
-      } else {
-        boot();
-      }
-    })();
-  </script>
 
   <!-- Hero Section -->
   <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center mobile-spacing py-20">
@@ -700,57 +634,49 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
 
         <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-1 cursor-pointer js-service-card" data-service="bartending">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://www.bilgihakkinda.com/wp-content/uploads/Barmen-Nasil-Olunur.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://www.bilgihakkinda.com/wp-content/uploads/Barmen-Nasil-Olunur.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">Barmeni i Kokteli</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Profesionalni miksolozi koji prave autorske koktele i premium napitke za vaš događaj.</p>
         </div>
 
         <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-2 cursor-pointer js-service-card" data-service="djs">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/fotke/mikeli.jpeg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('/fotke/mikeli.jpeg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">DJ-jevi i Muzičari</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Talentovani DJ-jevi i muzičari uživo koji prave savršen soundtrack za svaki trenutak.</p>
         </div>
 
         <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-left group text-center stagger-3 cursor-pointer js-service-card" data-service="sound">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://d4n0y8dshd77z.cloudfront.net/listings/47313496/lg/NamRKfw9l42YjobXf7MI.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://d4n0y8dshd77z.cloudfront.net/listings/47313496/lg/NamRKfw9l42YjobXf7MI.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-gold">Zvuk i Osvetljenje</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Profesionalni audio sistemi i spektakularni svetlosni efekti za svaki prostor.</p>
         </div>
 
         <div class="bg-black rounded-2xl md:rounded-3xl p-6 md:p-8 hover-lift card-hover fade-in-right group text-center stagger-4 cursor-pointer js-service-card" data-service="bar">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/fa86aa31179135.5644946d21d56.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/fa86aa31179135.5644946d21d56.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-lg md:text-xl font-bold font-montserrat mb-3 md:mb-4 gradient-blue">Bar i Usluga Napitaka</h3>
           <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-container">Kompletna bar rešenja sa premium alkoholom i elegantnim mobilnim postavkama.</p>
         </div>
 
         <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="photo">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://data.verticals.cz/files/yVB9FIwEMGJZ.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://data.verticals.cz/files/yVB9FIwEMGJZ.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Fotografija i Video</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Profesionalni fotografi koji hvataju svaki dragoceni trenutak u najvišem kvalitetu.</p>
         </div>
 
         <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="design">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://www.haulpack.com/blog/wp-content/uploads/2024/12/Top-15-Memes-Pages-on-Instagram-1.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://www.haulpack.com/blog/wp-content/uploads/2024/12/Top-15-Memes-Pages-on-Instagram-1.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Dizajn i Društvene Mreže</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Kreativna dizajnerska rešenja i sadržaj za društvene mreže koji pojačavaju vaš događaj.</p>
         </div>
 
         <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="hostesses">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://gtspirit.com/wp-content/gallery/girls-at-the-geneva-motor-show-2015-part-2/girls-of-the-geneva-motor-show-20151.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://gtspirit.com/wp-content/gallery/girls-at-the-geneva-motor-show-2015-part-2/girls-of-the-geneva-motor-show-20151.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-gold">Profesionalne Hostese</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Elegantne i profesionalne hostese za dočekivanje i pomoć vašim gostima.</p>
         </div>
 
         <div class="bg-black rounded-3xl p-8 hover-lift fade-in group text-center cursor-pointer js-service-card" data-service="furniture">
-          <div class="service-image mb-4 md:mb-6"
-               style="background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('https://partyrentalhub.net/wp-content/uploads/2023/11/1701078233172.jpg'); background-size: cover; background-position: center; border-radius: 12px; height: 200px;"></div>
+          <div class="service-image mb-4 md:mb-6" style="background-image:url('https://partyrentalhub.net/wp-content/uploads/2023/11/1701078233172.jpg'); border-radius:12px; height:200px;"></div>
           <h3 class="text-xl font-bold font-montserrat mb-4 gradient-blue">Event Nameštaj</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Stilski nameštaj i lounge postavke za kreiranje savršene atmosfere.</p>
         </div>
@@ -948,89 +874,6 @@
   </footer>
 
   <script>
-    let offerState = { source: '', offer: 'PRO', goals: [] };
-
-    function openOfferModal(source){
-      offerState.source = source || '';
-      const modal = document.getElementById('offerModal');
-      if(!modal) return;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeOfferModal(){
-      const modal = document.getElementById('offerModal');
-      if(!modal) return;
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.body.style.overflow = '';
-    }
-
-    function buildOfferMessage(){
-      const name  = (document.getElementById('offerName')?.value || '').trim();
-      const phone = (document.getElementById('offerPhone')?.value || '').trim();
-      const date  = (document.getElementById('offerDate')?.value || '').trim();
-      const notes = (document.getElementById('offerNotes')?.value || '').trim();
-
-      const lines = [];
-      lines.push("UPIT ZA EVENT (SINDIKAT EVENTS)");
-      if(offerState.source) lines.push("Izvor: " + offerState.source);
-      lines.push("Paket: " + offerState.offer);
-      if(offerState.goals.length) lines.push("Cilj: " + offerState.goals.join(", "));
-      if(name) lines.push("Ime/Firma: " + name);
-      if(phone) lines.push("Kontakt: " + phone);
-      if(date) lines.push("Datum + grad: " + date);
-      if(notes) lines.push("Detalji: " + notes);
-      lines.push("");
-      lines.push("Napomena: Ako želite da event uklopimo u kampanju i veću priču, pogledajte Studio83: https://www.sindikatstudio83.me/");
-
-      return lines.join("\n");
-    }
-
-    function sendOfferToContact(){
-      const msg = buildOfferMessage();
-      const url = "https://www.sindikatstudio83.me/sr-me/kontakt/?msg=" + encodeURIComponent(msg);
-      window.location.href = url;
-    }
-
-    document.addEventListener('DOMContentLoaded', function(){
-      document.querySelectorAll('.offer-choice').forEach(btn=>{
-        btn.addEventListener('click', function(){
-          offerState.offer = btn.getAttribute('data-offer') || 'PRO';
-          document.querySelectorAll('.offer-choice').forEach(b=>{
-            b.classList.remove('ring-2','ring-yellow-400','border-gold/60');
-          });
-          btn.classList.add('ring-2','ring-yellow-400','border-gold/60');
-        });
-      });
-
-      const pro = document.querySelector('.offer-choice[data-offer="PRO"]');
-      if(pro) pro.click();
-
-      document.querySelectorAll('.goal-chip').forEach(chip=>{
-        chip.addEventListener('click', function(){
-          const val = chip.getAttribute('data-goal');
-          if(!val) return;
-          const idx = offerState.goals.indexOf(val);
-          if(idx >= 0){
-            offerState.goals.splice(idx,1);
-            chip.classList.remove('border-gold/60','bg-gold/10');
-          } else {
-            offerState.goals.push(val);
-            chip.classList.add('border-gold/60','bg-gold/10');
-          }
-        });
-      });
-
-      const modal = document.getElementById('offerModal');
-      if(modal){
-        modal.addEventListener('click', (e)=>{ if(e.target === modal) closeOfferModal(); });
-      }
-
-      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeOfferModal(); } });
-    });
-
     function scrollToServices(){
       document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -1049,14 +892,13 @@
     let ticking = false;
     function requestTick(){
       if(!ticking){
-        requestAnimationFrame(handleScroll);
+        requestAnimationFrame(()=>{
+          handleScroll();
+          ticking = false;
+        });
         ticking = true;
-        setTimeout(()=>{ ticking = false; },16);
       }
     }
-
-    window.addEventListener('scroll', requestTick, { passive:true });
-    window.addEventListener('load', ()=>{ handleScroll(); });
 
     function toggleAccordion(index){
       const contents = document.querySelectorAll('.accordion-content');
@@ -1065,12 +907,16 @@
       contents.forEach((content, i) => {
         if (i !== index) {
           content.classList.remove('active');
-          arrows[i].textContent = '+';
+          if (arrows[i]) arrows[i].textContent = '+';
         }
       });
 
-      contents[index].classList.toggle('active');
-      arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
+      if(contents[index]){
+        contents[index].classList.toggle('active');
+        if (arrows[index]) {
+          arrows[index].textContent = contents[index].classList.contains('active') ? '−' : '+';
+        }
+      }
     }
 
     const serviceDetails = {
@@ -1156,7 +1002,7 @@
       }
     };
 
-    (function initServiceModal(){
+    function initServiceModal(){
       const cards = document.querySelectorAll('.js-service-card');
       const modal = document.getElementById('serviceModal');
       if(!modal || !cards.length) return;
@@ -1184,13 +1030,13 @@
 
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-        document.body.style.overflow='hidden';
+        document.body.style.overflow = 'hidden';
       }
 
       function closeModal(){
         modal.classList.add('hidden');
         modal.classList.remove('flex');
-        document.body.style.overflow='';
+        document.body.style.overflow = '';
       }
 
       cards.forEach(card=>{
@@ -1203,9 +1049,86 @@
       if(closeBtnTop) closeBtnTop.addEventListener('click', closeModal);
       if(closeBtnBottom) closeBtnBottom.addEventListener('click', closeModal);
 
-      modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
-      document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !modal.classList.contains('hidden')) closeModal(); });
-    })();
+      modal.addEventListener('click', e=>{
+        if(e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', e=>{
+        if(e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+      });
+    }
+
+    const floatingOrder = ['floatingBanner', 'collabSticky', 'studio83Sticky'];
+
+    function getVisibleFloatingCards(){
+      return floatingOrder
+        .map(id => document.getElementById(id))
+        .filter(el => el && el.dataset.closed !== '1');
+    }
+
+    function updateFloatingStack(){
+      const cards = getVisibleFloatingCards();
+      const isDesktop = window.innerWidth >= 640;
+      const baseBottom = isDesktop ? 20 : 16;
+      const gap = 12;
+
+      let currentBottom = baseBottom;
+
+      cards.forEach(card => {
+        card.style.display = 'block';
+        card.style.bottom = currentBottom + 'px';
+        currentBottom += card.offsetHeight + gap;
+      });
+    }
+
+    function showFloatingCard(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.dataset.closed = '0';
+      el.style.display = 'block';
+      requestAnimationFrame(() => {
+        el.classList.add('is-visible');
+        updateFloatingStack();
+      });
+    }
+
+    function closeFloatingCard(id, e){
+      if(e){
+        e.preventDefault?.();
+        e.stopPropagation?.();
+      }
+      const el = document.getElementById(id);
+      if(!el) return;
+
+      el.dataset.closed = '1';
+      el.classList.remove('is-visible');
+
+      setTimeout(() => {
+        el.style.display = 'none';
+        updateFloatingStack();
+      }, 220);
+    }
+
+    function bootFloatingCards(){
+      showFloatingCard('floatingBanner');
+      setTimeout(() => showFloatingCard('collabSticky'), 250);
+      setTimeout(() => showFloatingCard('studio83Sticky'), 500);
+    }
+
+    function bootPage(){
+      handleScroll();
+      initServiceModal();
+      bootFloatingCards();
+      setTimeout(updateFloatingStack, 650);
+    }
+
+    document.addEventListener('DOMContentLoaded', bootPage);
+    window.addEventListener('scroll', requestTick, { passive:true });
+    window.addEventListener('load', () => {
+      handleScroll();
+      updateFloatingStack();
+    });
+    window.addEventListener('resize', updateFloatingStack);
   </script>
 
 </body>
