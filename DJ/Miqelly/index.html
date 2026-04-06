@@ -161,6 +161,7 @@
       background: rgba(255,255,255,.02);
     }
 
+    /* Stats */
     .stats{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -172,9 +173,26 @@
       border-radius:var(--radius);
       padding:14px;
       background: rgba(255,255,255,.02);
+      min-width:0;
+      min-height:92px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
-    .stat .n{font-size:26px;font-weight:800;letter-spacing:.2px}
-    .stat .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.8px}
+    .stat .n{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:.2px;
+      line-height:1;
+    }
+    .stat .l{
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      line-height:1.25;
+      word-break:break-word;
+    }
 
     /* Grids */
     .grid3{
@@ -248,10 +266,10 @@
     }
 
     .igBox .instagram-media{
-      max-width: 100% !important;
-      width: 100% !important;
-      min-width: 0 !important;
-      margin: 0 auto !important;
+      max-width:100% !important;
+      width:100% !important;
+      min-width:0 !important;
+      margin:0 auto !important;
     }
 
     /* Gallery */
@@ -419,7 +437,21 @@
         --spotifyBarH: 102px;
       }
       h1{font-size:34px}
-      .stats{grid-template-columns: 1fr 1fr}
+      .stats{
+        grid-template-columns: 1fr 1fr;
+        gap:8px;
+      }
+      .stat{
+        padding:12px;
+        min-height:84px;
+      }
+      .stat .n{
+        font-size:22px;
+      }
+      .stat .l{
+        font-size:11px;
+        letter-spacing:.5px;
+      }
       .footerGrid{grid-template-columns: 1fr !important;}
       .card{padding:16px;}
       .field{padding:10px 12px;}
@@ -433,32 +465,27 @@
       }
     }
 
-    @media (max-width: 720px){
-  :root{
-    --spotifyBarH: 102px;
-  }
-  h1{font-size:34px}
-  .stats{grid-template-columns: 1fr 1fr}
-  .footerGrid{grid-template-columns: 1fr !important;}
-  .card{padding:16px;}
-  .field{padding:10px 12px;}
-  .contactRow{grid-template-columns: 1fr 1fr; gap:10px;}
-  .miniList.twoCol{grid-template-columns:1fr;}
-  .spotifySticky{
-    padding:8px 8px 10px;
-  }
-  .spotifySticky iframe{
-    height:84px;
-  }
-}
-
-@media (max-width: 420px){
-  .stats{grid-template-columns: 1fr 1fr;}
-  .contactRow{grid-template-columns: 1fr;}
-  .footerLogo{
-    width:96px;
-  }
-}
+    @media (max-width: 420px){
+      .stats{
+        grid-template-columns: 1fr 1fr;
+        gap:8px;
+      }
+      .stat{
+        padding:10px;
+        min-height:78px;
+      }
+      .stat .n{
+        font-size:20px;
+      }
+      .stat .l{
+        font-size:10px;
+        letter-spacing:.4px;
+      }
+      .contactRow{grid-template-columns: 1fr;}
+      .footerLogo{
+        width:96px;
+      }
+    }
   </style>
 </head>
 
@@ -515,7 +542,7 @@
           </div>
           <div class="stat">
             <div class="n">100%</div>
-            <div class="l">Flow & narativ</div>
+            <div class="l">Flow / narativ</div>
           </div>
           <div class="stat">
             <div class="n">3</div>
@@ -523,7 +550,7 @@
           </div>
           <div class="stat">
             <div class="n">1</div>
-            <div class="l">Cilj: pun podijum</div>
+            <div class="l">Pun podijum</div>
           </div>
         </div>
       </div>
