@@ -20,7 +20,7 @@
       --radius2:26px;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --max: 1120px;
-      --spotifyBarH: 104px;
+      --spotifyBarH: 112px;
     }
 
     *{box-sizing:border-box}
@@ -32,7 +32,7 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       line-height:1.5;
       letter-spacing:.1px;
-      padding-bottom: calc(var(--spotifyBarH) + 22px);
+      padding-bottom: calc(var(--spotifyBarH) + 24px);
     }
 
     a{color:inherit;text-decoration:none}
@@ -221,16 +221,34 @@
     }
     iframe{width:100%; border:0; display:block}
 
-    /* Instagram embed */
+    /* Instagram */
+    .igWrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      align-items:start;
+    }
+
+    .igCard{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius2);
+      padding:16px;
+      box-shadow:var(--shadow);
+      min-width:0;
+    }
+
     .igBox{
       background:#0f0f12;
       border:1px solid var(--line);
       border-radius:18px;
       padding:12px;
-      overflow: visible;
+      overflow:visible;
+      min-width:0;
     }
+
     .igBox .instagram-media{
-      max-width: 460px !important;
+      max-width: 100% !important;
       width: 100% !important;
       min-width: 0 !important;
       margin: 0 auto !important;
@@ -374,12 +392,16 @@
       margin:0 auto;
     }
     .spotifySticky .embed{
-      border-radius:18px;
+      border-radius:var(--radius2);
       overflow:hidden;
-      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      box-shadow: var(--shadow);
+      border:1px solid var(--line);
+      background:#0f0f12;
     }
     .spotifySticky iframe{
       height:80px;
+      display:block;
+      width:100%;
     }
 
     /* Responsive */
@@ -389,10 +411,12 @@
       .grid3{grid-template-columns:1fr}
       .gallery{grid-template-columns: repeat(6, 1fr)}
       .gItem{grid-column: span 6}
+      .igWrap{grid-template-columns:1fr}
     }
+
     @media (max-width: 720px){
       :root{
-        --spotifyBarH: 96px;
+        --spotifyBarH: 102px;
       }
       h1{font-size:34px}
       .stats{grid-template-columns: 1fr 1fr}
@@ -405,9 +429,10 @@
         padding:8px 8px 10px;
       }
       .spotifySticky iframe{
-        height:76px;
+        height:84px;
       }
     }
+
     @media (max-width: 420px){
       .stats{grid-template-columns:1fr}
       .contactRow{grid-template-columns: 1fr;}
@@ -553,9 +578,8 @@
     <section id="media">
       <div class="h2">Instagram</div>
 
-      <div class="mediaGrid">
-        <!-- Instagram -->
-        <div class="card" style="padding:16px">
+      <div class="igWrap">
+        <div class="igCard">
           <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
             <span>Instagram</span>
             <span class="tiny">reel</span>
@@ -572,11 +596,30 @@
               </a>
             </blockquote>
           </div>
+        </div>
 
-          <div class="actions" style="margin-top:12px">
-            <a class="btn" href="https://www.instagram.com/miqelly_/?hl=en" target="_blank" rel="noopener">Instagram profil</a>
+        <div class="igCard">
+          <div class="embedHeader" style="border-bottom:0; padding:0 0 12px 0;">
+            <span>Instagram</span>
+            <span class="tiny">reel</span>
+          </div>
+
+          <div class="igBox">
+            <blockquote
+              class="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4"
+              data-instgrm-version="14"
+              style="background:#0f0f12; border:1px solid rgba(245,245,245,.12); border-radius:18px; margin:0; padding:12px;">
+              <a href="https://www.instagram.com/reel/DVEXYVijDtE/?igsh=Z282Yms4eGVzbnR4" target="_blank" rel="noopener" style="color:#b7b7b7;">
+                Pogledaj reel na Instagramu
+              </a>
+            </blockquote>
           </div>
         </div>
+      </div>
+
+      <div class="actions" style="margin-top:12px">
+        <a class="btn" href="https://www.instagram.com/miqelly_/?hl=en" target="_blank" rel="noopener">Instagram profil</a>
       </div>
     </section>
 
@@ -653,7 +696,7 @@
     <footer>
       <div class="card" style="box-shadow:none">
         <div style="display:flex;flex-direction:column;justify-content:center;gap:14px;flex-wrap:wrap;align-items:center;text-align:center">
-          <div class="brand" style="display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;">
+          <div style="font-weight:700;letter-spacing:.8px;text-transform:uppercase;display:flex;align-items:center;gap:10px;">
             <span class="tick" aria-hidden="true" style="margin-top:0;"></span>
             <span>MIQELLY</span>
           </div>
@@ -692,7 +735,7 @@
       <div class="embed">
         <iframe
           style="border-radius:12px"
-          src="https://open.spotify.com/embed/playlist/7BE8Mf84mu47Ip9ewnDqh6?utm_source=generator&theme=0"
+          src="https://open.spotify.com/embed/playlist/7BE8Mf84mu47Ip9ewnDqh6"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
           title="Spotify sticky player"
@@ -735,11 +778,12 @@
     });
   </script>
 
-  <!-- Instagram embed.js -->
   <script async src="https://www.instagram.com/embed.js"></script>
   <script>
     window.addEventListener('load', () => {
-      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+      if (window.instgrm && window.instgrm.Embeds) {
+        window.instgrm.Embeds.process();
+      }
     });
   </script>
 
