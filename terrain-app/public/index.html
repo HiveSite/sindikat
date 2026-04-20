@@ -13,7 +13,7 @@ body{margin:0;display:flex;height:100vh;}
 .panel{
  position:absolute;top:10px;left:10px;
  background:#111;color:#fff;padding:10px;border-radius:10px;
- z-index:999;
+ z-index:999;font-size:12px;
 }
 </style>
 </head>
@@ -22,7 +22,7 @@ body{margin:0;display:flex;height:100vh;}
 
 <div class="panel">
 <button onclick="generate()">Generate</button><br>
-Resolution <input id="res" type="range" min="20" max="80" value="40"><br>
+Res <input id="res" type="range" min="20" max="60" value="30"><br>
 Zoom <input id="zoom" type="range" min="10" max="13" value="11"><br>
 Height <input id="height" type="range" min="1" max="5" value="2"><br>
 Smooth <input id="smooth" type="range" min="0" max="3" value="1"><br>
@@ -41,6 +41,7 @@ Smooth <input id="smooth" type="range" min="0" max="3" value="1"><br>
 <script>
 let bounds=null,start,rect,currentMesh=null;
 
+// MAP
 const map=L.map('map').setView([42.44,19.26],11);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -70,7 +71,6 @@ renderer.setSize(window.innerWidth/2,window.innerHeight);
 viewer.appendChild(renderer.domElement);
 
 const controls=new THREE.OrbitControls(camera,renderer.domElement);
-
 scene.add(new THREE.DirectionalLight(0xffffff,1));
 
 function animate(){
@@ -80,72 +80,123 @@ function animate(){
 }
 animate();
 
-function loadOBJ(text){
- if(currentMesh) scene.remove(currentMesh);
-
- const geo=new THREE.BufferGeometry();
- const verts=[];
- const faces=[];
-
- text.split("\n").forEach(l=>{
-  if(l.startsWith("v ")){
-   let p=l.split(" ");
-   verts.push(p[1],p[2],p[3]);
-  }
-  if(l.startsWith("f ")){
-   let p=l.split(" ");
-   faces.push(p[1]-1,p[2]-1,p[3]-1);
-  }
- });
-
- geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
- geo.setIndex(faces);
- geo.computeVertexNormals();
-
- const mesh=new THREE.Mesh(
-  geo,
-  new THREE.MeshStandardMaterial({color:0x00ffcc})
- );
-
- scene.add(mesh);
- currentMesh=mesh;
+// TERRAIN
+function lngLatToTile(lng,lat,z){
+ let n=Math.pow(2,z);
+ return {
+  x:n*((lng+180)/360),
+  y:n*(1-Math.log(Math.tan(lat*Math.PI/180)+1/Math.cos(lat*Math.PI/180))/Math.PI)/2
+ };
 }
 
+function decode(r,g,b){
+ return (r*256+g+b/256)-32768;
+}
+
+async function getHeight(lat,lng,z){
+ const t=lngLatToTile(lng,lat,z);
+ const tx=Math.floor(t.x), ty=Math.floor(t.y);
+
+ const url=`https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${tx}/${ty}.png`;
+ const img=new Image();
+ img.crossOrigin="anonymous";
+ img.src=url;
+
+ await img.decode();
+
+ const c=document.createElement('canvas');
+ c.width=256;c.height=256;
+ const ctx=c.getContext('2d');
+ ctx.drawImage(img,0,0);
+
+ const px=Math.floor((t.x-tx)*256);
+ const py=Math.floor((t.y-ty)*256);
+
+ const d=ctx.getImageData(px,py,1,1).data;
+ return decode(d[0],d[1],d[2]);
+}
+
+// GENERATE
 async function generate(){
  if(!bounds){
   alert("select area");
   return;
  }
 
- const resVal=document.getElementById("res").value;
- const zoom=document.getElementById("zoom").value;
- const height=document.getElementById("height").value;
- const smooth=document.getElementById("smooth").value;
+ const res=parseInt(document.getElementById("res").value);
+ const zoom=parseInt(document.getElementById("zoom").value);
+ const heightScale=parseFloat(document.getElementById("height").value);
+ const smoothPasses=parseInt(document.getElementById("smooth").value);
 
- const r=await fetch('/generate',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({
-   bounds,
-   resolution:parseInt(resVal),
-   zoom:parseInt(zoom),
-   heightScale:parseFloat(height),
-   smoothPasses:parseInt(smooth)
-  })
- });
+ const sw=bounds.getSouthWest();
+ const ne=bounds.getNorthEast();
 
- const obj=await r.text();
- loadOBJ(obj);
+ let heights=[];
+
+ for(let y=0;y<res;y++){
+  const lat=ne.lat-(y/(res-1))*(ne.lat-sw.lat);
+
+  for(let x=0;x<res;x++){
+   const lng=sw.lng+(x/(res-1))*(ne.lng-sw.lng);
+   heights.push(await getHeight(lat,lng,zoom));
+  }
+ }
+
+ // SMOOTH
+ for(let s=0;s<smoothPasses;s++){
+  let temp=[...heights];
+  for(let y=1;y<res-1;y++){
+   for(let x=1;x<res-1;x++){
+    let sum=0,count=0;
+    for(let oy=-1;oy<=1;oy++){
+     for(let ox=-1;ox<=1;ox++){
+      sum+=heights[(y+oy)*res+(x+ox)];
+      count++;
+     }
+    }
+    temp[y*res+x]=sum/count;
+   }
+  }
+  heights=temp;
+ }
+
+ const min=Math.min(...heights);
+ const max=Math.max(...heights);
+ const scale=50/(max-min||1);
+
+ // BUILD MESH
+ if(currentMesh) scene.remove(currentMesh);
+
+ const geo=new THREE.PlaneGeometry(100,100,res-1,res-1);
+ geo.rotateX(-Math.PI/2);
+
+ const pos=geo.attributes.position;
+
+ for(let i=0;i<pos.count;i++){
+  pos.setY(i,(heights[i]-min)*scale*heightScale);
+ }
+
+ geo.computeVertexNormals();
+
+ currentMesh=new THREE.Mesh(
+  geo,
+  new THREE.MeshStandardMaterial({color:0x00ffcc})
+ );
+
+ scene.add(currentMesh);
 }
 
-// export OBJ
+// EXPORT OBJ
 function exportOBJ(){
  if(!currentMesh) return;
- let text='';
+
  const pos=currentMesh.geometry.attributes.position;
+ let text='';
+
  for(let i=0;i<pos.count;i++){
   text+=`v ${pos.getX(i)} ${pos.getY(i)} ${pos.getZ(i)}\n`;
  }
+
  const blob=new Blob([text]);
  const a=document.createElement('a');
  a.href=URL.createObjectURL(blob);
@@ -153,11 +204,13 @@ function exportOBJ(){
  a.click();
 }
 
-// export STL
+// EXPORT STL
 function exportSTL(){
  if(!currentMesh) return;
+
  const exporter=new THREE.STLExporter();
  const data=exporter.parse(currentMesh);
+
  const blob=new Blob([data]);
  const a=document.createElement('a');
  a.href=URL.createObjectURL(blob);
