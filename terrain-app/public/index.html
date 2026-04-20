@@ -815,103 +815,87 @@
     }
 
     function loadImage(url){
-  return new Promise((resolve,reject)=>{
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-
-    img.onload = ()=>resolve(img);
-
-    img.onerror = ()=>{
-      console.warn("Tile failed:", url);
-      resolve(null); // fallback
-    };
-
-    img.src = url;
-  });
-}
-
-   async function getTileData(z, x, y){
-  const key = `${z}/${x}/${y}`;
-  if(state.tileCache.has(key)) return state.tileCache.get(key);
-
-  const promise = (async()=>{
-    const url = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${x}/${y}.png`;
-
-    const img = await loadImage(url);
-
-    if(!img){
-      return { pixels: null }; // fallback
+      return new Promise((resolve)=>{
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = ()=>resolve(img);
+        img.onerror = ()=>{
+          console.warn("Tile failed:", url);
+          resolve(null);
+        };
+        img.src = url;
+      });
     }
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 256;
+    async function getTileData(z, x, y){
+      const key = `${z}/${x}/${y}`;
+      if(state.tileCache.has(key)) return state.tileCache.get(key);
 
-    const ctx = canvas.getContext('2d');
+      const promise = (async()=>{
+        const url = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${x}/${y}.png`;
+        const img = await loadImage(url);
 
-    try{
-      ctx.drawImage(img, 0, 0);
-      const pixels = ctx.getImageData(0, 0, 256, 256).data;
-      return { pixels };
-    }catch(e){
-      console.warn("Canvas blocked (CORS)");
-      return { pixels: null };
+        if(!img) return { pixels: null };
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 256;
+        canvas.height = 256;
+        const ctx = canvas.getContext('2d');
+
+        try{
+          ctx.drawImage(img, 0, 0);
+          const pixels = ctx.getImageData(0, 0, 256, 256).data;
+          return { pixels };
+        }catch(e){
+          console.warn("Canvas blocked (CORS)");
+          return { pixels: null };
+        }
+      })();
+
+      state.tileCache.set(key, promise);
+      return promise;
     }
-  })();
-
-  state.tileCache.set(key, promise);
-  return promise;
-}
 
     function pixelElevation(pixels, px, py){
-  if(!pixels){
-    return Math.random() * 20; // fallback terrain
-  }
-
-  const i = (py * 256 + px) * 4;
-  return (pixels[i] * 256 + pixels[i+1] + pixels[i+2]/256) - 32768;
-}
+      if(!pixels) return Math.random() * 20;
+      const i = (py * 256 + px) * 4;
+      return (pixels[i] * 256 + pixels[i+1] + pixels[i+2]/256) - 32768;
+    }
 
     async function buildHeightGrid(bounds, samples, zoom){
       const sw = bounds.getSouthWest();
       const ne = bounds.getNorthEast();
-
-      const points = [];
-      const neededTiles = new Map();
+      const heights = new Array(samples * samples);
 
       for(let y=0; y<samples; y++){
-        const lat = ne.lat - (y/(samples-1)) * (ne.lat - sw.lat);
+        const lat = ne.lat - (y/(samples-1))*(ne.lat-sw.lat);
+
         for(let x=0; x<samples; x++){
-          const lng = sw.lng + (x/(samples-1)) * (ne.lng - sw.lng);
-          const tile = lngLatToTile(lng, lat, zoom);
-          const tx = Math.floor(tile.x);
-          const ty = Math.floor(tile.y);
-          const px = Math.max(0, Math.min(255, Math.floor((tile.x - tx) * 256)));
-          const py = Math.max(0, Math.min(255, Math.floor((tile.y - ty) * 256)));
-          points.push({ tx, ty, px, py });
-          neededTiles.set(`${tx}/${ty}`, { tx, ty });
+          const lng = sw.lng + (x/(samples-1))*(ne.lng-sw.lng);
+
+          try{
+            const tile = lngLatToTile(lng, lat, zoom);
+            const tx = Math.floor(tile.x);
+            const ty = Math.floor(tile.y);
+            const px = Math.max(0, Math.min(255, Math.floor((tile.x - tx) * 256)));
+            const py = Math.max(0, Math.min(255, Math.floor((tile.y - ty) * 256)));
+
+            const tileData = await getTileData(zoom, tx, ty);
+            heights[y * samples + x] = pixelElevation(tileData.pixels, px, py);
+          }catch(e){
+            heights[y * samples + x] = Math.random() * 20;
+          }
         }
+
+        setStatus(`Building ${Math.round(((y + 1) / samples) * 100)}%`);
+        await new Promise(r => requestAnimationFrame(r));
       }
 
-      const tiles = {};
-      const list = [...neededTiles.values()];
-
-      for(let i=0; i<list.length; i++){
-        const t = list[i];
-        setStatus(`Loading terrain tiles ${i+1}/${list.length}`);
-        tiles[`${t.tx}/${t.ty}`] = await getTileData(zoom, t.tx, t.ty);
-      }
-
-      const heights = points.map((p, i)=>{
-        if(i % samples === 0){
-          const progress = Math.round((i / points.length) * 100);
-          setStatus(`Building relief ${progress}%`);
-        }
-        return pixelElevation(tiles[`${p.tx}/${p.ty}`].pixels, p.px, p.py);
-      });
-
-      setStatus('Building relief 100%');
-      return { gridSize:samples, heights, bounds };
+      return {
+        gridSize: samples,
+        heights,
+        bounds
+      };
     }
 
     function smoothHeights(gridSize, heights, passes){
@@ -1030,39 +1014,39 @@
     el.centerBtn.addEventListener('click', centerModel);
 
     async function generate3D(){
-  if(state.generating) return;
+      if(state.generating) return;
 
-  if(!state.bounds){
-    setStatus('Select area first');
-    return;
-  }
+      if(!state.bounds){
+        setStatus('Select area first');
+        return;
+      }
 
-  state.generating = true;
-  el.generateBtn.disabled = true;
+      state.generating = true;
+      el.generateBtn.disabled = true;
 
-  try{
-    setStatus("Starting generation...");
-    console.log("START GENERATE");
+      try{
+        setStatus("Starting generation...");
+        console.log("START GENERATE");
 
-    const samples = parseInt(el.resolutionSelect.value,10);
-    const zoom = parseInt(el.zoomSelect.value,10);
-    const reliefScale = parseFloat(el.heightScale.value);
-    const baseHeight = parseFloat(el.baseHeight.value);
+        const samples = parseInt(el.resolutionSelect.value,10);
+        const zoom = parseInt(el.zoomSelect.value,10);
+        const reliefScale = parseFloat(el.heightScale.value);
+        const baseHeight = parseFloat(el.baseHeight.value);
 
-    const gridData = await buildHeightGrid(state.bounds, samples, zoom);
-    state.lastGridData = gridData;
-    state.lastHeights = [...gridData.heights];
+        const gridData = await buildHeightGrid(state.bounds, samples, zoom);
+        state.lastGridData = gridData;
+        state.lastHeights = [...gridData.heights];
 
-    buildModel(gridData, state.lastHeights, reliefScale, baseHeight);
-    setStatus('3D model generated');
-  }catch(e){
-    console.error(e);
-    setStatus(`Terrain fetch failed: ${e.message}`);
-  }finally{
-    state.generating = false;
-    el.generateBtn.disabled = false;
-  }
-}
+        buildModel(gridData, state.lastHeights, reliefScale, baseHeight);
+        setStatus('3D model generated');
+      }catch(e){
+        console.error(e);
+        setStatus(`Terrain fetch failed: ${e.message}`);
+      }finally{
+        state.generating = false;
+        el.generateBtn.disabled = false;
+      }
+    }
 
     el.generateBtn.addEventListener('click', generate3D);
 
