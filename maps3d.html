@@ -3,131 +3,154 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Open Source 3D Map Generator</title>
+  <title>Terrain Studio</title>
 
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
-  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
 
   <style>
     :root {
-      --bg: #0e1116;
-      --panel: #171b22;
-      --panel-2: #1f2530;
-      --line: rgba(255,255,255,0.08);
-      --text: #f5f7fb;
-      --muted: #9ba6b5;
-      --accent: #5eead4;
-      --accent-2: #60a5fa;
-      --danger: #fb7185;
+      --bg: #070a0f;
+      --panel: rgba(13, 18, 27, 0.94);
+      --panel-soft: rgba(17, 24, 36, 0.92);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.14);
+      --text: #eef3fb;
+      --muted: #92a0b4;
+      --accent: #6ee7d8;
+      --accent-2: #78a8ff;
+      --danger: #ff6b8a;
       --radius: 18px;
-      --shadow: 0 16px 40px rgba(0,0,0,0.34);
+      --radius-lg: 24px;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
     }
 
     * { box-sizing: border-box; }
     html, body {
       margin: 0;
-      padding: 0;
       width: 100%;
       height: 100%;
-      background: var(--bg);
+      background: radial-gradient(circle at top left, #0d1624 0%, #070a0f 58%);
       color: var(--text);
       font-family: Inter, Arial, sans-serif;
-    }
-
-    body {
       overflow: hidden;
     }
 
-    .app {
-      display: grid;
-      grid-template-columns: 400px 1fr;
+    button, input, select { font: inherit; }
+
+    .shell {
       width: 100%;
       height: 100vh;
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 0;
     }
 
     .sidebar {
-      background: linear-gradient(180deg, #161a21 0%, #11151b 100%);
+      position: relative;
+      background: linear-gradient(180deg, rgba(12,17,25,0.98) 0%, rgba(8,11,17,0.98) 100%);
       border-right: 1px solid var(--line);
-      padding: 20px;
       overflow: auto;
+      padding: 18px;
     }
 
-    .content {
-      display: grid;
-      grid-template-rows: 48% 52%;
-      min-height: 0;
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 4px 4px 10px;
     }
 
-    .panel {
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 12px 30px rgba(120,168,255,0.22);
+      flex: 0 0 auto;
+    }
+
+    .brand-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin: 0 0 4px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      border: 1px solid rgba(110,231,216,0.18);
+      color: #c5fff8;
+      background: rgba(110,231,216,0.06);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .section {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
-    }
-
-    .sidebar .panel + .panel {
-      margin-top: 16px;
-    }
-
-    .title {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1.05;
-      margin: 0 0 10px;
-      letter-spacing: -0.03em;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-      margin: 0 0 18px;
-    }
-
-    .card {
       padding: 16px;
+      margin-bottom: 14px;
     }
 
-    .controls {
-      display: grid;
-      gap: 12px;
+    .section-title {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 14px;
+      font-weight: 800;
     }
 
     .field {
       display: grid;
       gap: 8px;
+      margin-bottom: 12px;
     }
+
+    .field:last-child { margin-bottom: 0; }
 
     .field label {
-      font-size: 13px;
-      font-weight: 700;
-      color: #dce3ef;
-    }
-
-    .hint {
       font-size: 12px;
-      color: var(--muted);
-      line-height: 1.45;
+      font-weight: 700;
+      color: #dfe7f4;
+      letter-spacing: 0.02em;
     }
 
-    input[type="text"],
-    input[type="number"],
-    select {
+    input[type="text"], select {
       width: 100%;
-      background: var(--panel-2);
-      color: var(--text);
+      height: 46px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 12px 14px;
+      background: var(--panel-soft);
+      color: var(--text);
+      padding: 0 14px;
       outline: none;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: rgba(120,168,255,0.5);
+      box-shadow: 0 0 0 3px rgba(120,168,255,0.14);
     }
 
     input[type="range"] {
@@ -135,313 +158,388 @@
       accent-color: var(--accent);
     }
 
-    .row {
+    .range-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: -2px;
+    }
+
+    .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
 
-    .btns {
+    .grid-3 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
 
     button {
-      cursor: pointer;
       border: 0;
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 14px;
+      height: 46px;
       font-weight: 800;
-      font-size: 14px;
-      transition: 0.18s ease;
+      cursor: pointer;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
     }
 
     button:hover { transform: translateY(-1px); }
     button:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
-      opacity: 0.55;
       transform: none;
+      box-shadow: none;
     }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #081018;
+      color: #09131d;
+      box-shadow: 0 14px 34px rgba(95, 185, 255, 0.18);
     }
 
     .btn-secondary {
-      background: #2a3240;
+      background: #1d2634;
       color: var(--text);
       border: 1px solid rgba(255,255,255,0.06);
     }
 
     .btn-danger {
-      background: #3a1f26;
-      color: #ffd7e0;
-      border: 1px solid rgba(251,113,133,0.18);
+      background: rgba(255,107,138,0.08);
+      color: #ffd5de;
+      border: 1px solid rgba(255,107,138,0.16);
     }
 
-    .map-wrap,
-    .viewer-wrap {
-      min-height: 0;
-      position: relative;
-      padding: 12px;
-    }
-
-    #map,
-    #viewer {
-      width: 100%;
-      height: 100%;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #0b1016;
-      border: 1px solid var(--line);
-    }
-
-    .section-title {
+    .mini-btn {
+      height: 38px;
+      border-radius: 12px;
       font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      margin: 0 0 10px;
-      font-weight: 800;
+      font-weight: 700;
     }
 
     .status {
+      min-height: 56px;
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
       padding: 12px 14px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
       font-size: 13px;
       line-height: 1.45;
-      color: #d9e2ef;
+      color: #deebff;
     }
 
-    .stat-grid {
+    .stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .stat {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 12px;
     }
 
     .stat .k {
-      font-size: 11px;
       color: var(--muted);
-      text-transform: uppercase;
+      font-size: 11px;
       letter-spacing: 0.08em;
+      text-transform: uppercase;
       margin-bottom: 6px;
+      font-weight: 700;
     }
 
     .stat .v {
       font-size: 15px;
       font-weight: 800;
+      color: var(--text);
     }
 
-    .inline-value {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: -4px;
+    .main {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 48% 52%;
+      gap: 0;
+      padding: 14px;
     }
 
-    .top-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 8px 10px;
-      background: rgba(94,234,212,0.08);
-      border: 1px solid rgba(94,234,212,0.22);
-      color: #bdfdf3;
-      font-size: 12px;
-      font-weight: 700;
+    .stage {
+      position: relative;
+      min-height: 0;
       margin-bottom: 14px;
     }
 
-    .viewer-toolbar {
+    .stage:last-child { margin-bottom: 0; }
+
+    .surface {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(11,18,29,0.85) 0%, rgba(8,11,17,0.95) 100%);
+      box-shadow: var(--shadow);
+    }
+
+    #map, #viewer {
+      width: 100%;
+      height: 100%;
+    }
+
+    .overlay-top {
       position: absolute;
-      top: 24px;
-      right: 24px;
-      z-index: 5;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      z-index: 500;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .overlay-card {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: rgba(9, 13, 19, 0.74);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .overlay-toolbar {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .mini {
-      padding: 8px 10px;
-      font-size: 12px;
-      border-radius: 10px;
-      background: rgba(18,24,34,0.88);
+    .overlay-chip {
+      border-radius: 12px;
+      padding: 9px 11px;
+      background: rgba(9, 13, 19, 0.74);
       border: 1px solid rgba(255,255,255,0.08);
-      color: var(--text);
+      backdrop-filter: blur(12px);
+      color: #e9f2ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .leaflet-control-container .leaflet-top.leaflet-left {
+      top: 74px;
+      left: 14px;
+    }
+
+    .leaflet-control-zoom,
+    .leaflet-draw {
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .leaflet-bar a,
+    .leaflet-draw-toolbar a,
+    .leaflet-draw-actions a {
+      background-color: rgba(12,17,25,0.92) !important;
+      color: #fff !important;
+      border: 1px solid rgba(255,255,255,0.08) !important;
       backdrop-filter: blur(10px);
     }
 
-    a.credit {
-      color: #9ed8ff;
-      text-decoration: none;
+    .leaflet-bar a:hover,
+    .leaflet-draw-toolbar a:hover,
+    .leaflet-draw-actions a:hover {
+      background-color: rgba(22,29,41,0.98) !important;
     }
 
-    @media (max-width: 1100px) {
-      .app {
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #101722;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 1180px) {
+      .shell {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
       }
-      .content {
-        grid-template-rows: 48vh 52vh;
-      }
+
       .sidebar {
         border-right: 0;
         border-bottom: 1px solid var(--line);
       }
+
+      .main {
+        grid-template-rows: 44vh 56vh;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar { padding: 12px; }
+      .main { padding: 12px; }
+      .grid-2, .grid-3, .stats {
+        grid-template-columns: 1fr;
+      }
+      .overlay-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .brand {
+        align-items: flex-start;
+      }
+      .badge { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="shell">
     <aside class="sidebar">
-      <div class="top-badge">Open source + free demo stack</div>
-      <h1 class="title">3D mapa iz selektovane oblasti</h1>
-      <p class="subtitle">
-        Označi pravougaonik ili poligon na mapi, generiši 3D teren, zatim ga malo doradi i eksportuj kao GLB ili STL.
-      </p>
-
-      <section class="panel card">
-        <p class="section-title">1. Lokacija i selekcija</p>
-        <div class="controls">
-          <div class="field">
-            <label for="searchInput">Pretraga lokacije</label>
-            <input id="searchInput" type="text" placeholder="npr. Podgorica, Lovćen, Kotor" />
-            <div class="btns">
-              <button id="searchBtn" class="btn-secondary">Pronađi</button>
-              <button id="clearSelectionBtn" class="btn-danger">Obriši selekciju</button>
-            </div>
-            <div class="hint">Pretraga koristi Nominatim (OpenStreetMap geocoding).</div>
+      <div class="brand">
+        <div style="display:flex; gap:12px; align-items:center; min-width:0;">
+          <div class="brand-mark"></div>
+          <div class="brand-copy">
+            <h1 class="brand-title">Terrain Studio</h1>
+            <p class="brand-subtitle">Map to 3D export</p>
           </div>
+        </div>
+        <div class="badge">Open source</div>
+      </div>
 
-          <div class="status" id="selectionInfo">
-            Nema selektovane oblasti. Na mapi gore lijevo izaberi alat i nacrtaj polygon ili rectangle.
-          </div>
+      <section class="section">
+        <div class="section-title">Search</div>
+        <div class="field">
+          <label for="searchInput">Location</label>
+          <input id="searchInput" type="text" placeholder="Search place" />
+        </div>
+        <div class="grid-2">
+          <button id="searchBtn" class="btn-secondary">Find</button>
+          <button id="fitSelectionBtn" class="btn-secondary">Fit Area</button>
         </div>
       </section>
 
-      <section class="panel card">
-        <p class="section-title">2. Generisanje terena</p>
-        <div class="controls">
-          <div class="row">
-            <div class="field">
-              <label for="datasetSelect">Elevation dataset</label>
-              <select id="datasetSelect">
-                <option value="eudem">EU-DEM (Evropa)</option>
-                <option value="mapzen">Mapzen (global)</option>
-                <option value="srtm30m">SRTM 30m (global)</option>
-                <option value="aster30m">ASTER 30m (global)</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="gridSize">Rezolucija mreže</label>
-              <select id="gridSize">
-                <option value="24">24 x 24</option>
-                <option value="32" selected>32 x 32</option>
-                <option value="40">40 x 40</option>
-                <option value="48">48 x 48</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="heightScale">Pojačanje visine</label>
-            <input id="heightScale" type="range" min="0.5" max="8" value="2.5" step="0.1" />
-            <div class="inline-value">Vrijednost: <span id="heightScaleValue">2.5</span>x</div>
-          </div>
-
-          <div class="field">
-            <label for="baseHeight">Visina postolja</label>
-            <input id="baseHeight" type="range" min="0" max="80" value="18" step="1" />
-            <div class="inline-value">Vrijednost: <span id="baseHeightValue">18</span></div>
-          </div>
-
-          <div class="btns">
-            <button id="generateBtn" class="btn-primary">Generiši 3D</button>
-            <button id="resetCameraBtn" class="btn-secondary">Reset kamera</button>
-          </div>
-          <div class="hint">
-            Veća rezolucija daje ljepši model, ali traži više elevation upita i više memorije.
-          </div>
+      <section class="section">
+        <div class="section-title">Build</div>
+        <div class="field">
+          <label for="datasetSelect">Dataset</label>
+          <select id="datasetSelect">
+            <option value="eudem" selected>EU-DEM</option>
+            <option value="mapzen">Mapzen</option>
+            <option value="srtm30m">SRTM 30m</option>
+            <option value="aster30m">ASTER 30m</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="gridSize">Resolution</label>
+          <select id="gridSize">
+            <option value="24">24 × 24</option>
+            <option value="32">32 × 32</option>
+            <option value="40" selected>40 × 40</option>
+            <option value="48">48 × 48</option>
+            <option value="56">56 × 56</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="heightScale">Relief</label>
+          <input id="heightScale" type="range" min="0.5" max="8" value="2.8" step="0.1" />
+          <div class="range-row"><span>Scale</span><strong id="heightScaleValue">2.8x</strong></div>
+        </div>
+        <div class="field">
+          <label for="baseHeight">Base</label>
+          <input id="baseHeight" type="range" min="0" max="100" value="20" step="1" />
+          <div class="range-row"><span>Height</span><strong id="baseHeightValue">20</strong></div>
+        </div>
+        <div class="grid-2">
+          <button id="generateBtn" class="btn-primary">Generate</button>
+          <button id="clearSelectionBtn" class="btn-danger">Clear</button>
         </div>
       </section>
 
-      <section class="panel card">
-        <p class="section-title">3. Uređivanje modela</p>
-        <div class="controls">
-          <div class="field">
-            <label for="smoothStrength">Smoothing</label>
-            <input id="smoothStrength" type="range" min="0" max="5" value="1" step="1" />
-            <div class="inline-value">Iteracija: <span id="smoothStrengthValue">1</span></div>
-          </div>
-
-          <div class="row">
-            <button id="applySmoothBtn" class="btn-secondary">Primijeni smoothing</button>
-            <button id="toggleWireframeBtn" class="btn-secondary">Wireframe</button>
-          </div>
-
-          <div class="row">
-            <button id="exportGLBBtn" class="btn-primary" disabled>Export GLB</button>
-            <button id="exportSTLBtn" class="btn-primary" disabled>Export STL</button>
-          </div>
-
-          <div class="hint">
-            Ova verzija radi jednostavan terrain mesh editor u browseru. Za ozbiljniji sculpt/edit kasnije možeš dodati vertex brush ili server-side obradu.
-          </div>
+      <section class="section">
+        <div class="section-title">Edit</div>
+        <div class="field">
+          <label for="smoothStrength">Smoothing</label>
+          <input id="smoothStrength" type="range" min="0" max="5" value="1" step="1" />
+          <div class="range-row"><span>Passes</span><strong id="smoothStrengthValue">1</strong></div>
+        </div>
+        <div class="grid-2">
+          <button id="applySmoothBtn" class="btn-secondary">Smooth</button>
+          <button id="toggleWireframeBtn" class="btn-secondary">Wireframe</button>
+        </div>
+        <div class="grid-2" style="margin-top:10px;">
+          <button id="resetCameraBtn" class="btn-secondary">Reset View</button>
+          <button id="regenerateBtn" class="btn-secondary">Rebuild</button>
         </div>
       </section>
 
-      <section class="panel card">
-        <p class="section-title">Status</p>
-        <div class="status" id="statusBox">Spremno.</div>
-        <div class="stat-grid">
-          <div class="stat">
-            <div class="k">Dataset</div>
-            <div class="v" id="datasetStat">—</div>
-          </div>
-          <div class="stat">
-            <div class="k">Tačaka</div>
-            <div class="v" id="samplesStat">—</div>
-          </div>
-          <div class="stat">
-            <div class="k">Min visina</div>
-            <div class="v" id="minStat">—</div>
-          </div>
-          <div class="stat">
-            <div class="k">Max visina</div>
-            <div class="v" id="maxStat">—</div>
-          </div>
+      <section class="section">
+        <div class="section-title">Export</div>
+        <div class="grid-2">
+          <button id="exportGLBBtn" class="btn-primary" disabled>GLB</button>
+          <button id="exportSTLBtn" class="btn-primary" disabled>STL</button>
         </div>
-        <p class="hint" style="margin-top: 12px;">
-          Demo koristi open-source biblioteke i otvorene servise. Za ozbiljan sajt preporuka je da sam hostuješ tile i elevation servise.
-        </p>
+        <div class="grid-2" style="margin-top:10px;">
+          <button id="captureBtn" class="btn-secondary">PNG</button>
+          <button id="centerModelBtn" class="btn-secondary">Center</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Status</div>
+        <div id="statusBox" class="status">Ready</div>
+        <div class="stats">
+          <div class="stat"><div class="k">Dataset</div><div class="v" id="datasetStat">—</div></div>
+          <div class="stat"><div class="k">Samples</div><div class="v" id="samplesStat">—</div></div>
+          <div class="stat"><div class="k">Min</div><div class="v" id="minStat">—</div></div>
+          <div class="stat"><div class="k">Max</div><div class="v" id="maxStat">—</div></div>
+        </div>
       </section>
     </aside>
 
-    <main class="content">
-      <div class="map-wrap">
-        <div id="map"></div>
-      </div>
-      <div class="viewer-wrap">
-        <div class="viewer-toolbar">
-          <div class="mini">Lijevi klik: rotacija</div>
-          <div class="mini">Desni klik: pomjeranje</div>
-          <div class="mini">Scroll: zoom</div>
+    <main class="main">
+      <section class="stage">
+        <div class="surface">
+          <div class="overlay-top">
+            <div class="overlay-card" id="selectionMeta">No selection</div>
+            <div class="overlay-toolbar">
+              <div class="overlay-chip" id="locationMeta">—</div>
+            </div>
+          </div>
+          <div id="map"></div>
         </div>
-        <div id="viewer"></div>
-      </div>
+      </section>
+
+      <section class="stage">
+        <div class="surface">
+          <div class="overlay-top">
+            <div class="overlay-card">3D Preview</div>
+            <div class="overlay-toolbar">
+              <div class="overlay-chip">Orbit</div>
+              <div class="overlay-chip">Pan</div>
+              <div class="overlay-chip">Zoom</div>
+            </div>
+          </div>
+          <div id="viewer"></div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -455,8 +553,67 @@
     import { GLTFExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/GLTFExporter.js';
     import { STLExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/STLExporter.js';
 
-    const map = L.map('map', { zoomControl: true }).setView([42.441, 19.262], 11);
+    const els = {
+      searchInput: document.getElementById('searchInput'),
+      searchBtn: document.getElementById('searchBtn'),
+      fitSelectionBtn: document.getElementById('fitSelectionBtn'),
+      clearSelectionBtn: document.getElementById('clearSelectionBtn'),
+      datasetSelect: document.getElementById('datasetSelect'),
+      gridSize: document.getElementById('gridSize'),
+      heightScale: document.getElementById('heightScale'),
+      heightScaleValue: document.getElementById('heightScaleValue'),
+      baseHeight: document.getElementById('baseHeight'),
+      baseHeightValue: document.getElementById('baseHeightValue'),
+      generateBtn: document.getElementById('generateBtn'),
+      smoothStrength: document.getElementById('smoothStrength'),
+      smoothStrengthValue: document.getElementById('smoothStrengthValue'),
+      applySmoothBtn: document.getElementById('applySmoothBtn'),
+      toggleWireframeBtn: document.getElementById('toggleWireframeBtn'),
+      resetCameraBtn: document.getElementById('resetCameraBtn'),
+      regenerateBtn: document.getElementById('regenerateBtn'),
+      exportGLBBtn: document.getElementById('exportGLBBtn'),
+      exportSTLBtn: document.getElementById('exportSTLBtn'),
+      captureBtn: document.getElementById('captureBtn'),
+      centerModelBtn: document.getElementById('centerModelBtn'),
+      statusBox: document.getElementById('statusBox'),
+      datasetStat: document.getElementById('datasetStat'),
+      samplesStat: document.getElementById('samplesStat'),
+      minStat: document.getElementById('minStat'),
+      maxStat: document.getElementById('maxStat'),
+      selectionMeta: document.getElementById('selectionMeta'),
+      locationMeta: document.getElementById('locationMeta'),
+      viewer: document.getElementById('viewer')
+    };
 
+    const state = {
+      selectedLayer: null,
+      selectedGeoJSON: null,
+      locationLabel: 'Podgorica',
+      terrainMesh: null,
+      baseMesh: null,
+      sceneGroup: null,
+      lastGridData: null,
+      lastHeights: null,
+      wireframe: false,
+      generating: false
+    };
+
+    function setStatus(message) {
+      els.statusBox.textContent = message;
+    }
+
+    function updateRangeLabels() {
+      els.heightScaleValue.textContent = `${parseFloat(els.heightScale.value).toFixed(1)}x`;
+      els.baseHeightValue.textContent = `${parseInt(els.baseHeight.value, 10)}`;
+      els.smoothStrengthValue.textContent = `${parseInt(els.smoothStrength.value, 10)}`;
+    }
+
+    updateRangeLabels();
+    els.heightScale.addEventListener('input', updateRangeLabels);
+    els.baseHeight.addEventListener('input', updateRangeLabels);
+    els.smoothStrength.addEventListener('input', updateRangeLabels);
+
+    const map = L.map('map', { zoomControl: true, preferCanvas: true }).setView([42.441, 19.262], 11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
@@ -477,189 +634,165 @@
         marker: false,
         polygon: {
           allowIntersection: false,
-          showArea: true,
           shapeOptions: {
-            color: '#5eead4',
-            weight: 2
+            color: '#6ee7d8',
+            weight: 2,
+            fillColor: '#6ee7d8',
+            fillOpacity: 0.08
           }
         },
         rectangle: {
           shapeOptions: {
-            color: '#60a5fa',
-            weight: 2
+            color: '#78a8ff',
+            weight: 2,
+            fillColor: '#78a8ff',
+            fillOpacity: 0.08
           }
         }
       }
     });
     map.addControl(drawControl);
 
-    const statusBox = document.getElementById('statusBox');
-    const selectionInfo = document.getElementById('selectionInfo');
-    const datasetStat = document.getElementById('datasetStat');
-    const samplesStat = document.getElementById('samplesStat');
-    const minStat = document.getElementById('minStat');
-    const maxStat = document.getElementById('maxStat');
-
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const clearSelectionBtn = document.getElementById('clearSelectionBtn');
-    const generateBtn = document.getElementById('generateBtn');
-    const resetCameraBtn = document.getElementById('resetCameraBtn');
-    const exportGLBBtn = document.getElementById('exportGLBBtn');
-    const exportSTLBtn = document.getElementById('exportSTLBtn');
-    const datasetSelect = document.getElementById('datasetSelect');
-    const gridSizeSelect = document.getElementById('gridSize');
-    const heightScaleInput = document.getElementById('heightScale');
-    const baseHeightInput = document.getElementById('baseHeight');
-    const smoothStrengthInput = document.getElementById('smoothStrength');
-    const applySmoothBtn = document.getElementById('applySmoothBtn');
-    const toggleWireframeBtn = document.getElementById('toggleWireframeBtn');
-    const heightScaleValue = document.getElementById('heightScaleValue');
-    const baseHeightValue = document.getElementById('baseHeightValue');
-    const smoothStrengthValue = document.getElementById('smoothStrengthValue');
-
-    let selectedLayer = null;
-    let selectedGeoJSON = null;
-    let terrainMesh = null;
-    let baseMesh = null;
-    let wireframeVisible = false;
-    let lastGrid = null;
-    let lastHeights = null;
-
-    function setStatus(message) {
-      statusBox.textContent = message;
+    function updateSelectionMeta() {
+      if (!state.selectedGeoJSON) {
+        els.selectionMeta.textContent = 'No selection';
+        return;
+      }
+      const bbox = turf.bbox(state.selectedGeoJSON);
+      const area = turf.area(state.selectedGeoJSON);
+      const km2 = area / 1_000_000;
+      els.selectionMeta.textContent = `${km2.toFixed(2)} km² · ${bbox.map(v => v.toFixed(4)).join(', ')}`;
     }
 
-    function updateRangeLabels() {
-      heightScaleValue.textContent = heightScaleInput.value;
-      baseHeightValue.textContent = baseHeightInput.value;
-      smoothStrengthValue.textContent = smoothStrengthInput.value;
-    }
-    updateRangeLabels();
-    heightScaleInput.addEventListener('input', updateRangeLabels);
-    baseHeightInput.addEventListener('input', updateRangeLabels);
-    smoothStrengthInput.addEventListener('input', updateRangeLabels);
-
-    map.on(L.Draw.Event.CREATED, function (event) {
-      if (selectedLayer) drawnItems.removeLayer(selectedLayer);
-      drawnItems.addLayer(event.layer);
-      selectedLayer = event.layer;
-      selectedGeoJSON = event.layer.toGeoJSON();
-      updateSelectionInfo();
-    });
-
-    map.on(L.Draw.Event.EDITED, function () {
-      drawnItems.eachLayer(layer => {
-        selectedLayer = layer;
-        selectedGeoJSON = layer.toGeoJSON();
-      });
-      updateSelectionInfo();
-    });
-
-    map.on(L.Draw.Event.DELETED, function () {
-      selectedLayer = null;
-      selectedGeoJSON = null;
-      selectionInfo.textContent = 'Nema selektovane oblasti. Na mapi gore lijevo izaberi alat i nacrtaj polygon ili rectangle.';
-    });
-
-    function updateSelectionInfo() {
-      if (!selectedGeoJSON) return;
-      const bbox = turf.bbox(selectedGeoJSON);
-      const areaSqM = turf.area(selectedGeoJSON);
-      selectionInfo.innerHTML = `
-        Selektovana oblast je spremna.<br>
-        <strong>BBOX:</strong> ${bbox.map(v => v.toFixed(5)).join(', ')}<br>
-        <strong>Površina:</strong> ${(areaSqM / 1000000).toFixed(2)} km²
-      `;
+    function storeSelection(layer) {
+      state.selectedLayer = layer;
+      state.selectedGeoJSON = layer.toGeoJSON();
+      updateSelectionMeta();
     }
 
-    clearSelectionBtn.addEventListener('click', () => {
+    map.on(L.Draw.Event.CREATED, event => {
       drawnItems.clearLayers();
-      selectedLayer = null;
-      selectedGeoJSON = null;
-      selectionInfo.textContent = 'Nema selektovane oblasti. Na mapi gore lijevo izaberi alat i nacrtaj polygon ili rectangle.';
-      setStatus('Selekcija obrisana.');
+      drawnItems.addLayer(event.layer);
+      storeSelection(event.layer);
+      setStatus('Area selected');
+    });
+
+    map.on(L.Draw.Event.EDITED, () => {
+      drawnItems.eachLayer(layer => storeSelection(layer));
+      setStatus('Area updated');
+    });
+
+    map.on(L.Draw.Event.DELETED, () => {
+      state.selectedLayer = null;
+      state.selectedGeoJSON = null;
+      updateSelectionMeta();
+      setStatus('Selection cleared');
+    });
+
+    els.clearSelectionBtn.addEventListener('click', () => {
+      drawnItems.clearLayers();
+      state.selectedLayer = null;
+      state.selectedGeoJSON = null;
+      updateSelectionMeta();
+      setStatus('Selection cleared');
+    });
+
+    els.fitSelectionBtn.addEventListener('click', () => {
+      if (!state.selectedLayer) return;
+      map.fitBounds(state.selectedLayer.getBounds(), { padding: [30, 30] });
     });
 
     async function geocodeLocation(query) {
-      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}`;
-      const response = await fetch(url, {
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      if (!response.ok) throw new Error('Greška kod pretrage lokacije.');
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
+      const response = await fetch(url, { headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('Search failed');
       return response.json();
     }
 
-    searchBtn.addEventListener('click', async () => {
-      const query = searchInput.value.trim();
+    async function searchLocation() {
+      const query = els.searchInput.value.trim();
       if (!query) {
-        setStatus('Unesi pojam za pretragu lokacije.');
+        setStatus('Enter location');
         return;
       }
+      setStatus('Searching');
       try {
-        setStatus('Tražim lokaciju...');
         const results = await geocodeLocation(query);
         if (!results.length) {
-          setStatus('Lokacija nije pronađena.');
+          setStatus('No result');
           return;
         }
-        const best = results[0];
-        map.setView([parseFloat(best.lat), parseFloat(best.lon)], 13);
-        setStatus(`Nađena lokacija: ${best.display_name}`);
+        const item = results[0];
+        state.locationLabel = item.display_name.split(',').slice(0, 2).join(', ');
+        els.locationMeta.textContent = state.locationLabel;
+        map.setView([parseFloat(item.lat), parseFloat(item.lon)], 13);
+        setStatus('Location found');
       } catch (error) {
         console.error(error);
-        setStatus('Pretraga nije uspjela. Provjeri konekciju ili probaj drugi naziv.');
+        setStatus('Search error');
       }
+    }
+
+    els.searchBtn.addEventListener('click', searchLocation);
+    els.searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') searchLocation();
     });
+    els.locationMeta.textContent = state.locationLabel;
 
-    const viewerEl = document.getElementById('viewer');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0b1016);
+    scene.background = new THREE.Color(0x09111a);
 
-    const camera = new THREE.PerspectiveCamera(55, viewerEl.clientWidth / viewerEl.clientHeight, 0.1, 5000);
-    camera.position.set(0, 120, 180);
+    const camera = new THREE.PerspectiveCamera(50, els.viewer.clientWidth / els.viewer.clientHeight, 0.1, 5000);
+    camera.position.set(160, 130, 180);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(viewerEl.clientWidth, viewerEl.clientHeight);
-    viewerEl.appendChild(renderer.domElement);
+    renderer.setSize(els.viewer.clientWidth, els.viewer.clientHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    els.viewer.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
     controls.target.set(0, 20, 0);
+    controls.minDistance = 40;
+    controls.maxDistance = 800;
 
-    const ambient = new THREE.AmbientLight(0xffffff, 1.8);
-    scene.add(ambient);
+    const hemi = new THREE.HemisphereLight(0xb7d2ff, 0x16202d, 1.4);
+    scene.add(hemi);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
-    dirLight.position.set(120, 180, 100);
-    scene.add(dirLight);
+    const dir1 = new THREE.DirectionalLight(0xffffff, 1.5);
+    dir1.position.set(160, 240, 120);
+    scene.add(dir1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x7dd3fc, 0.8);
-    dirLight2.position.set(-120, 80, -80);
-    scene.add(dirLight2);
+    const dir2 = new THREE.DirectionalLight(0x86b6ff, 0.9);
+    dir2.position.set(-120, 100, -140);
+    scene.add(dir2);
 
-    const gridHelper = new THREE.GridHelper(320, 24, 0x263041, 0x1c2432);
-    gridHelper.position.y = -0.01;
-    scene.add(gridHelper);
+    const floor = new THREE.Mesh(
+      new THREE.CircleGeometry(420, 80),
+      new THREE.MeshBasicMaterial({ color: 0x0d1624, transparent: true, opacity: 0.9 })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -0.2;
+    scene.add(floor);
 
-    const axesHelper = new THREE.AxesHelper(40);
-    scene.add(axesHelper);
+    const grid = new THREE.GridHelper(420, 28, 0x223147, 0x16202d);
+    grid.position.y = 0;
+    scene.add(grid);
 
     function resetCamera() {
-      camera.position.set(0, 120, 180);
+      camera.position.set(160, 130, 180);
       controls.target.set(0, 20, 0);
       controls.update();
     }
 
-    resetCameraBtn.addEventListener('click', resetCamera);
+    els.resetCameraBtn.addEventListener('click', resetCamera);
 
     window.addEventListener('resize', () => {
-      camera.aspect = viewerEl.clientWidth / viewerEl.clientHeight;
+      camera.aspect = els.viewer.clientWidth / els.viewer.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(viewerEl.clientWidth, viewerEl.clientHeight);
+      renderer.setSize(els.viewer.clientWidth, els.viewer.clientHeight);
     });
 
     function animate() {
@@ -669,111 +802,99 @@
     }
     animate();
 
-    function removeCurrentModel() {
-      if (terrainMesh) {
-        scene.remove(terrainMesh);
-        terrainMesh.geometry.dispose();
-        terrainMesh.material.dispose();
-        terrainMesh = null;
+    function clearModel() {
+      if (state.sceneGroup) {
+        scene.remove(state.sceneGroup);
+        state.sceneGroup.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+            else obj.material.dispose();
+          }
+        });
       }
-      if (baseMesh) {
-        scene.remove(baseMesh);
-        baseMesh.geometry.dispose();
-        baseMesh.material.dispose();
-        baseMesh = null;
-      }
-      exportGLBBtn.disabled = true;
-      exportSTLBtn.disabled = true;
+      state.sceneGroup = null;
+      state.terrainMesh = null;
+      state.baseMesh = null;
+      els.exportGLBBtn.disabled = true;
+      els.exportSTLBtn.disabled = true;
     }
 
-    function createGridPointsForPolygon(geojson, gridSize) {
+    function buildSamplingGrid(geojson, gridSize) {
       const bbox = turf.bbox(geojson);
       const [minLng, minLat, maxLng, maxLat] = bbox;
-      const polygon = geojson;
       const points = [];
-
       for (let y = 0; y < gridSize; y++) {
         for (let x = 0; x < gridSize; x++) {
           const lng = minLng + (x / (gridSize - 1)) * (maxLng - minLng);
           const lat = maxLat - (y / (gridSize - 1)) * (maxLat - minLat);
-          const pt = turf.point([lng, lat]);
-          const inside = turf.booleanPointInPolygon(pt, polygon, { ignoreBoundary: false });
-          points.push({ x, y, lat, lng, inside });
+          const point = turf.point([lng, lat]);
+          const inside = turf.booleanPointInPolygon(point, geojson, { ignoreBoundary: false });
+          points.push({ x, y, lng, lat, inside });
         }
       }
-
       return { bbox, points };
     }
 
     async function fetchElevations(dataset, points) {
       const chunkSize = 100;
-      const results = [];
-
+      const out = [];
       for (let i = 0; i < points.length; i += chunkSize) {
         const chunk = points.slice(i, i + chunkSize);
         const locations = chunk.map(p => `${p.lat},${p.lng}`).join('|');
         const url = `https://api.opentopodata.org/v1/${dataset}?locations=${encodeURIComponent(locations)}`;
-
         const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Elevation API nije vratila ispravan odgovor.');
-        }
+        if (!response.ok) throw new Error('Elevation unavailable');
         const data = await response.json();
-        if (!data.results) {
-          throw new Error('Elevation API odgovor nema results polje.');
-        }
-        results.push(...data.results);
+        if (!data.results) throw new Error('Invalid elevation data');
+        out.push(...data.results);
       }
-
-      return results;
+      return out;
     }
 
-    function fillOutsideValues(gridSize, heights, insideMask) {
-      const copy = [...heights];
-      for (let pass = 0; pass < 6; pass++) {
+    function fillNullHeights(gridSize, heights) {
+      let result = [...heights];
+      for (let pass = 0; pass < 8; pass++) {
+        const next = [...result];
         for (let y = 0; y < gridSize; y++) {
           for (let x = 0; x < gridSize; x++) {
             const i = y * gridSize + x;
-            if (insideMask[i]) continue;
-
+            if (result[i] !== null && Number.isFinite(result[i])) continue;
             const neighbors = [];
-            const dirs = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
-            for (const [dx, dy] of dirs) {
-              const nx = x + dx;
-              const ny = y + dy;
-              if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) continue;
-              const ni = ny * gridSize + nx;
-              const v = copy[ni];
-              if (Number.isFinite(v)) neighbors.push(v);
+            for (let oy = -1; oy <= 1; oy++) {
+              for (let ox = -1; ox <= 1; ox++) {
+                if (ox === 0 && oy === 0) continue;
+                const nx = x + ox;
+                const ny = y + oy;
+                if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) continue;
+                const ni = ny * gridSize + nx;
+                const v = result[ni];
+                if (v !== null && Number.isFinite(v)) neighbors.push(v);
+              }
             }
-            if (neighbors.length) {
-              copy[i] = neighbors.reduce((a, b) => a + b, 0) / neighbors.length;
-            }
+            if (neighbors.length) next[i] = neighbors.reduce((a, b) => a + b, 0) / neighbors.length;
           }
         }
+        result = next;
       }
-      return copy.map(v => Number.isFinite(v) ? v : 0);
+      const fallback = result.find(v => v !== null && Number.isFinite(v)) ?? 0;
+      return result.map(v => (v !== null && Number.isFinite(v) ? v : fallback));
     }
 
-    function smoothHeightGrid(gridSize, heights, iterations = 1) {
+    function smoothHeights(gridSize, heights, passes) {
       let current = [...heights];
-      for (let iter = 0; iter < iterations; iter++) {
+      for (let p = 0; p < passes; p++) {
         const next = [...current];
         for (let y = 1; y < gridSize - 1; y++) {
           for (let x = 1; x < gridSize - 1; x++) {
             const i = y * gridSize + x;
-            const neighbors = [
-              current[i],
-              current[i - 1],
-              current[i + 1],
-              current[i - gridSize],
-              current[i + gridSize],
-              current[i - gridSize - 1],
-              current[i - gridSize + 1],
-              current[i + gridSize - 1],
-              current[i + gridSize + 1],
-            ];
-            next[i] = neighbors.reduce((a, b) => a + b, 0) / neighbors.length;
+            const vals = [];
+            for (let oy = -1; oy <= 1; oy++) {
+              for (let ox = -1; ox <= 1; ox++) {
+                vals.push(current[(y + oy) * gridSize + (x + ox)]);
+              }
+            }
+            next[i] = vals.reduce((a, b) => a + b, 0) / vals.length;
           }
         }
         current = next;
@@ -781,121 +902,190 @@
       return current;
     }
 
-    function buildTerrainMesh(gridSize, heights, bbox, heightScale, baseHeight) {
-      removeCurrentModel();
-
-      const width = 140;
-      const depth = 140;
-      const geometry = new THREE.PlaneGeometry(width, depth, gridSize - 1, gridSize - 1);
-      geometry.rotateX(-Math.PI / 2);
-
-      const minH = Math.min(...heights);
-      const maxH = Math.max(...heights);
-      const relief = Math.max(1, maxH - minH);
-      const normalizedScale = 65 / relief;
-
-      const position = geometry.attributes.position;
-      for (let i = 0; i < position.count; i++) {
-        const h = heights[i];
-        const z = (h - minH) * normalizedScale * heightScale;
-        position.setY(i, z);
+    function buildMaskTexture(gridSize, points) {
+      const canvas = document.createElement('canvas');
+      canvas.width = gridSize;
+      canvas.height = gridSize;
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(gridSize, gridSize);
+      for (let i = 0; i < points.length; i++) {
+        const v = points[i].inside ? 255 : 0;
+        imageData.data[i * 4 + 0] = 255;
+        imageData.data[i * 4 + 1] = 255;
+        imageData.data[i * 4 + 2] = 255;
+        imageData.data[i * 4 + 3] = v;
       }
-      geometry.computeVertexNormals();
-
-      const material = new THREE.MeshStandardMaterial({
-        color: 0x89b8ff,
-        roughness: 0.82,
-        metalness: 0.05,
-        wireframe: wireframeVisible
-      });
-      terrainMesh = new THREE.Mesh(geometry, material);
-      scene.add(terrainMesh);
-
-      const baseGeometry = new THREE.BoxGeometry(width, baseHeight, depth);
-      const baseMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1a2230,
-        roughness: 0.95,
-        metalness: 0.02
-      });
-      baseMesh = new THREE.Mesh(baseGeometry, baseMaterial);
-      baseMesh.position.y = -baseHeight / 2;
-      scene.add(baseMesh);
-
-      controls.target.set(0, 18, 0);
-      controls.update();
-
-      exportGLBBtn.disabled = false;
-      exportSTLBtn.disabled = false;
-
-      datasetStat.textContent = datasetSelect.value;
-      samplesStat.textContent = `${gridSize * gridSize}`;
-      minStat.textContent = `${minH.toFixed(1)} m`;
-      maxStat.textContent = `${maxH.toFixed(1)} m`;
+      ctx.putImageData(imageData, 0, 0);
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      return texture;
     }
 
-    generateBtn.addEventListener('click', async () => {
-      if (!selectedGeoJSON) {
-        setStatus('Prvo označi oblast na mapi.');
+    function buildTerrainModel({ gridSize, points, heights, heightScale, baseHeight }) {
+      clearModel();
+
+      const width = 170;
+      const depth = 170;
+      const plane = new THREE.PlaneGeometry(width, depth, gridSize - 1, gridSize - 1);
+      plane.rotateX(-Math.PI / 2);
+
+      const min = Math.min(...heights);
+      const max = Math.max(...heights);
+      const relief = Math.max(1, max - min);
+      const normalization = 80 / relief;
+
+      const pos = plane.attributes.position;
+      for (let i = 0; i < pos.count; i++) {
+        const h = heights[i];
+        const y = (h - min) * normalization * heightScale;
+        pos.setY(i, y);
+      }
+      plane.computeVertexNormals();
+
+      const maskTexture = buildMaskTexture(gridSize, points);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x96c4ff,
+        roughness: 0.86,
+        metalness: 0.02,
+        transparent: true,
+        alphaMap: maskTexture,
+        side: THREE.DoubleSide,
+        wireframe: state.wireframe
+      });
+
+      const terrain = new THREE.Mesh(plane, material);
+
+      const base = new THREE.Mesh(
+        new THREE.BoxGeometry(width, baseHeight, depth),
+        new THREE.MeshStandardMaterial({ color: 0x182231, roughness: 0.96, metalness: 0.02 })
+      );
+      base.position.y = -baseHeight / 2;
+
+      const edge = new THREE.Mesh(
+        new THREE.BoxGeometry(width + 0.8, baseHeight + 0.6, depth + 0.8),
+        new THREE.MeshBasicMaterial({ color: 0x243247, transparent: true, opacity: 0.4 })
+      );
+      edge.position.y = -baseHeight / 2;
+
+      const group = new THREE.Group();
+      group.add(base, edge, terrain);
+      scene.add(group);
+
+      state.sceneGroup = group;
+      state.terrainMesh = terrain;
+      state.baseMesh = base;
+
+      els.datasetStat.textContent = els.datasetSelect.value;
+      els.samplesStat.textContent = `${gridSize * gridSize}`;
+      els.minStat.textContent = `${min.toFixed(1)} m`;
+      els.maxStat.textContent = `${max.toFixed(1)} m`;
+      els.exportGLBBtn.disabled = false;
+      els.exportSTLBtn.disabled = false;
+
+      centerModel();
+    }
+
+    function centerModel() {
+      if (!state.sceneGroup) return;
+      const box = new THREE.Box3().setFromObject(state.sceneGroup);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      controls.target.copy(center);
+      camera.position.set(center.x + size.x * 1.1, center.y + size.y * 1.2 + 70, center.z + size.z * 1.1);
+      controls.update();
+    }
+
+    els.centerModelBtn.addEventListener('click', centerModel);
+
+    async function generateModel() {
+      if (state.generating) return;
+      if (!state.selectedGeoJSON) {
+        setStatus('Draw an area first');
         return;
       }
 
+      state.generating = true;
+      els.generateBtn.disabled = true;
       try {
-        generateBtn.disabled = true;
-        setStatus('Pripremam grid tačke unutar selektovane oblasti...');
+        setStatus('Sampling terrain');
+        const gridSize = parseInt(els.gridSize.value, 10);
+        const dataset = els.datasetSelect.value;
+        const heightScale = parseFloat(els.heightScale.value);
+        const baseHeight = parseFloat(els.baseHeight.value);
 
-        const gridSize = parseInt(gridSizeSelect.value, 10);
-        const dataset = datasetSelect.value;
-        const heightScale = parseFloat(heightScaleInput.value);
-        const baseHeight = parseFloat(baseHeightInput.value);
-
-        const { bbox, points } = createGridPointsForPolygon(selectedGeoJSON, gridSize);
-        const insideMask = points.map(p => p.inside);
-
-        setStatus(`Preuzimam elevation podatke (${points.length} tačaka)...`);
-        const elevationResults = await fetchElevations(dataset, points);
-
-        let heights = points.map((p, idx) => {
-          const result = elevationResults[idx];
-          const value = result && result.elevation !== null ? Number(result.elevation) : null;
-          return p.inside ? value : null;
+        const gridData = buildSamplingGrid(state.selectedGeoJSON, gridSize);
+        const elevationResults = await fetchElevations(dataset, gridData.points);
+        const heightsRaw = gridData.points.map((p, i) => {
+          const v = elevationResults[i]?.elevation;
+          return p.inside && v !== null ? Number(v) : null;
         });
+        const heights = fillNullHeights(gridSize, heightsRaw);
 
-        heights = fillOutsideValues(gridSize, heights, insideMask);
-        lastHeights = [...heights];
-        lastGrid = { gridSize, bbox };
+        state.lastGridData = gridData;
+        state.lastHeights = [...heights];
 
-        setStatus('Gradim 3D mesh...');
-        buildTerrainMesh(gridSize, heights, bbox, heightScale, baseHeight);
-        setStatus('3D model uspješno generisan.');
+        buildTerrainModel({
+          gridSize,
+          points: gridData.points,
+          heights,
+          heightScale,
+          baseHeight
+        });
+        setStatus('Model generated');
       } catch (error) {
         console.error(error);
-        setStatus(`Greška: ${error.message}`);
+        setStatus(error.message || 'Generation failed');
       } finally {
-        generateBtn.disabled = false;
+        state.generating = false;
+        els.generateBtn.disabled = false;
       }
-    });
+    }
 
-    applySmoothBtn.addEventListener('click', () => {
-      if (!lastGrid || !lastHeights) {
-        setStatus('Prvo generiši model pa tek onda radi smoothing.');
+    els.generateBtn.addEventListener('click', generateModel);
+    els.regenerateBtn.addEventListener('click', () => {
+      if (!state.lastGridData || !state.lastHeights) {
+        setStatus('No model to rebuild');
         return;
       }
-      const iterations = parseInt(smoothStrengthInput.value, 10);
-      const heightScale = parseFloat(heightScaleInput.value);
-      const baseHeight = parseFloat(baseHeightInput.value);
-
-      setStatus('Primjenjujem smoothing...');
-      lastHeights = smoothHeightGrid(lastGrid.gridSize, lastHeights, iterations);
-      buildTerrainMesh(lastGrid.gridSize, lastHeights, lastGrid.bbox, heightScale, baseHeight);
-      setStatus('Smoothing završen.');
+      buildTerrainModel({
+        gridSize: state.lastGridData.points.length ** 0.5,
+        points: state.lastGridData.points,
+        heights: state.lastHeights,
+        heightScale: parseFloat(els.heightScale.value),
+        baseHeight: parseFloat(els.baseHeight.value)
+      });
+      setStatus('Model rebuilt');
     });
 
-    toggleWireframeBtn.addEventListener('click', () => {
-      wireframeVisible = !wireframeVisible;
-      if (terrainMesh) {
-        terrainMesh.material.wireframe = wireframeVisible;
+    els.applySmoothBtn.addEventListener('click', () => {
+      if (!state.lastGridData || !state.lastHeights) {
+        setStatus('No model to smooth');
+        return;
       }
-      setStatus(wireframeVisible ? 'Wireframe uključen.' : 'Wireframe isključen.');
+      const passes = parseInt(els.smoothStrength.value, 10);
+      if (passes === 0) {
+        setStatus('Smoothing set to 0');
+        return;
+      }
+      const gridSize = Math.round(Math.sqrt(state.lastHeights.length));
+      state.lastHeights = smoothHeights(gridSize, state.lastHeights, passes);
+      buildTerrainModel({
+        gridSize,
+        points: state.lastGridData.points,
+        heights: state.lastHeights,
+        heightScale: parseFloat(els.heightScale.value),
+        baseHeight: parseFloat(els.baseHeight.value)
+      });
+      setStatus('Smoothing applied');
+    });
+
+    els.toggleWireframeBtn.addEventListener('click', () => {
+      state.wireframe = !state.wireframe;
+      if (state.terrainMesh) state.terrainMesh.material.wireframe = state.wireframe;
+      setStatus(state.wireframe ? 'Wireframe on' : 'Wireframe off');
     });
 
     function downloadBlob(blob, filename) {
@@ -909,41 +1099,54 @@
       URL.revokeObjectURL(url);
     }
 
-    exportGLBBtn.addEventListener('click', () => {
-      if (!terrainMesh) {
-        setStatus('Nema modela za export.');
+    function exportGroup() {
+      if (!state.sceneGroup) return null;
+      return state.sceneGroup.clone(true);
+    }
+
+    els.exportGLBBtn.addEventListener('click', () => {
+      const group = exportGroup();
+      if (!group) {
+        setStatus('No model');
         return;
       }
-
-      setStatus('Pravim GLB export...');
+      setStatus('Preparing GLB');
       const exporter = new GLTFExporter();
-      const group = new THREE.Group();
-      group.add(terrainMesh.clone());
-      if (baseMesh) group.add(baseMesh.clone());
-
-      exporter.parse(group, (result) => {
+      exporter.parse(group, result => {
         const blob = new Blob([result], { type: 'model/gltf-binary' });
-        downloadBlob(blob, 'terrain-model.glb');
-        setStatus('GLB export završen.');
-      }, { binary: true });
+        downloadBlob(blob, 'terrain-studio.glb');
+        setStatus('GLB exported');
+      }, { binary: true, trs: false, onlyVisible: true });
     });
 
-    exportSTLBtn.addEventListener('click', () => {
-      if (!terrainMesh) {
-        setStatus('Nema modela za export.');
+    els.exportSTLBtn.addEventListener('click', () => {
+      const group = exportGroup();
+      if (!group) {
+        setStatus('No model');
         return;
       }
-
-      setStatus('Pravim STL export...');
+      setStatus('Preparing STL');
       const exporter = new STLExporter();
-      const group = new THREE.Group();
-      group.add(terrainMesh.clone());
-      if (baseMesh) group.add(baseMesh.clone());
-      const result = exporter.parse(group, { binary: true });
-      const blob = new Blob([result], { type: 'model/stl' });
-      downloadBlob(blob, 'terrain-model.stl');
-      setStatus('STL export završen.');
+      const output = exporter.parse(group, { binary: true });
+      const blob = new Blob([output], { type: 'model/stl' });
+      downloadBlob(blob, 'terrain-studio.stl');
+      setStatus('STL exported');
     });
+
+    els.captureBtn.addEventListener('click', () => {
+      renderer.render(scene, camera);
+      renderer.domElement.toBlob(blob => {
+        if (!blob) {
+          setStatus('PNG failed');
+          return;
+        }
+        downloadBlob(blob, 'terrain-studio.png');
+        setStatus('PNG exported');
+      }, 'image/png');
+    });
+
+    setStatus('Ready');
+    updateSelectionMeta();
   </script>
 </body>
 </html>
