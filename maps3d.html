@@ -9,347 +9,66 @@
 
   <style>
     :root{
-      --bg:#0a0d12;
-      --panel:#0f141d;
-      --panel-2:#171d28;
-      --line:rgba(255,255,255,.08);
-      --line-2:rgba(255,255,255,.12);
-      --text:#eef4fb;
-      --muted:#95a3b8;
-      --accent:#f2c94c;
-      --accent-dark:#2b2410;
-      --cyan:#7dd8ff;
-      --danger:#ff7a98;
-      --shadow:0 24px 60px rgba(0,0,0,.35);
-      --radius:22px;
+      --bg:#0a0d12;--panel:#0f141d;--panel-2:#171d28;--line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.12);
+      --text:#eef4fb;--muted:#95a3b8;--accent:#f2c94c;--danger:#ff7a98;--shadow:0 24px 60px rgba(0,0,0,.35);
     }
-
     *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      width:100%;
-      height:100%;
-      font-family:Inter,Arial,sans-serif;
-      background:radial-gradient(circle at top left,#111827 0%,#0a0d12 60%);
-      color:var(--text);
-      overflow:hidden;
-    }
+    html,body{margin:0;width:100%;height:100%;font-family:Inter,Arial,sans-serif;background:radial-gradient(circle at top left,#111827 0%,#0a0d12 60%);color:var(--text);overflow:hidden}
     button,input,select{font:inherit}
-    .app{
-      width:100%;
-      height:100vh;
-      display:grid;
-      grid-template-columns:390px 1fr;
-    }
-    .sidebar{
-      background:linear-gradient(180deg,rgba(15,20,29,.98),rgba(10,13,18,.98));
-      border-right:1px solid var(--line);
-      padding:18px;
-      overflow:auto;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:16px;
-    }
-    .brand-left{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
-    .logo{
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      background:linear-gradient(135deg,var(--accent),#ffe28a);
-      box-shadow:0 14px 30px rgba(242,201,76,.25);
-      flex:0 0 auto;
-    }
-    .brand h1{
-      margin:0;
-      font-size:22px;
-      line-height:1;
-      font-weight:800;
-      letter-spacing:-.03em;
-    }
-    .brand p{
-      margin:4px 0 0;
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
-    .pill{
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      color:#fff0b7;
-      background:rgba(242,201,76,.08);
-      border:1px solid rgba(242,201,76,.18);
-      white-space:nowrap;
-    }
-    .card{
-      background:rgba(15,20,29,.96);
-      border:1px solid var(--line);
-      border-radius:26px;
-      box-shadow:var(--shadow);
-      padding:16px;
-      margin-bottom:14px;
-    }
-    .section-title{
-      margin:0 0 14px;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.14em;
-      color:var(--muted);
-      text-transform:uppercase;
-    }
-    .field{
-      display:grid;
-      gap:8px;
-      margin-bottom:12px;
-    }
-    .field:last-child{margin-bottom:0}
-    .field label{
-      font-size:12px;
-      font-weight:700;
-      color:#dce6f4;
-    }
-    input[type="text"],select{
-      width:100%;
-      height:46px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:var(--panel-2);
-      color:var(--text);
-      padding:0 14px;
-      outline:none;
-    }
-    input[type="text"]:focus,select:focus{
-      border-color:rgba(125,216,255,.5);
-      box-shadow:0 0 0 3px rgba(125,216,255,.14);
-    }
-    input[type="range"]{
-      width:100%;
-      accent-color:var(--accent);
-    }
-    .range-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      font-size:12px;
-      color:var(--muted);
-    }
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-    button{
-      height:46px;
-      border:0;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:800;
-      transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease;
-    }
-    button:hover{transform:translateY(-1px)}
-    button:disabled{
-      opacity:.5;
-      cursor:not-allowed;
-      transform:none;
-      box-shadow:none;
-    }
-    .btn-primary{
-      background:linear-gradient(135deg,var(--accent),#ffe28a);
-      color:#111114;
-      box-shadow:0 14px 34px rgba(242,201,76,.18);
-    }
-    .btn-secondary{
-      background:#1c2431;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .btn-danger{
-      background:rgba(255,122,152,.08);
-      color:#ffd2dc;
-      border:1px solid rgba(255,122,152,.18);
-    }
-    .status{
-      min-height:56px;
-      padding:12px 14px;
-      border-radius:16px;
-      border:1px solid var(--line-2);
-      background:rgba(255,255,255,.03);
-      display:flex;
-      align-items:center;
-      font-size:13px;
-      line-height:1.45;
-      color:#dce8f8;
-    }
-    .stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-    .stat{
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:16px;
-      padding:12px;
-    }
-    .stat .k{
-      color:var(--muted);
-      font-size:11px;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin-bottom:6px;
-    }
-    .stat .v{
-      font-size:15px;
-      font-weight:800;
-    }
-    .main{
-      min-width:0;
-      min-height:0;
-      display:grid;
-      grid-template-rows:54% 46%;
-      gap:14px;
-      padding:14px;
-    }
-    .surface{
-      position:relative;
-      width:100%;
-      height:100%;
-      border-radius:28px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg,rgba(11,16,23,.9),rgba(8,11,17,.96));
-      box-shadow:var(--shadow);
-    }
-    #map,#viewer{
-      width:100%;
-      height:100%;
-    }
-    .overlay{
-      position:absolute;
-      top:18px;
-      left:18px;
-      right:18px;
-      z-index:500;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      pointer-events:none;
-    }
-    .overlay > *{
-      pointer-events:auto;
-    }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:16px;
-      background:rgba(10,14,20,.74);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(12px);
-      font-size:12px;
-      font-weight:800;
-      color:var(--text);
-    }
-    .toolbar{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .toolbar button{
-      height:42px;
-      padding:0 14px;
-      border-radius:12px;
-      font-size:12px;
-      font-weight:800;
-    }
-    .toolbar .active{
-      background:linear-gradient(135deg,var(--accent),#ffe28a);
-      color:#111114;
-    }
-    .preview-toolbar{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .preview-chip{
-      padding:10px 12px;
-      border-radius:12px;
-      background:rgba(10,14,20,.74);
-      border:1px solid rgba(255,255,255,.08);
-      font-size:12px;
-      font-weight:800;
-      color:var(--text);
-      backdrop-filter:blur(12px);
-    }
-
-    .leaflet-control-container .leaflet-top.leaflet-left{
-      top:76px;
-      left:14px;
-    }
-    .leaflet-control-zoom{
-      border:none !important;
-      box-shadow:none !important;
-    }
-    .leaflet-bar a{
-      background-color:rgba(12,17,25,.92)!important;
-      color:#fff!important;
-      border:1px solid rgba(255,255,255,.08)!important;
-      backdrop-filter:blur(10px);
-    }
-    .leaflet-bar a:hover{
-      background-color:rgba(22,29,41,.98)!important;
-    }
-
-    @media (max-width:1180px){
-      .app{
-        grid-template-columns:1fr;
-        grid-template-rows:auto 1fr;
-      }
-      .sidebar{
-        border-right:0;
-        border-bottom:1px solid var(--line);
-      }
-      .main{
-        grid-template-rows:48vh 52vh;
-      }
-    }
-    @media (max-width:760px){
-      .sidebar,.main{padding:12px}
-      .grid-2,.stats{grid-template-columns:1fr}
-      .overlay{
-        flex-direction:column;
-        align-items:stretch;
-      }
-      .pill{display:none}
-    }
+    .app{width:100%;height:100vh;display:grid;grid-template-columns:390px 1fr}
+    .sidebar{background:linear-gradient(180deg,rgba(15,20,29,.98),rgba(10,13,18,.98));border-right:1px solid var(--line);padding:18px;overflow:auto}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .brand-left{display:flex;align-items:center;gap:12px}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#ffe28a);box-shadow:0 14px 30px rgba(242,201,76,.25)}
+    .brand h1{margin:0;font-size:22px;line-height:1;font-weight:800;letter-spacing:-.03em}
+    .brand p{margin:4px 0 0;font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+    .pill{padding:8px 10px;border-radius:999px;font-size:11px;font-weight:800;color:#fff0b7;background:rgba(242,201,76,.08);border:1px solid rgba(242,201,76,.18);white-space:nowrap}
+    .card{background:rgba(15,20,29,.96);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+    .section-title{margin:0 0 14px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+    .field{display:grid;gap:8px;margin-bottom:12px}.field:last-child{margin-bottom:0}
+    .field label{font-size:12px;font-weight:700;color:#dce6f4}
+    input[type="text"],select{width:100%;height:46px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:var(--panel-2);color:var(--text);padding:0 14px;outline:none}
+    input[type="range"]{width:100%;accent-color:var(--accent)}
+    .range-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    button{height:46px;border:0;border-radius:14px;cursor:pointer;font-weight:800;transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease}
+    button:hover{transform:translateY(-1px)} button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),#ffe28a);color:#111114;box-shadow:0 14px 34px rgba(242,201,76,.18)}
+    .btn-secondary{background:#1c2431;color:var(--text);border:1px solid rgba(255,255,255,.06)}
+    .btn-danger{background:rgba(255,122,152,.08);color:#ffd2dc;border:1px solid rgba(255,122,152,.18)}
+    .status{min-height:56px;padding:12px 14px;border-radius:16px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);display:flex;align-items:center;font-size:13px;line-height:1.45;color:#dce8f8}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:12px}
+    .stat .k{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+    .stat .v{font-size:15px;font-weight:800}
+    .main{min-width:0;min-height:0;display:grid;grid-template-rows:54% 46%;gap:14px;padding:14px}
+    .surface{position:relative;width:100%;height:100%;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(11,16,23,.9),rgba(8,11,17,.96));box-shadow:var(--shadow)}
+    #map,#viewer{width:100%;height:100%}
+    .overlay{position:absolute;top:18px;left:18px;right:18px;z-index:500;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
+    .overlay>*{pointer-events:auto}
+    .tag{display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:rgba(10,14,20,.74);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px);font-size:12px;font-weight:800;color:var(--text)}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap}
+    .toolbar button{height:42px;padding:0 14px;border-radius:12px;font-size:12px;font-weight:800}
+    .preview-toolbar{display:flex;gap:8px;flex-wrap:wrap}
+    .preview-chip{padding:10px 12px;border-radius:12px;background:rgba(10,14,20,.74);border:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:800;color:var(--text);backdrop-filter:blur(12px)}
+    .map-selecting .leaflet-container{cursor:crosshair!important}
+    .map-moving .leaflet-container{cursor:grab!important}
+    .map-moving .leaflet-container:active{cursor:grabbing!important}
+    .leaflet-control-container .leaflet-top.leaflet-left{top:76px;left:14px}
+    .leaflet-control-zoom{border:none!important;box-shadow:none!important}
+    .leaflet-bar a{background-color:rgba(12,17,25,.92)!important;color:#fff!important;border:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(10px)}
+    .leaflet-bar a:hover{background-color:rgba(22,29,41,.98)!important}
+    @media (max-width:1180px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.main{grid-template-rows:48vh 52vh}}
+    @media (max-width:760px){.sidebar,.main{padding:12px}.grid-2,.stats{grid-template-columns:1fr}.overlay{flex-direction:column;align-items:stretch}.pill{display:none}}
   </style>
 </head>
-<body>
+<body class="map-moving">
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-left">
           <div class="logo"></div>
-          <div>
-            <h1>Terrain Studio</h1>
-            <p>Relief extract</p>
-          </div>
+          <div><h1>Terrain Studio</h1><p>Relief extract</p></div>
         </div>
         <div class="pill">Map → 3D</div>
       </div>
@@ -374,7 +93,6 @@
             <option value="32">32 × 32</option>
             <option value="48" selected>48 × 48</option>
             <option value="64">64 × 64</option>
-            <option value="80">80 × 80</option>
           </select>
         </div>
         <div class="field">
@@ -383,7 +101,6 @@
             <option value="10">Low</option>
             <option value="11">Medium</option>
             <option value="12" selected>High</option>
-            <option value="13">Ultra</option>
           </select>
         </div>
         <div class="field">
@@ -433,7 +150,7 @@
 
       <section class="card">
         <div class="section-title">Status</div>
-        <div id="statusBox" class="status">Ready</div>
+        <div id="statusBox" class="status">Map ready</div>
         <div class="stats">
           <div class="stat"><div class="k">Area</div><div class="v" id="areaStat">—</div></div>
           <div class="stat"><div class="k">Samples</div><div class="v" id="samplesStat">—</div></div>
@@ -448,8 +165,8 @@
         <div class="overlay">
           <div class="tag" id="selectionMeta">No selection</div>
           <div class="toolbar">
-            <button id="selectModeBtn" class="btn-secondary active">Select Area</button>
-            <button id="moveModeBtn" class="btn-secondary">Move Map</button>
+            <button id="selectModeBtn" class="btn-secondary">Select Box</button>
+            <button id="moveModeBtn" class="btn-primary">Move Map</button>
           </div>
         </div>
         <div id="map"></div>
@@ -459,7 +176,7 @@
         <div class="overlay">
           <div class="tag">3D Preview</div>
           <div class="preview-toolbar">
-            <div class="preview-chip" id="locationMeta">—</div>
+            <div class="preview-chip" id="locationMeta">Podgorica</div>
             <div class="preview-chip">Orbit</div>
             <div class="preview-chip">Zoom</div>
             <div class="preview-chip">Pan</div>
@@ -471,13 +188,12 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/exporters/GLTFExporter.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/exporters/STLExporter.js"></script>
 
-  <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
-    import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
-    import { GLTFExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/GLTFExporter.js';
-    import { STLExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/STLExporter.js';
-
+  <script>
     const el = {
       searchInput: document.getElementById('searchInput'),
       searchBtn: document.getElementById('searchBtn'),
@@ -513,27 +229,16 @@
     };
 
     const state = {
-      rect: null,
-      selectedBounds: null,
-      isSelecting: true,
-      dragStart: null,
-      dragActive: false,
-      generating: false,
-      wireframe: false,
-      locationLabel: 'Podgorica',
-      lastGridData: null,
-      lastHeights: null,
-      group: null,
-      terrainMesh: null,
-      baseMesh: null
+      rect: null, selectedBounds: null, isSelecting: false, dragStart: null, dragActive: false,
+      generating: false, wireframe: false, lastGridData: null, lastHeights: null,
+      group: null, terrainMesh: null, baseMesh: null
     };
 
     function setStatus(text){ el.statusBox.textContent = text; }
-
     function updateRangeLabels(){
       el.heightScaleValue.textContent = `${parseFloat(el.heightScale.value).toFixed(1)}x`;
-      el.baseHeightValue.textContent = `${parseInt(el.baseHeight.value, 10)}`;
-      el.smoothStrengthValue.textContent = `${parseInt(el.smoothStrength.value, 10)}`;
+      el.baseHeightValue.textContent = `${parseInt(el.baseHeight.value,10)}`;
+      el.smoothStrengthValue.textContent = `${parseInt(el.smoothStrength.value,10)}`;
     }
     updateRangeLabels();
     el.heightScale.addEventListener('input', updateRangeLabels);
@@ -541,180 +246,98 @@
     el.smoothStrength.addEventListener('input', updateRangeLabels);
 
     const map = L.map('map', { zoomControl:true }).setView([42.441, 19.262], 11);
-
-    const topoTiles = L.tileLayer(
-      'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-      {
-        maxZoom: 17,
-        subdomains: 'abc',
-        attribution: '&copy; OpenStreetMap contributors, SRTM | style: OpenTopoMap'
-      }
-    ).addTo(map);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
     function updateModeButtons(){
-      el.selectModeBtn.classList.toggle('active', state.isSelecting);
-      el.selectModeBtn.classList.toggle('btn-primary', state.isSelecting);
-      el.selectModeBtn.classList.toggle('btn-secondary', !state.isSelecting);
-      el.moveModeBtn.classList.toggle('active', !state.isSelecting);
-      el.moveModeBtn.classList.toggle('btn-primary', !state.isSelecting);
-      el.moveModeBtn.classList.toggle('btn-secondary', state.isSelecting);
-
+      el.selectModeBtn.className = state.isSelecting ? 'btn-primary' : 'btn-secondary';
+      el.moveModeBtn.className = state.isSelecting ? 'btn-secondary' : 'btn-primary';
       if(state.isSelecting){
         map.dragging.disable();
-        map.doubleClickZoom.disable();
-      }else{
+        document.body.classList.add('map-selecting');
+        document.body.classList.remove('map-moving');
+        setStatus('Selection mode');
+      } else {
         map.dragging.enable();
-        map.doubleClickZoom.enable();
+        document.body.classList.remove('map-selecting');
+        document.body.classList.add('map-moving');
+        setStatus('Move mode');
       }
     }
-
-    el.selectModeBtn.addEventListener('click', () => {
-      state.isSelecting = true;
-      updateModeButtons();
-    });
-
-    el.moveModeBtn.addEventListener('click', () => {
-      state.isSelecting = false;
-      updateModeButtons();
-    });
-
     updateModeButtons();
 
-    function formatBounds(bounds){
-      const sw = bounds.getSouthWest();
-      const ne = bounds.getNorthEast();
-      return `${sw.lat.toFixed(4)}, ${sw.lng.toFixed(4)} → ${ne.lat.toFixed(4)}, ${ne.lng.toFixed(4)}`;
-    }
+    el.selectModeBtn.addEventListener('click', ()=>{ state.isSelecting = true; updateModeButtons(); });
+    el.moveModeBtn.addEventListener('click', ()=>{ state.isSelecting = false; updateModeButtons(); });
 
     function boundsAreaKm2(bounds){
-      const sw = bounds.getSouthWest();
-      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
       const latMid = (sw.lat + ne.lat) / 2;
       const kmPerDegLat = 111.32;
       const kmPerDegLng = 111.32 * Math.cos(latMid * Math.PI / 180);
-      const width = Math.abs(ne.lng - sw.lng) * kmPerDegLng;
-      const height = Math.abs(ne.lat - sw.lat) * kmPerDegLat;
-      return width * height;
+      return Math.abs(ne.lng - sw.lng) * kmPerDegLng * Math.abs(ne.lat - sw.lat) * kmPerDegLat;
     }
 
     function updateSelectionUI(){
-      if(!state.selectedBounds){
-        el.selectionMeta.textContent = 'No selection';
-        el.areaStat.textContent = '—';
-        return;
-      }
+      if(!state.selectedBounds){ el.selectionMeta.textContent = 'No selection'; el.areaStat.textContent = '—'; return; }
+      const sw = state.selectedBounds.getSouthWest(), ne = state.selectedBounds.getNorthEast();
       const km2 = boundsAreaKm2(state.selectedBounds);
-      el.selectionMeta.textContent = `${km2.toFixed(2)} km² · ${formatBounds(state.selectedBounds)}`;
+      el.selectionMeta.textContent = `${km2.toFixed(2)} km² · ${sw.lat.toFixed(4)}, ${sw.lng.toFixed(4)} → ${ne.lat.toFixed(4)}, ${ne.lng.toFixed(4)}`;
       el.areaStat.textContent = `${km2.toFixed(2)} km²`;
     }
 
     function clearSelection(){
-      if(state.rect){
-        map.removeLayer(state.rect);
-        state.rect = null;
-      }
-      state.selectedBounds = null;
-      updateSelectionUI();
-      setStatus('Selection cleared');
+      if(state.rect){ map.removeLayer(state.rect); state.rect = null; }
+      state.selectedBounds = null; updateSelectionUI(); setStatus('Selection cleared');
     }
-
     el.clearSelectionBtn.addEventListener('click', clearSelection);
-
-    function startRectangleSelection(latlng){
-      state.dragStart = latlng;
-      state.dragActive = true;
-      if(state.rect){
-        map.removeLayer(state.rect);
-      }
-      state.rect = L.rectangle([latlng, latlng], {
-        color:'#f2c94c',
-        weight:2,
-        fillColor:'#f2c94c',
-        fillOpacity:.08
-      }).addTo(map);
-    }
-
-    function updateRectangleSelection(latlng){
-      if(!state.dragStart || !state.rect) return;
-      state.rect.setBounds(L.latLngBounds(state.dragStart, latlng));
-    }
-
-    function finishRectangleSelection(){
-      if(!state.rect){
-        state.dragActive = false;
-        state.dragStart = null;
-        return;
-      }
-      state.selectedBounds = state.rect.getBounds();
-      state.dragActive = false;
-      state.dragStart = null;
-      updateSelectionUI();
-      setStatus('Area selected');
-    }
 
     map.on('mousedown', e => {
       if(!state.isSelecting) return;
-      startRectangleSelection(e.latlng);
+      state.dragStart = e.latlng;
+      state.dragActive = true;
+      if(state.rect) map.removeLayer(state.rect);
+      state.rect = L.rectangle([e.latlng, e.latlng], { color:'#f2c94c', weight:2, fillColor:'#f2c94c', fillOpacity:.08 }).addTo(map);
     });
-
     map.on('mousemove', e => {
-      if(!state.isSelecting || !state.dragActive) return;
-      updateRectangleSelection(e.latlng);
+      if(!state.isSelecting || !state.dragActive || !state.rect) return;
+      state.rect.setBounds(L.latLngBounds(state.dragStart, e.latlng));
     });
+    function finishSelection(){
+      if(!state.dragActive) return;
+      state.dragActive = false;
+      state.selectedBounds = state.rect ? state.rect.getBounds() : null;
+      updateSelectionUI();
+      if(state.selectedBounds) setStatus('Area selected');
+    }
+    map.on('mouseup', finishSelection);
+    map.on('mouseout', finishSelection);
 
-    map.on('mouseup', () => {
-      if(!state.isSelecting || !state.dragActive) return;
-      finishRectangleSelection();
-    });
+    el.fitSelectionBtn.addEventListener('click', () => { if(state.selectedBounds) map.fitBounds(state.selectedBounds, { padding:[30,30] }); });
 
-    map.on('mouseout', () => {
-      if(!state.isSelecting || !state.dragActive) return;
-      finishRectangleSelection();
-    });
-
-    el.fitSelectionBtn.addEventListener('click', () => {
-      if(state.selectedBounds){
-        map.fitBounds(state.selectedBounds, { padding:[30,30] });
-      }
-    });
-
-    async function searchPlace(query){
-      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
+    async function searchPlace(q){
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(q)}`;
       const r = await fetch(url, { headers:{ 'Accept':'application/json' } });
       if(!r.ok) throw new Error('Search failed');
       return r.json();
     }
-
     async function doSearch(){
       const q = el.searchInput.value.trim();
-      if(!q){
-        setStatus('Enter location');
-        return;
-      }
+      if(!q){ setStatus('Enter location'); return; }
       setStatus('Searching');
       try{
         const res = await searchPlace(q);
-        if(!res.length){
-          setStatus('No result');
-          return;
-        }
+        if(!res.length){ setStatus('No result'); return; }
         const item = res[0];
-        state.locationLabel = item.display_name.split(',').slice(0,2).join(', ');
-        el.locationMeta.textContent = state.locationLabel;
+        el.locationMeta.textContent = item.display_name.split(',').slice(0,2).join(', ');
         map.setView([parseFloat(item.lat), parseFloat(item.lon)], 12);
         setStatus('Location found');
-      }catch(err){
-        console.error(err);
-        setStatus('Search error');
-      }
+      }catch(e){ console.error(e); setStatus('Search error'); }
     }
-
     el.searchBtn.addEventListener('click', doSearch);
-    el.searchInput.addEventListener('keydown', e => {
-      if(e.key === 'Enter') doSearch();
-    });
-    el.locationMeta.textContent = state.locationLabel;
+    el.searchInput.addEventListener('keydown', e => { if(e.key === 'Enter') doSearch(); });
 
+    // THREE
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x09111a);
 
@@ -724,57 +347,25 @@
     const renderer = new THREE.WebGLRenderer({ antialias:true, preserveDrawingBuffer:true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(el.viewer.clientWidth, el.viewer.clientHeight);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
     el.viewer.appendChild(renderer.domElement);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = .08;
-    controls.target.set(0, 25, 0);
-    controls.minDistance = 40;
-    controls.maxDistance = 800;
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; controls.dampingFactor = .08; controls.target.set(0, 25, 0);
+    controls.minDistance = 40; controls.maxDistance = 800;
 
     scene.add(new THREE.HemisphereLight(0xb7d2ff, 0x17202f, 1.45));
+    const d1 = new THREE.DirectionalLight(0xffffff, 1.5); d1.position.set(160,220,120); scene.add(d1);
+    const d2 = new THREE.DirectionalLight(0x90bfff, .9); d2.position.set(-120,100,-140); scene.add(d2);
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(420, 80), new THREE.MeshBasicMaterial({ color:0x0d1624, transparent:true, opacity:.9 }));
+    floor.rotation.x = -Math.PI/2; floor.position.y = -.2; scene.add(floor);
+    scene.add(new THREE.GridHelper(420, 28, 0x223147, 0x16202d));
 
-    const d1 = new THREE.DirectionalLight(0xffffff, 1.5);
-    d1.position.set(160, 220, 120);
-    scene.add(d1);
-
-    const d2 = new THREE.DirectionalLight(0x90bfff, .9);
-    d2.position.set(-120, 100, -140);
-    scene.add(d2);
-
-    const floor = new THREE.Mesh(
-      new THREE.CircleGeometry(420, 80),
-      new THREE.MeshBasicMaterial({ color:0x0d1624, transparent:true, opacity:.9 })
-    );
-    floor.rotation.x = -Math.PI / 2;
-    floor.position.y = -0.2;
-    scene.add(floor);
-
-    const grid = new THREE.GridHelper(420, 28, 0x223147, 0x16202d);
-    scene.add(grid);
-
-    function resetView(){
-      camera.position.set(170, 140, 190);
-      controls.target.set(0, 25, 0);
-      controls.update();
-    }
-
+    function resetView(){ camera.position.set(170,140,190); controls.target.set(0,25,0); controls.update(); }
     el.resetViewBtn.addEventListener('click', resetView);
 
-    function animate(){
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
+    function animate(){ requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
     animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = el.viewer.clientWidth / el.viewer.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(el.viewer.clientWidth, el.viewer.clientHeight);
-    });
+    window.addEventListener('resize', ()=>{ camera.aspect = el.viewer.clientWidth / el.viewer.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(el.viewer.clientWidth, el.viewer.clientHeight); });
 
     function lngLatToTile(lng, lat, z){
       const n = Math.pow(2, z);
@@ -783,304 +374,153 @@
       const y = n * (1 - (Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI)) / 2;
       return { x, y };
     }
-
-    function terrariumToElevation(r, g, b){
-      return (r * 256 + g + b / 256) - 32768;
-    }
-
+    function terrariumToElevation(r,g,b){ return (r * 256 + g + b / 256) - 32768; }
     const tileCache = new Map();
-
     function loadImage(url){
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = url;
-      });
+      return new Promise((resolve,reject)=>{ const img = new Image(); img.crossOrigin='anonymous'; img.onload=()=>resolve(img); img.onerror=reject; img.src=url; });
     }
-
-    async function getTileCanvas(z, x, y){
+    async function getTileCanvas(z,x,y){
       const key = `${z}/${x}/${y}`;
       if(tileCache.has(key)) return tileCache.get(key);
-
-      const promise = (async () => {
+      const p = (async()=>{
         const url = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${x}/${y}.png`;
         const img = await loadImage(url);
-        const canvas = document.createElement('canvas');
-        canvas.width = 256;
-        canvas.height = 256;
-        const ctx = canvas.getContext('2d', { willReadFrequently:true });
-        ctx.drawImage(img, 0, 0);
-        return { canvas, ctx };
+        const c = document.createElement('canvas'); c.width=256; c.height=256;
+        const ctx = c.getContext('2d', { willReadFrequently:true }); ctx.drawImage(img,0,0);
+        return { canvas:c, ctx };
       })();
-
-      tileCache.set(key, promise);
-      return promise;
+      tileCache.set(key, p);
+      return p;
     }
-
-    async function sampleElevation(lat, lng, z){
+    async function sampleElevation(lat,lng,z){
       const tile = lngLatToTile(lng, lat, z);
-      const tx = Math.floor(tile.x);
-      const ty = Math.floor(tile.y);
+      const tx = Math.floor(tile.x), ty = Math.floor(tile.y);
       const px = Math.max(0, Math.min(255, Math.floor((tile.x - tx) * 256)));
       const py = Math.max(0, Math.min(255, Math.floor((tile.y - ty) * 256)));
-
       const { ctx } = await getTileCanvas(z, tx, ty);
-      const data = ctx.getImageData(px, py, 1, 1).data;
-      return terrariumToElevation(data[0], data[1], data[2]);
+      const d = ctx.getImageData(px, py, 1, 1).data;
+      return terrariumToElevation(d[0], d[1], d[2]);
     }
-
     async function buildHeightGrid(bounds, samples, zoom){
-      const sw = bounds.getSouthWest();
-      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
       const heights = [];
-
-      for(let y = 0; y < samples; y++){
-        const rowLat = ne.lat - (y / (samples - 1)) * (ne.lat - sw.lat);
-        for(let x = 0; x < samples; x++){
-          const rowLng = sw.lng + (x / (samples - 1)) * (ne.lng - sw.lng);
-          const h = await sampleElevation(rowLat, rowLng, zoom);
-          heights.push(h);
+      for(let y=0;y<samples;y++){
+        const lat = ne.lat - (y/(samples-1)) * (ne.lat - sw.lat);
+        for(let x=0;x<samples;x++){
+          const lng = sw.lng + (x/(samples-1)) * (ne.lng - sw.lng);
+          heights.push(await sampleElevation(lat, lng, zoom));
         }
-        const progress = Math.round(((y + 1) / samples) * 100);
-        setStatus(`Building relief ${progress}%`);
+        setStatus(`Building relief ${Math.round(((y+1)/samples)*100)}%`);
       }
-
-      return {
-        gridSize: samples,
-        heights,
-        bounds
-      };
+      return { gridSize:samples, heights, bounds };
     }
-
     function smoothHeights(gridSize, heights, passes){
       let current = [...heights];
-      for(let p = 0; p < passes; p++){
+      for(let p=0;p<passes;p++){
         const next = [...current];
-        for(let y = 1; y < gridSize - 1; y++){
-          for(let x = 1; x < gridSize - 1; x++){
+        for(let y=1;y<gridSize-1;y++){
+          for(let x=1;x<gridSize-1;x++){
             const vals = [];
-            for(let oy = -1; oy <= 1; oy++){
-              for(let ox = -1; ox <= 1; ox++){
-                vals.push(current[(y + oy) * gridSize + (x + ox)]);
-              }
-            }
-            next[y * gridSize + x] = vals.reduce((a,b) => a + b, 0) / vals.length;
+            for(let oy=-1;oy<=1;oy++) for(let ox=-1;ox<=1;ox++) vals.push(current[(y+oy)*gridSize+(x+ox)]);
+            next[y*gridSize+x] = vals.reduce((a,b)=>a+b,0) / vals.length;
           }
         }
         current = next;
       }
       return current;
     }
-
     function clearModel(){
       if(state.group){
         scene.remove(state.group);
-        state.group.traverse(obj => {
-          if(obj.geometry) obj.geometry.dispose();
-          if(obj.material){
-            if(Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
-            else obj.material.dispose();
-          }
-        });
+        state.group.traverse(obj => { if(obj.geometry) obj.geometry.dispose(); if(obj.material){ if(Array.isArray(obj.material)) obj.material.forEach(m=>m.dispose()); else obj.material.dispose(); }});
       }
-      state.group = null;
-      state.terrainMesh = null;
-      state.baseMesh = null;
-      el.exportGLBBtn.disabled = true;
-      el.exportSTLBtn.disabled = true;
+      state.group = null; state.terrainMesh = null; state.baseMesh = null;
+      el.exportGLBBtn.disabled = true; el.exportSTLBtn.disabled = true;
     }
-
     function buildModel(gridData, heights, reliefScale, baseHeight){
       clearModel();
-
-      const gridSize = gridData.gridSize;
-      const width = 180;
-      const depth = 180;
-
-      const min = Math.min(...heights);
-      const max = Math.max(...heights);
-      const relief = Math.max(1, max - min);
-      const normalization = 90 / relief;
-
-      const geo = new THREE.PlaneGeometry(width, depth, gridSize - 1, gridSize - 1);
-      geo.rotateX(-Math.PI / 2);
-
+      const gridSize = gridData.gridSize, width = 180, depth = 180;
+      const min = Math.min(...heights), max = Math.max(...heights), relief = Math.max(1, max - min), normalization = 90 / relief;
+      const geo = new THREE.PlaneGeometry(width, depth, gridSize-1, gridSize-1); geo.rotateX(-Math.PI/2);
       const pos = geo.attributes.position;
-      for(let i = 0; i < pos.count; i++){
-        const y = (heights[i] - min) * normalization * reliefScale;
-        pos.setY(i, y);
-      }
+      for(let i=0;i<pos.count;i++) pos.setY(i, (heights[i]-min)*normalization*reliefScale);
       geo.computeVertexNormals();
-
-      const terrainMat = new THREE.MeshStandardMaterial({
-        color:0x9fd3ff,
-        roughness:.85,
-        metalness:.02,
-        wireframe: state.wireframe
-      });
-
-      const terrain = new THREE.Mesh(geo, terrainMat);
-
-      const base = new THREE.Mesh(
-        new THREE.BoxGeometry(width, baseHeight, depth),
-        new THREE.MeshStandardMaterial({ color:0x182231, roughness:.96, metalness:.02 })
-      );
-      base.position.y = -baseHeight / 2;
-
-      const edge = new THREE.Mesh(
-        new THREE.BoxGeometry(width + .8, baseHeight + .6, depth + .8),
-        new THREE.MeshBasicMaterial({ color:0x2b3a4f, transparent:true, opacity:.45 })
-      );
-      edge.position.y = -baseHeight / 2;
-
-      const group = new THREE.Group();
-      group.add(base, edge, terrain);
-      scene.add(group);
-
-      state.group = group;
-      state.terrainMesh = terrain;
-      state.baseMesh = base;
-
-      el.samplesStat.textContent = `${gridSize * gridSize}`;
-      el.minStat.textContent = `${min.toFixed(1)} m`;
-      el.maxStat.textContent = `${max.toFixed(1)} m`;
-      el.exportGLBBtn.disabled = false;
-      el.exportSTLBtn.disabled = false;
-
+      const terrain = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color:0x9fd3ff, roughness:.85, metalness:.02, wireframe:state.wireframe }));
+      const base = new THREE.Mesh(new THREE.BoxGeometry(width, baseHeight, depth), new THREE.MeshStandardMaterial({ color:0x182231, roughness:.96, metalness:.02 }));
+      base.position.y = -baseHeight/2;
+      const edge = new THREE.Mesh(new THREE.BoxGeometry(width+.8, baseHeight+.6, depth+.8), new THREE.MeshBasicMaterial({ color:0x2b3a4f, transparent:true, opacity:.45 }));
+      edge.position.y = -baseHeight/2;
+      const group = new THREE.Group(); group.add(base, edge, terrain); scene.add(group);
+      state.group = group; state.terrainMesh = terrain; state.baseMesh = base;
+      el.samplesStat.textContent = `${gridSize*gridSize}`; el.minStat.textContent = `${min.toFixed(1)} m`; el.maxStat.textContent = `${max.toFixed(1)} m`;
+      el.exportGLBBtn.disabled = false; el.exportSTLBtn.disabled = false;
       centerModel();
     }
-
     function centerModel(){
       if(!state.group) return;
-      const box = new THREE.Box3().setFromObject(state.group);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
+      const box = new THREE.Box3().setFromObject(state.group), center = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3());
       controls.target.copy(center);
-      camera.position.set(center.x + size.x * 1.1, center.y + size.y * 1.15 + 70, center.z + size.z * 1.1);
+      camera.position.set(center.x + size.x*1.1, center.y + size.y*1.15 + 70, center.z + size.z*1.1);
       controls.update();
     }
     el.centerBtn.addEventListener('click', centerModel);
 
     async function generate3D(){
       if(state.generating) return;
-      if(!state.selectedBounds){
-        setStatus('Select area first');
-        return;
-      }
-
-      state.generating = true;
-      el.generateBtn.disabled = true;
-
+      if(!state.selectedBounds){ setStatus('Select area first'); return; }
+      state.generating = true; el.generateBtn.disabled = true;
       try{
-        const samples = parseInt(el.resolutionSelect.value, 10);
-        const zoom = parseInt(el.zoomSelect.value, 10);
-        const reliefScale = parseFloat(el.heightScale.value);
-        const baseHeight = parseFloat(el.baseHeight.value);
-
+        const samples = parseInt(el.resolutionSelect.value,10), zoom = parseInt(el.zoomSelect.value,10), reliefScale = parseFloat(el.heightScale.value), baseHeight = parseFloat(el.baseHeight.value);
         setStatus('Fetching terrain');
         const gridData = await buildHeightGrid(state.selectedBounds, samples, zoom);
-        state.lastGridData = gridData;
-        state.lastHeights = [...gridData.heights];
-
+        state.lastGridData = gridData; state.lastHeights = [...gridData.heights];
         buildModel(gridData, state.lastHeights, reliefScale, baseHeight);
         setStatus('3D model generated');
-      }catch(err){
-        console.error(err);
-        setStatus('Terrain fetch failed');
-      }finally{
-        state.generating = false;
-        el.generateBtn.disabled = false;
-      }
+      }catch(e){ console.error(e); setStatus('Terrain fetch failed'); }
+      finally{ state.generating = false; el.generateBtn.disabled = false; }
     }
-
     el.generateBtn.addEventListener('click', generate3D);
-
-    el.smoothBtn.addEventListener('click', () => {
-      if(!state.lastGridData || !state.lastHeights){
-        setStatus('No model to smooth');
-        return;
-      }
-      const passes = parseInt(el.smoothStrength.value, 10);
-      if(passes === 0){
-        setStatus('Smoothing set to 0');
-        return;
-      }
+    el.smoothBtn.addEventListener('click', ()=>{
+      if(!state.lastGridData || !state.lastHeights){ setStatus('No model to smooth'); return; }
+      const passes = parseInt(el.smoothStrength.value,10);
+      if(passes === 0){ setStatus('Smoothing set to 0'); return; }
       state.lastHeights = smoothHeights(state.lastGridData.gridSize, state.lastHeights, passes);
       buildModel(state.lastGridData, state.lastHeights, parseFloat(el.heightScale.value), parseFloat(el.baseHeight.value));
       setStatus('Smoothing applied');
     });
-
-    el.rebuildBtn.addEventListener('click', () => {
-      if(!state.lastGridData || !state.lastHeights){
-        setStatus('No model to rebuild');
-        return;
-      }
+    el.rebuildBtn.addEventListener('click', ()=>{
+      if(!state.lastGridData || !state.lastHeights){ setStatus('No model to rebuild'); return; }
       buildModel(state.lastGridData, state.lastHeights, parseFloat(el.heightScale.value), parseFloat(el.baseHeight.value));
       setStatus('Model rebuilt');
     });
-
-    el.wireframeBtn.addEventListener('click', () => {
+    el.wireframeBtn.addEventListener('click', ()=>{
       state.wireframe = !state.wireframe;
-      if(state.terrainMesh){
-        state.terrainMesh.material.wireframe = state.wireframe;
-      }
+      if(state.terrainMesh) state.terrainMesh.material.wireframe = state.wireframe;
       setStatus(state.wireframe ? 'Wireframe on' : 'Wireframe off');
     });
-
     function downloadBlob(blob, filename){
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+      const url = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     }
-
-    el.exportGLBBtn.addEventListener('click', () => {
-      if(!state.group){
-        setStatus('No model');
-        return;
-      }
+    el.exportGLBBtn.addEventListener('click', ()=>{
+      if(!state.group){ setStatus('No model'); return; }
       setStatus('Preparing GLB');
-      const exporter = new GLTFExporter();
-      exporter.parse(state.group.clone(true), result => {
-        const blob = new Blob([result], { type:'model/gltf-binary' });
-        downloadBlob(blob, 'terrain-studio.glb');
-        setStatus('GLB exported');
-      }, { binary:true, onlyVisible:true });
+      const exporter = new THREE.GLTFExporter();
+      exporter.parse(state.group.clone(true), result => { downloadBlob(new Blob([result], { type:'model/gltf-binary' }), 'terrain-studio.glb'); setStatus('GLB exported'); }, { binary:true, onlyVisible:true });
     });
-
-    el.exportSTLBtn.addEventListener('click', () => {
-      if(!state.group){
-        setStatus('No model');
-        return;
-      }
+    el.exportSTLBtn.addEventListener('click', ()=>{
+      if(!state.group){ setStatus('No model'); return; }
       setStatus('Preparing STL');
-      const exporter = new STLExporter();
+      const exporter = new THREE.STLExporter();
       const output = exporter.parse(state.group.clone(true), { binary:true });
-      const blob = new Blob([output], { type:'model/stl' });
-      downloadBlob(blob, 'terrain-studio.stl');
-      setStatus('STL exported');
+      downloadBlob(new Blob([output], { type:'model/stl' }), 'terrain-studio.stl'); setStatus('STL exported');
     });
-
-    el.pngBtn.addEventListener('click', () => {
+    el.pngBtn.addEventListener('click', ()=>{
       renderer.render(scene, camera);
-      renderer.domElement.toBlob(blob => {
-        if(!blob){
-          setStatus('PNG failed');
-          return;
-        }
-        downloadBlob(blob, 'terrain-studio.png');
-        setStatus('PNG exported');
-      }, 'image/png');
+      renderer.domElement.toBlob(blob => { if(!blob){ setStatus('PNG failed'); return; } downloadBlob(blob, 'terrain-studio.png'); setStatus('PNG exported'); }, 'image/png');
     });
 
-    updateSelectionUI();
-    setStatus('Ready');
+    setStatus('Move mode');
   </script>
 </body>
 </html>
