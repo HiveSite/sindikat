@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="sr-ME">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Source 3D Map Generator</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
+  />
+
+  <style>
+    :root {
+      --bg: #0e1116;
+      --panel: #171b22;
+      --panel-2: #1f2530;
+      --line: rgba(255,255,255,0.08);
+      --text: #f5f7fb;
+      --muted: #9ba6b5;
+      --accent: #5eead4;
+      --accent-2: #60a5fa;
+      --danger: #fb7185;
+      --radius: 18px;
+      --shadow: 0 16px 40px rgba(0,0,0,0.34);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #161a21 0%, #11151b 100%);
+      border-right: 1px solid var(--line);
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .content {
+      display: grid;
+      grid-template-rows: 48% 52%;
+      min-height: 0;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar .panel + .panel {
+      margin-top: 16px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.05;
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0 0 18px;
+    }
+
+    .card {
+      padding: 16px;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #dce3ef;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 800;
+      font-size: 14px;
+      transition: 0.18s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #081018;
+    }
+
+    .btn-secondary {
+      background: #2a3240;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .btn-danger {
+      background: #3a1f26;
+      color: #ffd7e0;
+      border: 1px solid rgba(251,113,133,0.18);
+    }
+
+    .map-wrap,
+    .viewer-wrap {
+      min-height: 0;
+      position: relative;
+      padding: 12px;
+    }
+
+    #map,
+    #viewer {
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0b1016;
+      border: 1px solid var(--line);
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin: 0 0 10px;
+      font-weight: 800;
+    }
+
+    .status {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 13px;
+      line-height: 1.45;
+      color: #d9e2ef;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .stat .k {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .stat .v {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .inline-value {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: -4px;
+    }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: rgba(94,234,212,0.08);
+      border: 1px solid rgba(94,234,212,0.22);
+      color: #bdfdf3;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .viewer-toolbar {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 5;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini {
+      padding: 8px 10px;
+      font-size: 12px;
+      border-radius: 10px;
+      background: rgba(18,24,34,0.88);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      backdrop-filter: blur(10px);
+    }
+
+    a.credit {
+      color: #9ed8ff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 1100px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      .content {
+        grid-template-rows: 48vh 52vh;
+      }
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="top-badge">Open source + free demo stack</div>
+      <h1 class="title">3D mapa iz selektovane oblasti</h1>
+      <p class="subtitle">
+        Označi pravougaonik ili poligon na mapi, generiši 3D teren, zatim ga malo doradi i eksportuj kao GLB ili STL.
+      </p>
+
+      <section class="panel card">
+        <p class="section-title">1. Lokacija i selekcija</p>
+        <div class="controls">
+          <div class="field">
+            <label for="searchInput">Pretraga lokacije</label>
+            <input id="searchInput" type="text" placeholder="npr. Podgorica, Lovćen, Kotor" />
+            <div class="btns">
+              <button id="searchBtn" class="btn-secondary">Pronađi</button>
+              <button id="clearSelectionBtn" class="btn-danger">Obriši selekciju</button>
+            </div>
+            <div class="hint">Pretraga koristi Nominatim (OpenStreetMap geocoding).</div>
+          </div>
+
+          <div class="status" id="selectionInfo">
+            Nema selektovane oblasti. Na mapi gore lijevo izaberi alat i nacrtaj polygon ili rectangle.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel card">
+        <p class="section-title">2. Generisanje terena</p>
+        <div class="controls">
+          <div class="row">
+            <div class="field">
+              <label for="datasetSelect">Elevation dataset</label>
+              <select id="datasetSelect">
+                <option value="eudem">EU-DEM (Evropa)</option>
+                <option value="mapzen">Mapzen (global)</option>
+                <option value="srtm30m">SRTM 30m (global)</option>
+                <option value="aster30m">ASTER 30m (global)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="gridSize">Rezolucija mreže</label>
+              <select id="gridSize">
+                <option value="24">24 x 24</option>
+                <option value="32" selected>32 x 32</option>
+                <option value="40">40 x 40</option>
+                <option value="48">48 x 48</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="heightScale">Pojačanje visine</label>
+            <input id="heightScale" type="range" min="0.5" max="8" value="2.5" step="0.1" />
+            <div class="inline-value">Vrijednost: <span id="heightScaleValue">2.5</span>x</div>
+          </div>
+
+          <div class="field">
+            <label for="baseHeight">Visina postolja</label>
+            <input id="baseHeight" type="range" min="0" max="80" value="18" step="1" />
+            <div class="inline-value">Vrijednost: <span id="baseHeightValue">18</span></div>
+          </div>
+
+          <div class="btns">
+            <button id="generateBtn" class="btn-primary">Generiši 3D</button>
+            <button id="resetCameraBtn" class="btn-secondary">Reset kamera</button>
+          </div>
+          <div class="hint">
+            Veća rezolucija daje ljepši model, ali traži više elevation upita i više memorije.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel card">
+        <p class="section-title">3. Uređivanje modela</p>
+        <div class="controls">
+          <div class="field">
+            <label for="smoothStrength">Smoothing</label>
+            <input id="smoothStrength" type="range" min="0" max="5" value="1" step="1" />
+            <div class="inline-value">Iteracija: <span id="smoothStrengthValue">1</span></div>
+          </div>
+
+          <div class="row">
+            <button id="applySmoothBtn" class="btn-secondary">Primijeni smoothing</button>
+            <button id="toggleWireframeBtn" class="btn-secondary">Wireframe</button>
+          </div>
+
+          <div class="row">
+            <button id="exportGLBBtn" class="btn-primary" disabled>Export GLB</button>
+            <button id="exportSTLBtn" class="btn-primary" disabled>Export STL</button>
+          </div>
+
+          <div class="hint">
+            Ova verzija radi jednostavan terrain mesh editor u browseru. Za ozbiljniji sculpt/edit kasnije možeš dodati vertex brush ili server-side obradu.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel card">
+        <p class="section-title">Status</p>
+        <div class="status" id="statusBox">Spremno.</div>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="k">Dataset</div>
+            <div class="v" id="datasetStat">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">Tačaka</div>
+            <div class="v" id="samplesStat">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">Min visina</div>
+            <div class="v" id="minStat">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">Max visina</div>
+            <div class="v" id="maxStat">—</div>
+          </div>
+        </div>
+        <p class="hint" style="margin-top: 12px;">
+          Demo koristi open-source biblioteke i otvorene servise. Za ozbiljan sajt preporuka je da sam hostuješ tile i elevation servise.
+        </p>
+      </section>
+    </aside>
+
+    <main class="content">
+      <div class="map-wrap">
+        <div id="map"></div>
+      </div>
+      <div class="viewer-wrap">
+        <div class="viewer-toolbar">
+          <div class="mini">Lijevi klik: rotacija</div>
+          <div class="mini">Desni klik: pomjeranje</div>
+          <div class="mini">Scroll: zoom</div>
+        </div>
+        <div id="viewer"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7.1.0/turf.min.js"></script>
+
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
+    import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
+    import { GLTFExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/GLTFExporter.js';
+    import { STLExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/STLExporter.js';
+
+    const map = L.map('map', { zoomControl: true }).setView([42.441, 19.262], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    const drawControl = new L.Control.Draw({
+      edit: {
+        featureGroup: drawnItems,
+        remove: true
+      },
+      draw: {
+        polyline: false,
+        circle: false,
+        circlemarker: false,
+        marker: false,
+        polygon: {
+          allowIntersection: false,
+          showArea: true,
+          shapeOptions: {
+            color: '#5eead4',
+            weight: 2
+          }
+        },
+        rectangle: {
+          shapeOptions: {
+            color: '#60a5fa',
+            weight: 2
+          }
+        }
+      }
+    });
+    map.addControl(drawControl);
+
+    const statusBox = document.getElementById('statusBox');
+    const selectionInfo = document.getElementById('selectionInfo');
+    const datasetStat = document.getElementById('datasetStat');
+    const samplesStat = document.getElementById('samplesStat');
+    const minStat = document.getElementById('minStat');
+    const maxStat = document.getElementById('maxStat');
+
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const clearSelectionBtn = document.getElementById('clearSelectionBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const resetCameraBtn = document.getElementById('resetCameraBtn');
+    const exportGLBBtn = document.getElementById('exportGLBBtn');
+    const exportSTLBtn = document.getElementById('exportSTLBtn');
+    const datasetSelect = document.getElementById('datasetSelect');
+    const gridSizeSelect = document.getElementById('gridSize');
+    const heightScaleInput = document.getElementById('heightScale');
+    const baseHeightInput = document.getElementById('baseHeight');
+    const smoothStrengthInput = document.getElementById('smoothStrength');
+    const applySmoothBtn = document.getElementById('applySmoothBtn');
+    const toggleWireframeBtn = document.getElementById('toggleWireframeBtn');
+    const heightScaleValue = document.getElementById('heightScaleValue');
+    const baseHeightValue = document.getElementById('baseHeightValue');
+    const smoothStrengthValue = document.getElementById('smoothStrengthValue');
+
+    let selectedLayer = null;
+    let selectedGeoJSON = null;
+    let terrainMesh = null;
+    let baseMesh = null;
+    let wireframeVisible = false;
+    let lastGrid = null;
+    let lastHeights = null;
+
+    function setStatus(message) {
+      statusBox.textContent = message;
+    }
+
+    function updateRangeLabels() {
+      heightScaleValue.textContent = heightScaleInput.value;
+      baseHeightValue.textContent = baseHeightInput.value;
+      smoothStrengthValue.textContent = smoothStrengthInput.value;
+    }
+    updateRangeLabels();
+    heightScaleInput.addEventListener('input', updateRangeLabels);
+    baseHeightInput.addEventListener('input', updateRangeLabels);
+    smoothStrengthInput.addEventListener('input', updateRangeLabels);
+
+    map.on(L.Draw.Event.CREATED, function (event) {
+      if (selectedLayer) drawnItems.removeLayer(selectedLayer);
+      drawnItems.addLayer(event.layer);
+      selectedLayer = event.layer;
+      selectedGeoJSON = event.layer.toGeoJSON();
+      updateSelectionInfo();
+    });
+
+    map.on(L.Draw.Event.EDITED, function () {
+      drawnItems.eachLayer(layer => {
+        selectedLayer = layer;
+        selectedGeoJSON = layer.toGeoJSON();
+      });
+      updateSelectionInfo();
+    });
+
+    map.on(L.Draw.Event.DELETED, function () {
+      selectedLayer = null;
+      selectedGeoJSON = null;
+      selectionInfo.textContent = 'Nema selektovane oblasti. Na mapi gore lijevo izaberi alat i nacrtaj polygon ili rectangle.';
+    });
+
+    function updateSelectionInfo() {
+      if (!selectedGeoJSON) return;
+      const bbox = turf.bbox(selectedGeoJSON);
+      const areaSqM = turf.area(selectedGeoJSON);
+      selectionInfo.innerHTML = `
+        Selektovana oblast je spremna.<br>
+        <strong>BBOX:</strong> ${bbox.map(v => v.toFixed(5)).join(', ')}<br>
+        <strong>Površina:</strong> ${(areaSqM / 1000000).toFixed(2)} km²
+      `;
+    }
+
+    clearSelectionBtn.addEventListener('click', () => {
+      drawnItems.clearLayers();
+      selectedLayer = null;
+      selectedGeoJSON = null;
+      selectionInfo.textContent = 'Nema selektovane oblasti. Na mapi gore lijevo izaberi alat i nacrtaj polygon ili rectangle.';
+      setStatus('Selekcija obrisana.');
+    });
+
+    async function geocodeLocation(query) {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}`;
+      const response = await fetch(url, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      if (!response.ok) throw new Error('Greška kod pretrage lokacije.');
+      return response.json();
+    }
+
+    searchBtn.addEventListener('click', async () => {
+      const query = searchInput.value.trim();
+      if (!query) {
+        setStatus('Unesi pojam za pretragu lokacije.');
+        return;
+      }
+      try {
+        setStatus('Tražim lokaciju...');
+        const results = await geocodeLocation(query);
+        if (!results.length) {
+          setStatus('Lokacija nije pronađena.');
+          return;
+        }
+        const best = results[0];
+        map.setView([parseFloat(best.lat), parseFloat(best.lon)], 13);
+        setStatus(`Nađena lokacija: ${best.display_name}`);
+      } catch (error) {
+        console.error(error);
+        setStatus('Pretraga nije uspjela. Provjeri konekciju ili probaj drugi naziv.');
+      }
+    });
+
+    const viewerEl = document.getElementById('viewer');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b1016);
+
+    const camera = new THREE.PerspectiveCamera(55, viewerEl.clientWidth / viewerEl.clientHeight, 0.1, 5000);
+    camera.position.set(0, 120, 180);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(viewerEl.clientWidth, viewerEl.clientHeight);
+    viewerEl.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 20, 0);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 1.8);
+    scene.add(ambient);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    dirLight.position.set(120, 180, 100);
+    scene.add(dirLight);
+
+    const dirLight2 = new THREE.DirectionalLight(0x7dd3fc, 0.8);
+    dirLight2.position.set(-120, 80, -80);
+    scene.add(dirLight2);
+
+    const gridHelper = new THREE.GridHelper(320, 24, 0x263041, 0x1c2432);
+    gridHelper.position.y = -0.01;
+    scene.add(gridHelper);
+
+    const axesHelper = new THREE.AxesHelper(40);
+    scene.add(axesHelper);
+
+    function resetCamera() {
+      camera.position.set(0, 120, 180);
+      controls.target.set(0, 20, 0);
+      controls.update();
+    }
+
+    resetCameraBtn.addEventListener('click', resetCamera);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = viewerEl.clientWidth / viewerEl.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(viewerEl.clientWidth, viewerEl.clientHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    function removeCurrentModel() {
+      if (terrainMesh) {
+        scene.remove(terrainMesh);
+        terrainMesh.geometry.dispose();
+        terrainMesh.material.dispose();
+        terrainMesh = null;
+      }
+      if (baseMesh) {
+        scene.remove(baseMesh);
+        baseMesh.geometry.dispose();
+        baseMesh.material.dispose();
+        baseMesh = null;
+      }
+      exportGLBBtn.disabled = true;
+      exportSTLBtn.disabled = true;
+    }
+
+    function createGridPointsForPolygon(geojson, gridSize) {
+      const bbox = turf.bbox(geojson);
+      const [minLng, minLat, maxLng, maxLat] = bbox;
+      const polygon = geojson;
+      const points = [];
+
+      for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+          const lng = minLng + (x / (gridSize - 1)) * (maxLng - minLng);
+          const lat = maxLat - (y / (gridSize - 1)) * (maxLat - minLat);
+          const pt = turf.point([lng, lat]);
+          const inside = turf.booleanPointInPolygon(pt, polygon, { ignoreBoundary: false });
+          points.push({ x, y, lat, lng, inside });
+        }
+      }
+
+      return { bbox, points };
+    }
+
+    async function fetchElevations(dataset, points) {
+      const chunkSize = 100;
+      const results = [];
+
+      for (let i = 0; i < points.length; i += chunkSize) {
+        const chunk = points.slice(i, i + chunkSize);
+        const locations = chunk.map(p => `${p.lat},${p.lng}`).join('|');
+        const url = `https://api.opentopodata.org/v1/${dataset}?locations=${encodeURIComponent(locations)}`;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Elevation API nije vratila ispravan odgovor.');
+        }
+        const data = await response.json();
+        if (!data.results) {
+          throw new Error('Elevation API odgovor nema results polje.');
+        }
+        results.push(...data.results);
+      }
+
+      return results;
+    }
+
+    function fillOutsideValues(gridSize, heights, insideMask) {
+      const copy = [...heights];
+      for (let pass = 0; pass < 6; pass++) {
+        for (let y = 0; y < gridSize; y++) {
+          for (let x = 0; x < gridSize; x++) {
+            const i = y * gridSize + x;
+            if (insideMask[i]) continue;
+
+            const neighbors = [];
+            const dirs = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
+            for (const [dx, dy] of dirs) {
+              const nx = x + dx;
+              const ny = y + dy;
+              if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) continue;
+              const ni = ny * gridSize + nx;
+              const v = copy[ni];
+              if (Number.isFinite(v)) neighbors.push(v);
+            }
+            if (neighbors.length) {
+              copy[i] = neighbors.reduce((a, b) => a + b, 0) / neighbors.length;
+            }
+          }
+        }
+      }
+      return copy.map(v => Number.isFinite(v) ? v : 0);
+    }
+
+    function smoothHeightGrid(gridSize, heights, iterations = 1) {
+      let current = [...heights];
+      for (let iter = 0; iter < iterations; iter++) {
+        const next = [...current];
+        for (let y = 1; y < gridSize - 1; y++) {
+          for (let x = 1; x < gridSize - 1; x++) {
+            const i = y * gridSize + x;
+            const neighbors = [
+              current[i],
+              current[i - 1],
+              current[i + 1],
+              current[i - gridSize],
+              current[i + gridSize],
+              current[i - gridSize - 1],
+              current[i - gridSize + 1],
+              current[i + gridSize - 1],
+              current[i + gridSize + 1],
+            ];
+            next[i] = neighbors.reduce((a, b) => a + b, 0) / neighbors.length;
+          }
+        }
+        current = next;
+      }
+      return current;
+    }
+
+    function buildTerrainMesh(gridSize, heights, bbox, heightScale, baseHeight) {
+      removeCurrentModel();
+
+      const width = 140;
+      const depth = 140;
+      const geometry = new THREE.PlaneGeometry(width, depth, gridSize - 1, gridSize - 1);
+      geometry.rotateX(-Math.PI / 2);
+
+      const minH = Math.min(...heights);
+      const maxH = Math.max(...heights);
+      const relief = Math.max(1, maxH - minH);
+      const normalizedScale = 65 / relief;
+
+      const position = geometry.attributes.position;
+      for (let i = 0; i < position.count; i++) {
+        const h = heights[i];
+        const z = (h - minH) * normalizedScale * heightScale;
+        position.setY(i, z);
+      }
+      geometry.computeVertexNormals();
+
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x89b8ff,
+        roughness: 0.82,
+        metalness: 0.05,
+        wireframe: wireframeVisible
+      });
+      terrainMesh = new THREE.Mesh(geometry, material);
+      scene.add(terrainMesh);
+
+      const baseGeometry = new THREE.BoxGeometry(width, baseHeight, depth);
+      const baseMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1a2230,
+        roughness: 0.95,
+        metalness: 0.02
+      });
+      baseMesh = new THREE.Mesh(baseGeometry, baseMaterial);
+      baseMesh.position.y = -baseHeight / 2;
+      scene.add(baseMesh);
+
+      controls.target.set(0, 18, 0);
+      controls.update();
+
+      exportGLBBtn.disabled = false;
+      exportSTLBtn.disabled = false;
+
+      datasetStat.textContent = datasetSelect.value;
+      samplesStat.textContent = `${gridSize * gridSize}`;
+      minStat.textContent = `${minH.toFixed(1)} m`;
+      maxStat.textContent = `${maxH.toFixed(1)} m`;
+    }
+
+    generateBtn.addEventListener('click', async () => {
+      if (!selectedGeoJSON) {
+        setStatus('Prvo označi oblast na mapi.');
+        return;
+      }
+
+      try {
+        generateBtn.disabled = true;
+        setStatus('Pripremam grid tačke unutar selektovane oblasti...');
+
+        const gridSize = parseInt(gridSizeSelect.value, 10);
+        const dataset = datasetSelect.value;
+        const heightScale = parseFloat(heightScaleInput.value);
+        const baseHeight = parseFloat(baseHeightInput.value);
+
+        const { bbox, points } = createGridPointsForPolygon(selectedGeoJSON, gridSize);
+        const insideMask = points.map(p => p.inside);
+
+        setStatus(`Preuzimam elevation podatke (${points.length} tačaka)...`);
+        const elevationResults = await fetchElevations(dataset, points);
+
+        let heights = points.map((p, idx) => {
+          const result = elevationResults[idx];
+          const value = result && result.elevation !== null ? Number(result.elevation) : null;
+          return p.inside ? value : null;
+        });
+
+        heights = fillOutsideValues(gridSize, heights, insideMask);
+        lastHeights = [...heights];
+        lastGrid = { gridSize, bbox };
+
+        setStatus('Gradim 3D mesh...');
+        buildTerrainMesh(gridSize, heights, bbox, heightScale, baseHeight);
+        setStatus('3D model uspješno generisan.');
+      } catch (error) {
+        console.error(error);
+        setStatus(`Greška: ${error.message}`);
+      } finally {
+        generateBtn.disabled = false;
+      }
+    });
+
+    applySmoothBtn.addEventListener('click', () => {
+      if (!lastGrid || !lastHeights) {
+        setStatus('Prvo generiši model pa tek onda radi smoothing.');
+        return;
+      }
+      const iterations = parseInt(smoothStrengthInput.value, 10);
+      const heightScale = parseFloat(heightScaleInput.value);
+      const baseHeight = parseFloat(baseHeightInput.value);
+
+      setStatus('Primjenjujem smoothing...');
+      lastHeights = smoothHeightGrid(lastGrid.gridSize, lastHeights, iterations);
+      buildTerrainMesh(lastGrid.gridSize, lastHeights, lastGrid.bbox, heightScale, baseHeight);
+      setStatus('Smoothing završen.');
+    });
+
+    toggleWireframeBtn.addEventListener('click', () => {
+      wireframeVisible = !wireframeVisible;
+      if (terrainMesh) {
+        terrainMesh.material.wireframe = wireframeVisible;
+      }
+      setStatus(wireframeVisible ? 'Wireframe uključen.' : 'Wireframe isključen.');
+    });
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    exportGLBBtn.addEventListener('click', () => {
+      if (!terrainMesh) {
+        setStatus('Nema modela za export.');
+        return;
+      }
+
+      setStatus('Pravim GLB export...');
+      const exporter = new GLTFExporter();
+      const group = new THREE.Group();
+      group.add(terrainMesh.clone());
+      if (baseMesh) group.add(baseMesh.clone());
+
+      exporter.parse(group, (result) => {
+        const blob = new Blob([result], { type: 'model/gltf-binary' });
+        downloadBlob(blob, 'terrain-model.glb');
+        setStatus('GLB export završen.');
+      }, { binary: true });
+    });
+
+    exportSTLBtn.addEventListener('click', () => {
+      if (!terrainMesh) {
+        setStatus('Nema modela za export.');
+        return;
+      }
+
+      setStatus('Pravim STL export...');
+      const exporter = new STLExporter();
+      const group = new THREE.Group();
+      group.add(terrainMesh.clone());
+      if (baseMesh) group.add(baseMesh.clone());
+      const result = exporter.parse(group, { binary: true });
+      const blob = new Blob([result], { type: 'model/stl' });
+      downloadBlob(blob, 'terrain-model.stl');
+      setStatus('STL export završen.');
+    });
+  </script>
+</body>
+</html>
