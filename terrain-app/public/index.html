@@ -11,8 +11,9 @@ body{margin:0;display:flex;height:100vh;}
 #map{width:50%;}
 #viewer{width:50%;background:#000;}
 .panel{
- position:absolute;top:10px;left:10px;z-index:999;
+ position:absolute;top:10px;left:10px;
  background:#111;color:#fff;padding:10px;border-radius:10px;
+ z-index:999;
 }
 </style>
 </head>
@@ -22,7 +23,11 @@ body{margin:0;display:flex;height:100vh;}
 <div class="panel">
 <button onclick="generate()">Generate</button><br>
 Resolution <input id="res" type="range" min="20" max="80" value="40"><br>
-Zoom <input id="zoom" type="range" min="10" max="13" value="11">
+Zoom <input id="zoom" type="range" min="10" max="13" value="11"><br>
+Height <input id="height" type="range" min="1" max="5" value="2"><br>
+Smooth <input id="smooth" type="range" min="0" max="3" value="1"><br>
+<button onclick="exportOBJ()">OBJ</button>
+<button onclick="exportSTL()">STL</button>
 </div>
 
 <div id="map"></div>
@@ -31,12 +36,12 @@ Zoom <input id="zoom" type="range" min="10" max="13" value="11">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/exporters/STLExporter.js"></script>
 
 <script>
-let bounds=null,start,rect;
+let bounds=null,start,rect,currentMesh=null;
 
-const map = L.map('map').setView([42.44,19.26],11);
-
+const map=L.map('map').setView([42.44,19.26],11);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 map.on('mousedown',e=>{
@@ -56,15 +61,15 @@ map.on('mouseup',()=>{
 });
 
 // THREE
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60,window.innerWidth/2/window.innerHeight,0.1,1000);
-camera.position.set(50,50,50);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(60,window.innerWidth/2/window.innerHeight,0.1,1000);
+camera.position.set(60,60,60);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer=new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth/2,window.innerHeight);
 viewer.appendChild(renderer.domElement);
 
-const controls = new THREE.OrbitControls(camera,renderer.domElement);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);
 
 scene.add(new THREE.DirectionalLight(0xffffff,1));
 
@@ -75,9 +80,8 @@ function animate(){
 }
 animate();
 
-// OBJ loader
 function loadOBJ(text){
- scene.clear();
+ if(currentMesh) scene.remove(currentMesh);
 
  const geo=new THREE.BufferGeometry();
  const verts=[];
@@ -104,30 +108,61 @@ function loadOBJ(text){
  );
 
  scene.add(mesh);
+ currentMesh=mesh;
 }
 
-// generate
 async function generate(){
  if(!bounds){
   alert("select area");
   return;
  }
 
- const res = document.getElementById("res").value;
- const zoom = document.getElementById("zoom").value;
+ const resVal=document.getElementById("res").value;
+ const zoom=document.getElementById("zoom").value;
+ const height=document.getElementById("height").value;
+ const smooth=document.getElementById("smooth").value;
 
- const r = await fetch('/generate',{
+ const r=await fetch('/generate',{
   method:'POST',
   headers:{'Content-Type':'application/json'},
   body:JSON.stringify({
-   bounds:bounds,
-   resolution:parseInt(res),
-   zoom:parseInt(zoom)
+   bounds,
+   resolution:parseInt(resVal),
+   zoom:parseInt(zoom),
+   heightScale:parseFloat(height),
+   smoothPasses:parseInt(smooth)
   })
  });
 
- const obj = await r.text();
+ const obj=await r.text();
  loadOBJ(obj);
+}
+
+// export OBJ
+function exportOBJ(){
+ if(!currentMesh) return;
+ let text='';
+ const pos=currentMesh.geometry.attributes.position;
+ for(let i=0;i<pos.count;i++){
+  text+=`v ${pos.getX(i)} ${pos.getY(i)} ${pos.getZ(i)}\n`;
+ }
+ const blob=new Blob([text]);
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download="model.obj";
+ a.click();
+}
+
+// export STL
+function exportSTL(){
+ if(!currentMesh) return;
+ const exporter=new THREE.STLExporter();
+ const data=exporter.parse(currentMesh);
+ const blob=new Blob([data]);
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download="model.stl";
+ a.click();
 }
 </script>
 
