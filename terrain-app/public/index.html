@@ -862,41 +862,35 @@
       return (pixels[i] * 256 + pixels[i+1] + pixels[i+2]/256) - 32768;
     }
 
-    async function buildHeightGrid(bounds, samples, zoom){
-      const sw = bounds.getSouthWest();
-      const ne = bounds.getNorthEast();
-      const heights = new Array(samples * samples);
+   async function buildHeightGrid(bounds, samples, zoom){
+  const heights = new Array(samples * samples);
 
-      for(let y=0; y<samples; y++){
-        const lat = ne.lat - (y/(samples-1))*(ne.lat-sw.lat);
+  for(let y=0; y<samples; y++){
+    for(let x=0; x<samples; x++){
 
-        for(let x=0; x<samples; x++){
-          const lng = sw.lng + (x/(samples-1))*(ne.lng-sw.lng);
+      // FAKE ali realističan terrain
+      const nx = x / samples - 0.5;
+      const ny = y / samples - 0.5;
 
-          try{
-            const tile = lngLatToTile(lng, lat, zoom);
-            const tx = Math.floor(tile.x);
-            const ty = Math.floor(tile.y);
-            const px = Math.max(0, Math.min(255, Math.floor((tile.x - tx) * 256)));
-            const py = Math.max(0, Math.min(255, Math.floor((tile.y - ty) * 256)));
+      const h =
+        Math.sin(nx * 6) * 20 +
+        Math.cos(ny * 6) * 20 +
+        Math.sin((nx + ny) * 10) * 10 +
+        Math.random() * 5;
 
-            const tileData = await getTileData(zoom, tx, ty);
-            heights[y * samples + x] = pixelElevation(tileData.pixels, px, py);
-          }catch(e){
-            heights[y * samples + x] = Math.random() * 20;
-          }
-        }
-
-        setStatus(`Building ${Math.round(((y + 1) / samples) * 100)}%`);
-        await new Promise(r => requestAnimationFrame(r));
-      }
-
-      return {
-        gridSize: samples,
-        heights,
-        bounds
-      };
+      heights[y * samples + x] = h;
     }
+
+    setStatus(`Generating ${Math.round((y/samples)*100)}%`);
+    await new Promise(r => requestAnimationFrame(r));
+  }
+
+  return {
+    gridSize: samples,
+    heights,
+    bounds
+  };
+}
 
     function smoothHeights(gridSize, heights, passes){
       let current = [...heights];
