@@ -1,431 +1,190 @@
 <!DOCTYPE html>
-<html lang="sr-ME">
+<html lang="sr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terrain Studio</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-
   <style>
-    :root {
-      --bg: #070a0f;
-      --panel: rgba(13, 18, 27, 0.94);
-      --panel-soft: rgba(17, 24, 36, 0.92);
-      --line: rgba(255, 255, 255, 0.08);
-      --line-strong: rgba(255, 255, 255, 0.14);
-      --text: #eef3fb;
-      --muted: #92a0b4;
-      --accent: #6ee7d8;
-      --accent-2: #78a8ff;
-      --danger: #ff6b8a;
-      --radius: 18px;
-      --radius-lg: 24px;
-      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+    :root{
+      --bg:#070b11;
+      --panel:#0f1520;
+      --panel2:#141c29;
+      --line:rgba(255,255,255,.08);
+      --line2:rgba(255,255,255,.12);
+      --text:#edf3fb;
+      --muted:#8d9bb0;
+      --accent:#74eadb;
+      --accent2:#75a7ff;
+      --danger:#ff6e91;
+      --radius:20px;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
     }
-
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top left, #0d1624 0%, #070a0f 58%);
-      color: var(--text);
-      font-family: Inter, Arial, sans-serif;
-      overflow: hidden;
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;width:100%;height:100%;
+      font-family:Inter,Arial,sans-serif;
+      background:radial-gradient(circle at top left,#0d1623 0%,#070b11 60%);
+      color:var(--text);overflow:hidden;
     }
-
-    button, input, select { font: inherit; }
-
-    .shell {
-      width: 100%;
-      height: 100vh;
-      display: grid;
-      grid-template-columns: 390px 1fr;
-      gap: 0;
+    button,input,select{font:inherit}
+    .app{
+      width:100%;height:100vh;display:grid;grid-template-columns:390px 1fr;
     }
-
-    .sidebar {
-      position: relative;
-      background: linear-gradient(180deg, rgba(12,17,25,0.98) 0%, rgba(8,11,17,0.98) 100%);
-      border-right: 1px solid var(--line);
-      overflow: auto;
-      padding: 18px;
+    .sidebar{
+      border-right:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(10,14,21,.98),rgba(7,10,16,.98));
+      padding:18px;overflow:auto;
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-      padding: 4px 4px 10px;
+    .brand{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:16px;padding-bottom:4px;
     }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 12px 30px rgba(120,168,255,0.22);
-      flex: 0 0 auto;
+    .brand-left{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 10px 30px rgba(117,167,255,.28);
+      flex:0 0 auto;
     }
-
-    .brand-copy {
-      min-width: 0;
-      flex: 1;
+    .brand h1{
+      margin:0;font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1;
     }
-
-    .brand-title {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin: 0 0 4px;
+    .brand p{
+      margin:4px 0 0;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
     }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 0;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .pill{
+      padding:8px 10px;border-radius:999px;font-size:11px;font-weight:800;
+      background:rgba(116,234,219,.08);border:1px solid rgba(116,234,219,.18);color:#cbfff8;
+      white-space:nowrap;
     }
-
-    .badge {
-      border: 1px solid rgba(110,231,216,0.18);
-      color: #c5fff8;
-      background: rgba(110,231,216,0.06);
-      border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
+    .card{
+      background:rgba(15,21,32,.95);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:16px;
+      margin-bottom:14px;
     }
-
-    .section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin-bottom: 14px;
+    .label-top{
+      margin:0 0 14px;font-size:12px;font-weight:800;letter-spacing:.14em;
+      color:var(--muted);text-transform:uppercase;
     }
-
-    .section-title {
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 14px;
-      font-weight: 800;
+    .field{display:grid;gap:8px;margin-bottom:12px}
+    .field:last-child{margin-bottom:0}
+    .field label{
+      font-size:12px;font-weight:700;color:#dce5f3;
     }
-
-    .field {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 12px;
+    input[type="text"],select{
+      height:46px;width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.08);
+      background:var(--panel2);color:var(--text);padding:0 14px;outline:none;
     }
-
-    .field:last-child { margin-bottom: 0; }
-
-    .field label {
-      font-size: 12px;
-      font-weight: 700;
-      color: #dfe7f4;
-      letter-spacing: 0.02em;
+    input[type="text"]:focus,select:focus{
+      border-color:rgba(117,167,255,.5);
+      box-shadow:0 0 0 3px rgba(117,167,255,.14);
     }
-
-    input[type="text"], select {
-      width: 100%;
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: var(--panel-soft);
-      color: var(--text);
-      padding: 0 14px;
-      outline: none;
+    input[type="range"]{width:100%;accent-color:var(--accent)}
+    .range-row{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;color:var(--muted);font-size:12px;
     }
-
-    input[type="text"]:focus, select:focus {
-      border-color: rgba(120,168,255,0.5);
-      box-shadow: 0 0 0 3px rgba(120,168,255,0.14);
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    button{
+      height:46px;border:0;border-radius:14px;font-weight:800;cursor:pointer;
+      transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease;
     }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--accent);
+    button:hover{transform:translateY(-1px)}
+    button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#07131d;box-shadow:0 14px 34px rgba(117,167,255,.18);
     }
-
-    .range-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: -2px;
+    .btn-secondary{
+      background:#1b2432;color:var(--text);border:1px solid rgba(255,255,255,.06);
     }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .btn-danger{
+      background:rgba(255,110,145,.08);color:#ffd4df;border:1px solid rgba(255,110,145,.18);
     }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+    .status{
+      min-height:56px;border-radius:16px;border:1px solid var(--line2);
+      background:rgba(255,255,255,.03);display:flex;align-items:center;padding:12px 14px;
+      font-size:13px;line-height:1.45;color:#deebff;
     }
-
-    button {
-      border: 0;
-      border-radius: 14px;
-      height: 46px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .stat{
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;padding:12px;
     }
-
-    button:hover { transform: translateY(-1px); }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
+    .stat .k{
+      color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:6px;font-weight:700;
     }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #09131d;
-      box-shadow: 0 14px 34px rgba(95, 185, 255, 0.18);
+    .stat .v{font-size:15px;font-weight:800}
+    .main{
+      min-width:0;min-height:0;display:grid;grid-template-rows:48% 52%;padding:14px;gap:14px;
     }
-
-    .btn-secondary {
-      background: #1d2634;
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.06);
+    .surface{
+      position:relative;width:100%;height:100%;border-radius:28px;overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg,rgba(10,16,26,.88),rgba(7,10,16,.96));
+      box-shadow:var(--shadow);
     }
-
-    .btn-danger {
-      background: rgba(255,107,138,0.08);
-      color: #ffd5de;
-      border: 1px solid rgba(255,107,138,0.16);
+    #map,#viewer{width:100%;height:100%}
+    .overlay{
+      position:absolute;top:18px;left:18px;right:18px;z-index:500;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none;
     }
-
-    .mini-btn {
-      height: 38px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 700;
+    .overlay > *{
+      pointer-events:auto;
+      display:inline-flex;align-items:center;gap:10px;
+      border-radius:16px;padding:10px 12px;
+      background:rgba(8,12,18,.74);border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(12px);font-size:12px;font-weight:800;color:var(--text);
     }
-
-    .status {
-      min-height: 56px;
-      border-radius: 16px;
-      border: 1px solid var(--line-strong);
-      background: rgba(255,255,255,0.03);
-      display: flex;
-      align-items: center;
-      padding: 12px 14px;
-      font-size: 13px;
-      line-height: 1.45;
-      color: #deebff;
+    .overlay-right{display:flex;gap:8px;flex-wrap:wrap}
+    .overlay-right > span{
+      border-radius:12px;padding:9px 11px;background:rgba(8,12,18,.74);
+      border:1px solid rgba(255,255,255,.08);
     }
-
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
+    .leaflet-control-container .leaflet-top.leaflet-left{top:74px;left:14px}
+    .leaflet-control-zoom,.leaflet-draw{border:none!important;box-shadow:none!important}
+    .leaflet-bar a,.leaflet-draw-toolbar a,.leaflet-draw-actions a{
+      background-color:rgba(12,17,25,.92)!important;color:#fff!important;
+      border:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(10px);
     }
-
-    .stat {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 12px;
+    .leaflet-bar a:hover,.leaflet-draw-toolbar a:hover,.leaflet-draw-actions a:hover{
+      background-color:rgba(22,29,41,.98)!important;
     }
-
-    .stat .k {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      font-weight: 700;
+    @media (max-width:1180px){
+      .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+      .sidebar{border-right:0;border-bottom:1px solid var(--line)}
+      .main{grid-template-rows:44vh 56vh}
     }
-
-    .stat .v {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .main {
-      min-width: 0;
-      min-height: 0;
-      display: grid;
-      grid-template-rows: 48% 52%;
-      gap: 0;
-      padding: 14px;
-    }
-
-    .stage {
-      position: relative;
-      min-height: 0;
-      margin-bottom: 14px;
-    }
-
-    .stage:last-child { margin-bottom: 0; }
-
-    .surface {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(180deg, rgba(11,18,29,0.85) 0%, rgba(8,11,17,0.95) 100%);
-      box-shadow: var(--shadow);
-    }
-
-    #map, #viewer {
-      width: 100%;
-      height: 100%;
-    }
-
-    .overlay-top {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      right: 18px;
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      pointer-events: none;
-    }
-
-    .overlay-card {
-      pointer-events: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(9, 13, 19, 0.74);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .overlay-toolbar {
-      pointer-events: auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .overlay-chip {
-      border-radius: 12px;
-      padding: 9px 11px;
-      background: rgba(9, 13, 19, 0.74);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      color: #e9f2ff;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .leaflet-control-container .leaflet-top.leaflet-left {
-      top: 74px;
-      left: 14px;
-    }
-
-    .leaflet-control-zoom,
-    .leaflet-draw {
-      border: none !important;
-      box-shadow: none !important;
-    }
-
-    .leaflet-bar a,
-    .leaflet-draw-toolbar a,
-    .leaflet-draw-actions a {
-      background-color: rgba(12,17,25,0.92) !important;
-      color: #fff !important;
-      border: 1px solid rgba(255,255,255,0.08) !important;
-      backdrop-filter: blur(10px);
-    }
-
-    .leaflet-bar a:hover,
-    .leaflet-draw-toolbar a:hover,
-    .leaflet-draw-actions a:hover {
-      background-color: rgba(22,29,41,0.98) !important;
-    }
-
-    .leaflet-popup-content-wrapper,
-    .leaflet-popup-tip {
-      background: #101722;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    @media (max-width: 1180px) {
-      .shell {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-      }
-
-      .sidebar {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .main {
-        grid-template-rows: 44vh 56vh;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .sidebar { padding: 12px; }
-      .main { padding: 12px; }
-      .grid-2, .grid-3, .stats {
-        grid-template-columns: 1fr;
-      }
-      .overlay-top {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .brand {
-        align-items: flex-start;
-      }
-      .badge { display: none; }
+    @media (max-width:760px){
+      .grid-2,.stats{grid-template-columns:1fr}
+      .overlay{flex-direction:column;align-items:stretch}
+      .pill{display:none}
+      .sidebar,.main{padding:12px}
     }
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <div style="display:flex; gap:12px; align-items:center; min-width:0;">
-          <div class="brand-mark"></div>
-          <div class="brand-copy">
-            <h1 class="brand-title">Terrain Studio</h1>
-            <p class="brand-subtitle">Map to 3D export</p>
+        <div class="brand-left">
+          <div class="logo"></div>
+          <div>
+            <h1>Terrain Studio</h1>
+            <p>Map to 3D export</p>
           </div>
         </div>
-        <div class="badge">Open source</div>
+        <div class="pill">Single file</div>
       </div>
 
-      <section class="section">
-        <div class="section-title">Search</div>
+      <section class="card">
+        <p class="label-top">Search</p>
         <div class="field">
           <label for="searchInput">Location</label>
           <input id="searchInput" type="text" placeholder="Search place" />
@@ -436,8 +195,8 @@
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-title">Build</div>
+      <section class="card">
+        <p class="label-top">Build</p>
         <div class="field">
           <label for="datasetSelect">Dataset</label>
           <select id="datasetSelect">
@@ -454,7 +213,6 @@
             <option value="32">32 × 32</option>
             <option value="40" selected>40 × 40</option>
             <option value="48">48 × 48</option>
-            <option value="56">56 × 56</option>
           </select>
         </div>
         <div class="field">
@@ -473,8 +231,8 @@
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-title">Edit</div>
+      <section class="card">
+        <p class="label-top">Edit</p>
         <div class="field">
           <label for="smoothStrength">Smoothing</label>
           <input id="smoothStrength" type="range" min="0" max="5" value="1" step="1" />
@@ -484,26 +242,26 @@
           <button id="applySmoothBtn" class="btn-secondary">Smooth</button>
           <button id="toggleWireframeBtn" class="btn-secondary">Wireframe</button>
         </div>
-        <div class="grid-2" style="margin-top:10px;">
+        <div class="grid-2" style="margin-top:10px">
           <button id="resetCameraBtn" class="btn-secondary">Reset View</button>
-          <button id="regenerateBtn" class="btn-secondary">Rebuild</button>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-title">Export</div>
-        <div class="grid-2">
-          <button id="exportGLBBtn" class="btn-primary" disabled>GLB</button>
-          <button id="exportSTLBtn" class="btn-primary" disabled>STL</button>
-        </div>
-        <div class="grid-2" style="margin-top:10px;">
-          <button id="captureBtn" class="btn-secondary">PNG</button>
           <button id="centerModelBtn" class="btn-secondary">Center</button>
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-title">Status</div>
+      <section class="card">
+        <p class="label-top">Export</p>
+        <div class="grid-2">
+          <button id="exportGLBBtn" class="btn-primary" disabled>GLB</button>
+          <button id="exportSTLBtn" class="btn-primary" disabled>STL</button>
+        </div>
+        <div class="grid-2" style="margin-top:10px">
+          <button id="captureBtn" class="btn-secondary">PNG</button>
+          <button id="rebuildBtn" class="btn-secondary">Rebuild</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <p class="label-top">Status</p>
         <div id="statusBox" class="status">Ready</div>
         <div class="stats">
           <div class="stat"><div class="k">Dataset</div><div class="v" id="datasetStat">—</div></div>
@@ -515,30 +273,26 @@
     </aside>
 
     <main class="main">
-      <section class="stage">
-        <div class="surface">
-          <div class="overlay-top">
-            <div class="overlay-card" id="selectionMeta">No selection</div>
-            <div class="overlay-toolbar">
-              <div class="overlay-chip" id="locationMeta">—</div>
-            </div>
+      <section class="surface">
+        <div class="overlay">
+          <div id="selectionMeta">No selection</div>
+          <div class="overlay-right">
+            <span id="locationMeta">—</span>
           </div>
-          <div id="map"></div>
         </div>
+        <div id="map"></div>
       </section>
 
-      <section class="stage">
-        <div class="surface">
-          <div class="overlay-top">
-            <div class="overlay-card">3D Preview</div>
-            <div class="overlay-toolbar">
-              <div class="overlay-chip">Orbit</div>
-              <div class="overlay-chip">Pan</div>
-              <div class="overlay-chip">Zoom</div>
-            </div>
+      <section class="surface">
+        <div class="overlay">
+          <div>3D Preview</div>
+          <div class="overlay-right">
+            <span>Orbit</span>
+            <span>Pan</span>
+            <span>Zoom</span>
           </div>
-          <div id="viewer"></div>
         </div>
+        <div id="viewer"></div>
       </section>
     </main>
   </div>
@@ -553,7 +307,7 @@
     import { GLTFExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/GLTFExporter.js';
     import { STLExporter } from 'https://unpkg.com/three@0.163.0/examples/jsm/exporters/STLExporter.js';
 
-    const els = {
+    const el = {
       searchInput: document.getElementById('searchInput'),
       searchBtn: document.getElementById('searchBtn'),
       fitSelectionBtn: document.getElementById('fitSelectionBtn'),
@@ -570,11 +324,11 @@
       applySmoothBtn: document.getElementById('applySmoothBtn'),
       toggleWireframeBtn: document.getElementById('toggleWireframeBtn'),
       resetCameraBtn: document.getElementById('resetCameraBtn'),
-      regenerateBtn: document.getElementById('regenerateBtn'),
+      centerModelBtn: document.getElementById('centerModelBtn'),
       exportGLBBtn: document.getElementById('exportGLBBtn'),
       exportSTLBtn: document.getElementById('exportSTLBtn'),
       captureBtn: document.getElementById('captureBtn'),
-      centerModelBtn: document.getElementById('centerModelBtn'),
+      rebuildBtn: document.getElementById('rebuildBtn'),
       statusBox: document.getElementById('statusBox'),
       datasetStat: document.getElementById('datasetStat'),
       samplesStat: document.getElementById('samplesStat'),
@@ -588,97 +342,80 @@
     const state = {
       selectedLayer: null,
       selectedGeoJSON: null,
-      locationLabel: 'Podgorica',
       terrainMesh: null,
       baseMesh: null,
       sceneGroup: null,
+      wireframe: false,
+      generating: false,
       lastGridData: null,
       lastHeights: null,
-      wireframe: false,
-      generating: false
+      locationLabel: 'Podgorica'
     };
 
-    function setStatus(message) {
-      els.statusBox.textContent = message;
+    function setStatus(text){ el.statusBox.textContent = text; }
+
+    function updateRanges(){
+      el.heightScaleValue.textContent = `${parseFloat(el.heightScale.value).toFixed(1)}x`;
+      el.baseHeightValue.textContent = `${parseInt(el.baseHeight.value,10)}`;
+      el.smoothStrengthValue.textContent = `${parseInt(el.smoothStrength.value,10)}`;
     }
+    updateRanges();
+    el.heightScale.addEventListener('input', updateRanges);
+    el.baseHeight.addEventListener('input', updateRanges);
+    el.smoothStrength.addEventListener('input', updateRanges);
 
-    function updateRangeLabels() {
-      els.heightScaleValue.textContent = `${parseFloat(els.heightScale.value).toFixed(1)}x`;
-      els.baseHeightValue.textContent = `${parseInt(els.baseHeight.value, 10)}`;
-      els.smoothStrengthValue.textContent = `${parseInt(els.smoothStrength.value, 10)}`;
-    }
-
-    updateRangeLabels();
-    els.heightScale.addEventListener('input', updateRangeLabels);
-    els.baseHeight.addEventListener('input', updateRangeLabels);
-    els.smoothStrength.addEventListener('input', updateRangeLabels);
-
-    const map = L.map('map', { zoomControl: true, preferCanvas: true }).setView([42.441, 19.262], 11);
+    const map = L.map('map', { zoomControl:true, preferCanvas:true }).setView([42.441, 19.262], 11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
+      maxZoom:19,
+      attribution:'&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     const drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
 
     const drawControl = new L.Control.Draw({
-      edit: {
-        featureGroup: drawnItems,
-        remove: true
-      },
-      draw: {
-        polyline: false,
-        circle: false,
-        circlemarker: false,
-        marker: false,
-        polygon: {
-          allowIntersection: false,
-          shapeOptions: {
-            color: '#6ee7d8',
-            weight: 2,
-            fillColor: '#6ee7d8',
-            fillOpacity: 0.08
-          }
+      edit:{ featureGroup: drawnItems, remove:true },
+      draw:{
+        polyline:false,
+        circle:false,
+        circlemarker:false,
+        marker:false,
+        polygon:{
+          allowIntersection:false,
+          shapeOptions:{ color:'#74eadb', weight:2, fillColor:'#74eadb', fillOpacity:.08 }
         },
-        rectangle: {
-          shapeOptions: {
-            color: '#78a8ff',
-            weight: 2,
-            fillColor: '#78a8ff',
-            fillOpacity: 0.08
-          }
+        rectangle:{
+          shapeOptions:{ color:'#75a7ff', weight:2, fillColor:'#75a7ff', fillOpacity:.08 }
         }
       }
     });
     map.addControl(drawControl);
 
-    function updateSelectionMeta() {
-      if (!state.selectedGeoJSON) {
-        els.selectionMeta.textContent = 'No selection';
+    function updateSelectionMeta(){
+      if(!state.selectedGeoJSON){
+        el.selectionMeta.textContent = 'No selection';
         return;
       }
       const bbox = turf.bbox(state.selectedGeoJSON);
-      const area = turf.area(state.selectedGeoJSON);
-      const km2 = area / 1_000_000;
-      els.selectionMeta.textContent = `${km2.toFixed(2)} km² · ${bbox.map(v => v.toFixed(4)).join(', ')}`;
+      const area = turf.area(state.selectedGeoJSON) / 1000000;
+      el.selectionMeta.textContent = `${area.toFixed(2)} km² · ${bbox.map(v => v.toFixed(4)).join(', ')}`;
     }
 
-    function storeSelection(layer) {
+    function setSelection(layer){
       state.selectedLayer = layer;
       state.selectedGeoJSON = layer.toGeoJSON();
       updateSelectionMeta();
     }
 
-    map.on(L.Draw.Event.CREATED, event => {
+    map.on(L.Draw.Event.CREATED, e => {
       drawnItems.clearLayers();
-      drawnItems.addLayer(event.layer);
-      storeSelection(event.layer);
+      drawnItems.addLayer(e.layer);
+      setSelection(e.layer);
       setStatus('Area selected');
     });
 
     map.on(L.Draw.Event.EDITED, () => {
-      drawnItems.eachLayer(layer => storeSelection(layer));
+      drawnItems.eachLayer(layer => setSelection(layer));
       setStatus('Area updated');
     });
 
@@ -689,7 +426,7 @@
       setStatus('Selection cleared');
     });
 
-    els.clearSelectionBtn.addEventListener('click', () => {
+    el.clearSelectionBtn.addEventListener('click', () => {
       drawnItems.clearLayers();
       state.selectedLayer = null;
       state.selectedGeoJSON = null;
@@ -697,69 +434,59 @@
       setStatus('Selection cleared');
     });
 
-    els.fitSelectionBtn.addEventListener('click', () => {
-      if (!state.selectedLayer) return;
-      map.fitBounds(state.selectedLayer.getBounds(), { padding: [30, 30] });
+    el.fitSelectionBtn.addEventListener('click', () => {
+      if(state.selectedLayer) map.fitBounds(state.selectedLayer.getBounds(), { padding:[30,30] });
     });
 
-    async function geocodeLocation(query) {
+    async function geocodeLocation(query){
       const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
-      const response = await fetch(url, { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('Search failed');
-      return response.json();
+      const r = await fetch(url, { headers:{ 'Accept':'application/json' } });
+      if(!r.ok) throw new Error('Search failed');
+      return r.json();
     }
 
-    async function searchLocation() {
-      const query = els.searchInput.value.trim();
-      if (!query) {
-        setStatus('Enter location');
-        return;
-      }
+    async function doSearch(){
+      const query = el.searchInput.value.trim();
+      if(!query){ setStatus('Enter location'); return; }
       setStatus('Searching');
-      try {
-        const results = await geocodeLocation(query);
-        if (!results.length) {
-          setStatus('No result');
-          return;
-        }
-        const item = results[0];
-        state.locationLabel = item.display_name.split(',').slice(0, 2).join(', ');
-        els.locationMeta.textContent = state.locationLabel;
+      try{
+        const res = await geocodeLocation(query);
+        if(!res.length){ setStatus('No result'); return; }
+        const item = res[0];
+        state.locationLabel = item.display_name.split(',').slice(0,2).join(', ');
+        el.locationMeta.textContent = state.locationLabel;
         map.setView([parseFloat(item.lat), parseFloat(item.lon)], 13);
         setStatus('Location found');
-      } catch (error) {
-        console.error(error);
+      }catch(err){
+        console.error(err);
         setStatus('Search error');
       }
     }
 
-    els.searchBtn.addEventListener('click', searchLocation);
-    els.searchInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') searchLocation();
-    });
-    els.locationMeta.textContent = state.locationLabel;
+    el.searchBtn.addEventListener('click', doSearch);
+    el.searchInput.addEventListener('keydown', e => { if(e.key === 'Enter') doSearch(); });
+    el.locationMeta.textContent = state.locationLabel;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x09111a);
 
-    const camera = new THREE.PerspectiveCamera(50, els.viewer.clientWidth / els.viewer.clientHeight, 0.1, 5000);
+    const camera = new THREE.PerspectiveCamera(50, el.viewer.clientWidth / el.viewer.clientHeight, 0.1, 5000);
     camera.position.set(160, 130, 180);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    const renderer = new THREE.WebGLRenderer({ antialias:true, preserveDrawingBuffer:true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(els.viewer.clientWidth, els.viewer.clientHeight);
+    renderer.setSize(el.viewer.clientWidth, el.viewer.clientHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    els.viewer.appendChild(renderer.domElement);
+    el.viewer.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
+    controls.dampingFactor = .08;
     controls.target.set(0, 20, 0);
     controls.minDistance = 40;
     controls.maxDistance = 800;
 
-    const hemi = new THREE.HemisphereLight(0xb7d2ff, 0x16202d, 1.4);
-    scene.add(hemi);
+    scene.add(new THREE.HemisphereLight(0xb7d2ff, 0x16202d, 1.4));
 
     const dir1 = new THREE.DirectionalLight(0xffffff, 1.5);
     dir1.position.set(160, 240, 120);
@@ -771,44 +498,42 @@
 
     const floor = new THREE.Mesh(
       new THREE.CircleGeometry(420, 80),
-      new THREE.MeshBasicMaterial({ color: 0x0d1624, transparent: true, opacity: 0.9 })
+      new THREE.MeshBasicMaterial({ color:0x0d1624, transparent:true, opacity:.9 })
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -0.2;
     scene.add(floor);
 
     const grid = new THREE.GridHelper(420, 28, 0x223147, 0x16202d);
-    grid.position.y = 0;
     scene.add(grid);
 
-    function resetCamera() {
+    function resetCamera(){
       camera.position.set(160, 130, 180);
       controls.target.set(0, 20, 0);
       controls.update();
     }
-
-    els.resetCameraBtn.addEventListener('click', resetCamera);
+    el.resetCameraBtn.addEventListener('click', resetCamera);
 
     window.addEventListener('resize', () => {
-      camera.aspect = els.viewer.clientWidth / els.viewer.clientHeight;
+      camera.aspect = el.viewer.clientWidth / el.viewer.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(els.viewer.clientWidth, els.viewer.clientHeight);
+      renderer.setSize(el.viewer.clientWidth, el.viewer.clientHeight);
     });
 
-    function animate() {
+    function animate(){
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
     }
     animate();
 
-    function clearModel() {
-      if (state.sceneGroup) {
+    function clearModel(){
+      if(state.sceneGroup){
         scene.remove(state.sceneGroup);
         state.sceneGroup.traverse(obj => {
-          if (obj.geometry) obj.geometry.dispose();
-          if (obj.material) {
-            if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          if(obj.geometry) obj.geometry.dispose();
+          if(obj.material){
+            if(Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
             else obj.material.dispose();
           }
         });
@@ -816,85 +541,85 @@
       state.sceneGroup = null;
       state.terrainMesh = null;
       state.baseMesh = null;
-      els.exportGLBBtn.disabled = true;
-      els.exportSTLBtn.disabled = true;
+      el.exportGLBBtn.disabled = true;
+      el.exportSTLBtn.disabled = true;
     }
 
-    function buildSamplingGrid(geojson, gridSize) {
+    function buildSamplingGrid(geojson, gridSize){
       const bbox = turf.bbox(geojson);
       const [minLng, minLat, maxLng, maxLat] = bbox;
       const points = [];
-      for (let y = 0; y < gridSize; y++) {
-        for (let x = 0; x < gridSize; x++) {
+      for(let y = 0; y < gridSize; y++){
+        for(let x = 0; x < gridSize; x++){
           const lng = minLng + (x / (gridSize - 1)) * (maxLng - minLng);
           const lat = maxLat - (y / (gridSize - 1)) * (maxLat - minLat);
           const point = turf.point([lng, lat]);
-          const inside = turf.booleanPointInPolygon(point, geojson, { ignoreBoundary: false });
+          const inside = turf.booleanPointInPolygon(point, geojson, { ignoreBoundary:false });
           points.push({ x, y, lng, lat, inside });
         }
       }
-      return { bbox, points };
+      return { bbox, points, gridSize };
     }
 
-    async function fetchElevations(dataset, points) {
+    async function fetchElevations(dataset, points){
       const chunkSize = 100;
-      const out = [];
-      for (let i = 0; i < points.length; i += chunkSize) {
+      const results = [];
+      for(let i = 0; i < points.length; i += chunkSize){
         const chunk = points.slice(i, i + chunkSize);
         const locations = chunk.map(p => `${p.lat},${p.lng}`).join('|');
         const url = `https://api.opentopodata.org/v1/${dataset}?locations=${encodeURIComponent(locations)}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Elevation unavailable');
-        const data = await response.json();
-        if (!data.results) throw new Error('Invalid elevation data');
-        out.push(...data.results);
+        const r = await fetch(url);
+        if(!r.ok) throw new Error('Elevation unavailable');
+        const data = await r.json();
+        if(!data.results) throw new Error('Invalid elevation data');
+        results.push(...data.results);
       }
-      return out;
+      return results;
     }
 
-    function fillNullHeights(gridSize, heights) {
+    function fillNullHeights(gridSize, heights){
       let result = [...heights];
-      for (let pass = 0; pass < 8; pass++) {
+      for(let pass = 0; pass < 8; pass++){
         const next = [...result];
-        for (let y = 0; y < gridSize; y++) {
-          for (let x = 0; x < gridSize; x++) {
+        for(let y = 0; y < gridSize; y++){
+          for(let x = 0; x < gridSize; x++){
             const i = y * gridSize + x;
-            if (result[i] !== null && Number.isFinite(result[i])) continue;
+            if(result[i] !== null && Number.isFinite(result[i])) continue;
             const neighbors = [];
-            for (let oy = -1; oy <= 1; oy++) {
-              for (let ox = -1; ox <= 1; ox++) {
-                if (ox === 0 && oy === 0) continue;
+            for(let oy = -1; oy <= 1; oy++){
+              for(let ox = -1; ox <= 1; ox++){
+                if(ox === 0 && oy === 0) continue;
                 const nx = x + ox;
                 const ny = y + oy;
-                if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) continue;
+                if(nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) continue;
                 const ni = ny * gridSize + nx;
                 const v = result[ni];
-                if (v !== null && Number.isFinite(v)) neighbors.push(v);
+                if(v !== null && Number.isFinite(v)) neighbors.push(v);
               }
             }
-            if (neighbors.length) next[i] = neighbors.reduce((a, b) => a + b, 0) / neighbors.length;
+            if(neighbors.length) next[i] = neighbors.reduce((a,b)=>a+b,0)/neighbors.length;
           }
         }
         result = next;
       }
       const fallback = result.find(v => v !== null && Number.isFinite(v)) ?? 0;
-      return result.map(v => (v !== null && Number.isFinite(v) ? v : fallback));
+      return result.map(v => (v !== null && Number.isFinite(v)) ? v : fallback);
     }
 
-    function smoothHeights(gridSize, heights, passes) {
+    function smoothHeights(gridSize, heights, passes){
       let current = [...heights];
-      for (let p = 0; p < passes; p++) {
+      for(let p = 0; p < passes; p++){
         const next = [...current];
-        for (let y = 1; y < gridSize - 1; y++) {
-          for (let x = 1; x < gridSize - 1; x++) {
+        for(let y = 1; y < gridSize - 1; y++){
+          for(let x = 1; x < gridSize - 1; x++){
             const i = y * gridSize + x;
             const vals = [];
-            for (let oy = -1; oy <= 1; oy++) {
-              for (let ox = -1; ox <= 1; ox++) {
+            for(let oy = -1; oy <= 1; oy++){
+              for(let ox = -1; ox <= 1; ox++){
                 vals.push(current[(y + oy) * gridSize + (x + ox)]);
               }
             }
-            next[i] = vals.reduce((a, b) => a + b, 0) / vals.length;
+            next[i] = vals.reduce((a,b)=>a+b,0) / vals.length;
           }
         }
         current = next;
@@ -902,20 +627,20 @@
       return current;
     }
 
-    function buildMaskTexture(gridSize, points) {
+    function buildMaskTexture(gridSize, points){
       const canvas = document.createElement('canvas');
       canvas.width = gridSize;
       canvas.height = gridSize;
       const ctx = canvas.getContext('2d');
-      const imageData = ctx.createImageData(gridSize, gridSize);
-      for (let i = 0; i < points.length; i++) {
-        const v = points[i].inside ? 255 : 0;
-        imageData.data[i * 4 + 0] = 255;
-        imageData.data[i * 4 + 1] = 255;
-        imageData.data[i * 4 + 2] = 255;
-        imageData.data[i * 4 + 3] = v;
+      const img = ctx.createImageData(gridSize, gridSize);
+      for(let i = 0; i < points.length; i++){
+        const a = points[i].inside ? 255 : 0;
+        img.data[i * 4 + 0] = 255;
+        img.data[i * 4 + 1] = 255;
+        img.data[i * 4 + 2] = 255;
+        img.data[i * 4 + 3] = a;
       }
-      ctx.putImageData(imageData, 0, 0);
+      ctx.putImageData(img, 0, 0);
       const texture = new THREE.CanvasTexture(canvas);
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
@@ -924,7 +649,7 @@
       return texture;
     }
 
-    function buildTerrainModel({ gridSize, points, heights, heightScale, baseHeight }) {
+    function buildTerrainModel({ gridSize, points, heights, heightScale, baseHeight }){
       clearModel();
 
       const width = 170;
@@ -938,7 +663,7 @@
       const normalization = 80 / relief;
 
       const pos = plane.attributes.position;
-      for (let i = 0; i < pos.count; i++) {
+      for(let i = 0; i < pos.count; i++){
         const h = heights[i];
         const y = (h - min) * normalization * heightScale;
         pos.setY(i, y);
@@ -946,27 +671,28 @@
       plane.computeVertexNormals();
 
       const maskTexture = buildMaskTexture(gridSize, points);
-      const material = new THREE.MeshStandardMaterial({
-        color: 0x96c4ff,
-        roughness: 0.86,
-        metalness: 0.02,
-        transparent: true,
+
+      const terrainMat = new THREE.MeshStandardMaterial({
+        color:0x96c4ff,
+        roughness:.86,
+        metalness:.02,
+        transparent:true,
         alphaMap: maskTexture,
         side: THREE.DoubleSide,
         wireframe: state.wireframe
       });
 
-      const terrain = new THREE.Mesh(plane, material);
+      const terrain = new THREE.Mesh(plane, terrainMat);
 
       const base = new THREE.Mesh(
         new THREE.BoxGeometry(width, baseHeight, depth),
-        new THREE.MeshStandardMaterial({ color: 0x182231, roughness: 0.96, metalness: 0.02 })
+        new THREE.MeshStandardMaterial({ color:0x182231, roughness:.96, metalness:.02 })
       );
       base.position.y = -baseHeight / 2;
 
       const edge = new THREE.Mesh(
-        new THREE.BoxGeometry(width + 0.8, baseHeight + 0.6, depth + 0.8),
-        new THREE.MeshBasicMaterial({ color: 0x243247, transparent: true, opacity: 0.4 })
+        new THREE.BoxGeometry(width + .8, baseHeight + .6, depth + .8),
+        new THREE.MeshBasicMaterial({ color:0x243247, transparent:true, opacity:.4 })
       );
       edge.position.y = -baseHeight / 2;
 
@@ -978,18 +704,18 @@
       state.terrainMesh = terrain;
       state.baseMesh = base;
 
-      els.datasetStat.textContent = els.datasetSelect.value;
-      els.samplesStat.textContent = `${gridSize * gridSize}`;
-      els.minStat.textContent = `${min.toFixed(1)} m`;
-      els.maxStat.textContent = `${max.toFixed(1)} m`;
-      els.exportGLBBtn.disabled = false;
-      els.exportSTLBtn.disabled = false;
+      el.datasetStat.textContent = el.datasetSelect.value;
+      el.samplesStat.textContent = `${gridSize * gridSize}`;
+      el.minStat.textContent = `${min.toFixed(1)} m`;
+      el.maxStat.textContent = `${max.toFixed(1)} m`;
+      el.exportGLBBtn.disabled = false;
+      el.exportSTLBtn.disabled = false;
 
       centerModel();
     }
 
-    function centerModel() {
-      if (!state.sceneGroup) return;
+    function centerModel(){
+      if(!state.sceneGroup) return;
       const box = new THREE.Box3().setFromObject(state.sceneGroup);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
@@ -997,32 +723,34 @@
       camera.position.set(center.x + size.x * 1.1, center.y + size.y * 1.2 + 70, center.z + size.z * 1.1);
       controls.update();
     }
+    el.centerModelBtn.addEventListener('click', centerModel);
 
-    els.centerModelBtn.addEventListener('click', centerModel);
-
-    async function generateModel() {
-      if (state.generating) return;
-      if (!state.selectedGeoJSON) {
+    async function generateModel(){
+      if(state.generating) return;
+      if(!state.selectedGeoJSON){
         setStatus('Draw an area first');
         return;
       }
 
       state.generating = true;
-      els.generateBtn.disabled = true;
-      try {
+      el.generateBtn.disabled = true;
+
+      try{
         setStatus('Sampling terrain');
-        const gridSize = parseInt(els.gridSize.value, 10);
-        const dataset = els.datasetSelect.value;
-        const heightScale = parseFloat(els.heightScale.value);
-        const baseHeight = parseFloat(els.baseHeight.value);
+        const gridSize = parseInt(el.gridSize.value, 10);
+        const dataset = el.datasetSelect.value;
+        const heightScale = parseFloat(el.heightScale.value);
+        const baseHeight = parseFloat(el.baseHeight.value);
 
         const gridData = buildSamplingGrid(state.selectedGeoJSON, gridSize);
         const elevationResults = await fetchElevations(dataset, gridData.points);
-        const heightsRaw = gridData.points.map((p, i) => {
+
+        const rawHeights = gridData.points.map((p, i) => {
           const v = elevationResults[i]?.elevation;
           return p.inside && v !== null ? Number(v) : null;
         });
-        const heights = fillNullHeights(gridSize, heightsRaw);
+
+        const heights = fillNullHeights(gridSize, rawHeights);
 
         state.lastGridData = gridData;
         state.lastHeights = [...heights];
@@ -1034,61 +762,63 @@
           heightScale,
           baseHeight
         });
+
         setStatus('Model generated');
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || 'Generation failed');
-      } finally {
+      }catch(err){
+        console.error(err);
+        setStatus(err.message || 'Generation failed');
+      }finally{
         state.generating = false;
-        els.generateBtn.disabled = false;
+        el.generateBtn.disabled = false;
       }
     }
 
-    els.generateBtn.addEventListener('click', generateModel);
-    els.regenerateBtn.addEventListener('click', () => {
-      if (!state.lastGridData || !state.lastHeights) {
-        setStatus('No model to rebuild');
-        return;
-      }
-      buildTerrainModel({
-        gridSize: state.lastGridData.points.length ** 0.5,
-        points: state.lastGridData.points,
-        heights: state.lastHeights,
-        heightScale: parseFloat(els.heightScale.value),
-        baseHeight: parseFloat(els.baseHeight.value)
-      });
-      setStatus('Model rebuilt');
-    });
+    el.generateBtn.addEventListener('click', generateModel);
 
-    els.applySmoothBtn.addEventListener('click', () => {
-      if (!state.lastGridData || !state.lastHeights) {
+    el.applySmoothBtn.addEventListener('click', () => {
+      if(!state.lastGridData || !state.lastHeights){
         setStatus('No model to smooth');
         return;
       }
-      const passes = parseInt(els.smoothStrength.value, 10);
-      if (passes === 0) {
+      const passes = parseInt(el.smoothStrength.value, 10);
+      if(passes === 0){
         setStatus('Smoothing set to 0');
         return;
       }
-      const gridSize = Math.round(Math.sqrt(state.lastHeights.length));
+      const gridSize = state.lastGridData.gridSize;
       state.lastHeights = smoothHeights(gridSize, state.lastHeights, passes);
       buildTerrainModel({
         gridSize,
         points: state.lastGridData.points,
         heights: state.lastHeights,
-        heightScale: parseFloat(els.heightScale.value),
-        baseHeight: parseFloat(els.baseHeight.value)
+        heightScale: parseFloat(el.heightScale.value),
+        baseHeight: parseFloat(el.baseHeight.value)
       });
       setStatus('Smoothing applied');
     });
 
-    els.toggleWireframeBtn.addEventListener('click', () => {
+    el.rebuildBtn.addEventListener('click', () => {
+      if(!state.lastGridData || !state.lastHeights){
+        setStatus('No model to rebuild');
+        return;
+      }
+      buildTerrainModel({
+        gridSize: state.lastGridData.gridSize,
+        points: state.lastGridData.points,
+        heights: state.lastHeights,
+        heightScale: parseFloat(el.heightScale.value),
+        baseHeight: parseFloat(el.baseHeight.value)
+      });
+      setStatus('Model rebuilt');
+    });
+
+    el.toggleWireframeBtn.addEventListener('click', () => {
       state.wireframe = !state.wireframe;
-      if (state.terrainMesh) state.terrainMesh.material.wireframe = state.wireframe;
+      if(state.terrainMesh) state.terrainMesh.material.wireframe = state.wireframe;
       setStatus(state.wireframe ? 'Wireframe on' : 'Wireframe off');
     });
 
-    function downloadBlob(blob, filename) {
+    function downloadBlob(blob, filename){
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -1099,44 +829,37 @@
       URL.revokeObjectURL(url);
     }
 
-    function exportGroup() {
-      if (!state.sceneGroup) return null;
-      return state.sceneGroup.clone(true);
-    }
-
-    els.exportGLBBtn.addEventListener('click', () => {
-      const group = exportGroup();
-      if (!group) {
+    el.exportGLBBtn.addEventListener('click', () => {
+      if(!state.sceneGroup){
         setStatus('No model');
         return;
       }
       setStatus('Preparing GLB');
       const exporter = new GLTFExporter();
-      exporter.parse(group, result => {
-        const blob = new Blob([result], { type: 'model/gltf-binary' });
+      exporter.parse(state.sceneGroup.clone(true), result => {
+        const blob = new Blob([result], { type:'model/gltf-binary' });
         downloadBlob(blob, 'terrain-studio.glb');
         setStatus('GLB exported');
-      }, { binary: true, trs: false, onlyVisible: true });
+      }, { binary:true, onlyVisible:true });
     });
 
-    els.exportSTLBtn.addEventListener('click', () => {
-      const group = exportGroup();
-      if (!group) {
+    el.exportSTLBtn.addEventListener('click', () => {
+      if(!state.sceneGroup){
         setStatus('No model');
         return;
       }
       setStatus('Preparing STL');
       const exporter = new STLExporter();
-      const output = exporter.parse(group, { binary: true });
-      const blob = new Blob([output], { type: 'model/stl' });
+      const output = exporter.parse(state.sceneGroup.clone(true), { binary:true });
+      const blob = new Blob([output], { type:'model/stl' });
       downloadBlob(blob, 'terrain-studio.stl');
       setStatus('STL exported');
     });
 
-    els.captureBtn.addEventListener('click', () => {
+    el.captureBtn.addEventListener('click', () => {
       renderer.render(scene, camera);
       renderer.domElement.toBlob(blob => {
-        if (!blob) {
+        if(!blob){
           setStatus('PNG failed');
           return;
         }
@@ -1147,6 +870,7 @@
 
     setStatus('Ready');
     updateSelectionMeta();
+    el.locationMeta.textContent = state.locationLabel;
   </script>
 </body>
 </html>
