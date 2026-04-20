@@ -316,6 +316,12 @@
       background-color:rgba(22,29,41,.98)!important;
     }
 
+    
+    .map-selecting .leaflet-container{cursor:crosshair!important}
+    .map-moving .leaflet-container{cursor:grab!important}
+    .map-moving .leaflet-container:active{cursor:grabbing!important}
+
+
     @media (max-width:1180px){
       .app{
         grid-template-columns:1fr;
@@ -448,7 +454,7 @@
         <div class="overlay">
           <div class="tag" id="selectionMeta">No selection</div>
           <div class="toolbar">
-            <button id="selectModeBtn" class="btn-secondary active">Select Area</button>
+            <button id="selectModeBtn" class="btn-secondary active">Select Box</button>
             <button id="moveModeBtn" class="btn-secondary">Move Map</button>
           </div>
         </div>
@@ -515,7 +521,7 @@
     const state = {
       rect: null,
       selectedBounds: null,
-      isSelecting: true,
+      isSelecting: false,
       dragStart: null,
       dragActive: false,
       generating: false,
@@ -562,15 +568,22 @@
       if(state.isSelecting){
         map.dragging.disable();
         map.doubleClickZoom.disable();
+        document.body.classList.add('map-selecting');
+        document.body.classList.remove('map-moving');
+        setStatus('Selection mode');
       }else{
         map.dragging.enable();
         map.doubleClickZoom.enable();
+        document.body.classList.remove('map-selecting');
+        document.body.classList.add('map-moving');
+        setStatus('Move mode');
       }
     }
 
     el.selectModeBtn.addEventListener('click', () => {
       state.isSelecting = true;
-      updateModeButtons();
+      document.body.classList.add('map-moving');
+    updateModeButtons();
     });
 
     el.moveModeBtn.addEventListener('click', () => {
@@ -1080,7 +1093,7 @@
     });
 
     updateSelectionUI();
-    setStatus('Ready');
+    setStatus('Move mode');
   </script>
 </body>
 </html>
