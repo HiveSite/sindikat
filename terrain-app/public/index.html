@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Terrain Tool</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+body{margin:0;display:flex;height:100vh;}
+#map{width:50%;}
+#viewer{width:50%;background:#000;}
+.panel{
+ position:absolute;top:10px;left:10px;z-index:999;
+ background:#111;color:#fff;padding:10px;border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+<button onclick="generate()">Generate</button><br>
+Resolution <input id="res" type="range" min="20" max="80" value="40"><br>
+Zoom <input id="zoom" type="range" min="10" max="13" value="11">
+</div>
+
+<div id="map"></div>
+<div id="viewer"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+let bounds=null,start,rect;
+
+const map = L.map('map').setView([42.44,19.26],11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+map.on('mousedown',e=>{
+ start=e.latlng;
+ if(rect) map.removeLayer(rect);
+ rect=L.rectangle([start,start]).addTo(map);
+});
+
+map.on('mousemove',e=>{
+ if(!start) return;
+ rect.setBounds([start,e.latlng]);
+});
+
+map.on('mouseup',()=>{
+ if(rect) bounds=rect.getBounds();
+ start=null;
+});
+
+// THREE
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60,window.innerWidth/2/window.innerHeight,0.1,1000);
+camera.position.set(50,50,50);
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth/2,window.innerHeight);
+viewer.appendChild(renderer.domElement);
+
+const controls = new THREE.OrbitControls(camera,renderer.domElement);
+
+scene.add(new THREE.DirectionalLight(0xffffff,1));
+
+function animate(){
+ requestAnimationFrame(animate);
+ controls.update();
+ renderer.render(scene,camera);
+}
+animate();
+
+// OBJ loader
+function loadOBJ(text){
+ scene.clear();
+
+ const geo=new THREE.BufferGeometry();
+ const verts=[];
+ const faces=[];
+
+ text.split("\n").forEach(l=>{
+  if(l.startsWith("v ")){
+   let p=l.split(" ");
+   verts.push(p[1],p[2],p[3]);
+  }
+  if(l.startsWith("f ")){
+   let p=l.split(" ");
+   faces.push(p[1]-1,p[2]-1,p[3]-1);
+  }
+ });
+
+ geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+ geo.setIndex(faces);
+ geo.computeVertexNormals();
+
+ const mesh=new THREE.Mesh(
+  geo,
+  new THREE.MeshStandardMaterial({color:0x00ffcc})
+ );
+
+ scene.add(mesh);
+}
+
+// generate
+async function generate(){
+ if(!bounds){
+  alert("select area");
+  return;
+ }
+
+ const res = document.getElementById("res").value;
+ const zoom = document.getElementById("zoom").value;
+
+ const r = await fetch('/generate',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({
+   bounds:bounds,
+   resolution:parseInt(res),
+   zoom:parseInt(zoom)
+  })
+ });
+
+ const obj = await r.text();
+ loadOBJ(obj);
+}
+</script>
+
+</body>
+</html>
