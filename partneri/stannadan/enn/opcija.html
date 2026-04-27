@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENN Archstudio | Interior Architecture</title>
+  <meta name="description" content="ENN Archstudio — interior architecture, spatial design and refined residential/commercial concepts." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0d0c0a;
+      --bg-soft: #161411;
+      --cream: #f4eee3;
+      --muted: #b9aa98;
+      --line: rgba(244,238,227,.14);
+      --gold: #c9a36a;
+      --stone: #827262;
+      --glass: rgba(255,255,255,.055);
+      --shadow: 0 30px 90px rgba(0,0,0,.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, sans-serif;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(201,163,106,.16), transparent 32%),
+        radial-gradient(circle at 90% 20%, rgba(130,114,98,.14), transparent 35%),
+        var(--bg);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .grain {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      opacity: .13;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .nav {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99;
+      width: min(1120px, calc(100% - 28px));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(13,12,10,.62);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.24);
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 800;
+      letter-spacing: .14em;
+      font-size: 13px;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), #fff2ce);
+      color: #15110c;
+      letter-spacing: -.06em;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav-cta {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--cream);
+      color: #14110d;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    section {
+      position: relative;
+      padding: 120px 22px;
+    }
+
+    .container {
+      width: min(1120px, 100%);
+      margin: auto;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding-top: 130px;
+      overflow: hidden;
+    }
+
+    #scene {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: .85;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(54px, 9vw, 128px);
+      line-height: .86;
+      letter-spacing: -.06em;
+      max-width: 850px;
+    }
+
+    .hero p {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.75;
+      margin-top: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 34px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-weight: 800;
+      font-size: 14px;
+      transition: .25s ease;
+    }
+
+    .btn.primary {
+      background: var(--gold);
+      color: #15110c;
+      border-color: transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.25);
+    }
+
+    .hero-card {
+      min-height: 560px;
+      border-radius: 34px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80") center/cover;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,12,10,.88), rgba(13,12,10,.08));
+    }
+
+    .floating-label {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2;
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(13,12,10,.54);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+    }
+
+    .floating-label strong {
+      display: block;
+      font-family: "Playfair Display", serif;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .floating-label span {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .section-title {
+      display: grid;
+      grid-template-columns: .9fr 1fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(40px, 6vw, 86px);
+      line-height: .94;
+      letter-spacing: -.045em;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .service {
+      min-height: 310px;
+      padding: 26px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -70px;
+      top: -70px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,163,106,.35), transparent 65%);
+    }
+
+    .num {
+      color: var(--gold);
+      font-weight: 900;
+      margin-bottom: 80px;
+    }
+
+    .service h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 31px;
+      margin-bottom: 14px;
+      letter-spacing: -.03em;
+    }
+
+    .service p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+
+    .image-card {
+      height: 640px;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      position: relative;
+      box-shadow: var(--shadow);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .image-card.small {
+      height: 311px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .img1 {
+      background-image: url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=80");
+    }
+
+    .img2 {
+      background-image: url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80");
+    }
+
+    .img3 {
+      background-image: url("https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=1200&q=80");
+    }
+
+    .image-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,12,10,.72), transparent 55%);
+    }
+
+    .caption {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      z-index: 2;
+      color: var(--cream);
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+
+    .step span {
+      color: var(--gold);
+      font-weight: 900;
+    }
+
+    .step h3 {
+      margin: 22px 0 10px;
+      font-size: 18px;
+    }
+
+    .step p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .statement {
+      padding: 110px 32px;
+      border-radius: 42px;
+      background:
+        linear-gradient(135deg, rgba(201,163,106,.18), rgba(255,255,255,.03)),
+        var(--bg-soft);
+      border: 1px solid var(--line);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .statement h2 {
+      max-width: 930px;
+      margin: auto;
+    }
+
+    .statement p {
+      max-width: 640px;
+      margin: 28px auto 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      padding: 34px;
+      border-radius: 34px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+    }
+
+    .contact-card h2 {
+      margin-bottom: 22px;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-links a {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      font-weight: 800;
+    }
+
+    footer {
+      padding: 34px 22px 44px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: .8s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 880px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .section-title,
+      .gallery,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 110px;
+      }
+
+      .hero-card {
+        min-height: 430px;
+      }
+
+      .services,
+      .process {
+        grid-template-columns: 1fr;
+      }
+
+      .image-card,
+      .image-card.small {
+        height: 420px;
+      }
+
+      section {
+        padding: 86px 16px;
+      }
+
+      .statement {
+        padding: 70px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grain"></div>
+
+  <nav class="nav">
+    <a href="#" class="brand">
+      <span class="mark">E</span>
+      ENN ARCHSTUDIO
+    </a>
+
+    <div class="nav-links">
+      <a href="#studio">Studio</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <a class="nav-cta" href="https://www.instagram.com/enn.archstudio/" target="_blank">Instagram</a>
+  </nav>
+
+  <section class="hero">
+    <canvas id="scene"></canvas>
+
+    <div class="container hero-grid">
+      <div class="reveal">
+        <div class="eyebrow">Interior architecture / spatial design</div>
+        <h1>Spaces that feel composed, calm and quietly bold.</h1>
+        <p>
+          ENN Archstudio creates interior concepts where architecture, materials,
+          light and atmosphere work together — elegant homes, refined commercial
+          spaces and visual identities for interiors.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#work" class="btn primary">Explore the studio</a>
+          <a href="#contact" class="btn">Start a project</a>
+        </div>
+      </div>
+
+      <div class="hero-card reveal tilt">
+        <div class="floating-label">
+          <strong>Interior as emotion.</strong>
+          <span>Warm minimalism, sculptural forms, natural tones and details that make a space memorable.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="studio">
+    <div class="container section-title reveal">
+      <h2>Architecture with softness.</h2>
+      <p>
+        We shape interiors through proportion, texture and mood. The result is not just
+        a beautiful room — it is a complete spatial experience with a clear rhythm,
+        material story and human feeling.
+      </p>
+    </div>
+
+    <div class="container statement reveal">
+      <h2>Clean lines. Warm materials. Strong atmosphere.</h2>
+      <p>
+        ENN Archstudio blends contemporary architecture with tactile details —
+        stone, wood, glass, soft fabrics and controlled lighting — to create interiors
+        that look premium without feeling cold.
+      </p>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container section-title reveal">
+      <h2>What we design.</h2>
+      <p>
+        From the first concept to the final visual direction, every layer of the space
+        is treated as part of one coherent story.
+      </p>
+    </div>
+
+    <div class="container services">
+      <article class="service reveal">
+        <div class="num">01</div>
+        <h3>Interior Concepts</h3>
+        <p>Creative direction, moodboards, material palettes, furniture styling and complete visual identity for spaces.</p>
+      </article>
+
+      <article class="service reveal">
+        <div class="num">02</div>
+        <h3>Residential Design</h3>
+        <p>Apartments, houses and private interiors designed around comfort, flow, storage, light and atmosphere.</p>
+      </article>
+
+      <article class="service reveal">
+        <div class="num">03</div>
+        <h3>Commercial Spaces</h3>
+        <p>Studios, offices, hospitality and retail interiors with strong first impression and functional layout.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="container section-title reveal">
+      <h2>Selected visual direction.</h2>
+      <p>
+        A one-page preview of the studio aesthetic: sculptural, neutral, artistic,
+        premium and calm — made to feel like a digital portfolio, not a basic website.
+      </p>
+    </div>
+
+    <div class="container gallery">
+      <div class="image-card img1 reveal parallax">
+        <div class="caption">Soft minimal living concept</div>
+      </div>
+
+      <div class="stack">
+        <div class="image-card small img2 reveal parallax">
+          <div class="caption">Material-driven interiors</div>
+        </div>
+        <div class="image-card small img3 reveal parallax">
+          <div class="caption">Warm architectural details</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container section-title reveal">
+      <h2>Process.</h2>
+      <p>
+        Clear, elegant and practical — from idea to finished spatial direction.
+      </p>
+    </div>
+
+    <div class="container process">
+      <div class="step reveal">
+        <span>01</span>
+        <h3>Brief</h3>
+        <p>We define the function, feeling, lifestyle and visual direction of the space.</p>
+      </div>
+
+      <div class="step reveal">
+        <span>02</span>
+        <h3>Concept</h3>
+        <p>Mood, layout, textures, colors and references become one coherent story.</p>
+      </div>
+
+      <div class="step reveal">
+        <span>03</span>
+        <h3>Design</h3>
+        <p>The concept is translated into a refined spatial proposal with strong details.</p>
+      </div>
+
+      <div class="step reveal">
+        <span>04</span>
+        <h3>Direction</h3>
+        <p>Final look, material feel and atmosphere are prepared for execution.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container contact">
+      <div class="contact-card reveal">
+        <div class="eyebrow">Start a project</div>
+        <h2>Let’s shape your space.</h2>
+        <p>
+          For residential interiors, commercial concepts, styling direction or visual
+          identity of a space — contact ENN Archstudio through Instagram.
+        </p>
+
+        <div class="contact-links">
+          <a href="https://www.instagram.com/enn.archstudio/" target="_blank">Open Instagram →</a>
+          <a href="mailto:hello@ennarchstudio.com">hello@ennarchstudio.com</a>
+        </div>
+      </div>
+
+      <div class="hero-card reveal tilt">
+        <div class="floating-label">
+          <strong>ENN Archstudio</strong>
+          <span>Interior architecture for spaces with silence, texture and presence.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 ENN Archstudio. Interior Architecture & Spatial Design.
+  </footer>
+
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+
+  <script>
+    const reveals = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    document.querySelectorAll(".tilt").forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rx = ((y / rect.height) - .5) * -8;
+        const ry = ((x / rect.width) - .5) * 8;
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "perspective(900px) rotateX(0) rotateY(0)";
+      });
+    });
+
+    window.addEventListener("scroll", () => {
+      const scrolled = window.scrollY;
+      document.querySelectorAll(".parallax").forEach((el, i) => {
+        el.style.transform = `translateY(${Math.sin(scrolled * .001 + i) * 14}px)`;
+      });
+    });
+
+    const canvas = document.getElementById("scene");
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 6;
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const materialGold = new THREE.MeshStandardMaterial({
+      color: 0xc9a36a,
+      roughness: 0.42,
+      metalness: 0.35
+    });
+
+    const materialStone = new THREE.MeshStandardMaterial({
+      color: 0x8d8070,
+      roughness: 0.75,
+      metalness: 0.05
+    });
+
+    const materialGlass = new THREE.MeshPhysicalMaterial({
+      color: 0xf4eee3,
+      transparent: true,
+      opacity: 0.18,
+      roughness: 0.2,
+      transmission: 0.3
+    });
+
+    const shapes = [
+      new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.6, 1.6), materialStone),
+      new THREE.Mesh(new THREE.TorusGeometry(.95, .045, 16, 90), materialGold),
+      new THREE.Mesh(new THREE.ConeGeometry(.75, 1.8, 5), materialGlass),
+      new THREE.Mesh(new THREE.SphereGeometry(.42, 32, 32), materialGold),
+      new THREE.Mesh(new THREE.CylinderGeometry(.35, .35, 1.8, 32), materialStone)
+    ];
+
+    shapes[0].position.set(-3.4, .8, -1.5);
+    shapes[1].position.set(2.9, 1.2, -1.2);
+    shapes[2].position.set(3.8, -1.9, -2.2);
+    shapes[3].position.set(-2.6, -2.0, -1);
+    shapes[4].position.set(.1, 2.1, -2.6);
+
+    shapes.forEach(shape => group.add(shape));
+
+    const ambient = new THREE.AmbientLight(0xffffff, .72);
+    scene.add(ambient);
+
+    const light = new THREE.PointLight(0xffe2a6, 2.4);
+    light.position.set(3, 4, 5);
+    scene.add(light);
+
+    const backLight = new THREE.PointLight(0xffffff, .8);
+    backLight.position.set(-4, -2, 3);
+    scene.add(backLight);
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    window.addEventListener("mousemove", e => {
+      mouseX = (e.clientX / window.innerWidth - .5) * .8;
+      mouseY = (e.clientY / window.innerHeight - .5) * .8;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      group.rotation.y += 0.0025;
+      group.rotation.x += 0.001;
+
+      shapes.forEach((shape, index) => {
+        shape.rotation.x += 0.003 + index * 0.0008;
+        shape.rotation.y += 0.004 + index * 0.0006;
+        shape.position.y += Math.sin(Date.now() * 0.001 + index) * 0.0015;
+      });
+
+      camera.position.x += (mouseX - camera.position.x) * 0.035;
+      camera.position.y += (-mouseY - camera.position.y) * 0.035;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
