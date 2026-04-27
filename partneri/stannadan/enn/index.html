@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>enn. — Architecture Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+a{text-decoration:none;color:inherit}
+:root{
+  --bg:#080706;
+  --bg2:#0D0C0B;
+  --bg3:#111009;
+  --b:rgba(255,255,255,0.07);
+  --w:#F2EDE5;
+  --dim:rgba(242,237,229,0.52);
+  --dimmer:rgba(242,237,229,0.28);
+  --g:#BFA06A;
+  --g2:#8C7044;
+  --glow:rgba(191,160,106,0.1);
+}
+body{background:var(--bg);color:var(--w);font-family:'Manrope',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+::selection{background:var(--g);color:#000}
+
+/* CURSOR */
+#cur{position:fixed;z-index:9999;pointer-events:none;top:0;left:0;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#curd{width:7px;height:7px;border-radius:50%;background:var(--w);transition:width .22s,height .22s}
+#curr{position:fixed;z-index:9998;pointer-events:none;top:0;left:0;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;border:1px solid rgba(191,160,106,.4);transition:width .32s,height .32s,border-color .32s}
+body.hov #curd{width:14px;height:14px}
+body.hov #curr{width:60px;height:60px;border-color:rgba(191,160,106,.15)}
+
+/* PRELOADER */
+#loader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem}
+.pll{font-family:'EB Garamond',serif;font-style:italic;font-size:3.8rem;letter-spacing:.04em;color:var(--w);opacity:0;animation:ri .9s .2s cubic-bezier(.16,1,.3,1) forwards}
+.pll b{color:var(--g);font-weight:400}
+.plb{width:160px;height:1px;background:rgba(255,255,255,.06);overflow:hidden}
+#plf{height:100%;width:0%;background:linear-gradient(90deg,var(--g2),var(--g));transition:width .04s linear}
+.pls{font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;color:var(--g);opacity:0;animation:ri .7s .75s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes ri{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:2.2rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .5s}
+#nav.sc{background:rgba(8,7,6,.9);backdrop-filter:blur(20px)}
+.nlo{font-family:'EB Garamond',serif;font-style:italic;font-size:1.35rem;letter-spacing:.04em}
+.nlo em{color:var(--g);font-style:normal}
+.nli{display:flex;gap:2.8rem;list-style:none}
+.nli a{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);transition:color .3s}
+.nli a:hover{color:var(--g)}
+.nct{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g);padding:.65rem 1.65rem;border:1px solid rgba(191,160,106,.32);transition:background .3s,color .3s}
+.nct:hover{background:var(--g);color:#000}
+
+/* HERO */
+#hero{position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:flex-end}
+#hcvs{position:absolute;inset:0;width:100%!important;height:100%!important}
+/* Bottom gradient only — does NOT cover top copy area */
+#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,rgba(8,7,6,.92) 0%,rgba(8,7,6,.55) 45%,transparent 100%);pointer-events:none;z-index:1}
+.hcopy{position:relative;z-index:2;width:100%;padding:0 3.5rem 5rem;display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:4rem}
+.hhed{font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(4.5rem,8.5vw,9.5rem);line-height:.92;letter-spacing:-.025em;color:var(--w);opacity:0;animation:fu 1.2s 2.4s cubic-bezier(.16,1,.3,1) forwards;text-shadow:0 2px 40px rgba(0,0,0,.8)}
+.hhed i{font-style:italic;color:var(--g)}
+.hrgt{opacity:0;animation:fu .9s 2.8s cubic-bezier(.16,1,.3,1) forwards}
+.hkk{font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--g);margin-bottom:1.8rem;display:flex;align-items:center;gap:1.2rem}
+.hkk::before{content:'';width:26px;height:1px;background:var(--g)}
+.hbd{font-size:.9rem;line-height:1.92;color:var(--w);opacity:.78;max-width:310px;margin-bottom:2.4rem}
+.hca{display:inline-flex;align-items:center;gap:.85rem;font-size:.64rem;letter-spacing:.38em;text-transform:uppercase;color:var(--g);border-bottom:1px solid rgba(191,160,106,.3);padding-bottom:.3rem;transition:gap .3s,border-color .3s}
+.hca:hover{gap:1.35rem;border-color:var(--g)}
+.hscr{position:absolute;bottom:2.8rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.8rem;font-size:.58rem;letter-spacing:.45em;text-transform:uppercase;color:rgba(242,237,229,.35);z-index:2;opacity:0;animation:ri .8s 3.5s forwards}
+.scln{width:1px;height:38px;background:linear-gradient(to bottom,var(--g),transparent);animation:sp 2.2s 4s infinite}
+@keyframes sp{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* MARQUEE */
+.mq{overflow:hidden;border-top:1px solid var(--b);border-bottom:1px solid var(--b);padding:.82rem 0}
+.mqt{display:flex;gap:3.5rem;width:max-content;animation:mqa 28s linear infinite;font-size:.6rem;letter-spacing:.38em;text-transform:uppercase;color:var(--dimmer);white-space:nowrap}
+.mqt em{color:var(--g);font-style:normal;font-size:.42rem}
+@keyframes mqa{to{transform:translateX(-50%)}}
+
+/* SECTION LABEL */
+.slb{font-size:.58rem;letter-spacing:.52em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:1.2rem;margin-bottom:2.8rem}
+.slb::before{content:attr(data-n);color:var(--dimmer);font-size:.55rem}
+
+/* ABOUT */
+#about{padding:14rem 3.5rem 10rem;display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
+.ah{font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(2.4rem,4vw,4.2rem);line-height:1.07;margin-bottom:2.8rem}
+.ah i{font-style:italic;color:var(--g)}
+.ap{font-size:.88rem;line-height:2.05;color:var(--dim);margin-bottom:1.4rem;max-width:440px}
+.ap strong{color:var(--w);font-weight:400}
+.lar{margin-top:2rem;display:inline-flex;align-items:center;gap:.78rem;font-size:.62rem;letter-spacing:.38em;text-transform:uppercase;color:var(--g);transition:gap .3s}
+.lar:hover{gap:1.3rem}
+
+/* ROOM */
+.rwp{position:relative;aspect-ratio:3/4;border:1px solid var(--b);overflow:hidden;background:var(--bg3)}
+#rcvs{width:100%!important;height:100%!important}
+.rui{position:absolute;bottom:1.4rem;left:1.4rem;right:1.4rem;display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
+.ruil{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(191,160,106,.4);line-height:1.65}
+.ruih{font-size:.52rem;letter-spacing:.2em;color:rgba(242,237,229,.2);border:1px solid var(--b);padding:.35rem .75rem}
+
+/* WORKS */
+#works{padding:10rem 3.5rem 12rem}
+.wtp{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:5rem}
+.wh{font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(2.6rem,5vw,5rem);line-height:1}
+.wh i{font-style:italic;color:var(--g)}
+.wmt{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dimmer)}
+/* GRID */
+.wg{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.wc{position:relative;overflow:hidden;background:var(--bg3);cursor:pointer}
+.wc:nth-child(1){grid-column:1/8;grid-row:1/2;aspect-ratio:16/9}
+.wc:nth-child(2){grid-column:8/13;grid-row:1/2;aspect-ratio:4/3}
+.wc:nth-child(3){grid-column:1/5;grid-row:2/3;aspect-ratio:4/3}
+.wc:nth-child(4){grid-column:5/9;grid-row:2/3;aspect-ratio:4/3}
+.wc:nth-child(5){grid-column:9/13;grid-row:2/3;aspect-ratio:4/3}
+.wcc{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
+.wsk{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,7,6,.95) 0%,rgba(8,7,6,.1) 50%,transparent 68%);opacity:0;transition:opacity .5s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem 2rem}
+.wc:hover .wsk{opacity:1}
+.wcat{font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--g);margin-bottom:.45rem}
+.wnm{font-family:'EB Garamond',serif;font-size:clamp(1.1rem,2vw,1.75rem);font-weight:400;line-height:1.1;color:var(--w)}
+.wyr{position:absolute;top:1.2rem;right:1.4rem;font-size:.54rem;letter-spacing:.2em;color:rgba(242,237,229,.28)}
+.wc::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--g);transition:width .55s ease}
+.wc:hover::after{width:100%}
+
+/* QUOTE */
+#quote{padding:8rem 3.5rem;border-top:1px solid var(--b);display:flex;flex-direction:column;align-items:center;gap:2.8rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,var(--glow),transparent 55%)}
+.qt{font-family:'EB Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(1.65rem,3.2vw,2.9rem);line-height:1.38;max-width:780px;color:var(--w)}
+.qt::before,.qt::after{content:'"';color:var(--g);font-size:1.12em;line-height:0;vertical-align:-.16em}
+.qs{font-size:.58rem;letter-spacing:.48em;text-transform:uppercase;color:var(--g2)}
+
+/* SERVICES */
+#services{padding:10rem 3.5rem}
+.svcg{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--b)}
+.svc{padding:3.5rem 0;border-bottom:1px solid var(--b);display:grid;grid-template-columns:2.5rem 1fr 1.2rem;gap:2rem;align-items:start;transition:padding-left .36s cubic-bezier(.16,1,.3,1);cursor:default}
+.svc:nth-child(odd){border-right:1px solid var(--b);padding-right:5rem}
+.svc:nth-child(even){padding-left:5rem}
+.svc:hover{padding-left:1.8rem}
+.svc:nth-child(even):hover{padding-left:6.5rem}
+.svn{font-size:.58rem;letter-spacing:.2em;color:var(--g);padding-top:.18rem}
+.svt{font-family:'EB Garamond',serif;font-size:1.6rem;font-weight:400;margin-bottom:.85rem;transition:color .3s;color:var(--w)}
+.svc:hover .svt{color:var(--g)}
+.svd{font-size:.8rem;line-height:1.95;color:var(--dim);max-width:355px}
+.sva{color:rgba(191,160,106,.18);font-size:.95rem;transition:all .3s;align-self:center}
+.svc:hover .sva{color:var(--g);transform:translate(4px,-4px)}
+
+/* STATS */
+#stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--b)}
+.stat{padding:5rem 3rem;border-right:1px solid var(--b);transition:background .35s}
+.stat:last-child{border-right:none}
+.stat:hover{background:rgba(191,160,106,.04)}
+.stv{font-family:'EB Garamond',serif;font-size:clamp(3rem,5vw,4.8rem);font-weight:400;line-height:1;margin-bottom:.55rem;color:var(--w)}
+.stv sup{font-size:.42em;vertical-align:top;color:var(--g)}
+.stl{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--dimmer)}
+
+/* PROCESS */
+#process{padding:10rem 3.5rem;border-top:1px solid var(--b)}
+.pin{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:end;margin-bottom:8rem}
+.pih{font-family:'EB Garamond',serif;font-size:clamp(2.4rem,4vw,4rem);font-weight:400;line-height:1.05;color:var(--w)}
+.pih i{font-style:italic;color:var(--g)}
+.pid{font-size:.85rem;line-height:2.05;color:var(--dim)}
+.pst{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--b)}
+.ps{padding:3.5rem 2rem 3.5rem 0;border-right:1px solid var(--b)}
+.ps:last-child{border-right:none}
+.psn{font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--g);margin-bottom:1.8rem}
+.psd{width:8px;height:8px;border-radius:50%;border:1px solid var(--g);background:transparent;margin-bottom:1.8rem;position:relative}
+.psd::before{content:'';position:absolute;inset:2px;border-radius:50%;background:var(--g);opacity:0;transition:opacity .4s}
+.ps:hover .psd::before{opacity:1}
+.pst2{font-family:'EB Garamond',serif;font-size:1.28rem;font-weight:400;margin-bottom:.85rem;color:var(--w)}
+.psp{font-size:.78rem;line-height:1.95;color:var(--dim)}
+
+/* CONTACT */
+#contact{margin:0 3.5rem 8rem;border:1px solid var(--b);position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 100%,rgba(191,160,106,.07),transparent 65%)}
+#ccvs{position:absolute;inset:0;opacity:.4;width:100%!important;height:100%!important}
+.cin{position:relative;z-index:1;padding:9rem 6rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.ck{font-size:.58rem;letter-spacing:.5em;text-transform:uppercase;color:var(--g);margin-bottom:2.4rem}
+.ch{font-family:'EB Garamond',serif;font-size:clamp(2.6rem,5vw,5.5rem);font-weight:400;line-height:.97;color:var(--w)}
+.ch i{font-style:italic;color:var(--g)}
+.cr{display:flex;flex-direction:column;gap:1.9rem;align-items:flex-start}
+.cem{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(1rem,2vw,1.38rem);color:var(--dim);border-bottom:1px solid rgba(191,160,106,.18);padding-bottom:.28rem;transition:color .3s,border-color .3s}
+.cem:hover{color:var(--g);border-color:var(--g)}
+.cds{font-size:.8rem;line-height:1.95;color:var(--dimmer);max-width:315px}
+.cbt{display:flex;gap:1rem;flex-wrap:wrap}
+.bf{display:inline-flex;align-items:center;gap:.7rem;background:var(--g);color:#000;padding:1rem 2.4rem;font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;font-weight:400;transition:background .3s}
+.bf:hover{background:var(--w)}
+.bl{display:inline-flex;align-items:center;gap:.7rem;border:1px solid rgba(191,160,106,.3);color:var(--g);padding:1rem 2.4rem;font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;transition:border-color .3s,background .3s}
+.bl:hover{border-color:var(--g);background:rgba(191,160,106,.06)}
+.cso{display:flex;gap:2rem}
+.cso a{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dimmer);border-bottom:1px solid transparent;padding-bottom:.14rem;transition:color .3s,border-color .3s}
+.cso a:hover{color:var(--g);border-color:rgba(191,160,106,.38)}
+
+/* FOOTER */
+footer{padding:2.4rem 3.5rem;border-top:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.flo{font-family:'EB Garamond',serif;font-style:italic;font-size:.98rem;color:var(--dimmer)}
+.flo b{color:var(--g);font-weight:400}
+.fco,.fll{font-size:.56rem;letter-spacing:.2em;color:rgba(242,237,229,.14)}
+.fll{text-transform:uppercase}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.42s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #nav{padding:1.4rem 1.5rem}
+  .nli,.nct{display:none}
+  .hcopy{padding:0 1.5rem 4rem;grid-template-columns:1fr}
+  .hrgt{margin-top:2rem}
+  #about{grid-template-columns:1fr;padding:7rem 1.5rem 6rem;gap:3.5rem}
+  .rwp{aspect-ratio:4/3}
+  #works{padding:6rem 1.5rem 8rem}
+  .wg{grid-template-columns:1fr;gap:3px}
+  .wc:nth-child(n){grid-column:1/-1;grid-row:auto;aspect-ratio:4/3}
+  .svcg{grid-template-columns:1fr}
+  .svc:nth-child(odd){border-right:none;padding-right:0}
+  .svc:nth-child(even){padding-left:0}
+  .svc:hover,.svc:nth-child(even):hover{padding-left:1.5rem}
+  #stats{grid-template-columns:1fr 1fr}
+  .stat{padding:3rem 1.5rem}
+  .pin{grid-template-columns:1fr;gap:2.5rem;margin-bottom:5rem}
+  .pst{grid-template-columns:1fr 1fr}
+  .ps{border-bottom:1px solid var(--b)}
+  .cin{grid-template-columns:1fr;padding:5rem 2rem;gap:3.5rem}
+  #contact{margin:0 1.5rem 5rem}
+  footer{flex-direction:column;gap:.8rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="pll">enn<b>.</b></div>
+  <div class="plb"><div id="plf"></div></div>
+  <div class="pls">Architecture Studio</div>
+</div>
+
+<div id="cur"><div id="curd"></div></div>
+<div id="curr"></div>
+
+<nav id="nav">
+  <a href="#" class="nlo">enn<em>.</em></a>
+  <ul class="nli">
+    <li><a href="#about">Studio</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <a href="#contact" class="nct">Enquire</a>
+</nav>
+
+<section id="hero">
+  <canvas id="hcvs"></canvas>
+  <div class="hcopy">
+    <h1 class="hhed">Space<br>as <i>Pure</i><br>Intention</h1>
+    <div class="hrgt">
+      <div class="hkk">Interior Architecture Studio</div>
+      <p class="hbd">We create spaces where light, material and proportion converge into something that feels inevitable — as though it could have existed no other way.</p>
+      <a href="#works" class="hca">View Selected Works <span>&#8594;</span></a>
+    </div>
+  </div>
+  <div class="hscr"><div class="scln"></div><span>Scroll</span></div>
+</section>
+
+<div class="mq">
+  <div class="mqt">
+    <span>Residential Interiors</span><em>&#9670;</em>
+    <span>Commercial Spaces</span><em>&#9670;</em>
+    <span>Concept &amp; Vision</span><em>&#9670;</em>
+    <span>Material Curation</span><em>&#9670;</em>
+    <span>Lighting Design</span><em>&#9670;</em>
+    <span>Furniture Selection</span><em>&#9670;</em>
+    <span>Spatial Planning</span><em>&#9670;</em>
+    <span>Project Supervision</span><em>&#9670;</em>
+    <span>Residential Interiors</span><em>&#9670;</em>
+    <span>Commercial Spaces</span><em>&#9670;</em>
+    <span>Concept &amp; Vision</span><em>&#9670;</em>
+    <span>Material Curation</span><em>&#9670;</em>
+    <span>Lighting Design</span><em>&#9670;</em>
+    <span>Furniture Selection</span><em>&#9670;</em>
+    <span>Spatial Planning</span><em>&#9670;</em>
+    <span>Project Supervision</span><em>&#9670;</em>
+  </div>
+</div>
+
+<section id="about">
+  <div>
+    <div class="slb rv" data-n="01">About the Studio</div>
+    <h2 class="ah rv d1">Architecture<br>is the <i>art of</i><br>inhabited space</h2>
+    <p class="ap rv d2"><strong>enn. archstudio</strong> is a boutique interior architecture practice working across residential, commercial and hospitality projects. We are guided by one principle: that a truly exceptional space must feel both entirely fresh and absolutely right.</p>
+    <p class="ap rv d2">Each project begins with sustained listening. We study the way people move through space, how light shifts across a day, what a room needs to become what it is meant to be. The result is always specific, never a formula, never repeated.</p>
+    <a href="#works" class="lar rv d3">Selected Works &#8594;</a>
+  </div>
+  <div class="rv d1">
+    <div class="rwp">
+      <canvas id="rcvs"></canvas>
+      <div class="rui">
+        <div class="ruil">Interior Study<br>3D Render</div>
+        <div class="ruih">Drag to rotate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="wtp rv">
+    <h2 class="wh">Selected <i>Works</i></h2>
+    <span class="wmt">2019 &#8211; 2024</span>
+  </div>
+  <div class="wg">
+    <div class="wc">
+      <canvas class="wcc" id="wc1"></canvas>
+      <div class="wyr">2024</div>
+      <div class="wsk"><div class="wcat">Residential</div><div class="wnm">Penthouse, Sarajevo</div></div>
+    </div>
+    <div class="wc">
+      <canvas class="wcc" id="wc2"></canvas>
+      <div class="wyr">2024</div>
+      <div class="wsk"><div class="wcat">Commercial</div><div class="wnm">Law Firm Offices</div></div>
+    </div>
+    <div class="wc">
+      <canvas class="wcc" id="wc3"></canvas>
+      <div class="wyr">2023</div>
+      <div class="wsk"><div class="wcat">Hospitality</div><div class="wnm">Boutique Cafe</div></div>
+    </div>
+    <div class="wc">
+      <canvas class="wcc" id="wc4"></canvas>
+      <div class="wyr">2023</div>
+      <div class="wsk"><div class="wcat">Residential</div><div class="wnm">Family House, Mostar</div></div>
+    </div>
+    <div class="wc">
+      <canvas class="wcc" id="wc5"></canvas>
+      <div class="wyr">2022</div>
+      <div class="wsk"><div class="wcat">Retail</div><div class="wnm">Fashion Showroom</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="quote">
+  <blockquote class="qt rv">Every great interior is a kind of silence shaped so precisely that it allows everything it contains to be heard.</blockquote>
+  <div class="qs rv d1">&#8212; enn. archstudio</div>
+</section>
+
+<section id="services">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem">
+    <div class="slb rv" data-n="02">What We Do</div>
+    <h2 class="wh rv d1" style="font-size:clamp(2.2rem,4vw,4rem)">What We <i>Offer</i></h2>
+  </div>
+  <div class="svcg">
+    <div class="svc rv"><span class="svn">01</span><div><h3 class="svt">Residential Interiors</h3><p class="svd">Apartments, houses and private villas transformed into places that reflect the lives of those who inhabit them. From concept through construction supervision.</p></div><span class="sva">&#8599;</span></div>
+    <div class="svc rv d1"><span class="svn">02</span><div><h3 class="svt">Commercial Spaces</h3><p class="svd">Offices, hospitality and retail environments that give brands physical form with precision, character and the durability that only careful design provides.</p></div><span class="sva">&#8599;</span></div>
+    <div class="svc rv d1"><span class="svn">03</span><div><h3 class="svt">Concept &amp; Design</h3><p class="svd">Full design packages: spatial planning, material palette, furniture selection, lighting concept and technical documentation delivered with care and precision.</p></div><span class="sva">&#8599;</span></div>
+    <div class="svc rv d2"><span class="svn">04</span><div><h3 class="svt">Execution &amp; Supervision</h3><p class="svd">We remain present through every phase of construction, coordinating contractors and protecting design intent so nothing is lost in translation.</p></div><span class="sva">&#8599;</span></div>
+  </div>
+</section>
+
+<div id="stats">
+  <div class="stat rv"><div class="stv">80<sup>+</sup></div><div class="stl">Projects Completed</div></div>
+  <div class="stat rv d1"><div class="stv">6<sup>+</sup></div><div class="stl">Years of Practice</div></div>
+  <div class="stat rv d2"><div class="stv">3</div><div class="stl">Countries</div></div>
+  <div class="stat rv d3"><div class="stv">100<sup>%</sup></div><div class="stl">Bespoke Projects</div></div>
+</div>
+
+<section id="process">
+  <div class="pin">
+    <div>
+      <div class="slb rv" data-n="03">How We Work</div>
+      <h2 class="pih rv d1">From <i>first idea</i><br>to final reveal</h2>
+    </div>
+    <p class="pid rv d1">A deliberate, unhurried process. Each phase essential, none abbreviated. The quality of a space is built in the process long before a single tile is laid.</p>
+  </div>
+  <div class="pst">
+    <div class="ps rv"><div class="psn">Phase 01</div><div class="psd"></div><div class="pst2">Listening</div><p class="psp">We immerse ourselves in your world before drawing a single line. This phase ends only when we truly understand what the space must become.</p></div>
+    <div class="ps rv d1"><div class="psn">Phase 02</div><div class="psd"></div><div class="pst2">Conceiving</div><p class="psp">A complete spatial narrative emerges, materials, light, proportion, palette and atmosphere unified into a concept that feels inevitable from the first sketch.</p></div>
+    <div class="ps rv d2"><div class="psn">Phase 03</div><div class="psd"></div><div class="pst2">Building</div><p class="psp">Technical drawings, supplier coordination, site supervision. We are present throughout, protecting every decision that makes the space what it needs to be.</p></div>
+    <div class="ps rv d3"><div class="psn">Phase 04</div><div class="psd"></div><div class="pst2">Revealing</div><p class="psp">The moment a space becomes itself. We hand over not just a finished project, but a place that will deepen and reveal its quality over years of habitation.</p></div>
+  </div>
+</section>
+
+<section id="contact">
+  <canvas id="ccvs"></canvas>
+  <div class="cin">
+    <div>
+      <div class="ck rv">Start a Conversation</div>
+      <h2 class="ch rv d1">Have a project<br>in <i>mind?</i></h2>
+    </div>
+    <div class="cr rv d2">
+      <a href="mailto:studio@ennarchstudio.com" class="cem">studio@ennarchstudio.com</a>
+      <p class="cds">We welcome enquiries from clients who value the long view, projects where time and care produce something truly exceptional.</p>
+      <div class="cbt">
+        <a href="mailto:studio@ennarchstudio.com" class="bf">Send an Enquiry &#8594;</a>
+        <a href="https://www.instagram.com/enn.archstudio/" target="_blank" class="bl">Instagram &#8599;</a>
+      </div>
+      <div class="cso">
+        <a href="https://www.instagram.com/enn.archstudio/" target="_blank">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="mailto:studio@ennarchstudio.com">Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flo">enn<b>.</b> archstudio</div>
+  <div class="fco">&#169; 2024 enn. archstudio. All rights reserved.</div>
+  <div class="fll">Sarajevo &#183; Bosnia &amp; Herzegovina</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function() {
+'use strict';
+
+// CURSOR
+var $cd = document.getElementById('cur'),
+    $cr = document.getElementById('curr');
+var mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
+(function tick(){
+  rx += (mx-rx)*0.14; ry += (my-ry)*0.14;
+  $cd.style.left = mx+'px'; $cd.style.top = my+'px';
+  $cr.style.left = rx+'px'; $cr.style.top  = ry+'px';
+  requestAnimationFrame(tick);
+})();
+var hoverEls = document.querySelectorAll('a,button,.wc,.svc,.stat');
+hoverEls.forEach(function(el){
+  el.addEventListener('mouseenter', function(){ document.body.classList.add('hov'); });
+  el.addEventListener('mouseleave', function(){ document.body.classList.remove('hov'); });
+});
+
+// PRELOADER
+(function(){
+  var f = document.getElementById('plf');
+  var l = document.getElementById('loader');
+  var p = 0;
+  var iv = setInterval(function(){
+    p = Math.min(100, p + Math.random()*7 + 1);
+    f.style.width = p + '%';
+    if (p >= 100) {
+      clearInterval(iv);
+      setTimeout(function(){
+        l.style.transition = 'opacity .65s';
+        l.style.opacity = '0';
+        setTimeout(function(){ l.remove(); }, 660);
+      }, 320);
+    }
+  }, 48);
+})();
+
+// NAV
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function(){ nav.classList.toggle('sc', window.scrollY > 55); }, {passive:true});
+
+// REVEAL
+var rvObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('on'); });
+}, {threshold:0.07, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){ rvObs.observe(el); });
+
+// ANCHORS
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+});
+
+// THREE UTILS
+function mkR(cvs, bgColor) {
+  var R = new THREE.WebGLRenderer({canvas:cvs, antialias:true, alpha:false});
+  R.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  R.setClearColor(bgColor || 0x080706, 1);
+  R.shadowMap.enabled = true;
+  R.shadowMap.type = THREE.PCFSoftShadowMap;
+  return R;
+}
+function mkRAlpha(cvs) {
+  var R = new THREE.WebGLRenderer({canvas:cvs, antialias:true, alpha:true});
+  R.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  R.setClearColor(0x000000, 0);
+  return R;
+}
+function autofit(R, C, el) {
+  function resize(){
+    var w = el.clientWidth, h = el.clientHeight;
+    if(w===0 || h===0) return;
+    C.aspect = w/h; C.updateProjectionMatrix(); R.setSize(w, h);
+  }
+  var ob = new ResizeObserver(resize);
+  ob.observe(el);
+  resize();
+}
+
+// Add mesh helper
+function addMesh(S, geo, mat, x, y, z, rx, ry, rz) {
+  var m = new THREE.Mesh(geo, mat);
+  m.position.set(x||0, y||0, z||0);
+  if(rx) m.rotation.x = rx;
+  if(ry) m.rotation.y = ry;
+  if(rz) m.rotation.z = rz;
+  m.castShadow = true;
+  m.receiveShadow = true;
+  S.add(m);
+  return m;
+}
+
+// ============================================================
+// HERO
+// ============================================================
+(function(){
+  var cvs = document.getElementById('hcvs');
+  var R = mkR(cvs, 0x080706);
+  var S = new THREE.Scene();
+  S.fog = new THREE.FogExp2(0x080706, 0.013);
+  var C = new THREE.PerspectiveCamera(55, 2, 0.1, 180);
+  C.position.set(0, 7, 32);
+
+  S.add(new THREE.AmbientLight(0x1A1610, 1));
+  var kl = new THREE.SpotLight(0xFFEDD0, 1.4, 80, 0.32, 0.72);
+  kl.position.set(12, 30, 18); S.add(kl);
+  var fl = new THREE.PointLight(0xBFA06A, 0.75, 60);
+  fl.position.set(-18, 10, 12); S.add(fl);
+
+  // Ground
+  var gf = new THREE.Mesh(new THREE.PlaneGeometry(200,200), new THREE.MeshStandardMaterial({color:0x0C0A08, roughness:0.98}));
+  gf.rotation.x = -Math.PI/2; gf.position.y = -6; S.add(gf);
+
+  // Architectural volumes + wireframe
+  var volData = [
+    [0,0,0,18,14,16, 0x131110],
+    [-26,1,-12,12,10,10, 0x111009],
+    [24,2,-16,14,16,8, 0x0F0D0B],
+    [-14,4,-26,10,12,20, 0x121110],
+    [32,-2,4,8,6,14, 0x0E0C0A],
+    [8,-3,18,6,4,8, 0x111009]
+  ];
+  var volMeshes = [];
+  volData.forEach(function(v){
+    var geo = new THREE.BoxGeometry(v[3],v[4],v[5]);
+    var solid = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({color:v[6], roughness:0.86, metalness:0.07}));
+    solid.position.set(v[0],v[1],v[2]);
+    solid.castShadow = true; solid.receiveShadow = true;
+    S.add(solid);
+    var wf = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:0xBFA06A, wireframe:true, transparent:true, opacity:0.07}));
+    wf.position.set(v[0],v[1],v[2]); wf.scale.setScalar(1.003);
+    S.add(wf);
+    volMeshes.push(solid);
+  });
+
+  // Horizontal section planes
+  var pm = new THREE.MeshBasicMaterial({color:0xBFA06A, transparent:true, opacity:0.035, side:THREE.DoubleSide});
+  [-4,0,5,10].forEach(function(y){
+    var p = new THREE.Mesh(new THREE.PlaneGeometry(90,65), pm);
+    p.rotation.x = -Math.PI/2; p.position.y = y; S.add(p);
+  });
+
+  // Particles
+  var pN = 1500, pG = new THREE.BufferGeometry(), pP = new Float32Array(pN*3);
+  for(var i=0; i<pN; i++){
+    pP[i*3]   = (Math.random()-0.5)*150;
+    pP[i*3+1] = (Math.random()-0.5)*65;
+    pP[i*3+2] = (Math.random()-0.5)*90;
+  }
+  pG.setAttribute('position', new THREE.BufferAttribute(pP, 3));
+  var pts = new THREE.Points(pG, new THREE.PointsMaterial({color:0xBFA06A, size:0.065, transparent:true, opacity:0.42}));
+  S.add(pts);
+
+  // Accent line
+  var lg = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,-6,0), new THREE.Vector3(0,22,0)]);
+  S.add(new THREE.Line(lg, new THREE.LineBasicMaterial({color:0xBFA06A, transparent:true, opacity:0.14})));
+
+  var scrollY=0, moX=0, moY=0;
+  window.addEventListener('scroll', function(){ scrollY=window.scrollY; }, {passive:true});
+  document.addEventListener('mousemove', function(e){
+    moX = (e.clientX/window.innerWidth - 0.5)*2;
+    moY = (e.clientY/window.innerHeight - 0.5)*2;
+  });
+  autofit(R, C, cvs.parentElement);
+
+  (function anim(t){
+    requestAnimationFrame(anim);
+    var s = t*0.001;
+    C.position.x += (moX*2.5 - C.position.x)*0.015;
+    C.position.y += (-moY*1.5 + 7 - C.position.y)*0.015;
+    C.position.z = 32 - scrollY*0.022;
+    C.lookAt(0,1,0);
+    pts.rotation.y = s*0.012;
+    volMeshes.forEach(function(m, i){
+      m.rotation.y = s*0.033*(i%2===0?1:-1);
+      m.rotation.x = Math.sin(s*0.02+i)*0.022;
+    });
+    fl.position.x = Math.sin(s*0.27)*18;
+    fl.position.z = Math.cos(s*0.27)*18;
+    R.render(S,C);
+  })(0);
+})();
+
+// ============================================================
+// ROOM VIEWER
+// ============================================================
+(function(){
+  var cvs = document.getElementById('rcvs');
+  var R = mkR(cvs, 0x0D0C0B);
+  var S = new THREE.Scene();
+  S.background = new THREE.Color(0x0D0C0B);
+  S.fog = new THREE.Fog(0x0D0C0B, 16, 29);
+  var C = new THREE.PerspectiveCamera(46, 1, 0.1, 80);
+
+  S.add(new THREE.AmbientLight(0x120F09, 1.3));
+  var over = new THREE.SpotLight(0xFFF4DC, 2.0, 20, Math.PI/8, 0.65);
+  over.position.set(1, 11, -2); over.castShadow=true;
+  over.shadow.mapSize.set(2048, 2048); over.shadow.bias=-0.0003;
+  S.add(over);
+  var lf = new THREE.PointLight(0xBFA06A, 1.3, 14); lf.position.set(-5,4,-3); S.add(lf);
+  var rf = new THREE.PointLight(0xD4C8A8, 0.55, 10); rf.position.set(5,3,3); S.add(rf);
+  var ll = new THREE.PointLight(0xFFD090, 2.2, 9); ll.position.set(4,5.5,-4.5); S.add(ll);
+  var pl2 = new THREE.PointLight(0xFFE4A8, 1.7, 7); pl2.position.set(0.5,8.3,-2.5); S.add(pl2);
+
+  var Mx = {
+    fl: new THREE.MeshStandardMaterial({color:0x1C1813, roughness:0.74, metalness:0.04}),
+    wa: new THREE.MeshStandardMaterial({color:0x161310, roughness:0.96}),
+    ce: new THREE.MeshStandardMaterial({color:0x1E1C18, roughness:0.98}),
+    dk: new THREE.MeshStandardMaterial({color:0x0E0C09, roughness:0.88}),
+    lw: new THREE.MeshStandardMaterial({color:0x3A2A14, roughness:0.8}),
+    fa: new THREE.MeshStandardMaterial({color:0x3C3430, roughness:0.96}),
+    li: new THREE.MeshStandardMaterial({color:0x4C4440, roughness:0.97}),
+    go: new THREE.MeshStandardMaterial({color:0xBFA06A, roughness:0.18, metalness:0.92}),
+    br: new THREE.MeshStandardMaterial({color:0x9C7C3A, roughness:0.28, metalness:0.87}),
+    st: new THREE.MeshStandardMaterial({color:0x2E2822, roughness:0.9, metalness:0.04}),
+    ma: new THREE.MeshStandardMaterial({color:0x3C3834, roughness:0.58, metalness:0.1}),
+    ew: new THREE.MeshStandardMaterial({color:0xFFE8B0, emissive:0xFFE090, emissiveIntensity:0.75, transparent:true, opacity:0.88}),
+    es: new THREE.MeshStandardMaterial({color:0xFFF0D0, emissive:0xFFE8C0, emissiveIntensity:0.52, transparent:true, opacity:0.86}),
+    gl: new THREE.MeshStandardMaterial({color:0x8CA8B8, roughness:0.04, metalness:0.18, transparent:true, opacity:0.24})
+  };
+
+  function bx(x,y,z,w,h,d,mat){ return addMesh(S, new THREE.BoxGeometry(w,h,d), mat, x,y,z); }
+  function cy(x,y,z,rt,rb,h,mat,seg){ return addMesh(S, new THREE.CylinderGeometry(rt,rb,h,seg||16), mat, x,y,z); }
+
+  // Shell
+  var fp = new THREE.Mesh(new THREE.PlaneGeometry(20,20), Mx.fl); fp.rotation.x=-Math.PI/2; fp.receiveShadow=true; S.add(fp);
+  var bw = new THREE.Mesh(new THREE.PlaneGeometry(20,13), Mx.wa); bw.position.set(0,6.5,-9); bw.receiveShadow=true; S.add(bw);
+  var lw = new THREE.Mesh(new THREE.PlaneGeometry(20,13), Mx.wa); lw.rotation.y=Math.PI/2; lw.position.set(-9,6.5,0); lw.receiveShadow=true; S.add(lw);
+  var cep = new THREE.Mesh(new THREE.PlaneGeometry(20,20), Mx.ce); cep.rotation.x=Math.PI/2; cep.position.y=13; S.add(cep);
+
+  // Sofa
+  bx(0.4,0.28,-2.8, 5.2,0.55,2.4, Mx.dk);
+  bx(0.4,0.96,-3.9, 5.2,1.48,0.42, Mx.dk);
+  bx(3.1,0.88,-2.8, 0.42,1.2,2.4, Mx.dk);
+  bx(-2.3,0.88,-2.8, 0.42,1.2,2.4, Mx.dk);
+  [-1.5,0.4,1.7].forEach(function(x){ bx(x+0.4,0.68,-2.8, 1.52,0.22,2.0, Mx.li); });
+  [-1,0.4,1.7].forEach(function(x){ bx(x+0.4,1.08,-3.63, 1.32,0.88,0.2, Mx.li); });
+  bx(2.6,0.84,-3.2, 0.48,0.44,0.42, Mx.fa);
+  [[3.3,-0.2],[3.3,-2.6],[-2.1,-0.2],[-2.1,-2.6]].forEach(function(v){ cy(v[0]+0.4, 0.16, v[1], 0.04,0.04,0.32, Mx.br); });
+
+  // Coffee table
+  bx(0.4,0.83,0.4, 2.4,0.06,1.2, Mx.ma);
+  [[1.6,0.6],[1.6,-0.6],[-0.8,0.6],[-0.8,-0.6]].forEach(function(v){ cy(v[0]+0.4, 0.43, 0.4+v[1], 0.03,0.03,0.82, Mx.br); });
+  bx(0.4,0.89,0.3, 0.72,0.04,0.5, Mx.lw);
+  bx(0.35,0.87,0.28, 0.66,0.04,0.46, new THREE.MeshStandardMaterial({color:0x1E2836, roughness:0.9}));
+  addMesh(S, new THREE.CylinderGeometry(0.07,0.12,0.36,20), Mx.st, -0.3, 0.84+0.18, 0.4);
+
+  // Side table
+  addMesh(S, new THREE.CylinderGeometry(0.38,0.32,0.055,32), Mx.ma, -3, 0.68, -2.8);
+  cy(-3, 0.36, -2.8, 0.025,0.025,0.66, Mx.br);
+
+  // Floor lamp
+  cy(4, 3.1, -4.5, 0.025,0.025,6.2, Mx.br);
+  addMesh(S, new THREE.CylinderGeometry(0.45,0.25,0.55,24), Mx.ew, 4, 6.15, -4.5);
+  addMesh(S, new THREE.CylinderGeometry(0.3,0.22,0.06,24), Mx.br, 4, 0.03, -4.5);
+
+  // Pendant
+  cy(0.5, 11.4, -2.5, 0.008,0.008,3.2, Mx.br);
+  addMesh(S, new THREE.SphereGeometry(0.38,24,24), Mx.es, 0.5, 9.0, -2.5);
+
+  // Wall art panels
+  [-1.8, 0.5, 2.8].forEach(function(x){
+    bx(x,4.5,-8.96, 0.04,2.2,1.4, Mx.dk);
+    for(var j=0;j<3;j++){
+      bx(x, 3.82+j*0.3, -8.93, 0.02,0.012,1.1, new THREE.MeshStandardMaterial({color:0xBFA06A, emissive:0xBFA06A, emissiveIntensity:0.1, metalness:0.5}));
+    }
+  });
+
+  // Shelf
+  bx(-8.96, 5.5, -5, 0.05,0.055,3.5, Mx.lw);
+  var bz = -6.4;
+  var bc = [0x3C2018, 0x18253A, 0x2C3818, 0x38280E, 0x281838];
+  for(var bi=0; bi<10; bi++){
+    var bh = 0.5 + Math.random()*0.38;
+    bx(-8.91, 5.5+bh/2, bz, 0.07,bh,0.28, new THREE.MeshStandardMaterial({color:bc[bi%5], roughness:0.9}));
+    bz += 0.11 + Math.random()*0.04;
+    if(bz > -3.5) bz = -6.4;
+  }
+
+  // Rug
+  var rg = new THREE.Mesh(new THREE.PlaneGeometry(6.5,5.2), new THREE.MeshStandardMaterial({color:0x28221C, roughness:1}));
+  rg.rotation.x=-Math.PI/2; rg.position.set(0.4,0.01,-1.8); rg.receiveShadow=true; S.add(rg);
+  var rb = new THREE.Mesh(new THREE.PlaneGeometry(6.5,5.2), new THREE.MeshBasicMaterial({color:0xBFA06A, transparent:true, opacity:0.055, side:THREE.DoubleSide}));
+  rb.rotation.x=-Math.PI/2; rb.position.set(0.4,0.015,-1.8); S.add(rb);
+
+  // Floor objects
+  cy(5.5, 0.55, -7, 0.12,0.18,1.1, Mx.st);
+  addMesh(S, new THREE.SphereGeometry(0.14,16,16), Mx.br, 5.5, 1.17, -7);
+  cy(-7.5, 0.8, -7, 0.08,0.14,1.6, Mx.st);
+
+  // Window glass
+  var wg = new THREE.Mesh(new THREE.PlaneGeometry(8,5), Mx.gl);
+  wg.rotation.y=Math.PI/2; wg.position.set(-8.93,4.5,3); S.add(wg);
+
+  // Drag orbit
+  var drag=false, px=0, py=0, orY=0, orX=0;
+  cvs.addEventListener('mousedown', function(e){ drag=true; px=e.clientX; py=e.clientY; });
+  window.addEventListener('mouseup', function(){ drag=false; });
+  cvs.addEventListener('mousemove', function(e){
+    if(!drag) return;
+    orY += (e.clientX-px)*0.006; orX += (e.clientY-py)*0.004;
+    orX = Math.max(-0.42, Math.min(0.52, orX));
+    px=e.clientX; py=e.clientY;
+  });
+  var tp=null;
+  cvs.addEventListener('touchstart', function(e){ tp=e.touches[0]; }, {passive:true});
+  cvs.addEventListener('touchmove', function(e){
+    if(!tp) return; e.preventDefault();
+    orY += (e.touches[0].clientX-tp.clientX)*0.006;
+    orX += (e.touches[0].clientY-tp.clientY)*0.004;
+    orX = Math.max(-0.42, Math.min(0.52, orX));
+    tp=e.touches[0];
+  }, {passive:false});
+
+  autofit(R, C, cvs.parentElement);
+
+  (function anim(t){
+    requestAnimationFrame(anim);
+    var s = t*0.001, r=11, base=s*0.055;
+    C.position.x = Math.sin(base+orY)*r;
+    C.position.z = Math.cos(base+orY)*r;
+    C.position.y = 5 + orX*6 + Math.sin(s*0.12)*0.14;
+    C.lookAt(0,2,0);
+    ll.intensity = 2.2 + Math.sin(s*0.5)*0.22;
+    pl2.intensity = 1.7 + Math.sin(s*0.72+1)*0.18;
+    R.render(S,C);
+  })(0);
+})();
+
+// ============================================================
+// WORK CARDS
+// ============================================================
+var CARDS = [
+  { id:'wc1', bg:0x0A0907, ac:0xBFA06A },
+  { id:'wc2', bg:0x080A0E, ac:0x6A88AA },
+  { id:'wc3', bg:0x0C0906, ac:0xC8783A },
+  { id:'wc4', bg:0x090909, ac:0xC0B8A8 },
+  { id:'wc5', bg:0x080808, ac:0xC8C0B0 }
+];
+
+function buildCard(cvs, bgColor, acColor, sceneIndex) {
+  if(!cvs) return;
+  var R = mkR(cvs, bgColor);
+  var S = new THREE.Scene();
+  S.background = new THREE.Color(bgColor);
+  S.fog = new THREE.Fog(bgColor, 10, 22);
+  var C = new THREE.PerspectiveCamera(56, 1, 0.1, 50);
+  C.position.set(0, 3, 8); C.lookAt(0, 1.5, 0);
+
+  S.add(new THREE.AmbientLight(0x0A0908, 1.1));
+  var kl = new THREE.SpotLight(0xFFF0D8, 2.4, 20, Math.PI/7, 0.62);
+  kl.position.set(3, 10, 5); kl.castShadow=true; kl.shadow.mapSize.set(1024,1024); S.add(kl);
+  var fill = new THREE.PointLight(acColor, 1.5, 16); fill.position.set(-4,3,3); S.add(fill);
+
+  function bxc(x,y,z,w,h,d,mat){
+    var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+    m.position.set(x,y,z); m.castShadow=true; m.receiveShadow=true; S.add(m); return m;
+  }
+  function cyc(x,y,z,rt,rb,h,mat){
+    var m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,16),mat);
+    m.position.set(x,y,z); m.castShadow=true; S.add(m); return m;
+  }
+  function floor(col){ var p=new THREE.Mesh(new THREE.PlaneGeometry(16,14),new THREE.MeshStandardMaterial({color:col,roughness:0.9}));p.rotation.x=-Math.PI/2;p.position.y=-0.01;p.receiveShadow=true;S.add(p);}
+  function backWall(col){ var p=new THREE.Mesh(new THREE.PlaneGeometry(16,10),new THREE.MeshStandardMaterial({color:col,roughness:0.95}));p.position.set(0,5,-6);p.receiveShadow=true;S.add(p);}
+  function sideWall(col){ var p=new THREE.Mesh(new THREE.PlaneGeometry(14,10),new THREE.MeshStandardMaterial({color:col,roughness:0.96}));p.rotation.y=Math.PI/2;p.position.set(-7,5,0);p.receiveShadow=true;S.add(p);}
+
+  var acMat = new THREE.MeshStandardMaterial({color:acColor, roughness:0.22, metalness:0.88});
+  var dkMat = new THREE.MeshStandardMaterial({color:0x0E0C09, roughness:0.88});
+
+  if(sceneIndex === 0) {
+    // Penthouse — living room
+    floor(0x1A1610); backWall(0x141210); sideWall(0x141210);
+    // Sofa
+    bxc(0.4,0.28,-2.5, 5.0,0.52,2.2, dkMat);
+    bxc(0.4,0.92,-3.4, 5.0,1.35,0.4, dkMat);
+    // Cushions
+    [-1.4,0.35,1.6].forEach(function(x){ bxc(x+0.4,0.66,-2.5,1.4,0.2,1.9,new THREE.MeshStandardMaterial({color:0x4A4238,roughness:0.97})); });
+    // Coffee table
+    bxc(0.4,0.8,0.4, 2.2,0.06,1.0, acMat);
+    [[1.0,0.55],[1.0,-0.45],[-0.8,0.55],[-0.8,-0.45]].forEach(function(v){ cyc(v[0]+0.4,0.42,0.4+v[1],0.025,0.025,0.78,acMat); });
+    // Floor lamp
+    cyc(3.5,3.0,-3.8, 0.025,0.025,5.8, acMat);
+    addMesh(S, new THREE.CylinderGeometry(0.42,0.24,0.5,20), new THREE.MeshStandardMaterial({color:0xFFE4A0, emissive:0xFFE090, emissiveIntensity:0.7, transparent:true, opacity:0.88}), 3.5,5.9,-3.8);
+    var ll2 = new THREE.PointLight(0xFFD090, 2.2, 8); ll2.position.set(3.5,5.5,-3.8); S.add(ll2);
+    // Art
+    bxc(-0.5,4.5,-5.96, 3.5,2.2,0.04, new THREE.MeshStandardMaterial({color:0x0A0806}));
+    for(var i=0;i<4;i++){ bxc(-0.5,3.85+i*0.3,-5.93, 3,0.012,0.02, new THREE.MeshStandardMaterial({color:acColor, emissive:acColor, emissiveIntensity:0.1, metalness:0.5})); }
+    // Rug
+    var rr=new THREE.Mesh(new THREE.PlaneGeometry(5.5,4.2),new THREE.MeshStandardMaterial({color:0x2A2018,roughness:1}));rr.rotation.x=-Math.PI/2;rr.position.set(0.4,0.005,-1.2);S.add(rr);
+
+  } else if(sceneIndex === 1) {
+    // Law offices
+    floor(0x0C0E12); backWall(0x0A0C10); sideWall(0x0A0C10);
+    var dmO = new THREE.MeshStandardMaterial({color:0x0A0C12, roughness:0.84, metalness:0.09});
+    var glO = new THREE.MeshStandardMaterial({color:0x8CA8C0, roughness:0.04, metalness:0.2, transparent:true, opacity:0.28});
+    // Desk
+    bxc(0.5,0.72,0.4, 5.5,0.07,1.8, acMat);
+    [[2.2,0.8],[2.2,-0.8],[-1.8,0.8],[-1.8,-0.8]].forEach(function(v){ cyc(v[0]+0.5,0.38,0.4+v[1],0.03,0.03,0.78,acMat); });
+    // Monitor
+    bxc(0.5,1.34,0.12, 1.65,0.88,0.05, glO);
+    bxc(0.5,0.85,0.12, 0.32,0.04,0.05, acMat);
+    // Partition
+    bxc(-2.5,2,-2.5, 0.04,3.5,4, glO);
+    // Books
+    for(var bi2=0; bi2<5; bi2++){
+      var bh2 = 0.55 + Math.random()*0.4;
+      bxc(-4.8+bi2*0.22, bh2/2, -5.96, 0.11,bh2,0.26, new THREE.MeshStandardMaterial({color:[0x1C2836,0x1A2C1C,0x2C1C10][bi2%3], roughness:0.9}));
+    }
+
+  } else if(sceneIndex === 2) {
+    // Cafe with arch
+    floor(0x1A0E08); backWall(0x120C07); sideWall(0x120C07);
+    var cmC = new THREE.MeshStandardMaterial({color:0x2A1A0C, roughness:0.88});
+    // Arch
+    var arch = new THREE.Mesh(new THREE.TorusGeometry(2, 0.065, 12, 48, Math.PI), acMat);
+    arch.rotation.x = Math.PI; arch.position.set(0,4,-5.5); S.add(arch);
+    cyc(-2,2,-5.5, 0.065,0.065,4, acMat);
+    cyc(2,2,-5.5, 0.065,0.065,4, acMat);
+    // Tables
+    [[-2.5,-0.5],[2.5,-0.5],[0,-2.5]].forEach(function(v){
+      bxc(v[0],0.72,v[1], 1.8,0.07,1.0, acMat);
+      [[-0.65,0.65]].forEach(function(dx){
+        [[dx[0],0],[dx[1],0]].forEach(function(dxz){
+          cyc(v[0]+dxz[0], 0.38, v[1]+0.3, 0.025,0.025,0.75, acMat);
+          cyc(v[0]+dxz[0], 0.38, v[1]-0.3, 0.025,0.025,0.75, acMat);
+        });
+      });
+      addMesh(S, new THREE.CylinderGeometry(0.07,0.06,0.18,16), cmC, v[0],0.83,v[1]);
+    });
+    // Chairs
+    [[-2.5,0.4],[2.5,0.4]].forEach(function(v){ bxc(v[0],0.48,v[1],0.88,0.08,0.88,cmC); bxc(v[0],0.92,v[1]-0.4,0.88,0.82,0.06,cmC); });
+    // Pendant
+    cyc(0, 11, -2, 0.007,0.007,3, acMat);
+    addMesh(S, new THREE.SphereGeometry(0.32,16,16), new THREE.MeshStandardMaterial({color:0xFFF0D0, emissive:0xFFE8C0, emissiveIntensity:0.55, transparent:true, opacity:0.86}), 0,9.5,-2);
+    var pl3=new THREE.PointLight(0xFFE4A8,1.8,6); pl3.position.set(0,9,-2); S.add(pl3);
+
+  } else if(sceneIndex === 3) {
+    // Bedroom
+    floor(0x111111); backWall(0x0E0E0E); sideWall(0x0E0E0E);
+    var cmB = new THREE.MeshStandardMaterial({color:0x2A2826, roughness:0.88, metalness:0.04});
+    var wmB = new THREE.MeshStandardMaterial({color:0xF0EBE3, roughness:0.98, transparent:true, opacity:0.9});
+    // Bed
+    bxc(0,0.17,-2.5, 5.0,0.34,3.2, dkMat);
+    bxc(0,0.44,-2.5, 4.6,0.2,2.8, wmB);
+    bxc(0,1.22,-4.06, 0.06,1.5,4.8, cmB);
+    bxc(0,1.22,-4.04, 0.02,1.2,4.4, new THREE.MeshStandardMaterial({color:0x1A1814, roughness:0.95}));
+    bxc(-0.8,0.62,-3.5, 1.18,0.18,1.02, new THREE.MeshStandardMaterial({color:0xECE4D8, roughness:0.99}));
+    bxc(0.8,0.62,-3.5, 1.18,0.18,1.02, new THREE.MeshStandardMaterial({color:0xE4DCD0, roughness:0.99}));
+    // Bedside
+    bxc(-3.2,0.4,-3.2, 0.6,0.8,0.5, dkMat);
+    addMesh(S, new THREE.CylinderGeometry(0.15,0.1,0.3,16), new THREE.MeshStandardMaterial({color:0xFFE8A0, emissive:0xFFE090, emissiveIntensity:0.58, transparent:true, opacity:0.86}), -3.2,0.95,-3.2);
+    var sl=new THREE.PointLight(0xFFD08A,1.8,6); sl.position.set(-3.2,1.2,-3.2); S.add(sl);
+    // Art
+    bxc(0,5.2,-5.96, 6,1,0.04, new THREE.MeshStandardMaterial({color:0x0A0A0A}));
+    for(var ai=0;ai<6;ai++){ bxc(-2.5+ai*1, 5.2, -5.93, 0.75,0.012,0.02, new THREE.MeshStandardMaterial({color:acColor, emissive:acColor, emissiveIntensity:0.07})); }
+
+  } else if(sceneIndex === 4) {
+    // Showroom
+    floor(0x181818); backWall(0x161616); sideWall(0x161616);
+    var wfM = new THREE.MeshBasicMaterial({color:acColor, wireframe:true, transparent:true, opacity:0.1});
+    var smM = new THREE.MeshStandardMaterial({color:0x242220, roughness:0.88});
+    // Central pedestal + object
+    bxc(0,1,-2, 1,2,0.8, dkMat);
+    addMesh(S, new THREE.IcosahedronGeometry(0.42,1), acMat, 0,2.28,-2);
+    addMesh(S, new THREE.IcosahedronGeometry(0.44,1), wfM, 0,2.28,-2);
+    // Side pedestals
+    [[-3.5,1.2,-3.5],[-5.2,0.9,-3.2]].forEach(function(v){
+      bxc(v[0],v[1]/2,v[2], 0.52,v[1],0.44, dkMat);
+      addMesh(S, new THREE.SphereGeometry(0.2,16,16), acMat, v[0],v[1]+0.2,v[2]);
+    });
+    // Rack
+    cyc(4,0.5,-4, 0.03,0.03,1, acMat);
+    bxc(4,1,-4, 2,0.04,0.06, acMat);
+    cyc(3,0.5,-4, 0.03,0.03,1, acMat);
+    cyc(5,0.5,-4, 0.03,0.03,1, acMat);
+    // Bench
+    bxc(-1,0.24,1.5, 4,0.46,0.62, smM);
+    [[-1.5,-0.25],[1.5,-0.25],[-1.5,0.25],[1.5,0.25]].forEach(function(v){ cyc(v[0],-1+0.46/2+0.46/2,1.5+v[1],0.028,0.028,0.46,acMat); });
+  }
+
+  var hov = false;
+  cvs.parentElement.addEventListener('mouseenter', function(){ hov=true; });
+  cvs.parentElement.addEventListener('mouseleave', function(){ hov=false; });
+
+  autofit(R, C, cvs.parentElement);
+
+  (function anim(t){
+    requestAnimationFrame(anim);
+    var s = t*0.001;
+    S.rotation.y = s*(hov ? 0.24 : 0.07);
+    fill.position.x = Math.sin(s*0.58)*5;
+    fill.position.z = Math.cos(s*0.58)*5;
+    R.render(S,C);
+  })(0);
+}
+
+CARDS.forEach(function(cfg, i){
+  var cvs = document.getElementById(cfg.id);
+  buildCard(cvs, cfg.bg, cfg.ac, i);
+});
+
+// ============================================================
+// CONTACT BG
+// ============================================================
+(function(){
+  var cvs = document.getElementById('ccvs');
+  var sec = document.getElementById('contact');
+  var R = mkRAlpha(cvs);
+  var S = new THREE.Scene();
+  var C = new THREE.PerspectiveCamera(44, 2, 0.1, 80);
+  C.position.z = 16;
+  addMesh(S, new THREE.IcosahedronGeometry(4.6,1), new THREE.MeshBasicMaterial({color:0xBFA06A, wireframe:true, transparent:true, opacity:0.055}), 0,0,0);
+  addMesh(S, new THREE.OctahedronGeometry(7.5,0), new THREE.MeshBasicMaterial({color:0xA08448, wireframe:true, transparent:true, opacity:0.022}), 0,0,0);
+  autofit(R, C, sec);
+  (function anim(t){
+    requestAnimationFrame(anim);
+    var s = t*0.001;
+    S.children[0].rotation.set(s*0.088, s*0.115, 0);
+    S.children[1].rotation.set(-s*0.038, -s*0.065, s*0.022);
+    R.render(S,C);
+  })(0);
+})();
+
+})(); // end IIFE
+</script>
+</body>
+</html>
