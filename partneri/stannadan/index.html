@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="sr-ME">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Garden Complex Zabjelo | Stan na dan Podgorica</title>
+  <meta name="description" content="Moderan stan na dan u Garden Complexu, Zabjelo, Podgorica. Privatni parking, video nadzor, moderna kuhinja, premium enterijer i udoban boravak." />
+
+  <style>
+    :root {
+      --cream: #f4eee6;
+      --cream-2: #eadfd2;
+      --sand: #d9c6b2;
+      --brown: #33271f;
+      --brown-soft: #5d4a3f;
+      --muted: #877466;
+      --gold: #b58b5f;
+      --gold-dark: #8b6948;
+      --white: #fffaf4;
+      --line: rgba(51, 39, 31, 0.12);
+      --shadow: 0 26px 70px rgba(51, 39, 31, 0.16);
+      --radius: 30px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(181,139,95,0.16), transparent 28%),
+        radial-gradient(circle at 88% 32%, rgba(51,39,31,0.08), transparent 30%),
+        linear-gradient(135deg, #f8f2eb 0%, #eee2d5 50%, #f6efe7 100%);
+      color: var(--brown);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video { display: block; max-width: 100%; }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(248, 242, 235, 0.72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(51, 39, 31, 0.08);
+    }
+
+    .topbar-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      position: relative;
+      box-shadow: 0 12px 30px rgba(139,105,72,0.25);
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 11px;
+      border: 1px solid rgba(255,255,255,0.62);
+      border-radius: 50%;
+    }
+
+    .logo-text strong {
+      display: block;
+      font-size: 0.94rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .logo-text span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--brown-soft);
+      font-size: 0.94rem;
+    }
+
+    .nav a { transition: .2s ease; }
+    .nav a:hover { color: var(--brown); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: .25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: white;
+      box-shadow: 0 18px 38px rgba(139,105,72,0.28);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-soft {
+      background: rgba(255,250,244,0.6);
+      border-color: rgba(51,39,31,0.1);
+      color: var(--brown);
+    }
+
+    .hero {
+      padding: 34px 0 46px;
+    }
+
+    .hero-shell {
+      min-height: 720px;
+      display: grid;
+      grid-template-columns: 0.98fr 1.02fr;
+      border-radius: 42px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: rgba(255,250,244,0.52);
+      border: 1px solid rgba(255,255,255,0.58);
+    }
+
+    .hero-left {
+      padding: clamp(30px, 5vw, 64px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 36px;
+      background:
+        linear-gradient(180deg, rgba(255,250,244,0.86), rgba(244,238,230,0.82)),
+        url('https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&w=1300&q=85') center/cover;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-left::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(244,238,230,0.82), rgba(234,223,210,0.46));
+      z-index: -1;
+    }
+
+    .tag {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid rgba(51,39,31,0.1);
+      border-radius: 999px;
+      background: rgba(255,250,244,0.62);
+      backdrop-filter: blur(10px);
+      color: var(--gold-dark);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 20px 0 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      font-size: clamp(3rem, 6.4vw, 6.8rem);
+      max-width: 9.2ch;
+    }
+
+    .lead {
+      max-width: 590px;
+      margin: 0;
+      color: var(--brown-soft);
+      font-size: clamp(1rem, 1.25vw, 1.15rem);
+      line-height: 1.85;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      min-height: 118px;
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,250,244,0.58);
+      border: 1px solid rgba(51,39,31,0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .hero-right {
+      position: relative;
+      min-height: 720px;
+      background: #d8cabd;
+      overflow: hidden;
+    }
+
+    .hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.22));
+    }
+
+    .quote-card {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255,250,244,0.82);
+      border: 1px solid rgba(255,255,255,0.36);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.16);
+    }
+
+    .quote-card p {
+      margin: 0;
+      color: var(--brown-soft);
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    .section {
+      padding: 48px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    .section-kicker {
+      color: var(--gold-dark);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    .section-head h2,
+    .video-text h2,
+    .final-copy h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+
+    .section-head h2 {
+      margin: 8px 0 0;
+      font-size: clamp(2.2rem, 4vw, 4.2rem);
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 1.02rem;
+      max-width: 720px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      padding: 28px;
+      min-height: 260px;
+      border-radius: var(--radius);
+      background: rgba(255,250,244,0.62);
+      border: 1px solid rgba(51,39,31,0.08);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(181,139,95,0.12);
+      right: -60px;
+      top: -60px;
+    }
+
+    .card .icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(181,139,95,0.22), rgba(181,139,95,0.06));
+      margin-bottom: 28px;
+      font-size: 1.35rem;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.78;
+    }
+
+    .gallery-shell {
+      margin-top: 18px;
+      border-radius: 38px;
+      overflow: hidden;
+      background: rgba(255,250,244,0.52);
+      border: 1px solid rgba(51,39,31,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .gallery-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(51,39,31,0.08);
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(290px, 32vw);
+      gap: 16px;
+      overflow-x: auto;
+      padding: 18px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .gallery::-webkit-scrollbar { height: 10px; }
+    .gallery::-webkit-scrollbar-thumb {
+      background: rgba(51,39,31,0.18);
+      border-radius: 999px;
+    }
+
+    .shot {
+      height: 480px;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      scroll-snap-align: start;
+      background: var(--sand);
+    }
+
+    .shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s ease;
+    }
+
+    .shot:hover img { transform: scale(1.055); }
+
+    .shot-caption {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      padding: 16px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(135deg, rgba(51,39,31,0.72), rgba(51,39,31,0.38));
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .shot-caption strong { display: block; margin-bottom: 5px; }
+    .shot-caption span { color: rgba(255,255,255,0.78); font-size: 0.92rem; line-height: 1.45; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 18px;
+    }
+
+    .video-text,
+    .video-frame {
+      border-radius: 38px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(51,39,31,0.08);
+      background: rgba(255,250,244,0.62);
+    }
+
+    .video-text {
+      padding: clamp(26px, 4vw, 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .video-text h2 {
+      margin: 12px 0 18px;
+      font-size: clamp(2.1rem, 4vw, 4rem);
+    }
+
+    .video-text p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin: 0 0 14px;
+    }
+
+    .video-frame {
+      min-height: 560px;
+      position: relative;
+      background: #d9c6b2;
+    }
+
+    .video-frame video,
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      object-fit: cover;
+    }
+
+    .info-strip {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .info-item {
+      min-height: 150px;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255,250,244,0.56);
+      border: 1px solid rgba(51,39,31,0.08);
+    }
+
+    .info-item strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .info-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
+    .final {
+      padding: 54px 0 76px;
+    }
+
+    .final-box {
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      border-radius: 42px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: var(--brown);
+      color: var(--white);
+    }
+
+    .final-copy {
+      padding: clamp(30px, 5vw, 58px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .final-copy h2 {
+      margin: 14px 0 18px;
+      font-size: clamp(2.4rem, 5vw, 5rem);
+    }
+
+    .final-copy p {
+      margin: 0 0 26px;
+      color: rgba(255,250,244,0.78);
+      line-height: 1.85;
+      max-width: 640px;
+    }
+
+    .final-image {
+      min-height: 430px;
+      position: relative;
+    }
+
+    .final-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.92;
+    }
+
+    .note {
+      margin-top: 18px;
+      color: rgba(255,250,244,0.58);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1000px) {
+      .hero-shell,
+      .video-grid,
+      .final-box,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-right,
+      .video-frame,
+      .final-image { min-height: 480px; }
+      .cards { grid-template-columns: 1fr; }
+      .info-strip { grid-template-columns: repeat(2, 1fr); }
+      .gallery { grid-auto-columns: minmax(280px, 78vw); }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(calc(100% - 20px), var(--max)); }
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav { width: 100%; overflow-x: auto; padding-bottom: 4px; }
+      .hero { padding-top: 16px; }
+      .hero-shell, .gallery-shell, .video-text, .video-frame, .final-box { border-radius: 28px; }
+      .hero-left { padding: 26px; }
+      .stats, .info-strip { grid-template-columns: 1fr; }
+      .shot { height: 390px; }
+      .hero-right, .video-frame, .final-image { min-height: 420px; }
+      .gallery-top { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a href="#" class="logo" aria-label="Garden Complex">
+        <span class="logo-mark"></span>
+        <span class="logo-text">
+          <strong>Garden Complex</strong>
+          <span>Zabjelo, Podgorica</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navigacija">
+        <a href="#o-stanu">O stanu</a>
+        <a href="#galerija">Galerija</a>
+        <a href="#video">Video</a>
+        <a href="#kontakt" class="btn btn-primary">Rezerviši</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-shell">
+          <div class="hero-left">
+            <div>
+              <span class="tag">Stan na dan • Garden Complex</span>
+              <h1>Mirno mjesto za lijep boravak.</h1>
+              <p class="lead">
+                Moderno uređena garsonjera u prestižnom kompleksu Garden Complex, Zabjelo — idealna za kratak ili duži boravak u Podgorici. Prostor je topao, siguran, funkcionalan i osmišljen za goste koji žele komfor bez komplikacija.
+              </p>
+
+              <div class="hero-actions">
+                <a href="#kontakt" class="btn btn-primary">Pošalji upit</a>
+                <a href="#galerija" class="btn btn-soft">Pogledaj prostor</a>
+              </div>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <strong>01</strong>
+                <span>Privatni parking sa rampom</span>
+              </div>
+              <div class="stat">
+                <strong>02</strong>
+                <span>Video nadzor zgrade</span>
+              </div>
+              <div class="stat">
+                <strong>03</strong>
+                <span>Moderan enterijer i potpuna oprema</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1500&q=90" alt="Moderan enterijer stana" />
+            <div class="image-shade"></div>
+            <div class="quote-card">
+              <p>
+                Elegantno uređen dnevni/spavaći prostor, udoban ležaj na razvlačenje, klima uređaj, veliki TV i francuski balkon za dodatni osjećaj prostora.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="o-stanu" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Komfor koji se osjeća</div>
+            <h2>Sve što treba da stan bude lak izbor.</h2>
+          </div>
+          <p>
+            Stan spaja estetiku lijepog enterijera sa praktičnim detaljima koji stvarno znače tokom boravka: opremljena kuhinja, kupatilo sa veš mašinom, privatni parking i sigurno okruženje.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="icon">✦</div>
+            <h3>Moderan ambijent</h3>
+            <p>Uređen dnevni/spavaći prostor sa premium detaljima, mirnom paletom boja i funkcionalnim rasporedom.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">◒</div>
+            <h3>Potpuna oprema</h3>
+            <p>Moderna kuhinja sa svim uređajima, kupatilo sa tuš kabinom i veš mašinom, plus osnovni kućni aparati.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">⌂</div>
+            <h3>Sigurnost i praktičnost</h3>
+            <p>Privatni parking pod rampom i video nadzor zgrade daju mir, privatnost i jednostavan dolazak.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="galerija" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Mini galerija</div>
+            <h2>Detalji koji prodaju prostor.</h2>
+          </div>
+          <p>
+            Skrolabilna galerija je zamišljena kao mali editorial prikaz stana. Samo zamijeni demo slike stvarnim fotografijama: glavni kadar, ležaj, kuhinja, kupatilo, balkon i parking.
+          </p>
+        </div>
+
+        <div class="gallery-shell">
+          <div class="gallery-top">
+            <span>Prevucite / skrolujte horizontalno</span>
+            <span>Garden Complex • Zabjelo • Podgorica</span>
+          </div>
+
+          <div class="gallery">
+            <article class="shot">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=88" alt="Dnevni prostor" />
+              <div class="shot-caption">
+                <strong>Dnevni / spavaći prostor</strong>
+                <span>Elegantno, čisto i udobno.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=88" alt="Moderna kuhinja" />
+              <div class="shot-caption">
+                <strong>Moderna kuhinja</strong>
+                <span>Opremljena za kraći i duži boravak.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=88" alt="Kupatilo" />
+              <div class="shot-caption">
+                <strong>Kupatilo</strong>
+                <span>Tuš kabina, veš mašina i praktičnost.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=88" alt="Enterijer detalji" />
+              <div class="shot-caption">
+                <strong>Premium detalji</strong>
+                <span>Topao enterijer sa modernim linijama.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1200&q=88" alt="Udoban kutak" />
+              <div class="shot-caption">
+                <strong>Kutak za odmor</strong>
+                <span>Mirna atmosfera poslije dana u gradu.</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <div class="wrap">
+        <div class="video-grid">
+          <div class="video-text">
+            <div class="section-kicker">Video obilazak</div>
+            <h2>Prikaži atmosferu prije rezervacije.</h2>
+            <p>
+              Ovaj dio je za jedan kratak video stana. Najbolje radi snimak od 15–35 sekundi: ulaz, glavni prostor, kuhinja, kupatilo, balkon i kratki kadar kompleksa ili parkinga.
+            </p>
+            <p>
+              Umjesto demo YouTube linka možeš ubaciti lokalni MP4 video ili embed sa Instagrama/TikToka.
+            </p>
+            <div class="hero-actions">
+              <a href="#kontakt" class="btn btn-primary">Provjeri dostupnost</a>
+            </div>
+          </div>
+
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube.com/embed/Scxs7L0vhZ4?rel=0&modestbranding=1"
+              title="Video prezentacija stana"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <div class="info-strip">
+          <div class="info-item">
+            <strong>Ležaj na razvlačenje</strong>
+            <span>Kvalitetan i udoban za svakodnevni odmor.</span>
+          </div>
+          <div class="info-item">
+            <strong>Klima + TV</strong>
+            <span>Komfor, zabava i prijatan boravak u svako doba.</span>
+          </div>
+          <div class="info-item">
+            <strong>Francuski balkon</strong>
+            <span>Dodatni osjećaj svjetla i otvorenosti prostora.</span>
+          </div>
+          <div class="info-item">
+            <strong>Parking + nadzor</strong>
+            <span>Sigurnije, praktičnije i mirnije tokom boravka.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt" class="final">
+      <div class="wrap">
+        <div class="final-box">
+          <div class="final-copy">
+            <div class="section-kicker" style="color:#d9b78f;">Rezervacija</div>
+            <h2>Vaš miran gradski boravak počinje ovdje.</h2>
+            <p>
+              Moderan, siguran i udoban stan na dan u Garden Complexu, Zabjelo. Pošaljite upit za željeni datum i dobićete informaciju o dostupnosti i cijeni boravka.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="tel:+38267000000">Pozovi</a>
+              <a class="btn btn-soft" href="https://wa.me/38267000000" target="_blank" rel="noopener">WhatsApp upit</a>
+            </div>
+
+            <div class="note">Zamijeni +38267000000 stvarnim brojem telefona.</div>
+          </div>
+
+          <div class="final-image">
+            <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=88" alt="Garden Complex stan na dan" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
