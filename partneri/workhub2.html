@@ -1,699 +1,925 @@
 <!doctype html>
-<html lang="sr-ME" data-theme="dark">
+<html lang="sr-ME" data-theme="light">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>WorkingHub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<style>
-/* ─── DARK TOKEN ─── */
-:root,[data-theme="dark"]{
-  --bg:#0c0e14;--s1:#13151d;--s2:#191c26;--s3:#20243200;--s4:#252a3a;
-  --border:#252935;--borderHi:#363d52;
-  --text:#eef0f8;--text2:#c4c9de;--muted:#737a99;--faint:#363d52;--soft:#9aa0bc;
-  --brand:#4c7cf3;--brand2:#6c4ff0;--brandH:#6e97f5;--brandG:rgba(76,124,243,.13);--brandB:rgba(76,124,243,.28);
-  --green:#1ec776;--greenD:rgba(30,199,118,.11);--greenB:rgba(30,199,118,.26);
-  --amber:#e09414;--amberD:rgba(224,148,20,.11);--amberB:rgba(224,148,20,.26);
-  --red:#e84f4f;--redD:rgba(232,79,79,.11);--redB:rgba(232,79,79,.26);
-  --purple:#9b72f4;--purpleD:rgba(155,114,244,.11);--purpleB:rgba(155,114,244,.26);
-  --teal:#22b8d8;--tealD:rgba(34,184,216,.11);--tealB:rgba(34,184,216,.26);
-  --nav:60px;--tab:58px;--r:9px;--rM:13px;--rL:17px;--rXL:22px;
-  --font:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
-  --sh:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.25);
-  --shM:0 8px 32px rgba(0,0,0,.5),0 24px 64px rgba(0,0,0,.35);
-}
-/* ─── LIGHT TOKEN ─── */
-[data-theme="light"]{
-  --bg:#f1f3f8;--s1:#ffffff;--s2:#f7f8fc;--s3:#edf0f7;--s4:#e4e7f2;
-  --border:#dde1ef;--borderHi:#bec4d8;
-  --text:#0f1118;--text2:#3b4060;--muted:#6b7194;--faint:#c8cdd e;--soft:#7a82a0;
-  --brand:#3a6ee8;--brand2:#5a3fe0;--brandH:#2d5ed4;--brandG:rgba(58,110,232,.09);--brandB:rgba(58,110,232,.28);
-  --green:#0e9e5f;--greenD:rgba(14,158,95,.09);--greenB:rgba(14,158,95,.26);
-  --amber:#b67c0a;--amberD:rgba(182,124,10,.09);--amberB:rgba(182,124,10,.26);
-  --red:#c83c3c;--redD:rgba(200,60,60,.09);--redB:rgba(200,60,60,.26);
-  --purple:#7a53d6;--purpleD:rgba(122,83,214,.09);--purpleB:rgba(122,83,214,.26);
-  --teal:#0f92b0;--tealD:rgba(15,146,176,.09);--tealB:rgba(15,146,176,.26);
-  --sh:0 1px 3px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);
-  --shM:0 8px 32px rgba(0,0,0,.12),0 24px 64px rgba(0,0,0,.08);
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>WorkingHub — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f5f1e8;--ink:#171717;--muted:#6d665f;--soft:#fffaf0;--paper:#fffdf8;
+      --line:#ded5c6;--line2:#cabcaa;
+      --blue:#2148ff;--lime:#c8ff3d;--pink:#ff4fa3;--orange:#ff8a2a;--green:#13b76d;--red:#e5484d;
+      --shadow:0 16px 45px rgba(28,22,12,.12);--shadow2:0 28px 80px rgba(28,22,12,.18);
+      --r:20px;--r2:30px;--font:'Inter',system-ui,sans-serif;--display:'Space Grotesk',system-ui,sans-serif;
+    }
+    [data-theme="dark"]{
+      --bg:#0f0f0f;--ink:#f0ede8;--muted:#9a9590;--soft:#1a1a1a;--paper:#181818;
+      --line:#2a2a2a;--line2:#333;
+      --blue:#4d6fff;--lime:#b8f020;--pink:#ff6ab5;--orange:#ff9a45;--green:#1ed47a;--red:#ff5c61;
+      --shadow:0 16px 45px rgba(0,0,0,.4);--shadow2:0 28px 80px rgba(0,0,0,.6);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.5;transition:background .3s,color .3s}
+    body:before{content:"";position:fixed;inset:-20%;z-index:-2;background:radial-gradient(circle at 12% 8%,rgba(33,72,255,.14),transparent 26%),radial-gradient(circle at 88% 12%,rgba(255,79,163,.11),transparent 26%),radial-gradient(circle at 50% 95%,rgba(200,255,61,.16),transparent 30%);transition:opacity .3s}
+    [data-theme="dark"] body:before{opacity:.4}
+    body:after{content:"";position:fixed;inset:0;z-index:-1;opacity:.2;background-image:linear-gradient(rgba(23,23,23,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(23,23,23,.06) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}
+    [data-theme="dark"] body:after{opacity:.06}
+    button,input,select,textarea{font:inherit;color:inherit;border:none;background:none}
+    button{cursor:pointer}a{color:inherit;text-decoration:none}.hidden{display:none!important}
+    .wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    input[type="file"]{display:none}
 
-/* ─── BASE ─── */
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;transition:background .25s,color .25s}
-button,input,select,textarea{font:inherit;color:inherit;background:none;border:none}
-button{cursor:pointer}
-.hidden{display:none!important}
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+    /* ── TOP NAV ── */
+    .top{position:sticky;top:0;z-index:40;background:rgba(245,241,232,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(23,23,23,.08)}
+    [data-theme="dark"] .top{background:rgba(15,15,15,.9)}
+    .topIn{height:68px;display:flex;align-items:center;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-family:var(--display);letter-spacing:-.04em;font-size:20px;white-space:nowrap}
+    .mark{width:36px;height:36px;border-radius:13px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-weight:900;font-size:14px;box-shadow:4px 4px 0 var(--blue);transform:rotate(-3deg);transition:.3s}
+    .nav{display:flex;align-items:center;gap:4px;margin-left:16px}
+    .nav button{padding:9px 12px;border-radius:999px;font-size:13px;font-weight:700;color:var(--muted);transition:.15s}
+    .nav button:hover,.nav button.on{background:var(--ink);color:var(--soft)}
+    .topActions{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .iconBtn,.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:2px solid var(--ink);background:var(--paper);box-shadow:4px 4px 0 var(--ink);border-radius:999px;font-weight:800;font-size:13px;padding:9px 15px;transition:.15s;cursor:pointer;white-space:nowrap}
+    .iconBtn{width:40px;height:40px;padding:0}
+    .btn:hover,.iconBtn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+    .btn:active,.iconBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+    .btn.blue{background:var(--blue);color:white}
+    .btn.lime{background:var(--lime);color:var(--ink)}
+    .btn.pink{background:var(--pink);color:white}
+    .btn.green{background:var(--green);color:white}
+    .btn.red{background:var(--red);color:white}
+    .btn.ghost{background:transparent;box-shadow:none;border-color:var(--line2);color:var(--muted)}
+    .btn.sm{padding:7px 12px;font-size:12px}
+    .btn.xs{padding:5px 9px;font-size:11px;box-shadow:2px 2px 0 var(--ink)}
+    .rolePill{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;background:var(--lime);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:6px 10px}
+    .hamb{display:none}
+    .mobileNav{display:none}
+    .bottomNav{display:none}
 
-/* ─── THEME TOGGLE ─── */
-.themeBtn{width:34px;height:34px;border-radius:var(--r);background:var(--s2);border:1px solid var(--border);display:grid;place-items:center;font-size:16px;transition:.15s;flex-shrink:0}
-.themeBtn:hover{background:var(--s3);border-color:var(--borderHi)}
+    /* ── THEME TOGGLE ── */
+    .themeBtn{font-size:17px;transition:.2s}
+    .themeBtn:hover{transform:rotate(20deg) scale(1.1)}
 
-/* ─── LOGIN ─── */
-#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg);transition:background .25s}
-[data-theme="dark"] #loginScreen{background:radial-gradient(ellipse 65% 55% at 5% 0%,rgba(76,124,243,.14),transparent 55%),radial-gradient(ellipse 45% 55% at 95% 100%,rgba(155,114,244,.10),transparent 55%),var(--bg)}
-.lWrap{width:100%;max-width:900px;display:grid;grid-template-columns:1.1fr .9fr;gap:0;background:var(--s1);border:1px solid var(--border);border-radius:var(--rXL);overflow:hidden;box-shadow:var(--shM)}
-.lHero{padding:40px 38px;background:var(--brand);display:flex;flex-direction:column;justify-content:space-between;gap:24px}
-[data-theme="light"] .lHero{background:#0f1118}
-.lHero .brand{display:flex;align-items:center;gap:10px}.lHero .mark{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.15);display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff}.lHero .brand span{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.03em}
-.lHero h1{font-size:28px;font-weight:800;line-height:1.18;letter-spacing:-.05em;color:#fff}
-.lHero p{font-size:13px;line-height:1.75;color:rgba(255,255,255,.65)}
-.lHeroStats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px}
-.lHeroStat{background:rgba(255,255,255,.12);border-radius:var(--rM);padding:12px 10px;text-align:center}
-.lHeroStat b{display:block;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.04em}
-.lHeroStat span{font-size:10px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.06em}
-.lRight{padding:32px 30px}
-.lHead{margin-bottom:20px}.lHead h2{font-size:19px;font-weight:700;letter-spacing:-.03em;margin-bottom:3px}.lHead p{font-size:12px;color:var(--muted)}
-.modeRow{display:flex;gap:4px;margin-bottom:16px;background:var(--s2);border-radius:var(--r);padding:3px;border:1px solid var(--border)}
-.modeBtn{flex:1;padding:7px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--muted);transition:.15s}
-.modeBtn.on{background:var(--s1);color:var(--text);box-shadow:var(--sh)}
-.rCards{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-.rCard{border:1px solid var(--border);border-radius:var(--rM);padding:12px 14px;background:var(--s2);display:flex;align-items:center;gap:12px;transition:.18s;text-align:left;width:100%}
-.rCard:hover{border-color:var(--brand);background:var(--brandG)}
-.rIco{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:17px;flex-shrink:0}
-.rc-c .rIco{background:var(--tealD);color:var(--teal)}.rc-f .rIco{background:var(--amberD);color:var(--amber)}.rc-a .rIco{background:var(--purpleD);color:var(--purple)}
-.rCard b{display:block;font-size:13px;font-weight:600;margin-bottom:1px}.rCard small{font-size:11px;color:var(--muted);line-height:1.35}
-.lDiv{display:flex;align-items:center;gap:9px;color:var(--faint);font-size:10px;font-weight:600;letter-spacing:.07em;margin:12px 0}.lDiv:before,.lDiv:after{content:'';flex:1;height:1px;background:var(--border)}
-.fg{display:flex;flex-direction:column;gap:10px}.f2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.fl{display:block;font-size:11px;font-weight:500;color:var(--muted);margin-bottom:5px}
-.fi{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;font-size:13px;transition:.18s}
-.fi:focus{outline:none;border-color:var(--brand);background:var(--s1)}.fi::placeholder{color:var(--faint)}
-textarea.fi{min-height:88px;resize:vertical;line-height:1.55}select.fi{cursor:pointer}
-.lBtn{width:100%;padding:11px;border-radius:var(--r);background:var(--brand);color:#fff;font-weight:600;font-size:13px;transition:.15s;margin-top:2px}
-.lBtn:hover{background:var(--brandH)}.lBtn:active{transform:scale(.98)}
-.smallLink{font-size:12px;color:var(--brand);font-weight:500;background:transparent;padding:4px;text-align:left}
+    /* ── HERO ── */
+    .hero{padding:40px 0 28px}
+    .heroGrid{display:grid;grid-template-columns:1.08fr .92fr;gap:24px;align-items:stretch}
+    .heroCard{position:relative;border:2px solid var(--ink);border-radius:36px;background:var(--paper);padding:36px;box-shadow:var(--shadow2);overflow:hidden}
+    .heroCard:before{content:"POSLOVI / KANDIDATI / FIRME";position:absolute;right:-55px;top:20px;transform:rotate(12deg);font-size:12px;font-weight:900;letter-spacing:.18em;color:rgba(23,23,23,.06);white-space:nowrap}
+    .kicker{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink);background:var(--lime);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;margin-bottom:16px;box-shadow:3px 3px 0 var(--ink)}
+    h1{font-family:var(--display);font-size:clamp(38px,6.5vw,76px);line-height:.94;letter-spacing:-.07em;margin-bottom:16px}
+    .gradText{background:linear-gradient(90deg,var(--blue),var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:16px;color:var(--muted);max-width:680px;line-height:1.75;margin-bottom:22px}
+    .searchBox{background:var(--ink);border:2px solid var(--ink);border-radius:24px;padding:10px;box-shadow:7px 7px 0 var(--blue);display:grid;grid-template-columns:1.3fr .8fr .8fr auto;gap:7px;margin-top:20px}
+    .searchBox input,.searchBox select{background:var(--paper);border-radius:14px;padding:13px 14px;font-weight:700;color:var(--ink);min-width:0}
+    .searchBox button{border-radius:14px;box-shadow:none;background:var(--lime);border:0;padding:0 18px;color:var(--ink);font-weight:950;font-size:13px}
+    .heroSide{display:grid;gap:12px}
+    .statMosaic{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stat{border:2px solid var(--ink);border-radius:26px;background:var(--paper);padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .stat:nth-child(2){background:var(--blue);color:white}
+    .stat:nth-child(3){background:var(--lime);color:var(--ink)}
+    .stat:nth-child(4){background:var(--pink);color:white}
+    .stat b{display:block;font-family:var(--display);font-size:40px;line-height:1;letter-spacing:-.08em}
+    .stat span{font-size:11px;font-weight:950;letter-spacing:.1em;text-transform:uppercase;opacity:.72}
+    .notice{border:2px dashed var(--line2);border-radius:24px;background:rgba(255,255,255,.35);padding:16px;font-weight:700;color:var(--muted);font-size:13px}
+    [data-theme="dark"] .notice{background:rgba(255,255,255,.05)}
 
-/* ─── APP SHELL ─── */
-#appScreen{display:flex;min-height:100vh}
+    /* ── GENERAL ── */
+    .section{padding:28px 0}
+    .sectionHead{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;margin-bottom:16px}
+    h2{font-family:var(--display);font-size:32px;letter-spacing:-.05em;line-height:1}
+    .sub{color:var(--muted);font-weight:600;margin-top:6px;font-size:13px}
+    .grid{display:grid;gap:12px}.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:repeat(3,1fr)}.grid4{grid-template-columns:repeat(4,1fr)}
+    .card{background:var(--paper);border:2px solid var(--ink);border-radius:var(--r2);padding:20px;box-shadow:var(--shadow)}
+    .miniTitle{font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;border:1.5px solid var(--ink);font-size:11px;font-weight:900;background:var(--paper);white-space:nowrap}
+    .badge.blue{background:var(--blue);color:white;border-color:var(--blue)}
+    .badge.lime{background:var(--lime);color:var(--ink);border-color:var(--ink)}
+    .badge.pink{background:var(--pink);color:white;border-color:var(--pink)}
+    .badge.green{background:var(--green);color:white;border-color:var(--green)}
+    .badge.red{background:var(--red);color:white;border-color:var(--red)}
+    .badge.orange{background:var(--orange);color:white;border-color:var(--orange)}
+    .badge.gray{border-color:var(--line2);color:var(--muted);background:transparent}
+    .badge.purple{background:#7c3aed;color:white;border-color:#7c3aed}
 
-/* ─── SIDEBAR ─── */
-.sidebar{width:228px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;transition:background .25s,border-color .25s}
-.sbHeader{padding:14px 12px 10px;border-bottom:1px solid var(--border)}
-.sbBrand{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.sbBrand .mark{width:28px;height:28px;border-radius:8px;background:var(--brand);display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
-.sbBrand span{font-size:14px;font-weight:700;letter-spacing:-.03em}
-.sbWho{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:10px 11px}
-.sbWhoR{font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
-.sbWhoN{font-size:13px;font-weight:600}
-.sbMeta{font-size:11px;color:var(--muted);margin-top:2px}
-.sbNav{display:flex;flex-direction:column;gap:1px;flex:1;padding:10px 8px}
-.sbI{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r);font-size:12px;font-weight:500;color:var(--muted);transition:.15s;border:1px solid transparent;text-align:left;width:100%}
-.sbI .ico{font-size:15px;width:18px;text-align:center;flex-shrink:0}
-.sbI:hover{background:var(--s2);color:var(--text)}
-.sbI.on{background:var(--brandG);color:var(--brand);border-color:var(--brandB);font-weight:600}
-.sbDiv{height:1px;background:var(--border);margin:6px 0}
-.sbBottom{margin-top:auto;padding:10px 8px 12px;border-top:1px solid var(--border)}
-.sbRLabel{font-size:10px;font-weight:600;letter-spacing:.07em;color:var(--faint);margin-bottom:6px}
-.sbRoles{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
-.sbRBtn{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:var(--r);font-size:12px;font-weight:500;color:var(--muted);transition:.15s;text-align:left;border:1px solid transparent}
-.sbRBtn:hover{background:var(--s2);color:var(--text)}
-.sbRBtn.on{background:var(--brandG);color:var(--brand);border-color:var(--brandB);font-weight:600}
+    /* ── JOB CARDS ── */
+    .filters{display:grid;grid-template-columns:1.4fr .8fr .8fr .8fr .8fr;gap:7px;margin-bottom:14px;background:var(--paper);border:2px solid var(--ink);border-radius:24px;padding:9px;box-shadow:var(--shadow)}
+    .filters input,.filters select,.form input,.form select,.form textarea{width:100%;background:var(--soft);border:2px solid var(--line);border-radius:14px;padding:11px 12px;font-weight:700;outline:none;color:var(--ink)}
+    .filters input:focus,.filters select:focus,.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--blue)}
+    .jobList{display:grid;gap:10px}
+    .jobCard{background:var(--paper);border:2px solid var(--ink);border-radius:26px;padding:16px;box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;transition:.15s}
+    .jobCard:hover{transform:translateY(-2px);box-shadow:7px 7px 0 rgba(23,23,23,.15)}
+    [data-theme="dark"] .jobCard:hover{box-shadow:7px 7px 0 rgba(255,255,255,.08)}
+    .logo{width:52px;height:52px;border:2px solid var(--ink);border-radius:16px;display:grid;place-items:center;font-weight:950;font-family:var(--display);background:var(--lime);box-shadow:3px 3px 0 var(--ink);flex-shrink:0;overflow:hidden;position:relative}
+    .logo img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+    .logo-upload{cursor:pointer;font-size:10px;text-align:center;color:var(--muted)}
+    .jobTitle{font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:-.03em;margin-bottom:3px;display:block;text-align:left;cursor:pointer}
+    .jobTitle:hover{color:var(--blue);text-decoration:underline}
+    .meta{color:var(--muted);font-size:12px;font-weight:700}
+    .jobDesc{color:var(--muted);margin:9px 0;line-height:1.65;font-size:13px}
+    .tags{display:flex;gap:5px;flex-wrap:wrap}
+    .tag{border:1px solid var(--line2);background:var(--soft);border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;color:var(--muted)}
+    .jobSide{display:flex;flex-direction:column;align-items:flex-end;gap:7px;min-width:148px}
+    .deadline{font-size:11px;color:var(--muted);font-weight:800;text-align:right}
+    .featured{background:linear-gradient(135deg,var(--paper),color-mix(in srgb,var(--lime) 15%,var(--paper)))}
+    .featured:before{content:"★ ISTAKNUTO";position:absolute;top:-10px;left:20px;background:var(--orange);border:2px solid var(--ink);padding:3px 9px;border-radius:999px;font-size:10px;font-weight:950;color:white}
+    .featured{position:relative;overflow:visible}
 
-/* ─── MAIN ─── */
-.mainWrap{flex:1;min-width:0;display:flex;flex-direction:column}
-.topBar{height:var(--nav);background:var(--s1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 18px;position:sticky;top:0;z-index:30;transition:background .25s,border-color .25s}
-[data-theme="dark"] .topBar{background:rgba(12,14,20,.9);backdrop-filter:blur(16px)}
-.tbSrch{flex:1;position:relative;max-width:400px}
-.tbSrch input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:999px;padding:8px 12px 8px 34px;font-size:12px;transition:.18s}
-.tbSrch input:focus{outline:none;border-color:var(--brand)}
-.tbSrch .si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
-.tbR{display:flex;align-items:center;gap:8px;margin-left:auto}
-.tbAv{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--purple));display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
-.tbNt{position:relative;width:32px;height:32px;border-radius:9px;background:var(--s2);border:1px solid var(--border);display:grid;place-items:center;font-size:14px}
-.tbNt .dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--red);border-radius:50%;border:2px solid var(--bg)}
-.rPill{font-size:10px;font-weight:600;letter-spacing:.05em;padding:4px 9px;border-radius:999px;background:var(--s3);border:1px solid var(--border);color:var(--muted)}
+    /* ── DETAIL ── */
+    .detailLayout{display:grid;grid-template-columns:1fr 310px;gap:14px}
+    .detailTitle{font-family:var(--display);font-size:42px;line-height:.98;letter-spacing:-.06em;margin-bottom:10px}
+    .detailText{font-size:15px;color:var(--muted);line-height:1.8}
+    .detailText ul{padding-left:20px;margin:10px 0}
+    .stickyApply{position:sticky;top:86px}
 
-/* ─── TAB BAR ─── */
-.tabBar{position:fixed;bottom:0;left:0;right:0;z-index:30;height:var(--tab);background:var(--s1);border-top:1px solid var(--border);display:flex;padding:4px 6px;padding-bottom:calc(4px + env(safe-area-inset-bottom));transition:background .25s}
-[data-theme="dark"] .tabBar{background:rgba(12,14,20,.96);backdrop-filter:blur(16px)}
-.tI{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:var(--r);color:var(--muted);font-size:9px;font-weight:600;letter-spacing:.02em;transition:.15s;position:relative;padding:3px 2px}
-.tI .ti{font-size:19px;line-height:1}
-.tI.on{color:var(--brand);background:var(--brandG)}
-.tI .tbadge{position:absolute;top:4px;right:calc(50% - 17px);background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 4px;border-radius:999px}
+    /* ── COMPANY CARDS ── */
+    .companyCard{display:flex;gap:14px;align-items:flex-start;background:var(--paper);border:2px solid var(--ink);border-radius:26px;padding:16px;box-shadow:var(--shadow)}
+    .companyCard h3{font-family:var(--display);font-size:20px;letter-spacing:-.04em;margin-bottom:3px}
+    .companyCard p{color:var(--muted);line-height:1.65;margin:7px 0;font-size:13px}
 
-/* ─── CONTENT ─── */
-.content{flex:1;padding:20px;padding-bottom:20px;max-width:920px;width:100%;transition:padding .2s}
-.view{display:none}.view.on{display:block}
+    /* ── APP SHELL ── */
+    .appShell{display:grid;grid-template-columns:240px 1fr;gap:16px;padding:16px 0 40px}
+    .side{position:sticky;top:86px;align-self:start;background:var(--ink);color:var(--soft);border-radius:28px;padding:12px;box-shadow:var(--shadow2)}
+    .sideHead{padding:10px 10px 12px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:8px}
+    .sideHead .sideAvatar{width:44px;height:44px;border-radius:14px;border:2px solid rgba(255,255,255,.2);display:grid;place-items:center;font-weight:900;font-family:var(--display);background:var(--lime);color:var(--ink);overflow:hidden;margin-bottom:8px}
+    .sideHead .sideAvatar img{width:100%;height:100%;object-fit:cover}
+    .sideHead b{font-family:var(--display);font-size:17px;display:block}
+    .sideHead small{display:block;color:rgba(255,255,255,.5);margin-top:2px;font-size:11px}
+    .side button{display:flex;width:100%;align-items:center;gap:8px;padding:11px 10px;border-radius:16px;color:rgba(255,255,255,.65);font-weight:750;text-align:left;font-size:13px;transition:.15s}
+    .side button:hover,.side button.on{background:rgba(255,255,255,.12);color:white}
+    .side button.on{background:var(--lime) !important;color:var(--ink) !important;font-weight:900}
+    .dashStat{background:var(--paper);border:2px solid var(--ink);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+    .dashStat b{font-family:var(--display);font-size:32px;line-height:1}
+    .dashStat span{display:block;font-size:10px;font-weight:950;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+    .tableLike{display:grid;gap:7px}
+    .row{display:grid;grid-template-columns:1.2fr .8fr .7fr auto;gap:9px;align-items:center;background:var(--soft);border:1.5px solid var(--line);border-radius:16px;padding:11px}
+    .row b{font-weight:900;font-size:13px}
+    .row small{color:var(--muted);font-weight:700;display:block;font-size:11px}
 
-/* ─── PAGE HEAD ─── */
-.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
-.ph h1{font-size:22px;font-weight:700;letter-spacing:-.04em;line-height:1.2}
-.ph .sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.55}
+    /* ── ATS KANBAN ── */
+    .atsWrap{overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+    .kanban{display:flex;gap:10px;min-width:max-content;padding-bottom:4px}
+    .kcol{width:236px;background:var(--soft);border:2px solid var(--ink);border-radius:22px;padding:10px;flex-shrink:0}
+    [data-theme="dark"] .kcol{background:rgba(255,255,255,.04)}
+    .kcolHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:2px 4px}
+    .kcolHead h4{font-family:var(--display);font-size:13px;font-weight:700}
+    .kcolCount{background:var(--ink);color:var(--soft);border-radius:999px;font-size:10px;font-weight:900;padding:2px 7px}
+    .kcard{background:var(--paper);border:1.5px solid var(--line2);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+    .kcard:hover{border-color:var(--blue);box-shadow:3px 3px 0 var(--blue)}
+    .kcard.selected{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+    .kcardTop{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+    .kcardAv{width:34px;height:34px;border-radius:10px;border:1.5px solid var(--ink);display:grid;place-items:center;font-weight:900;font-family:var(--display);font-size:13px;flex-shrink:0;overflow:hidden}
+    .kcardAv img{width:100%;height:100%;object-fit:cover}
+    .kcardName{font-weight:800;font-size:13px;margin-bottom:1px}
+    .kcardTitle{font-size:11px;color:var(--muted)}
+    .kcardMeta{font-size:11px;color:var(--muted);margin-bottom:8px}
+    .kcardLabels{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+    .kcardLabel{font-size:9px;font-weight:900;padding:2px 7px;border-radius:999px;border:1.5px solid currentColor}
+    .kcardActions{display:flex;gap:5px}
+    .kcardActions button{flex:1;padding:5px 6px;border-radius:9px;font-size:10px;font-weight:800;border:1.5px solid var(--line2);background:var(--soft);transition:.15s;color:var(--ink)}
+    .kcardActions button.fwd{background:var(--blue);color:white;border-color:var(--blue)}
+    .kcardActions button:hover{transform:translateY(-1px)}
+    .kcardComment{font-size:11px;color:var(--muted);border-top:1px solid var(--line);margin-top:8px;padding-top:7px;font-style:italic}
 
-/* ─── CARD ─── */
-.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rL);padding:16px;transition:background .25s,border-color .25s}
-.cT{font-size:10px;font-weight:600;letter-spacing:.09em;color:var(--muted);margin-bottom:10px;text-transform:uppercase}
+    /* ATS DETAIL PANEL */
+    .atsLayout{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start}
+    .atsDetail{background:var(--paper);border:2px solid var(--ink);border-radius:24px;padding:18px;position:sticky;top:86px}
+    .atsDetailEmpty{text-align:center;padding:40px 20px;color:var(--muted)}
+    .atsDetailEmpty span{display:block;font-size:36px;margin-bottom:10px}
+    .candDetailHead{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+    .candDetailAv{width:56px;height:56px;border-radius:16px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:900;font-family:var(--display);font-size:20px;flex-shrink:0;overflow:hidden}
+    .candDetailAv img{width:100%;height:100%;object-fit:cover}
+    .commentsSection{margin-top:14px;border-top:1.5px solid var(--line);padding-top:12px}
+    .commentItem{background:var(--soft);border-radius:12px;padding:9px;margin-bottom:7px;font-size:12px;line-height:1.5}
+    .commentMeta{font-size:10px;color:var(--muted);margin-bottom:3px;font-weight:700}
+    .commentForm{display:flex;gap:7px;margin-top:10px}
+    .commentForm input{flex:1;background:var(--soft);border:1.5px solid var(--line);border-radius:12px;padding:8px 11px;font-size:12px}
+    .labelPicker{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}
+    .labelOpt{font-size:10px;font-weight:900;padding:4px 9px;border-radius:999px;border:1.5px solid currentColor;cursor:pointer;opacity:.5;transition:.15s}
+    .labelOpt.active{opacity:1}
 
-/* ─── STAT GRID ─── */
-.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.sc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rM);padding:14px;transition:background .25s}
-.sv{font-size:24px;font-weight:700;letter-spacing:-.05em;margin-bottom:3px;line-height:1}
-.sl{font-size:10px;font-weight:600;letter-spacing:.07em;color:var(--muted)}
+    /* ── PROFILE ── */
+    .profLayout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .profPreview{background:var(--paper);border:2px solid var(--ink);border-radius:26px;padding:20px;box-shadow:var(--shadow)}
+    .profPreviewHead{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+    .profAvLarge{width:72px;height:72px;border-radius:20px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:900;font-family:var(--display);font-size:26px;background:var(--lime);flex-shrink:0;overflow:hidden;cursor:pointer;position:relative}
+    .profAvLarge img{width:100%;height:100%;object-fit:cover}
+    .profAvLarge:hover:after{content:"📷";position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.4);border-radius:18px;font-size:22px}
+    .pbar{height:8px;background:var(--line);border-radius:999px;margin-top:10px;overflow:hidden}
+    .pfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:999px;transition:width .4s}
+    .visNote{font-size:11px;color:var(--muted);line-height:1.5;margin-top:6px;padding:8px 11px;background:var(--soft);border-radius:11px;border:1px solid var(--line)}
 
-/* ─── BADGE ─── */
-.b{display:inline-flex;align-items:center;border-radius:999px;padding:3px 9px;font-size:10px;font-weight:600;border:1px solid transparent;flex-shrink:0;white-space:nowrap}
-.b-blue{background:var(--brandG);color:var(--brandH);border-color:var(--brandB)}
-.b-green{background:var(--greenD);color:var(--green);border-color:var(--greenB)}
-.b-amber{background:var(--amberD);color:var(--amber);border-color:var(--amberB)}
-.b-red{background:var(--redD);color:var(--red);border-color:var(--redB)}
-.b-purple{background:var(--purpleD);color:var(--purple);border-color:var(--purpleB)}
-.b-teal{background:var(--tealD);color:var(--teal);border-color:var(--tealB)}
-.b-gray{background:var(--s3);color:var(--muted);border-color:var(--border)}
+    /* ── ORDERS ── */
+    .orderCard{background:var(--paper);border:2px solid var(--ink);border-radius:22px;padding:16px;box-shadow:var(--shadow);margin-bottom:10px}
+    .orderHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+    .orderCode{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--blue)}
+    .bkBox{background:var(--soft);border:1.5px solid var(--line2);border-radius:16px;padding:14px;font-family:var(--mono);font-size:12px;line-height:2.2;margin:12px 0}
 
-/* ─── BUTTONS ─── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r);padding:8px 14px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--s2);color:var(--text);transition:.15s;white-space:nowrap;flex-shrink:0}
-.btn:hover{background:var(--s3);border-color:var(--borderHi)}.btn:active{transform:scale(.97)}
-.btn.sm{padding:6px 11px;font-size:11px;border-radius:7px}
-.bp{background:var(--brand);border-color:var(--brand);color:#fff}.bp:hover{opacity:.9}
-.bg{background:var(--green);border-color:var(--green);color:#fff}.bg:hover{opacity:.9}
-.br{background:var(--redD);border-color:var(--redB);color:var(--red)}
-.ba{background:var(--amberD);border-color:var(--amberB);color:var(--amber)}
-.brow{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+    /* ── MODAL ── */
+    .modal{position:fixed;inset:0;z-index:80;background:rgba(23,23,23,.55);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:14px}
+    [data-theme="dark"] .modal{background:rgba(0,0,0,.7)}
+    .modal.open{display:flex}
+    .sheet{background:var(--paper);border:2px solid var(--ink);border-radius:30px;padding:20px;box-shadow:9px 9px 0 var(--ink);width:min(560px,100%);max-height:90vh;overflow-y:auto}
+    .sheetTop{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .sheet h3{font-family:var(--display);font-size:24px;letter-spacing:-.04em}
+    .x{width:36px;height:36px;border:2px solid var(--ink);border-radius:999px;background:var(--pink);color:white;font-weight:950;display:grid;place-items:center;flex-shrink:0;font-size:16px}
+    .form{display:grid;gap:9px}
+    .label{font-size:10px;font-weight:950;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .form textarea{min-height:100px;resize:vertical}
+    .counter{font-size:11px;color:var(--muted);font-weight:800;text-align:right;margin-top:2px}
+    .upload{border:2px dashed var(--line2);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--lime) 10%,var(--paper));font-weight:800;color:var(--muted);cursor:pointer;text-align:center;transition:.15s;font-size:13px}
+    .upload:hover{border-color:var(--blue);background:color-mix(in srgb,var(--blue) 5%,var(--paper))}
+    .sendNote{background:var(--soft);border:1.5px solid var(--line2);border-radius:14px;padding:12px;font-size:12px;color:var(--muted);line-height:1.6}
 
-/* ─── LAYOUT HELPERS ─── */
-.sep{height:1px;background:var(--border);margin:16px 0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.flowStep{background:var(--s1);border:1px solid var(--border);border-radius:var(--rM);padding:14px}
-.flowStep .num{width:26px;height:26px;border-radius:8px;background:var(--brandG);border:1px solid var(--brandB);color:var(--brand);display:grid;place-items:center;font-size:12px;font-weight:700;margin-bottom:9px}
-.flowStep b{font-size:12px;font-weight:600}.flowStep p{font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px}
+    /* ── TOAST ── */
+    .toast{position:fixed;top:86px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:120;background:var(--ink);color:var(--soft);border-radius:999px;padding:11px 18px;font-weight:900;opacity:0;transition:.2s;box-shadow:var(--shadow2);max-width:calc(100vw - 24px);text-align:center;font-size:13px;pointer-events:none}
+    .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ─── HINT / EMPTY ─── */
-.hint{background:var(--brandG);border:1px solid var(--brandB);border-radius:var(--r);padding:11px 13px;font-size:11px;color:var(--brandH);line-height:1.65;margin-bottom:12px}
-.hint strong{color:var(--text)}
-.hint.warn{background:var(--amberD);border-color:var(--amberB);color:var(--amber)}
-.hint.warn strong{color:var(--text)}
-.empty{text-align:center;padding:36px 20px;color:var(--muted);background:var(--s1);border:1px dashed var(--border);border-radius:var(--rL)}
-.empty .ei{font-size:36px;margin-bottom:10px}.empty p{font-size:12px;line-height:1.6}
+    /* ── FOOTER ── */
+    .footer{margin-top:36px;background:var(--ink);color:var(--soft);border-radius:34px 34px 0 0;padding:32px 0}
+    .footGrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px}
+    .footer h4{font-family:var(--display);font-size:17px;margin-bottom:9px}
+    .footer a,.footer p{display:block;color:rgba(255,255,255,.55);font-weight:700;margin:6px 0;font-size:13px;cursor:pointer}
+    .footer a:hover{color:white}
 
-/* ─── JOB CARD ─── */
-.jc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rL);padding:16px;transition:border-color .18s,box-shadow .18s;margin-bottom:8px}
-.jc:hover{border-color:var(--borderHi);box-shadow:var(--sh)}
-.jcT{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
-.jcT h3{font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1.3;margin-bottom:3px}
-.jmeta{font-size:11px;color:var(--muted);line-height:1.7}
-.jmeta span{color:var(--text);font-weight:600}
-.jdesc{font-size:12px;color:var(--muted);line-height:1.65;margin:8px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
-.tag{background:var(--s2);border:1px solid var(--border);border-radius:999px;padding:3px 9px;font-size:10px;font-weight:500;color:var(--muted)}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:3px;margin-bottom:12px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;padding:6px 13px;border-radius:999px;border:1px solid var(--border);background:var(--s2);font-size:11px;font-weight:600;color:var(--muted);transition:.15s}
-.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+    /* ── PLAN CARDS ── */
+    .planCard{background:var(--paper);border:2px solid var(--ink);border-radius:26px;padding:18px;box-shadow:var(--shadow);transition:.15s}
+    .planCard:hover{transform:translateY(-2px);box-shadow:7px 7px 0 var(--ink)}
+    .planCard.active{background:var(--blue);color:white;border-color:var(--blue)}
+    .planCard.active .sub{color:rgba(255,255,255,.7)}
+    .planCard h2{margin-bottom:4px}
+    .planPrice{font-family:var(--display);font-size:38px;font-weight:900;letter-spacing:-.06em;margin:10px 0}
+    .planFeat{list-style:none;font-size:12px;color:var(--muted);display:grid;gap:5px;margin-bottom:14px}
+    .planFeat li:before{content:"✓ ";color:var(--green);font-weight:900}
+    .planCard.active .planFeat{color:rgba(255,255,255,.75)}
 
-/* ─── PREMIUM JOB ─── */
-.premLabel{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--amber);margin-bottom:8px}
-.premLabel::after{content:'';flex:1;height:1px;background:var(--amberB)}
-.jc.premium{border-color:var(--amberB);background:linear-gradient(160deg,var(--s1),rgba(224,148,20,.04))}
-.jc.premium::before{content:'';display:block;height:2px;background:linear-gradient(90deg,var(--amber),transparent);margin:-16px -16px 14px;border-radius:var(--rL) var(--rL) 0 0}
-.premBadge{display:inline-flex;align-items:center;gap:4px;background:var(--amber);color:#000;font-size:9px;font-weight:700;letter-spacing:.05em;padding:3px 8px;border-radius:999px;flex-shrink:0}
-.jc.feat{border-color:var(--amberB)}
-
-/* ─── PROFILE ─── */
-.pHero{background:linear-gradient(135deg,var(--s2),var(--brandG));border:1px solid var(--border);border-radius:var(--rL);padding:18px;margin-bottom:12px}
-.pTop{display:flex;gap:13px;align-items:flex-start;margin-bottom:12px}
-.pAv{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,var(--brand),var(--purple));display:grid;place-items:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
-.pName{font-size:17px;font-weight:700;letter-spacing:-.03em;margin-bottom:2px}
-.pHL{font-size:12px;color:var(--muted);line-height:1.5}
-.pbar{height:4px;background:var(--s3);border-radius:999px;overflow:hidden;margin-top:10px}
-.pfill{height:100%;background:linear-gradient(90deg,var(--brand),var(--green));border-radius:999px;transition:width .4s ease}
-.cvs{background:var(--s1);border:1px solid var(--border);border-radius:var(--rM);margin-bottom:8px;overflow:hidden}
-.cvsH{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;cursor:pointer;user-select:none;transition:background .15s}
-.cvsH:hover{background:var(--s2)}
-.cvsH span{font-size:12px;font-weight:600}
-.cvsH .arr{font-size:10px;color:var(--muted);transition:.2s}
-.cvsH.open .arr{transform:rotate(90deg)}
-.cvsB{padding:0 14px 14px;border-top:1px solid var(--border)}
-.cvi{padding:10px 0;border-bottom:1px solid var(--border)}
-.cvi:last-child{border-bottom:none}
-.cviT{font-size:13px;font-weight:600;margin-bottom:1px}
-.cviS{font-size:11px;color:var(--muted);margin-bottom:4px}
-.cviD{font-size:11px;color:var(--muted);line-height:1.6}
-
-/* ─── CANDIDATES ─── */
-.cc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rL);padding:15px;margin-bottom:8px;transition:border-color .18s}
-.cc:hover{border-color:var(--borderHi)}
-.ccT{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ccAv{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
-.ccN{font-size:13px;font-weight:600}.ccHL{font-size:11px;color:var(--muted);margin-top:1px;line-height:1.4}
-.ccCont{background:var(--s2);border:1px solid var(--greenB);border-radius:var(--r);padding:10px;margin-top:8px;font-size:11px;line-height:2;color:var(--muted)}
-.ccCont strong{color:var(--green)}
-
-/* ─── KANBAN ─── */
-.kWrap{overflow-x:auto;margin:0 -20px;padding:0 20px 8px;scrollbar-width:none}
-.kWrap::-webkit-scrollbar{display:none}
-.kanban{display:flex;gap:8px;min-width:max-content}
-.kcol{width:190px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rM);padding:10px;flex-shrink:0}
-.kcolH{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
-.kcount{background:var(--s3);border:1px solid var(--border);border-radius:999px;padding:2px 7px;font-size:10px;font-weight:600;color:var(--muted)}
-.kcard{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:6px;box-shadow:var(--sh)}
-.kcardN{font-size:12px;font-weight:600;margin-bottom:2px}
-.kcardS{font-size:10px;color:var(--muted);margin-bottom:7px;line-height:1.4}
-.karr{display:flex;gap:4px}
-.karr button{flex:1;padding:5px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid var(--border);background:var(--s2);color:var(--muted);transition:.15s}
-.karr .kf{color:var(--brand);border-color:var(--brandB);background:var(--brandG)}
-
-/* ─── PLANS ─── */
-.pc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rL);padding:18px;margin-bottom:10px;transition:.18s}
-.pc:hover{border-color:var(--borderHi)}
-.pc.cur{border-color:var(--brand);background:linear-gradient(160deg,var(--s1),var(--brandG))}
-.pc.pop{border-color:var(--amberB)}
-.pcN{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
-.pcP{font-size:26px;font-weight:800;letter-spacing:-.05em;margin-bottom:10px}
-.pcP span{font-size:12px;font-weight:500;color:var(--muted)}
-.pcF{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:14px;font-size:12px;color:var(--muted)}
-.pcF li::before{content:'✓ ';color:var(--green);font-weight:700}
-
-/* ─── ORDERS / ADMIN ─── */
-.oc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rM);padding:14px;margin-bottom:8px}
-.ocT{display:flex;justify-content:space-between;align-items:flex-start;gap:9px;margin-bottom:9px}
-.ocId{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brand)}
-.ocM{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.6}
-.ocCode{font-family:var(--mono);font-size:10px;color:var(--green);margin-top:4px}
-.bkBox{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:11px;line-height:2.3;color:var(--muted);margin:12px 0}
-.bkBox strong{color:var(--text)}
-
-/* ─── APPLICATIONS / NOTIF ─── */
-.appc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rM);padding:14px;margin-bottom:8px}
-.appT{display:flex;justify-content:space-between;align-items:flex-start;gap:9px;margin-bottom:8px}
-.nc{background:var(--s1);border:1px solid var(--border);border-radius:var(--rM);padding:13px;margin-bottom:8px;display:flex;gap:10px}
-.ndot{width:7px;height:7px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:5px}
-.nc.read .ndot{background:var(--faint)}
-.ntext{font-size:12px;line-height:1.6}.ntime{font-size:10px;color:var(--faint);margin-top:3px}
-
-/* ─── PROMO BANNERS ─── */
-.promoBanner{border-radius:var(--rL);padding:16px;margin-bottom:12px;position:relative;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
-.promoBanner:hover{transform:translateY(-2px);box-shadow:var(--shM)}
-.promoBanner:active{transform:scale(.985)}
-.pb-blue{background:linear-gradient(135deg,rgba(76,124,243,.18),rgba(108,79,240,.10));border:1px solid var(--brandB)}
-.pb-amber{background:linear-gradient(135deg,rgba(224,148,20,.16),rgba(245,158,11,.08));border:1px solid var(--amberB)}
-.pb-green{background:linear-gradient(135deg,rgba(30,199,118,.16),rgba(16,185,129,.08));border:1px solid var(--greenB)}
-.pb-teal{background:linear-gradient(135deg,rgba(34,184,216,.16),rgba(14,165,233,.08));border:1px solid var(--tealB)}
-.pbTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
-.pbLogo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:16px;flex-shrink:0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12)}
-[data-theme="light"] .pbLogo{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1)}
-.pbName{font-size:13px;font-weight:600;letter-spacing:-.01em}
-.pbSub{font-size:11px;color:var(--muted);margin-top:1px}
-.pbAd{font-size:9px;font-weight:700;letter-spacing:.07em;color:var(--muted);padding:3px 7px;border-radius:999px;border:1px solid var(--border);background:var(--s2)}
-.pbDesc{font-size:12px;color:var(--text2);line-height:1.65;margin-bottom:10px}
-.pbCTA{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--text);background:var(--s1);border:1px solid var(--border);border-radius:999px;padding:5px 13px;transition:.15s}
-.pbCTA:hover{background:var(--s2)}
-[data-theme="dark"] .pbCTA{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
-
-/* ─── BANNER MANAGER ─── */
-.pmItem{background:var(--s2);border:1px solid var(--border);border-radius:var(--rM);padding:13px;margin-bottom:8px}
-.pmItemTop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
-.pmName{font-size:12px;font-weight:600}.pmMeta{font-size:10px;color:var(--muted);margin-top:2px}
-.pmStats{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:7px;flex-wrap:wrap}
-.pmStats span{color:var(--text);font-weight:600}
-
-/* ─── MODAL ─── */
-.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);padding:16px}
-.modal.open{display:flex}
-.mSheet{background:var(--s1);border:1px solid var(--border);border-radius:var(--rXL);padding:22px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;animation:slideUp .22s ease;box-shadow:var(--shM)}
-@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.mTitle{font-size:18px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
-.mSub{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.65}
-.mX{display:flex;justify-content:flex-end;margin-bottom:4px}
-.mX button{width:28px;height:28px;border-radius:999px;background:var(--s2);border:1px solid var(--border);font-size:16px;color:var(--muted);display:grid;place-items:center}
-.mX button:hover{background:var(--s3)}
-
-/* ─── TOAST ─── */
-.toast{position:fixed;top:calc(var(--nav) + 10px);left:50%;transform:translateX(-50%) translateY(-8px);z-index:80;background:var(--text);color:var(--bg);border-radius:var(--r);padding:9px 15px;font-size:12px;font-weight:600;white-space:nowrap;box-shadow:var(--shM);opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:calc(100vw - 28px);text-align:center}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ─── RESPONSIVE ─── */
-@media(min-width:700px){
-  .tabBar{display:none}
-  .content{padding:22px;padding-bottom:22px}
-  .modal{align-items:center}
-  .mSheet{border-radius:var(--rXL)}
-}
-@media(max-width:860px){
-  .lWrap{grid-template-columns:1fr;max-width:430px}
-  .lHero{display:none}
-  .sg{grid-template-columns:1fr 1fr}
-  .grid3,.flow{grid-template-columns:1fr 1fr}
-  .grid2{grid-template-columns:1fr}
-  .f2{grid-template-columns:1fr}
-}
-@media(max-width:699px){
-  .sidebar{display:none}
-  .topBar{height:56px;padding:0 14px}
-  .tbSrch{max-width:none}.tbSrch input{font-size:12px}
-  .rPill{display:none}
-  .content{padding:14px;padding-bottom:calc(var(--tab) + 16px + env(safe-area-inset-bottom))}
-  .ph h1{font-size:20px}.ph{margin-bottom:14px}
-  .sg{grid-template-columns:1fr 1fr}
-  .flow,.grid3{grid-template-columns:1fr}
-  .kWrap{margin:0 -14px;padding:0 14px 8px}
-  .modal{padding:0 10px 10px;align-items:flex-end}
-  .mSheet{border-radius:var(--rXL) var(--rXL) var(--rM) var(--rM)}
-  .brow .btn{flex:1}
-}
-</style>
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .nav{display:none}.hamb{display:inline-flex}
+      .topIn{height:62px}.rolePill{display:none}
+      .heroGrid,.detailLayout,.appShell,.grid2,.grid3,.grid4,.atsLayout,.profLayout{grid-template-columns:1fr}
+      .heroCard{padding:24px;border-radius:26px}
+      .searchBox,.filters{grid-template-columns:1fr}
+      .statMosaic{grid-template-columns:1fr 1fr}
+      .jobCard{grid-template-columns:auto 1fr}
+      .jobSide{grid-column:1/-1;align-items:stretch;flex-direction:row;flex-wrap:wrap}
+      .deadline{text-align:left}
+      .side{display:none}
+      .atsDetail{position:static}
+      .stickyApply{position:static}
+      .bottomNav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(245,241,232,.92);backdrop-filter:blur(18px);border-top:1.5px solid rgba(23,23,23,.1);padding:5px 6px calc(5px + env(safe-area-inset-bottom));gap:3px}
+      [data-theme="dark"] .bottomNav{background:rgba(15,15,15,.95)}
+      .bottomNav button{flex:1;border-radius:16px;padding:7px 3px;font-size:9px;font-weight:950;color:var(--muted)}
+      .bottomNav button.on{background:var(--ink);color:var(--soft)}
+      .contentPad{padding-bottom:70px}
+      .mobileNav.open{display:grid;position:absolute;left:12px;right:12px;top:66px;background:var(--paper);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);border-radius:22px;padding:8px;gap:4px;z-index:50}
+      .mobileNav button{text-align:left;padding:11px;border-radius:14px;font-weight:800;font-size:13px}
+      .mobileNav button:hover{background:var(--soft)}
+      .footGrid{grid-template-columns:1fr 1fr}
+      .toast{top:74px}
+      .kanban{min-width:0;flex-wrap:nowrap}
+    }
+    @media(max-width:560px){
+      .wrap{width:calc(100% - 20px)}
+      h1{font-size:40px}
+      .hero{padding-top:20px}
+      .heroCard{padding:20px}
+      .statMosaic{grid-template-columns:1fr}
+      .sectionHead{align-items:flex-start;flex-direction:column}
+      .jobCard{grid-template-columns:1fr}
+      .logo{width:46px;height:46px}
+      .detailTitle{font-size:34px}
+      .footGrid{grid-template-columns:1fr}
+      .sheet{border-radius:26px;box-shadow:5px 5px 0 var(--ink)}
+      .tableLike .row{grid-template-columns:1fr 1fr;gap:7px}
+      .kcol{width:200px}
+    }
+  </style>
 </head>
 <body>
+  <header class="top">
+    <div class="wrap topIn">
+      <button class="iconBtn hamb" onclick="toggleMobileNav()">☰</button>
+      <button class="brand" onclick="goPublic('home')"><span class="mark">W</span><span>WorkingHub</span></button>
+      <nav class="nav" id="topNav"></nav>
+      <div class="topActions">
+        <button class="iconBtn themeBtn" onclick="toggleTheme()" title="Tamna/Svjetla tema" id="themeIcon">🌙</button>
+        <span class="rolePill" id="rolePill">JAVNO</span>
+        <button class="btn ghost" onclick="openLogin()" id="loginBtn">Login</button>
+        <button class="btn blue" onclick="goPublic('employers')">Za firme</button>
+      </div>
+    </div>
+    <div class="mobileNav" id="mobileNav"></div>
+  </header>
 
-<!-- ═══ LOGIN ═══ -->
-<div id="loginScreen">
-<div class="lWrap">
-  <div class="lHero">
-    <div>
-      <div class="brand"><div class="mark">W</div><span>WorkingHub</span></div>
-      <h1>Posao, kandidati i promo prostor — u jednom flow-u.</h1>
-      <p>Kompletan demo: registracija, CV editor, oglasi, ATS, pretplata s bankovnim kodom, promo baneri i admin moderacija.</p>
-    </div>
-    <div class="lHeroStats">
-      <div class="lHeroStat"><b>3</b><span>ULOGE</span></div>
-      <div class="lHeroStat"><b>8+</b><span>FLOWOVA</span></div>
-      <div class="lHeroStat"><b>1</b><span>FAJL</span></div>
-    </div>
-  </div>
-  <div class="lRight">
-    <div class="lHead"><h2>Uđi u demo</h2><p>Odaberi nalog ili prođi kroz registraciju.</p></div>
-    <div class="modeRow">
-      <button class="modeBtn on" id="mLogin" onclick="authMode('login')">Demo login</button>
-      <button class="modeBtn" id="mRegister" onclick="authMode('register')">Registracija</button>
-    </div>
-    <div id="authBox"></div>
-  </div>
-</div>
-</div>
+  <main class="contentPad" id="root"></main>
+  <nav class="bottomNav" id="bottomNav"></nav>
 
-<!-- ═══ APP ═══ -->
-<div id="appScreen" class="hidden">
-<aside class="sidebar">
-  <div class="sbHeader">
-    <div class="sbBrand"><div class="mark">W</div><span>WorkingHub</span></div>
-    <div class="sbWho">
-      <div class="sbWhoR" id="sbRole">KANDIDAT</div>
-      <div class="sbWhoN" id="sbName">Ana Jović</div>
-      <div class="sbMeta" id="sbMeta">CV 82% · 1 prijava</div>
-    </div>
-  </div>
-  <nav class="sbNav" id="sbNav"></nav>
-  <div class="sbBottom">
-    <div class="sbRLabel">PROMIJENI ULOGU</div>
-    <div class="sbRoles">
-      <button class="sbRBtn" data-r="candidate" onclick="switchRole('candidate')">👤 Kandidat</button>
-      <button class="sbRBtn" data-r="company" onclick="switchRole('company')">🏢 Firma</button>
-      <button class="sbRBtn" data-r="admin" onclick="switchRole('admin')">⚡ Admin</button>
-    </div>
-    <div class="sbDiv"></div>
-    <button class="sbI" style="width:100%" onclick="logout()"><span class="ico">↩</span> Logout</button>
-  </div>
-</aside>
-
-<div class="mainWrap">
-  <div class="topBar">
-    <div class="tbSrch"><span class="si">🔍</span><input placeholder="Pretraži oglase, kandidate..." oninput="globalSearch(this.value)"></div>
-    <div class="tbR">
-      <button class="themeBtn" onclick="toggleTheme()" id="themeBtn" title="Promijeni temu">🌙</button>
-      <span class="rPill" id="rPill">Candidate</span>
-      <button class="tbNt" onclick="go('notif')" id="tbNt"><span>🔔</span><span class="dot"></span></button>
-      <div class="tbAv" id="tbAv">A</div>
-    </div>
-  </div>
-  <div class="content" id="content">
-    <div id="v-dash" class="view"></div>
-    <div id="v-onboarding" class="view"></div>
-    <div id="v-jobs" class="view"></div>
-    <div id="v-profile" class="view"></div>
-    <div id="v-myapps" class="view"></div>
-    <div id="v-notif" class="view"></div>
-    <div id="v-cjobs" class="view"></div>
-    <div id="v-newjob" class="view"></div>
-    <div id="v-ats" class="view"></div>
-    <div id="v-cands" class="view"></div>
-    <div id="v-sub" class="view"></div>
-    <div id="v-admin" class="view"></div>
-  </div>
-</div>
-<nav class="tabBar" id="tabBar"></nav>
-</div>
-
-<div id="modal" class="modal" onclick="if(event.target===this)closeM()"><div class="mSheet" id="mSheet"></div></div>
-<div id="toast" class="toast"></div>
+  <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+  <div class="toast" id="toast"></div>
 
 <script>
-// ── THEME ──
-function toggleTheme(){
-  const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', t);
-  document.getElementById('themeBtn').textContent = t === 'dark' ? '🌙' : '☀️';
-  localStorage.setItem('wh-theme', t);
-}
-(function(){
-  const saved = localStorage.getItem('wh-theme');
-  if(saved){ document.documentElement.setAttribute('data-theme', saved); document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('themeBtn');if(b)b.textContent=saved==='dark'?'🌙':'☀️';});}
-})();
+// ═══ DATA ═══
+const D = {
+  mode:'public', role:'public', view:'home',
+  profilePct:82, credits:41, plan:'Growth',
+  selectedCandidate:null,
+  theme:'light',
 
-// ── DATA ──
-const D={
-  role:'candidate',view:'dash',auth:'login',credits:41,plan:'Growth',planExp:'28.05.2026',
-  users:[{role:'candidate',name:'Ana Jović',email:'ana@demo.me'},{role:'company',name:'EventPro d.o.o.',email:'firma@demo.me'},{role:'admin',name:'WorkingHub Admin',email:'admin@workinghub.me'}],
-  banners:[
-    {id:1,co:'Hotel Verde',ico:'🏨',color:'pb-teal',desc:'Aktivno zapošljavamo recepcionere i konobare. Prijavite se već danas!',cta:'Pogledaj pozicije',status:'ACTIVE',clicks:142,imp:2800},
-    {id:2,co:'Growth Lab',ico:'📈',color:'pb-blue',desc:'Gradimo marketing tim. Tražimo junior i mid-level stručnjake.',cta:'Saznaj više',status:'ACTIVE',clicks:89,imp:1950},
-    {id:3,co:'Adriatic Agency',ico:'🌊',color:'pb-amber',desc:'Agencija na moru. Remote pozicije, fleksibilno radno vrijeme.',cta:'Apliciraj',status:'PAUSED',clicks:201,imp:3100}
+  cities:['Podgorica','Budva','Tivat','Nikšić','Bar','Kotor','Herceg Novi','Cetinje'],
+  cats:['Marketing','Ugostiteljstvo','Eventi','IT','Administracija','Prodaja','Sezonski'],
+
+  companies:[
+    {id:1,slug:'eventpro',name:'EventPro d.o.o.',logo:'EP',logoImg:null,city:'Podgorica',cat:'Eventi',email:'hr@eventpro.me',desc:'Event agencija za korporativne događaje, promocije, hostese, barmene i terenske aktivacije. Od 2018. realizujemo stotine projekata godišnje.'},
+    {id:2,slug:'growth-lab',name:'Growth Lab',logo:'GL',logoImg:null,city:'Remote',cat:'Marketing',email:'jobs@growthlab.me',desc:'Performance marketing studio koji radi Meta i Google kampanje, landing stranice i tracking sisteme za klijente iz regiona.'},
+    {id:3,slug:'hotel-verde',name:'Hotel Verde',logo:'HV',logoImg:null,city:'Podgorica',cat:'Ugostiteljstvo',email:'posao@verde.me',desc:'Hotel i event prostor sa stalnim potrebama za ugostiteljskim i event timovima. 4* hotel u srcu Podgorice.'},
+    {id:4,slug:'adriatic-agency',name:'Adriatic Agency',logo:'AA',logoImg:null,city:'Budva',cat:'Marketing',email:'hello@adriatic.me',desc:'Kreativna agencija za društvene mreže, kampanje i sezonske projekte na primorju. Remote-friendly tim.'}
   ],
+
   jobs:[
-    {id:1,title:'Event Host / Promoter',co:'EventPro',cat:'Events',loc:'Podgorica',type:'Part-time',sal:'600–900€',status:'ACTIVE',feat:true,premium:true,apps:2,desc:'Rad na promocijama i field aktivacijama. Tražimo komunikativne i pouzdane ljude. Iskustvo nije obavezno.',tags:['Events','Field','Student'],days:2},
-    {id:2,title:'Junior Performance Marketer',co:'Growth Lab',cat:'Marketing',loc:'Remote',type:'Full-time',sal:'900–1300€',status:'ACTIVE',feat:false,premium:true,apps:4,desc:'Meta i Google kampanje, landing page analize, sedmični izvještaji. Junior pozicija sa mentoringom.',tags:['Meta Ads','Google Ads','Remote'],days:5},
-    {id:3,title:'Konobar za evente',co:'Hotel Verde',cat:'Hospitality',loc:'Podgorica',type:'Freelance',sal:'40€/dan',status:'ACTIVE',feat:false,premium:false,apps:1,desc:'Povremeni angažman za privatne i korporativne događaje u Podgorici.',tags:['Hospitality','Events'],days:1},
-    {id:4,title:'Social Media Manager',co:'Adriatic Agency',cat:'Marketing',loc:'Budva',type:'Full-time',sal:'800–1100€',status:'ACTIVE',feat:false,premium:false,apps:6,desc:'Instagram, TikTok i Facebook profili klijenata agencije. Min. 1 god iskustva.',tags:['Social Media','TikTok'],days:3}
+    {id:1,slug:'event-host-promoter',title:'Event Host / Promoter',co:'EventPro d.o.o.',cid:1,city:'Podgorica',cat:'Eventi',sub:'Promocije',type:'Part-time',contract:'Ugovor o djelu',salary:'600–900€',spots:6,posted:'28.04.2026',deadline:'12.05.2026',featured:true,views:482,desc:'Rad na promocijama, događajima i terenskim aktivacijama. Tražimo komunikativne, uredne i pouzdane ljude koji vole rad sa ljudima.',req:['Komunikativnost i odgovornost','Dostupnost vikendom','Iskustvo nije obavezno','Prednost: rad na promocijama ili eventima'],tags:['Events','Field','Student'],apps:2,status:'ACTIVE'},
+    {id:2,slug:'junior-performance-marketer',title:'Junior Performance Marketer',co:'Growth Lab',cid:2,city:'Remote',cat:'Marketing',sub:'Performance',type:'Full-time',contract:'Stalni radni odnos',salary:'900–1300€',spots:1,posted:'26.04.2026',deadline:'20.05.2026',featured:true,views:811,desc:'Rad na Meta i Google kampanjama, landing page analizama, tracking setup-u i sedmičnim izvještajima. Junior pozicija sa mentorstvom.',req:['Osnovno znanje Meta Ads ili Google Ads','Razumijevanje funnel-a i konverzija','Dobar engleski','Spremnost na učenje'],tags:['Meta Ads','Google Ads','Remote'],apps:4,status:'ACTIVE'},
+    {id:3,slug:'konobar-za-evente',title:'Konobar za evente',co:'Hotel Verde',cid:3,city:'Podgorica',cat:'Ugostiteljstvo',sub:'Event servis',type:'Freelance',contract:'Dnevni angažman',salary:'40€/dan',spots:10,posted:'27.04.2026',deadline:'10.05.2026',featured:false,views:333,desc:'Povremeni angažman za privatne i korporativne događaje. Smjene se dogovaraju po događaju.',req:['Osnovno iskustvo u servisu','Tačnost i profesionalan odnos','Dostupnost po pozivu'],tags:['Hospitality','Events'],apps:1,status:'ACTIVE'},
+    {id:4,slug:'social-media-manager',title:'Social Media Manager',co:'Adriatic Agency',cid:4,city:'Budva',cat:'Marketing',sub:'Social',type:'Full-time',contract:'Stalni radni odnos',salary:'800–1100€',spots:1,posted:'25.04.2026',deadline:'18.05.2026',featured:false,views:553,desc:'Vođenje Instagram, TikTok i Facebook profila klijenata. Planiranje sadržaja, objave, reporting.',req:['Minimum 1 godina iskustva','Canva ili sličan alat','Dobar copywriting'],tags:['Social Media','TikTok','Canva'],apps:6,status:'ACTIVE'}
   ],
-  myApps:[{jid:2,title:'Junior Performance Marketer',co:'Growth Lab',status:'VIEWED',date:'28.04.2026',cl:'Jako sam zainteresovana za ovu poziciju.'}],
-  cands:[
-    {id:1,name:'Ana Jović',ini:'AJ',col:'#4c7cf3',hl:'Junior Marketing & Event Coordinator',loc:'Podgorica',skills:['Meta Ads','Events','Canva'],unlocked:false,status:'APPLIED',email:'ana@example.com',ph:'+382 67 000 001'},
-    {id:2,name:'Marko Popović',ini:'MP',col:'#e09414',hl:'Promoter / Sales Assistant',loc:'Nikšić',skills:['Sales','Field','Hospitality'],unlocked:false,status:'VIEWED',email:'marko@example.com',ph:'+382 68 000 002'},
-    {id:3,name:'Sara Nikolić',ini:'SN',col:'#1ec776',hl:'Marketing Assistant',loc:'Budva',skills:['Copywriting','Canva','CRM'],unlocked:true,status:'INTERVIEW',email:'sara@example.com',ph:'+382 67 000 003'},
-    {id:4,name:'Luka Vuković',ini:'LV',col:'#9b72f4',hl:'Event Coordinator',loc:'Podgorica',skills:['Logistics','Teams','Events'],unlocked:false,status:'OFFER',email:'luka@example.com',ph:'+382 69 000 004'},
-    {id:5,name:'Nina Begović',ini:'NB',col:'#22b8d8',hl:'Content Creator',loc:'Podgorica',skills:['Instagram','TikTok','Photo'],unlocked:false,status:'APPLIED',email:'nina@example.com',ph:'+382 67 000 005'}
+
+  apps:[{jid:2,title:'Junior Performance Marketer',co:'Growth Lab',status:'VIEWED',date:'28.04.2026',phone:'+382 67 000 000',city:'Podgorica',cv:'Ana_Jovic_CV.pdf',statusUpdated:'29.04.2026'}],
+
+  candidates:[
+    {id:1,name:'Ana Jović',username:'ana-jovic',avatar:'AJ',avatarImg:null,color:'#c8ff3d',title:'Junior Marketing & Event Coordinator',city:'Podgorica',skills:['Meta Ads','Events','Canva'],public:true,unlocked:true,email:'ana@example.com',phone:'+382 67 000 001',status:'APPLIED',labels:['perspektivno'],comments:[{author:'Mila HR',time:'29.04.2026 14:30',text:'Odlično motivaciono pismo. Pozvati na video poziv.'}],cv:'Ana_Jovic_CV.pdf'},
+    {id:2,name:'Marko Popović',username:'marko-popovic',avatar:'MP',avatarImg:null,color:'#ff8a2a',title:'Promoter / Sales Assistant',city:'Nikšić',skills:['Sales','Field','Hospitality'],public:false,unlocked:false,email:'marko@example.com',phone:'+382 68 000 002',status:'VIEWED',labels:[],comments:[],cv:'Marko_CV.pdf'},
+    {id:3,name:'Sara Nikolić',username:'sara-nikolic',avatar:'SN',avatarImg:null,color:'#2148ff',title:'Marketing Assistant',city:'Budva',skills:['Copywriting','Canva','CRM'],public:true,unlocked:true,email:'sara@example.com',phone:'+382 67 000 003',status:'INTERVIEW',labels:['top kandidat','intervju'],comments:[{author:'Mila HR',time:'30.04.2026 10:00',text:'Intervju zakazan za 05.05. u 11h. Dobra komunikacija.'},{author:'Direktor',time:'30.04.2026 10:45',text:'Pregledao CV - izgleda jako dobro.'}],cv:'Sara_Nikolic_CV.pdf'},
+    {id:4,name:'Luka Vuković',username:'luka-vukovic',avatar:'LV',avatarImg:null,color:'#ff4fa3',title:'Event Coordinator',city:'Podgorica',skills:['Logistics','Teams','Events'],public:false,unlocked:false,email:'luka@example.com',phone:'+382 69 000 004',status:'OFFER',labels:['ponuda'],comments:[],cv:'Luka_CV.pdf'}
   ],
-  orders:[
-    {id:'WH-2026-1034',co:'EventPro',plan:'Growth',amt:80,status:'PENDING',date:'27.04.2026',code:''},
-    {id:'WH-2026-1031',co:'Hotel Verde',plan:'Starter',amt:25,status:'PAID',date:'15.04.2026',code:'WH-2026-A3B9-XMPQ'},
-    {id:'WH-2026-1028',co:'Growth Lab',plan:'Pro',amt:200,status:'PAID',date:'01.04.2026',code:'WH-2026-Z7K2-PLNR'}
-  ],
+
+  cv:{name:'Ana Jović',email:'ana@demo.me',phone:'+382 67 000 000',city:'Podgorica',headline:'Junior Marketing & Event Coordinator',bio:'Radila sam na eventima, promocijama i digital marketingu. Volim dinamične projekte i rad sa ljudima.',skills:'Meta Ads, Events, Canva, Sales, CRM',languages:'Crnogorski (native), Engleski (C1)',visibility:'PUBLIC',avatar:'AJ',avatarImg:null,
+    exp:[{title:'Marketing Intern',company:'Digitalia',from:'Jun 2023',to:'Dec 2023',desc:'Social media sadržaj i podrška kampanjama.'}],
+    edu:[{degree:'BSc Menadžment i marketing',school:'Ekonomski fakultet UCG',year:'2023'}]
+  },
+
+  orders:[{id:'WH-2026-1034',co:'EventPro d.o.o.',plan:'Growth',amount:80,status:'PENDING',date:'27.04.2026',code:''},{id:'WH-2026-1031',co:'Hotel Verde',plan:'Starter',amount:25,status:'PAID',date:'15.04.2026',code:'WH-2026-A3B9-XMPQ'}],
+
   notifs:[
-    {id:1,txt:'Growth Lab je vidio tvoju prijavu za Junior Performance Marketer.',time:'Danas 14:22',read:false},
-    {id:2,txt:'Preporučujemo: Social Media Manager · Budva odgovara tvom profilu.',time:'Juče 09:15',read:false},
-    {id:3,txt:'CV je 82% popunjen — dodaj iskustvo za bolju vidljivost.',time:'2 dana',read:true}
-  ],
-  cv:{name:'Ana Jović',hl:'Junior Marketing & Event Coordinator',loc:'Podgorica',ph:'+382 67 000 000',li:'linkedin.com/in/anajovic',bio:'Radila sam na eventima, promocijama i digital marketingu. Volim dinamične okoline.',skills:'Meta Ads, Events, Canva, Sales, CRM',langs:'Crnogorski (native) · English (C1)',vis:'PUBLIC',pct:82,exp:[{t:'Event Coordinator',co:'PromoTeam',from:'Jan 2024',to:'Danas',d:'Koordinacija korporativnih evenata u Podgorici.'},{t:'Marketing Intern',co:'Digitalia',from:'Jun 2023',to:'Dec 2023',d:'Social media sadržaj i podrška kampanjama.'}],edu:[{deg:'BSc Menadžment i marketing',sch:'Ekonomski fakultet UCG',yr:'2023'}]}
+    {text:'Growth Lab je vidio tvoju prijavu za Junior Performance Marketer. Status: VIEWED',time:'Danas 14:22',read:false,type:'status'},
+    {text:'Prijava uspješno poslata za Junior Performance Marketer. Potvrda je poslata na tvoj email.',time:'Danas 14:02',read:false,type:'apply'},
+    {text:'CV je 82% popunjen. Dodaj iskustvo i obrazovanje za bolju vidljivost.',time:'Juče',read:true,type:'tip'}
+  ]
 };
 
-const TABS={
-  candidate:[{v:'dash',ico:'🏠',lbl:'Početna'},{v:'jobs',ico:'💼',lbl:'Oglasi'},{v:'profile',ico:'👤',lbl:'CV'},{v:'myapps',ico:'📋',lbl:'Prijave'},{v:'notif',ico:'🔔',lbl:'Info'}],
-  company:[{v:'dash',ico:'🏠',lbl:'Početna'},{v:'cjobs',ico:'📢',lbl:'Oglasi'},{v:'ats',ico:'🗂',lbl:'ATS'},{v:'cands',ico:'👥',lbl:'Baza'},{v:'sub',ico:'💳',lbl:'Plan'}],
-  admin:[{v:'dash',ico:'🏠',lbl:'Početna'},{v:'admin',ico:'⚡',lbl:'Admin'},{v:'jobs',ico:'💼',lbl:'Oglasi'},{v:'cands',ico:'👥',lbl:'Baza'}]
+const LABEL_OPTS = [
+  {key:'top kandidat',color:'#2148ff'},
+  {key:'perspektivno',color:'#13b76d'},
+  {key:'intervju',color:'#ff8a2a'},
+  {key:'ponuda',color:'#ff4fa3'},
+  {key:'na čekanju',color:'#6d665f'},
+  {key:'odbijeno',color:'#e5484d'}
+];
+const STATUS_ORDER = ['APPLIED','VIEWED','INTERVIEW','OFFER','HIRED'];
+const STATUS_LABELS = {APPLIED:'Prijave',VIEWED:'Pregledano',INTERVIEW:'Intervju',OFFER:'Ponuda',HIRED:'Zaposleni'};
+const STATUS_COLORS = {APPLIED:'blue',VIEWED:'gray',INTERVIEW:'orange',OFFER:'purple',HIRED:'green'};
+
+const root = document.getElementById('root');
+
+// ── NAV CONFIG ──
+const NAV_PUBLIC = [['home','Početak'],['jobs','Svi oglasi'],['cities','Gradovi'],['categories','Kategorije'],['companies','Poslodavci']];
+const NAV_ROLE = {
+  candidate:[['dash','Početna'],['jobs','Oglasi'],['profile','Moj CV'],['apps','Prijave'],['notifs','Obavijesti']],
+  company:[['dash','Dashboard'],['newjob','Novi oglas'],['myjobs','Moji oglasi'],['ats','ATS'],['candidates','Baza'],['billing','Plan']],
+  admin:[['dash','Dashboard'],['orders','Uplate'],['moderation','Oglasi'],['users','Korisnici']]
 };
-const SB={
-  candidate:[{v:'dash',ico:'🏠',lbl:'Početna'},{v:'onboarding',ico:'🧭',lbl:'Kako radi'},{d:1},{v:'jobs',ico:'💼',lbl:'Pretraži oglase'},{v:'profile',ico:'👤',lbl:'Moj CV'},{v:'myapps',ico:'📋',lbl:'Moje prijave'},{v:'notif',ico:'🔔',lbl:'Obavijesti'}],
-  company:[{v:'dash',ico:'🏠',lbl:'Dashboard'},{v:'onboarding',ico:'🧭',lbl:'Kako radi'},{d:1},{v:'cjobs',ico:'📢',lbl:'Moji oglasi'},{v:'newjob',ico:'✏️',lbl:'Novi oglas'},{d:1},{v:'ats',ico:'🗂',lbl:'ATS aplikanti'},{v:'cands',ico:'👥',lbl:'Baza kandidata'},{d:1},{v:'sub',ico:'💳',lbl:'Pretplata'}],
-  admin:[{v:'dash',ico:'🏠',lbl:'Dashboard'},{d:1},{v:'admin',ico:'⚡',lbl:'Narudžbine'},{v:'jobs',ico:'💼',lbl:'Svi oglasi'},{v:'cands',ico:'👥',lbl:'Kandidati'}]
-};
-let activeCat='',oSec={};
 
 // ── UTILS ──
-function esc(s){return String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\'':'&#39;','"':'&quot;'}[m]));}
-function ph(t,s,a=''){return`<div class="ph"><div><h1>${t}</h1>${s?`<div class="sub">${s}</div>`:''}</div>${a?`<div>${a}</div>`:''}</div>`}
-function bs(s){const m={ACTIVE:'b-green',PAUSED:'b-amber',DRAFT:'b-gray',PENDING:'b-amber',PAID:'b-green',CANCELED:'b-red',APPLIED:'b-blue',VIEWED:'b-amber',INTERVIEW:'b-purple',OFFER:'b-teal',HIRED:'b-green',REJECTED:'b-red',PUBLIC:'b-green',COMPANIES:'b-amber',PRIVATE:'b-gray'};return`<span class="b ${m[s]||'b-gray'}">${s}</span>`}
-function stat(n,l,c=''){return`<div class="sc"><div class="sv"${c?` style="color:${c}"`:''}>${n}</div><div class="sl">${l}</div></div>`}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('on');clearTimeout(window.__t);window.__t=setTimeout(()=>el.classList.remove('on'),2800)}
+function badge(t,c='gray'){return`<span class="badge ${c}">${esc(t)}</span>`}
+function company(id){return D.companies.find(c=>c.id===id)||D.companies[0]}
+function activeJobs(){return D.jobs.filter(j=>j.status==='ACTIVE')}
+function logoEl(co,size=52){const img=co.logoImg?`<img src="${co.logoImg}" alt="">`:`<span style="font-size:${Math.round(size*.28)}px">${esc(co.logo)}</span>`;return`<div class="logo" style="width:${size}px;height:${size}px;font-size:${Math.round(size*.28)}px">${img}</div>`}
+function candAvEl(c,size=34){const img=c.avatarImg?`<img src="${c.avatarImg}" alt="">`:`<span>${esc(c.avatar)}</span>`;return`<div class="kcardAv" style="background:${c.color};width:${size}px;height:${size}px">${img}</div>`}
 
-// ── AUTH ──
-function authMode(m){D.auth=m;document.getElementById('mLogin').classList.toggle('on',m==='login');document.getElementById('mRegister').classList.toggle('on',m==='register');renderAuth();}
-function renderAuth(){
-  const box=document.getElementById('authBox');
-  if(D.auth==='login'){
-    box.innerHTML=`<div class="rCards"><button class="rCard rc-c" onclick="login('candidate')"><div class="rIco">👤</div><div><b>Ana Jović — Kandidat</b><small>CV · Oglasi · Prijave</small></div></button><button class="rCard rc-f" onclick="login('company')"><div class="rIco">🏢</div><div><b>EventPro — Firma</b><small>Oglasi · ATS · Kandidati · Plan</small></div></button><button class="rCard rc-a" onclick="login('admin')"><div class="rIco">⚡</div><div><b>WorkingHub — Admin</b><small>Uplate · Kodovi · Moderacija</small></div></button></div><div class="lDiv">ILI</div><div class="fg"><div><label class="fl">Email</label><input class="fi" value="demo@workinghub.me"></div><div><label class="fl">Lozinka</label><input class="fi" type="password" value="demo1234"></div><button class="lBtn" onclick="login('candidate')">Uđi kao kandidat</button></div>`;
-  } else {
-    box.innerHTML=`<div class="fg"><div><label class="fl">Tip naloga</label><select class="fi" id="regRole" onchange="regRoleChange()"><option value="candidate">Kandidat</option><option value="company">Firma</option></select></div><div class="f2"><div><label class="fl" id="regNameLbl">Ime i prezime</label><input class="fi" id="regName" placeholder="npr. Milica Petrović"></div><div><label class="fl">Email</label><input class="fi" id="regEmail" placeholder="email@primjer.me"></div></div><div id="regExtra"><label class="fl">Headline</label><input class="fi" id="regHeadline" placeholder="npr. Student / Promoter / Junior marketer"></div><div><label class="fl">Lozinka</label><input class="fi" type="password" value="demo1234"></div><button class="lBtn" onclick="registerUser()">Kreiraj demo nalog</button><button class="smallLink" onclick="authMode('login')">Već imaš nalog? Vrati se na demo login</button></div>`;
-  }
+// ── THEME ──
+function toggleTheme(){
+  D.theme = D.theme==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',D.theme);
+  document.getElementById('themeIcon').textContent = D.theme==='dark'?'☀️':'🌙';
 }
-function regRoleChange(){const r=document.getElementById('regRole').value;document.getElementById('regNameLbl').textContent=r==='company'?'Naziv firme':'Ime i prezime';document.getElementById('regExtra').innerHTML=r==='company'?`<label class="fl">Djelatnost</label><input class="fi" id="regHeadline" placeholder="npr. Event agencija / Hotel">`:`<label class="fl">Headline</label><input class="fi" id="regHeadline" placeholder="npr. Student / Promoter">`;}
-function registerUser(){const r=document.getElementById('regRole').value,name=document.getElementById('regName').value.trim()||(r==='company'?'Nova Firma d.o.o.':'Novi Kandidat'),email=document.getElementById('regEmail').value.trim()||'novi@demo.me',hl=document.getElementById('regHeadline').value.trim();D.users.push({role:r,name,email});if(r==='candidate'){D.cv.name=name;D.cv.hl=hl||'Novi kandidat';D.cv.pct=35;D.myApps=[];D.notifs.unshift({id:Date.now(),txt:'Dobrodošao/la! Popuni CV da bi mogao/la da apliciraš.',time:'Upravo',read:false});}else{D.plan='Free';D.credits=0;D.notifs.unshift({id:Date.now(),txt:'Firma registrovana. Objavi prvi oglas ili naruči plan.',time:'Upravo',read:false});}login(r);go('onboarding');toast('Registrovan nalog: '+name);}
 
-function login(r){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('appScreen').classList.remove('hidden');switchRole(r,false);}
-function logout(){document.getElementById('appScreen').classList.add('hidden');document.getElementById('loginScreen').classList.remove('hidden');renderAuth();}
-function switchRole(r,msg=true){
-  D.role=r;
-  const m={
-    candidate:{name:D.cv.name,ini:(D.cv.name||'A')[0],lbl:'Candidate',role:'KANDIDAT',meta:`CV ${D.cv.pct}% · ${D.myApps.length} prijava`},
-    company:{name:'EventPro d.o.o.',ini:'E',lbl:'Company',role:'FIRMA',meta:`${D.plan} · ${D.credits} kredita`},
-    admin:{name:'WorkingHub Admin',ini:'W',lbl:'Admin',role:'ADMIN',meta:`${D.orders.filter(o=>o.status==='PENDING').length} uplata čeka`}
-  }[r];
-  document.getElementById('sbRole').textContent=m.role;
-  document.getElementById('sbName').textContent=m.name;
-  document.getElementById('sbMeta').textContent=m.meta;
-  document.getElementById('rPill').textContent=m.lbl;
-  document.getElementById('tbAv').textContent=m.ini;
-  document.querySelectorAll('.sbRBtn').forEach(b=>b.classList.toggle('on',b.dataset.r===r));
-  buildSB();buildTabs();go('dash');
-  if(msg)toast('Ulogovan/a: '+m.name);
+// ── AUTH & NAV ──
+function updateNav(){
+  const nav = D.mode==='public' ? NAV_PUBLIC : (NAV_ROLE[D.role]||[]);
+  document.getElementById('topNav').innerHTML = nav.map(([v,l])=>`<button class="${D.view===v?'on':''}" onclick="${D.mode==='public'?`goPublic('${v}')`:`goApp('${v}')`}">${l}</button>`).join('');
+  document.getElementById('mobileNav').innerHTML = nav.map(([v,l])=>`<button onclick="toggleMobileNav(false);${D.mode==='public'?`goPublic('${v}')`:`goApp('${v}')`}">${l}</button>`).join('');
+  document.getElementById('rolePill').textContent = D.mode==='public'?'JAVNO':D.role.toUpperCase();
+  document.getElementById('loginBtn').textContent = D.mode==='public'?'Login':'Logout';
+  document.getElementById('loginBtn').onclick = D.mode==='public'?openLogin:logout;
+  const botNav = D.mode==='public'?[]:(NAV_ROLE[D.role]||[]).slice(0,5);
+  document.getElementById('bottomNav').innerHTML = botNav.map(([v,l])=>`<button class="${D.view===v?'on':''}" onclick="goApp('${v}')">${l}</button>`).join('');
 }
-function go(v){D.view=v;document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));const el=document.getElementById('v-'+v);if(el)el.classList.add('on');buildSB();buildTabs();const fn=RR[v];if(fn)fn();window.scrollTo({top:0,behavior:'smooth'});}
-function buildTabs(){const tabs=TABS[D.role]||[];const u=D.notifs.filter(n=>!n.read).length;document.getElementById('tabBar').innerHTML=tabs.map(t=>`<button class="tI ${D.view===t.v?'on':''}" onclick="go('${t.v}')"><span class="ti">${t.ico}</span><span>${t.lbl}</span>${t.v==='notif'&&u?`<span class="tbadge">${u}</span>`:''}</button>`).join('');const dot=document.querySelector('#tbNt .dot');if(dot)dot.style.display=u?'block':'none';}
-function buildSB(){document.getElementById('sbNav').innerHTML=(SB[D.role]||[]).map(i=>i.d?'<div class="sbDiv"></div>':`<button class="sbI ${D.view===i.v?'on':''}" onclick="go('${i.v}')"><span class="ico">${i.ico}</span>${i.lbl}</button>`).join('');}
-function globalSearch(v){if(!v)return;if(D.role==='company'){go('cands');setTimeout(()=>{const i=document.getElementById('candSearch');if(i){i.value=v;filterCands(v);}},30);}else{activeCat='';go('jobs');setTimeout(()=>{const q=document.getElementById('jQ');if(q){q.value=v;filterJobs();}},30);}}
+function toggleMobileNav(f){const el=document.getElementById('mobileNav');el.classList.toggle('open',f===undefined?!el.classList.contains('open'):f)}
+function goPublic(v){D.mode='public';D.role='public';D.view=v;updateNav();({home:rHome,jobs:rPublicJobs,cities:rCities,categories:rCategories,companies:rCompanies,employers:rEmployers}[v]||rHome)();scrollTo(0,0)}
+function goApp(v){D.mode='app';D.view=v;updateNav();({dash:rDash,jobs:rPublicJobs,profile:rProfile,apps:rApps,notifs:rNotifs,newjob:rNewJob,myjobs:rMyJobs,ats:rATS,candidates:rCandidates,billing:rBilling,orders:rOrders,moderation:rModeration,users:rUsers}[v]||rDash)();scrollTo(0,0)}
+function login(role){D.mode='app';D.role=role;closeModal();toast('Ulogovan/a kao '+role);goApp('dash')}
+function logout(){D.mode='public';D.role='public';D.selectedCandidate=null;toast('Logout');goPublic('home')}
+function openLogin(){showModal(`<div class="sheetTop"><div><h3>Uđi u demo</h3><p class="sub">Odaberi ulogu i nastavi kroz flow.</p></div><button class="x" onclick="closeModal()">×</button></div><div class="grid" style="gap:9px"><button class="btn lime" onclick="login('candidate')">👤 Kandidat — Ana Jović</button><button class="btn blue" onclick="login('company')">🏢 Firma — EventPro</button><button class="btn pink" onclick="login('admin')">⚡ Admin — WorkingHub</button></div>`)}
+function showModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
 
-// ── COMPONENTS ──
-function flowHTML(role){
-  if(role==='candidate')return`<div class="flow"><div class="flowStep"><div class="num">1</div><b>Registruj nalog</b><p>Uneseš osnovne podatke i dobiješ CV profil.</p></div><div class="flowStep"><div class="num">2</div><b>Popuni CV</b><p>Iskustvo, vještine, obrazovanje i vidljivost.</p></div><div class="flowStep"><div class="num">3</div><b>Apliciraj</b><p>Prati status prijave kroz faze firme.</p></div></div>`;
-  if(role==='company')return`<div class="flow"><div class="flowStep"><div class="num">1</div><b>Registruj firmu</b><p>Postavi profil firme i izaberi plan.</p></div><div class="flowStep"><div class="num">2</div><b>Objavi oglas</b><p>Pozicija, lokacija, tip angažmana i opis.</p></div><div class="flowStep"><div class="num">3</div><b>Vodi ATS</b><p>Pregledaj prijave i otključaj kontakt.</p></div></div>`;
-  return`<div class="flow"><div class="flowStep"><div class="num">1</div><b>Pregled uplata</b><p>Narudžbine koje čekaju bankovnu potvrdu.</p></div><div class="flowStep"><div class="num">2</div><b>Generiši kod</b><p>Potvrdom uplate sistem pravi aktivacioni kod.</p></div><div class="flowStep"><div class="num">3</div><b>Moderacija</b><p>Odobri oglase, premium pozicije i banere.</p></div></div>`;
+// ── FOOTER ──
+function footer(){return`<footer class="footer"><div class="wrap footGrid"><div><h4>WorkingHub</h4><p>Demo platforme za poslove, kandidate i poslodavce u Crnoj Gori.</p></div><div><h4>Gradovi</h4>${D.cities.slice(0,6).map(c=>`<a onclick="goCity('${c}')">Poslovi ${c}</a>`).join('')}</div><div><h4>Kategorije</h4>${D.cats.slice(0,6).map(c=>`<a onclick="goCat('${c}')">${c}</a>`).join('')}</div><div><h4>Kontakt</h4><a>info@workinghub.me</a><a>+382 67 000 000</a><p style="margin-top:12px">© 2026 WorkingHub</p></div></div></footer>`}
+
+// ── HOME ──
+function rHome(){
+  const jobs = activeJobs();
+  root.innerHTML=`<section class="hero"><div class="wrap heroGrid"><div class="heroCard"><div class="kicker">⚡ Full demo · javni portal + firmski flow + admin</div><h1>Poslovi koji ne izgledaju kao <span class="gradText">dosadan oglasnik.</span></h1><p class="lead">Kandidati pretražuju bez logovanja. Firme dobijaju prijave sa telefonom, gradom, CV fajlom i motivacionim pismom. Admin kontroliše uplate, kodove i oglase.</p><div class="searchBox"><input id="heroQ" placeholder="Pozicija, firma, vještina..."/><select id="heroCity"><option value="">Svi gradovi</option>${D.cities.map(c=>`<option>${c}</option>`).join('')}</select><select id="heroCat"><option value="">Sve kategorije</option>${D.cats.map(c=>`<option>${c}</option>`).join('')}</select><button onclick="searchFromHero()">Traži →</button></div></div><div class="heroSide"><div class="statMosaic"><div class="stat"><b>${jobs.length}</b><span>Aktivna oglasa</span></div><div class="stat"><b>${D.companies.length}</b><span>Poslodavca</span></div><div class="stat"><b>${D.cities.length}</b><span>Gradova</span></div><div class="stat"><b>${D.candidates.length}</b><span>Kandidata</span></div></div><div class="notice">✦ Javna landing stranica — nema logovanja. Login je tek kad kandidat želi sačuvati profil ili firma otvori dashboard.</div></div></div></section><section class="section"><div class="wrap"><div class="sectionHead"><div><h2>Istaknuti oglasi</h2><p class="sub">Logo firme, rok prijave, kategorija i direktna prijava.</p></div><button class="btn ghost" onclick="goPublic('jobs')">Svi oglasi →</button></div><div class="jobList">${jobs.filter(j=>j.featured).map(jobCard).join('')}</div></div></section><section class="section"><div class="wrap grid grid3"><div class="card"><div class="miniTitle">Za kandidate</div><h2>CV + prijava</h2><p class="sub">Telefon, grad, CV upload, motivaciono pismo, status tracking.</p></div><div class="card"><div class="miniTitle">Za firme</div><h2>ATS + baza</h2><p class="sub">Kanban, komentari, oznake, unlock kontakta.</p></div><div class="card"><div class="miniTitle">Za admina</div><h2>Kontrola</h2><p class="sub">Uplate, kodovi, moderacija oglasa, korisnici.</p></div></div></section>${footer()}`;
 }
-function jCard(j,{apply=false,manage=false}={}){
-  const app=D.myApps.some(a=>a.jid===j.id),isPrem=j.premium&&!manage;
-  const badge=isPrem?'<span class="premBadge">★ SPONZORISANO</span>':j.feat?'<span class="b b-amber">★ ISTAKNUTO</span>':bs(j.status);
-  return`<div class="jc ${isPrem?'premium':j.feat?'feat':''}"><div class="jcT"><div><h3>${esc(j.title)}</h3><div class="jmeta">${esc(j.co)} · ${esc(j.loc)} · <span>${esc(j.sal)}</span></div><div class="jmeta">${esc(j.type)} · ${j.days}d · ${j.apps} prijav${j.apps===1?'a':'e'}</div></div>${badge}</div><p class="jdesc">${esc(j.desc)}</p><div class="tags">${j.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><div class="brow"><button class="btn sm" onclick="openJob(${j.id})">Detalji</button>${apply?`<button class="btn sm ${app?'':'bp'}" onclick="${app?'toast(\'Već si aplicirala.\')':'applyFlow('+j.id+')'}">${app?'✓ Aplicirala':'Apliciraj'}</button>`:''}${manage?`<button class="btn sm" onclick="editJobM(${j.id})">Uredi</button><button class="btn sm ${j.status==='ACTIVE'?'ba':'bg'}" onclick="toggleJob(${j.id})">${j.status==='ACTIVE'?'Pauziraj':'Aktiviraj'}</button><button class="btn sm" onclick="go('ats')">👥 ${j.apps}</button>`:''}</div></div>`;
+function searchFromHero(){sessionStorage.q=document.getElementById('heroQ').value;sessionStorage.city=document.getElementById('heroCity').value;sessionStorage.cat=document.getElementById('heroCat').value;goPublic('jobs')}
+
+// ── JOB CARD ──
+function jobCard(j){
+  const c=company(j.cid);
+  const logoHtml=c.logoImg?`<img src="${c.logoImg}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`:`<span style="font-size:16px;font-weight:950;font-family:var(--display)">${esc(c.logo)}</span>`;
+  return`<article class="jobCard ${j.featured?'featured':''}" style="position:relative"><button class="logo" onclick="openCompany(${c.id})" title="Profil firme">${logoHtml}</button><div><div class="tags" style="margin-bottom:7px">${badge(j.cat,'blue')}${badge(j.type,'gray')}${badge(j.contract,'gray')}</div><button class="jobTitle" onclick="openJobPage(${j.id})">${esc(j.title)}</button><div class="meta" style="margin-bottom:4px"><button onclick="openCompany(${c.id})" style="font-weight:800;color:var(--muted)">${esc(j.co)}</button> · ${esc(j.city)} · ${j.spots} mjesta · Objavljeno ${j.posted}</div><p class="jobDesc">${esc(j.desc)}</p><div class="tags">${j.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div></div><div class="jobSide"><div class="deadline">Rok prijave<br><b style="color:var(--ink);font-size:13px">${j.deadline}</b></div><div style="display:flex;gap:6px">${badge(j.salary,'lime')}</div><button class="btn blue sm" onclick="applyModal(${j.id})">Prijavi se</button><button class="btn ghost sm" onclick="openJobPage(${j.id})">Detalji</button></div></article>`;
 }
-function bannerHTML(b){return`<div class="promoBanner ${b.color}" onclick="toast('Demo: otvaraš stranicu firme ${esc(b.co)}')"><div class="pbTop"><div style="display:flex;align-items:center;gap:10px"><div class="pbLogo">${b.ico}</div><div><div class="pbName">${esc(b.co)}</div><div class="pbSub">Sponzorisano</div></div></div><span class="pbAd">OGLAS</span></div><div class="pbDesc">${esc(b.desc)}</div><span class="pbCTA">${esc(b.cta)} →</span></div>`}
-function orderCard(o){return`<div class="oc"><div class="ocT"><div><div class="ocId">${o.id}</div><div class="ocM">${esc(o.co)} · ${esc(o.plan)} · <strong style="color:var(--text)">${o.amt}€</strong> · ${o.date}</div>${o.code?`<div class="ocCode">Kod: ${o.code}</div>`:''}</div>${bs(o.status)}</div><div class="brow">${D.role==='admin'&&o.status==='PENDING'?`<button class="btn sm bp" onclick="confirmOrder('${o.id}')">✓ Potvrdi uplatu</button><button class="btn sm br" onclick="cancelOrder('${o.id}')">Otkaži</button>`:o.status==='PAID'?`<button class="btn sm" onclick="toast('Kod: ${o.code}')">Prikaži kod</button>`:''}</div></div>`}
+
+// ── PUBLIC JOBS ──
+function rPublicJobs(){
+  const q=sessionStorage.q||'',city=sessionStorage.city||'',cat=sessionStorage.cat||'';sessionStorage.clear();
+  root.innerHTML=`<section class="section"><div class="wrap"><div class="sectionHead"><div><h2>Svi oglasi</h2><p class="sub">Pretraga je javna — login nije potreban.</p></div><span class="badge lime" id="resultCount"></span></div><div class="filters"><input id="fQ" placeholder="Pretraga po poziciji, firmi, vještini..." value="${esc(q)}" oninput="filterJobs()"><select id="fCity" onchange="filterJobs()"><option value="">Svi gradovi</option>${D.cities.map(c=>`<option ${c===city?'selected':''}>${c}</option>`).join('')}</select><select id="fCat" onchange="filterJobs()"><option value="">Sve kategorije</option>${D.cats.map(c=>`<option ${c===cat?'selected':''}>${c}</option>`).join('')}</select><select id="fSalary" onchange="filterJobs()"><option value="">Svaka plata</option><option value="600">600€+</option><option value="800">800€+</option><option value="1000">1000€+</option></select><select id="fSort" onchange="filterJobs()"><option value="new">Najnoviji</option><option value="popular">Najpopularniji</option></select></div><div class="jobList" id="jobsOut"></div></div></section>${footer()}`;
+  filterJobs();
+}
+function salaryNum(s){const m=String(s).match(/\d+/g);return m?Math.max(...m.map(Number)):0}
+function filterJobs(){
+  let q=(document.getElementById('fQ')?.value||'').toLowerCase(),city=document.getElementById('fCity')?.value||'',cat=document.getElementById('fCat')?.value||'',sal=+(document.getElementById('fSalary')?.value||0),sort=document.getElementById('fSort')?.value||'new';
+  let arr=activeJobs().filter(j=>(!q||(j.title+j.co+j.city+j.cat+j.desc+j.tags.join(' ')).toLowerCase().includes(q))&&(!city||j.city===city)&&(!cat||j.cat===cat)&&(!sal||salaryNum(j.salary)>=sal));
+  if(sort==='popular')arr.sort((a,b)=>b.views-a.views);
+  const cnt=document.getElementById('resultCount');if(cnt)cnt.textContent=`Pronađeno ${arr.length}`;
+  const out=document.getElementById('jobsOut');if(out)out.innerHTML=arr.length?arr.map(jobCard).join(''):`<div class="card"><h2>Nema rezultata</h2><p class="sub">Promijeni filtere.</p></div>`;
+}
+
+// ── JOB DETAIL ──
+function openJobPage(id){
+  const j=D.jobs.find(x=>x.id===id),c=company(j.cid);
+  D.view='jobdetail';updateNav();
+  const logoHtml=c.logoImg?`<img src="${c.logoImg}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`:`${esc(c.logo)}`;
+  root.innerHTML=`<section class="section"><div class="wrap"><button class="btn ghost sm" onclick="history.back?history.back():goPublic('jobs')">← Nazad</button><div style="height:14px"></div><div class="detailLayout"><article class="card"><div style="display:flex;gap:14px;align-items:center;margin-bottom:14px"><div class="logo" style="width:64px;height:64px;font-size:22px">${logoHtml}</div><div><div class="tags">${badge(j.cat,'blue')}${badge(j.type,'gray')}${j.featured?badge('★ Istaknuto','orange'):''}</div></div></div><h1 class="detailTitle">${esc(j.title)}</h1><p class="meta"><button onclick="openCompany(${c.id})" style="font-weight:800">${esc(j.co)}</button> · ${esc(j.city)} · Objavljeno ${j.posted} · Rok ${j.deadline}</p><div style="height:18px"></div><div class="detailText"><p>${esc(j.desc)}</p><h3 style="font-family:var(--display);font-size:22px;margin-top:20px;margin-bottom:8px">Šta se traži</h3><ul>${j.req.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><h3 style="font-family:var(--display);font-size:22px;margin-top:20px;margin-bottom:8px">O poslodavcu</h3><p>${esc(c.desc)}</p></div><div style="margin-top:22px"><div class="sectionHead"><div><h2 style="font-size:24px">Slični oglasi</h2></div></div><div class="jobList">${D.jobs.filter(x=>x.id!==j.id&&(x.cat===j.cat||x.city===j.city)).slice(0,2).map(jobCard).join('')}</div></div></article><aside class="stickyApply card"><div style="display:flex;gap:12px;align-items:center;margin-bottom:14px"><div class="logo" style="width:52px;height:52px;font-size:18px">${logoHtml}</div><div><h2 style="font-size:20px">${esc(j.co)}</h2><p class="sub">${esc(c.city)} · ${esc(c.cat)}</p></div></div><div class="grid" style="gap:7px;margin-bottom:14px"><div>${badge(j.salary,'lime')}</div><div>${badge(`${j.spots} mjesta`)}</div><div>${badge(`Rok ${j.deadline}`)}</div><div>${badge(j.contract,'gray')}</div></div><button class="btn blue" style="width:100%" onclick="applyModal(${j.id})">Prijavi se →</button><button class="btn ghost sm" style="width:100%;margin-top:8px" onclick="shareJob(${j.id})">🔗 Podijeli oglas</button><button class="btn ghost sm" style="width:100%;margin-top:6px" onclick="openCompany(${c.id})">Profil firme</button></aside></div></div></section>${footer()}`;
+  scrollTo(0,0);
+}
+function shareJob(id){toast('Link kopiran: workinghub.me/oglasi/'+D.jobs.find(x=>x.id===id).slug)}
+
+// ── APPLY MODAL ──
+function applyModal(id){
+  const j=D.jobs.find(x=>x.id===id),c=company(j.cid);
+  showModal(`<div class="sheetTop"><div><h3>Prijava na oglas</h3><p class="sub">${esc(j.title)} · ${esc(j.co)}</p></div><button class="x" onclick="closeModal()">×</button></div>
+  <div class="form">
+    <div class="grid grid2">
+      <div><div class="label">Ime i prezime *</div><input id="apName" value="${esc(D.cv.name)}" placeholder="Ana Jović"></div>
+      <div><div class="label">Email *</div><input id="apEmail" type="email" value="${esc(D.cv.email)}" placeholder="email@primjer.me"></div>
+    </div>
+    <div class="grid grid2">
+      <div><div class="label">Broj telefona *</div><input id="apPhone" value="${esc(D.cv.phone)}" placeholder="+382 67 000 000"></div>
+      <div><div class="label">Grad *</div><input id="apCity" value="${esc(D.cv.city)}" placeholder="Podgorica"></div>
+    </div>
+    <div>
+      <div class="label">CV prilog (PDF, DOC, DOCX) *</div>
+      <label class="upload" for="apCvFile">
+        📎 <span id="cvFileName">Klikni ili prevuci CV fajl ovdje</span>
+        <input type="file" id="apCvFile" accept=".pdf,.doc,.docx,.odt" onchange="document.getElementById('cvFileName').textContent=this.files[0]?.name||'Klikni ili prevuci CV fajl ovdje'">
+      </label>
+    </div>
+    <div>
+      <div class="label">Motivaciono pismo / propratni tekst *</div>
+      <textarea id="apLetter" maxlength="1200" oninput="document.getElementById('apCnt').textContent=this.value.length+'/1200'" placeholder="Kratko napiši zašto si pravi izbor za ovu poziciju..."></textarea>
+      <div class="counter" id="apCnt">0/1200</div>
+    </div>
+    <div class="sendNote">📧 Prijava se šalje na email poslodavca: <strong>${esc(c.email)}</strong><br><span style="font-size:11px">Potvrda stiže i na tvoj email odmah nakon slanja.</span></div>
+    <button class="btn blue" onclick="submitApp(${j.id})">Pošalji prijavu →</button>
+  </div>`);
+}
+function submitApp(id){
+  const name=document.getElementById('apName')?.value.trim();
+  const email=document.getElementById('apEmail')?.value.trim();
+  const phone=document.getElementById('apPhone')?.value.trim();
+  const city=document.getElementById('apCity')?.value.trim();
+  const letter=document.getElementById('apLetter')?.value.trim();
+  if(!name||!email||!phone||!city){toast('⚠️ Popuni sva obavezna polja');return}
+  if(!letter){toast('⚠️ Upiši motivaciono pismo');return}
+  const file=document.getElementById('apCvFile')?.files[0]?.name||'CV_demo.pdf';
+  const j=D.jobs.find(x=>x.id===id);
+  const appRef='WH-APP-'+Math.floor(10000+Math.random()*90000);
+  D.apps.unshift({jid:id,title:j.title,co:j.co,status:'APPLIED',date:new Date().toLocaleDateString('sr-ME'),phone,city,cv:file,ref:appRef});
+  j.apps++;
+  D.notifs.unshift({text:`Prijava poslata za ${j.title} · ${j.co}. Referenca: ${appRef}. Potvrda je poslata na tvoj email.`,time:'Upravo',read:false,type:'apply'});
+  closeModal();
+  toast(`✓ Prijava poslata! Ref: ${appRef}`);
+}
+
+// ── CITIES / CATS / COMPANIES ──
+function rCities(){root.innerHTML=`<section class="section"><div class="wrap"><div class="sectionHead"><div><h2>Poslovi po gradovima</h2><p class="sub">SEO stranice za "Poslovi Podgorica", "Poslovi Budva" i slično.</p></div></div><div class="grid grid4">${D.cities.map(c=>`<button class="card" onclick="goCity('${c}')"><h2 style="font-size:24px">${c}</h2><p class="sub">${D.jobs.filter(j=>j.city===c).length} oglasa</p></button>`).join('')}</div></div></section>${footer()}`}
+function rCategories(){root.innerHTML=`<section class="section"><div class="wrap"><div class="sectionHead"><div><h2>Poslovi po kategorijama</h2></div></div><div class="grid grid4">${D.cats.map(c=>`<button class="card" onclick="goCat('${c}')"><h2 style="font-size:22px">${c}</h2><p class="sub">${D.jobs.filter(j=>j.cat===c).length} oglasa</p></button>`).join('')}</div></div></section>${footer()}`}
+function goCity(c){sessionStorage.city=c;goPublic('jobs')}
+function goCat(c){sessionStorage.cat=c;goPublic('jobs')}
+function rCompanies(){root.innerHTML=`<section class="section"><div class="wrap"><div class="sectionHead"><div><h2>Poslodavci</h2><p class="sub">Profili firmi sa aktivnim oglasima.</p></div></div><div class="grid grid2">${D.companies.map(companyCard).join('')}</div></div></section>${footer()}`}
+function companyCard(c){const li=c.logoImg?`<img src="${c.logoImg}" alt="">`:`<span style="font-size:16px">${esc(c.logo)}</span>`;return`<article class="companyCard"><button class="logo" onclick="openCompany(${c.id})">${li}</button><div><h3><button onclick="openCompany(${c.id})" style="font-family:var(--display);font-weight:800">${esc(c.name)}</button></h3><div class="meta">${esc(c.city)} · ${esc(c.cat)} · ${D.jobs.filter(j=>j.cid===c.id&&j.status==='ACTIVE').length} aktivnih oglasa</div><p>${esc(c.desc)}</p><button class="btn ghost sm" onclick="openCompany(${c.id})">Profil firme →</button></div></article>`}
+function openCompany(id){
+  const c=company(id),jobs=D.jobs.filter(j=>j.cid===id&&j.status==='ACTIVE');
+  D.view='companydetail';updateNav();
+  const logoHtml=c.logoImg?`<img src="${c.logoImg}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:18px">`:`<span style="font-size:26px;font-weight:950;font-family:var(--display)">${esc(c.logo)}</span>`;
+  root.innerHTML=`<section class="section"><div class="wrap"><button class="btn ghost sm" onclick="goPublic('companies')">← Svi poslodavci</button><div style="height:14px"></div><div class="card"><div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap"><div class="logo" style="width:76px;height:76px;font-size:26px">${logoHtml}</div><div style="flex:1"><h1 class="detailTitle" style="margin-bottom:6px">${esc(c.name)}</h1><p class="sub">${esc(c.city)} · ${esc(c.cat)} · <a href="mailto:${esc(c.email)}">${esc(c.email)}</a></p><p class="detailText" style="margin-top:10px">${esc(c.desc)}</p></div></div></div><div style="height:20px"></div><div class="sectionHead"><div><h2>Aktivni oglasi</h2><p class="sub">Klikni na oglas ili se direktno prijavi.</p></div></div><div class="jobList">${jobs.map(jobCard).join('')||'<div class="card"><h2>Nema aktivnih oglasa</h2></div>'}</div></div></section>${footer()}`;
+  scrollTo(0,0);
+}
+function rEmployers(){root.innerHTML=`<section class="hero"><div class="wrap heroGrid"><div class="heroCard"><div class="kicker">🏢 Za poslodavce</div><h1>Objavi oglas. Dobij prijave. Vodi kandidate.</h1><p class="lead">Firma objavljuje oglas, prima prijave sa CV fajlom i vodi ATS sa komentarima i oznakama.</p><div class="grid grid2"><button class="btn blue" onclick="login('company')">Otvori demo firme →</button><button class="btn ghost" onclick="goPublic('companies')">Vidi poslodavce</button></div></div><div class="heroSide"><div class="card"><div class="miniTitle">Flow</div><h2>Oglas → ATS → kontakt</h2><p class="sub">Svaka prijava sadrži telefon, grad, CV fajl i motivaciono pismo. ATS ima komentare i oznake.</p></div></div></div></section>${footer()}`}
+
+// ── APP SIDEBAR ──
+function sidebarHTML(){
+  const name=D.role==='candidate'?D.cv.name:D.role==='company'?'EventPro d.o.o.':'WorkingHub Admin';
+  const meta=D.role==='company'?`${D.plan} · ${D.credits} kredita`:D.role==='candidate'?`CV ${D.profilePct}%`:'Admin';
+  const initials=D.role==='candidate'?D.cv.avatar:D.role==='company'?'EP':'WH';
+  const avImg=D.role==='candidate'&&D.cv.avatarImg?`<img src="${D.cv.avatarImg}" alt="">`:initials;
+  return`<aside class="side"><div class="sideHead"><div class="sideAvatar">${avImg}</div><b>${esc(name)}</b><small>${D.role.toUpperCase()} · ${esc(meta)}</small></div>${(NAV_ROLE[D.role]||[]).map(([v,l])=>`<button class="${D.view===v?'on':''}" onclick="goApp('${v}')">${l}</button>`).join('')}<button onclick="logout()" style="margin-top:8px;border-top:1px solid rgba(255,255,255,.1);padding-top:10px">Logout</button></aside>`;
+}
+function appPage(html){root.innerHTML=`<div class="wrap appShell">${sidebarHTML()}<main>${html}</main></div>`}
 
 // ── DASHBOARD ──
 function rDash(){
-  const el=document.getElementById('v-dash');
   if(D.role==='candidate'){
-    const u=D.notifs.filter(n=>!n.read).length,activeBanner=D.banners.find(b=>b.status==='ACTIVE');
-    el.innerHTML=ph('Dobrodošla, '+esc(D.cv.name.split(' ')[0])+' 👋','Nađi posao, pošalji prijavu i prati status.','<button class="btn bp" onclick="go(\'jobs\')">Pretraži oglase</button>')+
-    flowHTML('candidate')+
-    `<div class="sg">${stat(D.myApps.length,'AKTIVNE PRIJAVE','var(--brand)')}${stat(D.cv.pct+'%','CV POPUNJENO','var(--green)')}${stat(D.jobs.length,'NOVIH OGLASA')}${stat(u,'NEPROČITANO',u?'var(--amber)':'')}</div>`+
-    `<div class="pHero"><div class="pTop"><div class="pAv">${esc(D.cv.name[0]||'A')}</div><div style="flex:1"><div class="pName">${esc(D.cv.name)}</div><div class="pHL">${esc(D.cv.hl)} · ${esc(D.cv.loc)}</div><div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap">${bs(D.cv.vis)}<span class="b b-blue">CV ${D.cv.pct}%</span></div></div></div><div class="pbar"><div class="pfill" style="width:${D.cv.pct}%"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">${D.cv.pct<100?'Dopuni profil za bolju vidljivost.':'Profil izgleda odlično.'} <span style="color:var(--brand);cursor:pointer;font-weight:600" onclick="go('profile')">Uredi CV →</span></div></div>`+
-    (D.myApps.length?`<div class="cT" style="margin-top:16px">MOJE PRIJAVE</div>${D.myApps.slice(0,2).map(a=>`<div class="appc"><div class="appT"><div><div style="font-weight:600;font-size:13px">${esc(a.title)}</div><div style="font-size:11px;color:var(--muted)">${esc(a.co)} · ${a.date}</div></div>${bs(a.status)}</div></div>`).join('')}`:'')+
-    (activeBanner?`<div class="cT" style="margin-top:16px">SPONZORISANO</div>${bannerHTML(activeBanner)}`:'')+
-    `<div class="cT" style="margin-top:${activeBanner?'4px':'16px'}">PREPORUČENO ZA TEBE</div>${D.jobs.filter(j=>j.premium).slice(0,1).map(j=>jCard(j,{apply:true})).join('')}<button class="btn bp" style="width:100%;margin-top:8px" onclick="go('jobs')">Vidi sve oglase →</button>`;
+    const unread=D.notifs.filter(n=>!n.read).length;
+    appPage(`<div class="sectionHead"><div><h2>Dobrodošla, ${esc(D.cv.name.split(' ')[0])}</h2><p class="sub">Kandidat flow: CV profil, prijave i status tracking.</p></div><button class="btn blue" onclick="goApp('jobs')">Pretraži oglase</button></div>
+    <div class="grid grid4" style="margin-bottom:16px"><div class="dashStat"><b>${D.apps.length}</b><span>Prijave</span></div><div class="dashStat"><b>${D.profilePct}%</b><span>CV popunjen</span></div><div class="dashStat"><b>${unread}</b><span>Nepročitano</span></div><div class="dashStat"><b>${activeJobs().length}</b><span>Novih oglasa</span></div></div>
+    <div class="card"><div class="miniTitle">Moje prijave — status</div>${D.apps.length?D.apps.map(a=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><div><b style="font-size:13px">${esc(a.title)}</b><p class="sub" style="font-size:12px">${esc(a.co)} · ${a.date}${a.statusUpdated?` · Ažurirano: ${a.statusUpdated}`:''}</p></div><div style="display:flex;gap:7px;align-items:center">${badge(a.status,STATUS_COLORS[a.status]||'gray')}</div></div>`).join(''):'<p class="sub">Nisi još aplicirala.</p>'}</div>
+    <div style="height:14px"></div>
+    <div class="card"><div class="miniTitle">Profil preview — kako te firma vidi</div><div class="profPreviewHead"><div class="profAvLarge" onclick="goApp('profile')">${D.cv.avatarImg?`<img src="${D.cv.avatarImg}" alt="">`:D.cv.avatar}</div><div style="flex:1"><h2 style="font-size:22px">${esc(D.cv.name)}</h2><p class="sub">${esc(D.cv.headline)} · ${esc(D.cv.city)}</p><div class="tags" style="margin-top:8px">${D.cv.skills.split(',').map(s=>`<span class="tag">${esc(s.trim())}</span>`).join('')}</div></div></div><div class="pbar"><div class="pfill" style="width:${D.profilePct}%"></div></div><p style="font-size:11px;color:var(--muted);margin-top:5px">${D.profilePct}% popunjen · <button onclick="goApp('profile')" style="color:var(--blue);font-weight:800;font-size:11px">Uredi CV →</button></p></div>`);
   } else if(D.role==='company'){
-    const mine=D.jobs.filter(j=>j.co==='EventPro'),total=mine.reduce((s,j)=>s+j.apps,0),pend=D.orders.filter(o=>o.co==='EventPro'&&o.status==='PENDING');
-    el.innerHTML=ph('EventPro 🏢','Objavi oglas, prati prijave i otključaj kontakt kandidata.','<button class="btn bp" onclick="go(\'newjob\')">+ Novi oglas</button>')+
-    flowHTML('company')+
-    `<div class="sg">${stat(mine.filter(j=>j.status==='ACTIVE').length,'AKTIVNI OGLASI','var(--green)')}${stat(total,'UKUPNE PRIJAVE','var(--brand)')}${stat(D.credits,'UNLOCK KREDITI','var(--amber)')}${stat(D.plan,'PLAN')}</div>`+
-    (pend.length?`<div class="hint warn">⚠️ <strong>${pend.length} narudžbina čeka potvrdu.</strong> Nakon admin potvrde dobijaš kod. <span style="text-decoration:underline;cursor:pointer" onclick="go('sub')">Vidi plan →</span></div>`:'')+
-    `<div class="grid3" style="margin-bottom:16px"><button class="btn bp" onclick="go('newjob')">✏️ Objavi oglas</button><button class="btn" onclick="go('ats')">🗂 ATS</button><button class="btn" onclick="go('cands')">👥 Baza kandidata</button></div>`+
-    `<div class="cT">MOJI OGLASI</div>${mine.map(j=>jCard(j,{manage:true})).join('')||'<div class="empty"><div class="ei">📢</div><p>Nema oglasa. Objavi prvi.</p></div>'}`+
-    `<div class="sep"></div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="cT" style="margin-bottom:0">PROMO BANERI</div><button class="btn sm bp" onclick="newBannerM()">+ Novi baner</button></div>${promoBannerMgrHTML()}`;
+    const totalApps=D.jobs.filter(j=>j.cid===1).reduce((s,j)=>s+j.apps,0);
+    const pendingOrders=D.orders.filter(o=>o.status==='PENDING').length;
+    appPage(`<div class="sectionHead"><div><h2>Dashboard firme</h2><p class="sub">Pregled aktivnosti, oglasa i kandidata.</p></div><button class="btn blue" onclick="goApp('newjob')">+ Novi oglas</button></div>
+    <div class="grid grid4" style="margin-bottom:16px"><div class="dashStat"><b>${D.jobs.filter(j=>j.cid===1&&j.status==='ACTIVE').length}</b><span>Aktivni oglasi</span></div><div class="dashStat"><b>${totalApps}</b><span>Ukupno prijava</span></div><div class="dashStat"><b>${D.credits}</b><span>Unlock krediti</span></div><div class="dashStat"><b style="${pendingOrders?'color:var(--orange)':''}">${pendingOrders}</b><span>Pending uplate</span></div></div>
+    <div class="card" style="margin-bottom:14px"><div class="miniTitle">Brze akcije</div><div class="grid grid3"><button class="btn blue" onclick="goApp('newjob')">✏️ Objavi oglas</button><button class="btn lime" onclick="goApp('ats')">🗂 ATS aplikanti</button><button class="btn ghost" onclick="goApp('billing')">💳 Plan i uplate</button></div></div>
+    <div class="card"><div class="miniTitle">Moji oglasi</div><div class="jobList">${D.jobs.filter(j=>j.cid===1).map(jobCard).join('')||'<p class="sub">Nema oglasa.</p>'}</div></div>`);
   } else {
-    const pend=D.orders.filter(o=>o.status==='PENDING');
-    el.innerHTML=ph('Admin centar ⚡','Potvrde uplata, aktivacioni kodovi i moderacija platforme.')+
-    flowHTML('admin')+
-    `<div class="sg">${stat(pend.length,'PENDING UPLATA',pend.length?'var(--amber)':'')}${stat(D.orders.filter(o=>o.status==='PAID').length,'POTVRĐENO','var(--green)')}${stat(D.jobs.length,'OGLASI')}${stat(D.cands.length,'KANDIDATI')}</div>`+
-    (pend.length?`<div class="hint warn">⚠️ <strong>${pend.length} narudžbina čeka potvrdu uplate.</strong></div>${pend.map(orderCard).join('')}`:`<div class="hint">✓ <strong>Sve narudžbine su obrađene.</strong></div>`)+
-    `<button class="btn bp" style="width:100%;margin-top:8px" onclick="go('admin')">Otvori admin panel →</button>`;
+    const revenue=D.orders.reduce((s,o)=>s+(o.status==='PAID'?o.amount:0),0);
+    const pending=D.orders.filter(o=>o.status==='PENDING');
+    appPage(`<div class="sectionHead"><div><h2>Admin dashboard</h2><p class="sub">Statistike i operativa platforme.</p></div></div>
+    <div class="grid grid4" style="margin-bottom:16px"><div class="dashStat"><b>${D.candidates.length}</b><span>Korisnici</span></div><div class="dashStat"><b>${D.jobs.length}</b><span>Oglasi</span></div><div class="dashStat"><b style="${pending.length?'color:var(--orange)':''}">${pending.length}</b><span>Pending uplate</span></div><div class="dashStat"><b>${revenue}€</b><span>Prihod</span></div></div>
+    ${pending.length?`<div class="card" style="border-color:var(--orange);margin-bottom:14px"><div class="miniTitle" style="color:var(--orange)">⚠️ Uplate koje čekaju potvrdu</div>${pending.map(o=>`<div class="row" style="grid-template-columns:1.2fr .8fr .7fr auto"><div><b>${esc(o.id)}</b><small>${esc(o.co)} · ${o.date}</small></div><div>${esc(o.plan)}<small>${o.amount}€</small></div><div>${badge('PENDING','gray')}</div><button class="btn blue xs" onclick="confirmOrder('${o.id}')">Potvrdi</button></div>`).join('')}</div>`:''}
+    <div class="card"><div class="miniTitle">Sve narudžbine</div>${ordersTable()}</div>`);
   }
 }
 
-// ── ONBOARDING ──
-function rOnboarding(){const role=D.role;document.getElementById('v-onboarding').innerHTML=ph(role==='candidate'?'Kako kandidat koristi platformu':'Kako firma koristi platformu','Cijeli flow bez komplikovanja.')+flowHTML(role)+`<div class="card"><div class="cT">CHECKLIST</div>${role==='candidate'?`<div class="fg"><button class="btn" onclick="go('profile')">1. Popuni CV profil</button><button class="btn" onclick="go('jobs')">2. Pronađi oglas</button><button class="btn" onclick="go('myapps')">3. Prati prijavu</button></div>`:`<div class="fg"><button class="btn" onclick="go('newjob')">1. Objavi oglas</button><button class="btn" onclick="go('ats')">2. Pregledaj aplikante</button><button class="btn" onclick="go('cands')">3. Otključaj kontakt kandidata</button><button class="btn" onclick="go('sub')">4. Aktiviraj plan / kod</button></div>`}</div>`}
-
-// ── JOBS ──
-function rJobs(){
-  const cats=[...new Set(D.jobs.map(j=>j.cat))],prem=D.jobs.filter(j=>j.premium),regular=D.jobs.filter(j=>!j.premium);
-  let regularHTML='';regular.forEach((j,i)=>{regularHTML+=jCard(j,{apply:D.role!=='company'});if(i===1){const b=D.banners.filter(x=>x.status==='ACTIVE')[1];if(b)regularHTML+=bannerHTML(b);}});
-  document.getElementById('v-jobs').innerHTML=ph('Oglasi','Filtriraj pozicije, otvori detalje i apliciraj.')+
-  `<input class="fi" id="jQ" placeholder="Pretraži poziciju, firmu, grad..." oninput="filterJobs()" style="margin-bottom:9px">`+
-  `<div class="chips" id="chips"><button class="chip on" data-c="" onclick="setCat(this,'')">Sve</button>${cats.map(c=>`<button class="chip" data-c="${c}" onclick="setCat(this,'${c}')">${c}</button>`).join('')}</div>`+
-  `<div class="grid2" style="margin-bottom:14px"><select class="fi" id="jLoc" onchange="filterJobs()"><option value="">Sva mjesta</option><option>Podgorica</option><option>Remote</option><option>Budva</option></select><select class="fi" id="jType" onchange="filterJobs()"><option value="">Svi tipovi</option><option>Full-time</option><option>Part-time</option><option>Freelance</option></select></div>`+
-  (prem.length&&D.role!=='company'?`<div class="premLabel">★ ISTAKNUTE POZICIJE</div>${prem.map(j=>jCard(j,{apply:true})).join('')}<div class="sep"></div>`:'')+
-  (D.role!=='company'?bannerHTML(D.banners.find(b=>b.status==='ACTIVE')||D.banners[0]):'')+
-  `<div id="jOut">${regularHTML}</div>`;
-}
-function setCat(btn,c){activeCat=c;document.querySelectorAll('#chips .chip').forEach(ch=>ch.classList.toggle('on',ch.dataset.c===c));filterJobs();}
-function filterJobs(){const q=(document.getElementById('jQ')?.value||'').toLowerCase(),loc=document.getElementById('jLoc')?.value||'',type=document.getElementById('jType')?.value||'';const r=D.jobs.filter(j=>(!q||(j.title+j.co+j.desc+j.tags.join(' ')+j.loc).toLowerCase().includes(q))&&(!loc||j.loc===loc)&&(!type||j.type===type)&&(!activeCat||j.cat===activeCat));const out=document.getElementById('jOut');if(out)out.innerHTML=r.length?r.map(j=>jCard(j,{apply:D.role!=='company'})).join(''):'<div class="empty"><div class="ei">🔍</div><p>Nema oglasa za ove filtere.</p></div>';}
-
 // ── PROFILE ──
 function rProfile(){
-  const cv=D.cv;
-  document.getElementById('v-profile').innerHTML=ph('Moj CV','Profil koji firme vide kada apliciraš.','<button class="btn bp" onclick="saveCV()">Sačuvaj</button>')+
-  `<div class="pHero"><div class="pTop"><div class="pAv">${esc(cv.name[0]||'A')}</div><div style="flex:1"><div class="pName">${esc(cv.name)}</div><div class="pHL">${esc(cv.hl)} · ${esc(cv.loc)}</div><div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap">${bs(cv.vis)}<span class="b b-blue">CV ${cv.pct}%</span></div></div></div><div class="pbar"><div class="pfill" style="width:${cv.pct}%"></div></div></div>`+
-  cvsec('sb','📝 Osnovni podaci',`<div class="fg" style="margin-top:12px"><div class="f2"><div><label class="fl">Ime i prezime</label><input class="fi" id="cv-n" value="${esc(cv.name)}"></div><div><label class="fl">Headline</label><input class="fi" id="cv-hl" value="${esc(cv.hl)}"></div></div><div class="f2"><div><label class="fl">Lokacija</label><input class="fi" id="cv-l" value="${esc(cv.loc)}"></div><div><label class="fl">Telefon</label><input class="fi" id="cv-p" value="${esc(cv.ph)}"></div></div><div><label class="fl">LinkedIn</label><input class="fi" id="cv-li" value="${esc(cv.li)}"></div><div><label class="fl">Bio</label><textarea class="fi" id="cv-bio">${esc(cv.bio)}</textarea></div><div><label class="fl">Vidljivost</label><select class="fi" id="cv-vis"><option ${cv.vis==='PUBLIC'?'selected':''}>PUBLIC</option><option ${cv.vis==='COMPANIES'?'selected':''}>COMPANIES</option><option ${cv.vis==='PRIVATE'?'selected':''}>PRIVATE</option></select></div></div>`)+
-  cvsec('ssk','⚡ Vještine i jezici',`<div class="fg" style="margin-top:12px"><div><label class="fl">Vještine (zarezima)</label><input class="fi" id="cv-sk" value="${esc(cv.skills)}"></div><div><label class="fl">Jezici</label><input class="fi" id="cv-lg" value="${esc(cv.langs)}"></div></div>`)+
-  cvsec('sexp',`💼 Iskustvo (${cv.exp.length})`,cv.exp.map((e,i)=>`<div class="cvi"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div class="cviT">${esc(e.t)}</div><div class="cviS">${esc(e.co)} · ${esc(e.from)} – ${esc(e.to)}</div></div><button class="btn sm br" onclick="D.cv.exp.splice(${i},1);rProfile()">✕</button></div><div class="cviD">${esc(e.d)}</div></div>`).join('')+`<button class="btn bp" style="margin-top:10px;width:100%" onclick="addExpM()">+ Dodaj iskustvo</button>`)+
-  cvsec('sedu',`🎓 Obrazovanje (${cv.edu.length})`,cv.edu.map((e,i)=>`<div class="cvi"><div style="display:flex;justify-content:space-between;gap:8px"><div><div class="cviT">${esc(e.deg)}</div><div class="cviS">${esc(e.sch)} · ${esc(e.yr)}</div></div><button class="btn sm br" onclick="D.cv.edu.splice(${i},1);rProfile()">✕</button></div></div>`).join('')+`<button class="btn bp" style="margin-top:10px;width:100%" onclick="addEduM()">+ Dodaj obrazovanje</button>`);
+  appPage(`<div class="sectionHead"><div><h2>Moj CV</h2><p class="sub">Uredi profil koji firme vide u bazi kandidata.</p></div><button class="btn blue" onclick="saveProfile()">Sačuvaj promjene</button></div>
+  <div class="profLayout">
+    <div class="card form">
+      <div class="miniTitle">Osnovi podaci</div>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+        <div class="profAvLarge" onclick="triggerAvatarUpload()" title="Klikni da promijeniš sliku profila">
+          ${D.cv.avatarImg?`<img src="${D.cv.avatarImg}" alt="">`:D.cv.avatar}
+          <input type="file" id="avatarUpload" accept="image/*" onchange="handleAvatarUpload(event)">
+        </div>
+        <div style="flex:1"><p style="font-size:12px;color:var(--muted)">Klikni na avatar da uploaduješ sliku profila.<br>JPG, PNG, max 2MB.</p></div>
+      </div>
+      <div class="grid grid2">
+        <div><div class="label">Ime i prezime</div><input id="pfName" value="${esc(D.cv.name)}"></div>
+        <div><div class="label">Headline / Titula</div><input id="pfHead" value="${esc(D.cv.headline)}"></div>
+      </div>
+      <div class="grid grid2">
+        <div><div class="label">Telefon</div><input id="pfPhone" value="${esc(D.cv.phone)}"></div>
+        <div><div class="label">Grad</div><input id="pfCity" value="${esc(D.cv.city)}"></div>
+      </div>
+      <div><div class="label">Bio</div><textarea id="pfBio">${esc(D.cv.bio)}</textarea></div>
+      <div><div class="label">Vještine (zarezi)</div><input id="pfSkills" value="${esc(D.cv.skills)}"></div>
+      <div><div class="label">Jezici</div><input id="pfLang" value="${esc(D.cv.languages||'')}"></div>
+      <div><div class="label">Vidljivost profila</div>
+        <select id="pfVis">
+          <option ${D.cv.visibility==='PUBLIC'?'selected':''}>PUBLIC</option>
+          <option ${D.cv.visibility==='COMPANIES'?'selected':''}>COMPANIES</option>
+          <option ${D.cv.visibility==='PRIVATE'?'selected':''}>PRIVATE</option>
+        </select>
+        <div class="visNote">PUBLIC — firme te mogu pronaći i kontaktirati u bazi.<br>COMPANIES — vidljiv samo registrovanim firmama.<br>PRIVATE — nisi u bazi, ali možeš aplicirati na oglase.</div>
+      </div>
+    </div>
+    <div>
+      <div class="profPreview">
+        <div class="miniTitle">Kako firma vidi tvoj profil</div>
+        <div class="profPreviewHead">
+          <div class="profAvLarge" style="pointer-events:none">${D.cv.avatarImg?`<img src="${D.cv.avatarImg}" alt="">`:D.cv.avatar}</div>
+          <div style="flex:1">
+            <h2 style="font-size:20px">${esc(D.cv.name)}</h2>
+            <p class="sub">${esc(D.cv.headline)} · ${esc(D.cv.city)}</p>
+            <div class="tags" style="margin-top:8px">${D.cv.skills.split(',').map(s=>`<span class="tag">${esc(s.trim())}</span>`).join('')}</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px">${esc(D.cv.bio)}</p>
+        <div class="pbar"><div class="pfill" style="width:${D.profilePct}%"></div></div>
+        <p style="font-size:11px;color:var(--muted);margin-top:5px">Profil ${D.profilePct}% popunjen</p>
+        ${D.cv.visibility==='PUBLIC'?badge('Vidljiv u bazi','green'):badge(D.cv.visibility,'gray')}
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="miniTitle">Iskustvo</div>
+        ${D.cv.exp.map((e,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div style="display:flex;justify-content:space-between;align-items:start"><div><b style="font-size:13px">${esc(e.title)}</b><p class="sub">${esc(e.company)} · ${esc(e.from)} – ${esc(e.to)}</p><p style="font-size:12px;color:var(--muted);margin-top:4px">${esc(e.desc)}</p></div><button class="btn xs" onclick="D.cv.exp.splice(${i},1);D.profilePct=Math.max(40,D.profilePct-5);rProfile()">✕</button></div></div>`).join('')}
+        <button class="btn ghost sm" style="width:100%;margin-top:10px" onclick="addExpModal()">+ Dodaj iskustvo</button>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="miniTitle">Obrazovanje</div>
+        ${D.cv.edu.map((e,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div style="display:flex;justify-content:space-between;align-items:start"><div><b style="font-size:13px">${esc(e.degree)}</b><p class="sub">${esc(e.school)} · ${esc(e.year)}</p></div><button class="btn xs" onclick="D.cv.edu.splice(${i},1);rProfile()">✕</button></div></div>`).join('')}
+        <button class="btn ghost sm" style="width:100%;margin-top:10px" onclick="addEduModal()">+ Dodaj obrazovanje</button>
+      </div>
+    </div>
+  </div>`);
 }
-function cvsec(id,title,body){const open=oSec[id]!==false;return`<div class="cvs"><div class="cvsH ${open?'open':''}" onclick="tSec('${id}')"><span>${title}</span><span class="arr">${open?'▼':'▶'}</span></div><div class="cvsB" ${open?'':'style="display:none"'} id="${id}">${body}</div></div>`}
-function tSec(id){const el=document.getElementById(id),h=el.closest('.cvs').querySelector('.cvsH'),open=el.style.display!=='none';el.style.display=open?'none':'block';h.classList.toggle('open',!open);oSec[id]=!open;}
-function saveCV(){const g=id=>document.getElementById(id)?.value;D.cv.name=g('cv-n')||D.cv.name;D.cv.hl=g('cv-hl')||D.cv.hl;D.cv.loc=g('cv-l')||D.cv.loc;D.cv.ph=g('cv-p')||D.cv.ph;D.cv.bio=g('cv-bio')||D.cv.bio;D.cv.skills=g('cv-sk')||D.cv.skills;D.cv.langs=g('cv-lg')||D.cv.langs;D.cv.vis=g('cv-vis')||D.cv.vis;D.cv.pct=Math.min(100,D.cv.pct+6);toast('CV sačuvan ✓');switchRole('candidate',false);go('profile');}
-function addExpM(){showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Dodaj iskustvo</div><div class="fg"><div class="f2"><div><label class="fl">Pozicija</label><input class="fi" id="m-et"></div><div><label class="fl">Firma</label><input class="fi" id="m-ec"></div></div><div class="f2"><div><label class="fl">Od</label><input class="fi" id="m-ef" placeholder="Jan 2023"></div><div><label class="fl">Do</label><input class="fi" id="m-eto" value="Danas"></div></div><div><label class="fl">Opis</label><textarea class="fi" id="m-ed"></textarea></div><button class="btn bp" style="width:100%" onclick="const t=document.getElementById('m-et').value;if(!t){toast('Upiši poziciju');return;}D.cv.exp.unshift({t,co:document.getElementById('m-ec').value,from:document.getElementById('m-ef').value,to:document.getElementById('m-eto').value,d:document.getElementById('m-ed').value});D.cv.pct=Math.min(100,D.cv.pct+8);closeM();rProfile();toast('Iskustvo dodano ✓')">Dodaj</button></div>`);}
-function addEduM(){showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Dodaj obrazovanje</div><div class="fg"><div><label class="fl">Naziv / stepen</label><input class="fi" id="m-dd"></div><div><label class="fl">Škola / Fakultet</label><input class="fi" id="m-ds"></div><div><label class="fl">Godina</label><input class="fi" id="m-dy"></div><button class="btn bp" style="width:100%" onclick="const d=document.getElementById('m-dd').value;if(!d){toast('Upiši naziv');return;}D.cv.edu.unshift({deg:d,sch:document.getElementById('m-ds').value,yr:document.getElementById('m-dy').value});D.cv.pct=Math.min(100,D.cv.pct+5);closeM();rProfile();toast('Obrazovanje dodano ✓')">Dodaj</button></div>`);}
+function triggerAvatarUpload(){document.getElementById('avatarUpload')?.click()}
+function handleAvatarUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){D.cv.avatarImg=ev.target.result;D.profilePct=Math.min(100,D.profilePct+5);rProfile();toast('Slika profila ažurirana ✓')};
+  reader.readAsDataURL(file);
+}
+function saveProfile(){
+  D.cv.name=document.getElementById('pfName')?.value||D.cv.name;
+  D.cv.headline=document.getElementById('pfHead')?.value||D.cv.headline;
+  D.cv.phone=document.getElementById('pfPhone')?.value||D.cv.phone;
+  D.cv.city=document.getElementById('pfCity')?.value||D.cv.city;
+  D.cv.bio=document.getElementById('pfBio')?.value||D.cv.bio;
+  D.cv.skills=document.getElementById('pfSkills')?.value||D.cv.skills;
+  D.cv.languages=document.getElementById('pfLang')?.value||D.cv.languages;
+  D.cv.visibility=document.getElementById('pfVis')?.value||D.cv.visibility;
+  D.profilePct=Math.min(100,D.profilePct+3);
+  toast('CV profil sačuvan ✓');rProfile();
+}
+function addExpModal(){showModal(`<div class="sheetTop"><div><h3>Dodaj iskustvo</h3></div><button class="x" onclick="closeModal()">×</button></div><div class="form"><div class="grid grid2"><div><div class="label">Pozicija</div><input id="exTitle" placeholder="Marketing Manager"></div><div><div class="label">Firma</div><input id="exComp" placeholder="Firma d.o.o."></div></div><div class="grid grid2"><div><div class="label">Od</div><input id="exFrom" placeholder="Jan 2023"></div><div><div class="label">Do</div><input id="exTo" placeholder="Danas"></div></div><div><div class="label">Opis (opciono)</div><textarea id="exDesc" style="min-height:70px" placeholder="Kratki opis uloge..."></textarea></div><button class="btn blue" onclick="const t=document.getElementById('exTitle').value,c=document.getElementById('exComp').value;if(!t||!c){toast('Popuni naziv i firmu');return}D.cv.exp.push({title:t,company:c,from:document.getElementById('exFrom').value,to:document.getElementById('exTo').value||'Danas',desc:document.getElementById('exDesc').value});D.profilePct=Math.min(100,D.profilePct+8);closeModal();rProfile();toast('Iskustvo dodano ✓')">Dodaj iskustvo</button></div>`);}
+function addEduModal(){showModal(`<div class="sheetTop"><div><h3>Dodaj obrazovanje</h3></div><button class="x" onclick="closeModal()">×</button></div><div class="form"><div><div class="label">Naziv stepena / škola</div><input id="edDeg" placeholder="BSc Menadžment"></div><div><div class="label">Institucija</div><input id="edSch" placeholder="Univerzitet Crne Gore"></div><div><div class="label">Godina završetka</div><input id="edYr" placeholder="2023"></div><button class="btn blue" onclick="const d=document.getElementById('edDeg').value,s=document.getElementById('edSch').value;if(!d||!s){toast('Popuni naziv i instituciju');return}D.cv.edu.push({degree:d,school:s,year:document.getElementById('edYr').value});D.profilePct=Math.min(100,D.profilePct+5);closeModal();rProfile();toast('Obrazovanje dodano ✓')">Dodaj</button></div>`);}
 
-// ── MY APPS ──
-function rMyApps(){const el=document.getElementById('v-myapps');el.innerHTML=ph('Moje prijave','Status svake prijave na oglase.');if(!D.myApps.length){el.innerHTML+='<div class="empty"><div class="ei">📋</div><p>Još nisi aplicirala.<br>Pretraži oglase i pošalji prvu prijavu.</p></div><button class="btn bp" style="width:100%;margin-top:10px" onclick="go(\'jobs\')">Pretraži oglase →</button>';return;}el.innerHTML+=D.myApps.map(a=>`<div class="appc"><div class="appT"><div><div style="font-weight:600;font-size:13px">${esc(a.title)}</div><div style="font-size:11px;color:var(--muted)">${esc(a.co)} · ${a.date}</div></div>${bs(a.status)}</div>${a.cl?`<div style="font-size:11px;color:var(--muted);background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:9px;margin-bottom:8px;line-height:1.6">"${esc(a.cl)}"</div>`:''}<div class="brow"><button class="btn sm" onclick="openJobByTitle('${esc(a.title)}')">Vidi oglas</button></div></div>`).join('');}
+// ── APPS ──
+function rApps(){
+  appPage(`<div class="sectionHead"><div><h2>Moje prijave</h2><p class="sub">Status svake prijave i detalji o poslodavcu.</p></div></div>
+  <div class="tableLike">
+    ${D.apps.length?D.apps.map(a=>`<div style="background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:14px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap"><div><b style="font-size:14px">${esc(a.title)}</b><p class="sub">${esc(a.co)} · Prijavljeno ${a.date}</p><p style="font-size:12px;color:var(--muted);margin-top:4px">📞 ${esc(a.phone)} · 📍 ${esc(a.city)} · 📎 ${esc(a.cv)}</p>${a.ref?`<p style="font-size:11px;color:var(--muted);margin-top:2px">Ref: <b>${esc(a.ref)}</b></p>`:''}</div><div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">${badge(a.status,STATUS_COLORS[a.status]||'gray')}</div></div></div>`).join(''):'<div class="card"><h2>Nema prijava</h2><p class="sub">Pretraži oglase i pošalji prvu prijavu.</p><button class="btn blue sm" style="margin-top:12px" onclick="goApp(\'jobs\')">Pretraži oglase →</button></div>'}
+  </div>`);
+}
 
-// ── COMPANY JOBS ──
-function rCJobs(){const mine=D.jobs.filter(j=>j.co==='EventPro');document.getElementById('v-cjobs').innerHTML=ph('Moji oglasi','Upravljaj oglasima i aplikantima.','<button class="btn bp" onclick="go(\'newjob\')">+ Novi oglas</button>')+(mine.length?mine.map(j=>jCard(j,{manage:true})).join(''):'<div class="empty"><div class="ei">📢</div><p>Nema oglasa.</p></div><button class="btn bp" style="width:100%;margin-top:10px" onclick="go(\'newjob\')">Objavi oglas →</button>');}
-function toggleJob(id){const j=D.jobs.find(x=>x.id===id);j.status=j.status==='ACTIVE'?'PAUSED':'ACTIVE';toast(`"${j.title}" → ${j.status}`);rCJobs();}
+// ── NOTIFS ──
+function rNotifs(){
+  appPage(`<div class="sectionHead"><div><h2>Obavijesti</h2><p class="sub">Status prijava, promjene i sistemske poruke.</p></div><button class="btn ghost sm" onclick="D.notifs.forEach(n=>n.read=true);rNotifs();toast('Sve pročitano')">Sve pročitano</button></div>
+  <div class="grid">
+    ${D.notifs.map(n=>`<div class="card" style="border-left:3px solid ${n.read?'var(--line)':n.type==='apply'?'var(--green)':n.type==='status'?'var(--blue)':'var(--orange)'}"><div style="display:flex;gap:10px;align-items:start"><span style="font-size:20px">${n.type==='apply'?'📨':n.type==='status'?'📊':'💡'}</span><div><p style="font-size:13px;font-weight:${n.read?'600':'800'}">${esc(n.text)}</p><p style="font-size:11px;color:var(--muted);margin-top:4px">${esc(n.time)}</p></div></div></div>`).join('')}
+  </div>`);
+}
 
 // ── NEW JOB ──
-function rNewJob(){document.getElementById('v-newjob').innerHTML=ph('Novi oglas','Kreiraj oglas — preview se ažurira uživo.')+`<div class="grid2"><div class="card"><div class="fg"><div><label class="fl">Naziv pozicije *</label><input class="fi" id="nj-t" placeholder="npr. Event Coordinator" oninput="previewJob()"></div><div class="f2"><div><label class="fl">Kategorija</label><select class="fi" id="nj-c" onchange="previewJob()"><option>Events</option><option>Marketing</option><option>Hospitality</option><option>IT</option></select></div><div><label class="fl">Tip</label><select class="fi" id="nj-ty" onchange="previewJob()"><option>Part-time</option><option>Full-time</option><option>Freelance</option></select></div></div><div class="f2"><div><label class="fl">Lokacija</label><input class="fi" id="nj-l" value="Podgorica" oninput="previewJob()"></div><div><label class="fl">Plata</label><input class="fi" id="nj-s" placeholder="npr. 800–1200€" oninput="previewJob()"></div></div><div><label class="fl">Opis *</label><textarea class="fi" id="nj-d" placeholder="Opis uloge, zahtjevi, benefiti..." oninput="previewJob()"></textarea></div><div><label class="fl">Tagovi (zarezi)</label><input class="fi" id="nj-tg" placeholder="Remote, Junior, Events" oninput="previewJob()"></div><div style="background:var(--amberD);border:1px solid var(--amberB);border-radius:var(--r);padding:12px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--amber)"><input type="checkbox" id="nj-prem" style="width:15px;height:15px;accent-color:var(--amber)" onchange="previewJob()"> ★ Premium pozicija · 25€/7 dana</label><div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:5px">Oglas ide na vrh liste i generiše se narudžbina.</div></div><div class="brow"><button class="btn bp" style="flex:1" onclick="doNewJob()">Objavi oglas</button><button class="btn" onclick="go('cjobs')">Otkaži</button></div></div></div><div><div class="cT">PREVIEW OGLASA</div><div id="jobPreview"></div></div></div>`;previewJob();}
-function previewJob(){const t=document.getElementById('nj-t')?.value||'Naziv pozicije',tg=(document.getElementById('nj-tg')?.value||'Novo').split(',').map(x=>x.trim()).filter(Boolean),j={id:999,title:t,co:'EventPro',cat:document.getElementById('nj-c')?.value||'Events',loc:document.getElementById('nj-l')?.value||'Podgorica',type:document.getElementById('nj-ty')?.value||'Part-time',sal:document.getElementById('nj-s')?.value||'Po dogovoru',status:'ACTIVE',feat:false,premium:document.getElementById('nj-prem')?.checked||false,apps:0,desc:document.getElementById('nj-d')?.value||'Opis oglasa će se prikazati ovdje.',tags:tg,days:0};const p=document.getElementById('jobPreview');if(p)p.innerHTML=jCard(j,{manage:false});}
-function doNewJob(){const t=document.getElementById('nj-t').value.trim();if(!t){toast('⚠️ Upiši naziv pozicije');return;}const prem=document.getElementById('nj-prem')?.checked||false,tgs=(document.getElementById('nj-tg').value||'Novo').split(',').map(x=>x.trim()).filter(Boolean);D.jobs.unshift({id:Date.now(),title:t,co:'EventPro',cat:document.getElementById('nj-c').value,loc:document.getElementById('nj-l').value,type:document.getElementById('nj-ty').value,sal:document.getElementById('nj-s').value||'Po dogovoru',status:'ACTIVE',feat:prem,premium:prem,apps:0,desc:document.getElementById('nj-d').value||'Opis uskoro.',tags:tgs,days:0});if(prem){D.orders.unshift({id:'WH-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000),co:'EventPro',plan:'Premium oglas',amt:25,status:'PENDING',date:new Date().toLocaleDateString('sr-ME'),code:''});toast('Premium oglas objavljen · narudžbina kreirana');}else toast('Oglas objavljen ✓');go('cjobs');}
-function editJobM(id){const j=D.jobs.find(x=>x.id===id);showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Uredi oglas</div><div class="fg"><div><label class="fl">Naziv</label><input class="fi" id="ej-t" value="${esc(j.title)}"></div><div><label class="fl">Opis</label><textarea class="fi" id="ej-d">${esc(j.desc)}</textarea></div><div><label class="fl">Plata</label><input class="fi" id="ej-s" value="${esc(j.sal)}"></div><button class="btn bp" onclick="const jj=D.jobs.find(x=>x.id===${id});jj.title=document.getElementById('ej-t').value;jj.desc=document.getElementById('ej-d').value;jj.sal=document.getElementById('ej-s').value;closeM();rCJobs();toast('Oglas sačuvan ✓')">Sačuvaj</button></div>`);}
+function rNewJob(){
+  appPage(`<div class="sectionHead"><div><h2>Novi oglas</h2><p class="sub">Firma objavljuje oglas. Admin može odobriti i istaknuti.</p></div></div>
+  <div class="grid grid2">
+    <div class="card form">
+      <div class="miniTitle">Logo firme</div>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+        <div class="logo" id="jobLogoPreview" style="width:56px;height:56px;font-size:18px">${D.companies[0].logoImg?`<img src="${D.companies[0].logoImg}" alt="">`:D.companies[0].logo}</div>
+        <div><p style="font-size:12px;color:var(--muted)">Logo se povlači iz profila firme.<br><button onclick="triggerCompanyLogo()" style="color:var(--blue);font-weight:800;font-size:12px">Promijeni logo firme →</button></p>
+        <input type="file" id="companyLogoUpload" accept="image/*" onchange="handleCompanyLogo(event)"></div>
+      </div>
+      <div><div class="label">Naziv pozicije *</div><input id="njTitle" placeholder="npr. Event Coordinator"></div>
+      <div class="grid grid2">
+        <div><div class="label">Grad</div><select id="njCity">${D.cities.map(c=>`<option>${c}</option>`).join('')}</select></div>
+        <div><div class="label">Kategorija</div><select id="njCat">${D.cats.map(c=>`<option>${c}</option>`).join('')}</select></div>
+      </div>
+      <div class="grid grid2">
+        <div><div class="label">Tip ugovora</div><select id="njContract"><option>Stalni radni odnos</option><option>Ugovor o djelu</option><option>Studentski ugovor</option><option>Sezonski</option><option>Freelance</option></select></div>
+        <div><div class="label">Broj mjesta</div><input id="njSpots" type="number" value="1" min="1"></div>
+      </div>
+      <div class="grid grid2">
+        <div><div class="label">Plata / naknada</div><input id="njSalary" placeholder="800–1200€"></div>
+        <div><div class="label">Rok prijave</div><input id="njDeadline" type="date"></div>
+      </div>
+      <div><div class="label">Email za prijave *</div><input id="njEmail" value="hr@eventpro.me"></div>
+      <div><div class="label">Opis oglasa *</div><textarea id="njDesc" style="min-height:100px" placeholder="Opis uloge, zahtjevi, šta nudite..."></textarea></div>
+      <button class="btn blue" onclick="createJob()">Objavi oglas →</button>
+    </div>
+    <div class="card">
+      <div class="miniTitle">Šta kandidat vidi na prijavi</div>
+      <p class="sub" style="font-size:13px;line-height:1.7;margin-bottom:14px">Svaka prijava sadržи: ime, email, telefon, grad, CV fajl i motivaciono pismo (max 1200 karaktera). Prijava ide direktno na email koji upišete.</p>
+      <div class="card" style="background:var(--soft);box-shadow:none">
+        <div class="miniTitle">Preview price oglasa</div>
+        <div class="grid" style="gap:7px">
+          ${badge('Logo firme (vidljiv na kartici oglasa)','lime')}
+          ${badge('Rok prijave','gray')}
+          ${badge('Broj mjesta','gray')}
+          ${badge('Tip ugovora','gray')}
+        </div>
+      </div>
+    </div>
+  </div>`);
+}
+function triggerCompanyLogo(){document.getElementById('companyLogoUpload')?.click()}
+function handleCompanyLogo(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    D.companies[0].logoImg=ev.target.result;
+    const prev=document.getElementById('jobLogoPreview');
+    if(prev)prev.innerHTML=`<img src="${ev.target.result}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`;
+    toast('Logo firme ažuriran ✓');
+  };
+  reader.readAsDataURL(file);
+}
+function createJob(){
+  const title=document.getElementById('njTitle')?.value.trim();
+  if(!title)return toast('⚠️ Upiši naziv pozicije');
+  const email=document.getElementById('njEmail')?.value.trim();
+  if(!email)return toast('⚠️ Upiši email za prijave');
+  D.jobs.unshift({id:Date.now(),slug:title.toLowerCase().replace(/\s+/g,'-'),title,co:'EventPro d.o.o.',cid:1,city:document.getElementById('njCity').value,cat:document.getElementById('njCat').value,sub:'',type:'Full-time',contract:document.getElementById('njContract').value,salary:document.getElementById('njSalary').value||'Po dogovoru',spots:+document.getElementById('njSpots').value||1,posted:new Date().toLocaleDateString('sr-ME'),deadline:document.getElementById('njDeadline').value||'15.05.2026',featured:false,views:0,desc:document.getElementById('njDesc').value||'Opis uskoro.',req:['Detalji u dogovoru'],tags:['Novo'],apps:0,status:'ACTIVE'});
+  toast('Oglas objavljen ✓');goApp('myjobs');
+}
 
-// ── ATS ──
-function rAts(){const cols=['APPLIED','VIEWED','INTERVIEW','OFFER','HIRED'],lbl={APPLIED:'Prijave',VIEWED:'Pregledano',INTERVIEW:'Intervju',OFFER:'Ponuda',HIRED:'Zaposleni'},cls={APPLIED:'b-blue',VIEWED:'b-amber',INTERVIEW:'b-purple',OFFER:'b-teal',HIRED:'b-green'};document.getElementById('v-ats').innerHTML=ph('ATS aplikanti','Pomjeri kandidata kroz faze zapošljavanja.')+`<div class="hint">💡 Klikni <strong>← →</strong> da pomjeriš kandidata. Na telefonu skroluj desno.</div><div class="kWrap"><div class="kanban">${cols.map(s=>`<div class="kcol"><div class="kcolH"><span class="b ${cls[s]}" style="font-size:10px">${lbl[s]}</span><span class="kcount">${D.cands.filter(c=>c.status===s).length}</span></div>${D.cands.filter(c=>c.status===s).map(c=>`<div class="kcard"><div class="kcardN">${esc(c.name)}</div><div class="kcardS">${esc(c.loc)} · ${esc(c.skills[0])}</div><div class="karr"><button onclick="moveC(${c.id},'prev')">← Nazad</button><button class="kf" onclick="moveC(${c.id},'next')">Dalje →</button></div></div>`).join('')||'<div style="font-size:11px;color:var(--faint);text-align:center;padding:10px">—</div>'}</div>`).join('')}</div></div>`;}
-function moveC(id,dir){const ord=['APPLIED','VIEWED','INTERVIEW','OFFER','HIRED'],c=D.cands.find(x=>x.id===id);let i=ord.indexOf(c.status);i=dir==='next'?Math.min(4,i+1):Math.max(0,i-1);c.status=ord[i];toast(c.name+' → '+c.status);rAts();}
+// ── MY JOBS ──
+function rMyJobs(){
+  appPage(`<div class="sectionHead"><div><h2>Moji oglasi</h2><p class="sub">Pregled, upravljanje i statistika oglasa firme.</p></div><button class="btn blue" onclick="goApp('newjob')">+ Novi oglas</button></div>
+  <div class="jobList">${D.jobs.filter(j=>j.cid===1).map(j=>`<div class="jobCard"><div class="logo" style="font-size:16px">${D.companies[0].logoImg?`<img src="${D.companies[0].logoImg}" alt="">`:D.companies[0].logo}</div><div><div class="tags" style="margin-bottom:6px">${badge(j.cat,'blue')}${badge(j.status,j.status==='ACTIVE'?'green':'gray')}</div><button class="jobTitle" onclick="openJobPage(${j.id})">${esc(j.title)}</button><div class="meta">${esc(j.city)} · ${j.apps} prijava · Rok ${j.deadline}</div></div><div class="jobSide"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost sm" onclick="toggleJobStatus(${j.id})">${j.status==='ACTIVE'?'Pauziraj':'Aktiviraj'}</button><button class="btn lime sm" onclick="goApp('ats')">ATS (${j.apps})</button></div></div></div>`).join('')||'<div class="card"><h2>Nema oglasa</h2></div>'}`);
+}
+function toggleJobStatus(id){const j=D.jobs.find(x=>x.id===id);j.status=j.status==='ACTIVE'?'PAUSED':'ACTIVE';toast(`Oglas "${j.title}" → ${j.status}`);rMyJobs()}
+
+// ── ATS — FULL KANBAN WITH DETAIL ──
+function rATS(){
+  D.selectedCandidate = D.selectedCandidate || D.candidates[0];
+  const selId = D.selectedCandidate?.id;
+  const kanbanHTML = STATUS_ORDER.map(s=>{
+    const cands = D.candidates.filter(c=>c.status===s);
+    const cards = cands.map(c=>{
+      const labelsHTML = c.labels.map(l=>{const lo=LABEL_OPTS.find(x=>x.key===l);return lo?`<span class="kcardLabel" style="color:${lo.color};border-color:${lo.color}">${esc(l)}</span>`:''}).join('');
+      return`<div class="kcard ${c.id===selId?'selected':''}" onclick="selectCandidate(${c.id})">
+        <div class="kcardTop">${candAvEl(c,34)}<div><div class="kcardName">${esc(c.name)}</div><div class="kcardTitle">${esc(c.title)}</div></div></div>
+        <div class="kcardMeta">📍 ${esc(c.city)} · 📎 ${esc(c.cv||'CV.pdf')}</div>
+        ${labelsHTML?`<div class="kcardLabels">${labelsHTML}</div>`:''}
+        ${c.comments.length?`<div class="kcardComment">💬 ${esc(c.comments[c.comments.length-1].text)}</div>`:''}
+        <div class="kcardActions">
+          <button onclick="event.stopPropagation();moveC(${c.id},'prev')" ${STATUS_ORDER.indexOf(s)===0?'disabled style="opacity:.4"':''}>← Nazad</button>
+          <button class="fwd" onclick="event.stopPropagation();moveC(${c.id},'next')" ${STATUS_ORDER.indexOf(s)===STATUS_ORDER.length-1?'disabled style="opacity:.4"':''}>Dalje →</button>
+        </div>
+      </div>`;
+    }).join('') || `<div style="text-align:center;padding:20px 10px;color:var(--muted);font-size:12px">—</div>`;
+    return`<div class="kcol"><div class="kcolHead"><h4>${STATUS_LABELS[s]}</h4><span class="kcolCount">${cands.length}</span></div>${cards}</div>`;
+  }).join('');
+
+  const sel = D.selectedCandidate;
+  const detailHTML = sel ? `
+    <div class="atsDetail">
+      <div class="candDetailHead">
+        ${candAvEl(sel,56)}
+        <div style="flex:1">
+          <h2 style="font-size:19px">${esc(sel.name)}</h2>
+          <p class="sub">${esc(sel.title)}</p>
+          <p style="font-size:12px;color:var(--muted);margin-top:3px">📍 ${esc(sel.city)}</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        ${badge(sel.status,STATUS_COLORS[sel.status]||'gray')}
+        ${sel.unlocked?badge('Kontakt otključan','green'):badge('Kontakt zaključan','gray')}
+      </div>
+      ${sel.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join(' ')}
+      ${sel.unlocked?`<div style="background:var(--soft);border:1.5px solid var(--line2);border-radius:14px;padding:12px;margin-top:10px;font-size:12px;line-height:2">📧 <b>${esc(sel.email)}</b><br>📞 <b>${esc(sel.phone)}</b></div>`:`<div style="margin-top:10px"><button class="btn blue sm" style="width:100%" onclick="unlockCandidateATS(${sel.id})">🔓 Unlock kontakt (1 kredit)</button></div>`}
+      <div style="margin-top:10px"><button class="btn ghost sm" style="width:100%" onclick="toast('CV: ${esc(sel.cv||'CV.pdf')}')">📎 Vidi CV — ${esc(sel.cv||'CV.pdf')}</button></div>
+      <div style="margin-top:12px">
+        <div class="miniTitle">Oznake</div>
+        <div class="labelPicker">${LABEL_OPTS.map(l=>`<span class="labelOpt ${sel.labels.includes(l.key)?'active':''}" style="color:${l.color};border-color:${l.color}" onclick="toggleLabel(${sel.id},'${l.key}')">${esc(l.key)}</span>`).join('')}</div>
+      </div>
+      <div class="commentsSection">
+        <div class="miniTitle">Komentari tima (${sel.comments.length})</div>
+        ${sel.comments.map(c=>`<div class="commentItem"><div class="commentMeta">${esc(c.author)} · ${esc(c.time)}</div>${esc(c.text)}</div>`).join('')}
+        <div class="commentForm">
+          <input id="commentInput_${sel.id}" placeholder="Dodaj komentar..." onkeydown="if(event.key==='Enter')addComment(${sel.id})">
+          <button class="btn lime xs" onclick="addComment(${sel.id})">Dodaj</button>
+        </div>
+      </div>
+      <div style="margin-top:12px"><button class="btn red xs" style="width:100%" onclick="D.candidates.find(x=>x.id===${sel.id}).status='APPLIED';D.selectedCandidate=null;rATS();toast('Kandidat vraćen na Prijave')">Vrati na početak</button></div>
+    </div>` : `<div class="atsDetail"><div class="atsDetailEmpty"><span>👆</span><p style="font-size:13px">Klikni na kandidata da vidiš detalje, komentare i oznake.</p></div></div>`;
+
+  appPage(`<div class="sectionHead"><div><h2>ATS aplikanti</h2><p class="sub">Klikni kandidata za detalje. Koristite ← → za pomjeranje kroz faze.</p></div><button class="btn ghost sm" onclick="exportATS()">Export prijava</button></div>
+  <div class="atsLayout">
+    <div>
+      <div class="atsWrap"><div class="kanban">${kanbanHTML}</div></div>
+    </div>
+    ${detailHTML}
+  </div>`);
+}
+function selectCandidate(id){D.selectedCandidate=D.candidates.find(x=>x.id===id);rATS()}
+function moveC(id,dir){
+  const c=D.candidates.find(x=>x.id===id);
+  const i=STATUS_ORDER.indexOf(c.status);
+  const ni=dir==='next'?Math.min(STATUS_ORDER.length-1,i+1):Math.max(0,i-1);
+  if(ni===i)return;
+  c.status=STATUS_ORDER[ni];
+  D.notifs.unshift({text:`Kandidat ${c.name} pomjeren u fazu: ${STATUS_LABELS[c.status]}`,time:'Upravo',read:false,type:'status'});
+  toast(`${c.name} → ${STATUS_LABELS[c.status]}`);
+  D.selectedCandidate=c;
+  rATS();
+}
+function unlockCandidateATS(id){
+  const c=D.candidates.find(x=>x.id===id);
+  if(D.credits<=0){toast('⚠️ Nema unlock kredita. Kupi plan.');return}
+  c.unlocked=true;D.credits--;
+  toast(`Kontakt otključan: ${c.name} · ostalo ${D.credits} kredita`);
+  rATS();
+}
+function toggleLabel(id,label){
+  const c=D.candidates.find(x=>x.id===id);
+  const idx=c.labels.indexOf(label);
+  if(idx>=0)c.labels.splice(idx,1);else c.labels.push(label);
+  rATS();
+}
+function addComment(id){
+  const input=document.getElementById(`commentInput_${id}`);
+  const text=input?.value?.trim();
+  if(!text){toast('Upiši komentar');return}
+  const c=D.candidates.find(x=>x.id===id);
+  c.comments.push({author:'Mila HR',time:new Date().toLocaleString('sr-ME'),text});
+  input.value='';
+  toast('Komentar dodan ✓');
+  rATS();
+}
+function exportATS(){toast('Export simulacija: ATS_prijave.xlsx')}
 
 // ── CANDIDATES ──
-function rCands(){document.getElementById('v-cands').innerHTML=ph('Baza kandidata',D.role==='admin'?'Pregled svih kandidata.':'Pretraži i otključaj kontakt kandidata.',D.role==='admin'?'':`<span class="b b-amber">💳 ${D.credits} kredita</span>`)+`<input class="fi" id="candSearch" style="margin-bottom:12px" placeholder="Pretraži ime, vještinu, grad..." oninput="filterCands(this.value)"><div id="cOut">${candsHTML(D.cands)}</div>`;}
-function candsHTML(list){const isA=D.role==='admin';return list.map(c=>`<div class="cc"><div class="ccT"><div class="ccAv" style="background:${c.col}">${c.ini}</div><div style="flex:1"><div class="ccN">${esc(c.name)}</div><div class="ccHL">${esc(c.hl)} · ${esc(c.loc)}</div></div>${bs(c.unlocked?'PUBLIC':'PRIVATE')}</div><div class="tags">${c.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join('')}</div>${c.unlocked?`<div class="ccCont">📧 <strong>${esc(c.email)}</strong><br>📱 <strong>${esc(c.ph)}</strong></div>`:''}<div class="brow" style="margin-top:9px">${isA?`<button class="btn sm" onclick="openCand(${c.id})">Vidi profil</button>`:c.unlocked?`<button class="btn sm bg">✓ Kontakt otključan</button>`:`<button class="btn sm bp" onclick="unlockC(${c.id})">🔓 Unlock (1 kredit)</button>`}<button class="btn sm" onclick="openCand(${c.id})">Detalji</button></div></div>`).join('');}
-function filterCands(q){const r=D.cands.filter(c=>!q||(c.name+c.hl+c.skills.join(' ')+c.loc).toLowerCase().includes(q.toLowerCase()));document.getElementById('cOut').innerHTML=r.length?candsHTML(r):'<div class="empty"><div class="ei">👥</div><p>Nema kandidata.</p></div>';}
-function unlockC(id){const c=D.cands.find(x=>x.id===id);if(c.unlocked){toast('Kontakt je već otključan.');return;}if(D.credits<=0){showM(`<div class="mTitle">Nema kredita</div><div class="mSub">Aktiviraj plan da dobiješ unlock kredite.</div><button class="btn bp" style="width:100%" onclick="closeM();go('sub')">Idi na pretplatu →</button>`);return;}c.unlocked=true;D.credits--;toast(`Otključan: ${c.name} · ostalo: ${D.credits}`);rCands();}
-function openCand(id){const c=D.cands.find(x=>x.id===id);showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ccAv" style="background:${c.col};width:50px;height:50px;border-radius:14px">${c.ini}</div><div><div style="font-size:17px;font-weight:700">${esc(c.name)}</div><div style="font-size:12px;color:var(--muted)">${esc(c.hl)}</div></div></div><div style="font-size:12px;color:var(--muted);margin-bottom:11px">📍 ${esc(c.loc)}</div><div class="tags" style="margin-bottom:13px">${c.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join('')}</div>${c.unlocked?`<div class="ccCont">📧 <strong>${esc(c.email)}</strong><br>📱 <strong>${esc(c.ph)}</strong></div>`:`<div style="text-align:center;padding:16px;font-size:12px;color:var(--muted)">🔒 Kontakt zaključan.<br>Koristi 1 kredit da vidiš podatke.</div>`}<div class="brow" style="margin-top:13px">${c.unlocked?'':`<button class="btn sm bp" style="flex:1" onclick="unlockC(${c.id});closeM()">🔓 Unlock</button>`}<button class="btn sm" style="flex:1" onclick="closeM()">Zatvori</button></div>`);}
-
-// ── SUBSCRIPTION ──
-function rSub(){
-  const plans=[{n:'Free',p:'0€',dur:'',f:['1 aktivan oglas','Bez baze kandidata','0 unlock kredita'],cur:D.plan==='Free'},{n:'Starter',p:'25€',dur:'/mjes',f:['3 aktivna oglasa','Pristup bazi','10 unlock kredita'],cur:D.plan==='Starter'},{n:'Growth',p:'80€',dur:'/mjes',f:['10 aktivnih oglasa','Prioritetna baza','50 unlock kredita'],pop:true,cur:D.plan==='Growth'},{n:'Pro',p:'200€',dur:'/mjes',f:['Neograničeni oglasi','API pristup','200 unlock kredita'],cur:D.plan==='Pro'}];
-  document.getElementById('v-sub').innerHTML=ph('Pretplata','Naruči plan, uplati, aktiviraj kodom.')+
-  `<div class="hint">💡 <strong>Flow:</strong> Naruči plan → uplata na račun → admin potvrdi → dobiješ kod → uneseš kod → plan aktivan.</div>`+
-  `<div class="grid2">${plans.map(p=>`<div class="pc ${p.cur?'cur':''} ${p.pop&&!p.cur?'pop':''}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div class="pcN">${p.n}</div>${p.pop?'<span class="b b-amber">★ Popularno</span>':''}${p.cur?'<span class="b b-blue">✓ Aktivan</span>':''}</div><div class="pcP">${p.p}<span>${p.dur}</span></div><ul class="pcF">${p.f.map(f=>`<li>${f}</li>`).join('')}</ul>${p.cur?`<button class="btn" style="width:100%" disabled>Trenutni plan</button>`:`<button class="btn bp" style="width:100%" onclick="orderPlan('${p.n}','${p.p}')">Naruči ${p.n}</button>`}</div>`).join('')}</div>`+
-  `<div class="sep"></div><div class="cT">AKTIVIRAJ KOD</div><div class="card"><p style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">Nakon potvrde uplate, admin šalje kod. Za demo možeš probati postojeći kod.</p><div style="display:flex;gap:8px"><input class="fi" id="actCode" placeholder="WH-2026-XXXX-XXXX" value="WH-2026-X7K9-MNPL" style="flex:1;font-family:var(--mono);font-size:12px"><button class="btn bg" onclick="doActivate()">Aktiviraj</button></div></div>`+
-  `<div class="sep"></div><div class="cT">MOJE NARUDŽBINE</div>${D.orders.filter(o=>o.co==='EventPro').map(orderCard).join('')}`;
+function rCandidates(){
+  appPage(`<div class="sectionHead"><div><h2>Baza kandidata</h2><p class="sub">Firma pretražuje, filtrira i otključava kontakte.</p></div><span class="badge lime">${D.credits} kredita ostalo</span></div>
+  <div class="filters" style="grid-template-columns:1.4fr .8fr .8fr;margin-bottom:14px">
+    <input id="candQ" placeholder="Ime, vještina, grad..." oninput="filterCandidates()">
+    <select id="candCity" onchange="filterCandidates()"><option value="">Svi gradovi</option>${D.cities.map(c=>`<option>${c}</option>`).join('')}</select>
+    <select id="candVis" onchange="filterCandidates()"><option value="">Svi profili</option><option value="true">Javni profili</option></select>
+  </div>
+  <div class="grid grid2" id="candidatesOut">${renderCandidates(D.candidates)}</div>`);
 }
-function orderPlan(name,price){const amt=parseInt(price.replace(/[^0-9]/g,''))||0,oid='WH-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000);D.orders.unshift({id:oid,co:'EventPro',plan:name,amt,status:'PENDING',date:new Date().toLocaleDateString('sr-ME'),code:''});showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Narudžba kreirana ✓</div><div class="mSub">Uplati na bankovni račun. Admin potvrđuje i generiše kod.</div><div class="bkBox">Primalac: <strong>WorkingHub d.o.o.</strong><br>IBAN: <strong>ME25 5050 0000 1234 5678 90</strong><br>Iznos: <strong>${amt},00 EUR</strong><br>Svrha: <strong>${name} plan</strong><br>Poziv na br: <strong>${oid}</strong></div><button class="btn bp" style="width:100%" onclick="closeM();rSub()">Razumijem</button>`);}
-function doActivate(){const code=document.getElementById('actCode')?.value?.trim();if(!code||!code.startsWith('WH-')){toast('⚠️ Upiši validan kod');return;}D.plan='Growth';D.credits=50;D.planExp='28.05.2027';showM(`<div style="text-align:center;padding:10px 0"><div style="font-size:52px;margin-bottom:12px">🎉</div><div class="mTitle">Growth plan aktiviran!</div><div class="mSub">Sada imaš 10 aktivnih oglasa i 50 unlock kredita.</div><button class="btn bg" style="width:100%;margin-top:14px" onclick="closeM();rSub()">Nastavi →</button></div>`);}
+function renderCandidates(list){
+  return list.map(c=>`<div class="card"><div style="display:flex;gap:12px;align-items:start;margin-bottom:12px">${candAvEl(c,48)}<div style="flex:1"><b style="font-size:15px">${esc(c.name)}</b><p class="sub">${esc(c.title)}</p><p style="font-size:12px;color:var(--muted)">📍 ${esc(c.city)} · ${c.public?'🌐 Javni profil':'🔒 Privatno'}</p></div>${badge(c.status,STATUS_COLORS[c.status]||'gray')}</div><div class="tags" style="margin-bottom:12px">${c.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join('')}</div>${c.unlocked?`<div style="background:var(--soft);border:1.5px solid var(--line2);border-radius:14px;padding:10px;font-size:12px;line-height:2">📧 <b>${esc(c.email)}</b><br>📞 <b>${esc(c.phone)}</b></div>`:`<p class="sub" style="font-size:12px">Kontakt zaključan — koristi kredit da vidiš podatke.</p>`}<div style="display:flex;gap:7px;margin-top:10px"><button class="btn ${c.unlocked?'ghost':'blue'} sm" onclick="unlockCand(${c.id})">${c.unlocked?'✓ Otključano':'🔓 Unlock (1 kredit)'}</button></div></div>`).join('');
+}
+function filterCandidates(){
+  const q=(document.getElementById('candQ')?.value||'').toLowerCase(),city=document.getElementById('candCity')?.value||'',vis=document.getElementById('candVis')?.value||'';
+  const r=D.candidates.filter(c=>(!q||(c.name+c.title+c.city+c.skills.join(' ')).toLowerCase().includes(q))&&(!city||c.city===city)&&(!vis||c.public===true));
+  const out=document.getElementById('candidatesOut');if(out)out.innerHTML=renderCandidates(r)||'<p class="sub">Nema kandidata.</p>';
+}
+function unlockCand(id){
+  const c=D.candidates.find(x=>x.id===id);
+  if(c.unlocked)return toast('Već otključano');
+  if(D.credits<=0)return toast('⚠️ Nema kredita. Kupi plan.');
+  c.unlocked=true;D.credits--;toast(`Otključan: ${c.name} · ostalo ${D.credits} kredita`);rCandidates();
+}
+
+// ── BILLING ──
+function rBilling(){
+  const plans=[
+    {name:'Starter',price:'25',features:['3 aktivna oglasa','10 unlock kredita/mj','Osnovna podrška'],color:'ghost'},
+    {name:'Growth',price:'80',features:['10 aktivnih oglasa','50 unlock kredita/mj','Logo firme na oglasima','Priority podrška'],color:'blue',active:D.plan==='Growth'},
+    {name:'Pro',price:'200',features:['Neograničeni oglasi','200 unlock kredita/mj','API pristup','Dedicated podrška'],color:'pink'}
+  ];
+  appPage(`<div class="sectionHead"><div><h2>Plan i uplate</h2><p class="sub">Bankovni transfer → admin potvrđuje → aktivacioni kod → plan aktivan.</p></div></div>
+  <div class="grid grid3" style="margin-bottom:20px">${plans.map(p=>`<div class="planCard ${p.active?'active':''}"><h2>${p.name}</h2><div class="planPrice">${p.price}€<span style="font-size:14px;font-weight:400"> /mjes</span></div><ul class="planFeat">${p.feats||p.features.map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn ${p.active?'lime':p.color}" onclick="orderPlan('${p.name}',${p.price})">${p.active?'✓ Aktivan plan':'Naruči'}</button></div>`).join('')}</div>
+  <div class="card"><div class="miniTitle">Aktiviraj kod</div><p class="sub" style="margin-bottom:12px">Nakon što admin potvrdi uplatu, generiše se aktivacioni kod i šalje ti na email.</p><div style="display:flex;gap:8px"><input id="activationCode" placeholder="WH-2026-XXXX-XXXX" style="flex:1;background:var(--soft);border:2px solid var(--line2);border-radius:14px;padding:11px 12px;font-weight:700"><button class="btn blue" onclick="activateCode()">Aktiviraj</button></div></div>
+  <div style="height:16px"></div>
+  <div class="card"><div class="miniTitle">Moje narudžbine</div>${ordersTable(true)}</div>`);
+}
+function orderPlan(plan,amount){
+  const id='WH-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000);
+  D.orders.unshift({id,co:'EventPro d.o.o.',plan,amount,status:'PENDING',date:new Date().toLocaleDateString('sr-ME'),code:''});
+  showModal(`<div class="sheetTop"><div><h3>Narudžba kreirana ✓</h3><p class="sub">Uplati na račun — admin potvrđuje u roku 24h.</p></div><button class="x" onclick="closeModal()">×</button></div>
+  <div class="bkBox"><b>Primalac:</b> WorkingHub d.o.o.<br><b>IBAN:</b> ME25 5050 0000 1234 5678 90<br><b>Iznos:</b> ${amount},00 EUR<br><b>Svrha uplate:</b> ${plan} plan<br><b>Poziv na broj:</b> ${id}</div>
+  <p class="sub" style="font-size:12px;margin-bottom:12px">Nakon uplate, admin potvrđuje i generiše aktivacioni kod koji stigne na tvoj email.</p>
+  <button class="btn blue" style="width:100%" onclick="closeModal();rBilling()">Razumijem</button>`);
+}
+function activateCode(){
+  const code=document.getElementById('activationCode')?.value.trim();
+  if(!code||!code.startsWith('WH-')){toast('⚠️ Upiši validan kod');return}
+  D.plan='Growth';D.credits+=50;
+  toast('🎉 Plan aktiviran! +50 kredita');closeModal();rBilling();
+}
+function ordersTable(showActivate=false){
+  return`<div class="tableLike">${D.orders.map(o=>`<div class="row"><div><b>${esc(o.id)}</b><small>${esc(o.co)} · ${o.date}</small>${o.code?`<br><small style="color:var(--green);font-family:monospace">Kod: ${esc(o.code)}</small>`:''}</div><div>${esc(o.plan)}<small>${o.amount}€</small></div><div>${badge(o.status,o.status==='PAID'?'green':o.status==='PENDING'?'orange':'gray')}</div><div>${D.role==='admin'&&o.status==='PENDING'?`<button class="btn blue xs" onclick="confirmOrder('${o.id}')">Potvrdi</button>`:o.status==='PAID'?`<button class="btn ghost xs" onclick="toast('Kod: ${esc(o.code)}')">Kod</button>`:badge('Čeka','gray')}</div></div>`).join('')}</div>`;
+}
 
 // ── ADMIN ──
-function rAdmin(){
-  document.getElementById('v-admin').innerHTML=ph('Admin panel','Potvrdi uplate, generiši kodove i moderiraj sadržaj.')+
-  `<div class="hint">💡 <strong>Workflow:</strong> Firma naruči → uplati → admin potvrdi → kod se generiše → firma aktivira plan.</div>`+
-  `<div class="cT">NARUDŽBINE</div>${D.orders.map(orderCard).join('')}<div class="sep"></div>`+
-  `<div class="cT">MODERACIJA OGLASA</div>${D.jobs.map(j=>`<div class="jc" style="margin-bottom:8px"><div class="jcT" style="margin-bottom:8px"><div><h3 style="font-size:13px;font-weight:600">${esc(j.title)}</h3><div class="jmeta">${esc(j.co)} · ${j.days}d${j.premium?' · <span style="color:var(--amber)">★ Premium</span>':''}</div></div>${bs(j.status)}</div><div class="brow"><button class="btn sm bg" onclick="toast('Oglas odobren ✓')">Odobri</button><button class="btn sm br" onclick="toast('Oglas uklonjen')">Ukloni</button><button class="btn sm" onclick="openJob(${j.id})">Detalji</button>${!j.premium?`<button class="btn sm ba" onclick="setPremium(${j.id})">★ Premium</button>`:''}</div></div>`).join('')}<div class="sep"></div>`+
-  `<div class="cT">PROMO BANERI</div>${D.banners.map(b=>`<div class="pmItem"><div class="pmItemTop"><div><div class="pmName">${b.ico} ${esc(b.co)}</div><div class="pmMeta">${esc(b.desc).slice(0,60)}...</div></div>${bs(b.status)}</div><div class="pmStats">Pregledi: <span>${b.imp.toLocaleString()}</span> Klikovi: <span>${b.clicks}</span></div><div class="brow" style="margin-top:8px"><button class="btn sm bg" onclick="approveBanner(${b.id})">✓ Odobri</button><button class="btn sm br" onclick="toast('Baner odbijen')">Odbij</button></div></div>`).join('')}`;
+function rOrders(){appPage(`<div class="sectionHead"><div><h2>Uplate i kodovi</h2><p class="sub">Admin potvrđuje bankovne uplate i generiše aktivacione kodove.</p></div></div><div class="card">${ordersTable()}</div>`)}
+function confirmOrder(id){
+  const o=D.orders.find(x=>x.id===id);
+  o.status='PAID';
+  o.code='WH-'+new Date().getFullYear()+'-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  toast('✓ Uplata potvrđena. Kod: '+o.code);
+  rOrders();
 }
-function confirmOrder(id){const o=D.orders.find(x=>x.id===id);o.status='PAID';const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=n=>Array.from({length:n},()=>ch[Math.floor(Math.random()*ch.length)]).join('');o.code=`WH-${new Date().getFullYear()}-${r(4)}-${r(4)}`;showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Uplata potvrđena ✓</div><div class="mSub">Aktivacioni kod je generisan.</div><div class="bkBox">Narudžba: <strong>${o.id}</strong><br>Firma: <strong>${esc(o.co)}</strong><br>Plan: <strong>${esc(o.plan)}</strong><br>Kod: <strong style="color:var(--green)">${o.code}</strong></div><button class="btn bp" style="width:100%" onclick="closeM();rAdmin();rDash()">Zatvori</button>`);}
-function cancelOrder(id){D.orders.find(x=>x.id===id).status='CANCELED';toast('Narudžba otkazana.');rAdmin();}
-function setPremium(id){D.jobs.find(x=>x.id===id).premium=true;toast('Oglas postavljen kao Premium ★');rAdmin();}
-function approveBanner(id){D.banners.find(x=>x.id===id).status='ACTIVE';toast('Baner odobren ✓');rAdmin();}
+function rModeration(){
+  appPage(`<div class="sectionHead"><div><h2>Moderacija oglasa</h2><p class="sub">Admin odobrava, ističe i uklanja oglase.</p></div><button class="btn ghost sm" onclick="exportData('oglasi')">Export</button></div>
+  <div class="jobList">${D.jobs.map(j=>`<div class="jobCard"><div class="logo" style="font-size:16px">${company(j.cid).logoImg?`<img src="${company(j.cid).logoImg}" alt="">`:esc(company(j.cid).logo)}</div><div><div class="tags" style="margin-bottom:6px">${badge(j.cat,'blue')}${badge(j.status,j.status==='ACTIVE'?'green':'gray')}${j.featured?badge('★ Istaknuto','orange'):''}</div><div class="jobTitle">${esc(j.title)}</div><p class="meta">${esc(j.co)} · ${esc(j.city)} · ${j.views} pregleda · ${j.apps} prijava</p></div><div class="jobSide"><button class="btn ghost sm" onclick="toast('Uredi: '+${j.id})">Uredi</button><button class="btn lime sm" onclick="D.jobs.find(j=>j.id===${j.id}).featured=true;toast('★ Istaknuto');rModeration()">Istakni</button><button class="btn red sm" onclick="D.jobs.find(j=>j.id===${j.id}).status='PAUSED';toast('Oglas pauziran');rModeration()">Pauziraj</button></div></div>`).join('')}`);
+}
+function rUsers(){
+  appPage(`<div class="sectionHead"><div><h2>Korisnici</h2><p class="sub">Lista kandidata i firmi.</p></div><button class="btn ghost sm" onclick="exportData('korisnici')">Export</button></div>
+  <div class="grid grid2">
+    <div class="card"><div class="miniTitle">Kandidati (${D.candidates.length})</div>${D.candidates.map(c=>`<div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)">${candAvEl(c,36)}<div><b style="font-size:13px">${esc(c.name)}</b><p class="sub" style="font-size:11px">${esc(c.city)} · ${esc(c.title)}</p></div>${badge(c.public?'PUBLIC':'PRIVATE',c.public?'green':'gray')}</div>`).join('')}</div>
+    <div class="card"><div class="miniTitle">Firme (${D.companies.length})</div>${D.companies.map(c=>`<div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)"><div class="logo" style="width:36px;height:36px;font-size:13px">${c.logoImg?`<img src="${c.logoImg}" alt="">`:esc(c.logo)}</div><div><b style="font-size:13px">${esc(c.name)}</b><p class="sub" style="font-size:11px">${esc(c.city)} · ${esc(c.email)}</p></div></div>`).join('')}</div>
+  </div>`);
+}
+function exportData(type){toast('Export simulacija: '+type+'.csv')}
 
-// ── NOTIFICATIONS ──
-function rNotif(){const u=D.notifs.filter(n=>!n.read).length;document.getElementById('v-notif').innerHTML=ph('Obavijesti','',u?`<button class="btn" onclick="markRead()">Sve pročitano</button>`:'')+(D.notifs.length?D.notifs.map(n=>`<div class="nc ${n.read?'read':''}"><div class="ndot"></div><div><div class="ntext">${esc(n.txt)}</div><div class="ntime">${esc(n.time)}</div></div></div>`).join(''):'<div class="empty"><div class="ei">🔔</div><p>Nema obavijesti.</p></div>');}
-function markRead(){D.notifs.forEach(n=>n.read=true);buildTabs();rNotif();toast('Sve pročitano ✓');}
-
-// ── JOB MODAL ──
-function openJob(id){const j=D.jobs.find(x=>x.id===id);if(!j)return;const app=D.myApps.some(a=>a.jid===id);showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:13px"><div><div style="font-size:18px;font-weight:700;letter-spacing:-.03em">${esc(j.title)}</div><div style="font-size:12px;color:var(--muted);margin-top:3px">${esc(j.co)} · ${esc(j.loc)} · ${esc(j.type)}</div></div>${bs(j.status)}</div><div class="tags" style="margin-bottom:11px">${j.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:13px;font-size:12px;color:var(--muted);line-height:1.75;margin-bottom:11px">${esc(j.desc)}</div><div class="grid2" style="margin-bottom:14px;font-size:12px"><div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:11px"><div style="color:var(--muted);font-size:10px;font-weight:600;letter-spacing:.07em;margin-bottom:3px">PLATA</div><strong>${esc(j.sal)}</strong></div><div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:11px"><div style="color:var(--muted);font-size:10px;font-weight:600;letter-spacing:.07em;margin-bottom:3px">PRIJAVE</div><strong>${j.apps}</strong></div></div>${D.role==='candidate'?`<button class="btn ${app?'':'bp'}" style="width:100%" onclick="${app?'toast(\'Već si aplicirala.\')':'applyFlow('+id+')'}">${app?'✓ Već aplicirala':'Apliciraj na oglas'}</button>`:''}`);} 
-function openJobByTitle(t){const j=D.jobs.find(x=>x.title===t);if(j)openJob(j.id);}
-function applyFlow(id){const j=D.jobs.find(x=>x.id===id);showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Apliciraj</div><div class="mSub">${esc(j.title)} · ${esc(j.co)}</div><div class="hint">Uz prijavu se šalje tvoj CV profil. Cover letter je opciono.</div><div><label class="fl">Cover letter</label><textarea class="fi" id="m-cl" placeholder="Zašto si pravi izbor?"></textarea></div><div class="brow" style="margin-top:12px"><button class="btn bp" style="flex:1" onclick="doApply(${id})">Pošalji prijavu →</button><button class="btn" onclick="closeM()">Otkaži</button></div>`);}
-function doApply(id){const j=D.jobs.find(x=>x.id===id);if(D.myApps.some(a=>a.jid===id)){toast('Već si aplicirala.');closeM();return;}const cl=document.getElementById('m-cl')?.value||'';D.myApps.unshift({jid:id,title:j.title,co:j.co,status:'APPLIED',date:new Date().toLocaleDateString('sr-ME'),cl});j.apps++;D.notifs.unshift({id:Date.now(),txt:`Prijava poslata: ${j.title} · ${j.co}`,time:'Upravo',read:false});closeM();toast('Prijava poslata ✓');buildTabs();}
-
-// ── BANNER MGMT ──
-function promoBannerMgrHTML(){return D.banners.map(b=>`<div class="pmItem"><div class="pmItemTop"><div><div class="pmName">${b.ico} ${esc(b.co)}</div><div class="pmMeta">Promo baner · ${b.color.replace('pb-','').toUpperCase()}</div></div>${bs(b.status)}</div><div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5">"${esc(b.desc)}"</div><div class="pmStats">Pregledi: <span>${b.imp.toLocaleString()}</span> Klikovi: <span>${b.clicks}</span> CTR: <span>${b.imp?((b.clicks/b.imp)*100).toFixed(1):'0.0'}%</span></div><div class="brow" style="margin-top:9px"><button class="btn sm ${b.status==='ACTIVE'?'ba':'bg'}" onclick="toggleBanner(${b.id})">${b.status==='ACTIVE'?'Pauziraj':'Aktiviraj'}</button><button class="btn sm br" onclick="deleteBanner(${b.id})">Ukloni</button></div></div>`).join('')||'<div class="empty"><div class="ei">📣</div><p>Nema banera.</p></div>';}
-function toggleBanner(id){const b=D.banners.find(x=>x.id===id);b.status=b.status==='ACTIVE'?'PAUSED':'ACTIVE';toast(`Baner → ${b.status}`);rDash();}
-function deleteBanner(id){D.banners=D.banners.filter(x=>x.id!==id);toast('Baner uklonjen.');rDash();}
-function newBannerM(){showM(`<div class="mX"><button onclick="closeM()">✕</button></div><div class="mTitle">Novi promo baner</div><div class="mSub">Prikazuje se kandidatima na početnoj i između oglasa. Čeka admin odobrenje.</div><div class="fg"><div><label class="fl">Tekst banera</label><input class="fi" id="nb-desc" placeholder="Aktivno zapošljavamo!"></div><div><label class="fl">CTA</label><input class="fi" id="nb-cta" value="Pogledaj pozicije"></div><div><label class="fl">Boja</label><select class="fi" id="nb-col"><option value="pb-blue">Plava</option><option value="pb-amber">Zlatna</option><option value="pb-green">Zelena</option><option value="pb-teal">Teal</option></select></div><div class="hint">Baner košta <strong>15€/7 dana</strong>.</div><button class="btn bp" onclick="createBanner()">Naruči baner</button></div>`);}
-function createBanner(){const desc=document.getElementById('nb-desc').value.trim();if(!desc){toast('Upiši tekst banera');return;}D.banners.push({id:Date.now(),co:'EventPro',ico:'🏢',color:document.getElementById('nb-col').value,desc,cta:document.getElementById('nb-cta').value||'Saznaj više',status:'PAUSED',clicks:0,imp:0});D.orders.unshift({id:'WH-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000),co:'EventPro',plan:'Promo baner',amt:15,status:'PENDING',date:new Date().toLocaleDateString('sr-ME'),code:''});closeM();toast('Baner kreiran — čeka odobrenje ✓');rDash();}
-
-// ── MODAL & TOAST ──
-function showM(html){document.getElementById('mSheet').innerHTML=html;document.getElementById('modal').classList.add('open');}
-function closeM(){document.getElementById('modal').classList.remove('open');}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(window.__t);window.__t=setTimeout(()=>t.classList.remove('on'),2600);}
-
-const RR={dash:rDash,onboarding:rOnboarding,jobs:rJobs,profile:rProfile,myapps:rMyApps,notif:rNotif,cjobs:rCJobs,newjob:rNewJob,ats:rAts,cands:rCands,sub:rSub,admin:rAdmin};
-renderAuth();
+// ── INIT ──
+updateNav();
+rHome();
 </script>
 </body>
 </html>
