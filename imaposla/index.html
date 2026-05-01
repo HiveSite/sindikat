@@ -59,7 +59,7 @@
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <button class="close" data-action="close-login" aria-label="Zatvori">x</button>
       <h2 id="login-title">Prijava na demo nalog</h2>
-      <p class="muted">Izaberi ulogu da vidiš kako izgleda put kandidata, firme ili admina. Supabase login ćemo povezati u sljedećoj fazi.</p>
+      <p class="muted">Izaberi ulogu da vidiš kako izgleda put kandidata, firme ili admina. Pravi login radi preko Supabase Auth-a nakon što pokrenemo šemu baze.</p>
       <div class="role-grid">
         <button data-role-login="candidate">Kandidat</button>
         <button data-role-login="company">Firma</button>
@@ -77,6 +77,8 @@
       location.hash = '/oglasi';
     }, true);
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase.js"></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
