@@ -53,6 +53,10 @@ drop policy if exists "admin all orders" on public.orders;
 
 drop policy if exists "company reads own subscriptions" on public.subscriptions;
 drop policy if exists "admin all subscriptions" on public.subscriptions;
+drop policy if exists "subscriptions read access" on public.subscriptions;
+drop policy if exists "subscriptions insert admin" on public.subscriptions;
+drop policy if exists "subscriptions update admin" on public.subscriptions;
+drop policy if exists "subscriptions delete admin" on public.subscriptions;
 
 drop policy if exists "public approved banners" on public.banners;
 drop policy if exists "company reads own banners" on public.banners;
@@ -270,10 +274,18 @@ using (
   or exists (select 1 from public.companies c where c.id = subscriptions.company_id and c.owner_id = (select auth.uid()))
 );
 
-create policy "subscriptions admin access" on public.subscriptions
-for all
+create policy "subscriptions insert admin" on public.subscriptions
+for insert
+with check ((select private.is_admin()));
+
+create policy "subscriptions update admin" on public.subscriptions
+for update
 using ((select private.is_admin()))
 with check ((select private.is_admin()));
+
+create policy "subscriptions delete admin" on public.subscriptions
+for delete
+using ((select private.is_admin()));
 
 -- Banners
 create policy "banners read access" on public.banners
