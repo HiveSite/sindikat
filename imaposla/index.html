@@ -58,25 +58,12 @@
   <div class="modal" data-modal aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <button class="close" data-action="close-login" aria-label="Zatvori">x</button>
-      <h2 id="login-title">Prijava na demo nalog</h2>
-      <p class="muted">Izaberi ulogu da vidiš kako izgleda put kandidata, firme ili admina. Pravi login radi preko Supabase Auth-a nakon što pokrenemo šemu baze.</p>
-      <div class="role-grid">
-        <button data-role-login="candidate">Kandidat</button>
-        <button data-role-login="company">Firma</button>
-        <button data-role-login="admin">Admin</button>
-      </div>
+      <h2 id="login-title">Prijava</h2>
+      <p class="muted">Prijava i registracija rade preko Supabase Auth-a.</p>
     </div>
   </div>
 
   <div class="toast" data-toast role="status" aria-live="polite"></div>
-  <script>
-    document.addEventListener('submit', function(event) {
-      if (!event.target.matches('[data-search]')) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      location.hash = '/oglasi';
-    }, true);
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./supabase.js"></script>
   <script src="./app.js" defer></script>
