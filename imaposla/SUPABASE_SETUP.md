@@ -8,31 +8,34 @@ https://fjfnnpgaveoonfmwztnr.supabase.co
 
 Publishable key je upisan u `supabase.js`. Secret key se ne stavlja u frontend.
 
-## Redosljed
+## Redosljed za launch
 
 1. Supabase Dashboard -> SQL Editor -> New query.
-2. Pokreni `supabase-schema.sql`.
-3. Zatim pokreni `supabase-auth-policies.sql`.
+2. Ako vec nisi: pokreni `supabase-schema.sql`.
+3. Pokreni najnoviji `supabase-auth-policies.sql`.
 4. Authentication -> Providers -> Email mora biti ukljucen.
-5. Za brzi test mozes privremeno iskljuciti email confirmation. Za produkciju ga ukljuci.
-6. Storage bucketi se kreiraju iz SQL-a:
-   - `avatars` public
-   - `company-logos` public
-   - `banners` public
-   - `candidate-cv` private
+5. Authentication -> Users -> Add user: kreiraj naloge iz `LAUNCH_ACCOUNTS.md`.
+6. SQL Editor -> pokreni `launch-accounts.sql`.
+7. Otvori sajt i testiraj:
+   - `admin@imaposla.me`
+   - `firma@imaposla.me`
+   - `kandidat@imaposla.me`
 
 ## Sta je povezano u frontendu
 
 - Supabase client se ucitava preko `supabase.js`.
-- Pocetna, oglasi i firme prvo pokusavaju da citaju iz Supabase tabela.
-- Ako tabele jos nisu napravljene ili su prazne, sajt ostaje na demo podacima.
-- Login i registracija forma koriste Supabase Auth.
+- Javni oglasi i firme citaju se iz Supabase tabela.
+- Registracija i prijava koriste Supabase Auth.
+- Firma moze kreirati profil firme i oglas.
+- Oglas ide u `pending_review` dok admin ne odobri.
+- Kandidat moze poslati prijavu na oglas.
+- Kandidat moze uploadovati CV u private bucket `candidate-cv`.
+- Admin moze vidjeti korisnike, firme, oglase i odobravati/pauzirati oglase.
 
-## Sta jos ostaje nakon SQL-a
+## Sta ostaje poslije osnovnog launch-a
 
-- Upis novih oglasa u bazu.
-- Prava prijava kandidata na oglas.
-- Upload CV fajla u private bucket.
-- Upload loga firme.
-- Admin odobravanje oglasa/firme iz pravih tabela.
 - Email notifikacije.
+- Napredna naplata i fakture.
+- Javni profili kandidata.
+- Detaljna ATS istorija i komentari.
+- Finalni pravni tekstovi za privatnost i uslove.
