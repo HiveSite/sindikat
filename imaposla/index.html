@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="sr-ME">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="imaposla.me - poslovi, kandidati i poslodavci na jednom mjestu.">
+  <title>imaposla.me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/">
+      <span class="brand-mark">ip</span>
+      <span>imaposla.me</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Glavna navigacija">
+      <a href="#/oglasi">Oglasi</a>
+      <a href="#/gradovi">Gradovi</a>
+      <a href="#/kategorije">Kategorije</a>
+      <a href="#/firme">Firme</a>
+      <a href="#/za-firme">Za firme</a>
+    </nav>
+    <div class="top-actions">
+      <button class="ghost-button" data-action="open-login">Prijava</button>
+      <a class="primary-button" href="#/firma/novi-oglas">Objavi oglas</a>
+      <button class="menu-button" data-action="toggle-menu" aria-label="Otvori meni">Meni</button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <a href="#/oglasi">Oglasi</a>
+    <a href="#/gradovi">Gradovi</a>
+    <a href="#/kategorije">Kategorije</a>
+    <a href="#/firme">Firme</a>
+    <a href="#/za-firme">Za firme</a>
+    <a href="#/profil/dashboard">Kandidat</a>
+    <a href="#/firma/dashboard">Firma</a>
+    <a href="#/admin/dashboard">Admin</a>
+  </div>
+
+  <main id="app" class="app" tabindex="-1"></main>
+
+  <footer class="footer">
+    <div>
+      <strong>imaposla.me</strong>
+      <p>Platforma za oglase, prijave i jednostavnije zapošljavanje u Crnoj Gori.</p>
+    </div>
+    <div>
+      <a href="#/politika-privatnosti">Privatnost</a>
+      <a href="#/uslovi-koristenja">Uslovi</a>
+      <a href="#/sitemap">Sitemap</a>
+    </div>
+  </footer>
+
+  <div class="modal" data-modal aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
+      <button class="close" data-action="close-login" aria-label="Zatvori">x</button>
+      <h2 id="login-title">Prijava na demo nalog</h2>
+      <p class="muted">Izaberi ulogu da vidiš kako izgleda put kandidata, firme ili admina. Supabase login ćemo povezati u sljedećoj fazi.</p>
+      <div class="role-grid">
+        <button data-role-login="candidate">Kandidat</button>
+        <button data-role-login="company">Firma</button>
+        <button data-role-login="admin">Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
