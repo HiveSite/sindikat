@@ -43,7 +43,7 @@
   async function renderHome() {
     if (route() !== '/') return;
     const app = root();
-    if (!app) return;
+    if (!app || app.querySelector('.live-home')) return;
     const me = await account();
     const jobs = await activeJobs(3);
     const action = me.role === 'company' ? ['Pregled firme', '#/firma/dashboard'] : me.role === 'candidate' ? ['Moje prijave', '#/profil/prijave'] : me.role === 'admin' ? ['Upravljanje', '#/admin/dashboard'] : ['Prijava', '#/login?mode=signin'];
@@ -129,6 +129,8 @@
     const insert = await db.from('payment_proofs').insert({ company_id: me.company.id, order_id: orderId, proof_path: proofPath, file_name: file.name, note, status: 'pending' });
     if (insert.error) return toast(insert.error.message || 'Dokaz nije upisan u bazu.');
     toast('Dokaz je poslat na provjeru.');
+    const panel = root()?.querySelector('[data-live-payment]');
+    if (panel) panel.remove();
     setTimeout(run, 120);
   }
 
