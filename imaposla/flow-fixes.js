@@ -78,6 +78,20 @@
     root.innerHTML = `<section class="grid two"><div class="panel"><span class="kicker">Prijava</span><h1>Uđi na svoj nalog</h1><p class="lead">Unesi email i lozinku. Sistem sam otvara pravi dashboard za tvoj nalog.</p><div class="actions"><a class="btn ghost" href="#/login?mode=choose-role">Nemam nalog</a><a class="btn ghost" href="#/login">Nazad</a></div></div><form class="form-card" data-auth-form="signin"><label><span class="label">Email</span><input class="field" name="email" type="email" autocomplete="email" required></label><label><span class="label">Lozinka</span><input class="field" name="password" type="password" autocomplete="current-password" required></label><button class="btn blue">Prijavi se</button><p class="flow-login-note">Ako prijava uspije, a ne otvori se dashboard, profilu vjerovatno nije dodijeljena prava uloga u bazi.</p></form></section>`;
   }
 
+  function renderInfoPages() {
+    const root = app();
+    if (!root) return;
+    if (currentPath() === '/politika-privatnosti') {
+      root.innerHTML = `<section class="panel"><span class="kicker">Privatnost</span><h1>Politika privatnosti</h1><p class="lead">imaposla.me čuva podatke samo za povezivanje kandidata i poslodavaca. Podaci se koriste za nalog, prijave, komunikaciju i sigurnost platforme.</p><ul class="info-list"><li><strong>Podaci kandidata</strong>Ime, email, telefon, grad, CV, poruka uz prijavu i status prijave.</li><li><strong>Podaci firme</strong>Naziv, opis, grad, industrija, oglasi, prijave, uplate i baneri.</li><li><strong>Ko vidi podatke</strong>Firma vidi podatke kandidata samo kada kandidat pošalje prijavu. Javni posjetioci vide samo javne oglase i profile firmi.</li><li><strong>Brisanje i izmjene</strong>Korisnik može zatražiti izmjenu ili brisanje podataka preko kontakt emaila vlasnika platforme.</li></ul></section>`;
+    }
+    if (currentPath() === '/uslovi-koristenja') {
+      root.innerHTML = `<section class="panel"><span class="kicker">Uslovi</span><h1>Uslovi korišćenja</h1><p class="lead">Platforma služi za objavu poslova, slanje prijava i vođenje selekcije. Korisnici su odgovorni za tačnost informacija koje unose.</p><ul class="info-list"><li><strong>Kandidati</strong>Ne šalju netačne podatke, tuđe CV fajlove ili neprimjeren sadržaj.</li><li><strong>Firme</strong>Objavljuju stvarne oglase, jasne uslove rada i poštuju privatnost kandidata.</li><li><strong>Provjera objava</strong>Firme, oglasi, uplate i baneri mogu čekati provjeru prije javnog prikaza.</li><li><strong>Zabrane</strong>Nije dozvoljen spam, lažno predstavljanje, diskriminatoran sadržaj ili zloupotreba kontakt podataka.</li></ul></section>`;
+    }
+    if (currentPath() === '/sitemap') {
+      root.innerHTML = `<section class="panel"><span class="kicker">Mapa sajta</span><h1>Sitemap</h1><p class="lead">Brzi pregled najvažnijih djelova platforme po tipu korisnika.</p><div class="grid three"><div class="card"><h3>Javno</h3><p>Početna, oglasi, detalj oglasa, gradovi, kategorije, firme i stranica za poslodavce.</p><div class="actions"><a class="btn blue sm" href="#/oglasi">Oglasi</a><a class="btn ghost sm" href="#/firme">Firme</a></div></div><div class="card"><h3>Kandidat</h3><p>Dashboard, CV profil, prijave, obavještenja i podešavanja naloga.</p><div class="actions"><a class="btn lime sm" href="#/profil/dashboard">Kandidat</a></div></div><div class="card"><h3>Firma</h3><p>Profil firme, oglasi, novi oglas, ATS, kandidati, pretplata, baneri i podešavanja.</p><div class="actions"><a class="btn blue sm" href="#/firma/dashboard">Firma</a></div></div></div></section>`;
+    }
+  }
+
   function cleanPublicAdminCopy() {
     document.querySelectorAll('a[href="#/admin/dashboard"]').forEach((node) => node.remove());
     const publicPage = ['/', '/za-firme', '/sitemap'].includes(currentPath());
@@ -98,6 +112,25 @@
     });
   }
 
+  function ensureMobileNav(role) {
+    let nav = document.querySelector('[data-mobile-app-nav]');
+    if (!nav) {
+      nav = document.createElement('nav');
+      nav.className = 'mobile-app-nav';
+      nav.dataset.mobileAppNav = 'true';
+      nav.setAttribute('aria-label', 'Mobilna navigacija');
+      document.body.appendChild(nav);
+    }
+    const items = role === 'company'
+      ? [['🏠','Firma','/firma/dashboard'],['📋','Oglasi','/firma/oglasi'],['＋','Novi','/firma/novi-oglas'],['☷','ATS','/firma/ats'],['⚙','Podeš.','/firma/podesavanja']]
+      : role === 'admin'
+        ? [['🏠','Admin','/admin/dashboard'],['€','Uplate','/admin/uplate'],['✓','Oglasi','/admin/oglasi'],['👥','Korisnici','/admin/korisnici'],['▣','Stat','/admin/statistike']]
+        : role === 'candidate'
+          ? [['⌂','Početna','/'],['🔎','Oglasi','/oglasi'],['CV','CV','/profil/cv'],['✉','Prijave','/profil/prijave'],['⚙','Podeš.','/profil/podesavanja']]
+          : [['⌂','Početna','/'],['🔎','Oglasi','/oglasi'],['▦','Firme','/firme'],['＋','Oglas','/login?mode=signup&role=company'],['↪','Login','/login']];
+    nav.innerHTML = items.map(([icon,label,path]) => `<a class="${currentPath() === path ? 'active' : ''}" href="#${path}"><span>${icon}</span>${label}</a>`).join('');
+  }
+
   async function syncChrome(force = false) {
     const actions = document.querySelector('.top-actions');
     if (!actions) return;
@@ -105,6 +138,7 @@
     const role = profile?.role || 'guest';
     const pill = document.querySelector('[data-role-pill]');
     if (pill) pill.textContent = roleLabel[role] || 'Gost';
+    ensureMobileNav(role);
 
     const oldPost = actions.querySelector('a[href="#/firma/novi-oglas"]');
     if (oldPost) oldPost.setAttribute('href', '#/login?mode=signup&role=company');
@@ -137,8 +171,13 @@
     }
   }
 
+  function closeMobileMenu() {
+    document.querySelector('[data-mobile-menu]')?.classList.remove('open');
+  }
+
   async function afterRender(force = false) {
     if (currentPath() === '/login') renderLoginPage();
+    renderInfoPages();
     cleanPublicAdminCopy();
     await syncChrome(force);
     finishRoute();
@@ -179,18 +218,23 @@
 
   document.addEventListener('click', async (event) => {
     const target = event.target.closest('button,a');
+    const menu = document.querySelector('[data-mobile-menu]');
+    if (menu?.classList.contains('open') && !event.target.closest('[data-mobile-menu]') && !event.target.closest('[data-action="toggle-menu"]')) closeMobileMenu();
     if (!target) return;
+    if (target.matches('[data-mobile-menu] a')) closeMobileMenu();
     if (target.matches('a[href^="#/"]')) startRoute();
     if (target.matches('[data-flow-signout]')) {
       event.preventDefault();
       await db?.auth?.signOut();
       clearProfileCache();
+      closeMobileMenu();
       toast('Odjavljen si.');
       go('/');
       setTimeout(() => afterRender(true), 50);
     }
     if (target.matches('[data-action="open-login"]')) {
       event.preventDefault();
+      closeMobileMenu();
       startRoute();
       go('/login');
     }
@@ -201,6 +245,7 @@
     setTimeout(() => afterRender(true), 60);
   });
   window.addEventListener('hashchange', () => {
+    closeMobileMenu();
     startRoute();
     setTimeout(() => afterRender(false), 30);
   });
