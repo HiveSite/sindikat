@@ -7,7 +7,7 @@
   const roleHome = { candidate: '/profil/dashboard', company: '/firma/dashboard', admin: '/admin/dashboard', guest: '/' };
 
   const textReplacements = [
-    [/ATS prijave/g, 'Selekcija prijava'], [/\bATS\b/g, 'Selekcija'], [/Firma dashboard/g, 'Pregled firme'], [/Kandidat dashboard/g, 'Pregled kandidata'], [/\bDashboard\b/g, 'Pregled'], [/\bdashboard\b/g, 'pregled'], [/\bLogin\b/g, 'Prijava'], [/\blogin\b/g, 'prijava'], [/CV profil/g, 'Biografija'], [/CV fajlove/g, 'radne biografije'], [/\bCV\b/g, 'Biografija'], [/\bEmail\b/g, 'E-pošta'], [/\bemaila\b/g, 'e-pošte'], [/\bemail\b/g, 'e-pošta'], [/\bSitemap\b/g, 'Mapa sajta'], [/\bAdmin\b/g, 'Upravljanje']
+    [/ATS prijave/g, 'Selekcija prijava'], [/\bATS\b/g, 'Selekcija'], [/Firma dashboard/g, 'Pregled firme'], [/Kandidat dashboard/g, 'Pregled kandidata'], [/\bDashboard\b/g, 'Pregled'], [/\bdashboard\b/g, 'pregled'], [/\bLogin\b/g, 'Prijava'], [/\blogin\b/g, 'prijava'], [/CV profil/g, 'Biografija'], [/CV fajlove/g, 'radne biografije'], [/\bCV\b/g, 'Biografija'], [/\bEmail\b/g, 'E-pošta'], [/\bemaila\b/g, 'e-pošte'], [/\bemail\b/g, 'e-pošta'], [/\bSitemap\b/g, 'Mapa sajta'], [/\bAdmin\b/g, 'Upravljanje'], [/\badmin\b/g, 'upravljanje']
   ];
 
   const showToast = (message) => {
@@ -31,9 +31,13 @@
   async function getLatestJobs() {
     try {
       if (!db?.from) return [];
-      const { data } = await db.from('jobs').select('id,title,city,category,employment_type,salary,status,companies(name)').eq('status', 'approved').order('created_at', { ascending: false }).limit(3);
+      const { data } = await db.from('jobs').select('id,title,contract_type,salary_text,status,companies(name),categories(name),cities(name)').eq('status', 'active').order('created_at', { ascending: false }).limit(3);
       return Array.isArray(data) ? data : [];
     } catch (_) { return []; }
+  }
+
+  function slug(value) {
+    return String(value || 'oglas').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'oglas';
   }
 
   function translateVisibleText(root = document.body) {
@@ -57,6 +61,7 @@
   async function renderUsefulHome(account) {
     const root = app();
     if (!root || currentPath() !== '/') return;
+    if (window.imaposlaLiveReadyHome !== false) return;
     const jobs = await getLatestJobs();
     const accountCta = account.role === 'company' ? ['Pregled firme', '#/firma/dashboard'] : account.role === 'candidate' ? ['Moje prijave', '#/profil/prijave'] : account.role === 'admin' ? ['Upravljanje', '#/admin/dashboard'] : ['Kreiraj nalog', '#/login?mode=choose-role'];
     root.innerHTML = `
@@ -71,8 +76,8 @@
         <a class="home-role-card" href="#/oglasi"><span>Kandidat</span><h2>Tražim posao</h2><p>Pregledaj oglase, otvori detalje posla i pošalji prijavu sa radnom biografijom.</p><strong>Otvori oglase</strong></a>
         <a class="home-role-card" href="#/login?mode=signup&role=company"><span>Firma</span><h2>Zapošljavam</h2><p>Kreiraj nalog firme, pripremi profil i objavi oglas za provjeru.</p><strong>Kreni kao firma</strong></a>
       </section>
-      <section class="home-section-head"><div><span class="kicker">Aktuelno</span><h2>Najnoviji oglasi</h2><p>Ovdje su samo odobreni oglasi koji su spremni za kandidate.</p></div><a class="btn ghost sm" href="#/oglasi">Svi oglasi</a></section>
-      <section class="home-jobs-grid">${jobs.length ? jobs.map((job) => `<a class="job-card" href="#/oglas/${job.id}"><span class="kicker">${job.city || 'Crna Gora'}</span><h3>${job.title || 'Oglas za posao'}</h3><p>${job.companies?.name || 'Firma'} · ${job.category || 'Kategorija'} · ${job.employment_type || 'Dogovor'}</p><strong>${job.salary || 'Plata po dogovoru'}</strong></a>`).join('') : `<div class="empty home-empty"><h3>Još nema odobrenih oglasa</h3><p>Kada firma pošalje oglas i bude odobren, pojaviće se ovdje.</p><div class="actions"><a class="btn blue" href="#/oglasi">Pretraga oglasa</a><a class="btn lime" href="#/login?mode=signup&role=company">Objavi oglas</a></div></div>`}</section>`;
+      <section class="home-section-head"><div><span class="kicker">Aktuelno</span><h2>Najnoviji oglasi</h2><p>Ovdje su samo aktivni i odobreni oglasi koji su spremni za kandidate.</p></div><a class="btn ghost sm" href="#/oglasi">Svi oglasi</a></section>
+      <section class="home-jobs-grid">${jobs.length ? jobs.map((job) => `<a class="job-card" href="#/oglasi/${slug(job.title)}-${job.id}"><span class="kicker">${job.cities?.name || 'Crna Gora'}</span><h3>${job.title || 'Oglas za posao'}</h3><p>${job.companies?.name || 'Firma'} · ${job.categories?.name || 'Kategorija'} · ${job.contract_type || 'Dogovor'}</p><strong>${job.salary_text || 'Plata po dogovoru'}</strong></a>`).join('') : `<div class="empty home-empty"><h3>Još nema aktivnih oglasa</h3><p>Kada firma pošalje oglas i bude odobren, pojaviće se ovdje.</p><div class="actions"><a class="btn blue" href="#/oglasi">Pretraga oglasa</a><a class="btn lime" href="#/login?mode=signup&role=company">Objavi oglas</a></div></div>`}</section>`;
   }
 
   function renderAuthPages(account) {
@@ -92,7 +97,7 @@
       root.innerHTML = `<section class="auth-shell auth-two"><div><span class="page-label">Registracija</span><h1>${role === 'company' ? 'Nalog firme' : 'Nalog kandidata'}</h1><p>${role === 'company' ? 'Koristi se za profil firme, oglase i pregled prijava. Poslije registracije otvara se pregled firme.' : 'Koristi se za biografiju, prijave i praćenje statusa oglasa.'}</p><div class="auth-actions"><a class="btn ghost" href="#/login?mode=choose-role">Promijeni ulogu</a><a class="btn ghost" href="#/login?mode=signin">Imam nalog</a></div></div><form class="auth-form" data-final-auth="signup"><input type="hidden" name="role" value="${role}"><label><span class="label">E-pošta</span><input class="field" name="email" type="email" autocomplete="email" required></label><label><span class="label">Lozinka</span><input class="field" name="password" type="password" autocomplete="new-password" minlength="8" required></label><button class="btn blue">Kreiraj nalog</button><p>Lozinka treba da ima najmanje 8 znakova.</p></form></section>`;
       return;
     }
-    root.innerHTML = `<section class="auth-shell auth-two"><div><span class="page-label">Prijava</span><h1>Uđi na svoj nalog.</h1><p>Unesi e-poštu i lozinku. Sistem sam otvara pregled koji pripada tvojoj ulozi: kandidat, firma ili upravljanje.</p><div class="auth-actions"><a class="btn lime" href="#/login?mode=choose-role">Kreiraj nalog</a></div></div><form class="auth-form" data-final-auth="signin"><label><span class="label">E-pošta</span><input class="field" name="email" type="email" autocomplete="email" required></label><label><span class="label">Lozinka</span><input class="field" name="password" type="password" autocomplete="current-password" required></label><button class="btn blue">Prijavi se</button><p>Admin/upravljanje se ne bira javno. Ulazi samo nalog koji već ima tu ulogu u bazi.</p></form></section>`;
+    root.innerHTML = `<section class="auth-shell auth-two"><div><span class="page-label">Prijava</span><h1>Uđi na svoj nalog.</h1><p>Unesi e-poštu i lozinku. Sistem sam otvara pregled koji pripada tvojoj ulozi: kandidat, firma ili upravljanje.</p><div class="auth-actions"><a class="btn lime" href="#/login?mode=choose-role">Kreiraj nalog</a></div></div><form class="auth-form" data-final-auth="signin"><label><span class="label">E-pošta</span><input class="field" name="email" type="email" autocomplete="email" required></label><label><span class="label">Lozinka</span><input class="field" name="password" type="password" autocomplete="current-password" required></label><button class="btn blue">Prijavi se</button><p>Upravljanje se ne bira javno. Sistem sam otvara taj dio samo nalogu koji već ima tu ulogu u bazi.</p></form></section>`;
   }
 
   function improveSelectionPage() {
