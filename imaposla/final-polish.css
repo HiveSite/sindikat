@@ -9,8 +9,14 @@
 .selection-page .kanban{gap:12px;align-items:stretch}
 .selection-page .kanban-column{width:min(310px,82vw);min-width:260px}
 .selection-page .candidate-card{overflow:hidden}
+.auth-gate{display:grid;gap:14px;padding:26px;border:2px solid #0b0d0a;border-radius:28px;background:var(--paper);box-shadow:var(--shadow)}
+.auth-gate h1{margin:0;font-size:clamp(30px,5vw,52px);line-height:1}
+.auth-gate p{max-width:680px;color:var(--muted);font-weight:760;line-height:1.55}
+.account-state{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid #0b0d0a;border-radius:999px;background:var(--lime);color:#10120f;font-size:12px;font-weight:950;box-shadow:3px 3px 0 #0b0d0a}
+.account-state:before{content:"";width:8px;height:8px;border-radius:50%;background:#10120f}
 
-[data-theme="dark"] .selection-intro{background:#191c17;border-color:#0b0d0a;box-shadow:0 18px 52px rgba(0,0,0,.36)}
+[data-theme="dark"] .selection-intro,
+[data-theme="dark"] .auth-gate{background:#191c17;border-color:#0b0d0a;box-shadow:0 18px 52px rgba(0,0,0,.36)}
 [data-theme="dark"] .selection-steps div{background:#23271f;border-color:#58624f}
 [data-theme="dark"] .table-card,
 [data-theme="dark"] table,
@@ -27,6 +33,15 @@
 [data-theme="dark"] .segmented .active{background:var(--lime);color:#10120f}
 
 @media (max-width:980px){
+  body{padding-bottom:88px!important}
+  .desktop-nav,.hamb,[data-mobile-menu],.mobile-nav{display:none!important}
+  .top-in{height:62px;gap:8px}
+  .top-actions{gap:8px}
+  .top-actions .btn.blue,.top-actions .flow-account-link,.top-actions [data-flow-signout]{display:none!important}
+  .role-pill{max-width:116px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .app{padding-top:18px!important}
+  .dashboard-layout,.account-layout,.profile-layout,.company-layout,.admin-layout{display:block!important}
+  .sidebar,.side-nav,.account-sidebar{display:none!important}
   .selection-steps{grid-template-columns:1fr}
   .selection-intro{border-radius:24px;padding:18px;margin-bottom:14px}
   .selection-intro h1{font-size:34px;line-height:1}
@@ -35,15 +50,18 @@
   .kanban-column,.selection-page .kanban-column{width:100%!important;min-width:0!important;max-width:none!important;border-radius:22px!important}
   .kanban-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .candidate-card{padding:14px!important;border-radius:18px!important}
+  .mobile-app-nav{grid-template-columns:repeat(5,1fr)!important}
+  .mobile-app-nav a[data-mobile-signout="true"]{background:#ff8179;color:#10120f}
 }
 
 @media (max-width:560px){
+  .top{border-bottom:1px solid rgba(11,13,10,.08)}
+  .brand span:last-child{font-size:20px}
   .selection-intro{padding:16px;border-radius:20px}
   .selection-intro h1{font-size:30px}
   .selection-intro p{font-size:14px;line-height:1.5}
   .selection-steps div{padding:12px;border-radius:16px}
   .mobile-app-nav a{font-size:9.5px;letter-spacing:0;white-space:nowrap}
   .mobile-app-nav a span{font-size:16px}
-  .sidebar{border-radius:24px!important;padding:16px!important}
   .footer{padding-bottom:96px}
 }
