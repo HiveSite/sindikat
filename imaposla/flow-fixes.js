@@ -6,7 +6,6 @@
   const currentPath = () => (location.hash.replace('#', '') || '/').split('?')[0];
   const query = () => new URLSearchParams(location.hash.split('?')[1] || '');
   const go = (path) => { location.hash = path; };
-  const h = (value) => String(value ?? '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
   const toast = (message) => {
     const el = document.querySelector('[data-toast]');
     if (!el) return;
@@ -16,18 +15,26 @@
     window.flowToastTimer = setTimeout(() => el.classList.remove('show'), 3000);
   };
 
+  let profileCache = { stamp: 0, session: null, profile: null };
+  const clearProfileCache = () => { profileCache = { stamp: 0, session: null, profile: null }; };
+
   if (!localStorage.getItem('imaposlaTheme')) {
     document.documentElement.dataset.theme = 'dark';
     localStorage.setItem('imaposlaTheme', 'dark');
   }
 
-  async function getProfile() {
+  async function getProfile(force = false) {
     if (!db?.auth) return { session: null, profile: null };
+    if (!force && Date.now() - profileCache.stamp < 8000) return profileCache;
     const { data } = await db.auth.getSession();
     const session = data?.session || null;
-    if (!session?.user) return { session, profile: null };
+    if (!session?.user) {
+      profileCache = { stamp: Date.now(), session, profile: null };
+      return profileCache;
+    }
     const { data: profile } = await db.from('profiles').select('id,role,full_name,email').eq('id', session.user.id).maybeSingle();
-    return { session, profile: profile || null };
+    profileCache = { stamp: Date.now(), session, profile: profile || null };
+    return profileCache;
   }
 
   function authError(error) {
@@ -38,7 +45,7 @@
     return message || 'Akcija nije uspjela. Pokušaj ponovo.';
   }
 
-  function loginPage() {
+  function renderLoginPage() {
     const mode = query().get('mode');
     const signupRole = query().get('role') === 'company' ? 'company' : 'candidate';
     const root = app();
@@ -68,13 +75,11 @@
     if (!publicPage) return;
     const root = app();
     if (!root) return;
-    root.querySelectorAll('a[href="#/admin/dashboard"]').forEach((node) => node.remove());
     root.querySelectorAll('h3').forEach((title) => {
-      if (title.textContent.trim().toLowerCase() === 'admin') {
-        title.textContent = 'Provjeren sistem';
-        const p = title.parentElement?.querySelector('p');
-        if (p) p.textContent = 'Osjetljivi koraci prolaze kroz kontrolu prije javnog prikaza.';
-      }
+      if (title.textContent.trim().toLowerCase() !== 'admin') return;
+      title.textContent = 'Provjeren sistem';
+      const p = title.parentElement?.querySelector('p');
+      if (p) p.textContent = 'Osjetljivi koraci prolaze kroz kontrolu prije javnog prikaza.';
     });
     root.querySelectorAll('p,.lead,.sub').forEach((node) => {
       node.textContent = node.textContent
@@ -84,19 +89,21 @@
     });
   }
 
-  async function syncChrome() {
+  async function syncChrome(force = false) {
     const actions = document.querySelector('.top-actions');
     if (!actions) return;
-    const { session, profile } = await getProfile();
+    const { session, profile } = await getProfile(force);
     const role = profile?.role || 'guest';
     const pill = document.querySelector('[data-role-pill]');
     if (pill) pill.textContent = roleLabel[role] || 'Gost';
-    const oldLogin = actions.querySelector('[data-action="open-login"]');
+
     const oldPost = actions.querySelector('a[href="#/firma/novi-oglas"]');
     if (oldPost) oldPost.setAttribute('href', '#/login?mode=signup&role=company');
     actions.querySelectorAll('[data-flow-signout],[data-flow-dashboard]').forEach((node) => node.remove());
+
+    const oldLogin = actions.querySelector('[data-action="open-login"]');
     if (session?.user && profile) {
-      if (oldLogin) oldLogin.remove();
+      oldLogin?.remove();
       const theme = actions.querySelector('[data-action="toggle-theme"]');
       const dashboard = document.createElement('a');
       dashboard.className = 'btn ghost flow-account-link';
@@ -121,10 +128,10 @@
     }
   }
 
-  async function afterRender() {
-    if (currentPath() === '/login') loginPage();
+  async function afterRender(force = false) {
+    if (currentPath() === '/login') renderLoginPage();
     cleanPublicAdminCopy();
-    await syncChrome();
+    await syncChrome(force);
   }
 
   document.addEventListener('submit', async (event) => {
@@ -141,23 +148,17 @@
       if (form.dataset.authForm === 'signup') {
         const { data: signUpData, error } = await db.auth.signUp({ email, password, options: { data: { role: requestedRole } } });
         if (error) throw error;
+        clearProfileCache();
         if (signUpData?.session && typeof window.loadData === 'function') await window.loadData();
-        if (signUpData?.session) {
-          toast('Nalog je kreiran.');
-          go(roleHome(requestedRole));
-        } else {
-          toast('Nalog je kreiran. Provjeri email prije prve prijave.');
-          go('/login?mode=signin');
-        }
+        toast(signUpData?.session ? 'Nalog je kreiran.' : 'Nalog je kreiran. Provjeri email prije prve prijave.');
+        go(signUpData?.session ? roleHome(requestedRole) : '/login?mode=signin');
       } else {
         const { error } = await db.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        clearProfileCache();
         if (typeof window.loadData === 'function') await window.loadData();
-        const { profile } = await getProfile();
-        if (!profile?.role) {
-          toast('Prijava je uspjela, ali profil nije podešen u bazi.');
-          return;
-        }
+        const { profile } = await getProfile(true);
+        if (!profile?.role) return toast('Prijava je uspjela, ali profil nije podešen u bazi.');
         toast('Prijava uspješna.');
         go(roleHome(profile.role));
       }
@@ -172,9 +173,10 @@
     if (target.matches('[data-flow-signout]')) {
       event.preventDefault();
       await db?.auth?.signOut();
+      clearProfileCache();
       toast('Odjavljen si.');
       go('/');
-      setTimeout(afterRender, 50);
+      setTimeout(() => afterRender(true), 50);
     }
     if (target.matches('[data-action="open-login"]')) {
       event.preventDefault();
@@ -182,7 +184,11 @@
     }
   }, true);
 
-  window.addEventListener('hashchange', () => setTimeout(afterRender, 30));
-  window.addEventListener('DOMContentLoaded', () => setTimeout(afterRender, 700));
-  setTimeout(afterRender, 1200);
+  db?.auth?.onAuthStateChange(() => {
+    clearProfileCache();
+    setTimeout(() => afterRender(true), 60);
+  });
+  window.addEventListener('hashchange', () => setTimeout(() => afterRender(false), 30));
+  window.addEventListener('DOMContentLoaded', () => setTimeout(() => afterRender(true), 700));
+  setTimeout(() => afterRender(true), 1200);
 })();
