@@ -11,23 +11,24 @@
 
   function addPaymentInfo() {
     if (route() !== '/firma/pretplata') return;
+    if (document.querySelector('[data-live-payment]')) return;
     const root = document.querySelector('#app section, #app');
     if (!root || document.querySelector('[data-manual-payment]')) return;
     const panel = document.createElement('section');
     panel.className = 'manual-payment-panel';
     panel.dataset.manualPayment = 'true';
-    panel.innerHTML = `<div><span class="page-label">Ručna uplata</span><h2>Uplata bez kartica i bankarskih dodataka</h2><p>Firma izabere plan, izvrši uplatu po instrukcijama i pošalje dokaz. Upravljanje poslije provjerava uplatu i aktivira plan.</p></div><div class="payment-info-grid"><div><strong>Primalac</strong><span>imaposla.me</span></div><div><strong>Svrha</strong><span>Pretplata za firmu</span></div><div><strong>Poziv na broj</strong><span>Biće prikazan nakon narudžbe plana</span></div><div><strong>Dokaz</strong><span>PDF, slika ili potvrda banke</span></div></div><form class="manual-proof-form" data-proof-form><label><span class="label">Dokaz o uplati</span><input class="field" type="file" accept="image/*,.pdf" name="proof"></label><label><span class="label">Napomena</span><textarea class="textarea" name="note" placeholder="Npr. uplaćeno danas, naziv firme, iznos..."></textarea></label><button class="btn blue">Sačuvaj dokaz za slanje</button><p>Trenutno se dokaz priprema u browseru. U sljedećem Supabase koraku povezujemo čuvanje dokaza u bazu.</p></form>`;
+    panel.innerHTML = `<div><span class="page-label">Ručna uplata</span><h2>Uplata bez kartica i bankarskih dodataka</h2><p>Firma izabere plan, izvrši uplatu po instrukcijama i pošalje dokaz. Upravljanje poslije provjerava uplatu i aktivira plan.</p></div><div class="payment-info-grid"><div><strong>Primalac</strong><span>imaposla.me</span></div><div><strong>Svrha</strong><span>Pretplata za firmu</span></div><div><strong>Poziv na broj</strong><span>Biće prikazan nakon narudžbe plana</span></div><div><strong>Dokaz</strong><span>PDF, slika ili potvrda banke</span></div></div><form class="manual-proof-form" data-proof-form><label><span class="label">Dokaz o uplati</span><input class="field" type="file" accept="image/*,.pdf" name="proof"></label><label><span class="label">Napomena</span><textarea class="textarea" name="note" placeholder="Npr. uplaćeno danas, naziv firme, iznos..."></textarea></label><button class="btn blue">Pripremi dokaz</button><p>Live tok za slanje dokaza se učitava. Ako ga ne vidiš, osvježi stranicu.</p></form>`;
     root.prepend(panel);
   }
 
   document.addEventListener('submit', (event) => {
     const form = event.target.closest('[data-proof-form]');
-    if (!form) return;
+    if (!form || document.querySelector('[data-live-payment]')) return;
     event.preventDefault();
     const file = form.querySelector('input[type="file"]')?.files?.[0];
     const note = new FormData(form).get('note') || '';
     localStorage.setItem('imaposlaPaymentProofDraft', JSON.stringify({ fileName: file?.name || '', note: String(note), savedAt: new Date().toISOString() }));
-    toast('Dokaz je pripremljen. Povezaćemo slanje u Supabase u sljedećem koraku.');
+    toast('Dokaz je pripremljen. Live tok za slanje se učitava.');
   });
 
   function run() { addPaymentInfo(); }
