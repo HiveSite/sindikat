@@ -3,8 +3,8 @@
   const currentPath = () => (location.hash.replace('#', '') || '/').split('?')[0];
 
   const textReplacements = [
-    [/\bATS\b/g, 'Selekcija'],
     [/ATS prijave/g, 'Selekcija prijava'],
+    [/\bATS\b/g, 'Selekcija'],
     [/\bDashboard\b/g, 'Pregled'],
     [/\bdashboard\b/g, 'pregled'],
     [/\bLogin\b/g, 'Prijava'],
@@ -74,7 +74,7 @@
       const href = link.getAttribute('href') || '';
       const icon = link.querySelector('span')?.outerHTML || '<span>•</span>';
       if (href.includes('/firma/dashboard')) link.innerHTML = `${icon}Pregled`;
-      if (href.includes('/firma/ats')) link.innerHTML = `${icon}Selek.`;
+      if (href.includes('/firma/ats')) link.innerHTML = `${icon}Izbor`;
       if (href.includes('/admin/dashboard')) link.innerHTML = `${icon}Pregled`;
       if (href.includes('/admin/korisnici')) link.innerHTML = `${icon}Ljudi`;
       if (href.includes('/profil/cv')) link.innerHTML = `${icon}Biogr.`;
