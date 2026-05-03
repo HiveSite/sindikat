@@ -137,6 +137,69 @@ with check (
   )
 );
 
+-- 7) Candidate biographies are stored as text/json profile data, not uploaded files.
+alter table public.profiles
+  add column if not exists cv_data jsonb not null default '{}'::jsonb,
+  add column if not exists cv_updated_at timestamptz;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'profiles_cv_data_is_object'
+      and conrelid = 'public.profiles'::regclass
+  ) then
+    alter table public.profiles
+      add constraint profiles_cv_data_is_object
+      check (jsonb_typeof(cv_data) = 'object');
+  end if;
+end $$;
+
+create or replace function public.touch_profile_cv_updated_at()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  if new.cv_data is distinct from old.cv_data then
+    new.cv_updated_at = now();
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists touch_profile_cv_updated_at on public.profiles;
+create trigger touch_profile_cv_updated_at
+before update of cv_data on public.profiles
+for each row
+execute function public.touch_profile_cv_updated_at();
+
+-- The profile owner can keep their own biography updated.
+drop policy if exists "profile owner updates own cv" on public.profiles;
+create policy "profile owner updates own cv"
+on public.profiles
+for update
+using (id = auth.uid())
+with check (id = auth.uid());
+
+-- A company can read applicant profile contact/CV data only for applications on its own jobs.
+drop policy if exists "company reads applicant profiles" on public.profiles;
+create policy "company reads applicant profiles"
+on public.profiles
+for select
+using (
+  id = auth.uid()
+  or private.is_admin()
+  or exists (
+    select 1
+    from public.job_applications a
+    join public.jobs j on j.id = a.job_id
+    join public.companies c on c.id = j.company_id
+    where a.candidate_id = profiles.id
+      and c.owner_id = auth.uid()
+  )
+);
+
 -- CV files are intentionally not stored anymore.
--- The site now uses a built-in CV builder and PDF export to avoid storage growth.
--- In the next Supabase step, add text/json CV profile fields instead of a document bucket.
+-- The site now uses a built-in CV builder, profile json data and PDF export to avoid storage growth.
