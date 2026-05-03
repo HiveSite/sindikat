@@ -137,57 +137,6 @@ with check (
   )
 );
 
--- 7) CV storage bucket and basic policies.
-insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values (
-  'candidate-cv',
-  'candidate-cv',
-  false,
-  5242880,
-  array[
-    'application/pdf',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ]
-)
-on conflict (id) do update
-set public = false,
-    file_size_limit = 5242880,
-    allowed_mime_types = excluded.allowed_mime_types;
-
-drop policy if exists "candidate uploads own cv" on storage.objects;
-create policy "candidate uploads own cv"
-on storage.objects
-for insert
-to authenticated
-with check (
-  bucket_id = 'candidate-cv'
-  and (storage.foldername(name))[1] = auth.uid()::text
-);
-
-drop policy if exists "candidate reads own cv" on storage.objects;
-create policy "candidate reads own cv"
-on storage.objects
-for select
-to authenticated
-using (
-  bucket_id = 'candidate-cv'
-  and (storage.foldername(name))[1] = auth.uid()::text
-);
-
-drop policy if exists "company reads applicant cv" on storage.objects;
-create policy "company reads applicant cv"
-on storage.objects
-for select
-to authenticated
-using (
-  bucket_id = 'candidate-cv'
-  and exists (
-    select 1
-    from public.job_applications a
-    join public.jobs j on j.id = a.job_id
-    join public.companies c on c.id = j.company_id
-    where a.cv_path = storage.objects.name
-      and c.owner_id = auth.uid()
-  )
-);
+-- CV files are intentionally not stored anymore.
+-- The site now uses a built-in CV builder and PDF export to avoid storage growth.
+-- In the next Supabase step, add text/json CV profile fields instead of a document bucket.
