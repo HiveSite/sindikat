@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./flow-fixes.css">
 </head>
 <body>
   <header class="top">
@@ -28,7 +29,7 @@
         <span class="role-pill" data-role-pill>Gost</span>
         <button class="icon-btn theme-btn" data-action="toggle-theme" aria-label="Promijeni temu" title="Tema">◐</button>
         <button class="btn ghost" data-action="open-login">Prijava</button>
-        <a class="btn blue" href="#/firma/novi-oglas">Objavi oglas</a>
+        <a class="btn blue" href="#/login?mode=signup&role=company">Objavi oglas</a>
         <button class="icon-btn hamb" data-action="toggle-menu" aria-label="Otvori meni">☰</button>
       </div>
     </div>
@@ -38,9 +39,8 @@
       <a href="#/kategorije">Kategorije</a>
       <a href="#/firme">Firme</a>
       <a href="#/za-firme">Za firme</a>
-      <a href="#/profil/dashboard">Kandidat</a>
-      <a href="#/firma/dashboard">Firma</a>
-      <a href="#/admin/dashboard">Admin</a>
+      <a href="#/login">Prijava</a>
+      <a href="#/login?mode=signup&role=company">Objavi oglas</a>
     </div>
   </header>
 
@@ -64,7 +64,7 @@
       <div>
         <h4>Firme</h4>
         <a href="#/za-firme">Za firme</a>
-        <a href="#/firma/novi-oglas">Novi oglas</a>
+        <a href="#/login?mode=signup&role=company">Novi oglas</a>
         <a href="#/firma/ats">ATS</a>
       </div>
       <div>
@@ -80,5 +80,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./supabase.js"></script>
   <script src="./app.js" defer></script>
+  <script src="./flow-fixes.js" defer></script>
 </body>
 </html>
