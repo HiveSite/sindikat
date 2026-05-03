@@ -33,6 +33,16 @@
     return { session, role: profile?.role || 'guest', email: profile?.email || session.user.email || '', name: profile?.full_name || '' };
   }
 
+  async function getLatestJobs() {
+    try {
+      if (!db?.from) return [];
+      const { data } = await db.from('jobs').select('id,title,city,category,employment_type,salary,company_id,status,companies(name)').eq('status', 'approved').order('created_at', { ascending: false }).limit(3);
+      return Array.isArray(data) ? data : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
   function translateVisibleText(root = document.body) {
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
@@ -49,6 +59,72 @@
       textReplacements.forEach(([pattern, replacement]) => { text = text.replace(pattern, replacement); });
       node.nodeValue = text;
     });
+  }
+
+  async function renderUsefulHome(account) {
+    const root = app();
+    if (!root || currentPath() !== '/') return;
+    const jobs = await getLatestJobs();
+    const accountCta = account.role === 'company'
+      ? ['Pregled firme', '#/firma/dashboard']
+      : account.role === 'candidate'
+        ? ['Moje prijave', '#/profil/prijave']
+        : account.role === 'admin'
+          ? ['Upravljanje', '#/admin/dashboard']
+          : ['Kreiraj nalog', '#/login?mode=choose-role'];
+    root.innerHTML = `
+      <section class="home-hero-clean">
+        <div>
+          <span class="kicker">Poslovi u Crnoj Gori</span>
+          <h1>Jasno mjesto za posao i zapošljavanje.</h1>
+          <p>imaposla.me povezuje kandidate i firme kroz oglase, prijave i uredan pregled selekcije. Bez suvišnih koraka, bez javnih brojki koje ništa ne znače.</p>
+          <form class="home-search" data-home-search>
+            <input class="field" name="q" placeholder="Naziv posla, firma ili vještina" autocomplete="off">
+            <button class="btn blue">Traži posao</button>
+          </form>
+          <div class="actions home-actions">
+            <a class="btn lime" href="#/oglasi">Pretraži oglase</a>
+            <a class="btn ghost" href="#/za-firme">Za firme</a>
+            <a class="btn ghost" href="${accountCta[1]}">${accountCta[0]}</a>
+          </div>
+        </div>
+      </section>
+      <section class="home-role-grid" aria-label="Izaberi šta želiš da uradiš">
+        <a class="home-role-card" href="#/oglasi">
+          <span>Kandidat</span>
+          <h2>Tražim posao</h2>
+          <p>Pregledaj oglase, otvori detalje posla i pošalji prijavu sa radnom biografijom.</p>
+          <strong>Otvori oglase</strong>
+        </a>
+        <a class="home-role-card" href="#/za-firme">
+          <span>Firma</span>
+          <h2>Zapošljavam</h2>
+          <p>Kreiraj profil firme, pripremi oglas i vodi prijave kroz selekciju kandidata.</p>
+          <strong>Objavi oglas</strong>
+        </a>
+      </section>
+      <section class="home-section-head">
+        <div>
+          <span class="kicker">Aktuelno</span>
+          <h2>Najnoviji oglasi</h2>
+          <p>Ovdje se prikazuju samo oglasi koji su odobreni i spremni za kandidate.</p>
+        </div>
+        <a class="btn ghost sm" href="#/oglasi">Svi oglasi</a>
+      </section>
+      <section class="home-jobs-grid">
+        ${jobs.length ? jobs.map((job) => `
+          <a class="job-card" href="#/oglas/${job.id}">
+            <span class="kicker">${job.city || 'Crna Gora'}</span>
+            <h3>${job.title || 'Oglas za posao'}</h3>
+            <p>${job.companies?.name || 'Firma'} · ${job.category || 'Kategorija'} · ${job.employment_type || 'Dogovor'}</p>
+            <strong>${job.salary || 'Plata po dogovoru'}</strong>
+          </a>`).join('') : `
+          <div class="empty home-empty">
+            <h3>Još nema odobrenih oglasa</h3>
+            <p>Kada firma pošalje oglas i bude odobren, pojaviće se ovdje. Do tada kandidat može otvoriti stranicu oglasa, a firma može pripremiti prvi oglas.</p>
+            <div class="actions"><a class="btn blue" href="#/oglasi">Pretraga oglasa</a><a class="btn lime" href="#/login?mode=signup&role=company">Objavi oglas</a></div>
+          </div>`}
+      </section>`;
   }
 
   function improveSelectionPage() {
@@ -71,16 +147,6 @@
         </div>`;
       root.prepend(intro);
     }
-    root.querySelectorAll('.kanban-column h4,.kanban-head h4').forEach((heading) => {
-      const text = heading.textContent.trim().toLowerCase();
-      if (text === 'novo' || text === 'new') heading.textContent = 'Nove prijave';
-      if (text.includes('review') || text.includes('pregled')) heading.textContent = 'Pregled';
-      if (text.includes('interview') || text.includes('razgovor')) heading.textContent = 'Razgovor';
-      if (text.includes('short') || text.includes('uži')) heading.textContent = 'Uži izbor';
-      if (text.includes('offer') || text.includes('ponuda')) heading.textContent = 'Ponuda';
-      if (text.includes('hired') || text.includes('zaposlen')) heading.textContent = 'Zaposlen';
-      if (text.includes('reject') || text.includes('odbij')) heading.textContent = 'Odbijeno';
-    });
   }
 
   function setMobileNav(role) {
@@ -123,12 +189,6 @@
       link.toggleAttribute('hidden', hidden);
       link.style.display = hidden ? 'none' : '';
     }));
-    document.querySelectorAll('.sidebar a,.side-nav a,.account-sidebar a').forEach((link) => {
-      const text = link.textContent.trim();
-      if (text === 'Dashboard') link.textContent = 'Pregled';
-      if (text === 'ATS') link.textContent = 'Selekcija';
-      if (text === 'CV profil') link.textContent = 'Biografija';
-    });
   }
 
   function gateContent(message, actionHref = '#/login') {
@@ -139,15 +199,9 @@
 
   async function enforceRoleAccess(role) {
     const path = currentPath();
-    if (path.startsWith('/firma/') && role !== 'company') {
-      gateContent(role === 'guest' ? 'Za ovaj dio treba prijava firme.' : 'Ovaj dio mogu koristiti samo firme.', role === 'guest' ? '#/login?mode=signin' : `#${roleHome[role] || '/'}`);
-    }
-    if (path.startsWith('/profil/') && role !== 'candidate') {
-      gateContent(role === 'guest' ? 'Za ovaj dio treba prijava kandidata.' : 'Ovaj dio mogu koristiti samo kandidati.', role === 'guest' ? '#/login?mode=signin' : `#${roleHome[role] || '/'}`);
-    }
-    if (path.startsWith('/admin/') && role !== 'admin') {
-      gateContent('Ovaj dio nije javno dostupan.', role === 'guest' ? '#/login?mode=signin' : `#${roleHome[role] || '/'}`);
-    }
+    if (path.startsWith('/firma/') && role !== 'company') gateContent(role === 'guest' ? 'Za ovaj dio treba prijava firme.' : 'Ovaj dio mogu koristiti samo firme.', role === 'guest' ? '#/login?mode=signin' : `#${roleHome[role] || '/'}`);
+    if (path.startsWith('/profil/') && role !== 'candidate') gateContent(role === 'guest' ? 'Za ovaj dio treba prijava kandidata.' : 'Ovaj dio mogu koristiti samo kandidati.', role === 'guest' ? '#/login?mode=signin' : `#${roleHome[role] || '/'}`);
+    if (path.startsWith('/admin/') && role !== 'admin') gateContent('Ovaj dio nije javno dostupan.', role === 'guest' ? '#/login?mode=signin' : `#${roleHome[role] || '/'}`);
   }
 
   function bindSignout() {
@@ -167,8 +221,19 @@
     });
   }
 
+  function bindHomeSearch() {
+    document.querySelectorAll('[data-home-search]').forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const q = new FormData(form).get('q') || '';
+        location.hash = `#/oglasi?q=${encodeURIComponent(String(q))}`;
+      }, { once: true });
+    });
+  }
+
   async function runPolish() {
     const account = await getAccount();
+    await renderUsefulHome(account);
     translateVisibleText(document.body);
     improveSelectionPage();
     setMobileNav(account.role);
@@ -176,6 +241,7 @@
     hideWrongRoleLinks(account.role);
     await enforceRoleAccess(account.role);
     bindSignout();
+    bindHomeSearch();
   }
 
   let timer;
