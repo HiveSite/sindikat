@@ -2,6 +2,7 @@
   const KEY = 'imaposlaCvBuilder';
   const appRoot = () => document.querySelector('#app');
   const route = () => (location.hash.replace('#', '') || '/').split('?')[0];
+  const db = () => window.imaposlaSupabase;
   const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
   const toast = (message) => {
     const el = document.querySelector('[data-toast]');
@@ -16,14 +17,98 @@
     fullName: '', title: '', city: '', phone: '', email: '', summary: '',
     skills: '', languages: '', experience: '', education: '', certificates: '', availability: ''
   };
+  let remoteLoadedFor = '';
+  let saveTimer = null;
+  let saving = false;
+
+  function normalizeCv(data = {}) {
+    const cv = { ...emptyCv, ...data };
+    Object.keys(cv).forEach((key) => { cv[key] = String(cv[key] || '').slice(0, 6000); });
+    return cv;
+  }
 
   function loadCv() {
-    try { return { ...emptyCv, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; }
+    try { return normalizeCv(JSON.parse(localStorage.getItem(KEY) || '{}')); }
     catch { return { ...emptyCv }; }
   }
 
-  function saveCv(data) {
-    localStorage.setItem(KEY, JSON.stringify({ ...loadCv(), ...data }));
+  function saveLocalCv(data) {
+    const cv = normalizeCv({ ...loadCv(), ...data });
+    localStorage.setItem(KEY, JSON.stringify(cv));
+    return cv;
+  }
+
+  async function currentUser() {
+    try {
+      const client = db();
+      if (!client?.auth) return null;
+      const { data } = await client.auth.getSession();
+      return data?.session?.user || null;
+    } catch { return null; }
+  }
+
+  function setStatus(message) {
+    const el = document.querySelector('[data-cv-sync-status]');
+    if (el) el.textContent = message;
+  }
+
+  async function loadRemoteCv() {
+    if (route() !== '/profil/cv') return;
+    const client = db();
+    const user = await currentUser();
+    if (!client?.from || !user?.id || remoteLoadedFor === user.id) return;
+    remoteLoadedFor = user.id;
+    setStatus('Učitavanje biografije iz profila...');
+    const { data, error } = await client.from('profiles').select('cv_data,full_name,phone,city,email').eq('id', user.id).maybeSingle();
+    if (error) {
+      setStatus('Biografija je sačuvana lokalno. Pokreni novi Supabase SQL za čuvanje u profilu.');
+      return;
+    }
+    const remote = normalizeCv({
+      ...(data?.cv_data || {}),
+      fullName: data?.cv_data?.fullName || data?.full_name || '',
+      phone: data?.cv_data?.phone || data?.phone || '',
+      city: data?.cv_data?.city || data?.city || '',
+      email: data?.cv_data?.email || data?.email || user.email || ''
+    });
+    const hasRemote = Object.values(remote).some(Boolean);
+    if (hasRemote) saveLocalCv(remote);
+    setStatus(hasRemote ? 'Biografija je učitana iz profila.' : 'Još nema sačuvane biografije u profilu.');
+    renderBuilder(false);
+  }
+
+  async function saveRemoteCv(cv, silent = false) {
+    const client = db();
+    const user = await currentUser();
+    if (!client?.from || !user?.id) {
+      setStatus('Sačuvano lokalno. Prijavi se da bi biografija bila u profilu.');
+      return false;
+    }
+    if (saving) return false;
+    saving = true;
+    setStatus('Čuvanje u profilu...');
+    const profilePatch = {
+      cv_data: normalizeCv(cv),
+      cv_updated_at: new Date().toISOString(),
+      full_name: cv.fullName || null,
+      phone: cv.phone || null,
+      city: cv.city || null
+    };
+    const { error } = await client.from('profiles').update(profilePatch).eq('id', user.id);
+    saving = false;
+    if (error) {
+      setStatus('Sačuvano lokalno. Pokreni Supabase SQL za polje biografije.');
+      if (!silent) toast(error.message || 'Biografija nije sačuvana u bazi.');
+      return false;
+    }
+    setStatus('Sačuvano u profilu.');
+    if (!silent) toast('Biografija je sačuvana u profilu.');
+    return true;
+  }
+
+  function scheduleRemoteSave(cv) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => saveRemoteCv(cv, true), 900);
   }
 
   function field(name, label, placeholder = '', type = 'text') {
@@ -48,12 +133,12 @@
     </article>`;
   }
 
-  function renderBuilder() {
+  function renderBuilder(shouldLoadRemote = true) {
     const root = appRoot();
     if (!root || route() !== '/profil/cv') return;
     const cv = loadCv();
     root.innerHTML = `<section class="cv-builder-page">
-      <div class="cv-builder-head"><div><span class="page-label">Biografija</span><h1>Napravi radnu biografiju bez slanja fajlova.</h1><p>Popuni podatke jednom, pregledaj kako izgleda i skini PDF direktno iz sajta. Prijave se vežu za profil, bez gomilanja tuđih dokumenata u prostoru.</p></div><div class="cv-head-actions"><button class="btn blue" data-cv-print>Skini PDF</button><button class="btn ghost" data-cv-clear>Očisti</button></div></div>
+      <div class="cv-builder-head"><div><span class="page-label">Biografija</span><h1>Napravi radnu biografiju bez slanja fajlova.</h1><p>Popuni podatke jednom, pregledaj kako izgleda i skini PDF direktno iz sajta. Prijave koriste biografiju iz profila, bez čuvanja tuđih dokumenata i zauzimanja prostora.</p></div><div class="cv-head-actions"><button class="btn blue" data-cv-print>Skini PDF</button><button class="btn ghost" data-cv-clear>Očisti</button></div></div>
       <div class="cv-builder-grid">
         <form class="cv-builder-form" data-cv-form>
           <div class="form-grid">${field('fullName', 'Ime i prezime', 'npr. Marko Marković')}${field('title', 'Zanimanje', 'npr. Konobar, recepcioner, programer')}</div>
@@ -66,11 +151,12 @@
           ${field('languages', 'Jezici', 'npr. Srpski maternji, engleski B2...', 'textarea')}
           ${field('certificates', 'Sertifikati i obuke', 'Kursevi, licence, obuke.', 'textarea')}
           ${field('availability', 'Dostupnost', 'Od kada možeš da počneš, smjene, sezona...', 'textarea')}
-          <div class="cv-save-row"><button class="btn lime">Sačuvaj biografiju</button><span>Čuva se u browseru dok ne povežemo bazu za biografije.</span></div>
+          <div class="cv-save-row"><button class="btn lime">Sačuvaj biografiju</button><span data-cv-sync-status>Čuva se u profilu i u browseru kao rezervna kopija.</span></div>
         </form>
         <div class="cv-preview-wrap"><div class="cv-preview-toolbar"><strong>Pregled</strong><button class="btn ghost sm" data-cv-print>Skini PDF</button></div>${cvPreview(cv)}</div>
       </div>
     </section>`;
+    if (shouldLoadRemote) setTimeout(loadRemoteCv, 60);
   }
 
   function printCv() {
@@ -89,39 +175,41 @@
     const note = document.createElement('p');
     note.className = 'notice';
     note.dataset.cvApplyNote = 'true';
-    note.innerHTML = 'Prijava koristi tvoju biografiju iz profila. Fajlovi se ne šalju i ne čuvaju, da prostor ne ide na tuđe dokumente.';
+    note.innerHTML = 'Prijava koristi biografiju iz profila. Fajlovi se ne šalju i ne čuvaju, da prostor ne ide na tuđe dokumente.';
     button.before(note);
   }
 
-  document.addEventListener('submit', (event) => {
+  document.addEventListener('submit', async (event) => {
     const form = event.target.closest('[data-cv-form]');
     if (!form) return;
     event.preventDefault();
-    saveCv(Object.fromEntries(new FormData(form)));
-    toast('Biografija je sačuvana.');
-    renderBuilder();
+    const cv = saveLocalCv(Object.fromEntries(new FormData(form)));
+    await saveRemoteCv(cv);
+    renderBuilder(false);
   });
 
   document.addEventListener('input', (event) => {
     const form = event.target.closest('[data-cv-form]');
     if (!form) return;
-    saveCv(Object.fromEntries(new FormData(form)));
+    const cv = saveLocalCv(Object.fromEntries(new FormData(form)));
+    scheduleRemoteSave(cv);
     const wrap = document.querySelector('.cv-preview-wrap');
-    if (wrap) wrap.querySelector('[data-cv-preview]')?.replaceWith(document.createRange().createContextualFragment(cvPreview()));
+    if (wrap) wrap.querySelector('[data-cv-preview]')?.replaceWith(document.createRange().createContextualFragment(cvPreview(cv)));
   });
 
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', async (event) => {
     if (event.target.closest('[data-cv-print]')) { event.preventDefault(); printCv(); }
     if (event.target.closest('[data-cv-clear]')) {
       event.preventDefault();
       if (!confirm('Očistiti biografiju?')) return;
       localStorage.removeItem(KEY);
-      renderBuilder();
+      await saveRemoteCv({ ...emptyCv }, true);
+      renderBuilder(false);
     }
   });
 
   function run() { renderBuilder(); removeFileUploadFromApplications(); }
   window.addEventListener('DOMContentLoaded', () => [100, 600, 1400].forEach(ms => setTimeout(run, ms)));
-  window.addEventListener('hashchange', () => [80, 400, 1000].forEach(ms => setTimeout(run, ms)));
+  window.addEventListener('hashchange', () => { remoteLoadedFor = ''; [80, 400, 1000].forEach(ms => setTimeout(run, ms)); });
   new MutationObserver(() => setTimeout(run, 60)).observe(document.documentElement, { childList: true, subtree: true });
 })();
