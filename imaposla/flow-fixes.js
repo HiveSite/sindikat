@@ -14,6 +14,15 @@
     clearTimeout(window.flowToastTimer);
     window.flowToastTimer = setTimeout(() => el.classList.remove('show'), 3000);
   };
+  const startRoute = () => {
+    document.documentElement.classList.add('is-routing');
+    clearTimeout(window.flowRouteTimer);
+    window.flowRouteTimer = setTimeout(() => document.documentElement.classList.remove('is-routing'), 260);
+  };
+  const finishRoute = () => {
+    clearTimeout(window.flowRouteTimer);
+    window.flowRouteTimer = setTimeout(() => document.documentElement.classList.remove('is-routing'), 90);
+  };
 
   let profileCache = { stamp: 0, session: null, profile: null };
   const clearProfileCache = () => { profileCache = { stamp: 0, session: null, profile: null }; };
@@ -132,6 +141,7 @@
     if (currentPath() === '/login') renderLoginPage();
     cleanPublicAdminCopy();
     await syncChrome(force);
+    finishRoute();
   }
 
   document.addEventListener('submit', async (event) => {
@@ -170,6 +180,7 @@
   document.addEventListener('click', async (event) => {
     const target = event.target.closest('button,a');
     if (!target) return;
+    if (target.matches('a[href^="#/"]')) startRoute();
     if (target.matches('[data-flow-signout]')) {
       event.preventDefault();
       await db?.auth?.signOut();
@@ -180,6 +191,7 @@
     }
     if (target.matches('[data-action="open-login"]')) {
       event.preventDefault();
+      startRoute();
       go('/login');
     }
   }, true);
@@ -188,7 +200,10 @@
     clearProfileCache();
     setTimeout(() => afterRender(true), 60);
   });
-  window.addEventListener('hashchange', () => setTimeout(() => afterRender(false), 30));
+  window.addEventListener('hashchange', () => {
+    startRoute();
+    setTimeout(() => afterRender(false), 30);
+  });
   window.addEventListener('DOMContentLoaded', () => setTimeout(() => afterRender(true), 700));
   setTimeout(() => afterRender(true), 1200);
 })();
