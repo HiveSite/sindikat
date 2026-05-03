@@ -1,0 +1,49 @@
+/* Final mobile-first polish for production screens. */
+.selection-intro{margin-bottom:18px;padding:24px;border:2px solid #0b0d0a;border-radius:28px;background:var(--paper);box-shadow:var(--shadow)}
+.selection-intro h1{max-width:780px;margin:6px 0 10px;font-size:clamp(30px,5vw,56px);line-height:.95}
+.selection-intro p{max-width:900px;color:var(--muted);font-weight:760;line-height:1.55}
+.selection-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.selection-steps div{padding:14px;border:1.5px solid var(--line2);border-radius:18px;background:var(--soft)}
+.selection-steps strong{display:block;margin-bottom:5px;color:var(--ink);font-size:15px}
+.selection-steps span{display:block;color:var(--muted);font-size:13px;font-weight:760;line-height:1.35}
+.selection-page .kanban{gap:12px;align-items:stretch}
+.selection-page .kanban-column{width:min(310px,82vw);min-width:260px}
+.selection-page .candidate-card{overflow:hidden}
+
+[data-theme="dark"] .selection-intro{background:#191c17;border-color:#0b0d0a;box-shadow:0 18px 52px rgba(0,0,0,.36)}
+[data-theme="dark"] .selection-steps div{background:#23271f;border-color:#58624f}
+[data-theme="dark"] .table-card,
+[data-theme="dark"] table,
+[data-theme="dark"] .table{color:#f4efe4}
+[data-theme="dark"] th{color:#d8cebf!important}
+[data-theme="dark"] td{color:#f4efe4!important;border-color:#343b31!important}
+[data-theme="dark"] tr:hover td{background:rgba(255,255,255,.035)}
+[data-theme="dark"] .badge,
+[data-theme="dark"] .status,
+[data-theme="dark"] .chip{border-color:#58624f;color:#f4efe4;background:#23271f}
+[data-theme="dark"] .tabs,
+[data-theme="dark"] .segmented{background:#0b0d0a;border-color:#2e352b}
+[data-theme="dark"] .tab.active,
+[data-theme="dark"] .segmented .active{background:var(--lime);color:#10120f}
+
+@media (max-width:980px){
+  .selection-steps{grid-template-columns:1fr}
+  .selection-intro{border-radius:24px;padding:18px;margin-bottom:14px}
+  .selection-intro h1{font-size:34px;line-height:1}
+  .kanban-wrap,.selection-page .kanban-wrap{overflow:visible!important;width:100%!important}
+  .kanban,.selection-page .kanban{display:grid!important;grid-template-columns:1fr!important;min-width:0!important;width:100%!important;gap:12px!important}
+  .kanban-column,.selection-page .kanban-column{width:100%!important;min-width:0!important;max-width:none!important;border-radius:22px!important}
+  .kanban-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .candidate-card{padding:14px!important;border-radius:18px!important}
+}
+
+@media (max-width:560px){
+  .selection-intro{padding:16px;border-radius:20px}
+  .selection-intro h1{font-size:30px}
+  .selection-intro p{font-size:14px;line-height:1.5}
+  .selection-steps div{padding:12px;border-radius:16px}
+  .mobile-app-nav a{font-size:9.5px;letter-spacing:0;white-space:nowrap}
+  .mobile-app-nav a span{font-size:16px}
+  .sidebar{border-radius:24px!important;padding:16px!important}
+  .footer{padding-bottom:96px}
+}
