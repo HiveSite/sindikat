@@ -1,46 +1,85 @@
 [data-theme="dark"]{
-  --bg:#10100e;
-  --ink:#f8f1e6;
-  --muted:#c7bbaa;
-  --soft:#24221c;
-  --paper:#1a1915;
-  --line:#3b352b;
-  --line2:#756956;
-  --blue:#7891ff;
-  --lime:#d7ff58;
-  --pink:#ff7abb;
-  --orange:#ffc46b;
-  --green:#72d7a6;
-  --red:#ff7f7a;
+  --bg:#11120f;
+  --ink:#f4efe4;
+  --muted:#bcb2a2;
+  --soft:#22251d;
+  --paper:#191b16;
+  --line:#363b31;
+  --line2:#68715f;
+  --blue:#8fa2ff;
+  --lime:#c9f45b;
+  --pink:#ff8abc;
+  --orange:#f4b860;
+  --green:#80d6a8;
+  --red:#ff7e76;
+  --shadow:0 18px 50px rgba(0,0,0,.34);
+  --shadow2:0 30px 90px rgba(0,0,0,.50);
 }
 
-[data-theme="dark"] body:before{opacity:.35}
-[data-theme="dark"] .top{background:rgba(16,16,14,.94)}
-[data-theme="dark"] .panel:before{color:rgba(248,241,230,.04)}
+html{background:var(--bg)}
+body{transition:background-color .28s ease,color .28s ease}
+body:before{opacity:.42;filter:saturate(.92);will-change:opacity}
+[data-theme="dark"] body:before{opacity:.24;background:radial-gradient(circle at 14% 10%,rgba(143,162,255,.16),transparent 24%),radial-gradient(circle at 88% 18%,rgba(255,138,188,.10),transparent 25%),radial-gradient(circle at 48% 94%,rgba(201,244,91,.12),transparent 28%)}
+[data-theme="dark"] body:after{opacity:.035}
+[data-theme="dark"] .top{background:rgba(17,18,15,.92);box-shadow:0 10px 30px rgba(0,0,0,.16)}
+[data-theme="dark"] .panel:before{color:rgba(244,239,228,.04)}
+[data-theme="dark"] .panel,
+[data-theme="dark"] .card,
+[data-theme="dark"] .metric,
+[data-theme="dark"] .job-card,
+[data-theme="dark"] .company-card,
+[data-theme="dark"] .form-card,
+[data-theme="dark"] .table-card,
+[data-theme="dark"] .empty,
+[data-theme="dark"] .plan-card,
+[data-theme="dark"] .kanban-column,
+[data-theme="dark"] .candidate-card{border-color:#11120f;box-shadow:0 16px 46px rgba(0,0,0,.28)}
 [data-theme="dark"] .btn.blue,
-[data-theme="dark"] .primary-button{color:#10100e}
+[data-theme="dark"] .primary-button{color:#10110e;background:var(--blue)}
+[data-theme="dark"] .btn.lime{background:var(--lime);color:#10110e}
 [data-theme="dark"] .btn.red,
-[data-theme="dark"] .danger-button{color:#10100e}
+[data-theme="dark"] .danger-button{color:#10110e;background:var(--red)}
 [data-theme="dark"] .field,
 [data-theme="dark"] .select,
 [data-theme="dark"] .textarea,
 [data-theme="dark"] .search-panel input,
-[data-theme="dark"] .search-panel select{background:#23211c;color:var(--ink);border-color:var(--line2)}
+[data-theme="dark"] .search-panel select{background:#23261f;color:var(--ink);border-color:var(--line2)}
+[data-theme="dark"] .field:focus,
+[data-theme="dark"] .select:focus,
+[data-theme="dark"] .textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(143,162,255,.18)}
 [data-theme="dark"] .btn.ghost,
 [data-theme="dark"] .ghost-button{color:var(--ink);border-color:var(--line2)}
+[data-theme="dark"] .guide-card,
+[data-theme="dark"] .notice,
+[data-theme="dark"] .flow-login-note{background:rgba(255,255,255,.045);border-color:var(--line)}
 
 .mobile-nav a[href="#/admin/dashboard"],
 .nav a[href="#/admin/dashboard"],
 [data-public-admin-link]{display:none!important}
 
+.app{animation:pageIn .34s cubic-bezier(.2,.8,.2,1) both;will-change:opacity,transform}
+html.is-routing .app{opacity:.72;transform:translateY(4px)}
+.panel,.card,.job-card,.company-card,.form-card,.plan-card,.candidate-card,.metric{animation:softRise .38s cubic-bezier(.2,.8,.2,1) both}
+.job-card:nth-child(2),.company-card:nth-child(2),.card:nth-child(2),.metric:nth-child(2){animation-delay:.025s}
+.job-card:nth-child(3),.company-card:nth-child(3),.card:nth-child(3),.metric:nth-child(3){animation-delay:.05s}
+.job-card:nth-child(4),.company-card:nth-child(4),.card:nth-child(4),.metric:nth-child(4){animation-delay:.075s}
+.btn,.icon-btn,.flow-choice-card,.mobile-nav a{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease,color .18s ease,opacity .18s ease}
+.btn:hover,.icon-btn:hover,.flow-choice-card:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active,.icon-btn:active,.flow-choice-card:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.field,.select,.textarea{transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease}
+.toast.show{animation:toastIn .24s ease both}
+
 .flow-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
-.flow-choice-card{min-height:190px;display:grid;align-content:space-between;gap:18px;padding:22px;border:2px solid var(--ink);border-radius:var(--r2);background:var(--paper);box-shadow:var(--shadow);text-align:left;transition:.15s}
-.flow-choice-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.flow-choice-card{min-height:190px;display:grid;align-content:space-between;gap:18px;padding:22px;border:2px solid var(--ink);border-radius:var(--r2);background:var(--paper);box-shadow:var(--shadow);text-align:left}
 .flow-choice-card strong{font-family:var(--display);font-size:26px;line-height:1;letter-spacing:-.05em}
 .flow-choice-card span{color:var(--muted);font-weight:750}
 .flow-login-note{background:var(--soft);border:1.5px solid var(--line2);border-radius:16px;padding:12px;color:var(--muted);font-size:12px;font-weight:750}
 .flow-account-link{max-width:160px;overflow:hidden;text-overflow:ellipsis}
 .top-actions [data-flow-signout]{display:inline-flex}
+
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes softRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-8px) scale(.98)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
 
 @media (prefers-reduced-motion:reduce){
   *,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
@@ -50,10 +89,13 @@
   .flow-choice-grid{grid-template-columns:1fr}
   .top-actions [data-flow-signout]{display:inline-flex;width:auto}
   .top-actions .flow-account-link{display:none}
+  .mobile-nav.open{animation:pageIn .2s ease both}
 }
 
 @media (max-width:560px){
   body:before,body:after{display:none}
+  .app{animation-duration:.24s}
+  .panel,.card,.job-card,.company-card,.form-card,.plan-card,.candidate-card,.metric{animation-duration:.25s}
   .flow-choice-card{min-height:158px;padding:18px}
   .flow-choice-card strong{font-size:24px}
   .top-in{height:62px}
