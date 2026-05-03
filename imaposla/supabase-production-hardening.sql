@@ -175,7 +175,6 @@ before update of cv_data on public.profiles
 for each row
 execute function public.touch_profile_cv_updated_at();
 
--- The profile owner can keep their own biography updated.
 drop policy if exists "profile owner updates own cv" on public.profiles;
 create policy "profile owner updates own cv"
 on public.profiles
@@ -183,7 +182,6 @@ for update
 using (id = auth.uid())
 with check (id = auth.uid());
 
--- A company can read applicant profile contact/CV data only for applications on its own jobs.
 drop policy if exists "company reads applicant profiles" on public.profiles;
 create policy "company reads applicant profiles"
 on public.profiles
@@ -199,6 +197,105 @@ using (
     where a.candidate_id = profiles.id
       and c.owner_id = auth.uid()
   )
+);
+
+-- 8) Manual payment proofs: file in private storage, metadata in database.
+create table if not exists public.payment_proofs (
+  id bigserial primary key,
+  company_id bigint not null references public.companies(id) on delete cascade,
+  order_id bigint not null references public.orders(id) on delete cascade,
+  proof_path text not null,
+  file_name text,
+  note text,
+  status text not null default 'pending' check (status in ('pending','approved','rejected')),
+  reviewed_by uuid references auth.users(id),
+  reviewed_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table public.payment_proofs enable row level security;
+
+create index if not exists payment_proofs_company_idx on public.payment_proofs(company_id);
+create index if not exists payment_proofs_order_idx on public.payment_proofs(order_id);
+
+drop policy if exists "company inserts own payment proofs" on public.payment_proofs;
+create policy "company inserts own payment proofs"
+on public.payment_proofs
+for insert
+with check (
+  exists (
+    select 1
+    from public.companies c
+    where c.id = company_id
+      and c.owner_id = auth.uid()
+  )
+  and exists (
+    select 1
+    from public.orders o
+    where o.id = order_id
+      and o.company_id = payment_proofs.company_id
+  )
+);
+
+drop policy if exists "company reads own payment proofs" on public.payment_proofs;
+create policy "company reads own payment proofs"
+on public.payment_proofs
+for select
+using (
+  exists (
+    select 1
+    from public.companies c
+    where c.id = company_id
+      and c.owner_id = auth.uid()
+  )
+);
+
+drop policy if exists "admin manages payment proofs" on public.payment_proofs;
+create policy "admin manages payment proofs"
+on public.payment_proofs
+for all
+using (private.is_admin())
+with check (private.is_admin());
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'payment-proofs',
+  'payment-proofs',
+  false,
+  6291456,
+  array['application/pdf','image/png','image/jpeg','image/webp']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "company uploads own payment proofs" on storage.objects;
+create policy "company uploads own payment proofs"
+on storage.objects
+for insert
+with check (
+  bucket_id = 'payment-proofs'
+  and owner = auth.uid()
+  and (storage.foldername(name))[1] = auth.uid()::text
+);
+
+drop policy if exists "company reads own payment proof files" on storage.objects;
+create policy "company reads own payment proof files"
+on storage.objects
+for select
+using (
+  bucket_id = 'payment-proofs'
+  and owner = auth.uid()
+);
+
+drop policy if exists "admin reads payment proof files" on storage.objects;
+create policy "admin reads payment proof files"
+on storage.objects
+for select
+using (
+  bucket_id = 'payment-proofs'
+  and private.is_admin()
 );
 
 -- CV files are intentionally not stored anymore.
