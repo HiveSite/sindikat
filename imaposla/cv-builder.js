@@ -208,7 +208,14 @@
     }
   });
 
-  function run() { renderBuilder(); removeFileUploadFromApplications(); }
+  function run() {
+    if (route() === '/profil/cv') {
+      if (!document.querySelector('[data-cv-form]')) renderBuilder();
+      else loadRemoteCv();
+    }
+    removeFileUploadFromApplications();
+  }
+
   window.addEventListener('DOMContentLoaded', () => [100, 600, 1400].forEach(ms => setTimeout(run, ms)));
   window.addEventListener('hashchange', () => { remoteLoadedFor = ''; [80, 400, 1000].forEach(ms => setTimeout(run, ms)); });
   new MutationObserver(() => setTimeout(run, 60)).observe(document.documentElement, { childList: true, subtree: true });
