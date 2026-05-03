@@ -1,5 +1,4 @@
 (() => {
-  const CV_MAX_BYTES = 5 * 1024 * 1024;
   const slugText = (v) => String(v || 'oglas').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'oglas';
   const showToast = (message) => {
     const el = document.querySelector('[data-toast]');
@@ -12,6 +11,11 @@
 
   function hasCore() {
     return typeof db !== 'undefined' && typeof state !== 'undefined' && typeof safeQuery === 'function';
+  }
+
+  function hasCvData(profile) {
+    const cv = profile?.cv_data || {};
+    return Boolean(cv.summary || cv.experience || cv.skills || profile?.full_name || profile?.phone || profile?.city);
   }
 
   function installDataOverrides() {
@@ -39,7 +43,7 @@
       if (state.profile?.role === 'company') {
         state.myCompany = await safeQuery(() => db.from('companies').select('*').eq('owner_id', state.user.id).maybeSingle(), null);
         if (state.myCompany) {
-          state.applications = await safeQuery(() => db.from('job_applications').select('*,jobs!inner(title,company_id),profiles(full_name,email,phone,city)').eq('jobs.company_id', state.myCompany.id).order('created_at', { ascending: false }));
+          state.applications = await safeQuery(() => db.from('job_applications').select('*,jobs!inner(title,company_id),profiles(full_name,email,phone,city,cv_data,cv_updated_at)').eq('jobs.company_id', state.myCompany.id).order('created_at', { ascending: false }));
           state.orders = await safeQuery(() => db.from('orders').select('*,plans(name)').eq('company_id', state.myCompany.id).order('created_at', { ascending: false }));
           state.banners = await safeQuery(() => db.from('banners').select('*').eq('company_id', state.myCompany.id).order('created_at', { ascending: false }));
         }
@@ -48,7 +52,7 @@
       if (state.profile?.role === 'admin') {
         const [profiles, apps, orders, banners] = await Promise.all([
           safeQuery(() => db.from('profiles').select('*').order('created_at', { ascending: false })),
-          safeQuery(() => db.from('job_applications').select('*,jobs(title),profiles(full_name,email)').order('created_at', { ascending: false })),
+          safeQuery(() => db.from('job_applications').select('*,jobs(title),profiles(full_name,email,phone,city,cv_data,cv_updated_at)').order('created_at', { ascending: false })),
           safeQuery(() => db.from('orders').select('*,plans(name),companies(name)').order('created_at', { ascending: false })),
           safeQuery(() => db.from('banners').select('*,companies(name)').order('created_at', { ascending: false }))
         ]);
@@ -96,6 +100,11 @@
       button.disabled = true; button.textContent = 'Već ste poslali prijavu';
       const note = document.querySelector('.form-card .notice');
       if (note) note.textContent = 'Za ovaj oglas već postoji vaša prijava. Status pratite u “Moje prijave”.';
+      return;
+    }
+    if (!hasCvData(state.profile)) {
+      const note = document.querySelector('.form-card .notice');
+      if (note) note.textContent = 'Prije prijave dopuni biografiju u profilu. Firma dobija podatke iz tvoje biografije, bez slanja fajla.';
     }
   }
 
@@ -126,18 +135,9 @@
     const jobId = Number(submit.dataset.submitApplication);
     const existing = await safeQuery(() => db.from('job_applications').select('id').eq('job_id', jobId).eq('candidate_id', state.user.id).maybeSingle(), null);
     if (existing?.id) return showToast('Već ste poslali prijavu za ovaj oglas.');
-    let cvPath = null;
-    const file = document.querySelector('#cvFile')?.files?.[0];
-    if (file) {
-      if (file.size > CV_MAX_BYTES) return showToast('Biografija može biti najviše 5 MB.');
-      const allowed = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-      if (file.type && !allowed.includes(file.type)) return showToast('Biografija mora biti PDF, DOC ili DOCX.');
-      const filePath = `${state.user.id}/${Date.now()}-${file.name}`;
-      const upload = await db.storage.from('candidate-cv').upload(filePath, file, { upsert: false });
-      if (upload.error) return showToast(upload.error.message);
-      cvPath = filePath;
-    }
-    const { error } = await db.from('job_applications').insert({ job_id: jobId, candidate_id: state.user.id, cover_letter: document.querySelector('#coverLetter')?.value || '', cv_path: cvPath, reference_code: 'IP-' + Date.now() });
+    const profile = await safeQuery(() => db.from('profiles').select('full_name,phone,city,cv_data').eq('id', state.user.id).maybeSingle(), state.profile);
+    if (!hasCvData(profile)) return showToast('Prvo dopuni biografiju u profilu, pa pošalji prijavu.');
+    const { error } = await db.from('job_applications').insert({ job_id: jobId, candidate_id: state.user.id, cover_letter: document.querySelector('#coverLetter')?.value || '', cv_path: null, reference_code: 'IP-' + Date.now() });
     if (error) return showToast(error.message);
     await loadData(); showToast('Prijava je poslata.'); location.hash = '/profil/prijave';
   }, true);
