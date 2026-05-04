@@ -6,15 +6,15 @@ import { createBrowserSupabase } from "@/lib/supabase/client";
 import type { UserRole } from "@/types/domain";
 
 const menus: Record<UserRole, Array<[string, string, string]>> = {
-  guest: [["⌂", "Početna", "/"], ["⌕", "Oglasi", "/oglasi"], ["▦", "Firme", "/firme"], ["+", "Firma", "/registracija?role=company"], ["↪", "Prijava", "/login"]],
-  candidate: [["⌂", "Početna", "/"], ["⌕", "Oglasi", "/oglasi"], ["□", "Biogr.", "/profil/biografija"], ["✉", "Prijave", "/profil/prijave"], ["⚙", "Profil", "/profil"]],
-  company: [["⌂", "Pregled", "/firma"], ["▤", "Oglasi", "/firma/oglasi"], ["+", "Novi", "/firma/novi-oglas"], ["☷", "Izbor", "/firma/selekcija"], ["€", "Uplata", "/firma/pretplata"]],
-  admin: [["⌂", "Pregled", "/admin"], ["€", "Uplate", "/admin/uplate"], ["✓", "Oglasi", "/admin/oglasi"], ["☷", "Ljudi", "/admin/korisnici"], ["▦", "Firme", "/admin/firme"]]
+  guest: [["IP", "Pocetna", "/"], ["OO", "Oglasi", "/oglasi"], ["FI", "Firme", "/firme"], ["+", "Firma", "/registracija?role=company"], ["IN", "Prijava", "/login"]],
+  candidate: [["IP", "Pocetna", "/"], ["OO", "Oglasi", "/oglasi"], ["CV", "Biografija", "/profil/biografija"], ["PR", "Prijave", "/profil/prijave"], ["JA", "Profil", "/profil"]],
+  company: [["FI", "Pregled", "/firma"], ["OG", "Oglasi", "/firma/oglasi"], ["+", "Novi", "/firma/novi-oglas"], ["SE", "Izbor", "/firma/selekcija"], ["UP", "Uplata", "/firma/pretplata"]],
+  admin: [["AD", "Pregled", "/admin"], ["UP", "Uplate", "/admin/uplate"], ["OG", "Oglasi", "/admin/oglasi"], ["KO", "Ljudi", "/admin/korisnici"], ["FI", "Firme", "/admin/firme"]]
 };
 
 export function MobileNav() {
   const [role, setRole] = useState<UserRole>("guest");
-  const supabase = createBrowserSupabase();
+  const [supabase] = useState(() => createBrowserSupabase());
 
   useEffect(() => {
     async function loadRole() {
@@ -25,7 +25,9 @@ export function MobileNav() {
       setRole((profile.data?.role as UserRole) || "guest");
     }
     loadRole();
-  }, []);
+    const { data } = supabase.auth.onAuthStateChange(() => loadRole());
+    return () => data.subscription.unsubscribe();
+  }, [supabase]);
 
   return (
     <nav className="mobile-app-nav" aria-label="Mobilna navigacija">
