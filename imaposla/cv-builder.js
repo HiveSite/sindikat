@@ -13,10 +13,7 @@
     window.cvBuilderToastTimer = setTimeout(() => el.classList.remove('show'), 2600);
   };
 
-  const emptyCv = {
-    fullName: '', title: '', city: '', phone: '', email: '', summary: '',
-    skills: '', languages: '', experience: '', education: '', certificates: '', availability: ''
-  };
+  const emptyCv = { fullName: '', title: '', city: '', phone: '', email: '', summary: '', skills: '', languages: '', experience: '', education: '', certificates: '', availability: '' };
   let remoteLoadedFor = '';
   let saveTimer = null;
   let saving = false;
@@ -61,7 +58,7 @@
     setStatus('Učitavanje biografije iz profila...');
     const { data, error } = await client.from('profiles').select('cv_data,full_name,phone,city,email').eq('id', user.id).maybeSingle();
     if (error) {
-      setStatus('Biografija je sačuvana lokalno. Pokreni novi Supabase SQL za čuvanje u profilu.');
+      setStatus('Biografija je sačuvana lokalno. Provjeri Supabase polje cv_data.');
       return;
     }
     const remote = normalizeCv({
@@ -87,17 +84,11 @@
     if (saving) return false;
     saving = true;
     setStatus('Čuvanje u profilu...');
-    const profilePatch = {
-      cv_data: normalizeCv(cv),
-      cv_updated_at: new Date().toISOString(),
-      full_name: cv.fullName || null,
-      phone: cv.phone || null,
-      city: cv.city || null
-    };
+    const profilePatch = { cv_data: normalizeCv(cv), cv_updated_at: new Date().toISOString(), full_name: cv.fullName || null, phone: cv.phone || null, city: cv.city || null };
     const { error } = await client.from('profiles').update(profilePatch).eq('id', user.id);
     saving = false;
     if (error) {
-      setStatus('Sačuvano lokalno. Pokreni Supabase SQL za polje biografije.');
+      setStatus('Sačuvano lokalno. Provjeri Supabase polje cv_data.');
       if (!silent) toast(error.message || 'Biografija nije sačuvana u bazi.');
       return false;
     }
@@ -112,8 +103,7 @@
   }
 
   function field(name, label, placeholder = '', type = 'text') {
-    const cv = loadCv();
-    const value = cv[name] || '';
+    const value = loadCv()[name] || '';
     if (type === 'textarea') return `<label><span class="label">${label}</span><textarea class="textarea" name="${name}" placeholder="${placeholder}">${escapeHtml(value)}</textarea></label>`;
     return `<label><span class="label">${label}</span><input class="field" name="${name}" value="${escapeHtml(value)}" placeholder="${placeholder}"></label>`;
   }
@@ -125,11 +115,7 @@
       <header><div><span>Biografija</span><h2>${escapeHtml(cv.fullName || 'Ime i prezime')}</h2><p>${escapeHtml(cv.title || 'Pozicija / zanimanje')}</p></div><aside>${escapeHtml(cv.city || 'Grad')}<br>${escapeHtml(cv.phone || 'Telefon')}<br>${escapeHtml(cv.email || 'E-pošta')}</aside></header>
       ${block('Kratak opis', cv.summary)}
       ${chips ? `<section><h3>Vještine</h3><div class="cv-skill-list">${chips}</div></section>` : ''}
-      ${block('Iskustvo', cv.experience)}
-      ${block('Obrazovanje', cv.education)}
-      ${block('Jezici', cv.languages)}
-      ${block('Sertifikati i obuke', cv.certificates)}
-      ${block('Dostupnost', cv.availability)}
+      ${block('Iskustvo', cv.experience)}${block('Obrazovanje', cv.education)}${block('Jezici', cv.languages)}${block('Sertifikati i obuke', cv.certificates)}${block('Dostupnost', cv.availability)}
     </article>`;
   }
 
@@ -143,14 +129,7 @@
         <form class="cv-builder-form" data-cv-form>
           <div class="form-grid">${field('fullName', 'Ime i prezime', 'npr. Marko Marković')}${field('title', 'Zanimanje', 'npr. Konobar, recepcioner, programer')}</div>
           <div class="form-grid">${field('city', 'Grad', 'npr. Podgorica')}${field('phone', 'Telefon', '+382 ...')}</div>
-          ${field('email', 'E-pošta', 'ime@email.com')}
-          ${field('summary', 'Kratak opis', 'Ko si, šta znaš i kakav posao tražiš.', 'textarea')}
-          ${field('skills', 'Vještine', 'Odvoji zarezom: rad sa gostima, engleski, kasa...', 'textarea')}
-          ${field('experience', 'Radno iskustvo', 'Firma, pozicija, period i najvažnije odgovornosti.', 'textarea')}
-          ${field('education', 'Obrazovanje', 'Škola, kurs, fakultet ili praktična obuka.', 'textarea')}
-          ${field('languages', 'Jezici', 'npr. Srpski maternji, engleski B2...', 'textarea')}
-          ${field('certificates', 'Sertifikati i obuke', 'Kursevi, licence, obuke.', 'textarea')}
-          ${field('availability', 'Dostupnost', 'Od kada možeš da počneš, smjene, sezona...', 'textarea')}
+          ${field('email', 'E-pošta', 'ime@email.com')}${field('summary', 'Kratak opis', 'Ko si, šta znaš i kakav posao tražiš.', 'textarea')}${field('skills', 'Vještine', 'Odvoji zarezom: rad sa gostima, engleski, kasa...', 'textarea')}${field('experience', 'Radno iskustvo', 'Firma, pozicija, period i najvažnije odgovornosti.', 'textarea')}${field('education', 'Obrazovanje', 'Škola, kurs, fakultet ili praktična obuka.', 'textarea')}${field('languages', 'Jezici', 'npr. Srpski maternji, engleski B2...', 'textarea')}${field('certificates', 'Sertifikati i obuke', 'Kursevi, licence, obuke.', 'textarea')}${field('availability', 'Dostupnost', 'Od kada možeš da počneš, smjene, sezona...', 'textarea')}
           <div class="cv-save-row"><button class="btn lime">Sačuvaj biografiju</button><span data-cv-sync-status>Čuva se u profilu i u browseru kao rezervna kopija.</span></div>
         </form>
         <div class="cv-preview-wrap"><div class="cv-preview-toolbar"><strong>Pregled</strong><button class="btn ghost sm" data-cv-print>Skini PDF</button></div>${cvPreview(cv)}</div>
@@ -175,7 +154,7 @@
     const note = document.createElement('p');
     note.className = 'notice';
     note.dataset.cvApplyNote = 'true';
-    note.innerHTML = 'Prijava koristi biografiju iz profila. Fajlovi se ne šalju i ne čuvaju, da prostor ne ide na tuđe dokumente.';
+    note.textContent = 'Prijava koristi biografiju iz profila. Fajlovi se ne šalju i ne čuvaju, da prostor ne ide na tuđe dokumente.';
     button.before(note);
   }
 
@@ -193,8 +172,7 @@
     if (!form) return;
     const cv = saveLocalCv(Object.fromEntries(new FormData(form)));
     scheduleRemoteSave(cv);
-    const wrap = document.querySelector('.cv-preview-wrap');
-    if (wrap) wrap.querySelector('[data-cv-preview]')?.replaceWith(document.createRange().createContextualFragment(cvPreview(cv)));
+    document.querySelector('[data-cv-preview]')?.replaceWith(document.createRange().createContextualFragment(cvPreview(cv)));
   });
 
   document.addEventListener('click', async (event) => {
@@ -216,7 +194,6 @@
     removeFileUploadFromApplications();
   }
 
-  window.addEventListener('DOMContentLoaded', () => [100, 600, 1400].forEach(ms => setTimeout(run, ms)));
-  window.addEventListener('hashchange', () => { remoteLoadedFor = ''; [80, 400, 1000].forEach(ms => setTimeout(run, ms)); });
-  new MutationObserver(() => setTimeout(run, 60)).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('DOMContentLoaded', () => [100, 500, 1100].forEach(ms => setTimeout(run, ms)));
+  window.addEventListener('hashchange', () => { remoteLoadedFor = ''; [80, 320, 800].forEach(ms => setTimeout(run, ms)); });
 })();
