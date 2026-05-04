@@ -8,16 +8,48 @@
     window.coreLiveToastTimer = setTimeout(() => el.classList.remove('show'), 3000);
   };
 
-  const route = () => (location.hash.replace('#', '') || '/').split('?')[0];
   const hasCore = () => typeof db !== 'undefined' && typeof state !== 'undefined' && typeof safeQuery === 'function';
   const hasCvData = (profile) => {
     const cv = profile?.cv_data || {};
     return Boolean(cv.summary || cv.experience || cv.skills || profile?.full_name || profile?.phone || profile?.city);
   };
+  const activeJobList = () => (state.jobs || []).filter((job) => job.status === 'active');
+
+  function stableHomeHtml() {
+    const jobs = activeJobList().slice(0, 3);
+    const currentRole = role();
+    const action = currentRole === 'company'
+      ? ['Pregled firme', '#/firma/dashboard']
+      : currentRole === 'candidate'
+        ? ['Moje prijave', '#/profil/prijave']
+        : currentRole === 'admin'
+          ? ['Upravljanje', '#/admin/dashboard']
+          : ['Prijava', '#/login?mode=signin'];
+    const jobCards = jobs.map((job) => `<a class="live-job" href="#/oglasi/${slug(job.title)}-${job.id}"><span class="kicker">${h(job.city || 'Crna Gora')}</span><h3>${h(job.title)}</h3><p>${h(job.company || 'Firma')} · ${h(job.category || 'Kategorija')} · ${h(job.type || 'Dogovor')}</p><strong>${h(job.salary || 'Plata po dogovoru')}</strong></a>`).join('');
+    return `<section class="live-home">
+      <div class="live-hero">
+        <span class="page-label">imaposla.me</span>
+        <h1>Posao i zapošljavanje u Crnoj Gori, jasno od prvog klika.</h1>
+        <p>Kandidat pretražuje oglase, pravi biografiju i šalje prijavu. Firma objavljuje oglas, prati prijave i vodi selekciju. Javni prikaz prolazi provjeru da platforma ostane uredna.</p>
+        <form class="live-search" data-live-search><input class="field" name="q" placeholder="Naziv posla, firma ili vještina" autocomplete="off"><button class="btn blue">Traži posao</button></form>
+        <div class="live-actions"><a class="btn lime" href="#/oglasi">Tražim posao</a><a class="btn blue" href="#/login?mode=signup&role=company">Zapošljavam</a><a class="btn ghost" href="${action[1]}">${action[0]}</a></div>
+      </div>
+      <div class="live-paths">
+        <a class="live-path" href="#/oglasi"><span>Kandidat</span><h2>Pronađi posao</h2><p>Otvori oglas, pročitaj uslove, dopuni biografiju i pošalji prijavu bez upload fajlova.</p><strong>Otvori oglase</strong></a>
+        <a class="live-path" href="#/login?mode=signup&role=company"><span>Firma</span><h2>Objavi oglas</h2><p>Napravi profil firme, pošalji oglas na pregled i vodi kandidate kroz selekciju.</p><strong>Kreni kao firma</strong></a>
+      </div>
+      <div class="live-section-head"><div><span class="kicker">Aktivno</span><h2>Najnoviji oglasi</h2><p>Prikazuju se samo oglasi koji su odobreni i aktivni.</p></div><a class="btn ghost sm" href="#/oglasi">Svi oglasi</a></div>
+      <div class="live-jobs">${jobs.length ? jobCards : `<div class="empty home-empty"><h3>Još nema aktivnih oglasa</h3><p>Kada firma pošalje oglas i upravljanje ga odobri, pojaviće se ovdje.</p><div class="actions"><a class="btn blue" href="#/oglasi">Pretraga oglasa</a><a class="btn lime" href="#/login?mode=signup&role=company">Objavi oglas</a></div></div>`}</div>
+    </section>`;
+  }
 
   function installCoreOverrides() {
     if (!hasCore() || window.coreLiveFixesInstalled) return;
     window.coreLiveFixesInstalled = true;
+
+    home = function stableHome() {
+      app().innerHTML = stableHomeHtml();
+    };
 
     loadPublicJobs = async function loadPublicJobsStable() {
       const data = await safeQuery(() => db.from('jobs')
@@ -133,6 +165,7 @@
     markDuplicateApplication();
   }
 
-  window.addEventListener('DOMContentLoaded', () => [40, 300, 900].forEach(ms => setTimeout(runLightGuards, ms)));
-  window.addEventListener('hashchange', () => [80, 360, 900].forEach(ms => setTimeout(runLightGuards, ms)));
+  installCoreOverrides();
+  window.addEventListener('DOMContentLoaded', () => [0, 80, 300, 900].forEach(ms => setTimeout(runLightGuards, ms)));
+  window.addEventListener('hashchange', () => [40, 180, 500].forEach(ms => setTimeout(runLightGuards, ms)));
 })();
