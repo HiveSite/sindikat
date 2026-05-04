@@ -1,0 +1,128 @@
+/* Stability layer: prevents repeated text/card flicker while keeping gentle controls. */
+.app,
+.panel,
+.card,
+.job-card,
+.company-card,
+.form-card,
+.plan-card,
+.candidate-card,
+.metric,
+.live-home,
+.live-hero,
+.live-path,
+.live-job,
+.auth-shell,
+.auth-role-card,
+.selection-intro,
+.live-info-page,
+.cv-builder-page,
+.manual-payment-panel {
+  animation: none !important;
+  will-change: auto !important;
+}
+
+.app {
+  opacity: 1;
+  transform: none;
+}
+
+.btn,
+.icon-btn,
+.mobile-app-nav a,
+.mobile-nav a,
+.auth-role-card,
+.live-path,
+.live-job,
+.job-card,
+.company-card {
+  transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease, border-color .16s ease, color .16s ease !important;
+}
+
+.btn:hover,
+.icon-btn:hover {
+  transform: translateY(-1px) !important;
+}
+
+.job-card:hover,
+.company-card:hover,
+.auth-role-card:hover,
+.live-path:hover,
+.live-job:hover {
+  transform: translateY(-2px) !important;
+}
+
+[data-theme="dark"] {
+  --bg: #10120f;
+  --ink: #f6f1e7;
+  --muted: #c9bfad;
+  --soft: #20241d;
+  --paper: #171a15;
+  --line: #434c3e;
+  --line2: #7b876f;
+  --blue: #a9b6ff;
+  --lime: #c8f24f;
+  --pink: #ff9ac6;
+  --orange: #f4c06b;
+  --green: #91dfb1;
+  --red: #ff8b84;
+}
+
+[data-theme="dark"] .field,
+[data-theme="dark"] .select,
+[data-theme="dark"] .textarea,
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #22271f !important;
+  color: #f6f1e7 !important;
+  border-color: #74806a !important;
+}
+
+[data-theme="dark"] .field::placeholder,
+[data-theme="dark"] .textarea::placeholder,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: rgba(246, 241, 231, .58) !important;
+}
+
+[data-theme="dark"] .btn.ghost,
+[data-theme="dark"] .ghost-button,
+[data-theme="dark"] .mobile-app-nav,
+[data-theme="dark"] .mobile-nav {
+  color: #f6f1e7 !important;
+  border-color: #74806a !important;
+}
+
+[data-theme="dark"] .label,
+[data-theme="dark"] .lead,
+[data-theme="dark"] .sub,
+[data-theme="dark"] .muted,
+[data-theme="dark"] .notice,
+[data-theme="dark"] .job-desc,
+[data-theme="dark"] .card p,
+[data-theme="dark"] .company-card p {
+  color: #c9bfad !important;
+}
+
+.mobile-nav:not(.open) {
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .top-actions .account-state,
+  .top-actions .btn.blue {
+    display: none !important;
+  }
+
+  .mobile-app-nav {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    width: 100% !important;
+  }
+
+  .mobile-app-nav a {
+    min-width: 0 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
