@@ -9,7 +9,7 @@ const menus: Record<UserRole, Array<[string, string, string]>> = {
   guest: [["⌂", "Početna", "/"], ["⌕", "Oglasi", "/oglasi"], ["▦", "Firme", "/firme"], ["+", "Firma", "/registracija?role=company"], ["↪", "Prijava", "/login"]],
   candidate: [["⌂", "Početna", "/"], ["⌕", "Oglasi", "/oglasi"], ["□", "Biogr.", "/profil/biografija"], ["✉", "Prijave", "/profil/prijave"], ["⚙", "Profil", "/profil"]],
   company: [["⌂", "Pregled", "/firma"], ["▤", "Oglasi", "/firma/oglasi"], ["+", "Novi", "/firma/novi-oglas"], ["☷", "Izbor", "/firma/selekcija"], ["€", "Uplata", "/firma/pretplata"]],
-  admin: [["⌂", "Pregled", "/admin"], ["€", "Uplate", "/admin/uplate"], ["✓", "Oglasi", "/admin/oglasi"], ["☷", "Ljudi", "/admin/korisnici"], ["▦", "Firme", "/admin"]]
+  admin: [["⌂", "Pregled", "/admin"], ["€", "Uplate", "/admin/uplate"], ["✓", "Oglasi", "/admin/oglasi"], ["☷", "Ljudi", "/admin/korisnici"], ["▦", "Firme", "/admin/firme"]]
 };
 
 export function MobileNav() {
