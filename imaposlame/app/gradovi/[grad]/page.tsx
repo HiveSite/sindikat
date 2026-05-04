@@ -1,11 +1,11 @@
 import { JobCard } from "@/components/job-card";
 import { EmptyState, SectionHead } from "@/components/ui";
-import { getPublicJobs } from "@/lib/queries/public";
+import { getPublicJobsByCity } from "@/lib/queries/public";
 
 export default async function CityJobsPage({ params }: { params: Promise<{ grad: string }> }) {
   const { grad } = await params;
   const city = decodeURIComponent(grad);
-  const jobs = (await getPublicJobs()).filter((job) => job.cities?.name === city);
+  const jobs = await getPublicJobsByCity(city);
   return (
     <>
       <SectionHead label="Grad" title={`Poslovi: ${city}`} text="Aktivni oglasi za izabrani grad." />
