@@ -15,7 +15,7 @@ export const roleHomes: Record<Exclude<UserRole, "guest">, string> = {
 
 export const jobStatusLabels: Record<JobStatus, string> = {
   draft: "Nacrt",
-  pending_review: "Čeka pregled",
+  pending_review: "Ceka pregled",
   active: "Aktivan",
   paused: "Pauziran",
   rejected: "Odbijen",
@@ -26,7 +26,7 @@ export const stageLabels: Record<ApplicationStage, string> = {
   applied: "Nova prijava",
   review: "Pregled",
   interview: "Razgovor",
-  shortlist: "Uži izbor",
+  shortlist: "Uzi izbor",
   offer: "Ponuda",
   hired: "Zaposlen",
   rejected: "Odbijeno"
