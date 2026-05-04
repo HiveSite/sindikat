@@ -1,5 +1,5 @@
 -- Final backend pieces required by the Next.js imaposla.me app.
--- Run this as a new Supabase SQL query after the base schema.
+-- Run this as one new Supabase SQL query after the base schema.
 
 create or replace function public.safe_user_role(value text)
 returns public.user_role
@@ -10,6 +10,19 @@ as $$
     when value in ('candidate', 'company', 'admin') then value::public.user_role
     else 'candidate'::public.user_role
   end
+$$;
+
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'admin'
+  )
 $$;
 
 alter table public.profiles
@@ -77,6 +90,10 @@ create table if not exists public.payment_proofs (
 
 alter table public.payment_proofs enable row level security;
 
+create unique index if not exists payment_proofs_one_approved_per_order
+on public.payment_proofs(order_id)
+where status = 'approved';
+
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'payment-proofs',
@@ -90,18 +107,77 @@ on conflict (id) do update
       file_size_limit = excluded.file_size_limit,
       allowed_mime_types = excluded.allowed_mime_types;
 
-create or replace function public.is_admin()
-returns boolean
-language sql
-stable
+create or replace function public.confirm_payment_proof(proof_id bigint)
+returns table(activation_code text)
+language plpgsql
 security definer
 set search_path = public
 as $$
-  select exists (
-    select 1 from public.profiles
-    where id = auth.uid() and role = 'admin'
-  )
+declare
+  proof_row public.payment_proofs%rowtype;
+  order_row public.orders%rowtype;
+  credits integer := 0;
+  generated_code text;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admin can confirm payment proofs.';
+  end if;
+
+  select * into proof_row
+  from public.payment_proofs
+  where id = proof_id
+  for update;
+
+  if not found then
+    raise exception 'Payment proof not found.';
+  end if;
+
+  if proof_row.status <> 'pending' then
+    raise exception 'Payment proof is already reviewed.';
+  end if;
+
+  select * into order_row
+  from public.orders
+  where id = proof_row.order_id
+  for update;
+
+  if not found then
+    raise exception 'Connected order not found.';
+  end if;
+
+  if order_row.status <> 'pending' then
+    raise exception 'Connected order is already reviewed.';
+  end if;
+
+  select coalesce(unlock_credits, 0) into credits
+  from public.plans
+  where id = order_row.plan_id;
+
+  generated_code := coalesce(order_row.activation_code, 'IP-' || extract(epoch from clock_timestamp())::bigint::text);
+
+  update public.orders
+  set status = 'paid',
+      confirmed_at = now(),
+      confirmed_by = auth.uid(),
+      activation_code = generated_code
+  where id = order_row.id;
+
+  update public.payment_proofs
+  set status = 'approved',
+      reviewed_at = now(),
+      reviewed_by = auth.uid()
+  where id = proof_row.id;
+
+  insert into public.subscriptions (company_id, plan_id, unlock_credits_remaining)
+  values (order_row.company_id, order_row.plan_id, credits);
+
+  activation_code := generated_code;
+  return next;
+end;
 $$;
+
+revoke all on function public.confirm_payment_proof(bigint) from public;
+grant execute on function public.confirm_payment_proof(bigint) to authenticated;
 
 drop policy if exists "profiles own update" on public.profiles;
 create policy "profiles own update" on public.profiles
@@ -158,18 +234,40 @@ with check (
 );
 
 drop policy if exists "company owns orders" on public.orders;
-create policy "company owns orders" on public.orders
+drop policy if exists "admin manages orders" on public.orders;
+drop policy if exists "company reads own orders" on public.orders;
+drop policy if exists "company creates own pending orders" on public.orders;
+drop policy if exists "company deletes own pending orders" on public.orders;
+
+create policy "admin manages orders" on public.orders
 for all
+using (public.is_admin())
+with check (public.is_admin());
+
+create policy "company reads own orders" on public.orders
+for select
 using (
-  public.is_admin()
-  or exists (
+  exists (
     select 1 from public.companies c
     where c.id = orders.company_id and c.owner_id = auth.uid()
   )
-)
+);
+
+create policy "company creates own pending orders" on public.orders
+for insert
 with check (
-  public.is_admin()
-  or exists (
+  status = 'pending'
+  and exists (
+    select 1 from public.companies c
+    where c.id = orders.company_id and c.owner_id = auth.uid()
+  )
+);
+
+create policy "company deletes own pending orders" on public.orders
+for delete
+using (
+  status = 'pending'
+  and exists (
     select 1 from public.companies c
     where c.id = orders.company_id and c.owner_id = auth.uid()
   )
@@ -206,12 +304,14 @@ drop policy if exists "company inserts own payment proofs" on public.payment_pro
 create policy "company inserts own payment proofs" on public.payment_proofs
 for insert
 with check (
-  uploaded_by = auth.uid()
+  status = 'pending'
+  and uploaded_by = auth.uid()
   and exists (
     select 1 from public.companies c
     join public.orders o on o.company_id = c.id
     where c.id = payment_proofs.company_id
       and o.id = payment_proofs.order_id
+      and o.status = 'pending'
       and c.owner_id = auth.uid()
   )
 );
