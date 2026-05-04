@@ -8,9 +8,8 @@ import type { UserRole } from "@/types/domain";
 
 export function Header() {
   const [role, setRole] = useState<UserRole>("guest");
-  const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState("light");
-  const supabase = createBrowserSupabase();
+  const [supabase] = useState(() => createBrowserSupabase());
 
   useEffect(() => {
     const saved = window.localStorage.getItem("imaposlaTheme") || "light";
@@ -28,7 +27,7 @@ export function Header() {
     loadRole();
     const { data } = supabase.auth.onAuthStateChange(() => loadRole());
     return () => data.subscription.unsubscribe();
-  }, []);
+  }, [supabase]);
 
   function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
@@ -48,7 +47,7 @@ export function Header() {
   return (
     <header className="top">
       <div className="top-in">
-        <Link className="brand" href="/" aria-label="imaposla.me početna">
+        <Link className="brand" href="/" aria-label="imaposla.me pocetna">
           <span className="mark">ip</span>
           <span>imaposla.me</span>
         </Link>
@@ -61,7 +60,7 @@ export function Header() {
         </nav>
         <div className="top-actions">
           <span className="role-pill">{role === "guest" ? "Niste prijavljeni" : `${roleLabels[role]} prijavljen`}</span>
-          <button className="icon-btn" type="button" onClick={toggleTheme} aria-label="Promijeni temu">◐</button>
+          <button className="icon-btn" type="button" onClick={toggleTheme} aria-label="Promijeni temu">o</button>
           {role === "guest" ? (
             <>
               <Link className="btn ghost" href="/login">Prijava</Link>
@@ -73,16 +72,7 @@ export function Header() {
               <button className="btn red account-state" type="button" onClick={signOut}>Odjava</button>
             </>
           )}
-          <button className="icon-btn hamb" type="button" onClick={() => setMenuOpen((value) => !value)} aria-label="Otvori meni">☰</button>
         </div>
-      </div>
-      <div className={`mobile-nav ${menuOpen ? "open" : ""}`}>
-        <Link href="/oglasi" onClick={() => setMenuOpen(false)}>Oglasi</Link>
-        <Link href="/gradovi" onClick={() => setMenuOpen(false)}>Gradovi</Link>
-        <Link href="/kategorije" onClick={() => setMenuOpen(false)}>Kategorije</Link>
-        <Link href="/firme" onClick={() => setMenuOpen(false)}>Firme</Link>
-        {role !== "candidate" ? <Link href="/za-firme" onClick={() => setMenuOpen(false)}>Za firme</Link> : null}
-        {role === "guest" ? <Link href="/login" onClick={() => setMenuOpen(false)}>Prijava</Link> : <button onClick={signOut}>Odjava</button>}
       </div>
     </header>
   );
