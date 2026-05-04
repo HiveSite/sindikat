@@ -97,15 +97,71 @@
     setTimeout(run, 120);
   }
 
+  function cvBlock(title, value) {
+    if (!value) return '';
+    return `<section><h4>${escapeHtml(title)}</h4><p>${escapeHtml(value).replace(/\n/g, '<br>')}</p></section>`;
+  }
+
+  function findApplicationFromCard(card) {
+    if (typeof state === 'undefined') return null;
+    const name = card.querySelector('strong')?.textContent?.trim() || '';
+    const text = card.textContent || '';
+    return (state.applications || []).find((app) => {
+      const profileName = app.profiles?.full_name || app.profiles?.email || 'Kandidat';
+      const title = app.jobs?.title || 'Prijava';
+      return profileName === name && text.includes(title);
+    }) || null;
+  }
+
+  function showCandidateDetails(appId) {
+    if (typeof state === 'undefined') return;
+    const appRow = (state.applications || []).find((item) => String(item.id) === String(appId));
+    if (!appRow) return toast('Detalji kandidata nijesu dostupni.');
+    const profile = appRow.profiles || {};
+    const cv = profile.cv_data || {};
+    document.querySelector('[data-candidate-modal]')?.remove();
+    const modal = document.createElement('div');
+    modal.className = 'candidate-detail-modal';
+    modal.dataset.candidateModal = 'true';
+    modal.innerHTML = `<div class="candidate-detail-card" role="dialog" aria-modal="true" aria-label="Detalji kandidata">
+      <button class="candidate-detail-close" data-close-candidate-modal aria-label="Zatvori">×</button>
+      <span class="page-label">Kandidat</span>
+      <h2>${escapeHtml(profile.full_name || profile.email || 'Kandidat')}</h2>
+      <div class="candidate-detail-grid">
+        <div><strong>Oglas</strong><span>${escapeHtml(appRow.jobs?.title || 'Prijava')}</span></div>
+        <div><strong>Status</strong><span>${escapeHtml(appRow.stage || 'applied')}</span></div>
+        <div><strong>Grad</strong><span>${escapeHtml(profile.city || 'Nije upisano')}</span></div>
+        <div><strong>Telefon</strong><span>${escapeHtml(profile.phone || 'Nije upisano')}</span></div>
+        <div><strong>E-pošta</strong><span>${escapeHtml(profile.email || 'Nije upisano')}</span></div>
+        <div><strong>Šifra prijave</strong><span>${escapeHtml(appRow.reference_code || '')}</span></div>
+      </div>
+      ${cvBlock('Poruka uz prijavu', appRow.cover_letter)}
+      ${cvBlock('Kratak opis', cv.summary)}
+      ${cvBlock('Vještine', cv.skills)}
+      ${cvBlock('Iskustvo', cv.experience)}
+      ${cvBlock('Obrazovanje', cv.education)}
+      ${cvBlock('Jezici', cv.languages)}
+      ${cvBlock('Dostupnost', cv.availability)}
+    </div>`;
+    document.body.appendChild(modal);
+  }
+
   function showCvInCandidateCards() {
     document.querySelectorAll('.candidate-card').forEach((card) => {
-      if (card.querySelector('.candidate-cv-summary')) return;
-      const name = card.querySelector('strong')?.textContent || '';
-      if (!name || /Kandidat/.test(name)) return;
-      const box = document.createElement('div');
-      box.className = 'candidate-cv-summary';
-      box.innerHTML = '<strong>Biografija</strong><p>Kontakt i radna biografija se čitaju iz profila kandidata. Detalji su dostupni firmi samo za prijave na njene oglase.</p>';
-      card.appendChild(box);
+      const appRow = findApplicationFromCard(card);
+      if (!card.querySelector('.candidate-cv-summary')) {
+        const box = document.createElement('div');
+        box.className = 'candidate-cv-summary';
+        box.innerHTML = '<strong>Biografija</strong><p>Kontakt i radna biografija se čitaju iz profila kandidata. Detalji su dostupni firmi samo za prijave na njene oglase.</p>';
+        card.appendChild(box);
+      }
+      if (appRow && !card.querySelector('[data-candidate-detail]')) {
+        const button = document.createElement('button');
+        button.className = 'btn ghost xs candidate-detail-button';
+        button.dataset.candidateDetail = appRow.id;
+        button.textContent = 'Detalji kandidata';
+        card.appendChild(button);
+      }
     });
   }
 
@@ -129,6 +185,19 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       await uploadPaymentProof(proof);
+    }
+  }, true);
+
+  document.addEventListener('click', (event) => {
+    const detail = event.target.closest('[data-candidate-detail]');
+    if (detail) {
+      event.preventDefault();
+      showCandidateDetails(detail.dataset.candidateDetail);
+      return;
+    }
+    if (event.target.closest('[data-close-candidate-modal]') || event.target.matches('[data-candidate-modal]')) {
+      event.preventDefault();
+      document.querySelector('[data-candidate-modal]')?.remove();
     }
   }, true);
 
