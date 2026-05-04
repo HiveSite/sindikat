@@ -34,7 +34,7 @@
     if (!root || root.querySelector('[data-admin-proof-review]')) return;
     if (await accountRole() !== 'admin') return;
     const result = await db().from('payment_proofs')
-      .select('id,proof_path,file_name,note,status,created_at,companies(name),orders(payment_reference,amount_eur)')
+      .select('id,order_id,proof_path,file_name,note,status,created_at,companies(name),orders(payment_reference,amount_eur,status)')
       .order('created_at', { ascending: false })
       .limit(30);
     const proofs = result.data || [];
@@ -42,8 +42,14 @@
     const panel = document.createElement('section');
     panel.className = 'manual-payment-panel admin-proof-panel';
     panel.dataset.adminProofReview = 'true';
-    panel.innerHTML = `<div><span class="page-label">Dokazi uplata</span><h2>Provjera ručnih uplata</h2><p>Ovdje se vide dokazi koje su firme poslale uz narudžbu plana. Link za dokaz je privremen i važi kratko.</p></div><div class="table-card proof-review-table">${proofs.length ? proofs.map((proof, index) => `<div class="table-row"><div><strong>${h(proof.companies?.name || 'Firma')}</strong><small>${h(proof.orders?.payment_reference || '')}</small></div><div>${h(proof.file_name || 'Dokaz')}<small>${h(proof.note || 'Bez napomene')}</small></div><div><span class="badge gray">${h(proof.status || 'pending')}</span></div><div class="actions"><a class="btn ghost xs" href="${h(links[index])}" target="_blank" rel="noopener">Otvori</a><button class="btn blue xs" data-proof-status="approved" data-proof-id="${proof.id}">Prihvati</button><button class="btn red xs" data-proof-status="rejected" data-proof-id="${proof.id}">Odbij</button></div></div>`).join('') : '<div class="empty"><strong>Nema dokaza</strong><p>Dokazi uplata će se pojaviti ovdje kada ih firma pošalje.</p></div>'}</div>`;
+    panel.innerHTML = `<div><span class="page-label">Dokazi uplata</span><h2>Provjera ručnih uplata</h2><p>Ovdje se vide dokazi koje su firme poslale uz narudžbu plana. Prihvatanje dokaza automatski označava narudžbu kao plaćenu.</p></div><div class="table-card proof-review-table">${proofs.length ? proofs.map((proof, index) => `<div class="table-row"><div><strong>${h(proof.companies?.name || 'Firma')}</strong><small>${h(proof.orders?.payment_reference || '')}</small></div><div>${h(proof.file_name || 'Dokaz')}<small>${h(proof.note || 'Bez napomene')}</small></div><div><span class="badge gray">${h(proof.status || 'pending')}</span><small>${h(proof.orders?.status || '')}</small></div><div class="actions"><a class="btn ghost xs" href="${h(links[index])}" target="_blank" rel="noopener">Otvori</a><button class="btn blue xs" data-proof-status="approved" data-proof-id="${proof.id}" data-order-id="${proof.order_id || ''}">Prihvati</button><button class="btn red xs" data-proof-status="rejected" data-proof-id="${proof.id}">Odbij</button></div></div>`).join('') : '<div class="empty"><strong>Nema dokaza</strong><p>Dokazi uplata će se pojaviti ovdje kada ih firma pošalje.</p></div>'}</div>`;
     root.prepend(panel);
+  }
+
+  async function markOrderPaid(orderId, reviewerId) {
+    if (!orderId) return;
+    const code = 'IP-' + new Date().getFullYear() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+    await db().from('orders').update({ status: 'paid', activation_code: code, confirmed_by: reviewerId || null, confirmed_at: new Date().toISOString() }).eq('id', Number(orderId));
   }
 
   document.addEventListener('click', async (event) => {
@@ -53,10 +59,14 @@
     const id = Number(button.dataset.proofId);
     const status = button.dataset.proofStatus;
     const { data } = await db().auth.getSession();
-    const update = await db().from('payment_proofs').update({ status, reviewed_by: data?.session?.user?.id || null, reviewed_at: new Date().toISOString() }).eq('id', id);
+    const reviewerId = data?.session?.user?.id || null;
+    const update = await db().from('payment_proofs').update({ status, reviewed_by: reviewerId, reviewed_at: new Date().toISOString() }).eq('id', id);
     if (update.error) return toast(update.error.message || 'Status nije promijenjen.');
-    toast(status === 'approved' ? 'Dokaz je prihvaćen.' : 'Dokaz je odbijen.');
+    if (status === 'approved') await markOrderPaid(button.dataset.orderId, reviewerId);
+    toast(status === 'approved' ? 'Dokaz je prihvaćen i narudžba je označena kao plaćena.' : 'Dokaz je odbijen.');
     document.querySelector('[data-admin-proof-review]')?.remove();
+    if (typeof loadData === 'function') await loadData();
+    if (typeof render === 'function') render();
     setTimeout(addProofReview, 120);
   }, true);
 
