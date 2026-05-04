@@ -137,6 +137,26 @@ for all
 using (public.is_admin())
 with check (public.is_admin());
 
+drop policy if exists "company updates applications for own jobs" on public.job_applications;
+create policy "company updates applications for own jobs" on public.job_applications
+for update
+using (
+  public.is_admin()
+  or exists (
+    select 1 from public.jobs j
+    join public.companies c on c.id = j.company_id
+    where j.id = job_applications.job_id and c.owner_id = auth.uid()
+  )
+)
+with check (
+  public.is_admin()
+  or exists (
+    select 1 from public.jobs j
+    join public.companies c on c.id = j.company_id
+    where j.id = job_applications.job_id and c.owner_id = auth.uid()
+  )
+);
+
 drop policy if exists "company owns orders" on public.orders;
 create policy "company owns orders" on public.orders
 for all
