@@ -5,7 +5,7 @@
   const query = () => new URLSearchParams(location.hash.split('?')[1] || '');
   const roleNames = { candidate: 'Kandidat', company: 'Firma', admin: 'Upravljanje', guest: 'Gost' };
   const roleHomes = { candidate: '/profil/dashboard', company: '/firma/dashboard', admin: '/admin/dashboard', guest: '/' };
-  let lastAccountKey = '';
+  let runTimer = null;
 
   const toast = (message) => {
     const el = document.querySelector('[data-toast]');
@@ -29,15 +29,32 @@
   function setAccountChrome(me) {
     const pill = document.querySelector('[data-role-pill]');
     if (pill) pill.textContent = me.role === 'guest' ? 'Niste prijavljeni' : `${roleNames[me.role] || 'Nalog'} prijavljen`;
+
+    const loginButton = document.querySelector('[data-action="open-login"]');
+    if (loginButton) {
+      loginButton.hidden = me.role !== 'guest';
+      loginButton.textContent = 'Prijava';
+    }
+
     document.querySelectorAll('[data-account-state]').forEach((node) => node.remove());
     const topActions = document.querySelector('.top-actions');
-    if (topActions && me.role !== 'guest') {
-      const badge = document.createElement('span');
-      badge.className = 'account-state';
-      badge.dataset.accountState = 'true';
-      badge.textContent = me.email ? `Prijavljen: ${me.email}` : `${roleNames[me.role]} prijavljen`;
-      topActions.prepend(badge);
-    }
+    if (!topActions || me.role === 'guest') return;
+
+    const link = document.createElement('a');
+    link.className = 'btn ghost account-state';
+    link.dataset.accountState = 'true';
+    link.href = `#${roleHomes[me.role] || '/'}`;
+    link.textContent = roleNames[me.role] || 'Nalog';
+
+    const signout = document.createElement('button');
+    signout.className = 'btn red account-state';
+    signout.dataset.accountState = 'true';
+    signout.dataset.stableSignout = 'true';
+    signout.type = 'button';
+    signout.textContent = 'Odjava';
+
+    topActions.prepend(signout);
+    topActions.prepend(link);
   }
 
   function setMobileNav(me) {
@@ -115,13 +132,16 @@
 
   async function run() {
     const me = await account();
-    const key = `${me.role}:${me.email}:${route()}:${location.hash}`;
     setAccountChrome(me);
     setMobileNav(me);
     renderLogin(me);
     gateProtectedRoutes(me);
     stabilizeSelectionIntro();
-    lastAccountKey = key;
+  }
+
+  function schedule(delay = 80) {
+    clearTimeout(runTimer);
+    runTimer = setTimeout(run, delay);
   }
 
   document.addEventListener('submit', async (event) => {
@@ -153,6 +173,10 @@
   }, true);
 
   document.addEventListener('click', async (event) => {
+    const menu = document.querySelector('[data-mobile-menu]');
+    if (event.target.closest('[data-mobile-menu] a')) menu?.classList.remove('open');
+    if (menu?.classList.contains('open') && !event.target.closest('[data-mobile-menu],[data-action="toggle-menu"]')) menu.classList.remove('open');
+
     const signout = event.target.closest('[data-stable-signout],[data-signout-anywhere],[data-signout]');
     if (signout) {
       event.preventDefault();
@@ -160,6 +184,7 @@
       await db()?.auth?.signOut();
       toast('Odjavljeni ste.');
       location.hash = '/';
+      schedule(150);
       return;
     }
     const reset = event.target.closest('[data-stable-reset]');
@@ -173,10 +198,7 @@
     }
   }, true);
 
-  let timer;
-  const schedule = () => { clearTimeout(timer); timer = setTimeout(run, 120); };
-  window.addEventListener('DOMContentLoaded', () => [80, 400, 1000].forEach((ms) => setTimeout(run, ms)));
-  window.addEventListener('hashchange', () => { document.querySelector('#app')?.removeAttribute('data-stable-view'); schedule(); setTimeout(run, 500); });
-  db()?.auth?.onAuthStateChange(() => { document.querySelector('#app')?.removeAttribute('data-stable-view'); setTimeout(run, 120); });
-  new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('DOMContentLoaded', () => [0, 160, 500, 1000].forEach((ms) => setTimeout(run, ms)));
+  window.addEventListener('hashchange', () => { document.querySelector('#app')?.removeAttribute('data-stable-view'); [40, 180, 520].forEach((ms) => setTimeout(run, ms)); });
+  db()?.auth?.onAuthStateChange(() => { document.querySelector('#app')?.removeAttribute('data-stable-view'); schedule(120); });
 })();
