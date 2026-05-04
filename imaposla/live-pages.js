@@ -6,8 +6,10 @@
 
   function renderPublicInfo() {
     const app = root();
-    if (!app || app.querySelector('[data-live-info-page]')) return;
+    if (!app) return;
     const path = route();
+    if (!['/za-firme', '/politika-privatnosti', '/uslovi-koristenja', '/sitemap'].includes(path)) return;
+    if (app.querySelector('[data-live-info-page]')) return;
     if (path === '/za-firme') {
       app.innerHTML = page('Rješenje za firme', 'Objavi oglas, primi prijave i vodi izbor kandidata bez tabela, poruka rasutih po telefonu i nejasnog statusa.',
         card('Profil firme', 'Firma popunjava naziv, grad, djelatnost i opis. Profil se prikazuje javno tek nakon provjere.') +
@@ -39,7 +41,6 @@
   }
 
   function run() { renderPublicInfo(); }
-  window.addEventListener('DOMContentLoaded', () => [220, 800].forEach((ms) => setTimeout(run, ms)));
-  window.addEventListener('hashchange', () => [140, 520].forEach((ms) => setTimeout(run, ms)));
-  new MutationObserver(() => { clearTimeout(window.livePagesTimer); window.livePagesTimer = setTimeout(run, 120); }).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('DOMContentLoaded', () => [180, 600].forEach((ms) => setTimeout(run, ms)));
+  window.addEventListener('hashchange', () => [120, 420].forEach((ms) => setTimeout(run, ms)));
 })();
