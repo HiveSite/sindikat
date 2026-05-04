@@ -1,5 +1,5 @@
 (() => {
-  const KEY = 'imaposlaCvBuilder';
+  const BASE_KEY = 'imaposlaCvBuilder';
   const appRoot = () => document.querySelector('#app');
   const route = () => (location.hash.replace('#', '') || '/').split('?')[0];
   const db = () => window.imaposlaSupabase;
@@ -15,6 +15,7 @@
 
   const emptyCv = { fullName: '', title: '', city: '', phone: '', email: '', summary: '', skills: '', languages: '', experience: '', education: '', certificates: '', availability: '' };
   let remoteLoadedFor = '';
+  let activeLocalKey = `${BASE_KEY}:guest`;
   let saveTimer = null;
   let saving = false;
 
@@ -24,14 +25,31 @@
     return cv;
   }
 
+  function localKey() {
+    const userId = typeof state !== 'undefined' && state.user?.id ? state.user.id : '';
+    return userId ? `${BASE_KEY}:${userId}` : `${BASE_KEY}:guest`;
+  }
+
+  function migrateLegacyCv(key) {
+    if (key === `${BASE_KEY}:guest`) return;
+    if (localStorage.getItem(key)) return;
+    const legacy = localStorage.getItem(BASE_KEY);
+    if (legacy) localStorage.setItem(key, legacy);
+  }
+
   function loadCv() {
-    try { return normalizeCv(JSON.parse(localStorage.getItem(KEY) || '{}')); }
+    const key = localKey();
+    activeLocalKey = key;
+    migrateLegacyCv(key);
+    try { return normalizeCv(JSON.parse(localStorage.getItem(key) || '{}')); }
     catch { return { ...emptyCv }; }
   }
 
   function saveLocalCv(data) {
+    const key = localKey();
+    activeLocalKey = key;
     const cv = normalizeCv({ ...loadCv(), ...data });
-    localStorage.setItem(KEY, JSON.stringify(cv));
+    localStorage.setItem(key, JSON.stringify(cv));
     return cv;
   }
 
@@ -53,7 +71,11 @@
     if (route() !== '/profil/cv') return;
     const client = db();
     const user = await currentUser();
-    if (!client?.from || !user?.id || remoteLoadedFor === user.id) return;
+    if (!client?.from || !user?.id) return;
+    const key = `${BASE_KEY}:${user.id}`;
+    if (activeLocalKey !== key) remoteLoadedFor = '';
+    activeLocalKey = key;
+    if (remoteLoadedFor === user.id) return;
     remoteLoadedFor = user.id;
     setStatus('Učitavanje biografije iz profila...');
     const { data, error } = await client.from('profiles').select('cv_data,full_name,phone,city,email').eq('id', user.id).maybeSingle();
@@ -69,7 +91,7 @@
       email: data?.cv_data?.email || data?.email || user.email || ''
     });
     const hasRemote = Object.values(remote).some(Boolean);
-    if (hasRemote) saveLocalCv(remote);
+    if (hasRemote) localStorage.setItem(key, JSON.stringify(remote));
     setStatus(hasRemote ? 'Biografija je učitana iz profila.' : 'Još nema sačuvane biografije u profilu.');
     renderBuilder(false);
   }
@@ -130,7 +152,7 @@
           <div class="form-grid">${field('fullName', 'Ime i prezime', 'npr. Marko Marković')}${field('title', 'Zanimanje', 'npr. Konobar, recepcioner, programer')}</div>
           <div class="form-grid">${field('city', 'Grad', 'npr. Podgorica')}${field('phone', 'Telefon', '+382 ...')}</div>
           ${field('email', 'E-pošta', 'ime@email.com')}${field('summary', 'Kratak opis', 'Ko si, šta znaš i kakav posao tražiš.', 'textarea')}${field('skills', 'Vještine', 'Odvoji zarezom: rad sa gostima, engleski, kasa...', 'textarea')}${field('experience', 'Radno iskustvo', 'Firma, pozicija, period i najvažnije odgovornosti.', 'textarea')}${field('education', 'Obrazovanje', 'Škola, kurs, fakultet ili praktična obuka.', 'textarea')}${field('languages', 'Jezici', 'npr. Srpski maternji, engleski B2...', 'textarea')}${field('certificates', 'Sertifikati i obuke', 'Kursevi, licence, obuke.', 'textarea')}${field('availability', 'Dostupnost', 'Od kada možeš da počneš, smjene, sezona...', 'textarea')}
-          <div class="cv-save-row"><button class="btn lime">Sačuvaj biografiju</button><span data-cv-sync-status>Čuva se u profilu i u browseru kao rezervna kopija.</span></div>
+          <div class="cv-save-row"><button class="btn lime">Sačuvaj biografiju</button><span data-cv-sync-status>Čuva se u profilu i u browseru za ovaj nalog.</span></div>
         </form>
         <div class="cv-preview-wrap"><div class="cv-preview-toolbar"><strong>Pregled</strong><button class="btn ghost sm" data-cv-print>Skini PDF</button></div>${cvPreview(cv)}</div>
       </div>
@@ -180,13 +202,17 @@
     if (event.target.closest('[data-cv-clear]')) {
       event.preventDefault();
       if (!confirm('Očistiti biografiju?')) return;
-      localStorage.removeItem(KEY);
+      localStorage.removeItem(localKey());
       await saveRemoteCv({ ...emptyCv }, true);
       renderBuilder(false);
     }
   });
 
   function run() {
+    if (activeLocalKey !== localKey()) {
+      activeLocalKey = localKey();
+      remoteLoadedFor = '';
+    }
     if (route() === '/profil/cv') {
       if (!document.querySelector('[data-cv-form]')) renderBuilder();
       else loadRemoteCv();
