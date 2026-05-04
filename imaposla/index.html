@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="sr-ME" data-theme="light">
+<html lang="sr-ME" data-theme="light" class="is-stabilizing">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -18,6 +18,10 @@
   <link rel="stylesheet" href="./live-ready.css">
   <link rel="stylesheet" href="./live-pages.css">
   <link rel="stylesheet" href="./live-admin-payments.css">
+  <style>
+    .is-stabilizing #app { opacity: 0; }
+    #app { transition: opacity .16s ease; }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -86,6 +90,7 @@
   </footer>
 
   <div class="toast" data-toast role="status" aria-live="polite"></div>
+  <script>setTimeout(() => document.documentElement.classList.remove('is-stabilizing'), 1200);</script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./supabase.js"></script>
   <script src="./app.js" defer></script>
