@@ -1,41 +1,26 @@
 # Launch nalozi
 
-Zbog sigurnosti, lozinke se ne kreiraju direktno SQL-om. Napravi ova tri korisnika u Supabase Dashboardu:
+Zbog sigurnosti, lozinke se ne čuvaju u repozitorijumu. Napravi korisnike ručno u Supabase Dashboardu i postavi jake privremene lozinke koje ćeš poslije promijeniti.
 
 Supabase -> Authentication -> Users -> Add user -> Create new user
 
-## Nalozi
-
-Admin:
+## Nalozi koje treba napraviti
 
 ```text
-Email: admin@imaposla.me
-Password: Imaposla-Admin-2026!
+admin@imaposla.me
+firma@imaposla.me
+kandidat@imaposla.me
 ```
 
-Firma:
+## Uloge
 
-```text
-Email: firma@imaposla.me
-Password: Imaposla-Firma-2026!
-```
+Nakon kreiranja korisnika pokreni `launch-accounts.sql` u Supabase SQL Editoru. Taj SQL:
 
-Kandidat:
-
-```text
-Email: kandidat@imaposla.me
-Password: Imaposla-Kandidat-2026!
-```
-
-## Nakon kreiranja korisnika
-
-Pokreni `launch-accounts.sql` u Supabase SQL Editoru. Taj SQL:
-
-- postavlja admin nalog na role `admin`
-- postavlja firma nalog na role `company`
-- postavlja kandidat nalog na role `candidate`
+- postavlja `admin@imaposla.me` na ulogu `admin`
+- postavlja `firma@imaposla.me` na ulogu `company`
+- postavlja `kandidat@imaposla.me` na ulogu `candidate`
 - kreira odobren profil firme za `firma@imaposla.me`
 
-## Vazno
+## Važno
 
-Ove lozinke su privremene launch lozinke. Nakon prvog ulaska ih promijeni u Supabase/Auth flow-u.
+Ako su stare lozinke ikad bile upisane ili poslate kroz chat, promijeni ih prije javnog launch-a. U repozitorijumu više ne držimo lozinke.
