@@ -61,7 +61,6 @@
   }, true);
 
   function run() { addProofReview(); }
-  window.addEventListener('DOMContentLoaded', () => [260, 900, 1600].forEach((ms) => setTimeout(run, ms)));
-  window.addEventListener('hashchange', () => [180, 700, 1300].forEach((ms) => setTimeout(run, ms)));
-  new MutationObserver(() => { clearTimeout(window.liveAdminPaymentTimer); window.liveAdminPaymentTimer = setTimeout(run, 160); }).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('DOMContentLoaded', () => [240, 800, 1400].forEach((ms) => setTimeout(run, ms)));
+  window.addEventListener('hashchange', () => [160, 620, 1100].forEach((ms) => setTimeout(run, ms)));
 })();
