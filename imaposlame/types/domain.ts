@@ -41,6 +41,12 @@ export type Company = {
   approved: boolean;
 };
 
+export type LookupItem = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
 export type Job = {
   id: number;
   title: string;
@@ -88,5 +94,20 @@ export type Order = {
   activation_code: string | null;
   created_at: string;
   plans?: Pick<Plan, "name"> | null;
+  companies?: Pick<Company, "name"> | null;
+};
+
+export type PaymentProof = {
+  id: number;
+  order_id: number;
+  company_id: number;
+  uploaded_by: string;
+  amount_eur: number | null;
+  file_path: string;
+  note: string | null;
+  status: "pending" | "approved" | "rejected";
+  created_at: string;
+  reviewed_at: string | null;
+  orders?: Order | null;
   companies?: Pick<Company, "name"> | null;
 };
