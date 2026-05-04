@@ -1,7 +1,8 @@
 -- Run after creating these three users in Supabase Authentication:
--- admin@imaposla.me / Imaposla-Admin-2026!
--- firma@imaposla.me / Imaposla-Firma-2026!
--- kandidat@imaposla.me / Imaposla-Kandidat-2026!
+-- admin@imaposla.me
+-- firma@imaposla.me
+-- kandidat@imaposla.me
+-- Passwords are intentionally not stored in this repository.
 
 update public.profiles
 set role = 'admin', full_name = coalesce(nullif(full_name, ''), 'Imaposla Admin'), updated_at = now()
@@ -21,7 +22,7 @@ where email = 'kandidat@imaposla.me'
 on conflict (user_id) do nothing;
 
 insert into public.companies (owner_id, name, slug, city, industry, description, approved)
-select id, 'Imaposla Test Firma', 'imaposla-test-firma', 'Podgorica', 'Poslodavac', 'Pocetni firma nalog za launch provjeru.', true
+select id, 'Imaposla Test Firma', 'imaposla-test-firma', 'Podgorica', 'Poslodavac', 'Početni firma nalog za launch provjeru.', true
 from public.profiles
 where email = 'firma@imaposla.me'
 on conflict (slug) do update set
@@ -29,7 +30,6 @@ on conflict (slug) do update set
   approved = true,
   description = excluded.description;
 
--- Optional sanity check
 select email, role, full_name from public.profiles
 where email in ('admin@imaposla.me', 'firma@imaposla.me', 'kandidat@imaposla.me')
 order by role;
