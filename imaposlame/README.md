@@ -29,6 +29,8 @@ Ako zelis env fajl:
 copy .env.example .env.local
 ```
 
+Env varijable su obavezne. Aplikacija namjerno ne koristi hardcoded Supabase fallback, da staging ili lokalni rad ne bi slucajno pisali u produkcionu bazu.
+
 ## Supabase
 
 Prije produkcionog deploy-a pokreni `supabase-production.sql` kao novi query u Supabase SQL editoru. Taj fajl dodaje:
@@ -36,6 +38,7 @@ Prije produkcionog deploy-a pokreni `supabase-production.sql` kao novi query u S
 - automatsko pravljenje `profiles` reda poslije registracije
 - `cv_data` i `cv_updated_at` za CV builder
 - `payment_proofs` tabelu i privatni `payment-proofs` bucket
+- `confirm_payment_proof` RPC za sigurnu admin potvrdu uplate
 - pravila za firme, oglase, planove, narudzbe, dokaze uplate i pretplate
 - zastitu da korisnik ne moze sam sebi promijeniti ulogu
 
