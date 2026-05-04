@@ -3,7 +3,6 @@
   const root = () => document.querySelector('#app');
   const route = () => (location.hash.replace('#', '') || '/').split('?')[0];
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
-  const slug = (value) => String(value || 'oglas').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'oglas';
   const toast = (message) => {
     const el = document.querySelector('[data-toast]');
     if (!el) return;
@@ -27,41 +26,6 @@
       company = result.data || null;
     }
     return { user, role, profile, company };
-  }
-
-  async function activeJobs(limit = 3) {
-    const db = client();
-    if (!db?.from) return [];
-    const { data } = await db.from('jobs')
-      .select('id,title,description,contract_type,salary_text,status,companies(name),categories(name),cities(name)')
-      .eq('status', 'active')
-      .order('created_at', { ascending: false })
-      .limit(limit);
-    return Array.isArray(data) ? data : [];
-  }
-
-  async function renderHome() {
-    if (route() !== '/') return;
-    const app = root();
-    if (!app || app.querySelector('.live-home')) return;
-    const me = await account();
-    const jobs = await activeJobs(3);
-    const action = me.role === 'company' ? ['Pregled firme', '#/firma/dashboard'] : me.role === 'candidate' ? ['Moje prijave', '#/profil/prijave'] : me.role === 'admin' ? ['Upravljanje', '#/admin/dashboard'] : ['Prijava', '#/login?mode=signin'];
-    app.innerHTML = `<section class="live-home">
-      <div class="live-hero">
-        <span class="page-label">imaposla.me</span>
-        <h1>Posao i zapošljavanje u Crnoj Gori, jasno od prvog klika.</h1>
-        <p>Kandidat pretražuje oglase, pravi biografiju i šalje prijavu. Firma objavljuje oglas, prati prijave i vodi selekciju. Javni prikaz prolazi provjeru da platforma ostane uredna.</p>
-        <form class="live-search" data-live-search><input class="field" name="q" placeholder="Naziv posla, firma ili vještina" autocomplete="off"><button class="btn blue">Traži posao</button></form>
-        <div class="live-actions"><a class="btn lime" href="#/oglasi">Tražim posao</a><a class="btn blue" href="#/login?mode=signup&role=company">Zapošljavam</a><a class="btn ghost" href="${action[1]}">${action[0]}</a></div>
-      </div>
-      <div class="live-paths">
-        <a class="live-path" href="#/oglasi"><span>Kandidat</span><h2>Pronađi posao</h2><p>Otvori oglas, pročitaj uslove, dopuni biografiju i pošalji prijavu bez upload fajlova.</p><strong>Otvori oglase</strong></a>
-        <a class="live-path" href="#/login?mode=signup&role=company"><span>Firma</span><h2>Objavi oglas</h2><p>Napravi profil firme, pošalji oglas na pregled i vodi kandidate kroz selekciju.</p><strong>Kreni kao firma</strong></a>
-      </div>
-      <div class="live-section-head"><div><span class="kicker">Aktivno</span><h2>Najnoviji oglasi</h2><p>Prikazuju se samo oglasi koji su odobreni i aktivni.</p></div><a class="btn ghost sm" href="#/oglasi">Svi oglasi</a></div>
-      <div class="live-jobs">${jobs.length ? jobs.map((job) => `<a class="live-job" href="#/oglasi/${slug(job.title)}-${job.id}"><span class="kicker">${escapeHtml(job.cities?.name || 'Crna Gora')}</span><h3>${escapeHtml(job.title)}</h3><p>${escapeHtml(job.companies?.name || 'Firma')} · ${escapeHtml(job.categories?.name || 'Kategorija')} · ${escapeHtml(job.contract_type || 'Dogovor')}</p><strong>${escapeHtml(job.salary_text || 'Plata po dogovoru')}</strong></a>`).join('') : `<div class="empty home-empty"><h3>Još nema aktivnih oglasa</h3><p>Kada firma pošalje oglas i upravljanje ga odobri, pojaviće se ovdje.</p><div class="actions"><a class="btn blue" href="#/oglasi">Pretraga oglasa</a><a class="btn lime" href="#/login?mode=signup&role=company">Objavi oglas</a></div></div>`}</div>
-    </section>`;
   }
 
   function cleanAuthText() {
@@ -129,8 +93,7 @@
     const insert = await db.from('payment_proofs').insert({ company_id: me.company.id, order_id: orderId, proof_path: proofPath, file_name: file.name, note, status: 'pending' });
     if (insert.error) return toast(insert.error.message || 'Dokaz nije upisan u bazu.');
     toast('Dokaz je poslat na provjeru.');
-    const panel = root()?.querySelector('[data-live-payment]');
-    if (panel) panel.remove();
+    root()?.querySelector('[data-live-payment]')?.remove();
     setTimeout(run, 120);
   }
 
@@ -147,7 +110,6 @@
   }
 
   async function run() {
-    await renderHome();
     cleanAuthText();
     cleanPublicAdminLinks();
     await addPaymentProofFlow();
@@ -170,7 +132,6 @@
     }
   }, true);
 
-  window.addEventListener('DOMContentLoaded', () => [160, 700, 1500].forEach((ms) => setTimeout(run, ms)));
-  window.addEventListener('hashchange', () => [120, 500, 1100].forEach((ms) => setTimeout(run, ms)));
-  new MutationObserver(() => { clearTimeout(window.liveReadyTimer); window.liveReadyTimer = setTimeout(run, 140); }).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('DOMContentLoaded', () => [120, 500, 1100].forEach((ms) => setTimeout(run, ms)));
+  window.addEventListener('hashchange', () => [100, 420, 900].forEach((ms) => setTimeout(run, ms)));
 })();
