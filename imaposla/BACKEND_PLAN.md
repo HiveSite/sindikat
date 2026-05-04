@@ -1,100 +1,72 @@
 # Backend plan za imaposla.me
 
-Prva preporuka je Supabase kao MVP backend: PostgreSQL baza, Auth, Storage i Row Level Security. Custom backend možemo dodati kasnije za plaćanja, napredne email tokove i automatizacije.
+Backend je Supabase MVP: PostgreSQL, Auth, Row Level Security i Storage za dokaze uplata. Custom backend može doći kasnije za e-poštu, fakture, automatizacije i naprednu naplatu.
 
 ## Uloge
 
 - `guest`: javni posjetilac
 - `candidate`: kandidat koji traži posao
 - `company`: firma/poslodavac
-- `admin`: administracija platforme
+- `admin`: skriveni dio za upravljanje platformom
 
 ## Javni dio
 
 - `/` početna
 - `/oglasi` lista i filteri
-- `/oglasi/[slug]` detalj oglasa
-- `/gradovi` hub gradova
-- `/gradovi/[grad]` SEO lista po gradu
-- `/kategorije` hub kategorija
-- `/kategorije/[slug]` SEO lista po kategoriji
-- `/firme` lista poslodavaca
-- `/firme/[slug]` profil firme
-- `/kandidati/[user]` javni profil kandidata, samo ako kandidat dozvoli
-- `/za-firme` landing za poslodavce
-- `/login` i registracija
+- `/oglasi/[slug-id]` detalj oglasa
+- `/gradovi` i `/gradovi/[grad]`
+- `/kategorije` i `/kategorije/[kategorija]`
+- `/firme` i `/firme/[slug-id]`
+- `/za-firme`
+- `/login`
+- pravne/info stranice
 
 ## Kandidat
 
-- Dashboard sa CV procentom, prijavama i obavještenjima
-- CV editor i upload CV fajla
-- Lista prijava sa statusom
-- Obavještenja
-- Podešavanja privatnosti
+- Pregled kandidata
+- CV builder bez upload fajlova
+- PDF izvoz biografije iz browsera
+- Moje prijave
+- Obavještenja kroz status prijava
+- Podešavanja profila
+
+Biografija se čuva kao JSON u `profiles.cv_data`, ne kao fajl u Storage-u.
 
 ## Firma
 
-- Dashboard sa brzim akcijama
-- Upravljanje oglasima
-- Forma za novi oglas
-- ATS po oglasu
-- Baza kandidata i unlock pravila
-- Pretplata i uplate
-- Baneri
-- Podešavanja firme
+- Profil firme
+- Oglasi firme
+- Novi oglas koji ide na provjeru
+- Selekcija prijava po fazama
+- Pregled kandidata koji su se prijavili na oglase te firme
+- Pretplata kroz ručnu uplatu
+- Slanje dokaza o uplati u private bucket `payment-proofs`
+- Baneri na odobrenje
 
-## Admin
+## Upravljanje
 
-- Operativni dashboard
-- Uplate i aktivacioni kodovi
-- Moderacija oglasa
-- Korisnici i firme
-- Baneri
-- Statistike
+- Pregled korisnika
+- Odobravanje firmi i oglasa
+- Pauziranje/isticanje oglasa
+- Pregled narudžbi i dokaza uplata
+- Prihvatanje ili odbijanje dokaza uplate
+- Odobravanje banera
 
-## MVP faze
+## Sigurnost
 
-### Faza 1: osnovni sistem
+- Novi Auth korisnik automatski dobija profil kroz trigger.
+- Korisnik ne može sam sebi promijeniti ulogu.
+- Kandidat vidi svoj profil i svoje prijave.
+- Firma vidi svoje oglase i prijave na svoje oglase.
+- Upravljanje vidi sve potrebno za moderaciju.
+- Javno se vide samo aktivni oglasi i odobrene firme.
+- Service role key se ne koristi u browseru.
+- Dokazi uplata su u privatnom Storage bucket-u.
 
-- Supabase Auth
-- Profili korisnika
-- Firme
-- Oglasi
-- Prijave na oglase
-- Upload CV fajla
-- Firma vidi prijave na svoje oglase
-- Admin odobrava oglase
+## Kasnije faze
 
-### Faza 2: ATS i obavještenja
-
-- Faze prijave
-- Komentari firme
-- Oznake kandidata
-- Notifikacije kandidatu
-- Email obavještenja za prijave
-
-### Faza 3: pretplate
-
-- Planovi
-- Narudžbine
-- Manualna bankovna uplata
-- Admin potvrda
-- Aktivacioni kodovi
-- Krediti za dodatne funkcije
-
-### Faza 4: SEO i rast
-
-- Dinamičke SEO stranice za gradove i kategorije
-- Sitemap
-- Robots
-- Baneri
-- Statistike i izvještaji
-
-## Sigurnosna pravila
-
-- Kandidat vidi samo svoj profil i svoje prijave.
-- Firma vidi samo svoje oglase i prijave na svoje oglase.
-- Admin vidi sve.
-- Kontakt kandidata nije javno dostupan.
-- CV fajlovi nisu javni fajlovi.
-- Service role key se ne smije koristiti u browseru.
+- E-pošta za prijave i promjene statusa.
+- Detaljna istorija svake prijave u korisničkom interfejsu.
+- Napredni izvještaji za firme.
+- Finalni pravni tekstovi.
+- SEO poboljšanja izvan hash ruta ako bude potreban jači organski rast.
