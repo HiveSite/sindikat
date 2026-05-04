@@ -1,18 +1,19 @@
 # imaposla.me Next.js verzija
 
-Ovo je nova Next.js verzija sajta u posebnom folderu `imaposlame`. Postojeći live frontend u folderu `imaposla` nije mijenjan.
+Ovo je nova Next.js verzija sajta u posebnom folderu `imaposlame`. Postojeci live frontend u folderu `imaposla` nije mijenjan.
 
-## Šta je prebačeno
+## Sta je prebaceno
 
 - Prave Next rute bez `#/` adresa.
-- Javni dio: početna, oglasi, detalj oglasa, gradovi, kategorije, firme, za firme, pravne stranice.
+- Javni dio: pocetna, oglasi, detalj oglasa, gradovi, kategorije, firme, za firme, pravne stranice.
 - Auth: prijava i registracija preko Supabase-a.
 - Kandidat: pregled, biografija/CV builder, moje prijave.
-- Firma: profil, oglasi, novi oglas, selekcija prijava, pretplata.
-- Upravljanje: oglasi, korisnici i uplate.
+- Firma: profil, oglasi, novi oglas, selekcija prijava, pretplata i dokaz uplate.
+- Upravljanje: oglasi, firme, korisnici i dokazi uplata.
 - Supabase query sloj u `lib/queries`.
 - Browser Supabase klijent u `lib/supabase/client.ts`.
 - Public Supabase klijent za server komponente u `lib/supabase/server.ts`.
+- Middleware zastita za kandidat, firma i upravljanje rute.
 
 ## Pokretanje
 
@@ -22,12 +23,22 @@ npm install
 npm run dev
 ```
 
-Ako želiš env fajl:
+Ako zelis env fajl:
 
 ```bash
 copy .env.example .env.local
 ```
 
+## Supabase
+
+Prije produkcionog deploy-a pokreni `supabase-production.sql` kao novi query u Supabase SQL editoru. Taj fajl dodaje:
+
+- automatsko pravljenje `profiles` reda poslije registracije
+- `cv_data` i `cv_updated_at` za CV builder
+- `payment_proofs` tabelu i privatni `payment-proofs` bucket
+- pravila za firme, oglase, planove, narudzbe, dokaze uplate i pretplate
+- zastitu da korisnik ne moze sam sebi promijeniti ulogu
+
 ## Napomena
 
-Ovo je početna Next.js migracija cijelog sajta. Supabase šema ostaje ista kao u postojećem projektu. Za ozbiljan launch treba još proći QA kroz sva 4 tipa korisnika: gost, kandidat, firma i upravljanje.
+Ovo je Next.js migracija cijelog sajta. Za launch obavezno proci QA kroz sva 4 tipa korisnika: gost, kandidat, firma i upravljanje.
