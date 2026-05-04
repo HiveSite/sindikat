@@ -2,12 +2,47 @@ import { createPublicSupabase } from "@/lib/supabase/server";
 import type { Company, Job, Plan } from "@/types/domain";
 
 const jobSelect = "id,title,slug,description,contract_type,salary_text,deadline,status,featured,company_id,companies(id,name,slug),categories(id,name),cities(id,name)";
+const cityJobSelect = "id,title,slug,description,contract_type,salary_text,deadline,status,featured,company_id,companies(id,name,slug),categories(id,name),cities!inner(id,name)";
+const categoryJobSelect = "id,title,slug,description,contract_type,salary_text,deadline,status,featured,company_id,companies(id,name,slug),categories!inner(id,name),cities(id,name)";
 
 export async function getPublicJobs(limit?: number) {
   const db = createPublicSupabase();
   let query = db.from("jobs").select(jobSelect).eq("status", "active").order("created_at", { ascending: false });
   if (limit) query = query.limit(limit);
   const { data } = await query;
+  return (data || []) as unknown as Job[];
+}
+
+export async function getPublicJobsByCity(cityName: string) {
+  const db = createPublicSupabase();
+  const { data } = await db
+    .from("jobs")
+    .select(cityJobSelect)
+    .eq("status", "active")
+    .eq("cities.name", cityName)
+    .order("created_at", { ascending: false });
+  return (data || []) as unknown as Job[];
+}
+
+export async function getPublicJobsByCategory(categoryName: string) {
+  const db = createPublicSupabase();
+  const { data } = await db
+    .from("jobs")
+    .select(categoryJobSelect)
+    .eq("status", "active")
+    .eq("categories.name", categoryName)
+    .order("created_at", { ascending: false });
+  return (data || []) as unknown as Job[];
+}
+
+export async function getPublicJobsByCompany(companyId: number) {
+  const db = createPublicSupabase();
+  const { data } = await db
+    .from("jobs")
+    .select(jobSelect)
+    .eq("status", "active")
+    .eq("company_id", companyId)
+    .order("created_at", { ascending: false });
   return (data || []) as unknown as Job[];
 }
 
