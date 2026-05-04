@@ -2,15 +2,14 @@ import { notFound } from "next/navigation";
 import { JobCard } from "@/components/job-card";
 import { Badge, Button, EmptyState, SectionHead } from "@/components/ui";
 import { parseIdFromSlug } from "@/lib/format";
-import { getCompanyById, getPublicJobs } from "@/lib/queries/public";
+import { getCompanyById, getPublicJobsByCompany } from "@/lib/queries/public";
 
 export default async function CompanyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const id = parseIdFromSlug(slug);
   if (!id) return notFound();
-  const [company, jobs] = await Promise.all([getCompanyById(id), getPublicJobs()]);
+  const [company, companyJobs] = await Promise.all([getCompanyById(id), getPublicJobsByCompany(id)]);
   if (!company) return notFound();
-  const companyJobs = jobs.filter((job) => job.company_id === company.id);
 
   return (
     <>
