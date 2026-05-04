@@ -1,11 +1,11 @@
 import { JobCard } from "@/components/job-card";
 import { EmptyState, SectionHead } from "@/components/ui";
-import { getPublicJobs } from "@/lib/queries/public";
+import { getPublicJobsByCategory } from "@/lib/queries/public";
 
 export default async function CategoryJobsPage({ params }: { params: Promise<{ kategorija: string }> }) {
   const { kategorija } = await params;
   const category = decodeURIComponent(kategorija);
-  const jobs = (await getPublicJobs()).filter((job) => job.categories?.name === category);
+  const jobs = await getPublicJobsByCategory(category);
   return (
     <>
       <SectionHead label="Kategorija" title={`Poslovi: ${category}`} text="Aktivni oglasi iz izabrane kategorije." />
