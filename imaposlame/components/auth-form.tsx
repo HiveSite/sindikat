@@ -68,8 +68,9 @@ export function RegisterForm({ selectedRole }: { selectedRole: "candidate" | "co
       setLoading(false);
       return;
     }
-    setMessage("Nalog je kreiran. Sada se prijavi.");
+    setMessage("Nalog je kreiran. Otvaramo prijavu.");
     setLoading(false);
+    window.location.href = "/login";
   }
 
   return (
