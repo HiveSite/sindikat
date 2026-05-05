@@ -31,8 +31,7 @@ export function LoginForm({ nextPath }: { nextPath?: string | null }) {
     const user = data.session?.user;
     const profile = user ? await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle() : null;
     if (profile?.error) {
-      setMessage("Prijava je uspjela, ali profil nije ucitan. Pokusaj ponovo za par sekundi.");
-      setLoading(false);
+      window.location.href = cleanNextPath(nextPath || null) || "/profil";
       return;
     }
 
