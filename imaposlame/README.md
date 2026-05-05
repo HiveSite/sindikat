@@ -36,6 +36,14 @@ Env varijable su obavezne. Aplikacija namjerno ne koristi hardcoded Supabase fal
 
 Ako deploy ide iz repozitorijuma koji sadrzi vise foldera, Vercel Root Directory mora biti `imaposlame`.
 
+Poslije svake izmjene koja dira auth ili Supabase klijente pokreni fresh deploy. Login flow zavisi od Supabase SSR cookies, pa stale Vercel deployment moze i dalje pokazivati staro ponasanje.
+
+Preporucene Vercel komande:
+
+- Install command: `npm install`
+- Build command: `npm run build`
+- Output: default Next.js output koji Vercel sam prepoznaje
+
 ## Supabase
 
 Za novi Supabase projekat redosljed je:
