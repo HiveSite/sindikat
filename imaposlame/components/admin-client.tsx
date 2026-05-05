@@ -147,7 +147,7 @@ export function AdminClient({ view }: { view: AdminView }) {
             <div className="actions">
               {view === "jobs" ? <><button className="btn blue xs" onClick={() => updateJob(row.id, { status: "active" })}>Odobri</button><button className="btn red xs" onClick={() => updateJob(row.id, { status: "paused" })}>Pauziraj</button></> : null}
               {view === "companies" ? <><button className="btn blue xs" onClick={() => updateCompany(row.id, true)}>Odobri</button><button className="btn red xs" onClick={() => updateCompany(row.id, false)}>Sakrij</button></> : null}
-              {(view === "payments" || view === "dashboard") ? <button className="btn ghost xs" onClick={() => openProof(row.file_path)}>Otvori dokaz</button> : null}
+              {(view === "payments" || view === "dashboard") ? <button className="btn ghost xs" onClick={() => openProof(row.file_path || row.proof_path)}>Otvori dokaz</button> : null}
               {(view === "payments" || view === "dashboard") && row.status === "pending" ? <><button className="btn blue xs" onClick={() => confirmProof(row)}>Potvrdi</button><button className="btn red xs" onClick={() => rejectProof(row.id)}>Odbij</button></> : null}
             </div>
           </div>

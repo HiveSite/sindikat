@@ -134,6 +134,8 @@ export function CompanyClient({ view }: { view: "dashboard" | "jobs" | "new-job"
       company_id: company.id,
       amount_eur: plan.price_eur,
       file_path: filePath,
+      proof_path: filePath,
+      file_name: file.name,
       note: String(formData.get("note") || "").trim() || null,
       status: "pending"
     });
