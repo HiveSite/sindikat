@@ -7,7 +7,8 @@ language sql
 immutable
 as $$
   select case
-    when value in ('candidate', 'company', 'admin') then value::public.user_role
+    -- Signup metadata is user-controlled. Admin roles must be granted manually by an existing admin.
+    when value in ('candidate', 'company') then value::public.user_role
     else 'candidate'::public.user_role
   end
 $$;
@@ -74,12 +75,36 @@ create trigger prevent_profile_role_change
 before update on public.profiles
 for each row execute function public.prevent_profile_role_change();
 
+create or replace function public.prevent_company_admin_field_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if (
+    old.approved is distinct from new.approved
+    or old.owner_id is distinct from new.owner_id
+  ) and not public.is_admin() then
+    raise exception 'Company approval and ownership can be changed only by admin.';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists prevent_company_admin_field_change on public.companies;
+create trigger prevent_company_admin_field_change
+before update on public.companies
+for each row execute function public.prevent_company_admin_field_change();
+
 create table if not exists public.payment_proofs (
   id bigserial primary key,
   order_id bigint not null references public.orders(id) on delete cascade,
   company_id bigint not null references public.companies(id) on delete cascade,
   uploaded_by uuid not null references public.profiles(id) on delete cascade default auth.uid(),
   amount_eur numeric(10,2),
+  proof_path text not null,
+  file_name text,
   file_path text not null,
   note text,
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
@@ -87,6 +112,17 @@ create table if not exists public.payment_proofs (
   reviewed_at timestamptz,
   reviewed_by uuid references public.profiles(id)
 );
+
+alter table public.payment_proofs
+  add column if not exists uploaded_by uuid references public.profiles(id) on delete cascade default auth.uid(),
+  add column if not exists amount_eur numeric(10,2),
+  add column if not exists proof_path text,
+  add column if not exists file_name text,
+  add column if not exists note text,
+  add column if not exists status text not null default 'pending',
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists reviewed_at timestamptz,
+  add column if not exists reviewed_by uuid references public.profiles(id);
 
 alter table public.payment_proofs enable row level security;
 
@@ -185,15 +221,51 @@ for update
 using (auth.uid() = id)
 with check (auth.uid() = id);
 
+drop policy if exists "profiles admin read" on public.profiles;
+create policy "profiles admin read" on public.profiles
+for select
+using ((select public.is_admin()));
+
+drop policy if exists "profiles admin update" on public.profiles;
+create policy "profiles admin update" on public.profiles
+for update
+using ((select public.is_admin()))
+with check ((select public.is_admin()));
+
+drop policy if exists "company reads applicant profiles" on public.profiles;
+create policy "company reads applicant profiles" on public.profiles
+for select
+using (
+  id = (select auth.uid())
+  or (select public.is_admin())
+  or exists (
+    select 1
+    from public.job_applications a
+    join public.jobs j on j.id = a.job_id
+    join public.companies c on c.id = j.company_id
+    where a.candidate_id = profiles.id
+      and c.owner_id = (select auth.uid())
+  )
+);
+
 drop policy if exists "public approved companies" on public.companies;
 create policy "public approved companies" on public.companies
 for select using (approved = true or owner_id = auth.uid() or public.is_admin());
 
 drop policy if exists "company writes own company" on public.companies;
-create policy "company writes own company" on public.companies
-for all
-using (owner_id = auth.uid() or public.is_admin())
-with check (owner_id = auth.uid() or public.is_admin());
+drop policy if exists "company inserts own unapproved company" on public.companies;
+create policy "company inserts own unapproved company" on public.companies
+for insert
+with check (
+  owner_id = (select auth.uid())
+  and approved = false
+);
+
+drop policy if exists "company updates own company profile" on public.companies;
+create policy "company updates own company profile" on public.companies
+for update
+using (owner_id = (select auth.uid()))
+with check (owner_id = (select auth.uid()));
 
 drop policy if exists "public categories read" on public.categories;
 create policy "public categories read" on public.categories
@@ -210,8 +282,75 @@ for select using (true);
 drop policy if exists "admin manages jobs" on public.jobs;
 create policy "admin manages jobs" on public.jobs
 for all
-using (public.is_admin())
-with check (public.is_admin());
+using ((select public.is_admin()))
+with check ((select public.is_admin()));
+
+-- Remove the permissive base policy before adding production-specific job access.
+drop policy if exists "company owns jobs" on public.jobs;
+drop policy if exists "company insert own jobs" on public.jobs;
+drop policy if exists "company update own jobs" on public.jobs;
+
+drop policy if exists "public active jobs" on public.jobs;
+create policy "public active jobs" on public.jobs
+for select
+using (
+  status = 'active'
+  or (select public.is_admin())
+  or exists (
+    select 1 from public.companies c
+    where c.id = jobs.company_id and c.owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "company inserts own pending jobs" on public.jobs;
+create policy "company inserts own pending jobs" on public.jobs
+for insert
+with check (
+  status = 'pending_review'
+  and featured = false
+  and exists (
+    select 1 from public.companies c
+    where c.id = jobs.company_id
+      and c.owner_id = (select auth.uid())
+      and c.approved = true
+  )
+);
+
+drop policy if exists "company updates own non-active jobs" on public.jobs;
+create policy "company updates own non-active jobs" on public.jobs
+for update
+using (
+  exists (
+    select 1 from public.companies c
+    where c.id = jobs.company_id and c.owner_id = (select auth.uid())
+  )
+)
+with check (
+  status in ('draft', 'pending_review', 'paused')
+  and featured = false
+  and exists (
+    select 1 from public.companies c
+    where c.id = jobs.company_id and c.owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "candidate inserts own applications" on public.job_applications;
+drop policy if exists "candidate creates own applications" on public.job_applications;
+create policy "candidate inserts own active job applications" on public.job_applications
+for insert
+with check (
+  candidate_id = (select auth.uid())
+  and exists (
+    select 1 from public.profiles p
+    where p.id = (select auth.uid())
+      and p.role = 'candidate'
+  )
+  and exists (
+    select 1 from public.jobs j
+    where j.id = job_applications.job_id
+      and j.status = 'active'
+  )
+);
 
 drop policy if exists "company updates applications for own jobs" on public.job_applications;
 create policy "company updates applications for own jobs" on public.job_applications
@@ -305,14 +444,14 @@ create policy "company inserts own payment proofs" on public.payment_proofs
 for insert
 with check (
   status = 'pending'
-  and uploaded_by = auth.uid()
+  and uploaded_by = (select auth.uid())
   and exists (
     select 1 from public.companies c
     join public.orders o on o.company_id = c.id
     where c.id = payment_proofs.company_id
       and o.id = payment_proofs.order_id
       and o.status = 'pending'
-      and c.owner_id = auth.uid()
+      and c.owner_id = (select auth.uid())
   )
 );
 
@@ -323,27 +462,30 @@ using (public.is_admin())
 with check (public.is_admin());
 
 drop policy if exists "payment proof owner uploads" on storage.objects;
+drop policy if exists "company uploads own payment proofs" on storage.objects;
 create policy "payment proof owner uploads" on storage.objects
 for insert
 with check (
   bucket_id = 'payment-proofs'
   and exists (
     select 1 from public.companies c
-    where c.owner_id = auth.uid()
+    where c.owner_id = (select auth.uid())
       and c.id::text = split_part(name, '/', 1)
   )
 );
 
 drop policy if exists "payment proof owner reads" on storage.objects;
+drop policy if exists "company reads own payment proof files" on storage.objects;
+drop policy if exists "admin reads payment proof files" on storage.objects;
 create policy "payment proof owner reads" on storage.objects
 for select
 using (
   bucket_id = 'payment-proofs'
   and (
-    public.is_admin()
+    (select public.is_admin())
     or exists (
       select 1 from public.companies c
-      where c.owner_id = auth.uid()
+      where c.owner_id = (select auth.uid())
         and c.id::text = split_part(name, '/', 1)
     )
   )

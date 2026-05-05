@@ -1,6 +1,6 @@
-# imaposla.me Next.js verzija
+# imaposla.me
 
-Ovo je nova Next.js verzija sajta u posebnom folderu `imaposlame`. Postojeci live frontend u folderu `imaposla` nije mijenjan.
+Ovo je jedini produkcioni folder za sajt. Next.js aplikacija, Supabase SQL, backend plan, staticki prototip i asseti su spakovani ovdje da deploy i dalji rad idu iz jednog mjesta.
 
 ## Sta je prebaceno
 
@@ -29,19 +29,31 @@ Ako zelis env fajl:
 copy .env.example .env.local
 ```
 
-Env varijable su obavezne. Aplikacija namjerno ne koristi hardcoded Supabase fallback, da staging ili lokalni rad ne bi slucajno pisali u produkcionu bazu.
+Env varijable su obavezne. Aplikacija namjerno ne koristi hardcoded Supabase fallback, da staging ili lokalni rad ne bi slucajno pisali u produkcionu bazu. Za produkciju na Vercel-u dodaj:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+Ako deploy ide iz repozitorijuma koji sadrzi vise foldera, Vercel Root Directory mora biti `imaposlame`.
 
 ## Supabase
 
-Prije produkcionog deploy-a pokreni `supabase-production.sql` kao novi query u Supabase SQL editoru. Taj fajl dodaje:
+Za novi Supabase projekat redosljed je:
+
+1. `supabase-schema.sql` - bazne tabele, enum tipovi, pocetni seed podaci i osnovni RLS.
+2. `supabase-production.sql` - finalni Next.js backend dodaci, hardening, storage bucket, uplate i produkcione RLS politike.
+
+`supabase-admin-hardening.sql` je zadrzan iz ranijeg prototipa kao istorijski/legacy hardening fajl. Za produkcioni Next deploy koristi `supabase-production.sql`, jer vec pokriva aktuelni auth, firme, oglase, uplate i storage tok.
+
+`supabase-production.sql` dodaje:
 
 - automatsko pravljenje `profiles` reda poslije registracije
 - `cv_data` i `cv_updated_at` za CV builder
 - `payment_proofs` tabelu i privatni `payment-proofs` bucket
 - `confirm_payment_proof` RPC za sigurnu admin potvrdu uplate
 - pravila za firme, oglase, planove, narudzbe, dokaze uplate i pretplate
-- zastitu da korisnik ne moze sam sebi promijeniti ulogu
+- zastitu da korisnik ne moze sam sebi promijeniti ulogu, dodijeliti admin ulogu kroz signup metadata ili sam odobriti firmu
 
 ## Napomena
 
-Ovo je Next.js migracija cijelog sajta. Za launch obavezno proci QA kroz sva 4 tipa korisnika: gost, kandidat, firma i upravljanje.
+Next.js app je aktivna produkciona verzija. Stari staticki prototip je sacuvan u `legacy-static/` samo kao referenca, nije deploy entrypoint. Za launch obavezno proci QA kroz sva 4 tipa korisnika: gost, kandidat, firma i upravljanje.
