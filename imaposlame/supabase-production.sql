@@ -221,6 +221,33 @@ for update
 using (auth.uid() = id)
 with check (auth.uid() = id);
 
+drop policy if exists "profiles admin read" on public.profiles;
+create policy "profiles admin read" on public.profiles
+for select
+using ((select public.is_admin()));
+
+drop policy if exists "profiles admin update" on public.profiles;
+create policy "profiles admin update" on public.profiles
+for update
+using ((select public.is_admin()))
+with check ((select public.is_admin()));
+
+drop policy if exists "company reads applicant profiles" on public.profiles;
+create policy "company reads applicant profiles" on public.profiles
+for select
+using (
+  id = (select auth.uid())
+  or (select public.is_admin())
+  or exists (
+    select 1
+    from public.job_applications a
+    join public.jobs j on j.id = a.job_id
+    join public.companies c on c.id = j.company_id
+    where a.candidate_id = profiles.id
+      and c.owner_id = (select auth.uid())
+  )
+);
+
 drop policy if exists "public approved companies" on public.companies;
 create policy "public approved companies" on public.companies
 for select using (approved = true or owner_id = auth.uid() or public.is_admin());
@@ -257,6 +284,11 @@ create policy "admin manages jobs" on public.jobs
 for all
 using ((select public.is_admin()))
 with check ((select public.is_admin()));
+
+-- Remove the permissive base policy before adding production-specific job access.
+drop policy if exists "company owns jobs" on public.jobs;
+drop policy if exists "company insert own jobs" on public.jobs;
+drop policy if exists "company update own jobs" on public.jobs;
 
 drop policy if exists "public active jobs" on public.jobs;
 create policy "public active jobs" on public.jobs
@@ -299,6 +331,24 @@ with check (
   and exists (
     select 1 from public.companies c
     where c.id = jobs.company_id and c.owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "candidate inserts own applications" on public.job_applications;
+drop policy if exists "candidate creates own applications" on public.job_applications;
+create policy "candidate inserts own active job applications" on public.job_applications
+for insert
+with check (
+  candidate_id = (select auth.uid())
+  and exists (
+    select 1 from public.profiles p
+    where p.id = (select auth.uid())
+      and p.role = 'candidate'
+  )
+  and exists (
+    select 1 from public.jobs j
+    where j.id = job_applications.job_id
+      and j.status = 'active'
   )
 );
 
