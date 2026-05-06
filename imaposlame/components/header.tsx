@@ -59,7 +59,7 @@ export function Header() {
           ) : (
             <>
               <Link className="btn ghost account-state" href={dashboardHref}>{roleLabels[role]}</Link>
-              <Link className="btn red account-state" href="/logout">Odjava</Link>
+              <Link className="btn red account-state" href="/auth/logout">Odjava</Link>
             </>
           )}
         </div>
