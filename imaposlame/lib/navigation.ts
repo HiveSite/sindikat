@@ -50,20 +50,20 @@ export const mobileNavItems: Record<UserRole, NavItem[]> = {
     { icon: "OO", label: "Oglasi", href: "/oglasi" },
     { icon: "CV", label: "Biografija", href: "/profil/biografija" },
     { icon: "AP", label: "Prijave", href: "/profil/prijave" },
-    { icon: "OUT", label: "Odjava", href: "/logout" }
+    { icon: "OUT", label: "Odjava", href: "/auth/logout" }
   ],
   company: [
     { icon: "PG", label: "Pregled", href: "/firma" },
     { icon: "OG", label: "Oglasi", href: "/firma/oglasi" },
     { icon: "+", label: "Novi", href: "/firma/novi-oglas" },
     { icon: "UP", label: "Uplata", href: "/firma/pretplata" },
-    { icon: "OUT", label: "Odjava", href: "/logout" }
+    { icon: "OUT", label: "Odjava", href: "/auth/logout" }
   ],
   admin: [
     { icon: "AD", label: "Pregled", href: "/admin" },
     { icon: "UP", label: "Uplate", href: "/admin/uplate" },
     { icon: "OG", label: "Oglasi", href: "/admin/oglasi" },
     { icon: "FI", label: "Firme", href: "/admin/firme" },
-    { icon: "OUT", label: "Odjava", href: "/logout" }
+    { icon: "OUT", label: "Odjava", href: "/auth/logout" }
   ]
 };
