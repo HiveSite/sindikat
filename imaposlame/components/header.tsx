@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { roleHomes, roleLabels } from "@/lib/labels";
+import { loadCurrentRole } from "@/lib/auth-role";
+import { desktopNavItems } from "@/lib/navigation";
 import type { UserRole } from "@/types/domain";
 
 export function Header() {
@@ -17,11 +19,7 @@ export function Header() {
     document.documentElement.dataset.theme = saved;
 
     async function loadRole() {
-      const { data } = await supabase.auth.getSession();
-      const user = data.session?.user;
-      if (!user) return setRole("guest");
-      const profile = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-      setRole((profile.data?.role as UserRole) || "guest");
+      setRole(await loadCurrentRole(supabase));
     }
 
     loadRole();
@@ -36,12 +34,6 @@ export function Header() {
     window.localStorage.setItem("imaposlaTheme", next);
   }
 
-  async function signOut() {
-    await supabase.auth.signOut();
-    setRole("guest");
-    window.location.href = "/";
-  }
-
   const dashboardHref = role === "guest" ? "/login" : roleHomes[role as Exclude<UserRole, "guest">];
 
   return (
@@ -52,11 +44,9 @@ export function Header() {
           <span>imaposla.me</span>
         </Link>
         <nav className="nav desktop-nav" aria-label="Glavna navigacija">
-          <Link href="/oglasi">Oglasi</Link>
-          <Link href="/gradovi">Gradovi</Link>
-          <Link href="/kategorije">Kategorije</Link>
-          <Link href="/firme">Firme</Link>
-          {role !== "candidate" ? <Link href="/za-firme">Za firme</Link> : null}
+          {desktopNavItems[role].map((item) => (
+            <Link href={item.href} key={`${item.label}-${item.href}`}>{item.label}</Link>
+          ))}
         </nav>
         <div className="top-actions">
           <span className="role-pill">{role === "guest" ? "Niste prijavljeni" : `${roleLabels[role]} prijavljen`}</span>
@@ -69,7 +59,7 @@ export function Header() {
           ) : (
             <>
               <Link className="btn ghost account-state" href={dashboardHref}>{roleLabels[role]}</Link>
-              <button className="btn red account-state" type="button" onClick={signOut}>Odjava</button>
+              <Link className="btn red account-state" href="/logout">Odjava</Link>
             </>
           )}
         </div>
