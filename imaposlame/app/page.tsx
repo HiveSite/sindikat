@@ -2,6 +2,7 @@ import { CompanyCard } from "@/components/company-card";
 import { JobCard } from "@/components/job-card";
 import { Button, EmptyState, PageLabel } from "@/components/ui";
 import { getCompanies, getPublicJobs } from "@/lib/queries/public";
+import Link from "next/link";
 
 export default async function HomePage() {
   const [jobs, companies] = await Promise.all([getPublicJobs(3), getCompanies(4)]);
@@ -10,32 +11,32 @@ export default async function HomePage() {
     <section className="live-home">
       <div className="live-hero">
         <PageLabel>imaposla.me</PageLabel>
-        <h1>Posao i zapošljavanje u Crnoj Gori, jasno od prvog klika.</h1>
-        <p>Kandidat pretražuje oglase, pravi biografiju i šalje prijavu. Firma objavljuje oglas, prati prijave i vodi selekciju. Javni prikaz prolazi provjeru.</p>
+        <h1>Posao i zaposljavanje u Crnoj Gori, jasno od prvog klika.</h1>
+        <p>Kandidat pretrazuje oglase, pravi biografiju i salje prijavu. Firma objavljuje oglas, prati prijave i vodi selekciju. Javni prikaz prolazi provjeru.</p>
         <form className="live-search" action="/oglasi">
-          <input className="field" name="q" placeholder="Naziv posla, firma ili vještina" />
-          <button className="btn blue">Traži posao</button>
+          <input className="field" name="q" placeholder="Naziv posla, firma ili vjestina" />
+          <button className="btn blue">Trazi posao</button>
         </form>
         <div className="live-actions">
-          <Button href="/oglasi" tone="lime">Tražim posao</Button>
-          <Button href="/registracija?role=company" tone="blue">Zapošljavam</Button>
+          <Button href="/oglasi" tone="lime">Trazim posao</Button>
+          <Button href="/registracija?role=company" tone="blue">Zaposljavam</Button>
           <Button href="/login" tone="ghost">Prijava</Button>
         </div>
       </div>
 
       <div className="live-paths">
-        <a className="live-path" href="/oglasi">
+        <Link className="live-path" href="/oglasi">
           <span>Kandidat</span>
-          <h2>Pronađi posao</h2>
-          <p>Otvori oglas, pročitaj uslove, dopuni biografiju i pošalji prijavu bez upload fajlova.</p>
+          <h2>Pronadji posao</h2>
+          <p>Otvori oglas, procitaj uslove, dopuni biografiju i posalji prijavu bez upload fajlova.</p>
           <strong>Otvori oglase</strong>
-        </a>
-        <a className="live-path" href="/registracija?role=company">
+        </Link>
+        <Link className="live-path" href="/registracija?role=company">
           <span>Firma</span>
           <h2>Objavi oglas</h2>
-          <p>Napravi profil firme, pošalji oglas na pregled i vodi kandidate kroz selekciju.</p>
+          <p>Napravi profil firme, posalji oglas na pregled i vodi kandidate kroz selekciju.</p>
           <strong>Kreni kao firma</strong>
-        </a>
+        </Link>
       </div>
 
       <div className="live-section-head">
@@ -48,7 +49,7 @@ export default async function HomePage() {
       </div>
       <div className="job-list">
         {jobs.length ? jobs.map((job) => <JobCard job={job} key={job.id} />) : (
-          <EmptyState title="Još nema aktivnih oglasa" text="Kada firma pošalje oglas i bude odobren, pojaviće se ovdje." action={<Button href="/oglasi" tone="blue">Pretraga oglasa</Button>} />
+          <EmptyState title="Jos nema aktivnih oglasa" text="Kada firma posalje oglas i bude odobren, pojavice se ovdje." action={<Button href="/oglasi" tone="blue">Pretraga oglasa</Button>} />
         )}
       </div>
 
