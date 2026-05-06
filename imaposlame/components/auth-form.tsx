@@ -4,48 +4,15 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 
-function cleanNextPath(value: string | null) {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) return null;
-  return value;
-}
-
-export function LoginForm({ nextPath }: { nextPath?: string | null }) {
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const supabase = createBrowserSupabase();
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
-    setMessage("");
-    const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email") || "").trim();
-    const password = String(formData.get("password") || "");
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) {
-      setMessage("E-posta ili lozinka nijesu tacni.");
-      setLoading(false);
-      return;
-    }
-
-    if (!data.session) {
-      setMessage("Prijava je prosla, ali sesija nije sacuvana. Pokusaj jos jednom.");
-      setLoading(false);
-      return;
-    }
-
-    window.location.assign(cleanNextPath(nextPath || null) || "/profil");
-  }
-
+export function LoginForm({ nextPath, errorMessage }: { nextPath?: string | null; errorMessage?: string | null }) {
   return (
-    <form className="auth-form" onSubmit={submit}>
+    <form className="auth-form" action="/auth/login" method="post">
+      <input type="hidden" name="next" value={nextPath || "/profil"} />
       <label><span className="label">E-posta</span><input className="field" name="email" type="email" autoComplete="email" required /></label>
       <label><span className="label">Lozinka</span><input className="field" name="password" type="password" autoComplete="current-password" required /></label>
-      <button className="btn blue" disabled={loading}>{loading ? "Prijava..." : "Prijavi se"}</button>
+      <button className="btn blue" type="submit">Prijavi se</button>
       <p>Upravljanje se ne bira javno. Sistem sam otvara dio koji pripada tvojoj ulozi.</p>
-      {message ? <p className="notice">{message}</p> : null}
+      {errorMessage ? <p className="notice">{errorMessage}</p> : null}
     </form>
   );
 }
