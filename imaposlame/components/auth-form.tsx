@@ -1,9 +1,8 @@
 "use client";
 
+import type { FormEvent } from "react";
 import { useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase/client";
-import { roleHomes } from "@/lib/labels";
-import type { UserRole } from "@/types/domain";
 
 function cleanNextPath(value: string | null) {
   if (!value || !value.startsWith("/") || value.startsWith("//")) return null;
@@ -15,32 +14,33 @@ export function LoginForm({ nextPath }: { nextPath?: string | null }) {
   const [loading, setLoading] = useState(false);
   const supabase = createBrowserSupabase();
 
-  async function submit(formData: FormData) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setLoading(true);
     setMessage("");
+    const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") || "").trim();
     const password = String(formData.get("password") || "");
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
     if (error) {
-      setMessage(/invalid login credentials/i.test(error.message) ? "E-posta ili lozinka nijesu tacni." : error.message);
+      setMessage("E-posta ili lozinka nijesu tacni.");
       setLoading(false);
       return;
     }
 
-    const { data } = await supabase.auth.getSession();
-    const user = data.session?.user;
-    const profile = user ? await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle() : null;
-    if (profile?.error) {
-      window.location.href = cleanNextPath(nextPath || null) || "/profil";
+    if (!data.session) {
+      setMessage("Prijava je prosla, ali sesija nije sacuvana. Pokusaj jos jednom.");
+      setLoading(false);
       return;
     }
 
-    const role = (profile?.data?.role || "candidate") as Exclude<UserRole, "guest">;
-    window.location.href = cleanNextPath(nextPath || null) || roleHomes[role] || "/";
+    window.location.assign(cleanNextPath(nextPath || null) || "/profil");
   }
 
   return (
-    <form className="auth-form" action={submit}>
+    <form className="auth-form" onSubmit={submit}>
       <label><span className="label">E-posta</span><input className="field" name="email" type="email" autoComplete="email" required /></label>
       <label><span className="label">Lozinka</span><input className="field" name="password" type="password" autoComplete="current-password" required /></label>
       <button className="btn blue" disabled={loading}>{loading ? "Prijava..." : "Prijavi se"}</button>
@@ -55,9 +55,11 @@ export function RegisterForm({ selectedRole }: { selectedRole: "candidate" | "co
   const [loading, setLoading] = useState(false);
   const supabase = createBrowserSupabase();
 
-  async function submit(formData: FormData) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setLoading(true);
     setMessage("");
+    const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") || "").trim();
     const password = String(formData.get("password") || "");
     const role = String(formData.get("role") || selectedRole);
@@ -73,7 +75,7 @@ export function RegisterForm({ selectedRole }: { selectedRole: "candidate" | "co
   }
 
   return (
-    <form className="auth-form" action={submit}>
+    <form className="auth-form" onSubmit={submit}>
       <input type="hidden" name="role" value={selectedRole} />
       <label><span className="label">E-posta</span><input className="field" name="email" type="email" autoComplete="email" required /></label>
       <label><span className="label">Lozinka</span><input className="field" name="password" type="password" autoComplete="new-password" minLength={8} required /></label>
