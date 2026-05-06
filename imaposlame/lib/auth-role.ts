@@ -8,15 +8,22 @@ export function normalizeRole(value: unknown): UserRole {
 }
 
 export async function loadCurrentRole(supabase: SupabaseClient): Promise<UserRole> {
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return "guest";
+
   const user = data.user;
 
-  if (!user) return "guest";
+  const { data: profileData, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
 
-  const profile = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  const profileRole = normalizeRole(profile.data?.role);
+  if (profileError) console.error("[loadCurrentRole]", profileError.message);
 
-  if (profileRole !== "guest") return profileRole;
+  const profileRole = normalizeRole(profileData?.role);
 
-  return normalizeRole(user.user_metadata?.role);
+  // Profile role is authoritative — never fall back to user_metadata for role
+  // (user_metadata can be set by the client and is not trusted for access control)
+  return profileRole;
 }

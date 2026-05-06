@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import { JobCard } from "@/components/job-card";
 import { EmptyState, SectionHead } from "@/components/ui";
 import { getPublicJobsByCity } from "@/lib/queries/public";
 
-export default async function CityJobsPage({ params }: { params: Promise<{ grad: string }> }) {
+type Props = { params: Promise<{ grad: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { grad } = await params;
+  const city = decodeURIComponent(grad);
+  return {
+    title: `Poslovi: ${city}`,
+    description: `Oglasi za posao u gradu ${city}, Crna Gora.`
+  };
+}
+
+export default async function CityJobsPage({ params }: Props) {
   const { grad } = await params;
   const city = decodeURIComponent(grad);
   const jobs = await getPublicJobsByCity(city);

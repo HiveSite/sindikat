@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { JobCard } from "@/components/job-card";
 import { EmptyState, SectionHead } from "@/components/ui";
 import { getLookups, getPublicJobs } from "@/lib/queries/public";
+
+export const metadata: Metadata = {
+  title: "Oglasi za posao",
+  description: "Pretraži oglase za posao u Crnoj Gori. Filtriraj po gradu i kategoriji."
+};
 
 export default async function JobsPage({ searchParams }: { searchParams: Promise<{ q?: string; city?: string; category?: string }> }) {
   const params = await searchParams;

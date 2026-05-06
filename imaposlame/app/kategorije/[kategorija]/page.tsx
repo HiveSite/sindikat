@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import { JobCard } from "@/components/job-card";
 import { EmptyState, SectionHead } from "@/components/ui";
 import { getPublicJobsByCategory } from "@/lib/queries/public";
 
-export default async function CategoryJobsPage({ params }: { params: Promise<{ kategorija: string }> }) {
+type Props = { params: Promise<{ kategorija: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { kategorija } = await params;
+  const category = decodeURIComponent(kategorija);
+  return {
+    title: `Poslovi: ${category}`,
+    description: `Oglasi za posao iz kategorije ${category} u Crnoj Gori.`
+  };
+}
+
+export default async function CategoryJobsPage({ params }: Props) {
   const { kategorija } = await params;
   const category = decodeURIComponent(kategorija);
   const jobs = await getPublicJobsByCategory(category);

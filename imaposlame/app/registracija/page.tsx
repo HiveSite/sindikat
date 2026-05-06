@@ -1,23 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { RegisterForm } from "@/components/auth-form";
 import { PageLabel } from "@/components/ui";
 
+export const metadata: Metadata = {
+  title: "Registracija",
+  description: "Kreiraj nalog na imaposla.me kao kandidat ili firma."
+};
+
 export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ role?: string }> }) {
   const params = await searchParams;
-  const selectedRole = params.role === "company" ? "company" : "candidate";
-
+  const role = params.role === "company" ? "company" : "candidate";
   return (
     <section className="auth-shell auth-two">
       <div>
         <PageLabel>Registracija</PageLabel>
-        <h1>Novi nalog</h1>
-        <p>Izaberi ulogu prije popunjavanja forme. Kandidat trazi posao, firma objavljuje oglase i pregleda prijave.</p>
-        <div className="auth-role-grid compact">
-          <Link className="auth-role-card" href="/registracija?role=candidate"><span>Kandidat</span><h2>Trazim posao</h2><p>Za prijave, biografiju i pracenje statusa.</p></Link>
-          <Link className="auth-role-card" href="/registracija?role=company"><span>Firma</span><h2>Zaposljavam</h2><p>Za objavu oglasa, profil firme i selekciju.</p></Link>
+        <h1>Napravi nalog.</h1>
+        <p>{role === "company" ? "Objavljuješ oglase i vodiš selekciju kandidata." : "Tražiš posao, praviš biografiju i šalješ prijave."}</p>
+        <div className="auth-actions">
+          <Link className={`btn ${role === "candidate" ? "blue" : "ghost"}`} href="/registracija?role=candidate">Tražim posao</Link>
+          <Link className={`btn ${role === "company" ? "blue" : "ghost"}`} href="/registracija?role=company">Zapošljavam</Link>
         </div>
+        <div className="auth-actions"><Link className="btn ghost" href="/login">Već imam nalog</Link></div>
       </div>
-      <RegisterForm selectedRole={selectedRole} />
+      <RegisterForm selectedRole={role} />
     </section>
   );
 }

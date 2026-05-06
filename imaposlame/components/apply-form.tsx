@@ -5,41 +5,49 @@ import { useEffect, useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { normalizeRole } from "@/lib/auth-role";
 
+type ApplyState = "loading" | "guest" | "wrong-role" | "duplicate" | "no-cv" | "ready" | "submitting" | "done" | "error";
+
 export function ApplyForm({ jobId }: { jobId: number }) {
-  const [ready, setReady] = useState(false);
+  const [state, setState] = useState<ApplyState>("loading");
   const [userId, setUserId] = useState("");
-  const [role, setRole] = useState("guest");
   const [message, setMessage] = useState("");
-  const [duplicate, setDuplicate] = useState(false);
-  const supabase = createBrowserSupabase();
+  const [supabase] = useState(() => createBrowserSupabase());
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase.auth.getUser();
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) { setState("guest"); return; }
+
       const user = data.user;
-      if (!user) {
-        setReady(true);
-        return;
-      }
       setUserId(user.id);
-      const profile = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-      setRole(normalizeRole(profile.data?.role || user.user_metadata?.role || "candidate"));
-      const existing = await supabase.from("job_applications").select("id").eq("job_id", jobId).eq("candidate_id", user.id).maybeSingle();
-      setDuplicate(Boolean(existing.data?.id));
-      setReady(true);
+
+      const { data: profileData } = await supabase.from("profiles").select("role,full_name,phone,city,cv_data").eq("id", user.id).maybeSingle();
+      const role = normalizeRole(profileData?.role);
+
+      if (role !== "candidate") { setState("wrong-role"); return; }
+
+      const { data: existing } = await supabase.from("job_applications").select("id").eq("job_id", jobId).eq("candidate_id", user.id).maybeSingle();
+      if (existing?.id) { setState("duplicate"); return; }
+
+      const cv = profileData?.cv_data || {};
+      const hasCv = Boolean(
+        (cv as any).summary || (cv as any).experience || (cv as any).skills ||
+        profileData?.full_name || profileData?.phone || profileData?.city
+      );
+      if (!hasCv) { setState("no-cv"); return; }
+
+      setState("ready");
     }
     load();
   }, [jobId, supabase]);
 
-  async function submit(formData: FormData) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!userId) return;
+    setState("submitting");
     setMessage("");
-    const profile = await supabase.from("profiles").select("full_name,phone,city,cv_data").eq("id", userId).maybeSingle();
-    const cv = profile.data?.cv_data || {};
-    const hasCv = Boolean(cv.summary || cv.experience || cv.skills || profile.data?.full_name || profile.data?.phone || profile.data?.city);
-    if (!hasCv) {
-      setMessage("Prvo dopuni biografiju u profilu, pa posalji prijavu.");
-      return;
-    }
+
+    const formData = new FormData(event.currentTarget);
     const row = {
       job_id: jobId,
       candidate_id: userId,
@@ -47,22 +55,65 @@ export function ApplyForm({ jobId }: { jobId: number }) {
       cv_path: null,
       reference_code: `IP-${Date.now()}`
     };
+
     const { error } = await supabase.from("job_applications").insert(row);
-    if (error) return setMessage(error.message);
+    if (error) {
+      console.error("[ApplyForm:submit]", error.message);
+      setMessage(error.message);
+      setState("error");
+      return;
+    }
+    setState("done");
     window.location.href = "/profil/prijave";
   }
 
-  if (!ready) return <p className="notice">Provjeravamo nalog...</p>;
-  if (!userId) return <div className="empty"><strong>Prijava zahtijeva nalog</strong><p>Prijavi se kao kandidat i dopuni biografiju.</p><Link className="btn blue" href="/login">Prijava</Link></div>;
-  if (role !== "candidate") return <div className="empty"><strong>Samo kandidat moze poslati prijavu</strong><p>Ako koristis nalog firme, ovaj oglas mozes samo pregledati.</p></div>;
-  if (duplicate) return <p className="notice">Za ovaj oglas vec postoji tvoja prijava. Status prati u Moje prijave.</p>;
+  if (state === "loading") return <p className="notice">Provjeravamo nalog...</p>;
+
+  if (state === "guest") return (
+    <div className="empty">
+      <strong>Prijava zahtijeva nalog</strong>
+      <p>Prijavi se kao kandidat i dopuni biografiju.</p>
+      <Link className="btn blue" href="/login">Prijava</Link>
+    </div>
+  );
+
+  if (state === "wrong-role") return (
+    <div className="empty">
+      <strong>Samo kandidat može poslati prijavu</strong>
+      <p>Ako koristiš nalog firme, ovaj oglas možeš samo pregledati.</p>
+    </div>
+  );
+
+  if (state === "duplicate") return (
+    <p className="notice">Za ovaj oglas već postoji tvoja prijava. Status prati u <Link href="/profil/prijave">Moje prijave</Link>.</p>
+  );
+
+  if (state === "no-cv") return (
+    <div className="empty">
+      <strong>Biografija nije popunjena</strong>
+      <p>Dopuni biografiju u profilu, pa pošalji prijavu.</p>
+      <Link className="btn blue" href="/profil/biografija">Dopuni biografiju</Link>
+    </div>
+  );
+
+  if (state === "done") return <p className="notice">Prijava je poslata. Preusmjeravamo na tvoje prijave...</p>;
 
   return (
-    <form action={submit} className="apply-form">
-      <label><span className="label">Poruka firmi</span><textarea className="textarea" name="cover_letter" maxLength={1200} placeholder="Kratko predstavljanje, iskustvo i dostupnost" /></label>
-      <p className="notice">Prijava koristi biografiju iz profila. Fajlovi se ne salju i ne cuvaju.</p>
-      <button className="btn blue">Posalji prijavu</button>
-      {message ? <p className="notice">{message}</p> : null}
+    <form onSubmit={submit} className="apply-form">
+      <label>
+        <span className="label">Poruka firmi</span>
+        <textarea
+          className="textarea"
+          name="cover_letter"
+          maxLength={1200}
+          placeholder="Kratko predstavljanje, iskustvo i dostupnost"
+        />
+      </label>
+      <p className="notice">Prijava koristi biografiju iz profila. Fajlovi se ne šalju i ne čuvaju.</p>
+      <button className="btn blue" disabled={state === "submitting"}>
+        {state === "submitting" ? "Slanje..." : "Pošalji prijavu"}
+      </button>
+      {message ? <p className="notice error">{message}</p> : null}
     </form>
   );
 }

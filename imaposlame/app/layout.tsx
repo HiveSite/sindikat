@@ -5,8 +5,22 @@ import { MobileNav } from "@/components/mobile-nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "imaposla.me",
-  description: "Poslovi, kandidati i poslodavci u Crnoj Gori."
+  title: {
+    default: "imaposla.me — Poslovi u Crnoj Gori",
+    template: "%s | imaposla.me"
+  },
+  description: "Oglasi za posao, kandidati i poslodavci u Crnoj Gori. Pronađi posao ili objavi oglas u nekoliko minuta.",
+  keywords: ["posao", "oglasi za posao", "zapošljavanje", "Crna Gora", "Podgorica", "kandidati", "firme"],
+  metadataBase: new URL("https://imaposla.me"),
+  openGraph: {
+    siteName: "imaposla.me",
+    locale: "sr_ME",
+    type: "website"
+  },
+  robots: {
+    index: true,
+    follow: true
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

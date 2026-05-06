@@ -1,10 +1,25 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JobCard } from "@/components/job-card";
 import { Badge, Button, EmptyState, SectionHead } from "@/components/ui";
 import { parseIdFromSlug } from "@/lib/format";
 import { getCompanyById, getPublicJobsByCompany } from "@/lib/queries/public";
 
-export default async function CompanyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const id = parseIdFromSlug(slug);
+  if (!id) return { title: "Firma nije pronađena" };
+  const company = await getCompanyById(id);
+  if (!company) return { title: "Firma nije pronađena" };
+  return {
+    title: company.name,
+    description: company.description?.slice(0, 160) || `Profil firme ${company.name} na imaposla.me.`
+  };
+}
+
+export default async function CompanyDetailPage({ params }: Props) {
   const { slug } = await params;
   const id = parseIdFromSlug(slug);
   if (!id) return notFound();
