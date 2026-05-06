@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { roleHomes, roleLabels, stageLabels } from "@/lib/labels";
+import { normalizeRole } from "@/lib/auth-role";
 import type { JobApplication, Profile, UserRole } from "@/types/domain";
 
 type AccountState = {
@@ -24,15 +25,15 @@ export function DashboardClient({ expectedRole, title }: { expectedRole: Exclude
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase.auth.getSession();
-      const user = data.session?.user;
+      const { data } = await supabase.auth.getUser();
+      const user = data.user;
       if (!user) {
         window.location.href = "/login";
         return;
       }
 
       const profile = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
-      const role = (profile.data?.role || "guest") as UserRole;
+      const role = normalizeRole(profile.data?.role || user.user_metadata?.role || expectedRole);
       if (role !== expectedRole && role !== "admin") {
         window.location.href = homeForRole(role);
         return;
@@ -42,7 +43,16 @@ export function DashboardClient({ expectedRole, title }: { expectedRole: Exclude
         ? await supabase.from("job_applications").select("*,jobs(title,companies(name))").eq("candidate_id", user.id).order("created_at", { ascending: false })
         : { data: [] };
 
-      setAccount({ role, profile: profile.data as Profile, applications: (applications.data || []) as JobApplication[] });
+      const profileData = (profile.data || {
+        id: user.id,
+        role,
+        full_name: null,
+        email: user.email || null,
+        phone: null,
+        city: null
+      }) as Profile;
+
+      setAccount({ role, profile: profileData, applications: (applications.data || []) as JobApplication[] });
       setLoading(false);
     }
     load();
