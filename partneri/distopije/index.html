@@ -98,8 +98,12 @@
         position: relative;
         overflow: hidden;
         background:
+          linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.42)),
+          var(--photo),
           radial-gradient(circle at var(--x, 50%) var(--y, 30%), rgba(255, 255, 255, 0.18), transparent 0 10%, transparent 26%),
           linear-gradient(135deg, var(--a), var(--b));
+        background-position: center;
+        background-size: cover;
         isolation: isolate;
       }
 
@@ -133,6 +137,7 @@
         --b: #3a3832;
         --x: 68%;
         --y: 24%;
+        --photo: url("https://source.unsplash.com/j4YEYTgLlqk/1800x1200");
       }
 
       .hero-label {
@@ -442,8 +447,12 @@
         aspect-ratio: 16 / 10;
         min-height: min(72vh, 680px);
         background:
+          linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.38)),
+          var(--photo),
           radial-gradient(circle at var(--x, 50%) var(--y, 30%), rgba(255,255,255,.18), transparent 0 12%, transparent 28%),
           linear-gradient(135deg, var(--a), var(--b));
+        background-position: center;
+        background-size: cover;
         overflow: hidden;
         position: relative;
       }
@@ -660,10 +669,10 @@
       <section class="section" id="series" aria-labelledby="series-title">
         <div class="section-head"><p>04</p><h2 id="series-title">SERIES</h2></div>
         <div class="series-grid">
-          <a class="series-card" href="#moments"><span class="mock-image" style="--a:#111315;--b:#4c4940;--x:64%;--y:20%;"><em>01</em></span><span>Moments</span><p>Unstaged frames, quiet gestures and fragments of atmosphere.</p></a>
-          <a class="series-card" href="#street"><span class="mock-image" style="--a:#080909;--b:#5b5548;--x:30%;--y:34%;"><em>02</em></span><span>Street</span><p>Street scenes, urban details and everyday visual tension.</p></a>
-          <a class="series-card" href="#portraits"><span class="mock-image" style="--a:#15120f;--b:#4e473e;--x:50%;--y:22%;"><em>10</em></span><span>Portraits</span><p>Faces, presence and restrained portrait fragments.</p></a>
-          <a class="series-card" href="#visual"><span class="mock-image" style="--a:#0b0b0b;--b:#635f56;--x:34%;--y:24%;"><em>09</em></span><span>Visual Diary</span><p>Loose visual notes, fragments and atmospheric studies.</p></a>
+          <a class="series-card" href="#moments"><span class="mock-image" style="--a:#111315;--b:#4c4940;--x:64%;--y:20%;--photo:url('https://source.unsplash.com/rcCvKeAVrlY/900x1200');"><em>01</em></span><span>Moments</span><p>Unstaged frames, quiet gestures and fragments of atmosphere.</p></a>
+          <a class="series-card" href="#street"><span class="mock-image" style="--a:#080909;--b:#5b5548;--x:30%;--y:34%;--photo:url('https://source.unsplash.com/I3eyN_o3kTY/900x1200');"><em>02</em></span><span>Street</span><p>Street scenes, urban details and everyday visual tension.</p></a>
+          <a class="series-card" href="#portraits"><span class="mock-image" style="--a:#15120f;--b:#4e473e;--x:50%;--y:22%;--photo:url('https://source.unsplash.com/twnJ6s8LNvQ/900x1200');"><em>10</em></span><span>Portraits</span><p>Faces, presence and restrained portrait fragments.</p></a>
+          <a class="series-card" href="#visual"><span class="mock-image" style="--a:#0b0b0b;--b:#635f56;--x:34%;--y:24%;--photo:url('https://source.unsplash.com/e55KM2Ui17g/900x1200');"><em>09</em></span><span>Visual Diary</span><p>Loose visual notes, fragments and atmospheric studies.</p></a>
         </div>
       </section>
 
@@ -725,6 +734,32 @@
     </div>
 
     <script>
+      const photoUrls = [
+        "https://source.unsplash.com/rcCvKeAVrlY/1200x1500",
+        "https://source.unsplash.com/I3eyN_o3kTY/1500x950",
+        "https://source.unsplash.com/Gvm7qlEae_M/1200x1200",
+        "https://source.unsplash.com/zIB0QZy1rSM/1200x1500",
+        "https://source.unsplash.com/e55KM2Ui17g/1500x950",
+        "https://source.unsplash.com/G6neld0pXaA/1200x1200",
+        "https://source.unsplash.com/fpaLGf7fx80/1200x1500",
+        "https://source.unsplash.com/j4YEYTgLlqk/1500x950",
+        "https://source.unsplash.com/n8HMRL2tqc0/1200x1500",
+        "https://source.unsplash.com/twnJ6s8LNvQ/1200x1200",
+        "https://source.unsplash.com/R-3U7yh83Gw/1200x1500",
+        "https://source.unsplash.com/ALahNNpOCOk/1500x950",
+        "https://source.unsplash.com/O1dxbiQFHTc/1200x1200",
+        "https://source.unsplash.com/NmeOlwPtuWY/1200x1500",
+        "https://source.unsplash.com/8qrKdwezqS0/1500x950",
+        "https://source.unsplash.com/Z3658kN1fhc/1200x1500",
+        "https://source.unsplash.com/zCvgGiFYCG0/1500x950",
+        "https://source.unsplash.com/eWKZMdCROMI/1200x1500",
+        "https://source.unsplash.com/n8HMRL2tqc0/1200x1200",
+        "https://source.unsplash.com/I3eyN_o3kTY/1500x950",
+        "https://source.unsplash.com/twnJ6s8LNvQ/1200x1500",
+        "https://source.unsplash.com/rcCvKeAVrlY/1200x1200",
+        "https://source.unsplash.com/8qrKdwezqS0/1500x950",
+        "https://source.unsplash.com/ALahNNpOCOk/1200x1500"
+      ];
       const tiles = Array.from(document.querySelectorAll(".tile"));
       const lightbox = document.querySelector("#lightbox");
       const art = document.querySelector("#lightbox-art");
@@ -732,9 +767,17 @@
       const series = document.querySelector("#lightbox-series");
       let activeIndex = 0;
 
+      tiles.forEach((tile, index) => {
+        const image = tile.querySelector(".mock-image");
+        if (image && photoUrls[index]) {
+          image.style.setProperty("--photo", `url("${photoUrls[index]}")`);
+        }
+      });
+
       function paint(index) {
         const tile = tiles[index];
         activeIndex = index;
+        art.style.setProperty("--photo", `url("${photoUrls[index]}")`);
         art.style.setProperty("--a", tile.dataset.a);
         art.style.setProperty("--b", tile.dataset.b);
         art.style.setProperty("--x", tile.dataset.x);
