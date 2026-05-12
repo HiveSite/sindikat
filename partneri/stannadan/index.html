@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Garden Complex Zabjelo | Stan na dan Podgorica</title>
-  <meta name="description" content="Moderan stan na dan u Garden Complexu, Zabjelo, Podgorica. Privatni parking, video nadzor, moderna kuhinja, premium enterijer i udoban boravak." />
+  <title>Maison No 23 | Stan na dan Podgorica</title>
+  <meta name="description" content="Maison No 23 je moderan stan na dan u Podgorici. Privatni parking, video nadzor, moderna kuhinja, premium enterijer i udoban boravak." />
 
   <style>
     :root {
@@ -48,8 +48,7 @@
       text-decoration: none;
     }
 
-    img,
-    video {
+    img {
       display: block;
       max-width: 100%;
     }
@@ -140,6 +139,7 @@
       border: 1px solid transparent;
       transition: .25s ease;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     .btn-primary {
@@ -186,7 +186,7 @@
       gap: 36px;
       background:
         linear-gradient(180deg, rgba(255,250,244,0.86), rgba(244,238,230,0.82)),
-        url('https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&w=1300&q=85') center/cover;
+        url('https://i.ibb.co/YBJt939n/IMG-20260411-WA0022.jpg') center/cover;
       position: relative;
       isolation: isolate;
     }
@@ -282,6 +282,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
     }
 
     .image-shade {
@@ -331,7 +332,6 @@
     }
 
     .section-head h2,
-    .video-text h2,
     .final-copy h2 {
       font-family: Georgia, "Times New Roman", serif;
       font-weight: 500;
@@ -402,6 +402,34 @@
       line-height: 1.78;
     }
 
+    .info-strip {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .info-item {
+      min-height: 150px;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255,250,244,0.6);
+      border: 1px solid rgba(51,39,31,0.08);
+    }
+
+    .info-item strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .info-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
     .gallery-shell {
       margin-top: 18px;
       border-radius: 38px;
@@ -453,6 +481,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       transition: transform .8s ease;
     }
 
@@ -482,81 +511,6 @@
       color: rgba(255,255,255,0.78);
       font-size: 0.92rem;
       line-height: 1.45;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: 0.92fr 1.08fr;
-      gap: 18px;
-    }
-
-    .video-text,
-    .video-frame {
-      border-radius: 38px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(51,39,31,0.08);
-      background: rgba(255,250,244,0.66);
-    }
-
-    .video-text {
-      padding: clamp(26px, 4vw, 44px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .video-text h2 {
-      margin: 12px 0 18px;
-      font-size: clamp(2.1rem, 4vw, 4rem);
-    }
-
-    .video-text p {
-      color: var(--muted);
-      line-height: 1.85;
-      margin: 0 0 14px;
-    }
-
-    .video-frame {
-      min-height: 560px;
-      position: relative;
-      background: #d9c6b2;
-    }
-
-    .video-frame video,
-    .video-frame iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      object-fit: cover;
-    }
-
-    .info-strip {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .info-item {
-      min-height: 150px;
-      padding: 20px;
-      border-radius: 24px;
-      background: rgba(255,250,244,0.6);
-      border: 1px solid rgba(51,39,31,0.08);
-    }
-
-    .info-item strong {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-
-    .info-item span {
-      display: block;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 0.94rem;
     }
 
     .final {
@@ -593,6 +547,16 @@
       max-width: 640px;
     }
 
+    .final .btn-soft {
+      background: rgba(255,250,244,0.1);
+      border-color: rgba(255,250,244,0.2);
+      color: var(--white);
+    }
+
+    .final .btn-soft:hover {
+      background: rgba(255,250,244,0.18);
+    }
+
     .final-image {
       min-height: 430px;
       position: relative;
@@ -602,19 +566,18 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       opacity: 0.92;
     }
 
     @media (max-width: 1000px) {
       .hero-shell,
-      .video-grid,
       .final-box,
       .section-head {
         grid-template-columns: 1fr;
       }
 
       .hero-right,
-      .video-frame,
       .final-image {
         min-height: 480px;
       }
@@ -675,7 +638,8 @@
       .nav {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(4, max-content);
+        grid-auto-flow: column;
+        grid-auto-columns: max-content;
         gap: 8px;
         overflow-x: auto;
         padding-bottom: 2px;
@@ -807,14 +771,12 @@
       }
 
       .section-head h2,
-      .video-text h2,
       .final-copy h2 {
         font-size: clamp(2rem, 10vw, 3rem);
         line-height: 0.98;
       }
 
       .section-head p,
-      .video-text p,
       .final-copy p {
         font-size: 0.96rem;
         line-height: 1.68;
@@ -844,6 +806,27 @@
       .card p {
         font-size: 0.94rem;
         line-height: 1.65;
+      }
+
+      .info-strip {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .info-item {
+        min-height: auto;
+        padding: 17px;
+        border-radius: 20px;
+      }
+
+      .info-item strong {
+        margin-bottom: 6px;
+      }
+
+      .info-item span {
+        font-size: 0.9rem;
+        line-height: 1.5;
       }
 
       .gallery-shell {
@@ -882,52 +865,6 @@
 
       .shot-caption span {
         font-size: 0.82rem;
-      }
-
-      .video-grid {
-        gap: 12px;
-      }
-
-      .video-text,
-      .video-frame {
-        border-radius: 28px;
-      }
-
-      .video-text {
-        padding: 24px 22px;
-      }
-
-      .video-frame {
-        min-height: auto;
-        aspect-ratio: 9 / 12;
-        max-height: 520px;
-      }
-
-      .video-frame iframe,
-      .video-frame video {
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .info-strip {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 14px;
-      }
-
-      .info-item {
-        min-height: auto;
-        padding: 17px;
-        border-radius: 20px;
-      }
-
-      .info-item strong {
-        margin-bottom: 6px;
-      }
-
-      .info-item span {
-        font-size: 0.9rem;
-        line-height: 1.5;
       }
 
       .final {
@@ -973,10 +910,6 @@
         height: 305px;
       }
 
-      .video-frame {
-        aspect-ratio: 9 / 13;
-      }
-
       .final-image {
         min-height: 270px;
       }
@@ -987,10 +920,10 @@
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <a href="#" class="logo" aria-label="Garden Complex">
+      <a href="#" class="logo" aria-label="Maison No 23">
         <span class="logo-mark"></span>
         <span class="logo-text">
-          <strong>Garden Complex</strong>
+          <strong>Maison No 23</strong>
           <span>Zabjelo, Podgorica</span>
         </span>
       </a>
@@ -998,7 +931,6 @@
       <nav class="nav" aria-label="Navigacija">
         <a href="#o-stanu">O stanu</a>
         <a href="#galerija">Galerija</a>
-        <a href="#video">Video</a>
         <a href="#kontakt" class="btn btn-primary">Rezerviši</a>
       </nav>
     </div>
@@ -1010,10 +942,10 @@
         <div class="hero-shell">
           <div class="hero-left">
             <div>
-              <span class="tag">Stan na dan • Garden Complex</span>
+              <span class="tag">Stan na dan • Maison No 23</span>
               <h1>Moderan, siguran i udoban boravak.</h1>
               <p class="lead">
-                Dobrodošli u moderno uređenu garsonjeru u prestižnom kompleksu Garden Complex, Zabjelo, idealnu za kratak ili duži boravak u Podgorici. Stan je smješten u mirnom i sigurnom okruženju sa privatnim parkingom pod rampom i video nadzorom, što garantuje privatnost, komfor i sigurnost tokom vašeg boravka.
+                Dobrodošli u Maison No 23, moderno uređenu garsonjeru na Zabjelu, idealnu za kratak ili duži boravak u Podgorici. Stan je smješten u mirnom i sigurnom okruženju sa privatnim parkingom pod rampom i video nadzorom, što garantuje privatnost, komfor i sigurnost tokom vašeg boravka.
               </p>
 
               <div class="hero-actions">
@@ -1039,7 +971,7 @@
           </div>
 
           <div class="hero-right">
-            <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1500&q=90" alt="Moderan enterijer stana" />
+            <img src="https://i.ibb.co/gLztHGDp/IMG-20260411-WA0037.jpg" alt="Maison No 23 stan na dan u Podgorici" />
             <div class="image-shade"></div>
             <div class="quote-card">
               <p>
@@ -1059,7 +991,7 @@
             <h2>Sve što vam treba za bezbrižan boravak.</h2>
           </div>
           <p>
-            Prostor je dizajniran da pruži maksimalnu udobnost u modernom i funkcionalnom ambijentu. Pažljivo uređen enterijer, praktična oprema i sigurno okruženje čine ovaj stan odličnim izborom za kraći ili duži boravak u Podgorici.
+            Prostor je dizajniran da pruži maksimalnu udobnost u modernom i funkcionalnom ambijentu. Pažljivo uređen enterijer, praktična oprema i sigurno okruženje čine Maison No 23 odličnim izborom za kraći ili duži boravak u Podgorici.
           </p>
         </div>
 
@@ -1088,98 +1020,6 @@
             </p>
           </article>
         </div>
-      </div>
-    </section>
-
-    <section id="galerija" class="section">
-      <div class="wrap">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker">Mini galerija</div>
-            <h2>Detalji koji čine boravak prijatnim.</h2>
-          </div>
-          <p>
-            Pogledajte ambijent stana kroz pažljivo odabrane kadrove enterijera, kuhinje, kupatila i detalja koji prostoru daju moderan, topao i funkcionalan karakter.
-          </p>
-        </div>
-
-        <div class="gallery-shell">
-          <div class="gallery-top">
-            <span>Prevucite / skrolujte horizontalno</span>
-            <span>Garden Complex • Zabjelo • Podgorica</span>
-          </div>
-
-          <div class="gallery">
-            <article class="shot">
-              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=88" alt="Dnevni prostor" />
-              <div class="shot-caption">
-                <strong>Dnevni / spavaći prostor</strong>
-                <span>Elegantno, čisto i udobno.</span>
-              </div>
-            </article>
-
-            <article class="shot">
-              <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=88" alt="Moderna kuhinja" />
-              <div class="shot-caption">
-                <strong>Moderna kuhinja</strong>
-                <span>Opremljena za kraći i duži boravak.</span>
-              </div>
-            </article>
-
-            <article class="shot">
-              <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=88" alt="Kupatilo" />
-              <div class="shot-caption">
-                <strong>Kupatilo</strong>
-                <span>Tuš kabina, veš mašina i praktičnost.</span>
-              </div>
-            </article>
-
-            <article class="shot">
-              <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=88" alt="Enterijer detalji" />
-              <div class="shot-caption">
-                <strong>Premium detalji</strong>
-                <span>Topao enterijer sa modernim linijama.</span>
-              </div>
-            </article>
-
-            <article class="shot">
-              <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1200&q=88" alt="Udoban kutak" />
-              <div class="shot-caption">
-                <strong>Kutak za odmor</strong>
-                <span>Mirna atmosfera poslije dana u gradu.</span>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="video" class="section">
-      <div class="wrap">
-        <div class="video-grid">
-          <div class="video-text">
-            <div class="section-kicker">Video obilazak</div>
-            <h2>Doživite prostor prije dolaska.</h2>
-            <p>
-              Kroz kratak video prikaz možete steći realan osjećaj prostora, rasporeda i atmosfere stana.
-            </p>
-            <p>
-              Od glavnog prostora i kuhinje, do kupatila, balkona i detalja enterijera — sve je osmišljeno da boravak bude jednostavan, udoban i prijatan.
-            </p>
-            <div class="hero-actions">
-              <a href="#kontakt" class="btn btn-primary">Provjeri dostupnost</a>
-            </div>
-          </div>
-
-          <div class="video-frame">
-            <iframe
-              src="https://www.youtube.com/embed/Scxs7L0vhZ4?rel=0&modestbranding=1"
-              title="Video prezentacija stana"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-        </div>
 
         <div class="info-strip">
           <div class="info-item">
@@ -1202,6 +1042,101 @@
       </div>
     </section>
 
+    <section id="galerija" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Mini galerija</div>
+            <h2>Detalji koji čine boravak prijatnim.</h2>
+          </div>
+          <p>
+            Pogledajte ambijent stana kroz kadrove enterijera, kuhinje, kupatila i detalja koji prostoru daju moderan, topao i funkcionalan karakter.
+          </p>
+        </div>
+
+        <div class="gallery-shell">
+          <div class="gallery-top">
+            <span>Prevucite / skrolujte horizontalno</span>
+            <span>Maison No 23 • Zabjelo • Podgorica</span>
+          </div>
+
+          <div class="gallery">
+            <article class="shot">
+              <img src="https://i.ibb.co/rKvTHb8H/IMG-20260411-WA0048.jpg" alt="Dnevni prostor sa trpezarijskim stolom i TV-om" />
+              <div class="shot-caption">
+                <strong>Dnevni prostor</strong>
+                <span>Svijetao, moderan i funkcionalan ambijent.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/994gqWqb/IMG-20260411-WA0052.jpg" alt="Kuhinja i trpezarijski dio" />
+              <div class="shot-caption">
+                <strong>Kuhinja i trpezarija</strong>
+                <span>Opremljeno za kraći i duži boravak.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/x92JJgy/IMG-20260411-WA0045-1.jpg" alt="Spavaći dio sa ormarima i francuskim balkonom" />
+              <div class="shot-caption">
+                <strong>Spavaći dio</strong>
+                <span>Udoban ležaj, ormari i prijatno prirodno svjetlo.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/mCMFk1Gm/IMG-20260411-WA0047.jpg" alt="Ležaj na razvlačenje i sto u stanu" />
+              <div class="shot-caption">
+                <strong>Ležaj na razvlačenje</strong>
+                <span>Praktično rješenje za udoban boravak.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/0VzQmzsM/IMG-20260411-WA0041-1.jpg" alt="Kupatilo sa tuš kabinom i ogledalom" />
+              <div class="shot-caption">
+                <strong>Kupatilo</strong>
+                <span>Tuš kabina, moderno ogledalo i čisti detalji.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/SZY7d9k/IMG-20260411-WA0020.jpg" alt="Dnevno spavaći prostor sa TV-om" />
+              <div class="shot-caption">
+                <strong>TV i prostor za odmor</strong>
+                <span>Komforan raspored za odmor i boravak.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/YBJt939n/IMG-20260411-WA0022.jpg" alt="Kauč i kuhinjski dio" />
+              <div class="shot-caption">
+                <strong>Kauč zona</strong>
+                <span>Topao enterijer sa elegantnim zidnim detaljima.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/Kx2b9kv3/IMG-20260411-WA0021.jpg" alt="TV, kuhinja i dnevni prostor" />
+              <div class="shot-caption">
+                <strong>TV, kuhinja i ulazni dio</strong>
+                <span>Pregledan i dobro iskorišćen prostor.</span>
+              </div>
+            </article>
+
+            <article class="shot">
+              <img src="https://i.ibb.co/gLztHGDp/IMG-20260411-WA0037.jpg" alt="Kompletan pogled na Maison No 23" />
+              <div class="shot-caption">
+                <strong>Kompletan pogled</strong>
+                <span>Dnevni prostor, kuhinja i zona za odmor u jednom kadru.</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="kontakt" class="final">
       <div class="wrap">
         <div class="final-box">
@@ -1209,17 +1144,19 @@
             <div class="section-kicker" style="color:#d9b78f;">Rezervacija</div>
             <h2>Vaš boravak u Podgorici počinje ovdje.</h2>
             <p>
-              Moderan, siguran i udoban stan na dan u Garden Complexu, Zabjelo. Pošaljite upit za željeni datum i dobićete informaciju o dostupnosti i cijeni boravka.
+              Maison No 23 je moderan, siguran i udoban stan na dan na Zabjelu. Pošaljite upit za željeni datum i dobićete informaciju o dostupnosti i cijeni boravka.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="tel:+38267000000">Pozovi</a>
-              <a class="btn btn-soft" href="https://wa.me/38267000000" target="_blank" rel="noopener">WhatsApp upit</a>
+              <a class="btn btn-primary" href="tel:+38267420103">Pozovi: +382 67 420 103</a>
+              <a class="btn btn-soft" href="https://wa.me/38267420103" target="_blank" rel="noopener">WhatsApp upit</a>
+              <a class="btn btn-soft" href="https://www.booking.com/Pulse-fpOfmu" target="_blank" rel="noopener">Booking.com</a>
+              <a class="btn btn-soft" href="https://www.airbnb.rs/rooms/1678130926110712469?unique_share_id=a8333085-e1ee-4d57-a682-a1fbb7b9b2ae&viralityEntryPoint=1&s=76" target="_blank" rel="noopener">Airbnb</a>
             </div>
           </div>
 
           <div class="final-image">
-            <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=88" alt="Garden Complex stan na dan" />
+            <img src="https://i.ibb.co/rKvTHb8H/IMG-20260411-WA0048.jpg" alt="Maison No 23 stan na dan, dnevni prostor sa TV-om" />
           </div>
         </div>
       </div>
