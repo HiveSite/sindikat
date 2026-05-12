@@ -575,6 +575,8 @@
     }
 
     .powered-inner {
+      width: fit-content;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -583,13 +585,19 @@
       font-size: 0.78rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      transition: .2s ease;
+    }
+
+    .powered-inner:hover {
+      color: rgba(51, 39, 31, 0.72);
+      transform: translateY(-1px);
     }
 
     .powered-inner img {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
-      opacity: 0.72;
+      opacity: 0.8;
     }
 
     @media (max-width: 1000px) {
@@ -1199,10 +1207,16 @@
 
     <footer class="powered">
       <div class="wrap">
-        <div class="powered-inner">
+        <a
+          class="powered-inner"
+          href="https://www.sindikatstudio83.me/sr-me/pocetna/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Powered by Sindikat Studio 83"
+        >
           <span>Powered by</span>
-          <img src="fotke/83.png" alt="83" />
-        </div>
+          <img src="./fotke/83.png" alt="Sindikat Studio 83" />
+        </a>
       </div>
     </footer>
   </main>
