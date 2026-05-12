@@ -514,7 +514,7 @@
     }
 
     .final {
-      padding: 54px 0 76px;
+      padding: 54px 0 24px;
     }
 
     .final-box {
@@ -568,6 +568,28 @@
       object-fit: cover;
       object-position: center;
       opacity: 0.92;
+    }
+
+    .powered {
+      padding: 0 0 42px;
+    }
+
+    .powered-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(51, 39, 31, 0.48);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .powered-inner img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      opacity: 0.72;
     }
 
     @media (max-width: 1000px) {
@@ -868,7 +890,7 @@
       }
 
       .final {
-        padding: 34px 0 48px;
+        padding: 34px 0 20px;
       }
 
       .final-box {
@@ -890,6 +912,19 @@
 
       .final-copy {
         padding: 28px 22px;
+      }
+
+      .powered {
+        padding: 0 0 30px;
+      }
+
+      .powered-inner {
+        font-size: 0.68rem;
+      }
+
+      .powered-inner img {
+        width: 22px;
+        height: 22px;
       }
     }
 
@@ -1161,6 +1196,15 @@
         </div>
       </div>
     </section>
+
+    <footer class="powered">
+      <div class="wrap">
+        <div class="powered-inner">
+          <span>Powered by</span>
+          <img src="fotke/83.png" alt="83" />
+        </div>
+      </div>
+    </footer>
   </main>
 </body>
 </html>
