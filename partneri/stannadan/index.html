@@ -577,27 +577,35 @@
     .powered-inner {
       width: fit-content;
       margin: 0 auto;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      color: rgba(51, 39, 31, 0.48);
-      font-size: 0.78rem;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(51, 39, 31, 0.92);
+      color: rgba(255, 250, 244, 0.86);
+      font-size: 0.72rem;
+      font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      box-shadow: 0 14px 34px rgba(51, 39, 31, 0.18);
       transition: .2s ease;
     }
 
     .powered-inner:hover {
-      color: rgba(51, 39, 31, 0.72);
+      background: rgba(51, 39, 31, 1);
       transform: translateY(-1px);
     }
 
     .powered-inner img {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255, 250, 244, 0.92);
       object-fit: contain;
-      opacity: 0.8;
+      display: block;
     }
 
     @media (max-width: 1000px) {
@@ -927,7 +935,8 @@
       }
 
       .powered-inner {
-        font-size: 0.68rem;
+        font-size: 0.66rem;
+        padding: 8px 12px;
       }
 
       .powered-inner img {
@@ -1215,7 +1224,7 @@
           aria-label="Powered by Sindikat Studio 83"
         >
           <span>Powered by</span>
-          <img src="../../fotke/83.png"" alt="Sindikat Studio 83" />
+          <img src="../../fotke/83.png" alt="Sindikat Studio 83" />
         </a>
       </div>
     </footer>
