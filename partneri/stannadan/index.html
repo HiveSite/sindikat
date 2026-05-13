@@ -47,6 +47,10 @@
       overflow-x: hidden;
     }
 
+    body.lightbox-open {
+      overflow: hidden;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -487,6 +491,7 @@
       object-fit: cover;
       object-position: center;
       transition: transform .8s ease;
+      cursor: zoom-in;
     }
 
     .shot:hover img {
@@ -504,6 +509,7 @@
       background: linear-gradient(135deg, rgba(51,39,31,0.72), rgba(51,39,31,0.38));
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.16);
+      pointer-events: none;
     }
 
     .shot-caption strong {
@@ -610,6 +616,55 @@
       background: transparent;
       object-fit: contain;
       display: block;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(30, 22, 16, 0.88);
+      backdrop-filter: blur(14px);
+    }
+
+    .lightbox.is-open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: min(96vw, 1400px);
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+      background: rgba(255, 250, 244, 0.08);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 250, 244, 0.92);
+      color: var(--brown);
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+      transition: .2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: #fff;
+      transform: translateY(-1px);
     }
 
     @media (max-width: 1000px) {
@@ -947,6 +1002,24 @@
         width: 22px;
         height: 22px;
       }
+
+      .lightbox {
+        padding: 14px;
+      }
+
+      .lightbox img {
+        max-width: 96vw;
+        max-height: 82vh;
+        border-radius: 18px;
+      }
+
+      .lightbox-close {
+        top: 14px;
+        right: 14px;
+        width: 42px;
+        height: 42px;
+        font-size: 1.8rem;
+      }
     }
 
     @media (max-width: 420px) {
@@ -1232,6 +1305,50 @@
         </a>
       </div>
     </footer>
+
+    <div class="lightbox" id="imageLightbox" aria-hidden="true" role="dialog" aria-label="Pregled slike">
+      <button class="lightbox-close" type="button" id="lightboxClose" aria-label="Zatvori">×</button>
+      <img id="lightboxImage" src="" alt="" />
+    </div>
   </main>
+
+  <script>
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const galleryImages = document.querySelectorAll('.gallery .shot img');
+
+    galleryImages.forEach((image) => {
+      image.addEventListener('click', () => {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt || 'Maison No 23 galerija';
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lightbox-open');
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+        closeLightbox();
+      }
+    });
+  </script>
 </body>
 </html>
