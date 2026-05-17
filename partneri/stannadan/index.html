@@ -523,6 +523,142 @@
       line-height: 1.45;
     }
 
+
+
+    .location-section {
+      padding: 48px 0 28px;
+    }
+
+    .location-shell {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 18px;
+      align-items: stretch;
+      border-radius: 42px;
+      overflow: hidden;
+      background: rgba(255,250,244,0.62);
+      border: 1px solid rgba(51,39,31,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .location-copy {
+      padding: clamp(28px, 4.6vw, 52px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+      background:
+        radial-gradient(circle at 14% 12%, rgba(181,139,95,0.18), transparent 34%),
+        linear-gradient(180deg, rgba(255,250,244,0.78), rgba(244,238,230,0.58));
+    }
+
+    .location-copy h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      font-size: clamp(2.35rem, 4.8vw, 4.8rem);
+    }
+
+    .location-copy p {
+      margin: 0;
+      color: var(--brown-soft);
+      line-height: 1.78;
+      font-size: 1.02rem;
+      max-width: 620px;
+    }
+
+    .location-details {
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .location-detail {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 15px;
+      border-radius: 20px;
+      background: rgba(255,250,244,0.66);
+      border: 1px solid rgba(51,39,31,0.08);
+    }
+
+    .location-detail strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.96rem;
+    }
+
+    .location-detail span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .location-pin {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(181,139,95,0.24), rgba(181,139,95,0.08));
+      color: var(--gold-dark);
+      font-size: 1.08rem;
+    }
+
+    .location-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .map-card {
+      min-height: 520px;
+      position: relative;
+      background: var(--sand);
+      overflow: hidden;
+    }
+
+    .map-card iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+      border: 0;
+      display: block;
+      filter: saturate(0.92) contrast(0.96) sepia(0.08);
+    }
+
+    .map-badge {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: rgba(255,250,244,0.88);
+      border: 1px solid rgba(255,255,255,0.42);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 40px rgba(51,39,31,0.16);
+      pointer-events: none;
+    }
+
+    .map-badge strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .map-badge span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+
     .final {
       padding: 54px 0 24px;
     }
@@ -1089,6 +1225,72 @@
         font-size: 0.82rem;
       }
 
+
+
+      .location-section {
+        padding: 30px 0 18px;
+      }
+
+      .location-shell {
+        display: flex;
+        flex-direction: column;
+        border-radius: 30px;
+        gap: 0;
+      }
+
+      .location-copy {
+        padding: 26px 22px;
+        gap: 14px;
+      }
+
+      .location-copy h2 {
+        font-size: clamp(2rem, 10vw, 3rem);
+      }
+
+      .location-copy p {
+        font-size: 0.96rem;
+        line-height: 1.65;
+      }
+
+      .location-detail {
+        padding: 13px;
+        border-radius: 18px;
+      }
+
+      .location-pin {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+      }
+
+      .location-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .map-card {
+        min-height: 360px;
+        order: -1;
+      }
+
+      .map-card iframe {
+        min-height: 360px;
+      }
+
+      .map-badge {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 13px 14px;
+        border-radius: 18px;
+      }
+
+      .map-badge span {
+        font-size: 0.84rem;
+      }
+
+
       .final {
         padding: 34px 0 20px;
       }
@@ -1235,6 +1437,7 @@
       <nav class="nav" aria-label="Navigacija">
         <a href="#o-stanu">O stanu</a>
         <a href="#galerija">Galerija</a>
+        <a href="#lokacija">Lokacija</a>
         <a href="#kontakt" class="btn btn-primary">Rezerviši</a>
       </nav>
     </div>
@@ -1436,6 +1639,69 @@
                 <span>Dnevni prostor, kuhinja i zona za odmor u jednom kadru.</span>
               </div>
             </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section id="lokacija" class="location-section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Lokacija</div>
+            <h2>Mirna adresa na Zabjelu, blizu svega što treba.</h2>
+          </div>
+          <p>
+            Lokacija je dodata direktno na stranicu kako bi gosti na telefonu mogli odmah da otvore mapu, pokrenu navigaciju ili pošalju upit bez dodatnog traženja adrese.
+          </p>
+        </div>
+
+        <div class="location-shell">
+          <div class="location-copy">
+            <div class="section-kicker">Maison No 23 • Podgorica</div>
+            <h2>Pronađite nas lako.</h2>
+            <p>
+              Stan se nalazi na lokaciji označenoj na mapi. Za najbrži dolazak otvorite Google Maps navigaciju direktno iz dugmeta ispod.
+            </p>
+
+            <div class="location-details">
+              <div class="location-detail">
+                <span class="location-pin">⌖</span>
+                <div>
+                  <strong>Zabjelo, Podgorica</strong>
+                  <span>Praktična lokacija za kraći ili duži boravak u gradu.</span>
+                </div>
+              </div>
+
+              <div class="location-detail">
+                <span class="location-pin">Ⓟ</span>
+                <div>
+                  <strong>Privatni parking</strong>
+                  <span>Parking sa rampom i video nadzorom za dodatnu sigurnost.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="location-actions">
+              <a class="btn btn-primary" href="https://maps.google.com/?q=42.430780,19.236650" target="_blank" rel="noopener">Otvori Google Maps</a>
+              <a class="btn btn-soft" href="https://www.google.com/maps/dir/?api=1&destination=42.430780,19.236650" target="_blank" rel="noopener">Pokreni navigaciju</a>
+            </div>
+          </div>
+
+          <div class="map-card">
+            <iframe
+              title="Maison No 23 lokacija na Google mapi"
+              src="https://www.google.com/maps?q=42.430780,19.236650&z=17&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen>
+            </iframe>
+            <div class="map-badge">
+              <strong>Maison No 23</strong>
+              <span>Zabjelo, Podgorica • otvorite mapu za tačnu navigaciju.</span>
+            </div>
           </div>
         </div>
       </div>
