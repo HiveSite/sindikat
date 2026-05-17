@@ -1,0 +1,33 @@
+/* Production polish for imaposla.me
+   Preglednost iz mockup-a, ali smirena za produkciju. */
+
+:root{
+  --surface-gap:14px;
+  --control-h:40px;
+}
+
+main,.app-main,.card,.panel,.table-card,.form-card,.job-card,.company-card,.admin-card,.firm-job-card,.ats-card,.quick-link,.live-path,.plan-card{min-width:0}
+p,small,strong,h1,h2,h3,.job-title,.firm-job-title,.admin-card-info strong,.admin-card-info small,.ats-card-name,.ats-card-job,.quick-link span,.quick-link strong{overflow-wrap:anywhere}
+img{max-width:100%;height:auto}
+
+.section-head{background:color-mix(in srgb,var(--paper) 84%,transparent);border:1px solid color-mix(in srgb,var(--line) 72%,transparent);border-radius:22px;padding:16px 18px;box-shadow:0 10px 28px rgba(28,22,12,.06)}
+[data-theme="dark"] .section-head{background:color-mix(in srgb,var(--paper) 88%,transparent);box-shadow:0 10px 30px rgba(0,0,0,.24)}
+.section-head h1{font-size:clamp(30px,4vw,52px);margin-bottom:6px}.section-head h2{font-size:clamp(22px,3vw,34px)}
+.head-actions,.actions,.admin-card-actions,.firm-job-actions,.template-card__actions,.auth-actions{align-items:center}.btn,.icon-btn,.field,.select,.textarea,select,input,textarea{max-width:100%}.btn{text-align:center}
+
+.app-shell{width:min(1180px,calc(100% - 32px));margin:0 auto;align-items:start}.app-main{min-width:0;display:grid;gap:var(--surface-gap)}.side{top:82px;max-height:calc(100vh - 96px);overflow:auto}
+.dash-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.metric{min-height:112px;display:grid;align-content:center;gap:7px}.metric strong{font-size:clamp(25px,3vw,38px);line-height:1}
+.quick-links,.grid.three,.grid.four{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.quick-link{min-height:104px;align-content:start;border:1.5px solid var(--line2)}.quick-link strong{font-size:15px;line-height:1.2}.quick-link span{line-height:1.35}
+
+.job-card{grid-template-columns:56px minmax(0,1fr) minmax(150px,auto);gap:14px;align-items:stretch}.job-card .logo{width:56px;height:56px}.job-title{display:inline-block;max-width:100%;line-height:1.15;font-size:clamp(17px,2vw,21px)}.job-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.job-actions{min-width:150px;display:flex;flex-direction:column;align-items:stretch;gap:7px}.job-actions .btn,.job-actions button{width:100%}.deadline{text-align:left;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:8px 10px}
+.table-card{overflow:hidden}.table-row{grid-template-columns:minmax(0,1.2fr) minmax(120px,.7fr) minmax(120px,.7fr) auto}.table-row>*{min-width:0}
+
+.admin-filters{display:flex;flex-wrap:wrap;gap:8px;background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:10px;box-shadow:var(--shadow)}.admin-filters input,.admin-filters select{min-height:var(--control-h);background:var(--soft);border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;font-weight:750;min-width:180px}.admin-card{border-color:color-mix(in srgb,var(--ink) 80%,var(--line))}.admin-card-head{align-items:center}.admin-card-actions .btn,.admin-card-actions select{min-width:104px}
+.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.form-card{gap:16px}.form-card>label,.auth-form>label{min-width:0}.auth-two{grid-template-columns:minmax(0,.9fr) minmax(300px,1fr)}
+.live-hero{position:relative;overflow:hidden}.live-hero:after{content:"";position:absolute;right:-90px;top:-90px;width:240px;height:240px;border-radius:50%;background:color-mix(in srgb,var(--lime) 18%,transparent);pointer-events:none}.live-search,.search-panel{grid-template-columns:minmax(0,1.35fr) minmax(140px,.75fr) minmax(140px,.75fr) auto}.live-search input,.live-search select,.search-panel input,.search-panel select{min-width:0}.live-paths{grid-template-columns:repeat(2,minmax(0,1fr))}.stat-mosaic{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cv-builder-grid,.detail-layout,.ats-layout,.ats-body{grid-template-columns:minmax(0,1fr) minmax(300px,.42fr)}.ats-body{align-items:start}.ats-list-col,.ats-detail-col,.ats-detail-inner{min-width:0}.ats-pipeline{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:3px}.ats-pipeline-btn{flex:0 0 auto}.ats-card-footer{gap:10px}.ats-card-actions{flex-wrap:wrap;justify-content:flex-end}.ats-detail-col{position:sticky;top:82px;max-height:calc(100vh - 96px);overflow:auto}
+.banner-req-grid,.template-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.banner-req-form,.template-card,.plan-status-banner{max-width:100%}.image-upload{max-width:100%}.image-upload-actions{flex-wrap:wrap}
+
+@media(max-width:980px){.app-shell{grid-template-columns:1fr;padding-bottom:86px}.side{position:relative;top:0;max-height:none;display:block}.side-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px}.side-logout{justify-content:center}.dash-grid,.stat-mosaic{grid-template-columns:repeat(2,minmax(0,1fr))}.job-card{grid-template-columns:52px minmax(0,1fr)}.job-actions{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));min-width:0}.detail-layout,.cv-builder-grid,.ats-layout,.ats-body{grid-template-columns:1fr}.ats-detail-col{position:relative;top:0;max-height:none}.table-row{grid-template-columns:1fr;gap:8px}}
+@media(max-width:720px){.wrap,.top-in,.app-shell{width:min(100% - 24px,1180px)}.section-head{display:grid;align-items:start;padding:14px;margin:18px 0 12px}.section-head h1{font-size:32px;letter-spacing:-.04em}.head-actions,.actions,.auth-actions{width:100%}.head-actions .btn,.actions .btn,.auth-actions .btn{flex:1 1 150px}.form-grid,.grid.two,.live-paths{grid-template-columns:1fr}.live-search,.search-panel{grid-template-columns:1fr}.live-search button,.search-panel button{width:100%;min-height:44px}.auth-two{grid-template-columns:1fr}.admin-filters input,.admin-filters select,.admin-filters .btn{width:100%;min-width:0}.admin-card-actions .btn,.admin-card-actions select,.firm-job-actions .btn{flex:1 1 130px}.ats-card-top{align-items:flex-start}.ats-card-right{align-items:flex-start;width:100%}.ats-card-footer{display:grid}}
+@media(max-width:480px){body{font-size:13px}.card,.panel,.form-card,.live-hero,.job-card,.company-card,.admin-card,.firm-job-card{border-radius:18px;padding:14px}.dash-grid,.stat-mosaic{grid-template-columns:1fr}.btn{white-space:normal;min-height:42px}.job-card{grid-template-columns:1fr}.job-card .logo{width:48px;height:48px}}
