@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Distopije JPG</title>
-    <meta name="description" content="Distopije JPG captures streets, moments and quiet visual fragments through photography.">
+    <meta name="description" content="Distopije JPG captures streets, moments, objects and sport fragments through photography.">
     <meta property="og:title" content="Distopije JPG">
-    <meta property="og:description" content="Distopije JPG captures streets, moments and quiet visual fragments through photography.">
+    <meta property="og:description" content="Distopije JPG captures streets, moments, objects and sport fragments through photography.">
     <meta property="og:type" content="website">
 
     <style>
@@ -118,7 +118,7 @@
 
       .hero-art {
         min-height: 430px;
-        --photo: url("https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1800&q=85");
+        --photo: url("https://i.ibb.co/KjmpLcx8/HERO.jpg");
       }
 
       .hero-label {
@@ -205,6 +205,7 @@
         display: block;
         height: 100%;
         min-height: 230px;
+        filter: contrast(1.02) saturate(0.92);
         transition: filter 180ms ease, transform 180ms ease;
       }
 
@@ -235,8 +236,8 @@
       }
 
       .tile:hover .mock-image {
-        filter: contrast(1.05) brightness(.68);
-        transform: scale(1.02);
+        filter: contrast(1.08) brightness(.72) saturate(1);
+        transform: scale(1.015);
       }
 
       .tile:hover .tile-caption {
@@ -564,6 +565,8 @@
       <nav class="nav" aria-label="Main navigation">
         <a href="#moments">Moments</a>
         <a href="#street">Street</a>
+        <a href="#objects">Objects</a>
+        <a href="#sport">Sport</a>
         <a href="#series">Series</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
@@ -578,7 +581,7 @@
 
         <div class="hero-copy">
           <p class="kicker">DISTOPIJE JPG</p>
-          <h1>Fragments of streets, moments and quiet atmosphere.</h1>
+          <h1>Fragments of streets, moments, objects and movement.</h1>
         </div>
       </section>
 
@@ -597,8 +600,8 @@
           <button class="tile square" type="button" data-title="Edge" data-series="Street"><span class="mock-image"></span><span class="tile-caption"><strong>Edge</strong><small>Street</small></span></button>
           <button class="tile portrait" type="button" data-title="Still Signal" data-series="Moments"><span class="mock-image"></span><span class="tile-caption"><strong>Still Signal</strong><small>Moments</small></span></button>
           <button class="tile landscape" type="button" data-title="Underpass" data-series="Street"><span class="mock-image"></span><span class="tile-caption"><strong>Underpass</strong><small>Street</small></span></button>
-          <button class="tile portrait" type="button" data-title="Fragment I" data-series="Visual Diary"><span class="mock-image"></span><span class="tile-caption"><strong>Fragment I</strong><small>Visual Diary</small></span></button>
-          <button class="tile square" type="button" data-title="Face Study" data-series="Portraits"><span class="mock-image"></span><span class="tile-caption"><strong>Face Study</strong><small>Portraits</small></span></button>
+          <button class="tile portrait" type="button" data-title="Fragment I" data-series="Sport"><span class="mock-image"></span><span class="tile-caption"><strong>Fragment I</strong><small>Sport</small></span></button>
+          <button class="tile square" type="button" data-title="Face Study" data-series="Objects"><span class="mock-image"></span><span class="tile-caption"><strong>Face Study</strong><small>Objects</small></span></button>
           <button class="tile portrait" type="button" data-title="Late Walk" data-series="Street"><span class="mock-image"></span><span class="tile-caption"><strong>Late Walk</strong><small>Street</small></span></button>
           <button class="tile landscape" type="button" data-title="Soft Noise" data-series="Moments"><span class="mock-image"></span><span class="tile-caption"><strong>Soft Noise</strong><small>Moments</small></span></button>
         </div>
@@ -646,58 +649,62 @@
 
         <div class="series-grid">
           <a class="series-card" href="#moments">
-            <span class="mock-image" style="--photo:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85');"></span>
+            <span class="mock-image" style="--photo:url('https://i.ibb.co/JRqvGj1X/moments1.jpg');"></span>
             <span>Moments</span>
             <p>Unstaged frames, quiet gestures and fragments of atmosphere.</p>
           </a>
 
           <a class="series-card" href="#street">
-            <span class="mock-image" style="--photo:url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=85');"></span>
+            <span class="mock-image" style="--photo:url('https://i.ibb.co/k6vxXxK5/street1.jpg');"></span>
             <span>Street</span>
             <p>Street scenes, urban details and everyday visual tension.</p>
           </a>
 
-          <a class="series-card" href="#portraits">
-            <span class="mock-image" style="--photo:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85');"></span>
-            <span>Portraits</span>
-            <p>Faces, presence and restrained portrait fragments.</p>
+          <a class="series-card" href="#objects">
+            <span class="mock-image" style="--photo:url('https://i.ibb.co/TBgXrvjf/object1.jpg');"></span>
+            <span>Objects</span>
+            <p>Textures, architecture and isolated visual fragments.</p>
           </a>
 
-          <a class="series-card" href="#visual">
-            <span class="mock-image" style="--photo:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=85');"></span>
-            <span>Visual Diary</span>
-            <p>Loose visual notes, fragments and atmospheric studies.</p>
+          <a class="series-card" href="#sport">
+            <span class="mock-image" style="--photo:url('https://i.ibb.co/1GGHXwYq/sport1.jpg');"></span>
+            <span>Sport</span>
+            <p>Movement, energy and spontaneous action moments.</p>
           </a>
         </div>
       </section>
 
-      <section class="section" id="portraits" aria-labelledby="portraits-title">
+      <section class="section" id="objects" aria-labelledby="objects-title">
         <div class="section-head">
           <p>05</p>
           <div>
-            <h2 id="portraits-title">PORTRAITS</h2>
-            <span>Faces, presence and restrained portrait fragments.</span>
+            <h2 id="objects-title">OBJECTS</h2>
+            <span>Textures, architecture and isolated visual fragments.</span>
           </div>
         </div>
 
         <div class="grid">
-          <button class="tile portrait" type="button" data-title="Profile" data-series="Portraits"><span class="mock-image"></span><span class="tile-caption"><strong>Profile</strong><small>Portraits</small></span></button>
-          <button class="tile square" type="button" data-title="Portrait Fragment" data-series="Portraits"><span class="mock-image"></span><span class="tile-caption"><strong>Portrait Fragment</strong><small>Portraits</small></span></button>
+          <button class="tile portrait" type="button" data-title="Object Study" data-series="Objects"><span class="mock-image"></span><span class="tile-caption"><strong>Object Study</strong><small>Objects</small></span></button>
+          <button class="tile square" type="button" data-title="Object Fragment" data-series="Objects"><span class="mock-image"></span><span class="tile-caption"><strong>Object Fragment</strong><small>Objects</small></span></button>
+          <button class="tile landscape" type="button" data-title="Object Detail" data-series="Objects"><span class="mock-image"></span><span class="tile-caption"><strong>Object Detail</strong><small>Objects</small></span></button>
+          <button class="tile portrait" type="button" data-title="Still Object" data-series="Objects"><span class="mock-image"></span><span class="tile-caption"><strong>Still Object</strong><small>Objects</small></span></button>
         </div>
       </section>
 
-      <section class="section" id="visual" aria-labelledby="visual-title">
+      <section class="section" id="sport" aria-labelledby="sport-title">
         <div class="section-head">
           <p>06</p>
           <div>
-            <h2 id="visual-title">VISUAL DIARY</h2>
-            <span>Loose visual notes, fragments and atmospheric studies.</span>
+            <h2 id="sport-title">SPORT</h2>
+            <span>Movement, energy and spontaneous action moments.</span>
           </div>
         </div>
 
         <div class="grid">
-          <button class="tile landscape" type="button" data-title="Visual Note" data-series="Visual Diary"><span class="mock-image"></span><span class="tile-caption"><strong>Visual Note</strong><small>Visual Diary</small></span></button>
-          <button class="tile portrait" type="button" data-title="Trace" data-series="Visual Diary"><span class="mock-image"></span><span class="tile-caption"><strong>Trace</strong><small>Visual Diary</small></span></button>
+          <button class="tile landscape" type="button" data-title="Sport Frame" data-series="Sport"><span class="mock-image"></span><span class="tile-caption"><strong>Sport Frame</strong><small>Sport</small></span></button>
+          <button class="tile portrait" type="button" data-title="Motion Trace" data-series="Sport"><span class="mock-image"></span><span class="tile-caption"><strong>Motion Trace</strong><small>Sport</small></span></button>
+          <button class="tile square" type="button" data-title="Play Detail" data-series="Sport"><span class="mock-image"></span><span class="tile-caption"><strong>Play Detail</strong><small>Sport</small></span></button>
+          <button class="tile landscape" type="button" data-title="Game Energy" data-series="Sport"><span class="mock-image"></span><span class="tile-caption"><strong>Game Energy</strong><small>Sport</small></span></button>
         </div>
       </section>
 
@@ -708,7 +715,7 @@
         </div>
 
         <div class="about-grid">
-          <p>Distopije JPG is built around atmosphere, urban scenes, spontaneous moments and visual fragments.</p>
+          <p>Distopije JPG is built around atmosphere, urban scenes, spontaneous moments, objects and movement.</p>
 
           <div class="about-side">
             <p class="bio-note">
@@ -774,30 +781,34 @@
 
     <script>
       const photoUrls = [
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1520333789090-1afc82db536a?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=85",
-        "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85"
+        "https://i.ibb.co/JRqvGj1X/moments1.jpg",
+        "https://i.ibb.co/k6vxXxK5/street1.jpg",
+        "https://i.ibb.co/PGXm2Fmy/moments2.jpg",
+        "https://i.ibb.co/84QDZ1YG/street2.jpg",
+        "https://i.ibb.co/WvM1rDSj/moments3.jpg",
+        "https://i.ibb.co/9mL82cJd/street3.jpg",
+        "https://i.ibb.co/mr8hHt7d/moments4.jpg",
+        "https://i.ibb.co/6JRhLTTG/street4.jpg",
+        "https://i.ibb.co/TBgXrvjf/object1.jpg",
+        "https://i.ibb.co/RrjWcSG/object2.jpg",
+        "https://i.ibb.co/Lhkbp1Wb/street5.jpg",
+        "https://i.ibb.co/cSBFJ8DL/moments5.jpg",
+        "https://i.ibb.co/JRqvGj1X/moments1.jpg",
+        "https://i.ibb.co/PGXm2Fmy/moments2.jpg",
+        "https://i.ibb.co/WvM1rDSj/moments3.jpg",
+        "https://i.ibb.co/mr8hHt7d/moments4.jpg",
+        "https://i.ibb.co/k6vxXxK5/street1.jpg",
+        "https://i.ibb.co/84QDZ1YG/street2.jpg",
+        "https://i.ibb.co/9mL82cJd/street3.jpg",
+        "https://i.ibb.co/6JRhLTTG/street4.jpg",
+        "https://i.ibb.co/TBgXrvjf/object1.jpg",
+        "https://i.ibb.co/jPsWqHGK/object3.jpg",
+        "https://i.ibb.co/1GGHXwYq/sport1.jpg",
+        "https://i.ibb.co/wFVWqM7n/sport2.jpg",
+        "https://i.ibb.co/RrjWcSG/object2.jpg",
+        "https://i.ibb.co/7xkmkYPv/object4.jpg",
+        "https://i.ibb.co/DfLRx2DL/sport3.jpg",
+        "https://i.ibb.co/yn8kk06H/sport4.jpg"
       ];
 
       const tiles = Array.from(document.querySelectorAll(".tile"));
