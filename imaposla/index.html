@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>imaposla.me — Generator oglasa (precizni)</title>
+<style>
+  :root{--red:#E8392E;--ink:#13202E;--green:#3DDC84;--paper:#ECEDEF;--muted:#7A828C;--line:#E2E4E8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F4F5F7;color:var(--ink);padding:16px}
+  .wrap{max-width:1240px;margin:0 auto}
+  .head h1{font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .head p{color:var(--muted);font-size:13px;margin:3px 0 18px}
+  .layout{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+  .field{margin-bottom:14px}.field:last-child{margin-bottom:0}
+  .lbl{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
+  input[type=text],textarea,select{width:100%;padding:9px 11px;font-size:14px;font-family:inherit;border:1.5px solid var(--line);border-radius:8px;background:#FAFBFC;color:var(--ink)}
+  input:focus,textarea:focus{outline:none;border-color:var(--red);background:#fff}
+  textarea{min-height:56px;resize:vertical;line-height:1.4}
+  .row{display:flex;gap:9px}.row>.field{flex:1;margin-bottom:0}
+  .seg{display:flex;gap:5px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:54px;padding:8px 5px;font-size:11px;font-weight:700;border:1.5px solid var(--line);background:#FAFBFC;color:var(--ink);border-radius:8px;cursor:pointer}
+  .seg button:hover{border-color:var(--red)}.seg button.on{background:var(--red);border-color:var(--red);color:#fff}
+  .up{display:flex;align-items:center;gap:10px;padding:8px 11px;border:1.5px dashed var(--line);border-radius:8px;background:#FAFBFC;cursor:pointer;font-size:12px;color:var(--muted)}
+  .up:hover{border-color:var(--red);color:var(--ink)}.up.has{border-style:solid;border-color:var(--green);color:var(--ink)}
+  .up input{display:none}.thumb{width:28px;height:28px;border-radius:5px;object-fit:cover;background:#eee;flex-shrink:0}
+  .multi{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .dl{width:100%;margin-top:4px;padding:14px;font-size:15px;font-weight:800;background:var(--ink);color:#fff;border:none;border-radius:10px;cursor:pointer}
+  .dl:hover{background:var(--red)}
+  .hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .stage{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;position:sticky;top:12px}
+  .shell{display:flex;justify-content:center;background:#F4F5F7;border-radius:10px;padding:14px}
+  canvas{max-width:100%;max-height:78vh;height:auto;border-radius:6px;box-shadow:0 6px 22px rgba(0,0,0,.13)}
+  .note{text-align:center;font-size:11px;color:var(--muted);margin-top:9px}
+  .grp{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+  .grp-t{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><h1>imaposla.me — Generator oglasa</h1><p>Precizno po tvojim template-ima · 1080×1350 (IG portret) i ostali formati</p></div>
+  <div class="layout">
+    <div class="panel">
+      <div class="field"><span class="lbl">Template</span>
+        <div class="seg" id="seg-l">
+          <button data-l="full" class="on" title="Logo, foto krug, meta, kartica firme, benefiti">Pun (#1)</button>
+          <button data-l="firma" title="Naslov + meta + kartica firme + maskota">Firma (#3)</button>
+          <button data-l="oval" title="Oval foto, naslov+meta dole">Oval (#4)</button>
+          <button data-l="header" title="Foto gore, naslov+meta dole">Header (#7)</button>
+          <button data-l="hex" title="4 hexagona, TOP poslovi">Hex (#9)</button>
+        </div>
+      </div>
+      <div class="field"><span class="lbl">Format</span>
+        <div class="seg" id="seg-f">
+          <button data-f="portrait" class="on">Portret 4:5</button>
+          <button data-f="square">Kvadrat 1:1</button>
+          <button data-f="story">Story 9:16</button>
+        </div>
+      </div>
+      <div class="field"><span class="lbl">Pozadina</span>
+        <div class="seg" id="seg-bg"><button data-bg="dark" class="on">Tamna</button><button data-bg="light">Svijetla</button></div>
+      </div>
+
+      <div class="grp"><div class="grp-t">BREND (učitaj jednom)</div>
+        <div class="field"><span class="lbl">Logo PNG</span>
+          <label class="up" id="u-logo"><img class="thumb" id="t-logo" style="display:none"><span id="x-logo">+ Logo</span><input type="file" accept="image/*" id="f-logo"></label></div>
+        <div class="field"><span class="lbl">Maskota PNG (viri u praznom uglu)</span>
+          <label class="up" id="u-masc"><img class="thumb" id="t-masc" style="display:none"><span id="x-masc">+ Maskota</span><input type="file" accept="image/*" id="f-masc"></label></div>
+      </div>
+
+      <div class="grp"><div class="grp-t">GLAVNA FOTOGRAFIJA</div>
+        <div class="field"><span class="lbl">Foto pozicije / radnika</span>
+          <label class="up" id="u-photo"><img class="thumb" id="t-photo" style="display:none"><span id="x-photo">+ Fotografija</span><input type="file" accept="image/*" id="f-photo"></label></div>
+      </div>
+
+      <div class="grp" id="grp-hex"><div class="grp-t">HEX — 4 SLIKE (template Hex)</div>
+        <div class="multi">
+          <label class="up" id="u-h0"><img class="thumb" id="t-h0" style="display:none"><span id="x-h0">+ Foto 1</span><input type="file" accept="image/*" id="f-h0"></label>
+          <label class="up" id="u-h1"><img class="thumb" id="t-h1" style="display:none"><span id="x-h1">+ Foto 2</span><input type="file" accept="image/*" id="f-h1"></label>
+          <label class="up" id="u-h2"><img class="thumb" id="t-h2" style="display:none"><span id="x-h2">+ Foto 3</span><input type="file" accept="image/*" id="f-h2"></label>
+          <label class="up" id="u-h3"><img class="thumb" id="t-h3" style="display:none"><span id="x-h3">+ Foto 4</span><input type="file" accept="image/*" id="f-h3"></label>
+        </div>
+      </div>
+
+      <div class="grp" id="grp-firma"><div class="grp-t">KARTICA FIRME (template Pun + Firma)</div>
+        <div class="field"><span class="lbl">Logo/slika firme + naziv</span>
+          <label class="up" id="u-clogo" style="margin-bottom:7px"><img class="thumb" id="t-clogo" style="display:none"><span id="x-clogo">+ Slika firme</span><input type="file" accept="image/*" id="f-clogo"></label>
+          <input type="text" id="i-cname" value="Hotel Avala" maxlength="40"></div>
+        <div class="field"><span class="lbl">Opis firme</span>
+          <textarea id="i-cdesc">Luksuzni hotel u srcu Budve. Naš tim čine profesionalci koji goste stavljaju na prvo mjesto.</textarea></div>
+        <div class="field"><span class="lbl">3 male slike (galerija firme)</span>
+          <div class="multi" style="grid-template-columns:1fr 1fr 1fr">
+            <label class="up" id="u-g0"><span id="x-g0">+1</span><input type="file" accept="image/*" id="f-g0"></label>
+            <label class="up" id="u-g1"><span id="x-g1">+2</span><input type="file" accept="image/*" id="f-g1"></label>
+            <label class="up" id="u-g2"><span id="x-g2">+3</span><input type="file" accept="image/*" id="f-g2"></label>
+          </div></div>
+      </div>
+
+      <div class="grp"><div class="grp-t">TEKST</div>
+        <div class="row">
+          <div class="field"><span class="lbl">Naslov crni</span><input type="text" id="i-t1" value="Konobar /" maxlength="40"></div>
+          <div class="field"><span class="lbl">Naslov crveni</span><input type="text" id="i-t2" value="Šanker" maxlength="40"></div>
+        </div>
+        <div class="field"><span class="lbl">Oznaka + HITNO</span>
+          <div class="row"><input type="text" id="i-tag" value="OGLAS ZA POSAO" maxlength="30">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer"><input type="checkbox" id="i-hitno" checked style="width:auto">HITNO!</label></div></div>
+        <div class="field"><span class="lbl">Detalji (ikona|tekst po redu)</span>
+          <textarea id="i-meta">📍|Budva, Crna Gora
+🏢|Hotel Avala
+🕐|Puno radno vrijeme
+💶|Plata: 1000€ – 1200€</textarea></div>
+        <div class="row">
+          <div class="field"><span class="lbl">CTA</span><input type="text" id="i-cta" value="PRIJAVI SE" maxlength="24"></div>
+          <div class="field"><span class="lbl">URL</span><input type="text" id="i-url" value="www.imaposla.me" maxlength="34"></div>
+        </div>
+      </div>
+
+      <div class="grp" id="grp-benef"><div class="grp-t">BENEFITI (template Pun, ikona|tekst)</div>
+        <div class="field"><textarea id="i-benef">💰|Redovna primanja
+📈|Mogućnost napredovanja
+🍽️|Obezbijeđen obrok
+🛏️|Smještaj obezbijeđen</textarea></div>
+      </div>
+
+      <button class="dl" id="btn">⬇ Skini oglas (PNG)</button>
+      <div class="hint" style="margin-top:8px">Sve lokalno na tvom uređaju. Maskota se postavlja u prazan ugao i ne pokriva tekst.</div>
+    </div>
+
+    <div class="stage">
+      <div class="shell"><canvas id="cv" width="1080" height="1350"></canvas></div>
+      <div class="note" id="note">1080 × 1350 px — Instagram portret</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const C={red:'#E8392E',redDeep:'#CC1A1D',ink:'#13202E',inkSoft:'#1E2C3C',green:'#3DDC84',cardLight:'#EFEFEC',paper:'#EEF0F2',muted:'#8A929C'};
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const S={l:'full',f:'portrait',bg:'dark',logo:null,masc:null,photo:null,clogo:null,
+  hex:[null,null,null,null],gal:[null,null,null],
+  t1:'Konobar /',t2:'Šanker',tag:'OGLAS ZA POSAO',hitno:true,
+  meta:[['📍','Budva, Crna Gora'],['🏢','Hotel Avala'],['🕐','Puno radno vrijeme'],['💶','Plata: 1000€ – 1200€']],
+  benef:[['💰','Redovna primanja'],['📈','Mogućnost napredovanja'],['🍽️','Obezbijeđen obrok'],['🛏️','Smještaj obezbijeđen']],
+  cname:'Hotel Avala',cdesc:'Luksuzni hotel u srcu Budve. Naš tim čine profesionalci koji goste stavljaju na prvo mjesto.',
+  cta:'PRIJAVI SE',url:'www.imaposla.me'};
+
+function dims(){return S.f==='story'?{w:1080,h:1920}:S.f==='square'?{w:1080,h:1080}:{w:1080,h:1350};}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function wrap(t,mw,fn){ctx.font=fn;const ws=(t||'').split(/\s+/).filter(Boolean),ls=[];let l='';for(const w of ws){const tt=l?l+' '+w:w;if(ctx.measureText(tt).width>mw&&l){ls.push(l);l=w;}else l=tt;}if(l)ls.push(l);return ls;}
+function cover(img,x,y,w,h){const ir=img.width/img.height,r=w/h;let sw,sh,sx,sy;if(ir>r){sh=img.height;sw=sh*r;sx=(img.width-sw)/2;sy=0;}else{sw=img.width;sh=sw/r;sx=0;sy=(img.height-sh)/2;}ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);}
+function contain(img,mw,mh){const ir=img.width/img.height;let w=mw,h=w/ir;if(h>mh){h=mh;w=h*ir;}return{w,h};}
+function col(){return S.bg==='dark'?{base:C.ink,text:'#fff',sub:'rgba(255,255,255,.82)',card:C.cardLight,cardText:C.ink,cardSub:'rgba(19,32,46,.7)'}:{base:C.paper,text:C.ink,sub:'rgba(19,32,46,.72)',card:C.ink,cardText:'#fff',cardSub:'rgba(255,255,255,.8)'};}
+
+function circImg(img,cx,cy,r,ring){ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.clip();if(img)cover(img,cx-r,cy-r,r*2,r*2);else{ctx.fillStyle=C.inkSoft;ctx.fill();}ctx.restore();if(ring){ctx.strokeStyle=C.red;ctx.lineWidth=ring;ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.stroke();}}
+function roundImg(img,x,y,w,h,rad){ctx.save();rr(x,y,w,h,rad);ctx.clip();if(img)cover(img,x,y,w,h);else{ctx.fillStyle=C.inkSoft;ctx.fillRect(x,y,w,h);}ctx.restore();}
+
+function logo(x,y,maxH,align){if(!S.logo){return{w:0,h:0};}const f=contain(S.logo,420,maxH);const dx=align==='right'?x-f.w:x;ctx.drawImage(S.logo,dx,y,f.w,f.h);return{w:f.w,h:f.h,x:dx};}
+function tag(x,y,c){ctx.font='800 26px sans-serif';const tw=ctx.measureText(S.tag).width;ctx.strokeStyle=C.red;ctx.lineWidth=2.5;rr(x,y,tw+52,54,27);ctx.stroke();ctx.fillStyle=c.text;ctx.textBaseline='middle';ctx.fillText(S.tag,x+26,y+28);ctx.textBaseline='alphabetic';return 54;}
+function hitno(x,y){ctx.font='800 34px sans-serif';const tw=ctx.measureText('HITNO!').width;ctx.fillStyle=C.red;rr(x,y,tw+40,58,11);ctx.fill();ctx.fillStyle='#fff';ctx.textBaseline='middle';ctx.fillText('HITNO!',x+20,y+30);ctx.textBaseline='alphabetic';return{w:tw+40,h:58};}
+function title(x,y,c,mw,size){const words=(S.t1+' '+S.t2).split(/\s+/);let longest='';ctx.font='800 '+size+'px sans-serif';for(const w of words)if(ctx.measureText(w).width>ctx.measureText(longest).width)longest=w;while(size>42){ctx.font='800 '+size+'px sans-serif';if(ctx.measureText(longest).width<=mw)break;size-=3;}let yy=y;ctx.fillStyle=c.text;for(const ln of wrap(S.t1,mw,'800 '+size+'px sans-serif')){ctx.font='800 '+size+'px sans-serif';ctx.fillText(ln,x,yy);yy+=size*1.03;}ctx.fillStyle=C.red;for(const ln of wrap(S.t2,mw,'800 '+size+'px sans-serif')){ctx.font='800 '+size+'px sans-serif';ctx.fillText(ln,x,yy);yy+=size*1.03;}return yy;}
+function meta(x,y,c,gap,sz){sz=sz||36;let yy=y;for(const[ic,tx]of S.meta){ctx.font=(sz-6)+'px sans-serif';ctx.fillStyle=C.red;ctx.fillText(ic,x,yy);ctx.font='600 '+sz+'px sans-serif';ctx.fillStyle=c.text;ctx.fillText(tx,x+58,yy);yy+=gap;}return yy;}
+function cta(x,y,w){const h=76;ctx.fillStyle=C.green;rr(x,y,w,h,15);ctx.fill();ctx.fillStyle=C.ink;ctx.font='800 37px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(S.cta,x+w/2-20,y+h/2);ctx.beginPath();const ax=x+w-54,ay=y+h/2;ctx.moveTo(ax,ay-15);ctx.lineTo(ax,ay+15);ctx.lineTo(ax+24,ay);ctx.closePath();ctx.fill();ctx.textAlign='left';ctx.textBaseline='alphabetic';return h;}
+function url(x,y,c){ctx.font='500 29px sans-serif';ctx.fillStyle=c.sub;ctx.fillText(S.url,x,y);}
+function dots(x,y,cols,rows,c){ctx.fillStyle=c;for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){ctx.beginPath();ctx.arc(x+i*16,y+j*16,2.5,0,7);ctx.fill();}}
+function masc(x,y,size){if(!S.masc)return;const f=contain(S.masc,size,size);ctx.drawImage(S.masc,x,y,f.w,f.h);}
+
+function draw(){const{w,h}=dims();cv.width=w;cv.height=h;const c=col();ctx.fillStyle=c.base;ctx.fillRect(0,0,w,h);ctx.textBaseline='alphabetic';
+  ({full:full,firma:firma,oval:oval,header:header,hex:hex})[S.l](w,h,c);}
+
+// ════ TEMPLATE: PUN (#1) ════
+function full(w,h,c){
+  const pad=68, isStory=S.f==='story', isSquare=S.f==='square';
+  // per-format config
+  const cfg = isStory   ? {cr:h*0.24, tSize:84, metaGap:74, metaSz:38, benef:true,  cardH:230}
+            : isSquare  ? {cr:h*0.32, tSize:74, metaGap:60, metaSz:34, benef:false, cardH:185}
+            :             {cr:h*0.30, tSize:76, metaGap:62, metaSz:36, benef:true,  cardH:200};
+  const benefH = cfg.benef?150:0;
+  // photo circle top-right
+  const cr=cfg.cr, ccx=w-cr*0.45, ccy=cr*0.92+30;
+  circImg(S.photo,ccx,ccy,cr,0);
+  if(S.hitno) hitno(ccx-cr*0.2, ccy+cr-70);
+  // ── top block: logo, tag, title, meta, cta ──
+  let y=pad; const lh=S.logo?Math.max(contain(S.logo,420,72).h,52):56; logo(pad,y,72,'left');
+  y+=lh+(isStory?52:36);
+  y+=tag(pad,y,c)+(isStory?56:40);
+  const colR=ccx-cr-24;
+  y+=cfg.tSize; y=title(pad,y,c,Math.max(colR-pad,400),cfg.tSize)+(isStory?52:36);
+  y=meta(pad,y,c,cfg.metaGap,cfg.metaSz);
+  y+=(isStory?16:8); ctx.strokeStyle=C.red;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(pad+78,y);ctx.stroke();
+  y+=(isStory?48:34);
+  cta(pad,y,300); url(pad+330,y+50,c);
+  dots(pad+330,y-60,5,4, c.text==='#fff'?'rgba(255,255,255,.18)':'rgba(19,32,46,.18)');
+  const cursorAfterCTA = y+76+30;   // bottom of CTA + margin
+  // ── company card (skip in square: not enough height) ──
+  if(!isSquare){
+  const cardX=pad,cardW=w-pad*2,cardH=cfg.cardH;
+  const cardYpos = isStory ? cursorAfterCTA+30 : (h-benefH-cardH-40);
+  ctx.fillStyle=c.card;rr(cardX,cardYpos,cardW,cardH,20);ctx.fill();
+  const imgH=cardH-44, descSize=24;
+  roundImg(S.clogo,cardX+22,cardYpos+22,140,imgH,12);
+  ctx.fillStyle=c.cardText;ctx.font='800 32px sans-serif';ctx.fillText(S.cname,cardX+184,cardYpos+48);
+  ctx.font='400 '+descSize+'px sans-serif';ctx.fillStyle=c.cardSub;let cy=cardYpos+82;
+  for(const ln of wrap(S.cdesc,250,'400 '+descSize+'px sans-serif').slice(0,4)){ctx.fillText(ln,cardX+184,cy);cy+=descSize+6;}
+  const gW=124,gGap=12,gX0=cardX+cardW-gW*3-gGap*2-22,gY=cardYpos+22;
+  for(let i=0;i<3;i++)roundImg(S.gal[i],gX0+i*(gW+gGap),gY,gW,imgH,12);
+  // ── benefits row ──
+  if(cfg.benef){const bY=isStory?(cardYpos+cardH+80):(h-benefH+40);const colW=(w-pad*2)/4;
+    for(let i=0;i<Math.min(S.benef.length,4);i++){const[ic,tx]=S.benef[i];const bx=pad+i*colW;
+      ctx.font='40px sans-serif';ctx.fillStyle=C.red;ctx.fillText(ic,bx,bY+40);
+      ctx.font='600 22px sans-serif';ctx.fillStyle=c.text;let ly=bY+18;for(const ln of wrap(tx,colW-68,'600 22px sans-serif').slice(0,2)){ctx.fillText(ln,bx+56,ly);ly+=27;}}}
+  }
+  if(isStory&&S.masc){const f=contain(S.masc,230,230);ctx.drawImage(S.masc,w-pad-f.w,h-f.h-pad,f.w,f.h);}
+}
+
+// ════ TEMPLATE: FIRMA (#3) ════
+function firma(w,h,c){
+  const pad=68,cardW=300,cardX=w-pad-cardW;
+  let y=pad;const lf=logo(pad,y,58,'left');
+  if(S.hitno)hitno(pad+lf.w+28,y-2);
+  y+=Math.max(lf.h,56)+36;
+  y+=tag(pad,y,c)+38;
+  y=title(pad,y+64,c,cardX-pad-40,64)+38;
+  y=meta(pad,y,c,60,34);
+  // photo circle lower-left
+  const avail=h-pad-y-10,cr=Math.min(w*0.27,avail/2);
+  if(cr>70)circImg(S.photo,pad+cr,h-cr-pad,cr,0);
+  // company card right
+  const cardY=pad+130,cardH=h-cardY-pad-110;
+  ctx.fillStyle=c.card;rr(cardX,cardY,cardW,cardH,20);ctx.fill();
+  roundImg(S.clogo,cardX+24,cardY+24,cardW-48,150,12);
+  ctx.fillStyle=c.cardText;ctx.font='800 34px sans-serif';ctx.fillText(S.cname,cardX+24,cardY+212);
+  ctx.font='400 25px sans-serif';ctx.fillStyle=c.cardSub;let cy=cardY+250;
+  for(const ln of wrap(S.cdesc,cardW-48,'400 25px sans-serif').slice(0,5)){ctx.fillText(ln,cardX+24,cy);cy+=33;}
+  // two small worker imgs in card
+  const sY=cardY+ Math.min(cardH-300, 400);
+  cta(cardX,h-pad-76,cardW);
+  masc(cardX-150,h-pad-280,200);
+}
+
+// ════ TEMPLATE: OVAL (#4) ════
+function oval(w,h,c){
+  const pad=68;
+  const isStory = S.f==='story';
+  if(S.logo){const f=contain(S.logo,360,58);ctx.drawImage(S.logo,w-pad-f.w,pad,f.w,f.h);}
+  cta(pad,pad,320);
+  const ovX=w/2,ovY=isStory?h*0.42:h*0.40,rx=w*0.45,ry=isStory?h*0.32:h*0.28;
+  ctx.save();ctx.beginPath();ctx.ellipse(ovX,ovY,rx,ry,0,0,7);ctx.clip();if(S.photo)cover(S.photo,ovX-rx,ovY-ry,rx*2,ry*2);else{ctx.fillStyle=C.inkSoft;ctx.fillRect(ovX-rx,ovY-ry,rx*2,ry*2);}ctx.restore();
+  ctx.strokeStyle=C.red;ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(ovX,ovY,rx,ry,0,0,7);ctx.stroke();
+  if(S.hitno)hitno(w-pad-180,ovY+ry-72);
+  let by=ovY+ry+(isStory?150:96);
+  title(pad,by,c,w*0.46,isStory?96:88);
+  meta(w*0.55,by-(isStory?78:66),c,isStory?78:62,isStory?38:34);
+  if(isStory){url(pad,h-pad-118,c);cta(pad,h-pad-90,360);}
+  if(isStory&&S.masc){const f=contain(S.masc,240,240);ctx.drawImage(S.masc,w-pad-f.w,h-f.h-pad,f.w,f.h);}
+}
+
+// ════ TEMPLATE: HEADER (#7) ════
+function header(w,h,c){
+  const pad=68, isStory=S.f==='story', isSquare=S.f==='square';
+  const ph = isStory ? h*0.50 : isSquare ? h*0.44 : h*0.46;
+  if(S.photo){ctx.save();ctx.beginPath();ctx.rect(0,0,w,ph);ctx.clip();cover(S.photo,0,0,w,ph);ctx.restore();}else{ctx.fillStyle=C.inkSoft;ctx.fillRect(0,0,w,ph);}
+  if(S.logo){const f=contain(S.logo,300,54);ctx.fillStyle='rgba(255,255,255,.92)';rr(pad-14,pad-10,f.w+28,f.h+20,12);ctx.fill();ctx.drawImage(S.logo,pad,pad,f.w,f.h);}
+  if(S.hitno)hitno(w-pad-180,ph-86);
+
+  const tSize = isStory?90 : isSquare?72 : 84;
+  if(isStory){
+    // story: title then meta stacked, CTA pinned bottom (room exists)
+    let y = ph + 90 + tSize;
+    y = title(pad,y,c,w-pad*2,tSize) + 50;
+    y = meta(pad,y,c,68,36);
+    url(pad,h-pad-118,c); cta(pad,h-pad-90,360);
+    if(S.masc){const f=contain(S.masc,230,230);ctx.drawImage(S.masc,w-pad-f.w,h-pad-f.h-110,f.w,f.h);}
+  } else {
+    // portrait/square: title bottom-left, meta right column, CTA bottom-left (separated horizontally)
+    const titleY = ph + 70 + tSize;
+    title(pad,titleY,c,w*0.46,tSize);
+    // meta in right column, vertically centered in lower zone
+    const metaGap = isSquare?56:62, metaSz=isSquare?32:34;
+    const metaTop = ph + 90;
+    meta(w*0.52,metaTop,c,metaGap,metaSz);
+    // CTA + url bottom-left
+    cta(pad,h-pad-76,330);
+    url(pad,h-pad-100,c);
+  }
+}
+
+// ════ TEMPLATE: HEX (#9) ════
+function hex(w,h,c){
+  const pad=64;
+  function hp(cx,cy,r){ctx.beginPath();for(let i=0;i<6;i++){const a=Math.PI/180*(60*i-90);const px=cx+r*Math.cos(a),py=cy+r*Math.sin(a);i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.closePath();}
+  function cell(img,cx,cy,r){ctx.save();hp(cx,cy,r);ctx.clip();if(img)cover(img,cx-r,cy-r,r*2,r*2);else if(S.photo)cover(S.photo,cx-r,cy-r,r*2,r*2);else{ctx.fillStyle=C.inkSoft;ctx.fillRect(cx-r,cy-r,r*2,r*2);}ctx.restore();ctx.strokeStyle=C.red;ctx.lineWidth=5;hp(cx,cy,r);ctx.stroke();}
+
+  // reserve a clean text band on the LEFT-LOWER area; honeycomb fills top + right
+  const isStory = S.f==='story';
+  // logo top-left always (so it never collides with right cluster)
+  let ly=pad; logo(pad,ly,58,'left');
+
+  // honeycomb geometry — flat-top pair columns, tucked toward top-right
+  const r = isStory ? w*0.205 : w*0.185;
+  const dx = r*Math.cos(Math.PI/6);   // horizontal step between columns
+  const dy = r*1.5;                    // vertical step within a column
+  const topY = pad + (S.logo? 120 : 90) + r;
+  const colL = w - pad - dx*2 - r*0.15;   // left column center x (right side)
+  const colR = colL + dx;                 // right column center x
+  // 2 in left column, 2 in right column, offset — classic honeycomb
+  const cells=[
+    [colL, topY],
+    [colR, topY + dy],
+    [colL, topY + dy*2],
+    [colR, topY + dy*3]
+  ];
+  // if cluster would overflow bottom, scale not needed for portrait; for story it naturally has room
+  S.hex.forEach((img,i)=>cell(img,cells[i][0],cells[i][1],r));
+
+  // decorative dots bottom-right corner
+  dots(w-pad-90,h-pad-150,5,7,'rgba(232,57,46,.32)');
+
+  // TEXT BLOCK — bottom-left, in the cleanly reserved zone (left of the cluster)
+  const tx=pad;
+  const tSize = isStory? 92 : 78;
+  let tyBase = h - pad - 230;
+  ctx.font='800 '+tSize+'px sans-serif';
+  ctx.fillStyle=c.text; ctx.fillText(S.t1||'TOP', tx, tyBase);
+  ctx.fillStyle=c.text; ctx.fillText(S.t2||'Poslovi', tx, tyBase + tSize*1.02);
+  cta(tx, h - pad - 90, 300);
+}
+
+// ── wiring ──
+function seg(id,a,k,after){document.querySelectorAll('#'+id+' button').forEach(b=>b.onclick=()=>{S[k]=b.dataset[a];document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.toggle('on',x===b));after&&after();draw();});}
+seg('seg-l','l','l',vis);
+seg('seg-f','f','f',()=>{document.getElementById('note').textContent=({portrait:'1080 × 1350 px — Instagram portret',square:'1080 × 1080 px — kvadrat',story:'1080 × 1920 px — Story'})[S.f];});
+seg('seg-bg','bg','bg');
+function vis(){document.getElementById('grp-hex').style.display=S.l==='hex'?'block':'none';document.getElementById('grp-firma').style.display=(S.l==='full'||S.l==='firma')?'block':'none';document.getElementById('grp-benef').style.display=S.l==='full'?'block':'none';}
+function up(fid,setter,tid,xid,uid){document.getElementById(fid).onchange=e=>{const file=e.target.files[0];if(!file)return;const img=new Image();img.onload=()=>{setter(img);draw();if(tid){const t=document.getElementById(tid);t.src=img.src;t.style.display='block';}document.getElementById(xid).textContent='✓';document.getElementById(uid).classList.add('has');};img.src=URL.createObjectURL(file);};}
+up('f-logo',i=>S.logo=i,'t-logo','x-logo','u-logo');
+up('f-masc',i=>S.masc=i,'t-masc','x-masc','u-masc');
+up('f-photo',i=>S.photo=i,'t-photo','x-photo','u-photo');
+up('f-clogo',i=>S.clogo=i,'t-clogo','x-clogo','u-clogo');
+for(let i=0;i<4;i++)up('f-h'+i,(im=>j=>S.hex[j]=im)(i)?null:null);
+[0,1,2,3].forEach(i=>up('f-h'+i,im=>S.hex[i]=im,'t-h'+i,'x-h'+i,'u-h'+i));
+[0,1,2].forEach(i=>up('f-g'+i,im=>S.gal[i]=im,null,'x-g'+i,'u-g'+i));
+function bind(id,k){document.getElementById(id).oninput=e=>{S[k]=e.target.value;draw();};}
+bind('i-t1','t1');bind('i-t2','t2');bind('i-tag','tag');bind('i-cta','cta');bind('i-url','url');bind('i-cname','cname');bind('i-cdesc','cdesc');
+document.getElementById('i-hitno').onchange=e=>{S.hitno=e.target.checked;draw();};
+document.getElementById('i-meta').oninput=e=>{S.meta=e.target.value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const i=l.indexOf('|');return i>=0?[l.slice(0,i),l.slice(i+1)]:['•',l];});draw();};
+document.getElementById('i-benef').oninput=e=>{S.benef=e.target.value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const i=l.indexOf('|');return i>=0?[l.slice(0,i),l.slice(i+1)]:['•',l];});draw();};
+document.getElementById('btn').onclick=()=>{const a=document.createElement('a');a.download='imaposla-'+S.l+'-'+S.f+'.png';a.href=cv.toDataURL('image/png');a.click();};
+vis();draw();
+</script>
+</body>
+</html>
