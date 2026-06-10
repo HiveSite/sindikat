@@ -353,6 +353,53 @@ document.getElementById('i-hitno').onchange=e=>{S.hitno=e.target.checked;draw();
 document.getElementById('i-meta').oninput=e=>{S.meta=e.target.value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const i=l.indexOf('|');return i>=0?[l.slice(0,i),l.slice(i+1)]:['•',l];});draw();};
 document.getElementById('i-benef').oninput=e=>{S.benef=e.target.value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const i=l.indexOf('|');return i>=0?[l.slice(0,i),l.slice(i+1)]:['•',l];});draw();};
 document.getElementById('btn').onclick=()=>{const a=document.createElement('a');a.download='imaposla-'+S.l+'-'+S.f+'.png';a.href=cv.toDataURL('image/png');a.click();};
+// ── Učitavanje iz URL-a (link iz mejla popunjava sve automatski) ──
+// Primjer: generator.html#t1=Konobar /&t2=Šanker&grad=Budva, Crna Gora&firma=Hotel Avala&plata=1000€ – 1200€&slika=https://...
+// Podržani parametri: template, format, tema, t1, t2, tag, grad, firma, ugovor, plata, cta, url,
+//                     cname, cdesc, slika (URL glavne fotografije), logo (URL), hitno (1/0)
+function loadFromURL(){
+  const raw = (location.hash || location.search).replace(/^[#?]/,'');
+  if(!raw) return;
+  const p = new URLSearchParams(raw);
+  const get = k => p.has(k) ? decodeURIComponent(p.get(k)) : null;
+
+  // template / format / tema
+  const tpl=get('template'); if(tpl && ['pun','firma','split','oval'].includes(tpl)){S.l=tpl;document.querySelectorAll('#seg-l button').forEach(b=>b.classList.toggle('on',b.dataset.l===tpl));}
+  const fmt=get('format'); if(fmt && ['portrait','square','story'].includes(fmt)){S.f=fmt;document.querySelectorAll('#seg-f button').forEach(b=>b.classList.toggle('on',b.dataset.f===fmt));}
+  const th=get('tema'); if(th && ['dark','light'].includes(th)){S.bg=th;document.querySelectorAll('#seg-bg button').forEach(b=>b.classList.toggle('on',b.dataset.bg===th));}
+
+  // tekstualna polja — postavi i u state i u input (da se vidi u formi)
+  const setField=(id,key,val)=>{ if(val==null) return; S[key]=val; const el=document.getElementById(id); if(el) el.value=val; };
+  setField('i-t1','t1',get('t1'));
+  setField('i-t2','t2',get('t2'));
+  setField('i-tag','tag',get('tag'));
+  setField('i-cta','cta',get('cta'));
+  setField('i-url','url',get('url'));
+  setField('i-cname','cname',get('firma') ?? get('cname'));
+  setField('i-cdesc','cdesc',get('cdesc'));
+
+  // HITNO
+  const h=get('hitno'); if(h!=null){S.hitno=(h==='1'||h==='true');const cb=document.getElementById('i-hitno'); if(cb) cb.checked=S.hitno;}
+
+  // META — sklopi iz pojedinačnih parametara (grad, firma, ugovor, plata) ako su dati
+  const grad=get('grad'), firma=get('firma'), ugovor=get('ugovor'), plata=get('plata');
+  if(grad||firma||ugovor||plata){
+    const m=[];
+    if(grad)  m.push(['📍',grad]);
+    if(firma) m.push(['🏢',firma]);
+    if(ugovor)m.push(['🕐',ugovor]);
+    if(plata) m.push(['💶',plata]);
+    if(m.length){S.meta=m; const mt=document.getElementById('i-meta'); if(mt) mt.value=m.map(r=>r[0]+'|'+r[1]).join('\n');}
+  }
+
+  // SLIKE sa URL-a (glavna fotografija + logo firme). crossOrigin da Canvas ostane "čist" za download.
+  const loadImg=(url,setter)=>{ if(!url) return; const img=new Image(); img.crossOrigin='anonymous'; img.onload=()=>{setter(img);draw();}; img.onerror=()=>console.warn('Slika nije učitana (provjeri da je public):',url); img.src=url; };
+  loadImg(get('slika'), im=>S.photo=im);
+  loadImg(get('logofirme'), im=>S.clogo=im);
+
+  vis();
+}
+loadFromURL();
 vis();draw();
 </script>
 </body>
