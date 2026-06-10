@@ -167,7 +167,7 @@ function drawDots(x,y,cols,rows,color){ctx.fillStyle=color;for(let i=0;i<cols;i+
 function drawMasc(x,y,size){if(!S.masc)return{w:0,h:0};const f=contain(S.masc,size,size);ctx.drawImage(S.masc,x,y,f.w,f.h);return f;}
 
 // company card: returns nothing, draws within given rect; gallery count adapts
-function drawCompanyCard(c,x,y,w,h,layout){ // layout: 'wide' (img left, gallery right) or 'tall' (img top, desc, gallery bottom)
+function drawCompanyCard(c,x,y,w,h,layout){ // 'wide' (img+desc+gallery), 'wide-nogallery' (img+wide desc), 'tall'
   ctx.fillStyle=c.card;rr(x,y,w,h,20);ctx.fill();
   if(layout==='wide'){
     const ih=h-44;rimg(S.clogo,x+22,y+22,150,ih,12);
@@ -176,6 +176,11 @@ function drawCompanyCard(c,x,y,w,h,layout){ // layout: 'wide' (img left, gallery
     for(const ln of wrap(S.cdesc,250,'400 23px sans-serif').slice(0,4)){ctx.fillText(ln,x+190,cy);cy+=29;}
     const gW=124,gGap=12,gX0=x+w-gW*3-gGap*2-22,gY=y+22;
     for(let i=0;i<3;i++)rimg(S.gal[i],gX0+i*(gW+gGap),gY,gW,ih,12);
+  }else if(layout==='wide-nogallery'){
+    const ih=h-44;rimg(S.clogo,x+22,y+22,170,ih,12);
+    ctx.fillStyle=c.cardText;ctx.font='800 34px sans-serif';ctx.fillText(S.cname,x+212,y+52);
+    ctx.font='400 25px sans-serif';ctx.fillStyle=c.cardSub;let cy=y+92;
+    for(const ln of wrap(S.cdesc,w-212-40,'400 25px sans-serif').slice(0,5)){ctx.fillText(ln,x+212,cy);cy+=32;}
   }else{ // tall (firma)
     const heroH=Math.min(200,h*0.32);rimg(S.clogo,x+24,y+24,w-48,heroH,12);
     ctx.fillStyle=c.cardText;ctx.font='800 32px sans-serif';ctx.fillText(S.cname,x+24,y+heroH+58);
@@ -271,24 +276,36 @@ function firmaStory(w,h,c,pad){
   drawCTA(pad,ctaY,w-pad*2);
 }
 
-// ════════════════ SPLIT ════════════════
+// ════════════════ SPLIT (= Pun, kartica bez galerije) ════════════════
 const SPLIT={
-  portrait:{pad:68,cr:.29,tSize:80,metaGap:62,metaSz:34,masc:320},
-  square:  {pad:60,cr:.32,tSize:72,metaGap:56,metaSz:32,masc:260},
-  story:   {pad:72,cr:.24,tSize:90,metaGap:74,metaSz:38,masc:320}
+  portrait:{pad:68,cr:.30,benef:1,benefH:160,card:200,tSize:78},
+  square:  {pad:68,cr:.34,benef:0,benefH:0,  card:0,  tSize:74},
+  story:   {pad:72,cr:.20,benef:1,benefH:170,card:230,tSize:84}
 };
 function split(w,h,c,F){
   const k=SPLIT[F],pad=k.pad;
-  const cr=h*k.cr,ccx=w-cr*0.42,ccy=cr*0.95+(F==='story'?70:pad*0.5);
+  // photo circle top-right
+  const cr=h*k.cr,ccx=w-cr*0.45,ccy=cr*0.95+pad*0.5;
   circ(S.photo,ccx,ccy,cr,0);
-  if(S.hitno)drawHitno(ccx-cr*0.1,ccy+cr-70);
-  let y=pad+6;const lf=drawLogo(pad,y,62,'left');y+=Math.max(lf.h,54)+(F==='story'?44:32);
-  const colR=ccx-cr-26,maxTW=Math.max(colR-pad,340);
-  const mt=measureTitle(maxTW,k.tSize);drawTitle(pad,y,c,maxTW,k.tSize);y+=mt.h+(F==='story'?58:44);
-  drawMeta(pad,y,c,k.metaGap,k.metaSz);
-  // mascot bottom-left, CTA bottom-right
-  if(S.masc){const f=contain(S.masc,k.masc,k.masc);ctx.drawImage(S.masc,pad-6,h-pad-f.h,f.w,f.h);}
-  drawCTA(w-pad-340,h-pad-86,340);
+  if(S.hitno)drawHitno(ccx-cr*0.2,ccy+cr-70);
+  let y=pad;
+  const lf=drawLogo(pad,y,68,'left');y+=Math.max(lf.h,54)+(F==='story'?52:38);
+  y+=drawTag(pad,y,c)+(F==='story'?54:40);
+  const colR=ccx-cr-26, maxTW=Math.max(colR-pad,360);
+  const mt=measureTitle(maxTW,k.tSize);drawTitle(pad,y,c,maxTW,k.tSize);y+=mt.h+(F==='story'?52:36);
+  y=drawMeta(pad,y,c,F==='story'?66:60,F==='story'?38:34)+(F==='story'?28:18);
+  ctx.strokeStyle=C.red;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(pad+78,y);ctx.stroke();y+=(F==='story'?46:34);
+  drawCTA(pad,y,300);drawURL(pad+330,y+50,c);drawDots(pad+330,y-58,5,4,c.dot);
+  const ctaBottom=y+78;
+  if(k.card>0){
+    const benefH=k.benefH;
+    const cardY = F==='story' ? Math.max(ctaBottom+50, h-benefH-k.card-180) : (h-benefH-k.card-40);
+    drawCompanyCard(c,pad,cardY,w-pad*2,k.card,'wide-nogallery');
+    if(k.benef){const bY=F==='story'?(cardY+k.card+70):(h-benefH+44);const colW=(w-pad*2)/4;
+      for(let i=0;i<Math.min(S.benef.length,4);i++){const[ic,tx]=S.benef[i];const bx=pad+i*colW;
+        ctx.font='40px sans-serif';ctx.fillStyle=C.red;ctx.fillText(ic,bx,bY+40);
+        ctx.font='600 22px sans-serif';ctx.fillStyle=c.text;let ly=bY+18;for(const ln of wrap(tx,colW-66,'600 22px sans-serif').slice(0,2)){ctx.fillText(ln,bx+56,ly);ly+=27;}}}
+  }
 }
 
 // ════════════════ OVAL ════════════════
@@ -323,7 +340,7 @@ function seg(id,a,k,after){document.querySelectorAll('#'+id+' button').forEach(b
 seg('seg-l','l','l',vis);
 seg('seg-f','f','f',()=>{document.getElementById('note').textContent=({portrait:'1080 × 1350 px — Instagram portret',square:'1080 × 1080 px — kvadrat',story:'1080 × 1920 px — Story'})[S.f];});
 seg('seg-bg','bg','bg');
-function vis(){document.getElementById('grp-firma').style.display=(S.l==='pun'||S.l==='firma')?'block':'none';document.getElementById('grp-benef').style.display=S.l==='pun'?'block':'none';}
+function vis(){document.getElementById('grp-firma').style.display=(S.l==='pun'||S.l==='firma'||S.l==='split')?'block':'none';document.getElementById('grp-benef').style.display=(S.l==='pun'||S.l==='split')?'block':'none';}
 function up(fid,setter,tid,xid,uid){const el=document.getElementById(fid);if(!el)return;el.onchange=e=>{const file=e.target.files[0];if(!file)return;const img=new Image();img.onload=()=>{setter(img);draw();if(tid){const t=document.getElementById(tid);t.src=img.src;t.style.display='block';}document.getElementById(xid).textContent='✓';document.getElementById(uid).classList.add('has');};img.src=URL.createObjectURL(file);};}
 up('f-logo',i=>S.logo=i,'t-logo','x-logo','u-logo');
 up('f-masc',i=>S.masc=i,'t-masc','x-masc','u-masc');
