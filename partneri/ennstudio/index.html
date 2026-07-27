@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<!-- DEMO "ENN STUDIO" | vajb: enterijer / prostorni dizajn (editorial, parallax, unikatno).
+     Custom layout po pravilu D10. Sadrzaj projekata, kontakta i fotografije su ILUSTRATIVNI placeholderi (Unsplash),
+     svaka slika preko gradijent fallback-a. Nezvanicni prodajni koncept. Prave projekte i podatke ubacuje vlasnik. -->
+<html lang="sr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>document.documentElement.classList.add('js');</script>
+<title>ENN Studio | Enterijer i prostorni dizajn</title>
+<meta name="description" content="ENN Studio, studio za enterijer i prostorni dizajn. Portfolio rezidencijalnih i poslovnih enterijera. Idejni koncept, projektovanje, 3D vizuelizacija i nadzor izvođenja." />
+<meta name="theme-color" content="#1c1a17" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231c1a17'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23f4f1ea' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bone:#f4f1ea;--bone-2:#ebe6dc;--bone-3:#e2dccf;
+    --ink:#1c1a17;--ink-2:#2c2925;--ink-soft:#514b42;--muted:#8b8478;
+    --clay:#a8785f;--clay-d:#8f6149;--olive:#6b6b52;
+    --line:rgba(28,26,23,.16);--line-l:rgba(244,241,234,.18);
+    --maxw:1280px;--gut:clamp(20px,5vw,64px);--nav-h:72px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;font-family:'Inter',system-ui,Arial,sans-serif;color:var(--ink);background:var(--bone);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:'Fraunces','Georgia',serif;font-weight:400;line-height:1.02;margin:0;letter-spacing:-.01em}
+  .display{font-size:clamp(3.4rem,12vw,10rem);line-height:.92;letter-spacing:-.03em}
+  h2{font-size:clamp(2rem,5vw,3.6rem)}
+  h3{font-size:clamp(1.4rem,2.6vw,2rem)}
+  p{margin:0 0 1rem}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+  section{padding:clamp(70px,10vw,140px) 0;position:relative}
+  .eyebrow{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.32em;font-size:.7rem;font-weight:600;color:var(--clay);display:inline-flex;align-items:center;gap:.7rem}
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--clay);display:inline-block}
+  .lead{color:var(--ink-soft);font-size:clamp(1.06rem,1.5vw,1.28rem);max-width:560px;font-weight:400}
+  .idx{font-family:'Fraunces',serif;font-size:.8rem;color:var(--muted);letter-spacing:.05em}
+
+  .btn{display:inline-flex;align-items:center;gap:.7rem;min-height:52px;padding:.85rem 0;font-family:'Inter',sans-serif;font-weight:500;font-size:.95rem;text-decoration:none;color:var(--ink);border:0;background:transparent;cursor:pointer;position:relative;letter-spacing:.02em}
+  .btn .ln{position:relative;padding-bottom:3px}
+  .btn .ln::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(1);transform-origin:left;transition:transform .4s var(--ease)}
+  .btn:hover .ln::after{transform:scaleX(0);transform-origin:right}
+  .btn .arw{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:background .3s,color .3s,border-color .3s}
+  .btn:hover .arw{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+  .btn:focus-visible{outline:2px solid var(--clay);outline-offset:4px;border-radius:4px}
+  .btn-solid{background:var(--ink);color:var(--bone);padding:.9rem 1.6rem;border-radius:2px;min-height:52px}
+  .btn-solid .ln::after{display:none}
+  .btn-solid:hover{background:var(--ink-2)}
+
+  html.js .rv{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  html.js .rv.in{opacity:1;transform:none}
+  html.js .rv-2{transition-delay:.12s}html.js .rv-3{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none;transition:none}}
+
+  /* image frame with parallax inner */
+  .imgframe{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--bone-3),var(--clay) 140%);}
+  .imgframe .inner{position:absolute;inset:-9% 0;background-position:center;background-size:cover;will-change:transform}
+  .imgframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,.04),rgba(28,26,23,.14));pointer-events:none}
+
+  /* NAV */
+  header.nav{position:fixed;top:0;left:0;right:0;z-index:70;transition:background .4s,border-color .4s}
+  header.nav.scrolled{background:rgba(244,241,234,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:var(--maxw);margin:0 auto;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gut)}
+  .brand{font-family:'Fraunces',serif;font-size:1.5rem;text-decoration:none;color:var(--ink);letter-spacing:.02em;display:inline-flex;align-items:center;gap:.15rem;min-height:44px}
+  .brand b{font-weight:600}.brand span{font-size:.6rem;font-family:'Inter',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);align-self:center;margin-left:.4rem}
+  .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;margin:0;padding:0}
+  .nav-links a{font-size:.86rem;font-weight:500;text-decoration:none;color:var(--ink);letter-spacing:.02em;position:relative;padding:4px 0}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--clay);transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
+  .nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+  .nav-actions{display:flex;align-items:center;gap:1.1rem}
+  .lang{display:inline-flex;gap:.1rem;align-items:center;font-size:.78rem}
+  .lang button{background:transparent;border:0;cursor:pointer;color:var(--muted);font-weight:600;font-family:inherit;padding:.4rem;min-height:44px;min-width:44px;letter-spacing:.06em}
+  .lang button.active{color:var(--ink)}
+  .lang button:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+  .lang .sep{color:var(--line);}
+  .nav-cta{font-size:.84rem;font-weight:500;text-decoration:none;color:var(--ink);border:1px solid var(--line);padding:.6rem 1.1rem;border-radius:2px;min-height:44px;display:inline-flex;align-items:center;transition:background .3s,color .3s}
+  .nav-cta:hover{background:var(--ink);color:var(--bone)}
+  .hamburger{display:none;background:transparent;border:0;cursor:pointer;padding:8px;min-height:44px;min-width:44px}
+  .hamburger span{display:block;width:24px;height:1.5px;background:var(--ink);margin:6px 0;transition:.3s}
+  .hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  .hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+  /* HERO */
+  .hero{min-height:100svh;padding:0;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg .inner{position:absolute;inset:-8% 0;background-size:cover;background-position:center;will-change:transform}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,.28),rgba(28,26,23,.08) 40%,rgba(28,26,23,.5))}
+  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:clamp(40px,6vw,72px);color:var(--bone)}
+  .hero-top{position:absolute;top:calc(var(--nav-h) + clamp(20px,5vw,50px));left:0;right:0;z-index:2}
+  .hero-top .eyebrow{color:var(--bone)}
+  .hero-top .eyebrow::before{background:var(--bone)}
+  .hero .display{color:var(--bone)}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:1.6rem 2.6rem;align-items:flex-end;justify-content:space-between;margin-top:1.6rem;border-top:1px solid var(--line-l);padding-top:1.5rem}
+  .hero-meta p{color:rgba(244,241,234,.86);max-width:420px;margin:0;font-size:clamp(1rem,1.4vw,1.15rem)}
+  .hero-scroll{display:inline-flex;align-items:center;gap:.7rem;color:var(--bone);text-decoration:none;font-size:.78rem;text-transform:uppercase;letter-spacing:.2em;font-weight:500;min-height:44px}
+  .hero-scroll .dot{width:36px;height:36px;border:1px solid var(--line-l);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bob 2.4s var(--ease) infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+  @media(prefers-reduced-motion:reduce){.hero-scroll .dot{animation:none}}
+
+  /* MANIFESTO */
+  .manifesto{background:var(--bone)}
+  .manifesto .big{font-family:'Fraunces',serif;font-size:clamp(1.7rem,4.2vw,3.2rem);line-height:1.14;letter-spacing:-.015em;max-width:16ch;color:var(--ink)}
+  .manifesto .big em{font-style:italic;color:var(--clay)}
+  .manifesto-grid{display:grid;grid-template-columns:1fr auto;gap:clamp(28px,6vw,80px);align-items:end}
+  .manifesto-side{max-width:300px;color:var(--ink-soft);font-size:.98rem}
+  .manifesto-side .num{font-family:'Fraunces',serif;font-size:2.4rem;color:var(--ink);display:block;margin-bottom:.3rem}
+
+  /* PROJECTS */
+  .projects{background:var(--bone)}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:clamp(40px,6vw,72px)}
+  .proj{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,68px);align-items:center;padding:clamp(40px,6vw,80px) 0;border-top:1px solid var(--line)}
+  .proj:nth-child(even) .proj-media{order:2}
+  .proj-media{aspect-ratio:4/5;border-radius:2px}
+  .proj.wide .proj-media{aspect-ratio:16/10}
+  .proj-body{position:relative}
+  .proj .pidx{font-family:'Fraunces',serif;font-size:clamp(3rem,8vw,6rem);color:var(--bone-3);line-height:.8;position:absolute;top:-2.6rem;right:0;pointer-events:none;z-index:0}
+  .proj-body .in{position:relative;z-index:1}
+  .proj h3{margin-bottom:.5rem}
+  .proj .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 1.4rem}
+  .proj .tag{font-size:.74rem;letter-spacing:.04em;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:.32rem .8rem}
+  .proj .desc{color:var(--ink-soft);max-width:44ch;font-size:.98rem}
+
+  /* BEAUTY BAND */
+  .band{height:min(78vh,760px);position:relative;overflow:hidden}
+  .band .inner{position:absolute;inset:-12% 0;background-size:cover;background-position:center;will-change:transform}
+  .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,.18),rgba(28,26,23,.32))}
+  .band .cap{position:absolute;left:var(--gut);bottom:clamp(28px,5vw,56px);color:var(--bone);z-index:2;max-width:520px}
+  .band .cap h2{color:var(--bone);font-style:italic}
+  .band .cap p{color:rgba(244,241,234,.85);margin-top:.6rem}
+
+  /* SERVICES */
+  .services{background:var(--ink);color:var(--bone)}
+  .services .eyebrow{color:var(--clay)}
+  .services h2{color:var(--bone)}
+  .services .lead{color:rgba(244,241,234,.7)}
+  .svc-list{margin-top:clamp(36px,5vw,60px);border-top:1px solid var(--line-l)}
+  .svc-row{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(16px,4vw,48px);align-items:center;padding:clamp(24px,3.4vw,38px) 0;border-bottom:1px solid var(--line-l);transition:padding-left .4s var(--ease)}
+  .svc-row:hover{padding-left:14px}
+  .svc-row .n{font-family:'Fraunces',serif;font-size:1rem;color:var(--muted)}
+  .svc-row h3{color:var(--bone);font-size:clamp(1.5rem,3.4vw,2.4rem)}
+  .svc-row p{color:rgba(244,241,234,.66);margin:0;max-width:40ch;font-size:.96rem}
+  @media(max-width:760px){.svc-row{grid-template-columns:auto 1fr;gap:14px}.svc-row p{grid-column:1 / -1}}
+
+  /* ABOUT */
+  .about{background:var(--bone)}
+  .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,6vw,84px);align-items:center}
+  .about-media{aspect-ratio:4/5;border-radius:2px}
+  .about h2{margin-bottom:1.4rem;font-size:clamp(1.9rem,4.4vw,3rem)}
+  .about h2 em{font-style:italic;color:var(--clay)}
+  .stats{display:flex;gap:clamp(24px,5vw,54px);flex-wrap:wrap;margin-top:2rem;border-top:1px solid var(--line);padding-top:1.6rem}
+  .stat .k{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3rem);display:block;line-height:1}
+  .stat .v{font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;margin-top:.4rem}
+
+  /* CONTACT */
+  .contact{background:var(--bone-2)}
+  .contact-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(30px,6vw,80px);align-items:start}
+  .contact .big{font-family:'Fraunces',serif;font-size:clamp(2.4rem,6.4vw,5rem);line-height:1;letter-spacing:-.02em}
+  .contact .big em{font-style:italic;color:var(--clay)}
+  .contact-mail{display:inline-flex;align-items:center;min-height:44px;margin-top:1.6rem;font-family:'Fraunces',serif;font-size:clamp(1.3rem,3vw,2rem);text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:4px;transition:border-color .3s}
+  .contact-mail:hover{border-color:var(--ink)}
+  .contact-info{display:grid;gap:1.4rem}
+  .contact-info .blk .k{font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);display:block;margin-bottom:.4rem}
+  .contact-info .blk a,.contact-info .blk span{color:var(--ink);text-decoration:none;font-size:1.02rem}
+  .contact-info .blk a{display:inline-flex;align-items:center;min-height:44px}
+  .contact-info .note{font-size:.8rem;color:var(--muted);font-style:italic}
+
+  /* FOOTER */
+  footer{background:var(--ink);color:var(--bone)}
+  footer .wrap{padding:clamp(48px,6vw,80px) var(--gut) 30px}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap}
+  .foot-brand{font-family:'Fraunces',serif;font-size:clamp(2.4rem,8vw,5rem);line-height:.9}
+  .foot-nav{display:flex;gap:3rem;flex-wrap:wrap}
+  .foot-col h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:1rem;font-family:'Inter',sans-serif;font-weight:600}
+  .foot-col ul{list-style:none;margin:0;padding:0;display:grid;gap:.2rem}
+  .foot-col a{color:rgba(244,241,234,.82);text-decoration:none;font-size:.92rem;display:inline-flex;min-height:44px;align-items:center}
+  .foot-col a:hover{color:var(--clay)}
+  .foot-legal{border-top:1px solid var(--line-l);margin-top:clamp(40px,5vw,64px);padding-top:22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--muted)}
+  .demo-note{background:var(--ink-2);color:var(--muted);font-size:.76rem;text-align:center;padding:9px 16px}
+
+  /* mobile menu + parallax off */
+  @media(max-width:920px){
+    .manifesto-grid{grid-template-columns:1fr}
+    .proj{grid-template-columns:1fr;gap:22px}
+    .proj:nth-child(even) .proj-media{order:0}
+    .proj-media,.proj.wide .proj-media{aspect-ratio:4/3}
+    .proj .pidx{position:static;font-size:3rem;margin-bottom:.4rem}
+    .about-grid{grid-template-columns:1fr}.about-media{order:-1;aspect-ratio:4/3}
+    .contact-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:820px){
+    .nav-links{position:fixed;inset:var(--nav-h) 0 auto 0;background:var(--bone);flex-direction:column;gap:0;padding:10px 0 18px;border-bottom:1px solid var(--line);transform:translateY(-130%);visibility:hidden;transition:transform .45s var(--ease),visibility .45s}
+    .nav-links.open{transform:translateY(0);visibility:visible}
+    .nav-links li{width:100%}
+    .nav-links a{display:block;padding:16px var(--gut);font-size:1.05rem}
+    .nav-links a::after{display:none}
+    .nav-cta{display:none}
+    .hamburger{display:block}
+  }
+  @media(max-width:520px){
+    .hero-meta{flex-direction:column;align-items:flex-start;gap:1.2rem}
+    .stats{gap:20px}
+  }
+</style>
+</head>
+<body id="top">
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand" aria-label="ENN Studio, početak"><b>ENN</b> Studio<span data-i18n="brand_tag">Enterijer</span></a>
+    <nav aria-label="Glavna navigacija"><ul class="nav-links" id="menu">
+      <li><a href="#projekti" data-i18n="nav_work">Projekti</a></li>
+      <li><a href="#pristup" data-i18n="nav_services">Pristup</a></li>
+      <li><a href="#studio" data-i18n="nav_about">Studio</a></li>
+      <li><a href="#kontakt" data-i18n="nav_contact">Kontakt</a></li>
+    </ul></nav>
+    <div class="nav-actions">
+      <div class="lang" role="group" aria-label="Jezik">
+        <button type="button" id="lang-sr" class="active" aria-pressed="true">CG</button>
+        <span class="sep" aria-hidden="true">/</span>
+        <button type="button" id="lang-en" aria-pressed="false">EN</button>
+      </div>
+      <a class="nav-cta" href="#kontakt" data-i18n="nav_cta">Započnite projekat</a>
+      <button class="hamburger" id="burger" aria-label="Meni" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true"><div class="inner px" data-speed="0.12" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop'),linear-gradient(135deg,#3a352d,#a8785f)"></div></div>
+  <div class="hero-top wrap">
+    <span class="eyebrow" data-i18n="hero_eyebrow">Studio za enterijer i prostorni dizajn</span>
+  </div>
+  <div class="hero-inner">
+    <div class="wrap">
+      <h1 class="display"><span data-i18n="hero_h1">Prostori</span><br><span data-i18n="hero_h2" style="font-style:italic">u kojima se živi</span></h1>
+      <div class="hero-meta">
+        <p data-i18n="hero_sub">ENN Studio oblikuje rezidencijalne i poslovne enterijere, od prvog koncepta do posljednjeg detalja na gradilištu.</p>
+        <a href="#projekti" class="hero-scroll" data-i18n-aria="hero_scroll_a" aria-label="Skrolujte do projekata"><span data-i18n="hero_scroll">Pogledajte rad</span><span class="dot" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section class="manifesto" id="pristup-intro">
+    <div class="wrap manifesto-grid">
+      <div class="rv">
+        <span class="eyebrow" data-i18n="man_eyebrow">Pristup</span>
+        <p class="big" style="margin-top:1.4rem" data-i18n="man_big">Vjerujemo da dobar enterijer ne primjećujete odmah. Prvo osjetite da <em>prostor jednostavno funkcioniše</em>, a onda vidite zašto.</p>
+      </div>
+      <div class="manifesto-side rv rv-2">
+        <span class="num">01</span>
+        <p data-i18n="man_side">Svaki projekat počinje od načina života klijenta, svjetla i proporcija prostora. Estetika dolazi na kraju, kao posljedica, ne kao ukras.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects" id="projekti">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div>
+          <span class="eyebrow" data-i18n="proj_eyebrow">Izabrani radovi</span>
+          <h2 style="margin-top:1rem" data-i18n="proj_h">Portfolio</h2>
+        </div>
+        <span class="idx" data-i18n="proj_note">Primjeri rasporeda. Prave projekte ubacujemo u finalnoj verziji.</span>
+      </div>
+
+      <article class="proj rv">
+        <div class="proj-media imgframe"><div class="inner px" data-speed="0.06" style="background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1100&q=80&auto=format&fit=crop'),linear-gradient(135deg,#e2dccf,#a8785f)"></div></div>
+        <div class="proj-body">
+          <span class="pidx" aria-hidden="true">01</span>
+          <div class="in">
+            <span class="idx" data-i18n="p1_loc">Rezidencijalno, Podgorica, 2024</span>
+            <h3 style="margin-top:.6rem" data-i18n="p1_h">Stan na Zavali</h3>
+            <div class="tags"><span class="tag" data-i18n="p1_t1">Enterijer</span><span class="tag" data-i18n="p1_t2">120 m²</span><span class="tag" data-i18n="p1_t3">Prirodni materijali</span></div>
+            <p class="desc" data-i18n="p1_d">Topao minimalizam u kojem hrast, kamen i mekano svjetlo grade miran porodični dom otvorenog plana.</p>
+            <a href="#kontakt" class="btn"><span class="ln" data-i18n="p_cta">Detalji projekta</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj rv">
+        <div class="proj-media imgframe"><div class="inner px" data-speed="0.06" style="background-image:url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1100&q=80&auto=format&fit=crop'),linear-gradient(135deg,#d8d2c4,#6b6b52)"></div></div>
+        <div class="proj-body">
+          <span class="pidx" aria-hidden="true">02</span>
+          <div class="in">
+            <span class="idx" data-i18n="p2_loc">Rezidencijalno, Budva, 2023</span>
+            <h3 style="margin-top:.6rem" data-i18n="p2_h">Penthaus uz more</h3>
+            <div class="tags"><span class="tag" data-i18n="p2_t1">Enterijer</span><span class="tag" data-i18n="p2_t2">Pogled na more</span><span class="tag" data-i18n="p2_t3">Custom namještaj</span></div>
+            <p class="desc" data-i18n="p2_d">Svijetla paleta, veliki stakleni otvori i namještaj po mjeri koji prati liniju horizonta i more koje ulazi u prostor.</p>
+            <a href="#kontakt" class="btn"><span class="ln" data-i18n="p_cta">Detalji projekta</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj wide rv">
+        <div class="proj-media imgframe"><div class="inner px" data-speed="0.06" style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=80&auto=format&fit=crop'),linear-gradient(135deg,#ded8ca,#a8785f)"></div></div>
+        <div class="proj-body">
+          <span class="pidx" aria-hidden="true">03</span>
+          <div class="in">
+            <span class="idx" data-i18n="p3_loc">Poslovni prostor, Podgorica, 2023</span>
+            <h3 style="margin-top:.6rem" data-i18n="p3_h">Concept store NORD</h3>
+            <div class="tags"><span class="tag" data-i18n="p3_t1">Retail dizajn</span><span class="tag" data-i18n="p3_t2">Brend prostor</span><span class="tag" data-i18n="p3_t3">Rasvjeta</span></div>
+            <p class="desc" data-i18n="p3_d">Prodajni prostor kao mirna galerija, gdje materijali i rasvjeta vode kupca kroz priču brenda bez buke.</p>
+            <a href="#kontakt" class="btn"><span class="ln" data-i18n="p_cta">Detalji projekta</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Atmosfera">
+    <div class="inner px" data-speed="0.14" style="background-image:url('https://images.unsplash.com/photo-1567016432779-094069958ea5?w=1600&q=80&auto=format&fit=crop'),linear-gradient(135deg,#2c2925,#a8785f)"></div>
+    <div class="cap rv">
+      <span class="eyebrow" style="color:var(--bone)" data-i18n="band_eyebrow">Detalj</span>
+      <h2 style="margin-top:1rem" data-i18n="band_h">Materijal, svjetlo, tišina</h2>
+      <p data-i18n="band_p">Ono što razdvaja dobar enterijer od odličnog krije se u prelazima, spojnicama i sjenkama.</p>
+    </div>
+  </section>
+
+  <section class="services" id="pristup">
+    <div class="wrap">
+      <div class="sec-head rv" style="margin-bottom:0">
+        <div style="max-width:560px">
+          <span class="eyebrow" data-i18n="svc_eyebrow">Šta radimo</span>
+          <h2 style="margin-top:1rem" data-i18n="svc_h">Od ideje do useljenja</h2>
+          <p class="lead" style="margin-top:1rem" data-i18n="svc_lead">Vodimo projekat kroz sve faze, tako da klijent ima jedno mjesto odgovornosti i miran proces.</p>
+        </div>
+      </div>
+      <div class="svc-list">
+        <div class="svc-row rv"><span class="n">01</span><h3 data-i18n="s1_h">Idejni koncept</h3><p data-i18n="s1_p">Analiza prostora, načina života i budžeta, pa jasan pravac prije prvog crteža.</p></div>
+        <div class="svc-row rv"><span class="n">02</span><h3 data-i18n="s2_h">Projekat enterijera</h3><p data-i18n="s2_p">Tehnička razrada, raspored, materijali, rasvjeta i namještaj do izvođačkog nivoa.</p></div>
+        <div class="svc-row rv"><span class="n">03</span><h3 data-i18n="s3_h">3D vizuelizacija</h3><p data-i18n="s3_p">Fotorealističan prikaz prostora, da odluke donosite prije nego što krene radovi.</p></div>
+        <div class="svc-row rv"><span class="n">04</span><h3 data-i18n="s4_h">Nadzor izvođenja</h3><p data-i18n="s4_p">Koordinacija majstora i dobavljača, kontrola kvaliteta i detalja na gradilištu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="studio">
+    <div class="wrap about-grid">
+      <div class="about-media imgframe rv"><div class="inner px" data-speed="0.05" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=80&auto=format&fit=crop'),linear-gradient(135deg,#ded8ca,#6b6b52)"></div></div>
+      <div class="rv rv-2">
+        <span class="eyebrow" data-i18n="ab_eyebrow">Studio</span>
+        <h2 style="margin-top:1.2rem" data-i18n="ab_h">Mali studio, <em>puna pažnja</em> na svaki projekat</h2>
+        <p class="lead" data-i18n="ab_p1">ENN Studio je nezavisan studio za enterijer. Radimo sa ograničenim brojem projekata istovremeno, kako bi svaki dobio vrijeme koje zaslužuje.</p>
+        <p class="lead" data-i18n="ab_p2">Sarađujemo sa provjerenim majstorima i dobavljačima, i vodimo klijenta kroz cijeli proces bez stresa.</p>
+        <div class="stats">
+          <div class="stat"><span class="k" data-i18n="st1_k">2015</span><span class="v" data-i18n="st1_v">Od godine</span></div>
+          <div class="stat"><span class="k" data-i18n="st2_k">40+</span><span class="v" data-i18n="st2_v">Projekata</span></div>
+          <div class="stat"><span class="k" data-i18n="st3_k">100%</span><span class="v" data-i18n="st3_v">Custom pristup</span></div>
+        </div>
+        <p class="idx" style="margin-top:1.2rem" data-i18n="ab_note">Brojevi su ilustrativni. Zamjenjuju se pravim podacima studija.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="kontakt">
+    <div class="wrap contact-grid">
+      <div class="rv">
+        <span class="eyebrow" data-i18n="con_eyebrow">Kontakt</span>
+        <p class="big" style="margin-top:1.2rem" data-i18n="con_big">Imate prostor <em>koji čeka</em> svoju priču?</p>
+        <a class="contact-mail" href="mailto:studio@ennstudio.me" data-i18n="con_mail">studio@ennstudio.me</a>
+      </div>
+      <div class="contact-info rv rv-2">
+        <div class="blk"><span class="k" data-i18n="con_studio_k">Studio</span><span data-i18n="con_studio_v">Podgorica, Crna Gora</span></div>
+        <div class="blk"><span class="k" data-i18n="con_ig_k">Instagram</span><a href="https://www.instagram.com/enn.archstudio/" target="_blank" rel="noopener noreferrer" data-i18n="con_ig_v">@enn.archstudio</a></div>
+        <div class="blk"><span class="k" data-i18n="con_phone_k">Telefon</span><span data-i18n="con_phone_v">Broj po potvrdi</span></div>
+        <p class="note" data-i18n="con_note">Email, Instagram, telefon i adresa su placeholderi. Potvrđuju se prije objave.</p>
+        <a href="mailto:studio@ennstudio.me" class="btn btn-solid" style="justify-content:center;margin-top:.4rem" data-i18n="con_btn">Pošaljite upit</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a href="#top" class="foot-brand" style="text-decoration:none;color:inherit">ENN<br>Studio</a>
+      <div class="foot-nav">
+        <div class="foot-col">
+          <h4 data-i18n="foot_nav_h">Navigacija</h4>
+          <ul>
+            <li><a href="#projekti" data-i18n="nav_work">Projekti</a></li>
+            <li><a href="#pristup" data-i18n="nav_services">Pristup</a></li>
+            <li><a href="#studio" data-i18n="nav_about">Studio</a></li>
+            <li><a href="#kontakt" data-i18n="nav_contact">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 data-i18n="foot_con_h">Kontakt</h4>
+          <ul>
+            <li><a href="mailto:studio@ennstudio.me" data-i18n="con_mail">studio@ennstudio.me</a></li>
+            <li><a href="https://www.instagram.com/enn.archstudio/" target="_blank" rel="noopener noreferrer" data-i18n="con_ig_v">@enn.archstudio</a></li>
+            <li><span style="color:rgba(244,241,234,.82);font-size:.92rem;display:inline-flex;min-height:44px;align-items:center" data-i18n="foot_loc">Podgorica, Crna Gora</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span data-i18n="foot_copy">ENN Studio, enterijer i prostorni dizajn</span>
+      <span data-i18n="foot_made">Demo koncept</span>
+    </div>
+  </div>
+  <div class="demo-note" data-i18n="demo_note">Nezvanični demo koncept. Projekti, fotografije i kontakt su ilustrativni i zamjenjuju se pravim podacima.</div>
+</footer>
+
+<script>
+  // sticky nav bg
+  var nav=document.getElementById('nav');
+  function onScrollNav(){ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScrollNav();
+
+  // mobile menu
+  var burger=document.getElementById('burger'), menu=document.getElementById('menu');
+  function closeMenu(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false');}
+  burger.addEventListener('click',function(){var o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o?'true':'false');});
+  menu.addEventListener('click',function(e){if(e.target.tagName==='A')closeMenu();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+
+  // neutralize placeholder links (data-nolink) so they never navigate to a dead #
+  document.querySelectorAll('[data-nolink]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();});});
+
+  // reveal on scroll
+  var reveals=document.querySelectorAll('.rv');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.14});
+    reveals.forEach(function(el){io.observe(el);});
+  } else { reveals.forEach(function(el){el.classList.add('in');}); }
+
+  // parallax (desktop, motion allowed only). translateY only, containers are overflow hidden.
+  var pxEls=[].slice.call(document.querySelectorAll('.px'));
+  var parallaxOn = !reduce && window.innerWidth>820;
+  var ticking=false;
+  function applyParallax(){
+    var vh=window.innerHeight;
+    for(var i=0;i<pxEls.length;i++){
+      var el=pxEls[i], sp=parseFloat(el.getAttribute('data-speed'))||0;
+      var r=el.parentElement.getBoundingClientRect();
+      var centerOffset=(r.top + r.height/2) - vh/2;
+      el.style.transform='translate3d(0,'+(-centerOffset*sp).toFixed(2)+'px,0)';
+    }
+    ticking=false;
+  }
+  function onScroll(){ onScrollNav(); if(parallaxOn && !ticking){ ticking=true; requestAnimationFrame(applyParallax);} }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',function(){ parallaxOn=!reduce && window.innerWidth>820; if(parallaxOn) applyParallax(); else pxEls.forEach(function(el){el.style.transform='';}); });
+  if(parallaxOn) applyParallax();
+
+  // i18n
+  var dict={sr:{
+    brand_tag:'Enterijer',
+    nav_work:'Projekti',nav_services:'Pristup',nav_about:'Studio',nav_contact:'Kontakt',nav_cta:'Započnite projekat',
+    hero_eyebrow:'Studio za enterijer i prostorni dizajn',hero_h1:'Prostori',hero_h2:'u kojima se živi',
+    hero_sub:'ENN Studio oblikuje rezidencijalne i poslovne enterijere, od prvog koncepta do posljednjeg detalja na gradilištu.',
+    hero_scroll:'Pogledajte rad',
+    man_eyebrow:'Pristup',man_big:'Vjerujemo da dobar enterijer ne primjećujete odmah. Prvo osjetite da <em>prostor jednostavno funkcioniše</em>, a onda vidite zašto.',
+    man_side:'Svaki projekat počinje od načina života klijenta, svjetla i proporcija prostora. Estetika dolazi na kraju, kao posljedica, ne kao ukras.',
+    proj_eyebrow:'Izabrani radovi',proj_h:'Portfolio',proj_note:'Primjeri rasporeda. Prave projekte ubacujemo u finalnoj verziji.',
+    p1_loc:'Rezidencijalno, Podgorica, 2024',p1_h:'Stan na Zavali',p1_t1:'Enterijer',p1_t2:'120 m²',p1_t3:'Prirodni materijali',p1_d:'Topao minimalizam u kojem hrast, kamen i mekano svjetlo grade miran porodični dom otvorenog plana.',
+    p2_loc:'Rezidencijalno, Budva, 2023',p2_h:'Penthaus uz more',p2_t1:'Enterijer',p2_t2:'Pogled na more',p2_t3:'Custom namještaj',p2_d:'Svijetla paleta, veliki stakleni otvori i namještaj po mjeri koji prati liniju horizonta i more koje ulazi u prostor.',
+    p3_loc:'Poslovni prostor, Podgorica, 2023',p3_h:'Concept store NORD',p3_t1:'Retail dizajn',p3_t2:'Brend prostor',p3_t3:'Rasvjeta',p3_d:'Prodajni prostor kao mirna galerija, gdje materijali i rasvjeta vode kupca kroz priču brenda bez buke.',
+    p_cta:'Detalji projekta',
+    band_eyebrow:'Detalj',band_h:'Materijal, svjetlo, tišina',band_p:'Ono što razdvaja dobar enterijer od odličnog krije se u prelazima, spojnicama i sjenkama.',
+    svc_eyebrow:'Šta radimo',svc_h:'Od ideje do useljenja',svc_lead:'Vodimo projekat kroz sve faze, tako da klijent ima jedno mjesto odgovornosti i miran proces.',
+    s1_h:'Idejni koncept',s1_p:'Analiza prostora, načina života i budžeta, pa jasan pravac prije prvog crteža.',
+    s2_h:'Projekat enterijera',s2_p:'Tehnička razrada, raspored, materijali, rasvjeta i namještaj do izvođačkog nivoa.',
+    s3_h:'3D vizuelizacija',s3_p:'Fotorealističan prikaz prostora, da odluke donosite prije nego što krenu radovi.',
+    s4_h:'Nadzor izvođenja',s4_p:'Koordinacija majstora i dobavljača, kontrola kvaliteta i detalja na gradilištu.',
+    ab_eyebrow:'Studio',ab_h:'Mali studio, <em>puna pažnja</em> na svaki projekat',
+    ab_p1:'ENN Studio je nezavisan studio za enterijer. Radimo sa ograničenim brojem projekata istovremeno, kako bi svaki dobio vrijeme koje zaslužuje.',
+    ab_p2:'Sarađujemo sa provjerenim majstorima i dobavljačima, i vodimo klijenta kroz cijeli proces bez stresa.',
+    st1_k:'2015',st1_v:'Od godine',st2_k:'40+',st2_v:'Projekata',st3_k:'100%',st3_v:'Custom pristup',
+    ab_note:'Brojevi su ilustrativni. Zamjenjuju se pravim podacima studija.',
+    con_eyebrow:'Kontakt',con_big:'Imate prostor <em>koji čeka</em> svoju priču?',con_mail:'studio@ennstudio.me',
+    con_studio_k:'Studio',con_studio_v:'Podgorica, Crna Gora',con_ig_k:'Instagram',con_ig_v:'@enn.archstudio',con_phone_k:'Telefon',con_phone_v:'Broj po potvrdi',
+    con_note:'Email, Instagram, telefon i adresa su placeholderi. Potvrđuju se prije objave.',con_btn:'Pošaljite upit',
+    foot_nav_h:'Navigacija',foot_con_h:'Kontakt',foot_loc:'Podgorica, Crna Gora',
+    foot_copy:'ENN Studio, enterijer i prostorni dizajn',foot_made:'Demo koncept',
+    demo_note:'Nezvanični demo koncept. Projekti, fotografije i kontakt su ilustrativni i zamjenjuju se pravim podacima.'
+  },en:{
+    brand_tag:'Interiors',
+    nav_work:'Work',nav_services:'Approach',nav_about:'Studio',nav_contact:'Contact',nav_cta:'Start a project',
+    hero_eyebrow:'Interior and spatial design studio',hero_h1:'Spaces',hero_h2:'made for living',
+    hero_sub:'ENN Studio shapes residential and commercial interiors, from the first concept to the last detail on site.',
+    hero_scroll:'See the work',
+    man_eyebrow:'Approach',man_big:'We believe good interiors are not noticed at once. First you feel that <em>the space simply works</em>, then you see why.',
+    man_side:'Every project starts from the client\u2019s way of living, the light and the proportions of the space. Aesthetics come last, as a consequence, not as decoration.',
+    proj_eyebrow:'Selected work',proj_h:'Portfolio',proj_note:'Layout examples. Real projects go in the final version.',
+    p1_loc:'Residential, Podgorica, 2024',p1_h:'Apartment on Zavala',p1_t1:'Interior',p1_t2:'120 m²',p1_t3:'Natural materials',p1_d:'A warm minimalism where oak, stone and soft light build a calm open plan family home.',
+    p2_loc:'Residential, Budva, 2023',p2_h:'Seaside penthouse',p2_t1:'Interior',p2_t2:'Sea view',p2_t3:'Custom furniture',p2_d:'A light palette, large glazing and bespoke furniture that follows the horizon and lets the sea into the room.',
+    p3_loc:'Commercial, Podgorica, 2023',p3_h:'NORD concept store',p3_t1:'Retail design',p3_t2:'Brand space',p3_t3:'Lighting',p3_d:'A retail space like a quiet gallery, where materials and light guide the customer through the brand story without noise.',
+    p_cta:'Project details',
+    band_eyebrow:'Detail',band_h:'Material, light, silence',band_p:'What separates a good interior from a great one hides in the transitions, the joints and the shadows.',
+    svc_eyebrow:'What we do',svc_h:'From idea to move-in',svc_lead:'We lead the project through every phase, so the client has one point of responsibility and a calm process.',
+    s1_h:'Concept',s1_p:'Analysis of the space, way of living and budget, then a clear direction before the first drawing.',
+    s2_h:'Interior design',s2_p:'Technical development, layout, materials, lighting and furniture to construction level.',
+    s3_h:'3D visualisation',s3_p:'Photorealistic views of the space, so you decide before the works begin.',
+    s4_h:'Site supervision',s4_p:'Coordination of trades and suppliers, quality and detail control on site.',
+    ab_eyebrow:'Studio',ab_h:'A small studio, <em>full attention</em> on every project',
+    ab_p1:'ENN Studio is an independent interior studio. We work on a limited number of projects at a time, so each gets the time it deserves.',
+    ab_p2:'We work with trusted trades and suppliers, and guide the client through the whole process without stress.',
+    st1_k:'2015',st1_v:'Since',st2_k:'40+',st2_v:'Projects',st3_k:'100%',st3_v:'Custom approach',
+    ab_note:'Numbers are illustrative. To be replaced with the studio\u2019s real data.',
+    con_eyebrow:'Contact',con_big:'Have a space <em>waiting</em> for its story?',con_mail:'studio@ennstudio.me',
+    con_studio_k:'Studio',con_studio_v:'Podgorica, Montenegro',con_ig_k:'Instagram',con_ig_v:'@enn.archstudio',con_phone_k:'Phone',con_phone_v:'Number on request',
+    con_note:'Email, Instagram, phone and address are placeholders. Confirmed before publishing.',con_btn:'Send an enquiry',
+    foot_nav_h:'Navigation',foot_con_h:'Contact',foot_loc:'Podgorica, Montenegro',
+    foot_copy:'ENN Studio, interior and spatial design',foot_made:'Demo concept',
+    demo_note:'Unofficial demo concept. Projects, photos and contact are illustrative and to be replaced with real data.'
+  }};
+  var srBtn=document.getElementById('lang-sr'),enBtn=document.getElementById('lang-en');
+  function setLang(l){var d=dict[l];document.querySelectorAll('[data-i18n]').forEach(function(e){var k=e.getAttribute('data-i18n');if(d[k]!==undefined){ if(d[k].indexOf('<em>')>-1) e.innerHTML=d[k]; else e.textContent=d[k]; }});document.documentElement.lang=l==='sr'?'sr':'en';srBtn.classList.toggle('active',l==='sr');enBtn.classList.toggle('active',l==='en');srBtn.setAttribute('aria-pressed',l==='sr');enBtn.setAttribute('aria-pressed',l==='en');}
+  srBtn.addEventListener('click',function(){setLang('sr');});enBtn.addEventListener('click',function(){setLang('en');});setLang('sr');
+</script>
+</body>
+</html>
