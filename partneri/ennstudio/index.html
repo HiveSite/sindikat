@@ -58,7 +58,7 @@
 
   /* image frame with parallax inner */
   .imgframe{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--bone-3),var(--clay) 140%);}
-  .imgframe .inner{position:absolute;inset:-9% 0;background-position:center;background-size:cover;will-change:transform}
+  .imgframe .inner{position:absolute;inset:-100px 0;background-position:center;background-size:cover;will-change:transform}
   .imgframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,.04),rgba(28,26,23,.14));pointer-events:none}
 
   /* NAV */
@@ -88,7 +88,7 @@
   /* HERO */
   .hero{min-height:100svh;padding:0;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
   .hero-bg{position:absolute;inset:0;z-index:0}
-  .hero-bg .inner{position:absolute;inset:-8% 0;background-size:cover;background-position:center;will-change:transform}
+  .hero-bg .inner{position:absolute;inset:-180px 0;background-size:cover;background-position:center;will-change:transform}
   .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,.28),rgba(28,26,23,.08) 40%,rgba(28,26,23,.5))}
   .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:clamp(40px,6vw,72px);color:var(--bone)}
   .hero-top{position:absolute;top:calc(var(--nav-h) + clamp(20px,5vw,50px));left:0;right:0;z-index:2}
@@ -127,7 +127,7 @@
 
   /* BEAUTY BAND */
   .band{height:min(78vh,760px);position:relative;overflow:hidden}
-  .band .inner{position:absolute;inset:-12% 0;background-size:cover;background-position:center;will-change:transform}
+  .band .inner{position:absolute;inset:-200px 0;background-size:cover;background-position:center;will-change:transform}
   .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,.18),rgba(28,26,23,.32))}
   .band .cap{position:absolute;left:var(--gut);bottom:clamp(28px,5vw,56px);color:var(--bone);z-index:2;max-width:520px}
   .band .cap h2{color:var(--bone);font-style:italic}
@@ -182,6 +182,45 @@
   .foot-legal{border-top:1px solid var(--line-l);margin-top:clamp(40px,5vw,64px);padding-top:22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--muted)}
   .demo-note{background:var(--ink-2);color:var(--muted);font-size:.76rem;text-align:center;padding:9px 16px}
 
+  /* clickable project media */
+  button.proj-media{border:0;padding:0;cursor:pointer;display:block;width:100%;font-family:inherit}
+  button.proj-media:focus-visible{outline:2px solid var(--clay);outline-offset:4px}
+  .proj-hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);z-index:3;display:inline-flex;align-items:center;gap:.5rem;background:var(--bone);color:var(--ink);font-family:'Inter',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.1rem;border-radius:999px;opacity:0;transition:opacity .4s var(--ease),transform .4s var(--ease);pointer-events:none;box-shadow:0 10px 30px rgba(28,26,23,.25)}
+  button.proj-media:hover .proj-hint,button.proj-media:focus-visible .proj-hint{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  button.proj-media:hover .inner{transform:scale(1.03)}
+  @media(prefers-reduced-motion:reduce){.proj-hint{transition:none}}
+
+  /* project gallery modal */
+  .pmodal{position:fixed;inset:0;background:rgba(20,18,15,.95);z-index:120;display:none;padding:clamp(14px,3vw,44px)}
+  .pmodal.open{display:flex;align-items:center;justify-content:center}
+  .pm-panel{background:var(--bone);width:100%;max-width:1120px;max-height:92vh;border-radius:3px;overflow:hidden;display:grid;grid-template-columns:1.55fr .95fr;position:relative}
+  .pm-stage{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--bone-3),var(--clay));min-height:min(72vh,600px)}
+  .pm-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .35s var(--ease)}
+  .pm-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:52px;height:52px;border-radius:50%;border:0;background:rgba(244,241,234,.9);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s;box-shadow:0 8px 22px rgba(28,26,23,.25)}
+  .pm-nav:hover{background:#fff}
+  .pm-nav:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+  .pm-nav.prev{left:16px}.pm-nav.next{right:16px}
+  .pm-counter{position:absolute;left:18px;bottom:16px;z-index:3;background:rgba(28,26,23,.72);color:var(--bone);font-size:.8rem;letter-spacing:.08em;padding:.4rem .8rem;border-radius:999px;font-family:'Fraunces',serif}
+  .pm-info{padding:clamp(24px,3vw,44px);overflow:auto;display:flex;flex-direction:column}
+  .pm-info .idx{color:var(--muted)}
+  .pm-info h3{margin:.5rem 0 0;font-size:clamp(1.6rem,3vw,2.4rem)}
+  .pm-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.1rem 0}
+  .pm-tags .tag{font-size:.74rem;letter-spacing:.04em;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:.32rem .8rem}
+  .pm-desc{color:var(--ink-soft);font-size:1rem;margin:0 0 .4rem}
+  .pm-note{color:var(--muted);font-size:.78rem;font-style:italic;margin-top:.2rem}
+  .pm-thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:22px}
+  .pm-thumb{width:66px;height:50px;border:0;padding:0;border-radius:2px;background-size:cover;background-position:center;cursor:pointer;opacity:.5;transition:opacity .25s,outline-color .25s;outline:2px solid transparent;background-color:var(--bone-3)}
+  .pm-thumb:hover{opacity:.85}
+  .pm-thumb.active{opacity:1;outline-color:var(--ink)}
+  .pm-thumb:focus-visible{outline-color:var(--clay)}
+  .pm-close{position:absolute;top:14px;right:14px;z-index:5;width:46px;height:46px;border-radius:50%;border:0;background:var(--ink);color:var(--bone);font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .pm-close:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+  @media(max-width:800px){
+    .pm-panel{grid-template-columns:1fr;max-height:94vh;overflow:auto}
+    .pm-stage{min-height:0;aspect-ratio:4/3}
+    .pm-nav{width:46px;height:46px}
+  }
+
   /* mobile menu + parallax off */
   @media(max-width:920px){
     .manifesto-grid{grid-template-columns:1fr}
@@ -231,7 +270,7 @@
 </header>
 
 <section class="hero" id="hero">
-  <div class="hero-bg" aria-hidden="true"><div class="inner px" data-speed="0.12" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop'),linear-gradient(135deg,#3a352d,#a8785f)"></div></div>
+  <div class="hero-bg" aria-hidden="true"><div class="inner px" data-speed="150" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop'),linear-gradient(135deg,#3a352d,#a8785f)"></div></div>
   <div class="hero-top wrap">
     <span class="eyebrow" data-i18n="hero_eyebrow">Studio za enterijer i prostorni dizajn</span>
   </div>
@@ -270,8 +309,8 @@
         <span class="idx" data-i18n="proj_note">Primjeri rasporeda. Prave projekte ubacujemo u finalnoj verziji.</span>
       </div>
 
-      <article class="proj rv">
-        <div class="proj-media imgframe"><div class="inner px" data-speed="0.06" style="background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1100&q=80&auto=format&fit=crop'),linear-gradient(135deg,#e2dccf,#a8785f)"></div></div>
+      <article class="proj rv" data-project="p1">
+        <button type="button" class="proj-media imgframe" data-open aria-label="Otvori galeriju projekta Stan na Zavali"><div class="inner px" data-speed="90" style="background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1100&q=80&auto=format&fit=crop'),linear-gradient(135deg,#e2dccf,#a8785f)"></div><span class="proj-hint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="proj_hint">Galerija</span></span></button>
         <div class="proj-body">
           <span class="pidx" aria-hidden="true">01</span>
           <div class="in">
@@ -279,13 +318,13 @@
             <h3 style="margin-top:.6rem" data-i18n="p1_h">Stan na Zavali</h3>
             <div class="tags"><span class="tag" data-i18n="p1_t1">Enterijer</span><span class="tag" data-i18n="p1_t2">120 m²</span><span class="tag" data-i18n="p1_t3">Prirodni materijali</span></div>
             <p class="desc" data-i18n="p1_d">Topao minimalizam u kojem hrast, kamen i mekano svjetlo grade miran porodični dom otvorenog plana.</p>
-            <a href="#kontakt" class="btn"><span class="ln" data-i18n="p_cta">Detalji projekta</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <button type="button" class="btn" data-open><span class="ln" data-i18n="p_cta">Pogledaj galeriju</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
           </div>
         </div>
       </article>
 
-      <article class="proj rv">
-        <div class="proj-media imgframe"><div class="inner px" data-speed="0.06" style="background-image:url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1100&q=80&auto=format&fit=crop'),linear-gradient(135deg,#d8d2c4,#6b6b52)"></div></div>
+      <article class="proj rv" data-project="p2">
+        <button type="button" class="proj-media imgframe" data-open aria-label="Otvori galeriju projekta Penthaus uz more"><div class="inner px" data-speed="90" style="background-image:url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1100&q=80&auto=format&fit=crop'),linear-gradient(135deg,#d8d2c4,#6b6b52)"></div><span class="proj-hint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="proj_hint">Galerija</span></span></button>
         <div class="proj-body">
           <span class="pidx" aria-hidden="true">02</span>
           <div class="in">
@@ -293,13 +332,13 @@
             <h3 style="margin-top:.6rem" data-i18n="p2_h">Penthaus uz more</h3>
             <div class="tags"><span class="tag" data-i18n="p2_t1">Enterijer</span><span class="tag" data-i18n="p2_t2">Pogled na more</span><span class="tag" data-i18n="p2_t3">Custom namještaj</span></div>
             <p class="desc" data-i18n="p2_d">Svijetla paleta, veliki stakleni otvori i namještaj po mjeri koji prati liniju horizonta i more koje ulazi u prostor.</p>
-            <a href="#kontakt" class="btn"><span class="ln" data-i18n="p_cta">Detalji projekta</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <button type="button" class="btn" data-open><span class="ln" data-i18n="p_cta">Pogledaj galeriju</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
           </div>
         </div>
       </article>
 
-      <article class="proj wide rv">
-        <div class="proj-media imgframe"><div class="inner px" data-speed="0.06" style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=80&auto=format&fit=crop'),linear-gradient(135deg,#ded8ca,#a8785f)"></div></div>
+      <article class="proj wide rv" data-project="p3">
+        <button type="button" class="proj-media imgframe" data-open aria-label="Otvori galeriju projekta Concept store NORD"><div class="inner px" data-speed="90" style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=80&auto=format&fit=crop'),linear-gradient(135deg,#ded8ca,#a8785f)"></div><span class="proj-hint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="proj_hint">Galerija</span></span></button>
         <div class="proj-body">
           <span class="pidx" aria-hidden="true">03</span>
           <div class="in">
@@ -307,7 +346,7 @@
             <h3 style="margin-top:.6rem" data-i18n="p3_h">Concept store NORD</h3>
             <div class="tags"><span class="tag" data-i18n="p3_t1">Retail dizajn</span><span class="tag" data-i18n="p3_t2">Brend prostor</span><span class="tag" data-i18n="p3_t3">Rasvjeta</span></div>
             <p class="desc" data-i18n="p3_d">Prodajni prostor kao mirna galerija, gdje materijali i rasvjeta vode kupca kroz priču brenda bez buke.</p>
-            <a href="#kontakt" class="btn"><span class="ln" data-i18n="p_cta">Detalji projekta</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <button type="button" class="btn" data-open><span class="ln" data-i18n="p_cta">Pogledaj galeriju</span><span class="arw" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
           </div>
         </div>
       </article>
@@ -315,7 +354,7 @@
   </section>
 
   <section class="band" aria-label="Atmosfera">
-    <div class="inner px" data-speed="0.14" style="background-image:url('https://images.unsplash.com/photo-1567016432779-094069958ea5?w=1600&q=80&auto=format&fit=crop'),linear-gradient(135deg,#2c2925,#a8785f)"></div>
+    <div class="inner px" data-speed="150" style="background-image:url('https://images.unsplash.com/photo-1567016432779-094069958ea5?w=1600&q=80&auto=format&fit=crop'),linear-gradient(135deg,#2c2925,#a8785f)"></div>
     <div class="cap rv">
       <span class="eyebrow" style="color:var(--bone)" data-i18n="band_eyebrow">Detalj</span>
       <h2 style="margin-top:1rem" data-i18n="band_h">Materijal, svjetlo, tišina</h2>
@@ -343,7 +382,7 @@
 
   <section class="about" id="studio">
     <div class="wrap about-grid">
-      <div class="about-media imgframe rv"><div class="inner px" data-speed="0.05" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=80&auto=format&fit=crop'),linear-gradient(135deg,#ded8ca,#6b6b52)"></div></div>
+      <div class="about-media imgframe rv"><div class="inner px" data-speed="60" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=80&auto=format&fit=crop'),linear-gradient(135deg,#ded8ca,#6b6b52)"></div></div>
       <div class="rv rv-2">
         <span class="eyebrow" data-i18n="ab_eyebrow">Studio</span>
         <h2 style="margin-top:1.2rem" data-i18n="ab_h">Mali studio, <em>puna pažnja</em> na svaki projekat</h2>
@@ -409,6 +448,26 @@
   <div class="demo-note" data-i18n="demo_note">Nezvanični demo koncept. Projekti, fotografije i kontakt su ilustrativni i zamjenjuju se pravim podacima.</div>
 </footer>
 
+<div class="pmodal" id="pmodal" role="dialog" aria-modal="true" aria-labelledby="pm-title">
+  <div class="pm-panel">
+    <button class="pm-close" id="pm-close" type="button" aria-label="Zatvori galeriju">&times;</button>
+    <div class="pm-stage">
+      <div class="pm-img" id="pm-img"></div>
+      <button class="pm-nav prev" id="pm-prev" type="button" aria-label="Prethodna fotografija"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="pm-nav next" id="pm-next" type="button" aria-label="Sljedeća fotografija"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="pm-counter"><span id="pm-cur">1</span> / <span id="pm-total">1</span></div>
+    </div>
+    <div class="pm-info">
+      <span class="idx" id="pm-loc"></span>
+      <h3 id="pm-title"></h3>
+      <div class="pm-tags" id="pm-tags"></div>
+      <p class="pm-desc" id="pm-desc"></p>
+      <p class="pm-note" id="pm-note" data-i18n="pm_note">Fotografije su ilustrativne. Zamjenjuju se pravim slikama projekta.</p>
+      <div class="pm-thumbs" id="pm-thumbs"></div>
+    </div>
+  </div>
+</div>
+
 <script>
   // sticky nav bg
   var nav=document.getElementById('nav');
@@ -433,24 +492,65 @@
     reveals.forEach(function(el){io.observe(el);});
   } else { reveals.forEach(function(el){el.classList.add('in');}); }
 
-  // parallax (desktop, motion allowed only). translateY only, containers are overflow hidden.
+  // parallax: data-speed = travel range in px. translateY only; containers overflow hidden with overhang.
   var pxEls=[].slice.call(document.querySelectorAll('.px'));
-  var parallaxOn = !reduce && window.innerWidth>820;
+  var parallaxOn=!reduce;
   var ticking=false;
   function applyParallax(){
-    var vh=window.innerHeight;
+    var vh=window.innerHeight, scale=window.innerWidth<=820?0.6:1;
     for(var i=0;i<pxEls.length;i++){
-      var el=pxEls[i], sp=parseFloat(el.getAttribute('data-speed'))||0;
+      var el=pxEls[i], range=parseFloat(el.getAttribute('data-speed'))||0;
       var r=el.parentElement.getBoundingClientRect();
-      var centerOffset=(r.top + r.height/2) - vh/2;
-      el.style.transform='translate3d(0,'+(-centerOffset*sp).toFixed(2)+'px,0)';
+      var center=r.top + r.height/2;
+      var progress=(vh/2 - center)/vh; if(progress>1)progress=1; if(progress<-1)progress=-1;
+      el.style.transform='translate3d(0,'+(progress*range*scale).toFixed(1)+'px,0)';
     }
     ticking=false;
   }
   function onScroll(){ onScrollNav(); if(parallaxOn && !ticking){ ticking=true; requestAnimationFrame(applyParallax);} }
   window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',function(){ parallaxOn=!reduce && window.innerWidth>820; if(parallaxOn) applyParallax(); else pxEls.forEach(function(el){el.style.transform='';}); });
+  window.addEventListener('resize',function(){ parallaxOn=!reduce; if(parallaxOn) applyParallax(); else pxEls.forEach(function(el){el.style.transform='';}); });
   if(parallaxOn) applyParallax();
+
+  // project gallery modal
+  var galleries={
+    p1:['https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1615529182904-14819c35db37?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1616137466211-f939a420be84?w=1400&q=80&auto=format&fit=crop'],
+    p2:['https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=1400&q=80&auto=format&fit=crop'],
+    p3:['https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1567016432779-094069958ea5?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=1400&q=80&auto=format&fit=crop','https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=1400&q=80&auto=format&fit=crop']
+  };
+  var GRAD='linear-gradient(135deg,#e2dccf,#a8785f)';
+  var pmodal=document.getElementById('pmodal'),pmImg=document.getElementById('pm-img'),
+      pmCur=document.getElementById('pm-cur'),pmTotal=document.getElementById('pm-total'),
+      pmLoc=document.getElementById('pm-loc'),pmTitle=document.getElementById('pm-title'),
+      pmTags=document.getElementById('pm-tags'),pmDesc=document.getElementById('pm-desc'),
+      pmThumbs=document.getElementById('pm-thumbs'),pmClose=document.getElementById('pm-close'),
+      pmPrev=document.getElementById('pm-prev'),pmNext=document.getElementById('pm-next');
+  var pmImgs=[],pmIdx=0,pmReturn=null;
+  function pmShow(i){
+    pmIdx=(i+pmImgs.length)%pmImgs.length;
+    pmImg.style.backgroundImage="url('"+pmImgs[pmIdx]+"'),"+GRAD;
+    pmCur.textContent=pmIdx+1;
+    for(var k=0;k<pmThumbs.children.length;k++){var t=pmThumbs.children[k];var on=(k===pmIdx);t.classList.toggle('active',on);t.setAttribute('aria-current',on?'true':'false');}
+  }
+  function openProject(art){
+    var id=art.getAttribute('data-project'); pmImgs=galleries[id]||[]; if(!pmImgs.length)return;
+    pmReturn=document.activeElement;
+    pmLoc.textContent=art.querySelector('.idx').textContent;
+    pmTitle.textContent=art.querySelector('h3').textContent;
+    pmDesc.textContent=art.querySelector('.desc').textContent;
+    pmTags.innerHTML=''; art.querySelectorAll('.tag').forEach(function(t){var s=document.createElement('span');s.className='tag';s.textContent=t.textContent;pmTags.appendChild(s);});
+    pmThumbs.innerHTML=''; pmImgs.forEach(function(u,k){var b=document.createElement('button');b.type='button';b.className='pm-thumb';b.setAttribute('aria-label','Fotografija '+(k+1));b.style.backgroundImage="url('"+u+"'),"+GRAD;b.addEventListener('click',function(){pmShow(k);});pmThumbs.appendChild(b);});
+    pmTotal.textContent=pmImgs.length;
+    pmShow(0);
+    pmodal.classList.add('open'); document.body.style.overflow='hidden'; pmClose.focus();
+  }
+  function closePm(){ if(!pmodal.classList.contains('open'))return; pmodal.classList.remove('open'); document.body.style.overflow=''; if(pmReturn){try{pmReturn.focus();}catch(e){} pmReturn=null;} }
+  document.querySelectorAll('.proj').forEach(function(art){ art.querySelectorAll('[data-open]').forEach(function(el){ el.addEventListener('click',function(){openProject(art);}); }); });
+  pmClose.addEventListener('click',closePm);
+  pmPrev.addEventListener('click',function(){pmShow(pmIdx-1);});
+  pmNext.addEventListener('click',function(){pmShow(pmIdx+1);});
+  pmodal.addEventListener('click',function(e){ if(e.target===pmodal) closePm(); });
+  document.addEventListener('keydown',function(e){ if(!pmodal.classList.contains('open'))return; if(e.key==='Escape')closePm(); else if(e.key==='ArrowLeft')pmShow(pmIdx-1); else if(e.key==='ArrowRight')pmShow(pmIdx+1); });
 
   // i18n
   var dict={sr:{
@@ -465,7 +565,7 @@
     p1_loc:'Rezidencijalno, Podgorica, 2024',p1_h:'Stan na Zavali',p1_t1:'Enterijer',p1_t2:'120 m²',p1_t3:'Prirodni materijali',p1_d:'Topao minimalizam u kojem hrast, kamen i mekano svjetlo grade miran porodični dom otvorenog plana.',
     p2_loc:'Rezidencijalno, Budva, 2023',p2_h:'Penthaus uz more',p2_t1:'Enterijer',p2_t2:'Pogled na more',p2_t3:'Custom namještaj',p2_d:'Svijetla paleta, veliki stakleni otvori i namještaj po mjeri koji prati liniju horizonta i more koje ulazi u prostor.',
     p3_loc:'Poslovni prostor, Podgorica, 2023',p3_h:'Concept store NORD',p3_t1:'Retail dizajn',p3_t2:'Brend prostor',p3_t3:'Rasvjeta',p3_d:'Prodajni prostor kao mirna galerija, gdje materijali i rasvjeta vode kupca kroz priču brenda bez buke.',
-    p_cta:'Detalji projekta',
+    p_cta:'Pogledaj galeriju',proj_hint:'Galerija',pm_note:'Fotografije su ilustrativne. Zamjenjuju se pravim slikama projekta.',
     band_eyebrow:'Detalj',band_h:'Materijal, svjetlo, tišina',band_p:'Ono što razdvaja dobar enterijer od odličnog krije se u prelazima, spojnicama i sjenkama.',
     svc_eyebrow:'Šta radimo',svc_h:'Od ideje do useljenja',svc_lead:'Vodimo projekat kroz sve faze, tako da klijent ima jedno mjesto odgovornosti i miran proces.',
     s1_h:'Idejni koncept',s1_p:'Analiza prostora, načina života i budžeta, pa jasan pravac prije prvog crteža.',
@@ -495,7 +595,7 @@
     p1_loc:'Residential, Podgorica, 2024',p1_h:'Apartment on Zavala',p1_t1:'Interior',p1_t2:'120 m²',p1_t3:'Natural materials',p1_d:'A warm minimalism where oak, stone and soft light build a calm open plan family home.',
     p2_loc:'Residential, Budva, 2023',p2_h:'Seaside penthouse',p2_t1:'Interior',p2_t2:'Sea view',p2_t3:'Custom furniture',p2_d:'A light palette, large glazing and bespoke furniture that follows the horizon and lets the sea into the room.',
     p3_loc:'Commercial, Podgorica, 2023',p3_h:'NORD concept store',p3_t1:'Retail design',p3_t2:'Brand space',p3_t3:'Lighting',p3_d:'A retail space like a quiet gallery, where materials and light guide the customer through the brand story without noise.',
-    p_cta:'Project details',
+    p_cta:'Open gallery',proj_hint:'Gallery',pm_note:'Photos are illustrative. To be replaced with real project images.',
     band_eyebrow:'Detail',band_h:'Material, light, silence',band_p:'What separates a good interior from a great one hides in the transitions, the joints and the shadows.',
     svc_eyebrow:'What we do',svc_h:'From idea to move-in',svc_lead:'We lead the project through every phase, so the client has one point of responsibility and a calm process.',
     s1_h:'Concept',s1_p:'Analysis of the space, way of living and budget, then a clear direction before the first drawing.',
