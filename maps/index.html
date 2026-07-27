@@ -1,1778 +1,1129 @@
 <!DOCTYPE html>
 <html lang="sr">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Studio83 Mapa</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
-  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
-  <style>
-    :root{
-      --bg:#0b0b0d;
-      --bg2:#141418;
-      --panel:#121217;
-      --card:#16161d;
-      --line:#2a2a31;
-      --line-2:#353540;
-      --text:#f3f3f5;
-      --muted:#9fa3ad;
-      --accent:#F36A2E;
-      --shadow:0 20px 60px rgba(0,0,0,.32);
-      --radius-xl:24px;
-      --radius-lg:18px;
-      --radius-md:14px;
-      --safe-top:env(safe-area-inset-top,0px);
-      --safe-bottom:env(safe-area-inset-bottom,0px);
-    }
-
-    *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      padding:0;
-      min-height:100%;
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(243,106,46,.08), transparent 18%),
-        linear-gradient(180deg,var(--bg),var(--bg2));
-      color:var(--text);
-    }
-
-    body{
-      display:grid;
-      grid-template-columns:390px minmax(0,1fr);
-      gap:24px;
-      padding:24px;
-    }
-
-    .mobile-topbar{display:none}
-
-    .sidebar{
-      position:sticky;
-      top:24px;
-      align-self:start;
-      height:calc(100vh - 48px);
-      background:linear-gradient(180deg,rgba(22,22,29,.96),rgba(14,14,18,.96));
-      border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .sidebar::before,
-    .stage-shell::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:.05;
-      background-image:
-        radial-gradient(rgba(255,255,255,.18) .7px, transparent .8px),
-        radial-gradient(rgba(255,255,255,.06) .7px, transparent .8px);
-      background-size:11px 11px, 17px 17px;
-      background-position:0 0, 5px 6px;
-    }
-
-    .sidebar-inner{
-      position:relative;
-      z-index:1;
-      height:100%;
-      overflow:auto;
-      padding:18px;
-      overscroll-behavior:contain;
-    }
-
-    .sidebar-inner::-webkit-scrollbar{width:10px}
-    .sidebar-inner::-webkit-scrollbar-thumb{background:#2d2d35;border-radius:99px}
-    .sidebar-inner::-webkit-scrollbar-track{background:transparent}
-
-    .brand-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:rgba(255,255,255,.03);
-      color:#fff;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .dot{
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 14px rgba(243,106,46,.6);
-      flex:none;
-    }
-
-    h1{
-      margin:8px 0 8px;
-      font-size:32px;
-      line-height:1.02;
-      letter-spacing:-.05em;
-    }
-
-    .lead{
-      margin:0 0 16px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-    }
-
-    .section{
-      margin-bottom:12px;
-      padding:14px;
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
-    }
-
-    .section-title{
-      margin:0 0 12px;
-      font-size:12px;
-      color:#fff;
-      font-weight:800;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
-
-    .tabs{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:8px;
-      margin-bottom:12px;
-    }
-
-    .tab-btn{
-      width:100%;
-      min-height:40px;
-      border:1px solid var(--line);
-      background:#0f1014;
-      color:#cfd2d9;
-      border-radius:12px;
-      font:inherit;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.02em;
-      cursor:pointer;
-      transition:.18s ease;
-    }
-
-    .tab-btn.active{
-      background:rgba(243,106,46,.16);
-      border-color:rgba(243,106,46,.55);
-      color:#fff;
-    }
-
-    .tab-panel{display:none}
-    .tab-panel.active{display:block}
-
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .field{margin-bottom:10px}
-
-    label{
-      display:block;
-      margin:0 0 7px;
-      font-size:12px;
-      color:#d7d9de;
-      font-weight:700;
-      letter-spacing:.02em;
-    }
-
-    input,select,button{
-      width:100%;
-      min-height:46px;
-      border:1px solid var(--line);
-      background:#0f1014;
-      color:var(--text);
-      border-radius:14px;
-      padding:12px 13px;
-      font:inherit;
-      outline:none;
-      transition:.18s ease;
-    }
-
-    input:focus,select:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 4px rgba(243,106,46,.12);
-    }
-
-    input::placeholder{color:#737784}
-
-    .small{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.55;
-    }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .btn{
-      cursor:pointer;
-      font-weight:700;
-      letter-spacing:-.01em;
-    }
-
-    .btn-primary{
-      background:var(--accent);
-      color:white;
-      border-color:var(--accent);
-    }
-
-    .btn-primary:hover{filter:brightness(1.05)}
-    .btn-secondary:hover,.btn-ghost:hover{background:#17181f}
-
-    .toggle-list{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-
-    .toggle{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      border:1px solid var(--line);
-      background:#0f1014;
-      border-radius:14px;
-      padding:10px 12px;
-      font-size:13px;
-      color:#d6d8de;
-      min-height:46px;
-      line-height:1.2;
-    }
-
-    .toggle input{
-      width:auto;
-      min-height:auto;
-      margin:0;
-      padding:0;
-      accent-color:var(--accent);
-      flex:none;
-    }
-
-    .palette-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .palette-chip{
-      border:1px solid var(--line);
-      background:#0f1014;
-      border-radius:14px;
-      padding:10px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      cursor:pointer;
-      min-height:54px;
-    }
-
-    .palette-chip.active{
-      border-color:rgba(243,106,46,.55);
-      box-shadow:0 0 0 2px rgba(243,106,46,.12) inset;
-    }
-
-    .palette-swatches{
-      display:flex;
-      gap:4px;
-      flex:none;
-    }
-
-    .palette-swatches span{
-      width:14px;height:14px;border-radius:50%;
-      border:1px solid rgba(255,255,255,.08);
-      display:block;
-    }
-
-    .palette-name{
-      font-size:12px;
-      font-weight:700;
-      color:#fff;
-      line-height:1.2;
-    }
-
-    .range-value{
-      margin-top:5px;
-      font-size:11px;
-      color:var(--muted);
-      font-weight:700;
-    }
-
-    .status{
-      min-height:18px;
-      margin-top:12px;
-      font-size:13px;
-      font-weight:700;
-      color:#fff;
-    }
-
-    .stage{
-      min-width:0;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      padding:6px;
-    }
-
-    .stage-shell{
-      width:min(100%,1060px);
-      background:linear-gradient(180deg,rgba(22,22,29,.78),rgba(14,14,18,.78));
-      border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .poster{
-      position:relative;
-      width:100%;
-      aspect-ratio:3/4;
-      overflow:hidden;
-      border-radius:22px;
-      background:#eae6df;
-    }
-
-    #map{position:absolute;inset:0}
-
-    .poster-noise{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:5;
-      opacity:.12;
-      mix-blend-mode:multiply;
-      background-image:
-        radial-gradient(rgba(0,0,0,.16) .6px, transparent .7px),
-        radial-gradient(rgba(0,0,0,.08) .6px, transparent .7px);
-      background-size:8px 8px, 13px 13px;
-      background-position:0 0, 4px 5px;
-    }
-
-    .poster-vignette{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:6;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 28%),
-        linear-gradient(to bottom, rgba(255,255,255,.02), rgba(255,255,255,.01) 40%, rgba(0,0,0,.04));
-    }
-
-    .poster-copy{
-      position:absolute;
-      left:0;right:0;bottom:42px;
-      text-align:center;
-      z-index:7;
-      pointer-events:none;
-      padding:0 42px;
-    }
-
-    .poster-title{
-      margin:0;
-      text-transform:uppercase;
-      letter-spacing:.28em;
-      text-indent:.28em;
-      font-weight:300;
-      line-height:.95;
-      font-size:clamp(34px,5.6vw,76px);
-      color:#181818;
-    }
-
-    .poster-subtitle{
-      margin-top:16px;
-      font-size:clamp(13px,1.35vw,22px);
-      text-transform:uppercase;
-      letter-spacing:.24em;
-      text-indent:.24em;
-      color:#303030;
-      font-weight:500;
-    }
-
-    .poster-coords{
-      margin-top:14px;
-      font-size:clamp(11px,.95vw,15px);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      color:#5d5d5d;
-      font-weight:500;
-    }
-
-    .poster-credit{
-      position:absolute;
-      left:18px;
-      bottom:14px;
-      z-index:7;
-      font-size:10px;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-      color:rgba(70,70,70,.75);
-      pointer-events:none;
-    }
-
-    .preview-bar{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:10px;
-      position:relative;
-      z-index:1;
-    }
-
-    .stat{
-      border:1px solid var(--line);
-      background:#111218;
-      border-radius:16px;
-      padding:12px;
-      min-width:0;
-    }
-
-    .stat-label{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted);
-      font-weight:700;
-      margin-bottom:4px;
-    }
-
-    .stat-value{
-      font-size:14px;
-      font-weight:800;
-      color:#fff;
-      word-break:break-word;
-    }
-
-    .hidden-capture{
-      position:fixed;
-      left:-99999px;
-      top:-99999px;
-      width:1500px;
-      height:2000px;
-      opacity:0;
-      pointer-events:none;
-      overflow:hidden;
-    }
-
-    .drawer-overlay{display:none}
-
-    @media (max-width:1180px){
-      body{
-        grid-template-columns:1fr;
-        gap:14px;
-        padding:calc(var(--safe-top) + 14px) 14px calc(var(--safe-bottom) + 14px);
-      }
-
-      .mobile-topbar{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:10px;
-        position:sticky;
-        top:calc(var(--safe-top) + 10px);
-        z-index:40;
-        padding:12px;
-        border:1px solid var(--line);
-        border-radius:18px;
-        background:linear-gradient(180deg,rgba(22,22,29,.94),rgba(14,14,18,.94));
-        box-shadow:var(--shadow);
-      }
-
-      .mobile-topbar .left{min-width:0}
-      .mobile-topbar h2{
-        margin:4px 0 0;
-        font-size:18px;
-        line-height:1.05;
-        letter-spacing:-.03em;
-      }
-      .mobile-topbar p{
-        margin:6px 0 0;
-        color:var(--muted);
-        font-size:12px;
-      }
-
-      .menu-btn{
-        width:auto;
-        min-width:112px;
-        padding:12px 14px;
-        border-radius:14px;
-        background:var(--accent);
-        border:1px solid var(--accent);
-        color:#fff;
-        font-weight:800;
-      }
-
-      .sidebar{
-        position:fixed;
-        top:0;
-        left:0;
-        bottom:0;
-        width:min(92vw,430px);
-        height:auto;
-        border-radius:0 24px 24px 0;
-        z-index:50;
-        transform:translateX(-104%);
-        transition:transform .24s ease;
-      }
-
-      .sidebar.open{transform:translateX(0)}
-
-      .drawer-overlay{
-        display:block;
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,.48);
-        opacity:0;
-        pointer-events:none;
-        transition:opacity .24s ease;
-        z-index:45;
-      }
-
-      .drawer-overlay.show{
-        opacity:1;
-        pointer-events:auto;
-      }
-
-      .stage{padding:0}
-      .stage-shell{
-        width:100%;
-        padding:12px;
-        border-radius:20px;
-      }
-
-      .preview-bar{grid-template-columns:1fr 1fr}
-    }
-
-    @media (max-width:760px){
-      .tabs{grid-template-columns:repeat(2,1fr)}
-      .grid-2,.actions,.toggle-list,.preview-bar,.palette-grid{
-        grid-template-columns:1fr;
-      }
-
-      .sidebar-inner{padding:16px 14px calc(var(--safe-bottom) + 16px)}
-      .stage-shell{padding:10px}
-      .poster{border-radius:16px}
-      .poster-copy{
-        bottom:24px;
-        padding:0 18px;
-      }
-      .poster-title{
-        letter-spacing:.16em;
-        text-indent:.16em;
-        font-size:clamp(28px,8vw,48px);
-      }
-      .poster-subtitle{
-        margin-top:10px;
-        letter-spacing:.12em;
-        text-indent:.12em;
-        font-size:12px;
-      }
-      .poster-coords{
-        margin-top:10px;
-        font-size:11px;
-        letter-spacing:.1em;
-      }
-      .stat{padding:10px}
-      .stat-value{font-size:13px}
-      h1{font-size:24px}
-    }
-  </style>
+	<meta charset="UTF-8" />
+	<link rel="icon" type="image/x-icon" href="./public/favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+	<meta name="theme-color" content="#0b0b0d" />
+	<title>Studio83 Maps - Generator mapa i postera</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	<link href="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.css" rel="stylesheet" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:wght@600&family=Dancing+Script:wght@400;700&family=Inter:wght@400;700&family=Lora:wght@400;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Raleway:wght@400;700&family=Roboto:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						accent: "rgb(var(--accent-color-rgb) / <alpha-value>)"
+					}
+				}
+			}
+		};
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+	<link rel="stylesheet" href="./style.css">
 </head>
-<body>
-  <div class="mobile-topbar">
-    <div class="left">
-      <div class="badge"><span class="dot"></span> Studio83 Mapa</div>
-      <h2>Mapa poster generator</h2>
-      <p>Opcije su u bočnom panelu.</p>
-    </div>
-    <button id="openMenuBtn" class="menu-btn">Opcije</button>
-  </div>
-
-  <div id="drawerOverlay" class="drawer-overlay"></div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-      <div class="brand-row">
-        <div class="badge"><span class="dot"></span> Studio83 Mapa</div>
-        <button id="closeMenuBtn" class="btn" style="width:auto;min-width:94px;">Zatvori</button>
-      </div>
-
-      <h1>Mapa poster generator</h1>
-      <p class="lead">
-        Optimizovan za desktop, tablet i telefon. Na manjim ekranima sve opcije izlaze iz bočnog drawer panela, a interfejs je podijeljen u tabove radi lakšeg korišćenja.
-      </p>
-
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="tab-location">Lokacija</button>
-        <button class="tab-btn" data-tab="tab-style">Stil</button>
-        <button class="tab-btn" data-tab="tab-layers">Slojevi</button>
-        <button class="tab-btn" data-tab="tab-export">Export</button>
-      </div>
-
-      <div id="tab-location" class="tab-panel active">
-        <div class="section">
-          <div class="section-title">Lokacija</div>
-          <div class="field">
-            <label for="locationInput">Grad / lokacija</label>
-            <input id="locationInput" value="Podgorica, Montenegro" placeholder="Unesi grad ili adresu" />
-          </div>
-          <div class="grid-2">
-            <div class="field">
-              <label for="zoomInput">Zoom</label>
-              <input id="zoomInput" type="number" min="1" max="18" step="0.1" value="13.2" />
-            </div>
-            <div class="field">
-              <label for="bearingInput">Rotacija</label>
-              <input id="bearingInput" type="number" min="-180" max="180" step="1" value="0" />
-            </div>
-          </div>
-          <div class="grid-2">
-            <div class="field">
-              <label for="pitchInput">Pitch</label>
-              <input id="pitchInput" type="number" min="0" max="60" step="1" value="0" />
-            </div>
-            <div class="field">
-              <label for="posterSizeInput">Format</label>
-              <select id="posterSizeInput">
-                <option value="3:4" selected>3:4 poster</option>
-                <option value="4:5">4:5 poster</option>
-                <option value="1:1">Square</option>
-                <option value="A4">A4 portrait</option>
-                <option value="A3">A3 portrait</option>
-              </select>
-            </div>
-          </div>
-          <div class="actions">
-            <button class="btn btn-primary" id="generateBtn">Generiši</button>
-            <button class="btn btn-secondary" id="resetViewBtn">Reset view</button>
-          </div>
-          <div style="margin-top:10px" class="actions">
-            <button class="btn btn-secondary" id="fitBoundsBtn">Fit city bounds</button>
-            <button class="btn btn-secondary" id="centerOnMapBtn">Uzmi centar mape</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Tekst</div>
-          <div class="field">
-            <label for="titleInput">Naziv grada</label>
-            <input id="titleInput" value="PODGORICA" />
-          </div>
-          <div class="field">
-            <label for="subtitleInput">Podnaslov</label>
-            <input id="subtitleInput" value="MONTENEGRO" />
-          </div>
-          <div class="field">
-            <label for="coordsInput">Koordinate</label>
-            <input id="coordsInput" placeholder="Automatski popunjeno" />
-          </div>
-          <div class="grid-2">
-            <div class="field">
-              <label for="titleFontInput">Font naslova</label>
-              <select id="titleFontInput">
-                <option value="Inter" selected>Inter</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Arial">Arial</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="letterSpacingInput">Razmak slova</label>
-              <input id="letterSpacingInput" type="number" min="0.04" max="0.5" step="0.01" value="0.28" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-style" class="tab-panel">
-        <div class="section">
-          <div class="section-title">Palete boja</div>
-          <div class="field">
-            <label for="paletteInput">Aktivna paleta</label>
-            <select id="paletteInput"></select>
-          </div>
-          <div id="paletteGrid" class="palette-grid"></div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Fino podešavanje</div>
-          <div class="grid-2">
-            <div class="field">
-              <label for="roadWeightInput">Jačina puteva</label>
-              <input id="roadWeightInput" type="range" min="0.7" max="1.8" step="0.05" value="1.15" />
-              <div id="roadWeightValue" class="range-value">1.15x</div>
-            </div>
-            <div class="field">
-              <label for="buildingOpacityInput">Opacity zgrada</label>
-              <input id="buildingOpacityInput" type="range" min="0" max="1" step="0.05" value="0.95" />
-              <div id="buildingOpacityValue" class="range-value">95%</div>
-            </div>
-          </div>
-          <div class="grid-2">
-            <div class="field">
-              <label for="terrainOpacityInput">Opacity terena</label>
-              <input id="terrainOpacityInput" type="range" min="0" max="1" step="0.05" value="0.85" />
-              <div id="terrainOpacityValue" class="range-value">85%</div>
-            </div>
-            <div class="field">
-              <label for="noiseInput">Papir grain</label>
-              <input id="noiseInput" type="range" min="0" max="0.3" step="0.01" value="0.12" />
-              <div id="noiseValue" class="range-value">12%</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-layers" class="tab-panel">
-        <div class="section">
-          <div class="section-title">Prikaz slojeva</div>
-          <div class="toggle-list">
-            <label class="toggle"><input type="checkbox" id="toggleRoads" checked> Putevi</label>
-            <label class="toggle"><input type="checkbox" id="toggleBuildings" checked> Zgrade</label>
-            <label class="toggle"><input type="checkbox" id="toggleWater" checked> Voda</label>
-            <label class="toggle"><input type="checkbox" id="toggleParks" checked> Zelenilo</label>
-            <label class="toggle"><input type="checkbox" id="toggleTerrain" checked> Teren</label>
-            <label class="toggle"><input type="checkbox" id="toggleRail" checked> Pruga</label>
-            <label class="toggle"><input type="checkbox" id="toggleBoundaries" checked> Granice</label>
-            <label class="toggle"><input type="checkbox" id="toggleLabels"> Labele</label>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-export" class="tab-panel">
-        <div class="section">
-          <div class="section-title">Export</div>
-          <div class="actions">
-            <button class="btn btn-primary" id="exportPngBtn">Export PNG</button>
-            <button class="btn btn-primary" id="exportPdfBtn">Export PDF</button>
-          </div>
-          <p class="small" style="margin:12px 0 0">
-            Fajl je i dalje jedan HTML dokument. Za javni sajt kasnije zamijeni free style endpoint sopstvenim tile/style servisom.
-          </p>
-        </div>
-      </div>
-
-      <div id="status" class="status"></div>
-    </div>
-  </aside>
-
-  <main class="stage">
-    <div class="stage-shell">
-      <div id="poster" class="poster">
-        <div id="map"></div>
-        <div id="posterNoise" class="poster-noise"></div>
-        <div class="poster-vignette"></div>
-
-        <div class="poster-copy">
-          <h2 id="posterTitle" class="poster-title">PODGORICA</h2>
-          <div id="posterSubtitle" class="poster-subtitle">MONTENEGRO</div>
-          <div id="posterCoords" class="poster-coords">42.4304° N / 19.2594° E</div>
-        </div>
-
-        <div id="posterCredit" class="poster-credit"></div>
-      </div>
-
-      <div class="preview-bar">
-        <div class="stat">
-          <div class="stat-label">Grad</div>
-          <div id="statCity" class="stat-value">Podgorica</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Koordinate</div>
-          <div id="statCoords" class="stat-value">42.4304 / 19.2594</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Paleta</div>
-          <div id="statPalette" class="stat-value">Paper Gray</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Format</div>
-          <div id="statFormat" class="stat-value">3:4</div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <div id="captureRoot" class="hidden-capture"></div>
-
-  <script>
-    const STYLE_URL = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
-
-    const paletteMap = {
-      paper: {
-        label: "Paper Gray",
-        swatches: ["#ebe6de","#cdc6be","#615c58","#232120"],
-        posterBg: "#ebe6de",
-        title: "#181818",
-        subtitle: "#303030",
-        coords: "#5d5d5d",
-        credit: "rgba(70,70,70,.75)",
-        building: "#cdc6be",
-        water: "#dfd9d1",
-        park: "#e4ded6",
-        terrain: "#e8e1d9",
-        boundary: "#d7d0c7",
-        rail: "#8f8881",
-        tunnel: "#b7b0a7",
-        minorRoad: "#c2bbb3",
-        mediumRoad: "#9d968f",
-        primaryRoad: "#615c58",
-        highway: "#232120",
-        bridge: "#494542"
-      },
-      ink: {
-        label: "Japanese Ink",
-        swatches: ["#f0ede7","#c2bbb2","#56514d","#1d1b1a"],
-        posterBg: "#f0ede7",
-        title: "#111111",
-        subtitle: "#2a2a2a",
-        coords: "#525252",
-        credit: "rgba(70,70,70,.75)",
-        building: "#c2bbb2",
-        water: "#e7e2da",
-        park: "#ebe7df",
-        terrain: "#efebe4",
-        boundary: "#d8d2ca",
-        rail: "#7f7974",
-        tunnel: "#b3ada5",
-        minorRoad: "#bdb6ae",
-        mediumRoad: "#989189",
-        primaryRoad: "#56514d",
-        highway: "#1d1b1a",
-        bridge: "#403c39"
-      },
-      sand: {
-        label: "Warm Sand",
-        swatches: ["#efe3d3","#d1b99b","#6d503a","#372519"],
-        posterBg: "#efe3d3",
-        title: "#261d14",
-        subtitle: "#46382a",
-        coords: "#6a5a4c",
-        credit: "rgba(90,65,42,.82)",
-        building: "#d1b99b",
-        water: "#e7d4bf",
-        park: "#e6d8c8",
-        terrain: "#efdfcb",
-        boundary: "#d4c3ad",
-        rail: "#947b63",
-        tunnel: "#c4aa91",
-        minorRoad: "#cfb79f",
-        mediumRoad: "#a17f63",
-        primaryRoad: "#6d503a",
-        highway: "#372519",
-        bridge: "#533a29"
-      },
-      blueprint: {
-        label: "Blueprint",
-        swatches: ["#e8eef4","#b8c7d6","#39516a","#15283a"],
-        posterBg: "#e8eef4",
-        title: "#102131",
-        subtitle: "#24405a",
-        coords: "#47637d",
-        credit: "rgba(36,64,90,.8)",
-        building: "#b8c7d6",
-        water: "#d6e4ef",
-        park: "#dfe8ef",
-        terrain: "#edf3f8",
-        boundary: "#cad7e2",
-        rail: "#758a9f",
-        tunnel: "#afbdc9",
-        minorRoad: "#bccbda",
-        mediumRoad: "#7a90a5",
-        primaryRoad: "#39516a",
-        highway: "#15283a",
-        bridge: "#22384f"
-      },
-      noir: {
-        label: "Noir",
-        swatches: ["#121416","#4c5157","#d2d7dc","#ffffff"],
-        posterBg: "#121416",
-        title: "#f4f4f4",
-        subtitle: "#dfdfdf",
-        coords: "#b8bec5",
-        credit: "rgba(220,220,220,.72)",
-        building: "#4c5157",
-        water: "#171b1f",
-        park: "#1a1f23",
-        terrain: "#1c2024",
-        boundary: "#2b3036",
-        rail: "#8f969e",
-        tunnel: "#676e76",
-        minorRoad: "#70767d",
-        mediumRoad: "#98a0a8",
-        primaryRoad: "#d2d7dc",
-        highway: "#ffffff",
-        bridge: "#eef1f4"
-      },
-      forest: {
-        label: "Forest Mist",
-        swatches: ["#e8ede7","#b8c4b2","#5f6b59","#283026"],
-        posterBg: "#e8ede7",
-        title: "#1f271d",
-        subtitle: "#3a4636",
-        coords: "#62715f",
-        credit: "rgba(58,70,54,.78)",
-        building: "#b8c4b2",
-        water: "#dbe6dc",
-        park: "#dbe8d9",
-        terrain: "#e6ede3",
-        boundary: "#ccd7ca",
-        rail: "#7d8878",
-        tunnel: "#b2bcad",
-        minorRoad: "#c0cabd",
-        mediumRoad: "#879381",
-        primaryRoad: "#5f6b59",
-        highway: "#283026",
-        bridge: "#404b3d"
-      },
-      blush: {
-        label: "Blush Stone",
-        swatches: ["#f1e7e4","#d6bbb4","#7a5a53","#3b2824"],
-        posterBg: "#f1e7e4",
-        title: "#2b201d",
-        subtitle: "#4e3b36",
-        coords: "#755f5a",
-        credit: "rgba(78,59,54,.78)",
-        building: "#d6bbb4",
-        water: "#ead9d5",
-        park: "#efe0dd",
-        terrain: "#f3e8e6",
-        boundary: "#dbc8c4",
-        rail: "#9a7d76",
-        tunnel: "#c9aea8",
-        minorRoad: "#d8c1bc",
-        mediumRoad: "#9e7e77",
-        primaryRoad: "#7a5a53",
-        highway: "#3b2824",
-        bridge: "#5a403b"
-      },
-      slate: {
-        label: "Slate Mono",
-        swatches: ["#dfe2e6","#aeb5bd","#58606a","#262c33"],
-        posterBg: "#dfe2e6",
-        title: "#1e242b",
-        subtitle: "#39424c",
-        coords: "#5f6974",
-        credit: "rgba(57,66,76,.8)",
-        building: "#aeb5bd",
-        water: "#d2d9e1",
-        park: "#d8dee4",
-        terrain: "#e6eaee",
-        boundary: "#c7ced6",
-        rail: "#808992",
-        tunnel: "#adb5bd",
-        minorRoad: "#bcc3cb",
-        mediumRoad: "#7b8590",
-        primaryRoad: "#58606a",
-        highway: "#262c33",
-        bridge: "#414850"
-      },
-      terracotta: {
-        label: "Terracotta",
-        swatches: ["#f0ded4","#d9ad92","#8f583d","#43271a"],
-        posterBg: "#f0ded4",
-        title: "#2e1c13",
-        subtitle: "#55372a",
-        coords: "#7a574a",
-        credit: "rgba(85,55,42,.8)",
-        building: "#d9ad92",
-        water: "#e8cfc0",
-        park: "#ecd9ce",
-        terrain: "#f3e4db",
-        boundary: "#ddc0af",
-        rail: "#a07359",
-        tunnel: "#cca48e",
-        minorRoad: "#deb99f",
-        mediumRoad: "#ab775d",
-        primaryRoad: "#8f583d",
-        highway: "#43271a",
-        bridge: "#613b29"
-      }
-    };
-
-    const sizeMap = {
-      "3:4": { aspect: "3 / 4", exportW: 1800, exportH: 2400, pdf: "a4" },
-      "4:5": { aspect: "4 / 5", exportW: 2000, exportH: 2500, pdf: "a4" },
-      "1:1": { aspect: "1 / 1", exportW: 2200, exportH: 2200, pdf: "a4" },
-      "A4": { aspect: "210 / 297", exportW: 2480, exportH: 3508, pdf: "a4" },
-      "A3": { aspect: "297 / 420", exportW: 3508, exportH: 4961, pdf: "a3" }
-    };
-
-    const els = {
-      sidebar: document.getElementById("sidebar"),
-      drawerOverlay: document.getElementById("drawerOverlay"),
-      openMenuBtn: document.getElementById("openMenuBtn"),
-      closeMenuBtn: document.getElementById("closeMenuBtn"),
-
-      locationInput: document.getElementById("locationInput"),
-      zoomInput: document.getElementById("zoomInput"),
-      bearingInput: document.getElementById("bearingInput"),
-      pitchInput: document.getElementById("pitchInput"),
-      posterSizeInput: document.getElementById("posterSizeInput"),
-      generateBtn: document.getElementById("generateBtn"),
-      resetViewBtn: document.getElementById("resetViewBtn"),
-      fitBoundsBtn: document.getElementById("fitBoundsBtn"),
-      centerOnMapBtn: document.getElementById("centerOnMapBtn"),
-
-      titleInput: document.getElementById("titleInput"),
-      subtitleInput: document.getElementById("subtitleInput"),
-      coordsInput: document.getElementById("coordsInput"),
-      titleFontInput: document.getElementById("titleFontInput"),
-      letterSpacingInput: document.getElementById("letterSpacingInput"),
-
-      paletteInput: document.getElementById("paletteInput"),
-      paletteGrid: document.getElementById("paletteGrid"),
-      roadWeightInput: document.getElementById("roadWeightInput"),
-      buildingOpacityInput: document.getElementById("buildingOpacityInput"),
-      terrainOpacityInput: document.getElementById("terrainOpacityInput"),
-      noiseInput: document.getElementById("noiseInput"),
-      roadWeightValue: document.getElementById("roadWeightValue"),
-      buildingOpacityValue: document.getElementById("buildingOpacityValue"),
-      terrainOpacityValue: document.getElementById("terrainOpacityValue"),
-      noiseValue: document.getElementById("noiseValue"),
-
-      toggleRoads: document.getElementById("toggleRoads"),
-      toggleBuildings: document.getElementById("toggleBuildings"),
-      toggleWater: document.getElementById("toggleWater"),
-      toggleParks: document.getElementById("toggleParks"),
-      toggleTerrain: document.getElementById("toggleTerrain"),
-      toggleRail: document.getElementById("toggleRail"),
-      toggleBoundaries: document.getElementById("toggleBoundaries"),
-      toggleLabels: document.getElementById("toggleLabels"),
-
-      exportPngBtn: document.getElementById("exportPngBtn"),
-      exportPdfBtn: document.getElementById("exportPdfBtn"),
-
-      poster: document.getElementById("poster"),
-      posterTitle: document.getElementById("posterTitle"),
-      posterSubtitle: document.getElementById("posterSubtitle"),
-      posterCoords: document.getElementById("posterCoords"),
-      posterNoise: document.getElementById("posterNoise"),
-      posterCredit: document.getElementById("posterCredit"),
-
-      statCity: document.getElementById("statCity"),
-      statCoords: document.getElementById("statCoords"),
-      statPalette: document.getElementById("statPalette"),
-      statFormat: document.getElementById("statFormat"),
-
-      status: document.getElementById("status"),
-      captureRoot: document.getElementById("captureRoot"),
-      tabButtons: Array.from(document.querySelectorAll(".tab-btn")),
-      tabPanels: Array.from(document.querySelectorAll(".tab-panel"))
-    };
-
-    const state = {
-      map: null,
-      center: [19.2594, 42.4304],
-      zoom: 13.2,
-      bearing: 0,
-      pitch: 0,
-      lastSearchBounds: null,
-      titleEdited: false,
-      subtitleEdited: false,
-      geocodeDisplayName: "Podgorica, Montenegro"
-    };
-
-    function setStatus(msg, error=false){
-      els.status.textContent = msg;
-      els.status.style.color = error ? "#ff9a9a" : "#ffffff";
-    }
-
-    function isMobile(){
-      return window.innerWidth <= 1180;
-    }
-
-    function openDrawer(){
-      if(!isMobile()) return;
-      els.sidebar.classList.add("open");
-      els.drawerOverlay.classList.add("show");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeDrawer(){
-      els.sidebar.classList.remove("open");
-      els.drawerOverlay.classList.remove("show");
-      document.body.style.overflow = "";
-    }
-
-    function activateTab(tabId){
-      els.tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));
-      els.tabPanels.forEach(panel => panel.classList.toggle("active", panel.id === tabId));
-    }
-
-    function formatCoord(lat, lon){
-      const latDir = lat >= 0 ? "N" : "S";
-      const lonDir = lon >= 0 ? "E" : "W";
-      return `${Math.abs(lat).toFixed(4)}° ${latDir} / ${Math.abs(lon).toFixed(4)}° ${lonDir}`;
-    }
-
-    function cityNameFromDisplay(display){
-      return (display.split(",")[0] || "CITY").trim();
-    }
-
-    function countryNameFromDisplay(display){
-      const parts = display.split(",").map(s => s.trim()).filter(Boolean);
-      return (parts[parts.length - 1] || "").toUpperCase();
-    }
-
-    function applyPosterSize(){
-      const key = els.posterSizeInput.value;
-      const cfg = sizeMap[key];
-      els.poster.style.aspectRatio = cfg.aspect;
-      els.statFormat.textContent = key;
-      if(state.map) state.map.resize();
-    }
-
-    function syncTypography(){
-      const spacing = Number(els.letterSpacingInput.value || 0.28);
-      els.posterTitle.style.fontFamily = `"${els.titleFontInput.value}", Inter, sans-serif`;
-      els.posterTitle.style.letterSpacing = `${spacing}em`;
-      els.posterTitle.style.textIndent = `${spacing}em`;
-    }
-
-    function updatePosterText(lat, lon){
-      const display = state.geocodeDisplayName || els.locationInput.value.trim() || "City";
-      if(!state.titleEdited){
-        els.titleInput.value = cityNameFromDisplay(display).toUpperCase();
-      }
-      if(!state.subtitleEdited){
-        els.subtitleInput.value = countryNameFromDisplay(display);
-      }
-
-      els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
-      els.posterSubtitle.textContent = els.subtitleInput.value.trim() || "";
-      els.posterCoords.textContent = els.coordsInput.value.trim() || formatCoord(lat, lon);
-      els.statCity.textContent = cityNameFromDisplay(display);
-      els.statCoords.textContent = `${lat.toFixed(4)} / ${lon.toFixed(4)}`;
-      syncTypography();
-    }
-
-    function getCurrentPalette(){
-      return paletteMap[els.paletteInput.value] || paletteMap.paper;
-    }
-
-    function getOptions(){
-      return {
-        roads: els.toggleRoads.checked,
-        buildings: els.toggleBuildings.checked,
-        water: els.toggleWater.checked,
-        parks: els.toggleParks.checked,
-        terrain: els.toggleTerrain.checked,
-        rail: els.toggleRail.checked,
-        boundaries: els.toggleBoundaries.checked,
-        labels: els.toggleLabels.checked,
-        roadWeight: Number(els.roadWeightInput.value || 1.15),
-        buildingOpacity: Number(els.buildingOpacityInput.value || 0.95),
-        terrainOpacity: Number(els.terrainOpacityInput.value || 0.85)
-      };
-    }
-
-    function safeSetPaint(id, prop, value){
-      try { state.map.setPaintProperty(id, prop, value); } catch(e){}
-    }
-
-    function safeSetLayout(id, prop, value){
-      try { state.map.setLayoutProperty(id, prop, value); } catch(e){}
-    }
-
-    function tryAdjustWidth(layerId, factor){
-      try{
-        const style = state.map.getStyle();
-        const layer = style.layers.find(l => l.id === layerId);
-        if(!layer || !layer.paint) return;
-        const current = layer.paint["line-width"];
-        if(typeof current === "number"){
-          state.map.setPaintProperty(layerId, "line-width", current * factor);
-        }
-      }catch(e){}
-    }
-
-    function styleLineLayer(layer, palette, opts){
-      const id = layer.id.toLowerCase();
-      const visible = opts.roads ? "visible" : "none";
-
-      if(id.includes("rail")){
-        safeSetLayout(layer.id, "visibility", opts.rail ? "visible" : "none");
-        safeSetPaint(layer.id, "line-color", palette.rail);
-        safeSetPaint(layer.id, "line-opacity", opts.rail ? 0.85 : 0);
-        return;
-      }
-
-      if(id.includes("boundary")){
-        safeSetLayout(layer.id, "visibility", opts.boundaries ? "visible" : "none");
-        safeSetPaint(layer.id, "line-color", palette.boundary);
-        safeSetPaint(layer.id, "line-opacity", opts.boundaries ? 0.8 : 0);
-        return;
-      }
-
-      if(id.includes("water")){
-        safeSetLayout(layer.id, "visibility", opts.water ? "visible" : "none");
-        safeSetPaint(layer.id, "line-color", palette.water);
-        safeSetPaint(layer.id, "line-opacity", opts.water ? 1 : 0);
-        return;
-      }
-
-      if(id.includes("tunnel")){
-        safeSetLayout(layer.id, "visibility", visible);
-        safeSetPaint(layer.id, "line-color", palette.tunnel);
-        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.65 : 0);
-      }
-
-      if(id.includes("motorway") || id.includes("highway") || id.includes("trunk")){
-        safeSetLayout(layer.id, "visibility", visible);
-        safeSetPaint(layer.id, "line-color", palette.highway);
-        safeSetPaint(layer.id, "line-opacity", opts.roads ? 1 : 0);
-        tryAdjustWidth(layer.id, 1.45 * opts.roadWeight);
-        return;
-      }
-
-      if(id.includes("primary") || id.includes("major")){
-        safeSetLayout(layer.id, "visibility", visible);
-        safeSetPaint(layer.id, "line-color", palette.primaryRoad);
-        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.98 : 0);
-        if(id.includes("bridge")) safeSetPaint(layer.id, "line-color", palette.bridge);
-        tryAdjustWidth(layer.id, 1.22 * opts.roadWeight);
-        return;
-      }
-
-      if(id.includes("secondary") || id.includes("tertiary")){
-        safeSetLayout(layer.id, "visibility", visible);
-        safeSetPaint(layer.id, "line-color", palette.mediumRoad);
-        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.95 : 0);
-        tryAdjustWidth(layer.id, 1.08 * opts.roadWeight);
-        return;
-      }
-
-      if(id.includes("street") || id.includes("minor") || id.includes("road") || id.includes("service") || id.includes("bridge")){
-        safeSetLayout(layer.id, "visibility", visible);
-        safeSetPaint(layer.id, "line-color", id.includes("bridge") ? palette.bridge : palette.minorRoad);
-        safeSetPaint(layer.id, "line-opacity", opts.roads ? 0.92 : 0);
-        tryAdjustWidth(layer.id, 1.0 * opts.roadWeight);
-      }
-    }
-
-    function applyThemeAndLayers(){
-      const palette = getCurrentPalette();
-      const opts = getOptions();
-
-      els.poster.style.background = palette.posterBg;
-      els.posterTitle.style.color = palette.title;
-      els.posterSubtitle.style.color = palette.subtitle;
-      els.posterCoords.style.color = palette.coords;
-      els.posterCredit.style.color = palette.credit;
-      els.posterNoise.style.opacity = Number(els.noiseInput.value || 0.12);
-      els.statPalette.textContent = palette.label;
-
-      els.roadWeightValue.textContent = `${opts.roadWeight.toFixed(2)}x`;
-      els.buildingOpacityValue.textContent = `${Math.round(opts.buildingOpacity * 100)}%`;
-      els.terrainOpacityValue.textContent = `${Math.round(opts.terrainOpacity * 100)}%`;
-      els.noiseValue.textContent = `${Math.round(Number(els.noiseInput.value || 0.12) * 100)}%`;
-
-      document.querySelectorAll(".palette-chip").forEach(chip => {
-        chip.classList.toggle("active", chip.dataset.palette === els.paletteInput.value);
-      });
-
-      if(!state.map || !state.map.isStyleLoaded()) return;
-
-      const style = state.map.getStyle();
-      if(!style || !style.layers) return;
-
-      for(const layer of style.layers){
-        const id = layer.id.toLowerCase();
-        const type = layer.type;
-
-        if(type === "background"){
-          safeSetPaint(layer.id, "background-color", palette.posterBg);
-          continue;
-        }
-
-        if(id.includes("water")){
-          if(type === "fill"){
-            safeSetLayout(layer.id, "visibility", opts.water ? "visible" : "none");
-            safeSetPaint(layer.id, "fill-color", palette.water);
-            safeSetPaint(layer.id, "fill-opacity", opts.water ? 1 : 0);
-          } else if(type === "line") {
-            styleLineLayer(layer, palette, opts);
-          }
-          continue;
-        }
-
-        if(id.includes("park")){
-          if(type === "fill"){
-            safeSetLayout(layer.id, "visibility", opts.parks ? "visible" : "none");
-            safeSetPaint(layer.id, "fill-color", palette.park);
-            safeSetPaint(layer.id, "fill-opacity", opts.parks ? opts.terrainOpacity : 0);
-          } else if(type === "line"){
-            safeSetLayout(layer.id, "visibility", opts.parks ? "visible" : "none");
-            safeSetPaint(layer.id, "line-color", palette.park);
-            safeSetPaint(layer.id, "line-opacity", opts.parks ? 1 : 0);
-          }
-          continue;
-        }
-
-        if(id.includes("landcover") || id.includes("grass") || id.includes("wood") || id.includes("forest") || id.includes("landuse")){
-          if(type === "fill"){
-            safeSetLayout(layer.id, "visibility", opts.terrain ? "visible" : "none");
-            safeSetPaint(layer.id, "fill-color", palette.terrain);
-            safeSetPaint(layer.id, "fill-opacity", opts.terrain ? opts.terrainOpacity : 0);
-          }
-          continue;
-        }
-
-        if(id.includes("building")){
-          if(type === "fill"){
-            safeSetLayout(layer.id, "visibility", opts.buildings ? "visible" : "none");
-            safeSetPaint(layer.id, "fill-color", palette.building);
-            safeSetPaint(layer.id, "fill-opacity", opts.buildings ? opts.buildingOpacity : 0);
-          } else if(type === "line"){
-            safeSetLayout(layer.id, "visibility", opts.buildings ? "visible" : "none");
-            safeSetPaint(layer.id, "line-color", palette.building);
-            safeSetPaint(layer.id, "line-opacity", opts.buildings ? 0.55 : 0);
-          }
-          continue;
-        }
-
-        if(type === "line"){
-          styleLineLayer(layer, palette, opts);
-          continue;
-        }
-
-        if(type === "symbol" || id.includes("label") || id.includes("place") || id.includes("poi")){
-          safeSetLayout(layer.id, "visibility", opts.labels ? "visible" : "none");
-          continue;
-        }
-      }
-    }
-
-    async function geocode(query){
-      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
-      const res = await fetch(url, { headers: { "Accept": "application/json" } });
-      if(!res.ok) throw new Error("Geocoding failed.");
-      const data = await res.json();
-      if(!data.length) throw new Error("Lokacija nije pronađena.");
-      return data[0];
-    }
-
-    function initMap(){
-      state.map = new maplibregl.Map({
-        container: "map",
-        style: STYLE_URL,
-        center: state.center,
-        zoom: state.zoom,
-        bearing: state.bearing,
-        pitch: state.pitch,
-        preserveDrawingBuffer: true,
-        attributionControl: false
-      });
-
-      state.map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
-
-      state.map.on("load", () => {
-        applyPosterSize();
-        applyThemeAndLayers();
-        updatePosterText(state.center[1], state.center[0]);
-        setStatus("Mapa spremna.");
-      });
-
-      state.map.on("styledata", () => {
-        applyThemeAndLayers();
-      });
-
-      state.map.on("moveend", () => {
-        const c = state.map.getCenter();
-        state.center = [c.lng, c.lat];
-        state.zoom = state.map.getZoom();
-        state.bearing = state.map.getBearing();
-        state.pitch = state.map.getPitch();
-
-        els.zoomInput.value = state.zoom.toFixed(1);
-        els.bearingInput.value = Math.round(state.bearing);
-        els.pitchInput.value = Math.round(state.pitch);
-
-        if(!els.coordsInput.value.trim()){
-          els.posterCoords.textContent = formatCoord(c.lat, c.lng);
-        }
-        els.statCoords.textContent = `${c.lat.toFixed(4)} / ${c.lng.toFixed(4)}`;
-      });
-    }
-
-    async function generateMap(){
-      const query = els.locationInput.value.trim();
-      if(!query){
-        setStatus("Unesi lokaciju.", true);
-        return;
-      }
-      try{
-        setStatus("Tražim lokaciju...");
-        els.generateBtn.disabled = true;
-
-        const result = await geocode(query);
-        const lat = Number(result.lat);
-        const lon = Number(result.lon);
-
-        state.geocodeDisplayName = result.display_name || query;
-        state.lastSearchBounds = result.boundingbox
-          ? [
-              [Number(result.boundingbox[2]), Number(result.boundingbox[0])],
-              [Number(result.boundingbox[3]), Number(result.boundingbox[1])]
-            ]
-          : null;
-
-        state.center = [lon, lat];
-        state.zoom = Number(els.zoomInput.value) || 13.2;
-        state.bearing = Number(els.bearingInput.value) || 0;
-        state.pitch = Number(els.pitchInput.value) || 0;
-
-        state.map.jumpTo({
-          center: state.center,
-          zoom: state.zoom,
-          bearing: state.bearing,
-          pitch: state.pitch
-        });
-
-        updatePosterText(lat, lon);
-        applyThemeAndLayers();
-        setStatus("Mapa ažurirana. Možeš ručno pomjerati kadar.");
-        if(isMobile()) closeDrawer();
-      }catch(err){
-        setStatus(err.message || "Greška.", true);
-      }finally{
-        els.generateBtn.disabled = false;
-      }
-    }
-
-    function resetView(){
-      state.map.jumpTo({
-        center: state.center,
-        zoom: 13.2,
-        bearing: 0,
-        pitch: 0
-      });
-    }
-
-    function fitBoundsToCity(){
-      if(!state.lastSearchBounds){
-        setStatus("Prvo generiši lokaciju da bih znao bounds grada.", true);
-        return;
-      }
-      state.map.fitBounds(state.lastSearchBounds, { padding: 40, duration: 700 });
-      setStatus("Prikaz namješten na granice lokacije.");
-      if(isMobile()) closeDrawer();
-    }
-
-    function centerOnCurrentMap(){
-      const c = state.map.getCenter();
-      els.coordsInput.value = "";
-      updatePosterText(c.lat, c.lng);
-      setStatus("Koordinate uzete sa trenutnog centra mape.");
-      if(isMobile()) closeDrawer();
-    }
-
-    function buildCaptureNode(width, height){
-      const palette = getCurrentPalette();
-
-      const wrapper = document.createElement("div");
-      wrapper.style.width = `${width}px`;
-      wrapper.style.height = `${height}px`;
-      wrapper.style.position = "relative";
-      wrapper.style.overflow = "hidden";
-      wrapper.style.background = palette.posterBg;
-
-      const mapImg = document.createElement("img");
-      mapImg.src = state.map.getCanvas().toDataURL("image/png");
-      mapImg.style.position = "absolute";
-      mapImg.style.inset = "0";
-      mapImg.style.width = "100%";
-      mapImg.style.height = "100%";
-      mapImg.style.objectFit = "cover";
-
-      const noise = document.createElement("div");
-      noise.style.position = "absolute";
-      noise.style.inset = "0";
-      noise.style.opacity = getComputedStyle(els.posterNoise).opacity;
-      noise.style.mixBlendMode = "multiply";
-      noise.style.backgroundImage = 'radial-gradient(rgba(0,0,0,.16) .6px, transparent .7px), radial-gradient(rgba(0,0,0,.08) .6px, transparent .7px)';
-      noise.style.backgroundSize = '8px 8px, 13px 13px';
-      noise.style.backgroundPosition = '0 0, 4px 5px';
-
-      const vignette = document.createElement("div");
-      vignette.style.position = "absolute";
-      vignette.style.inset = "0";
-      vignette.style.background = 'radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 28%), linear-gradient(to bottom, rgba(255,255,255,.02), rgba(255,255,255,.01) 40%, rgba(0,0,0,.04))';
-
-      const copy = document.createElement("div");
-      copy.style.position = "absolute";
-      copy.style.left = "0";
-      copy.style.right = "0";
-      copy.style.bottom = Math.round(height * 0.03) + "px";
-      copy.style.textAlign = "center";
-      copy.style.padding = "0 " + Math.round(width * 0.028) + "px";
-
-      const title = document.createElement("div");
-      title.textContent = els.posterTitle.textContent;
-      title.style.margin = "0";
-      title.style.textTransform = "uppercase";
-      title.style.fontWeight = "300";
-      title.style.lineHeight = ".95";
-      title.style.fontSize = Math.round(width * 0.05) + "px";
-      title.style.letterSpacing = els.posterTitle.style.letterSpacing || "0.28em";
-      title.style.textIndent = els.posterTitle.style.textIndent || "0.28em";
-      title.style.color = getComputedStyle(els.posterTitle).color;
-      title.style.fontFamily = getComputedStyle(els.posterTitle).fontFamily;
-
-      const subtitle = document.createElement("div");
-      subtitle.textContent = els.posterSubtitle.textContent;
-      subtitle.style.marginTop = Math.round(width * 0.012) + "px";
-      subtitle.style.textTransform = "uppercase";
-      subtitle.style.fontSize = Math.round(width * 0.014) + "px";
-      subtitle.style.letterSpacing = ".24em";
-      subtitle.style.textIndent = ".24em";
-      subtitle.style.color = getComputedStyle(els.posterSubtitle).color;
-      subtitle.style.fontWeight = "500";
-      subtitle.style.fontFamily = "Inter, sans-serif";
-
-      const coords = document.createElement("div");
-      coords.textContent = els.posterCoords.textContent;
-      coords.style.marginTop = Math.round(width * 0.01) + "px";
-      coords.style.textTransform = "uppercase";
-      coords.style.fontSize = Math.round(width * 0.01) + "px";
-      coords.style.letterSpacing = ".14em";
-      coords.style.color = getComputedStyle(els.posterCoords).color;
-      coords.style.fontWeight = "500";
-      coords.style.fontFamily = "Inter, sans-serif";
-
-      const credit = document.createElement("div");
-      credit.textContent = "map data © OpenStreetMap contributors";
-      credit.style.position = "absolute";
-      credit.style.left = "18px";
-      credit.style.bottom = "14px";
-      credit.style.fontSize = "10px";
-      credit.style.letterSpacing = ".05em";
-      credit.style.textTransform = "uppercase";
-      credit.style.color = palette.credit;
-      credit.style.fontFamily = "Inter, sans-serif";
-
-      copy.appendChild(title);
-      if(els.posterSubtitle.textContent.trim()) copy.appendChild(subtitle);
-      copy.appendChild(coords);
-
-      wrapper.appendChild(mapImg);
-      wrapper.appendChild(noise);
-      wrapper.appendChild(vignette);
-      wrapper.appendChild(copy);
-      wrapper.appendChild(credit);
-
-      return wrapper;
-    }
-
-    async function renderExportCanvas(){
-      const cfg = sizeMap[els.posterSizeInput.value];
-      const node = buildCaptureNode(cfg.exportW, cfg.exportH);
-      els.captureRoot.innerHTML = "";
-      els.captureRoot.appendChild(node);
-
-      const canvas = await html2canvas(node, {
-        backgroundColor: null,
-        scale: 1,
-        useCORS: true,
-        logging: false
-      });
-
-      els.captureRoot.innerHTML = "";
-      return canvas;
-    }
-
-    function fileSlug(){
-      return (els.titleInput.value.trim() || "studio83-mapa")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-    }
-
-    async function exportPNG(){
-      try{
-        setStatus("Renderujem PNG...");
-        els.exportPngBtn.disabled = true;
-        const canvas = await renderExportCanvas();
-        const link = document.createElement("a");
-        link.download = `${fileSlug()}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-        setStatus("PNG export gotov.");
-        if(isMobile()) closeDrawer();
-      }catch(err){
-        setStatus("PNG export nije uspio.", true);
-      }finally{
-        els.exportPngBtn.disabled = false;
-      }
-    }
-
-    async function exportPDF(){
-      try{
-        setStatus("Renderujem PDF...");
-        els.exportPdfBtn.disabled = true;
-        const canvas = await renderExportCanvas();
-        const img = canvas.toDataURL("image/png");
-
-        const { jsPDF } = window.jspdf;
-        const pdfFormat = sizeMap[els.posterSizeInput.value].pdf || "a4";
-        const pdf = new jsPDF({
-          orientation: "portrait",
-          unit: "px",
-          format: pdfFormat,
-          compress: true
-        });
-
-        const pageW = pdf.internal.pageSize.getWidth();
-        const pageH = pdf.internal.pageSize.getHeight();
-        pdf.addImage(img, "PNG", 0, 0, pageW, pageH, undefined, "FAST");
-        pdf.save(`${fileSlug()}.pdf`);
-        setStatus("PDF export gotov.");
-        if(isMobile()) closeDrawer();
-      }catch(err){
-        setStatus("PDF export nije uspio.", true);
-      }finally{
-        els.exportPdfBtn.disabled = false;
-      }
-    }
-
-    function populatePalettes(){
-      const keys = Object.keys(paletteMap);
-      els.paletteInput.innerHTML = keys.map(key => `<option value="${key}">${paletteMap[key].label}</option>`).join("");
-      els.paletteGrid.innerHTML = keys.map(key => {
-        const p = paletteMap[key];
-        const swatches = p.swatches.map(color => `<span style="background:${color}"></span>`).join("");
-        return `
-          <button class="palette-chip" type="button" data-palette="${key}">
-            <div class="palette-swatches">${swatches}</div>
-            <div class="palette-name">${p.label}</div>
-          </button>
-        `;
-      }).join("");
-    }
-
-    function bindLiveUpdates(){
-      els.tabButtons.forEach(btn => {
-        btn.addEventListener("click", () => activateTab(btn.dataset.tab));
-      });
-
-      els.titleInput.addEventListener("input", () => {
-        state.titleEdited = true;
-        els.posterTitle.textContent = els.titleInput.value.trim() || "CITY";
-      });
-
-      els.subtitleInput.addEventListener("input", () => {
-        state.subtitleEdited = true;
-        els.posterSubtitle.textContent = els.subtitleInput.value.trim() || "";
-      });
-
-      els.coordsInput.addEventListener("input", () => {
-        const manual = els.coordsInput.value.trim();
-        if(manual){
-          els.posterCoords.textContent = manual;
-        } else {
-          const c = state.map.getCenter();
-          els.posterCoords.textContent = formatCoord(c.lat, c.lng);
-        }
-      });
-
-      els.titleFontInput.addEventListener("change", syncTypography);
-      els.letterSpacingInput.addEventListener("input", syncTypography);
-
-      [
-        els.paletteInput,
-        els.roadWeightInput,
-        els.buildingOpacityInput,
-        els.terrainOpacityInput,
-        els.noiseInput,
-        els.toggleRoads,
-        els.toggleBuildings,
-        els.toggleWater,
-        els.toggleParks,
-        els.toggleTerrain,
-        els.toggleRail,
-        els.toggleBoundaries,
-        els.toggleLabels
-      ].forEach(el => el.addEventListener("input", applyThemeAndLayers));
-
-      els.paletteGrid.addEventListener("click", (e) => {
-        const chip = e.target.closest(".palette-chip");
-        if(!chip) return;
-        els.paletteInput.value = chip.dataset.palette;
-        applyThemeAndLayers();
-      });
-
-      els.posterSizeInput.addEventListener("change", applyPosterSize);
-
-      els.generateBtn.addEventListener("click", generateMap);
-      els.resetViewBtn.addEventListener("click", resetView);
-      els.fitBoundsBtn.addEventListener("click", fitBoundsToCity);
-      els.centerOnMapBtn.addEventListener("click", centerOnCurrentMap);
-      els.exportPngBtn.addEventListener("click", exportPNG);
-      els.exportPdfBtn.addEventListener("click", exportPDF);
-
-      els.locationInput.addEventListener("keydown", e => {
-        if(e.key === "Enter") generateMap();
-      });
-
-      els.openMenuBtn.addEventListener("click", openDrawer);
-      els.closeMenuBtn.addEventListener("click", closeDrawer);
-      els.drawerOverlay.addEventListener("click", closeDrawer);
-
-      window.addEventListener("resize", () => {
-        if(!isMobile()) closeDrawer();
-        if(state.map) state.map.resize();
-      });
-
-      document.addEventListener("keydown", e => {
-        if(e.key === "Escape") closeDrawer();
-      });
-    }
-
-    window.addEventListener("load", () => {
-      populatePalettes();
-      els.paletteInput.value = "paper";
-      activateTab("tab-location");
-      applyPosterSize();
-      syncTypography();
-      initMap();
-      updatePosterText(state.center[1], state.center[0]);
-      bindLiveUpdates();
-      applyThemeAndLayers();
-    });
-  </script>
+
+<body class="studio83-app bg-[#0b0b0d] h-screen flex flex-col md:flex-row overflow-hidden">
+
+	<nav id="mobile-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-[60] flex items-center justify-center gap-3 px-4 pb-5 pt-2">
+		<div class="flex-1 bg-white/95 backdrop-blur-xl rounded-[1.75rem] shadow-2xl shadow-slate-900/15 border border-white/60 flex items-center p-1.5 gap-1">
+			<button id="nav-btn-a" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 px-2 rounded-2xl transition-all duration-200 text-slate-400" data-target="mobile-sheet-a">
+				<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+				</svg>
+				<span class="mobile-nav-label text-[9px] font-black uppercase tracking-wider opacity-0 max-h-0 overflow-hidden transition-all duration-200">Lokacija</span>
+			</button>
+			<button id="nav-btn-b" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 px-2 rounded-2xl transition-all duration-200 text-slate-400" data-target="mobile-sheet-b">
+				<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+				</svg>
+				<span class="mobile-nav-label text-[9px] font-black uppercase tracking-wider opacity-0 max-h-0 overflow-hidden transition-all duration-200">Stil</span>
+			</button>
+			<button id="nav-btn-c" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 px-2 rounded-2xl transition-all duration-200 text-slate-400" data-target="mobile-sheet-c">
+				<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+				</svg>
+				<span class="mobile-nav-label text-[9px] font-black uppercase tracking-wider opacity-0 max-h-0 overflow-hidden transition-all duration-200">Format</span>
+			</button>
+			<button id="nav-btn-d" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 px-2 rounded-2xl transition-all duration-200 text-slate-400" data-target="credits-modal">
+				<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+				</svg>
+				<span class="mobile-nav-label text-[9px] font-black uppercase tracking-wider opacity-0 max-h-0 overflow-hidden transition-all duration-200">Info</span>
+			</button>
+		</div>
+		<button id="mobile-pdf-btn" aria-label="Preuzmi PDF" class="w-12 h-12 studio-secondary-btn rounded-full flex items-center justify-center flex-shrink-0 active:scale-95 transition-all duration-200"><span class="text-[10px] font-black">PDF</span></button>
+		<button id="mobile-export-btn" aria-label="Preuzmi PNG" class="w-14 h-14 bg-accent rounded-full shadow-2xl shadow-accent/40 flex items-center justify-center flex-shrink-0 active:scale-95 transition-all duration-200">
+			<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+			</svg>
+		</button>
+	</nav>
+
+	<aside class="hidden md:flex md:flex-col md:relative md:w-[380px] md:h-full bg-white border-r border-slate-100 overflow-hidden">
+		<div class="p-8 pb-6 flex items-center justify-between">
+			<button id="logo-btn" class="flex items-center space-x-3 hover:opacity-80 transition-opacity text-left outline-none group">
+				<div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center shadow-lg shadow-accent group-active:scale-95 transition-transform logo-pulse">
+					<svg class="w-6 h-6 text-white group-hover:hidden transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+					</svg>
+					<svg class="w-6 h-6 text-white hidden group-hover:block transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+				</div>
+				<div>
+					<h1 class="text-xl font-bold tracking-tight text-slate-900 leading-none">Studio83 <span class="text-accent">MAPS</span></h1>
+					<p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-1">Map Poster Studio</p>
+				</div>
+			</button>
+		</div>
+
+		<div class="flex-1 overflow-y-auto px-8 py-4 space-y-8 no-scrollbar">
+
+			<div id="section-location" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">1. Lokacija</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">01</span>
+				</div>
+
+				<div class="space-y-3">
+					<div class="relative group">
+						<span class="label-sm">Pretraži grad ili adresu</span>
+						<div class="relative">
+							<input type="text" id="search-input" placeholder="Podgorica, Kotor, adresa..." class="input-field pl-10 pr-10" />
+							<svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+							</svg>
+							<div id="search-loading" class="absolute right-3.5 top-1/2 -translate-y-1/2 hidden">
+								<svg class="animate-spin h-4 w-4 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+									<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+								</svg>
+							</div>
+						</div>
+						<div id="search-results" class="absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl z-[100] hidden max-h-64 overflow-y-auto p-2 backdrop-blur-xl"></div>
+					</div>
+
+					<div class="mt-2 text-left">
+						<span class="label-sm">Naziv grada na posteru</span>
+						<input type="text" id="city-override-input" placeholder="Ostavi prazno za automatski naziv" class="input-field mt-1" />
+					</div>
+
+					<div class="mt-2 text-left">
+						<div class="flex items-center justify-between mb-1">
+							<span class="label-sm mb-0">Naziv države na posteru</span>
+							<button id="toggle-country-btn" title="Prikaži ili sakrij državu na posteru" class="w-6 h-6 flex items-center justify-center rounded-md hover:bg-slate-100 transition-colors flex-shrink-0">
+								<svg id="country-eye-icon" class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+								</svg>
+							</button>
+						</div>
+						<input type="text" id="country-override-input" placeholder="Ostavi prazno za automatski naziv" class="input-field" />
+					</div>
+
+					<div class="mt-2">
+						<div class="flex items-center justify-between mb-1">
+							<span class="label-sm mb-0">Koordinate</span>
+							<button id="toggle-coords-btn" title="Prikaži ili sakrij koordinate na posteru" class="w-6 h-6 flex items-center justify-center rounded-md hover:bg-slate-100 transition-colors flex-shrink-0">
+								<svg id="coords-eye-icon" class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+								</svg>
+							</button>
+						</div>
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<span class="label-sm">Geografska širina</span>
+								<input type="text" id="lat-input" class="input-field text-center font-mono text-xs" />
+							</div>
+							<div>
+								<span class="label-sm">Geografska dužina</span>
+								<input type="text" id="lon-input" class="input-field text-center font-mono text-xs" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="section-marker" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">2. Markeri i ruta</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">02</span>
+				</div>
+
+				<div class="space-y-4">
+					<div class="flex items-center justify-between">
+						<span class="label-sm mb-0">Prikaži marker lokacije</span>
+						<label class="relative inline-flex items-center cursor-pointer">
+							<input type="checkbox" id="show-marker-toggle" class="sr-only peer">
+							<div class="toggle-pill"></div>
+						</label>
+					</div>
+
+					<div id="marker-settings" class="space-y-4 hidden">
+						<div class="grid grid-cols-2 gap-3">
+							<div>
+								<span class="label-sm">Ikona markera</span>
+								<div class="relative">
+									<select id="marker-icon-select" class="input-field appearance-none cursor-pointer text-xs py-2">
+										<option value="pin">Standardni pin</option>
+										<option value="circle">Moderna tačka</option>
+										<option value="heart">Heart</option>
+										<option value="star">Star</option>
+										<option value="none">Bez ikone</option>
+									</select>
+									<svg class="w-3 h-3 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+									</svg>
+								</div>
+							</div>
+							<div>
+								<div class="flex justify-between items-center mb-1.5">
+									<span class="label-sm mb-0">Size</span>
+									<span id="marker-size-value" class="text-[9px] font-bold text-accent">40px</span>
+								</div>
+								<input type="range" id="marker-size-slider" min="10" max="120" step="2" value="40" class="w-full h-1 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-accent" />
+							</div>
+						</div>
+
+						<div class="bg-slate-50/50 rounded-2xl border border-slate-100 p-2 space-y-2">
+							<div class="flex items-center justify-between px-1.5 py-1">
+								<div class="flex items-center space-x-2">
+									<div class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></div>
+									<span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider"><span id="marker-count" class="font-bold text-slate-900">1</span> aktivnih markera</span>
+								</div>
+								<button id="clear-markers-btn" class="text-[9px] font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-tight">Obriši sve</button>
+							</div>
+							<div class="grid grid-cols-2 gap-2">
+								<button id="add-marker-btn" class="py-2.5 px-3 rounded-xl bg-white border border-slate-200 shadow-sm text-[10px] font-bold text-slate-600 hover:border-blue-200 hover:bg-blue-50/30 hover:text-blue-600 transition-all flex items-center justify-center space-x-2">
+									<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+									</svg>
+									<span>Dodaj tačku</span>
+								</button>
+								<button id="remove-marker-btn" class="py-2.5 px-3 rounded-xl bg-white border border-slate-200 shadow-sm text-[10px] font-bold text-slate-600 hover:border-red-200 hover:bg-red-50/30 hover:text-red-600 transition-all flex items-center justify-center space-x-2">
+									<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4" />
+									</svg>
+									<span>Ukloni posljednju</span>
+								</button>
+							</div>
+						</div>
+
+						<p class="text-[9px] text-slate-400 italic text-center">Savjet: marker možeš direktno prevući na mapi.</p>
+					</div>
+
+					<div class="flex items-center justify-between">
+						<span class="label-sm mb-0">Ruta od A do B</span>
+						<label class="relative inline-flex items-center cursor-pointer">
+							<input type="checkbox" id="show-route-toggle" class="sr-only peer">
+							<div class="toggle-pill"></div>
+						</label>
+					</div>
+
+					<div id="route-settings" class="space-y-4 hidden">
+						<div class="bg-slate-50/50 rounded-2xl border border-slate-100 p-2 space-y-2">
+							<div class="flex items-center justify-between px-1.5 py-1">
+								<div class="flex items-center space-x-2">
+									<div class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
+									<span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider"><span id="route-count" class="font-bold text-slate-900">2</span> aktivnih tačaka</span>
+								</div>
+								<button id="reset-route-btn" class="text-[9px] font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-tight">Resetuj rutu</button>
+							</div>
+						</div>
+						<p class="text-[9px] text-slate-400 italic text-center">Savjet: prevuci tačke A i B. Prevuci liniju za međutačku, a dvoklikom ukloni tačku.</p>
+					</div>
+				</div>
+			</div>
+
+			<div id="section-style" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">3. Stil mape</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">03</span>
+				</div>
+
+				<div class="space-y-4">
+					<div class="bg-slate-100 p-1 rounded-xl flex">
+						<button id="mode-tile" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all">Standardna</button>
+						<button id="mode-artistic" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all">Umjetnička</button>
+					</div>
+
+					<div id="standard-theme-config" class="space-y-4">
+						<div>
+							<span class="label-sm">Tema boja</span>
+							<div class="relative">
+								<select id="theme-select" class="input-field appearance-none cursor-pointer">
+								</select>
+								<svg class="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+								</svg>
+							</div>
+						</div>
+
+						<div id="labels-control" class="flex items-center justify-between">
+							<span class="label-sm mb-0">Prikaži nazive mjesta</span>
+							<label class="relative inline-flex items-center cursor-pointer">
+								<input type="checkbox" id="show-labels-toggle" class="sr-only peer">
+								<div class="toggle-pill"></div>
+							</label>
+						</div>
+					</div>
+
+					<div id="artistic-theme-config" class="space-y-4 hidden">
+						<div>
+							<span class="label-sm">Umjetnička tema</span>
+							<div id="artistic-main-grid" class="grid grid-cols-2 gap-3 mt-2">
+							</div>
+						</div>
+						<p id="artistic-desc" class="text-[10px] text-slate-400 italic px-1"></p>
+					</div>
+				</div>
+			</div>
+
+			<div id="section-composition" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">4. Kompozicija</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">04</span>
+				</div>
+
+				<div class="space-y-4">
+					<div>
+						<div class="flex justify-between items-center mb-2">
+							<span class="label-sm mb-0">Zoom mape</span>
+							<span id="zoom-value" class="text-xs font-bold text-accent bg-accent-light px-2 py-0.5 rounded-full">12</span>
+						</div>
+						<input type="range" id="zoom-slider" min="1" max="18" step="1" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-accent" />
+					</div>
+
+					<div id="overlay-controls" class="mt-4 space-y-4">
+						<div>
+							<span class="label-sm">Efekat preko mape</span>
+							<div id="overlay-bg-group" class="grid grid-cols-3 gap-2 w-full mt-1">
+								<button type="button" data-bg="none" class="overlay-bg-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Bez</button>
+								<button type="button" data-bg="vignette" class="overlay-bg-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Vinjeta</button>
+								<button type="button" data-bg="radial" class="overlay-bg-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Radijalno</button>
+							</div>
+						</div>
+
+						<div>
+							<span class="label-sm">Veličina teksta</span>
+							<div id="overlay-size-group" class="grid grid-cols-4 gap-2 w-full mt-1">
+								<button type="button" data-size="none" class="overlay-size-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Bez</button>
+								<button type="button" data-size="small" class="overlay-size-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Malo</button>
+								<button type="button" data-size="medium" class="overlay-size-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Srednje</button>
+								<button type="button" data-size="large" class="overlay-size-btn px-3 py-2 text-[10px] font-bold rounded-lg bg-slate-50 border border-slate-100">Veliko</button>
+							</div>
+						</div>
+
+						<div id="overlay-position-group">
+							<div class="flex items-center justify-between">
+								<span class="label-sm mb-0">Pozicija teksta</span>
+								<button id="reset-overlay-pos-btn" title="Reset to default position" class="flex items-center space-x-1 px-2 py-1 text-[9px] font-bold text-slate-400 hover:text-accent hover:bg-accent-light rounded-lg transition-all">
+									<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+									</svg>
+									<span>Resetuj</span>
+								</button>
+							</div>
+							<div class="space-y-4 mt-1">
+								<div class="grid grid-cols-3 gap-1.5">
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.15" data-overlay-y="0.15" title="Gore lijevo">
+										<span class="pos-dot absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.5" data-overlay-y="0.15" title="Gore centar">
+										<span class="pos-dot absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.85" data-overlay-y="0.15" title="Gore desno">
+										<span class="pos-dot absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.15" data-overlay-y="0.5" title="Sredina lijevo">
+										<span class="pos-dot absolute top-1/2 left-1.5 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.5" data-overlay-y="0.5" title="Centar">
+										<span class="pos-dot absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.85" data-overlay-y="0.5" title="Sredina desno">
+										<span class="pos-dot absolute top-1/2 right-1.5 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.15" data-overlay-y="0.85" title="Dolje lijevo">
+										<span class="pos-dot absolute bottom-1.5 left-1.5 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.5" data-overlay-y="0.85" title="Dolje centar">
+										<span class="pos-dot absolute bottom-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+									<button class="overlay-pos-btn relative aspect-square rounded-lg border border-slate-100 bg-slate-50 hover:border-accent hover:bg-white transition-all" data-overlay-x="0.85" data-overlay-y="0.85" title="Dolje desno">
+										<span class="pos-dot absolute bottom-1.5 right-1.5 w-2 h-2 rounded-full bg-slate-300 transition-colors"></span>
+									</button>
+								</div>
+								<p class="text-[9px] text-slate-400 italic text-center">Savjet: pomjeri mapu ili tekst direktno na posteru.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="section-layers" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">5. Kamera i slojevi</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">05</span>
+				</div>
+
+				<div class="space-y-4">
+					<div class="grid grid-cols-2 gap-3">
+						<div>
+							<div class="flex justify-between items-center mb-2"><span class="label-sm mb-0">Rotacija</span><span id="bearing-value" class="control-value">0°</span></div>
+							<input type="range" id="bearing-slider" min="-180" max="180" step="1" value="0" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-accent" />
+						</div>
+						<div>
+							<div class="flex justify-between items-center mb-2"><span class="label-sm mb-0">Nagib</span><span id="pitch-value" class="control-value">0°</span></div>
+							<input type="range" id="pitch-slider" min="0" max="60" step="1" value="0" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-accent" />
+						</div>
+					</div>
+					<p class="text-[9px] text-slate-400 italic">Rotacija i nagib automatski uključuju umjetničku mapu.</p>
+					<div class="grid grid-cols-3 gap-2">
+						<button id="reset-view-btn" type="button" class="map-action-btn">Reset kadra</button>
+						<button id="fit-city-btn" type="button" class="map-action-btn">Prikaži cijeli grad</button>
+						<button id="center-marker-btn" type="button" class="map-action-btn">Marker u centru</button>
+					</div>
+
+					<div>
+						<span class="label-sm">Vidljivi slojevi</span>
+						<div class="layer-grid">
+							<label class="layer-toggle"><input id="layer-roads" type="checkbox" checked><span>Putevi</span></label>
+							<label class="layer-toggle"><input id="layer-buildings" type="checkbox" checked><span>Zgrade</span></label>
+							<label class="layer-toggle"><input id="layer-water" type="checkbox" checked><span>Voda</span></label>
+							<label class="layer-toggle"><input id="layer-parks" type="checkbox" checked><span>Zelenilo</span></label>
+							<label class="layer-toggle"><input id="layer-terrain" type="checkbox" checked><span>Teren</span></label>
+							<label class="layer-toggle"><input id="layer-rail" type="checkbox" checked><span>Pruga</span></label>
+							<label class="layer-toggle"><input id="layer-boundaries" type="checkbox" checked><span>Granice</span></label>
+						</div>
+					</div>
+
+					<div class="space-y-3">
+						<div><div class="flex justify-between items-center mb-2"><span class="label-sm mb-0">Jačina puteva</span><span id="road-weight-value" class="control-value">1.15x</span></div><input id="road-weight-slider" type="range" min="70" max="180" step="5" value="115" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-accent"></div>
+						<div><div class="flex justify-between items-center mb-2"><span class="label-sm mb-0">Vidljivost zgrada</span><span id="building-opacity-value" class="control-value">90%</span></div><input id="building-opacity-slider" type="range" min="0" max="100" step="5" value="90" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-accent"></div>
+						<div><div class="flex justify-between items-center mb-2"><span class="label-sm mb-0">Vidljivost terena</span><span id="terrain-opacity-value" class="control-value">82%</span></div><input id="terrain-opacity-slider" type="range" min="0" max="100" step="5" value="82" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-accent"></div>
+						<div><div class="flex justify-between items-center mb-2"><span class="label-sm mb-0">Papirna tekstura</span><span id="grain-opacity-value" class="control-value">10%</span></div><input id="grain-opacity-slider" type="range" min="0" max="30" step="1" value="10" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-accent"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="section-typography" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">6. Tipografija</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">06</span>
+				</div>
+
+				<div class="space-y-4">
+					<div>
+						<span class="label-sm">Font grada</span>
+						<div class="relative">
+							<select id="city-font-select" class="input-field appearance-none cursor-pointer">
+								<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+								<option value="'Caveat', cursive">Caveat</option>
+								<option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+								<option value="'Dancing Script', cursive">Dancing Script</option>
+								<option value="'Inter', sans-serif">Inter</option>
+								<option value="'Lora', serif">Lora</option>
+								<option value="'Merriweather', serif">Merriweather</option>
+								<option value="'Montserrat', sans-serif">Montserrat</option>
+								<option value="'Outfit', sans-serif">Outfit</option>
+								<option value="'Playfair Display', serif">Playfair Display</option>
+								<option value="'Raleway', sans-serif">Raleway</option>
+								<option value="sans-serif">Generic Sans-Serif</option>
+								<option value="serif">Generic Serif</option>
+							</select>
+							<svg class="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+							</svg>
+						</div>
+					</div>
+
+					<div>
+						<span class="label-sm">Font države</span>
+						<div class="relative">
+							<select id="country-font-select" class="input-field appearance-none cursor-pointer">
+								<option value="'Caveat', cursive">Caveat</option>
+								<option value="'Inter', sans-serif">Inter</option>
+								<option value="'Lora', serif">Lora</option>
+								<option value="'Montserrat', sans-serif">Montserrat</option>
+								<option value="'Open Sans', sans-serif">Open Sans</option>
+								<option value="'Outfit', sans-serif">Outfit</option>
+								<option value="'Playfair Display', serif">Playfair Display</option>
+								<option value="'Raleway', sans-serif">Raleway</option>
+								<option value="'Roboto', sans-serif">Roboto</option>
+								<option value="sans-serif">Generic Sans-Serif</option>
+							</select>
+							<svg class="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+							</svg>
+						</div>
+					</div>
+
+					<div>
+						<span class="label-sm">Font koordinata</span>
+						<div class="relative">
+							<select id="coords-font-select" class="input-field appearance-none cursor-pointer">
+								<option value="monospace">Monospace</option>
+								<option value="'Montserrat', sans-serif">Montserrat</option>
+								<option value="'Outfit', sans-serif">Outfit</option>
+								<option value="'Roboto', sans-serif">Roboto</option>
+								<option value="'Source Code Pro', monospace">Source Code Pro</option>
+								<option value="sans-serif">Generic Sans-Serif</option>
+							</select>
+							<svg class="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="section-mat" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">7. Okvir / Passepartout</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">07</span>
+				</div>
+
+				<div class="space-y-4">
+					<div class="flex items-center justify-between">
+						<span class="label-sm mb-0">Uključi okvir</span>
+						<label class="relative inline-flex items-center cursor-pointer">
+							<input type="checkbox" id="mat-toggle" class="sr-only peer">
+							<div class="toggle-pill"></div>
+						</label>
+					</div>
+
+					<div id="mat-settings" class="space-y-4 hidden">
+						<div>
+							<div class="flex justify-between items-center mb-2">
+								<span class="label-sm mb-0">Širina okvira</span>
+								<span id="mat-width-value" class="text-xs font-bold text-accent bg-accent-light px-2 py-0.5 rounded-full">40px</span>
+							</div>
+							<input type="range" id="mat-width-slider" min="10" max="200" step="5" value="40" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-accent" />
+						</div>
+
+						<div class="flex items-center justify-between">
+							<span class="label-sm mb-0">Prikaži unutrašnju liniju</span>
+							<label class="relative inline-flex items-center cursor-pointer">
+								<input type="checkbox" id="mat-border-toggle" class="sr-only peer" checked>
+								<div class="toggle-pill"></div>
+							</label>
+						</div>
+
+						<div id="mat-border-settings" class="space-y-4">
+							<div>
+								<div class="flex justify-between items-center mb-2">
+									<span class="label-sm mb-0">Debljina linije</span>
+									<span id="mat-border-width-value" class="text-xs font-bold text-accent bg-accent-light px-2 py-0.5 rounded-full">1px</span>
+								</div>
+								<input type="range" id="mat-border-width-slider" min="1" max="10" step="1" value="1" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-accent" />
+							</div>
+
+							<div>
+								<div class="flex justify-between items-center mb-2">
+									<span class="label-sm mb-0">Vidljivost linije</span>
+									<span id="mat-border-opacity-value" class="text-xs font-bold text-accent bg-accent-light px-2 py-0.5 rounded-full">100%</span>
+								</div>
+								<input type="range" id="mat-border-opacity-slider" min="0" max="1" step="0.1" value="1" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-accent" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="section-output" class="space-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-slate-900">8. Format izvoza</h3>
+					<span class="w-5 h-5 bg-slate-100 rounded-md flex items-center justify-center text-[10px] font-bold text-slate-400">08</span>
+				</div>
+
+				<div class="space-y-4">
+					<div class="grid grid-cols-2 gap-2">
+						<button class="preset-btn output-preset-card" data-width="1800" data-height="2400"><span>Poster 3:4</span><span>1800 × 2400</span></button>
+						<button class="preset-btn output-preset-card" data-width="2000" data-height="2500"><span>Poster 4:5</span><span>2000 × 2500</span></button>
+						<button class="preset-btn output-preset-card" data-width="2200" data-height="2200"><span>Kvadrat</span><span>2200 × 2200</span></button>
+						<button class="preset-btn output-preset-card" data-width="2480" data-height="3508"><span>A4 poster</span><span>2480 × 3508</span></button>
+						<button id="other-presets-btn" class="output-preset-card col-span-2"><span>Ostali formati</span><span>Društvene mreže, baneri, A3 i više</span></button>
+					</div>
+
+					<div class="flex items-center space-x-3 bg-slate-50 p-3 rounded-2xl border border-dotted border-slate-200">
+						<div class="flex-1">
+							<input type="number" id="custom-w" placeholder="Širina" min="100" max="50000" class="w-full bg-transparent border-none text-[11px] font-bold text-center focus:ring-0 p-0" />
+						</div>
+						<span class="text-slate-300 text-xs">×</span>
+						<div class="flex-1">
+							<input type="number" id="custom-h" placeholder="Visina" min="100" max="50000" class="w-full bg-transparent border-none text-[11px] font-bold text-center focus:ring-0 p-0" />
+						</div>
+					</div>
+
+					<button id="reset-settings-btn" class="hidden md:flex w-full py-3 px-4 rounded-xl border border-red-50 bg-red-50/50 text-[10px] font-bold uppercase tracking-wider text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all items-center justify-center space-x-2">
+						<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+						</svg>
+						<span>Vrati početna podešavanja</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="p-6 border-t border-slate-100 bg-slate-50/50 backdrop-blur-sm">
+			<div class="grid grid-cols-2 gap-3">
+			<button id="export-btn" class="w-full bg-slate-900 group-hover:bg-accent hover:bg-accent text-white font-bold py-4 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 group active:scale-[0.98]">
+				<svg class="w-5 h-5 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+				</svg>
+				<span>Preuzmi PNG</span>
+			</button>
+			<button id="export-pdf-btn" class="w-full studio-secondary-btn font-bold py-4 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 active:scale-[0.98]">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M7 3h7l3 3v15H7zM14 3v4h4M9 13h6M9 17h4"/></svg>
+				<span>Preuzmi PDF</span>
+			</button>
+			</div>
+			<div id="export-status" class="mt-4 flex items-center justify-center space-x-2 hidden">
+				<div class="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
+				<div class="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+				<div class="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+				<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Generisanje postera...</span>
+			</div>
+		</div>
+	</aside>
+
+	<main class="flex-1 overflow-hidden flex items-center justify-center p-4 pb-8 md:p-16 md:pb-16 relative bg-[#f0f4f8] perspective-lg">
+		<div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-40">
+			<div class="absolute -top-[15%] -left-[15%] w-[55%] h-[55%] bg-accent-soft blur-[100px] rounded-full"></div>
+			<div class="absolute -bottom-[15%] -right-[15%] w-[55%] h-[55%] bg-accent-soft blur-[100px] rounded-full"></div>
+			<div class="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-accent-soft blur-[90px] rounded-full opacity-50"></div>
+		</div>
+
+		<div id="poster-scaler" class="transition-all duration-500 ease-out origin-center">
+			<div id="poster-container" class="relative bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] ring-1 ring-black/5 overflow-hidden">
+				<div id="map-preview" class="absolute inset-0 z-0 grayscale-[0.2]"></div>
+				<div id="artistic-map" class="absolute inset-0 z-[1]"></div>
+				<div id="mat-border" class="absolute pointer-events-none z-[6]"></div>
+				<div id="vignette-overlay" class="absolute inset-0 z-[5] pointer-events-none"></div>
+				<div id="poster-noise" class="poster-noise absolute inset-0 z-[7] pointer-events-none"></div>
+
+				<div id="poster-overlay" class="absolute z-10 flex flex-col items-center justify-center text-center cursor-grab active:cursor-grabbing select-none">
+					<div class="overlay-bg absolute inset-0 -z-10"></div>
+
+					<h2 id="display-city" class="text-6xl md:text-8xl font-bold uppercase tracking-[0.25em] pl-[0.25em] text-slate-900 font-serif break-words w-full leading-tight">PODGORICA</h2>
+
+					<div id="poster-divider" class="h-px w-32 bg-slate-900 opacity-80"></div>
+					<p id="display-country" class="text-lg md:text-xl tracking-[0.4em] pl-[0.4em] font-bold text-slate-900 uppercase">MONTENEGRO</p>
+					<p id="display-coords" class="text-base md:text-lg tracking-[0.4em] pl-[0.4em] font-medium text-slate-600">42.4304° N / 19.2594° E</p>
+				</div>
+				<div id="poster-attribution" class="absolute bottom-4 right-4 z-20 text-[8px] opacity-30 pointer-events-none uppercase tracking-widest">© OpenStreetMap Contributors</div>
+			</div>
+		</div>
+
+		<div class="absolute bottom-8 right-8 flex flex-col items-end space-y-3 pointer-events-none">
+			<div class="glass-card px-4 py-2 rounded-full flex items-center space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+				<kbd class="text-[10px] bg-slate-800 text-white px-1.5 py-0.5 rounded font-bold uppercase">Shift</kbd>
+				<span class="text-[11px] font-semibold text-slate-500 italic">Skrol za zoom mape</span>
+			</div>
+		</div>
+	</main>
+
+	<div id="mobile-sheet-a" class="mobile-settings-modal md:hidden fixed inset-x-0 bottom-0 z-[80] pointer-events-none">
+		<div class="sheet-backdrop absolute inset-0 -top-[100vh] bg-slate-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+		<div class="sheet-panel relative bg-white rounded-t-[2rem] shadow-2xl translate-y-full transition-transform duration-300 max-h-[82vh] flex flex-col">
+			<div class="flex-shrink-0 px-6 pt-5 pb-4 flex items-center justify-between border-b border-slate-100">
+				<div>
+					<h2 class="text-lg font-bold text-slate-900">Lokacija i markeri</h2>
+					<p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">Lokacija · Markeri · Ruta</p>
+				</div>
+				<button class="close-sheet-btn w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors" data-sheet="mobile-sheet-a">
+					<svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			<div id="mobile-sheet-a-content" class="flex-1 overflow-y-auto px-6 py-5 space-y-6 no-scrollbar"></div>
+			<div class="flex-shrink-0 px-6 py-4 border-t border-slate-100">
+				<button id="mobile-reset-a-btn" class="w-full py-3 px-4 rounded-xl border border-red-50 bg-red-50/50 text-[10px] font-bold uppercase tracking-wider text-red-400 active:bg-red-500 active:text-white active:border-red-500 transition-all flex items-center justify-center space-x-2">
+					<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+					</svg>
+					<span>Vrati početna podešavanja</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="mobile-sheet-b" class="mobile-settings-modal md:hidden fixed inset-x-0 bottom-0 z-[80] pointer-events-none">
+		<div class="sheet-backdrop absolute inset-0 -top-[100vh] bg-slate-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+		<div class="sheet-panel relative bg-white rounded-t-[2rem] shadow-2xl translate-y-full transition-transform duration-300 max-h-[82vh] flex flex-col">
+			<div class="flex-shrink-0 px-6 pt-5 pb-4 flex items-center justify-between border-b border-slate-100">
+				<div>
+					<h2 class="text-lg font-bold text-slate-900">Stil mape</h2>
+					<p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">Stil · Kompozicija · Slojevi · Tipografija</p>
+				</div>
+				<button class="close-sheet-btn w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors" data-sheet="mobile-sheet-b">
+					<svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			<div id="mobile-sheet-b-content" class="flex-1 overflow-y-auto px-6 py-5 space-y-6 no-scrollbar"></div>
+			<div class="flex-shrink-0 px-6 py-4 border-t border-slate-100">
+				<button id="mobile-reset-b-btn" class="w-full py-3 px-4 rounded-xl border border-red-50 bg-red-50/50 text-[10px] font-bold uppercase tracking-wider text-red-400 active:bg-red-500 active:text-white active:border-red-500 transition-all flex items-center justify-center space-x-2">
+					<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+					</svg>
+					<span>Vrati početna podešavanja</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="mobile-sheet-c" class="mobile-settings-modal md:hidden fixed inset-x-0 bottom-0 z-[80] pointer-events-none">
+		<div class="sheet-backdrop absolute inset-0 -top-[100vh] bg-slate-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+		<div class="sheet-panel relative bg-white rounded-t-[2rem] shadow-2xl translate-y-full transition-transform duration-300 max-h-[82vh] flex flex-col">
+			<div class="flex-shrink-0 px-6 pt-5 pb-4 flex items-center justify-between border-b border-slate-100">
+				<div>
+					<h2 class="text-lg font-bold text-slate-900">Format i izvoz</h2>
+					<p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">Okvir · Format izvoza</p>
+				</div>
+				<button class="close-sheet-btn w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors" data-sheet="mobile-sheet-c">
+					<svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			<div id="mobile-sheet-c-content" class="flex-1 overflow-y-auto px-6 py-5 space-y-6 no-scrollbar"></div>
+			<div class="flex-shrink-0 px-6 py-4 border-t border-slate-100">
+				<button id="mobile-reset-c-btn" class="w-full py-3 px-4 rounded-xl border border-red-50 bg-red-50/50 text-[10px] font-bold uppercase tracking-wider text-red-400 active:bg-red-500 active:text-white active:border-red-500 transition-all flex items-center justify-center space-x-2">
+					<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+					</svg>
+					<span>Vrati početna podešavanja</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="credits-modal" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+		<div id="credits-overlay" class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+		<div class="relative w-[90%] max-w-md max-h-[85vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col scale-95 transition-transform duration-300">
+			<div class="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+				<div>
+					<h2 class="text-2xl font-bold text-slate-900">O aplikaciji</h2>
+					<p class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Studio83 Maps</p>
+				</div>
+				<button id="close-credits" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors">
+					<svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+
+			<div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+				<div class="flex flex-col items-center text-center space-y-4">
+					<div class="w-24 h-24 bg-accent rounded-3xl flex items-center justify-center shadow-xl shadow-accent/20 overflow-hidden ring-4 ring-slate-50">
+						<img src="./public/dimar-tarmizi.webp" alt="Dimar Tarmizi" class="w-full h-full object-cover" />
+					</div>
+					<div>
+						<h3 class="text-xl font-bold text-slate-900">Dimar Tarmizi</h3>
+						<p class="text-sm text-slate-500 font-medium italic">Full-stack Developer</p>
+					</div>
+
+					<div class="grid grid-cols-3 gap-3 w-full">
+						<a href="https://tarmizi.id" target="_blank" class="flex flex-col items-center p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-accent hover:bg-white transition-all group">
+							<svg class="w-5 h-5 text-slate-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+							</svg>
+							<span class="text-[9px] font-bold uppercase tracking-wider mt-2 text-slate-400 group-hover:text-slate-900 transition-colors">Website</span>
+						</a>
+						<a href="https://github.com/dimartarmizi" target="_blank" class="flex flex-col items-center p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-accent hover:bg-white transition-all group">
+							<svg class="w-5 h-5 text-slate-400 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+								<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+							</svg>
+							<span class="text-[9px] font-bold uppercase tracking-wider mt-2 text-slate-400 group-hover:text-slate-900 transition-colors">GitHub</span>
+						</a>
+						<a href="https://www.linkedin.com/in/dimartarmizi" target="_blank" class="flex flex-col items-center p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-accent hover:bg-white transition-all group">
+							<svg class="w-5 h-5 text-slate-400 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+								<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+							</svg>
+							<span class="text-[9px] font-bold uppercase tracking-wider mt-2 text-slate-400 group-hover:text-slate-900 transition-colors">LinkedIn</span>
+						</a>
+						<a href="https://www.instagram.com/dimartarmizi" target="_blank" class="flex flex-col items-center p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-accent hover:bg-white transition-all group">
+							<svg class="w-5 h-5 text-slate-400 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+								<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+							</svg>
+							<span class="text-[9px] font-bold uppercase tracking-wider mt-2 text-slate-400 group-hover:text-slate-900 transition-colors">Instagram</span>
+						</a>
+						<a href="https://www.facebook.com/dimartarmizi" target="_blank" class="flex flex-col items-center p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-accent hover:bg-white transition-all group">
+							<svg class="w-5 h-5 text-slate-400 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+								<path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+							</svg>
+							<span class="text-[9px] font-bold uppercase tracking-wider mt-2 text-slate-400 group-hover:text-slate-900 transition-colors">Facebook</span>
+						</a>
+						<a href="https://www.reddit.com/user/dimartarmizi" target="_blank" class="flex flex-col items-center p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-accent hover:bg-white transition-all group">
+							<svg class="w-5 h-5 text-slate-400 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 16 16">
+								<path d="M6.167 8a.83.83 0 0 0-.83.83c0 .459.372.84.83.831a.831.831 0 0 0 0-1.661m1.843 3.647c.315 0 1.403-.038 1.976-.611a.23.23 0 0 0 0-.306.213.213 0 0 0-.306 0c-.353.363-1.126.487-1.67.487-.545 0-1.308-.124-1.671-.487a.213.213 0 0 0-.306 0 .213.213 0 0 0 0 .306c.564.563 1.652.61 1.977.61zm.992-2.807c0 .458.373.83.831.83s.83-.381.83-.83a.831.831 0 0 0-1.66 0z" />
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.828-1.165c-.315 0-.602.124-.812.325-.801-.573-1.9-.945-3.121-.993l.534-2.501 1.738.372a.83.83 0 1 0 .83-.869.83.83 0 0 0-.744.468l-1.938-.41a.2.2 0 0 0-.153.028.2.2 0 0 0-.086.134l-.592 2.788c-1.24.038-2.358.41-3.17.992-.21-.2-.496-.324-.81-.324a1.163 1.163 0 0 0-.478 2.224q-.03.17-.029.353c0 1.795 2.091 3.256 4.669 3.256s4.668-1.451 4.668-3.256c0-.114-.01-.238-.029-.353.401-.181.688-.592.688-1.069 0-.65-.525-1.165-1.165-1.165" />
+							</svg>
+							<span class="text-[9px] font-bold uppercase tracking-wider mt-2 text-slate-400 group-hover:text-slate-900 transition-colors">Reddit</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="space-y-4">
+					<div class="flex items-center space-x-3">
+						<div class="w-1 h-5 bg-accent rounded-full"></div>
+						<h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Tehnička osnova</h3>
+					</div>
+					<div class="flex flex-wrap gap-2">
+						<span class="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600">html2canvas</span>
+						<span class="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600">leaflet</span>
+						<span class="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600">maplibre-gl</span>
+						<span class="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600">tailwindcss</span>
+						<span class="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600">vite</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-6 bg-slate-50 border-t border-slate-100 flex flex-col items-center space-y-3">
+				<a href="https://github.com/dimartarmizi/map-to-poster" target="_blank" class="flex items-center space-x-2 text-[10px] font-bold text-slate-400 hover:text-accent transition-colors uppercase tracking-[0.1em] group">
+					<svg class="w-4 h-4 text-slate-400 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+					</svg>
+					<span>Izvorni projekat</span>
+				</a>
+				<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest opacity-50">Prilagođeno za Studio83</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="artistic-modal" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+		<div id="artistic-modal-overlay" class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+		<div class="relative w-[90%] max-w-2xl max-h-[85vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col scale-95 transition-transform duration-300">
+			<div class="p-8 border-b border-slate-100 flex items-center justify-between">
+				<div>
+					<h2 class="text-2xl font-bold text-slate-900">Više umjetničkih tema</h2>
+					<p class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Izaberi dodatnu paletu</p>
+				</div>
+				<button id="close-artistic-modal" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors">
+					<svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+
+			<div id="artistic-modal-content" class="flex-1 overflow-y-auto p-8 space-y-4 no-scrollbar">
+			</div>
+
+			<div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
+				<button id="close-artistic-modal-btn" class="px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-accent transition-colors">Završi</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="custom-theme-modal" class="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+		<div id="custom-theme-modal-overlay" class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+		<div class="relative w-[92%] max-w-lg max-h-[90vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col scale-95 transition-transform duration-300">
+			<div class="p-6 pb-5 border-b border-slate-100 flex items-center justify-between shrink-0">
+				<div>
+					<h2 id="custom-theme-modal-title" class="text-xl font-bold text-slate-900">Kreiraj sopstvenu temu</h2>
+					<p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-0.5">Čuva se u browseru</p>
+				</div>
+				<button id="close-custom-theme-modal" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors">
+					<svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+
+			<div class="flex-1 overflow-y-auto p-6 space-y-5 no-scrollbar">
+				<div class="space-y-3">
+					<div>
+						<label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Naziv teme *</label>
+						<input id="ct-name" type="text" maxlength="40" placeholder="Moja tema" class="mt-1.5 w-full input-field" />
+					</div>
+					<div>
+						<label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Opis</label>
+						<input id="ct-desc" type="text" maxlength="80" placeholder="Opcioni kratki opis" class="mt-1.5 w-full input-field" />
+					</div>
+				</div>
+
+				<div class="space-y-2">
+					<p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pozadina i tekst</p>
+					<div class="grid grid-cols-2 gap-2">
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-bg" value="#0B0B16" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Pozadina</div>
+								<input type="text" id="ct-bg-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#0b0b16" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-text" value="#ffffff" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Text / Labels</div>
+								<input type="text" id="ct-text-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#ffffff" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="space-y-2">
+					<p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Područja mape</p>
+					<div class="grid grid-cols-2 gap-2">
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-water" value="#071020" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Voda</div>
+								<input type="text" id="ct-water-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#071020" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-parks" value="#111122" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Zelenilo</div>
+								<input type="text" id="ct-parks-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#111122" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="space-y-2">
+					<p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Putevi</p>
+					<div class="grid grid-cols-2 gap-2">
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-road-motorway" value="#FF2AE6" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Autoput</div>
+								<input type="text" id="ct-road-motorway-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#ff2ae6" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-road-primary" value="#00E5FF" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Glavni</div>
+								<input type="text" id="ct-road-primary-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#00e5ff" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-road-secondary" value="#00BEBE" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Sporedni</div>
+								<input type="text" id="ct-road-secondary-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#00bebe" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-road-tertiary" value="#008F95" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Tercijarni</div>
+								<input type="text" id="ct-road-tertiary-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#008f95" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-road-residential" value="#005E66" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Lokalni</div>
+								<input type="text" id="ct-road-residential-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#005e66" />
+							</div>
+						</div>
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-road-default" value="#008F95" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Ostalo</div>
+								<input type="text" id="ct-road-default-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#008f95" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="space-y-2">
+					<p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ruta i markeri</p>
+					<div class="grid grid-cols-2 gap-2">
+						<div class="flex items-center gap-2.5 p-3 bg-slate-50 rounded-xl">
+							<input type="color" id="ct-route" value="#EAB308" class="w-9 h-9 rounded-lg cursor-pointer shrink-0 border-0 p-0" />
+							<div class="min-w-0">
+								<div class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Boja rute</div>
+								<input type="text" id="ct-route-hex" maxlength="7" class="text-xs font-mono text-slate-700 bg-transparent border-0 outline-none w-full p-0" placeholder="#eab308" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-5 bg-slate-50 border-t border-slate-100 flex items-center shrink-0">
+				<button id="custom-theme-delete-btn" class="hidden px-4 py-2 text-sm font-semibold text-red-500 hover:bg-red-50 rounded-xl transition-colors">Obriši</button>
+				<div class="flex gap-2 ml-auto">
+					<button id="custom-theme-cancel-btn" class="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-200 rounded-xl transition-colors">Otkaži</button>
+					<button id="custom-theme-save-btn" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-accent transition-colors">Sačuvaj temu</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="presets-modal" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+		<div id="modal-overlay" class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+		<div class="relative w-[90%] max-w-2xl max-h-[85vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col scale-95 transition-transform duration-300">
+			<div class="p-8 border-b border-slate-100 flex items-center justify-between">
+				<div>
+					<h2 class="text-2xl font-bold text-slate-900">Formati izvoza</h2>
+					<p class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Izaberi dimenzije postera</p>
+				</div>
+				<button id="close-modal" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors">
+					<svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+
+			<div id="modal-content" class="flex-1 overflow-y-auto p-8 space-y-10 no-scrollbar">
+			</div>
+
+			<div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
+				<button id="close-modal-btn" class="px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-accent transition-colors">Završi</button>
+			</div>
+		</div>
+	</div>
+
+	<script type="module" src="./main.js"></script>
+	<script>
+		window.addEventListener('load', () => {
+			document.body.classList.add('loaded');
+		});
+
+		(function () {
+			const SHEET_SECTIONS = {
+				'mobile-sheet-a': ['section-location', 'section-marker'],
+				'mobile-sheet-b': ['section-style', 'section-composition', 'section-layers', 'section-typography'],
+				'mobile-sheet-c': ['section-mat', 'section-output'],
+			};
+
+			const placeholders = {};
+			let activeSheet = null;
+			let activeNavBtn = null;
+
+			function openSheet(sheetId) {
+				if (sheetId === 'credits-modal') {
+					document.getElementById('credits-modal').classList.add('show');
+					return;
+				}
+
+				const sheet = document.getElementById(sheetId);
+				if (!sheet) return;
+
+				const contentEl = document.getElementById(sheetId + '-content');
+				const sectionIds = SHEET_SECTIONS[sheetId];
+
+				sectionIds.forEach(function (id) {
+					const section = document.getElementById(id);
+					if (!section || !section.parentNode) return;
+					const ph = document.createElement('div');
+					ph.id = id + '-ph';
+					ph.style.display = 'none';
+					section.parentNode.insertBefore(ph, section);
+					placeholders[id] = ph;
+					contentEl.appendChild(section);
+				});
+
+				sheet.classList.add('show');
+				activeSheet = sheetId;
+			}
+
+			function closeSheet(sheetId) {
+				if (!sheetId || sheetId === 'credits-modal') return;
+
+				const sheet = document.getElementById(sheetId);
+				if (!sheet) return;
+
+				const sectionIds = SHEET_SECTIONS[sheetId];
+
+				sectionIds.forEach(function (id) {
+					const section = document.getElementById(id);
+					const ph = placeholders[id] || document.getElementById(id + '-ph');
+					if (!ph || !section) return;
+					ph.parentNode.insertBefore(section, ph);
+					ph.remove();
+					delete placeholders[id];
+				});
+
+				sheet.classList.remove('show');
+
+				if (activeNavBtn) {
+					activeNavBtn.classList.remove('active');
+					activeNavBtn = null;
+				}
+				activeSheet = null;
+			}
+
+			function closeActiveSheet() {
+				if (activeSheet) closeSheet(activeSheet);
+			}
+
+			document.querySelectorAll('.mobile-nav-btn').forEach(function (btn) {
+				btn.addEventListener('click', function () {
+					const target = btn.getAttribute('data-target');
+
+					if (activeSheet === target) {
+						closeActiveSheet();
+						btn.classList.remove('active');
+						return;
+					}
+
+					closeActiveSheet();
+
+					btn.classList.add('active');
+					activeNavBtn = btn;
+
+					openSheet(target);
+				});
+			});
+
+			document.addEventListener('click', function (e) {
+				const btn = e.target.closest('.close-sheet-btn');
+				if (btn) {
+					const sheetId = btn.getAttribute('data-sheet');
+					closeSheet(sheetId);
+					document.querySelectorAll('.mobile-nav-btn').forEach(function (nb) {
+						if (nb.getAttribute('data-target') === sheetId) nb.classList.remove('active');
+					});
+				}
+			});
+
+			document.querySelectorAll('.mobile-settings-modal .sheet-backdrop').forEach(function (bd) {
+				bd.addEventListener('click', function () {
+					const sheet = bd.closest('.mobile-settings-modal');
+					if (sheet) {
+						closeSheet(sheet.id);
+						document.querySelectorAll('.mobile-nav-btn').forEach(function (nb) {
+							if (nb.getAttribute('data-target') === sheet.id) nb.classList.remove('active');
+						});
+					}
+				});
+			});
+
+			document.getElementById('close-credits')?.addEventListener('click', function () {
+				document.querySelectorAll('.mobile-nav-btn').forEach(function (nb) {
+					nb.classList.remove('active');
+				});
+				activeNavBtn = null;
+			});
+			document.getElementById('credits-overlay')?.addEventListener('click', function () {
+				document.querySelectorAll('.mobile-nav-btn').forEach(function (nb) {
+					nb.classList.remove('active');
+				});
+				activeNavBtn = null;
+			});
+		})();
+	</script>
 </body>
+
 </html>
