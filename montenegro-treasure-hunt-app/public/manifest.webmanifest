@@ -1,0 +1,9 @@
+{
+  "name":"Montenegro Treasure Hunt",
+  "short_name":"MTH",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#061a20",
+  "theme_color":"#071c22",
+  "icons":[{"src":"/assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
