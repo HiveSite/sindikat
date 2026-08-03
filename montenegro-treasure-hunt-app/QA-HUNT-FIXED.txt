@@ -1,0 +1,24 @@
+QA REZULTAT - 03.08.2026
+
+PROŠLO
+- JavaScript syntax: app.js, admin.js, sw.js, hunt-api.mjs, core.mjs, seed-data.mjs
+- Sve lokalne HTML reference postoje
+- manifest.webmanifest je validan JSON
+- /hunt/api putanje se pravilno prevode u Netlify Function
+- Admin login sa env kredencijalima
+- Učitavanje 6 tura
+- Kreiranje vaučera
+- Blokiranje duplog externalRef
+- Aktivacija vaučera
+- Kreiranje sesije
+- Odbijanje GPS accuracy 300 m
+- Prihvatanje tačnog odgovora sa GPS accuracy 5 m
+- Odbijanje vaučera bez dozvoljene ture
+
+AUTOMATSKI TESTOVI
+3 prošla / 0 palo
+
+NIJE TERENSKI POTVRĐENO
+- fizička preciznost svake GPS koordinate
+- prohodnost svake rute
+- istorijska i lokacijska potvrda svakog pitanja na licu mjesta

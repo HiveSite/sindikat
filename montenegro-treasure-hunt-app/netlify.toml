@@ -1,0 +1,40 @@
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/hunt/api/*"
+  to = "/.netlify/functions/hunt-api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/hunt"
+  to = "/hunt/"
+  status = 301
+
+[[redirects]]
+  from = "/hunt/"
+  to = "/hunt/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/hunt/admin"
+  to = "/hunt/admin.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/hunt/admin/"
+  to = "/hunt/admin.html"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/hunt/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+    Permissions-Policy = "geolocation=(self), camera=(self)"
+    X-Frame-Options = "DENY"
