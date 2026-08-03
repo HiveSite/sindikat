@@ -8,7 +8,13 @@ const store={
   async delete(key){await blob.delete(key)},
   async list(prefix){const {blobs}=await blob.list({prefix});return blobs.map(x=>x.key)}
 };
-const api=createApi({store,env:process.env});
+
+// Netlify secret uses a neutral name; the existing core expects MTH_TOKEN_PEPPER.
+const runtimeEnv={
+  ...process.env,
+  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_SECRET||process.env.MTH_TOKEN_PEPPER||''
+};
+const api=createApi({store,env:runtimeEnv});
 
 export async function handler(event){
   let body={};
