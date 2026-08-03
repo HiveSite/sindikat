@@ -1,0 +1,16 @@
+[Unit]
+Description=Montenegro Treasure Hunt Node App
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/montenegro-treasure-hunt-app
+EnvironmentFile=/var/www/montenegro-treasure-hunt-app/.env
+ExecStart=/usr/bin/node /var/www/montenegro-treasure-hunt-app/server.mjs
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
