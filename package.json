@@ -7,14 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:netlify": "node montenegro-treasure-hunt-app/scripts/build-netlify.mjs",
+    "test:hunt": "node --test montenegro-treasure-hunt-app/tests/core.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "next": "^15.3.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "@netlify/blobs": "10.7.9"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Ilustracija grada cetinje">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#26313b"/><stop offset="1" stop-color="#07141b"/></linearGradient><radialGradient id="sun"><stop stop-color="#fff0b8"/><stop offset="1" stop-color="#d3aa59" stop-opacity=".1"/></radialGradient></defs>
+<rect width="480" height="360" fill="url(#sky)"/><circle cx="382" cy="74" r="58" fill="url(#sun)" opacity=".92"/><path d="M0 68c82 26 122-21 205 7s141-18 275 4" stroke="#fff" stroke-opacity=".08" stroke-width="2" fill="none"/>
+<path d="M0 360V270l73-34 62 26 52-51 63 35 60-82 67 71 103 35v90z" fill="#171f27"/><rect x="98" y="215" width="285" height="92" rx="4" fill="#eadfc7"/><rect x="122" y="185" width="237" height="31" fill="#c98c45"/><rect x="146" y="232" width="37" height="75" fill="#27313b"/><rect x="222" y="232" width="37" height="75" fill="#27313b"/><rect x="298" y="232" width="37" height="75" fill="#27313b"/><path d="M111 185h260l-35-35H147z" fill="#9b5735"/><circle cx="240" cy="163" r="12" fill="#d3aa59"/>
+<path d="M22 332h436" stroke="#d3aa59" stroke-opacity=".45"/>
+</svg>

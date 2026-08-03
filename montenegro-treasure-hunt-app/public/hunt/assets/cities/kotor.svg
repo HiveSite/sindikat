@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Ilustracija grada kotor">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b3140"/><stop offset="1" stop-color="#07141b"/></linearGradient><radialGradient id="sun"><stop stop-color="#fff0b8"/><stop offset="1" stop-color="#d9ad58" stop-opacity=".1"/></radialGradient></defs>
+<rect width="480" height="360" fill="url(#sky)"/><circle cx="382" cy="74" r="58" fill="url(#sun)" opacity=".92"/><path d="M0 68c82 26 122-21 205 7s141-18 275 4" stroke="#fff" stroke-opacity=".08" stroke-width="2" fill="none"/>
+<path d="M0 360V250l95-45 50 28 62-75 55 54 65-115 84 137 67-36 82 47v115z" fill="#0a202b"/><path d="M0 312c80-30 145-18 216 2s156 32 264-4v50H0z" fill="#176579" opacity=".55"/><path d="M160 267h150v25H160z" fill="#d9ad58" opacity=".75"/><path d="M207 201h54v66h-54z" fill="#f4e7c9"/><path d="M220 171h28v30h-28z" fill="#d9ad58"/>
+<path d="M22 332h436" stroke="#d9ad58" stroke-opacity=".45"/>
+</svg>

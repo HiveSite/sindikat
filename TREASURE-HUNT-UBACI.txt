@@ -1,0 +1,26 @@
+OVO JE CIJELI REPO, VEĆ SLOŽEN.
+
+1. Raspakuj ZIP.
+2. U GitHub repo ubaci sadržaj foldera "sindikat-main" ili zamijeni postojeće fajlove ovom verzijom.
+3. Ne premještaj ništa iz foldera montenegro-treasure-hunt-app.
+4. Root netlify.toml i root package.json moraju ostati u glavnom nivou repoa.
+5. Commit/push na main.
+
+Netlify mora prikazati:
+- build command: npm run build:netlify
+- publish directory: dist
+- deployed function: hunt-api
+- processed redirect rules
+
+Linkovi:
+https://sindikatevents.me/hunt/
+https://sindikatevents.me/hunt/admin
+
+Test vaučer:
+MTH-TEST-ALL
+
+Obavezne Netlify varijable:
+MTH_TOKEN_PEPPER
+MTH_ADMIN_EMAIL
+MTH_ADMIN_PASSWORD
+MTH_ENABLE_TEST_VOUCHER=true

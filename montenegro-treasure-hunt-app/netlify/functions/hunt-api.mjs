@@ -1,7 +1,7 @@
 import { getStore } from '@netlify/blobs';
 import { createApi, normalizeApiPath } from './_hunt/core.mjs';
 
-const blob=getStore({name:'montenegro-treasure-hunt',consistency:'strong'});
+const blob=getStore('montenegro-treasure-hunt',{consistency:'strong'});
 const store={
   async get(key){return await blob.get(key,{type:'json'})},
   async set(key,value){await blob.setJSON(key,value)},

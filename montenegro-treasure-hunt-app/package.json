@@ -1,29 +1,10 @@
 {
-  "name": "imaposlame-next",
-  "version": "1.0.0",
+  "name": "montenegro-treasure-hunt-app",
+  "version": "1.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "test:hunt": "node --test tests/core.test.mjs"
-  },
-  "dependencies": {
-    "@netlify/blobs": "latest",
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.49.4",
-    "next": "^15.3.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.3",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "eslint": "^9.25.1",
-    "eslint-config-next": "^15.3.1",
-    "typescript": "^5.8.3"
+    "sync": "node scripts/sync-public.mjs",
+    "test": "node --test tests/core.test.mjs"
   }
 }
