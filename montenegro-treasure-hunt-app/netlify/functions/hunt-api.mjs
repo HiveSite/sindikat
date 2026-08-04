@@ -9,10 +9,10 @@ const store={
   async list(prefix){const {blobs}=await blob.list({prefix});return blobs.map(x=>x.key)}
 };
 
-// Netlify secret uses a neutral name; the existing core expects MTH_TOKEN_PEPPER.
 const runtimeEnv={
   ...process.env,
-  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_SECRET||process.env.MTH_TOKEN_PEPPER||''
+  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_SECRET||process.env.MTH_TOKEN_PEPPER||'',
+  MTH_ADMIN_PASSWORD:process.env.MTH_ADMIN_KEY||process.env.MTH_ADMIN_PASSWORD||''
 };
 const api=createApi({store,env:runtimeEnv});
 
