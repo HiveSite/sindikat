@@ -1,0 +1,96 @@
+/* Admin UX polish v14 */
+
+:root { --admin-gutter: clamp(12px, 2.4vw, 28px); }
+
+::selection { background: rgba(240, 212, 146, 0.28); color: #fffaf0; }
+:where(a, button, input, select, textarea):focus-visible { outline: 3px solid rgba(240, 212, 146, 0.92); outline-offset: 3px; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.sidebar { width: 276px; padding: 20px 15px; }
+.main { margin-left: 276px; }
+.nav button { min-height: 45px; font-weight: 760; transition: background .18s ease, color .18s ease, transform .18s ease; }
+.nav button:hover { transform: translateX(2px); }
+.header { min-height: 70px; padding-inline: max(var(--admin-gutter), calc((100vw - 1220px) / 2)); }
+.content { width: min(calc(100% - (var(--admin-gutter) * 2)), 1220px); padding: 26px 0 86px; }
+
+.toolbar { padding: 4px 0; }
+.actions { row-gap: 9px; }
+.btn { min-height: 46px; transition: transform .18s ease, filter .18s ease, opacity .18s ease; }
+.btn:hover { transform: translateY(-1px); filter: brightness(1.04); }
+.btn:active { transform: none; }
+
+.stat, .panel, .checkpoint { transition: border-color .18s ease, transform .18s ease, background .18s ease; }
+.stat:hover, .panel:hover, .checkpoint:hover { border-color: rgba(240, 212, 146, .28); }
+.stat { min-height: 128px; display: flex; flex-direction: column; justify-content: center; }
+.panel { border-radius: 24px; }
+.panel h3 { margin-bottom: 16px; }
+
+.editor-tabs {
+  position: sticky;
+  top: 70px;
+  z-index: 12;
+  margin: -4px -4px 14px;
+  padding: 8px 4px 10px;
+  background: linear-gradient(180deg, rgba(7, 23, 29, .98), rgba(7, 23, 29, .88), transparent);
+  scrollbar-width: none;
+}
+.editor-tabs::-webkit-scrollbar { display: none; }
+.editor-tabs button { min-height: 42px; }
+
+.table-wrap { box-shadow: 0 16px 42px rgba(0, 0, 0, .18); }
+table { min-width: 820px; }
+th { top: 0; z-index: 2; }
+tbody tr { transition: background .15s ease; }
+tbody tr:hover { background: rgba(240, 212, 146, .055); }
+th:first-child, td:first-child { position: sticky; left: 0; z-index: 1; background: #0a2933; }
+th:first-child { z-index: 3; background: #0d313c; }
+
+.checkpoint-head h4, td, .badge, .header h2 { overflow-wrap: anywhere; }
+.toast { box-shadow: 0 20px 60px rgba(0, 0, 0, .35); }
+
+@media (max-width: 840px) {
+  .sidebar { width: min(88vw, 310px); }
+  .main { margin-left: 0; }
+  .header { min-height: 62px; }
+  .content { width: calc(100% - 20px); padding-top: 18px; }
+  .editor-tabs { top: 62px; }
+}
+
+@media (max-width: 680px) {
+  .stats {
+    display: grid !important;
+    grid-template-columns: none !important;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82vw, 300px);
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 3px 1px 14px;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .stats::-webkit-scrollbar { display: none; }
+  .stat { scroll-snap-align: start; min-height: 118px; }
+  .toolbar .actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+  }
+  .toolbar .actions::-webkit-scrollbar { display: none; }
+  .toolbar .actions .btn { flex: 0 0 auto; min-width: 150px; }
+  .panel { padding: 17px; }
+  .grid2, .grid3 { gap: 11px; }
+  .table-wrap { margin-inline: -2px; width: calc(100% + 4px); }
+  .checkpoint { padding: 16px; }
+}
+
+@media (max-width: 420px) {
+  .content { width: calc(100% - 14px); }
+  .stats { grid-auto-columns: 86vw; }
+  .header h2 { font-size: 1.24rem; }
+  .header .eyebrow { display: none; }
+  .toolbar .actions .btn { min-width: 138px; }
+}
