@@ -1,4 +1,4 @@
-/* Montenegro Treasure Hunt — complete responsive layer v11 */
+/* Montenegro Treasure Hunt — complete responsive layer v11.1 */
 
 :where(html,body){width:100%;max-width:100%;overflow-x:hidden}
 :where(body,#app,#admin-app,.app-shell,.screen,.admin-shell,.main,.content,.admin-content){min-width:0;max-width:100%}
