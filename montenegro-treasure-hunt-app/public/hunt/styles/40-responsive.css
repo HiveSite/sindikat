@@ -1,0 +1,84 @@
+/* Tablet */
+@media (max-width: 1024px) {
+  .program-grid, .tour-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .preview-head { grid-template-columns: 1fr; gap: 14px; }
+  .preview-head p { max-width: 720px; }
+  .landing-body { grid-template-columns: 1fr; }
+  .landing-guide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .guide-card { padding: 19px; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Phones */
+@media (max-width: 700px) {
+  :root { --gutter: 12px; --radius-md: 19px; --radius-lg: 24px; }
+  .landing-hero { min-height: 650px; background-position: 62% center; }
+  .landing-hero-inner { padding-block: 76px 72px; }
+  .brand { margin-bottom: 30px; align-items: flex-start; }
+  .landing-title { font-size: clamp(3rem, 15vw, 4.8rem); }
+  .landing-copy { font-size: 1rem; }
+  .hero-pills span { font-size: 0.76rem; }
+  .hero-actions { display: grid; grid-template-columns: 1fr; }
+  .hero-actions a { width: 100%; }
+  .program-preview { margin-top: 0; padding-top: 24px; }
+  .program-grid, .tour-list, .landing-guide, .detail-side, .evidence-grid, .bonus-grid, .metrics { grid-template-columns: 1fr; }
+  .program-card { min-height: 315px; border-radius: 22px; }
+  .program-content { padding: 18px; }
+  .program-card h3 { font-size: clamp(2rem, 11vw, 3rem); }
+  .program-tag { max-width: 66%; font-size: 0.66rem; }
+  .landing-body { padding-top: 18px; }
+  .voucher-panel { padding: 24px 18px; }
+  .test-box { align-items: stretch; flex-direction: column; }
+  .test-box button { width: 100%; }
+  .tour-card { min-height: 380px; border-radius: 22px; }
+  .tour-card-content { padding: 19px; }
+  .voucher-summary { align-items: flex-start; padding-inline: 14px; }
+  .voucher-summary .eyebrow { display: none; }
+  .topbar { padding: 10px 12px; }
+  .topbar .eyebrow { display: none; }
+  .detail-hero { min-height: 500px; padding-inline: 18px; background-position: center; }
+  .detail-hero h1 { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+  .detail-grid { padding-top: 18px; }
+  .facts span { font-size: 0.74rem; }
+  .route-map { min-height: 270px; border-radius: 20px; }
+  .map-legend { display: none; }
+  .segmented, .game-actions { grid-template-columns: 1fr; }
+  .game-head-top { grid-template-columns: auto minmax(0, 1fr); gap: 9px; }
+  .game-stat { grid-column: 2; text-align: left; }
+  .game-main { padding-top: 12px; }
+  .game-main > .route-map { height: 42vh !important; min-height: 280px; }
+  .distance-card { grid-template-columns: 1fr; gap: 8px; }
+  .distance-number { font-size: 3rem; }
+  .test-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tabs { left: 6px; right: 6px; bottom: max(7px, env(safe-area-inset-bottom)); width: auto; transform: none; border-radius: 18px; }
+  .tab { border-radius: 12px; font-size: 0.66rem; }
+  .sheet { padding-inline: 16px; }
+  .row .btn { flex: 1 1 140px; }
+  .sticky { padding-inline: 12px; }
+}
+
+@media (max-width: 420px) {
+  .landing-hero { min-height: 620px; }
+  .logo { flex-basis: 48px; width: 48px; height: 48px; border-radius: 16px; font-size: 24px; }
+  .landing-title { font-size: clamp(2.75rem, 15vw, 4rem); }
+  .hero-pills span { flex: 1 1 calc(50% - 6px); text-align: center; }
+  .program-meta span, .tour-meta span { font-size: 0.67rem; }
+  .program-card { min-height: 295px; }
+  .tour-card { min-height: 350px; }
+  .voucher-panel, .guide-card, .card, .mission, .distance-card { padding: 17px; }
+  .btn { width: 100%; }
+  .topbar .back, .game-head .back { flex-basis: 42px; width: 42px; height: 42px; }
+  .game-head-title b { font-size: 0.92rem; }
+  .game-stat { font-size: 0.68rem; }
+  .tab span { font-size: 1.08rem; }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .landing-hero { min-height: 100svh; }
+  .tabs { position: static; margin: 10px auto; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
