@@ -1,0 +1,257 @@
+/* UX polish v14 - horizontal card carousels, tighter hierarchy and safer mobile behavior */
+
+:root {
+  --container: 1320px;
+  --tap: 48px;
+}
+
+::selection { background: rgba(240, 212, 146, 0.28); color: #fffaf0; }
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(240, 212, 146, 0.92);
+  outline-offset: 3px;
+}
+
+button, a { -webkit-tap-highlight-color: transparent; }
+.btn, .segment, .choice, .tab, .back { touch-action: manipulation; }
+
+.landing-scroll { overflow: clip; }
+.landing-hero { min-height: clamp(650px, 78vh, 820px); }
+.landing-hero-inner { padding-bottom: clamp(86px, 9vw, 124px); }
+.landing-title { max-width: 940px; }
+.landing-copy { max-width: 670px; }
+
+.program-preview {
+  margin-top: -58px;
+  padding: 30px 0 34px;
+  border-radius: 34px 34px 0 0;
+  background: linear-gradient(180deg, rgba(7, 23, 29, 0.88), rgba(7, 23, 29, 0));
+}
+
+.preview-head { margin-bottom: 18px; }
+.preview-head h2 { max-width: 820px; }
+
+/* The main programs and unlocked tours are true swipeable carousels. */
+.program-grid,
+.tour-list {
+  display: grid !important;
+  grid-template-columns: none !important;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(310px, 31vw, 400px);
+  gap: 18px;
+  width: 100%;
+  max-width: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 5px 4px 20px;
+  margin: 0;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  scroll-behavior: smooth;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(240, 212, 146, 0.62) rgba(255, 255, 255, 0.07);
+  cursor: grab;
+}
+
+.program-grid:active,
+.tour-list:active { cursor: grabbing; }
+
+.program-grid::-webkit-scrollbar,
+.tour-list::-webkit-scrollbar { height: 8px; }
+.program-grid::-webkit-scrollbar-track,
+.tour-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.06); border-radius: 99px; }
+.program-grid::-webkit-scrollbar-thumb,
+.tour-list::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #b77d2e, var(--accent-2)); border-radius: 99px; }
+
+.program-card,
+.tour-card {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.program-card {
+  min-height: clamp(390px, 43vw, 500px);
+  border-radius: 30px;
+}
+.program-content { padding: 24px; }
+.program-card h3 { font-size: clamp(2.35rem, 4vw, 3.55rem); }
+.program-card p,
+.tour-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.program-card:hover,
+.tour-card:hover { border-color: rgba(240, 212, 146, 0.58); }
+
+.program-preview::after,
+.tours-intro::after {
+  content: "Prevucite kartice ili skrolujte →";
+  display: block;
+  margin-top: 10px;
+  color: rgba(168, 187, 192, 0.86);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+
+.landing-body {
+  padding-top: 30px;
+  gap: 28px;
+}
+.voucher-panel {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+}
+.guide-card { transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+.guide-card:hover { transform: translateY(-2px); border-color: rgba(240, 212, 146, 0.3); background: linear-gradient(145deg, rgba(22, 68, 80, 0.94), rgba(5, 22, 29, 0.92)); }
+
+.voucher-summary { min-height: 68px; }
+.tours-intro { padding-bottom: 16px; }
+.tour-list {
+  padding-bottom: 26px;
+  grid-auto-columns: clamp(320px, 31vw, 405px);
+}
+.tour-card { min-height: clamp(420px, 48vw, 520px); }
+.tour-card-content { padding: 26px; }
+.tour-card h2 { font-size: clamp(2.4rem, 4vw, 3.6rem); }
+
+.topbar { min-height: 70px; }
+.topbar h1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.back { min-height: 44px; }
+.detail-grid { gap: 26px; }
+.detail-main, .detail-side { gap: 20px; }
+.detail-side { position: sticky; top: 88px; }
+.card { overflow-wrap: anywhere; }
+
+.sticky {
+  padding-top: 20px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+.sticky .btn { max-width: 760px; margin-inline: auto; }
+
+.game-main { padding-top: 24px; }
+.mission, .distance-card, .evidence, .bonus, .beat { box-shadow: 0 15px 36px rgba(0, 0, 0, 0.16); }
+.tabs { padding-bottom: max(7px, env(safe-area-inset-bottom)); }
+.tab { min-height: 52px; }
+.sheet { overscroll-behavior: contain; }
+
+@media (hover: none) {
+  .program-card:hover .program-media,
+  .tour-card:hover .tour-card-image,
+  .program-card:hover,
+  .tour-card:hover,
+  .guide-card:hover { transform: none; }
+}
+
+@media (max-width: 1024px) {
+  .program-grid,
+  .tour-list { grid-auto-columns: clamp(300px, 43vw, 380px); }
+  .voucher-panel { position: static; }
+  .detail-side { position: static; }
+}
+
+@media (max-width: 700px) {
+  :root { --gutter: 14px; }
+  body { background: linear-gradient(180deg, #031016, #07171d 42%); }
+  .landing-hero {
+    min-height: 610px;
+    background-position: 66% center;
+  }
+  .landing-hero-inner { padding: 68px 0 82px; }
+  .landing-title { font-size: clamp(2.85rem, 14vw, 4.2rem); }
+  .landing-copy { line-height: 1.58; }
+  .hero-pills {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero-pills span { text-align: center; }
+  .program-preview {
+    width: 100%;
+    margin-top: -24px;
+    padding: 28px 0 28px;
+    border-radius: 28px 28px 0 0;
+  }
+  .preview-head,
+  .program-grid,
+  .program-preview::after {
+    width: calc(100% - 28px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .preview-head h2 { font-size: clamp(2.15rem, 11vw, 3.25rem); }
+  .program-grid,
+  .tour-list {
+    grid-template-columns: none !important;
+    grid-auto-columns: min(84vw, 342px) !important;
+    gap: 13px;
+    padding: 4px 2px 16px;
+    scrollbar-width: none;
+  }
+  .program-grid::-webkit-scrollbar,
+  .tour-list::-webkit-scrollbar { display: none; }
+  .program-card { min-height: 390px; border-radius: 24px; }
+  .program-content { padding: 19px; }
+  .program-card h3 { font-size: clamp(2.2rem, 12vw, 3.1rem); }
+  .program-preview::after,
+  .tours-intro::after {
+    content: "Prevucite za sljedeću karticu →";
+    margin-top: 8px;
+    text-align: left;
+  }
+  .landing-body { padding-top: 12px; }
+  .landing-guide { gap: 12px; }
+  .guide-card { padding: 20px; }
+  .voucher-panel { border-radius: 24px; }
+
+  .voucher-summary {
+    min-height: 62px;
+    align-items: center;
+    padding: 11px 14px;
+  }
+  .voucher-summary b { font-size: 0.86rem; }
+  .tours-intro { padding: 32px 0 12px; }
+  .tours-intro h1 { font-size: clamp(2.45rem, 13vw, 3.8rem); }
+  .tour-list {
+    width: calc(100% - 28px);
+    padding-bottom: 20px;
+  }
+  .tour-card { min-height: 420px; border-radius: 24px; }
+  .tour-card-content { padding: 20px; }
+  .tour-card h2 { font-size: clamp(2.35rem, 13vw, 3.3rem); }
+
+  .topbar { min-height: 60px; }
+  .detail-hero { min-height: 460px; }
+  .detail-grid { gap: 14px; padding-bottom: 68px; }
+  .detail-main, .detail-side { gap: 14px; }
+  .facts { gap: 7px; }
+  .facts span { padding: 8px 10px; }
+  .sticky { padding: 18px 14px max(12px, env(safe-area-inset-bottom)); }
+
+  .game-main { padding-bottom: 124px; }
+  .tabs { box-shadow: 0 15px 45px rgba(0, 0, 0, 0.58); }
+  .tab { min-height: 50px; }
+  .sheet { border-radius: 24px 24px 0 0; }
+}
+
+@media (max-width: 390px) {
+  .landing-hero { min-height: 585px; }
+  .brand strong { font-size: 0.92rem; }
+  .program-grid,
+  .tour-list { grid-auto-columns: min(86vw, 320px) !important; }
+  .program-card { min-height: 370px; }
+  .tour-card { min-height: 400px; }
+  .program-meta span,
+  .tour-meta span { font-size: 0.65rem; }
+}
