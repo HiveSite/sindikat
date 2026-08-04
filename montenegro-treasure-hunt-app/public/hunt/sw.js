@@ -1,5 +1,5 @@
 const BASE='/hunt';
-const CACHE='mth-hunt-v15-clean-rebuild-1';
+const CACHE='mth-hunt-v15-clean-rebuild-2';
 const ASSETS=[
   `${BASE}/`,
   `${BASE}/styles.css?v=15`,
