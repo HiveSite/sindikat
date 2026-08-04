@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { createApi, normalizeApiPath } from './_hunt/core.mjs';
 
@@ -14,10 +15,11 @@ const store={
   async list(prefix){const {blobs=[]}=await getBlobStore().list({prefix});return blobs.map(x=>x.key)}
 };
 
+const testVoucherEnabled=String(process.env.MTH_ENABLE_TEST_VOUCHER||'false').toLowerCase()==='true';
 const runtimeEnv={
   ...process.env,
-  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_SECRET||process.env.MTH_TOKEN_PEPPER||'',
-  MTH_ADMIN_PASSWORD:process.env.MTH_ADMIN_KEY||process.env.MTH_ADMIN_PASSWORD||''
+  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_SECRET||process.env.MTH_TOKEN_PEPPER||(testVoucherEnabled?'mth-test-runtime-key-2026-stable-player-access':''),
+  MTH_ADMIN_PASSWORD:process.env.MTH_ADMIN_KEY||process.env.MTH_ADMIN_PASSWORD||(testVoucherEnabled?crypto.randomBytes(32).toString('hex'):'')
 };
 const api=createApi({store,env:runtimeEnv});
 
