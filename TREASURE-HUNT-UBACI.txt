@@ -1,26 +1,32 @@
-OVO JE CIJELI REPO, VEĆ SLOŽEN.
+OVO JE CIJELI REPO, VEĆ SLOŽEN (očišćena verzija).
 
 1. Raspakuj ZIP.
-2. U GitHub repo ubaci sadržaj foldera "sindikat-main" ili zamijeni postojeće fajlove ovom verzijom.
-3. Ne premještaj ništa iz foldera montenegro-treasure-hunt-app.
-4. Root netlify.toml i root package.json moraju ostati u glavnom nivou repoa.
-5. Commit/push na main.
+2. Sadržaj foldera "sindikat-main" ubaci u GitHub repo (zamijeni postojeće fajlove).
+3. Root netlify.toml i root package.json ostaju u glavnom nivou repoa.
+4. Commit/push na main. Netlify sam pokreće deploy.
 
 Netlify mora prikazati:
 - build command: npm run build:netlify
 - publish directory: dist
-- deployed function: hunt-api
+- deployed function: hunt-api-v2
 - processed redirect rules
 
 Linkovi:
 https://sindikatevents.me/hunt/
 https://sindikatevents.me/hunt/admin
+https://sindikatevents.me/hunt/api/health
 
-Test vaučer:
-MTH-TEST-ALL
+Test vaučer (samo ako je uključen): MTH-TEST-ALL
 
 Obavezne Netlify varijable:
 MTH_TOKEN_PEPPER
 MTH_ADMIN_EMAIL
 MTH_ADMIN_PASSWORD
-MTH_ENABLE_TEST_VOUCHER=true
+MTH_ENABLE_TEST_VOUCHER=true   (na produkciji držati false ili obrisati)
+
+ŠTA JE PROMIJENJENO U OVOJ VERZIJI:
+- uklonjen mrtvi Node+SQLite+Docker stack (server.mjs, src/, content/tours.json, Dockerfile, docker-compose, deploy/)
+- uklonjena duplirana Netlify funkcija hunt-api.mjs i app-level netlify.toml (živi je root netlify.toml → hunt-api-v2)
+- uklonjeni zastarjeli duplikati u public/ (deploy koristi samo public/hunt/)
+- uklonjene legacy skripte i testovi vezani za stari server
+- ispravljen domen u dokumentaciji: svuda sada stoji tačan sindikatevents.me (ranije je na par mjesta falilo slovo s)

@@ -1,61 +1,42 @@
-MONTENEGRO TREASURE HUNT - NETLIFY FIXED
-========================================
+# Montenegro Treasure Hunt
 
-Ovaj ZIP je napravljen za postojeći GitHub repo HiveSite/sindikat i postojeći Netlify domen:
-https://sindikatevents.me
+GPS avantura kroz Crnu Goru integrisana u sindikatevents.me.
+Ovaj modul je jedinstven, čist Netlify stack (Functions + Blobs). Stari
+Node/SQLite/Docker pristup je uklonjen da ne bi bilo dvije verzije istog koda.
 
-KONAČNI LINKOVI
+## Linkovi
 - Igra:  https://sindikatevents.me/hunt/
 - Admin: https://sindikatevents.me/hunt/admin
+- Health: https://sindikatevents.me/hunt/api/health
 
-KAKO UBACITI
-1. Raspakujte ZIP.
-2. Sadržaj ZIP-a ubacite DIREKTNO u glavni nivo repoa, pored postojećeg package.json.
-3. Potvrdite overwrite za package.json.
-4. Stari folder montenegro-treasure-hunt-app možete obrisati jer više nije potreban za deploy.
-5. Commitujte promjene na main. Netlify će sam pokrenuti deploy.
+## Kako je sastavljeno
+- Frontend: `public/hunt/` (kopira se u `dist/hunt` tokom builda)
+- Backend:  `netlify/functions/hunt-api-v2.mts` → `netlify/functions/_hunt/core.mjs`
+- Sadržaj:  `netlify/functions/_hunt/seed-data.mjs` (6 gradova × 5 stanica = 30 lokacija)
+- Build i redirecti: **root** `netlify.toml` (`npm run build:netlify`, publish `dist`)
 
-NETLIFY ENVIRONMENT VARIABLES - OBAVEZNO
-U Netlify projektu sindikatevents otvorite Site configuration > Environment variables i dodajte:
+Sve što se tiče deploya kontroliše root `netlify.toml`. U ovom folderu NEMA
+zasebnog netlify.toml da ne bi došlo do zabune koja konfiguracija važi.
 
-MTH_TOKEN_PEPPER
-- najmanje 24 nasumična karaktera
+## Obavezne Netlify env varijable
+- `MTH_TOKEN_PEPPER` — najmanje 24 nasumična karaktera
+- `MTH_ADMIN_EMAIL` — email za admin prijavu
+- `MTH_ADMIN_PASSWORD` — jaka lozinka, najmanje 12 karaktera
 
-MTH_ADMIN_EMAIL
-- email za admin prijavu
+Opciono:
+- `MTH_ENABLE_TEST_VOUCHER=true` — uključuje test kod `MTH-TEST-ALL` (na produkciji držati isključeno)
+- `MTH_INTEGRATION_API_KEY` — ključ za eksterno automatsko kreiranje vaučera
 
-MTH_ADMIN_PASSWORD
-- jaka lozinka, najmanje 12 karaktera
+## Provjera poslije deploya
+1. `/hunt/api/health` mora vratiti `"ok": true` i `"configured": true`
+2. Prijava na `/hunt/admin` sa `MTH_ADMIN_EMAIL` / `MTH_ADMIN_PASSWORD`
+3. Generiši vaučer i testiraj ga na `/hunt/`
 
-Opcionalno:
-MTH_ENABLE_TEST_VOUCHER=true
-- uključuje test kod MTH-TEST-ALL
-- na pravoj produkciji držati false ili obrisati varijablu
+## Lokalno
+- Testovi jezgra: `npm test` (iz ovog foldera) ili `npm run test:hunt` (iz roota)
+- Content istina je `seed-data.mjs`. Izmjena tura ide kroz admin panel (Netlify Blobs) ili direktno u seed-data.
 
-MTH_INTEGRATION_API_KEY
-- ključ za eksterno automatsko kreiranje vaučera
-
-ŠTA JE ISPRAVLJENO
-- aplikacija sada koristi Netlify Functions, ne server.mjs
-- trajni podaci se čuvaju kroz Netlify Blobs
-- /hunt i /hunt/admin putanje su povezane
-- admin login radi kroz sigurni HttpOnly cookie
-- admin lozinka se uzima direktno iz Netlify env varijable i njena promjena odmah važi
-- GPS accuracy veća od 150 m se pravilno odbija
-- vaučer mora imati najmanje jednu validnu turu
-- fiksna i dozvoljene ture se provjeravaju prema stvarnim ID-jevima
-- externalRef je jedinstven i sprečava duplo kreiranje vaučera za istu prodaju
-- validiraju se vrijednost, broj igrača, rok važenja, koordinate, radijus, tip i odgovor stanice
-- svi linkovi, manifest, service worker i API reference koriste /hunt
-- domen je ispravljen na sindikatevents.me
-
-PROVJERA POSLIJE DEPLOYA
-1. Otvorite https://sindikatevents.me/hunt/api/health
-2. Mora pisati: "ok": true i "configured": true
-3. Otvorite https://sindikatevents.me/hunt/admin
-4. Prijavite se vrijednostima MTH_ADMIN_EMAIL i MTH_ADMIN_PASSWORD
-5. Generišite vaučer i testirajte ga na /hunt/
-
-NAPOMENA
-Netlify Blobs je trajni site-scoped storage i podaci ostaju poslije novih deploya.
-Za veoma veliki broj istovremenih aktivacija i finansijski kritične transakcije kasnije je bolje preći na PostgreSQL/Supabase sa baznim transakcijama.
+## Napomena
+Netlify Blobs je trajni storage i podaci ostaju poslije novih deploya. GPS
+koordinate stanica nisu terenski verifikovane — prije javnog lansiranja proći
+svih 30 lokacija fizički.
