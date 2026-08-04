@@ -23,31 +23,40 @@ const runtimeEnv={
 };
 const api=createApi({store,env:runtimeEnv});
 
-function response(statusCode,data){
-  return {statusCode,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'},body:JSON.stringify(data)};
+function jsonResponse(status,data){
+  return new Response(JSON.stringify(data),{
+    status,
+    headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}
+  });
 }
 
-function requestPath(event={}){
-  const candidate=event.rawUrl||event.rawPath||event.path||'/';
-  try{return new URL(candidate,'https://local').pathname}
-  catch{return String(event.path||'/').split('?')[0]||'/'}
-}
-
-export async function handler(event={}){
+export default async function handler(request){
   try{
     let body={};
-    if(event.body){
-      try{body=JSON.parse(event.isBase64Encoded?Buffer.from(event.body,'base64').toString('utf8'):event.body)}
-      catch{return response(400,{error:'Neispravan JSON.'})}
+    if(!['GET','HEAD'].includes(request.method)){
+      const raw=await request.text();
+      if(raw){
+        try{body=JSON.parse(raw)}
+        catch{return jsonResponse(400,{error:'Neispravan JSON.'})}
+      }
     }
-    return await api({
-      method:event.httpMethod||event.requestContext?.http?.method||'GET',
-      path:normalizeApiPath(requestPath(event)),
-      headers:event.headers||{},
+
+    const result=await api({
+      method:request.method,
+      path:normalizeApiPath(new URL(request.url).pathname),
+      headers:Object.fromEntries(request.headers.entries()),
       body
+    });
+
+    return new Response(result.body,{
+      status:result.statusCode,
+      headers:result.headers||{'content-type':'application/json; charset=utf-8'}
     });
   }catch(error){
     console.error('hunt-api fatal error',error);
-    return response(500,{error:'Treasure Hunt server trenutno nije dostupan.',details:runtimeEnv.CONTEXT==='production'?undefined:String(error?.message||error)});
+    return jsonResponse(500,{
+      error:'Treasure Hunt server trenutno nije dostupan.',
+      details:runtimeEnv.CONTEXT==='production'?undefined:String(error?.message||error)
+    });
   }
 }
