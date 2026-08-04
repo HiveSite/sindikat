@@ -1,14 +1,15 @@
 const BASE='/hunt';
-const CACHE='mth-hunt-v13-from-scratch-final';
+const CACHE='mth-hunt-v14-scroll-ux';
 const ASSETS=[
   `${BASE}/`,
-  `${BASE}/styles.css?v=13`,
-  `${BASE}/styles/00-foundation.css?v=13`,
-  `${BASE}/styles/10-landing.css?v=13`,
-  `${BASE}/styles/20-tours-detail.css?v=13`,
-  `${BASE}/styles/30-game.css?v=13`,
-  `${BASE}/styles/40-responsive.css?v=13`,
-  `${BASE}/app.js?v=13`,
+  `${BASE}/styles.css?v=14`,
+  `${BASE}/styles/00-foundation.css?v=14`,
+  `${BASE}/styles/10-landing.css?v=14`,
+  `${BASE}/styles/20-tours-detail.css?v=14`,
+  `${BASE}/styles/30-game.css?v=14`,
+  `${BASE}/styles/40-responsive.css?v=14`,
+  `${BASE}/styles/50-ux-polish.css?v=14`,
+  `${BASE}/app.js?v=14`,
   `${BASE}/manifest.webmanifest`,
   `${BASE}/assets/icon.svg`
 ];
