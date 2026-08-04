@@ -78,13 +78,29 @@ export default async function handler(request: Request) {
       }
     }
 
-    const api = createApi({ store: createStoreAdapter(), env: runtimeEnv });
+    const path = normalizeApiPath(new URL(request.url).pathname);
+    const store = createStoreAdapter();
+    const api = createApi({ store, env: runtimeEnv });
     const result = await api({
       method: request.method,
-      path: normalizeApiPath(new URL(request.url).pathname),
+      path,
       headers: Object.fromEntries(request.headers.entries()),
       body
     });
+
+    if (path === '/api/health' && result.statusCode === 200) {
+      const probeKey = 'system/health-probe';
+      const probeValue = { ok: true, checkedAt: new Date().toISOString() };
+      await store.set(probeKey, probeValue);
+      const stored = await store.get(probeKey);
+      const health = JSON.parse(result.body || '{}');
+      return jsonResponse(200, {
+        ...health,
+        runtime: 'netlify-functions-v2',
+        storageReady: Boolean(stored?.ok),
+        adminConfigured: Boolean(runtimeEnv.MTH_ADMIN_EMAIL && runtimeEnv.MTH_ADMIN_PASSWORD)
+      });
+    }
 
     return new Response(result.body, {
       status: result.statusCode,
