@@ -1,0 +1,187 @@
+/* Montenegro Treasure Hunt — complete responsive layer v11 */
+
+:where(html,body){width:100%;max-width:100%;overflow-x:hidden}
+:where(body,#app,#admin-app,.app-shell,.screen,.admin-shell,.main,.content,.admin-content){min-width:0;max-width:100%}
+:where(#app,#admin-app) *{min-width:0}
+
+:where(h1,h2,h3,h4,h5,h6,p,span,b,strong,small,label,a,button,td,th,li){
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:auto;
+}
+:where(h1,h2,h3,h4,h5,h6){text-wrap:balance}
+:where(p,li,td,th,small){text-wrap:pretty}
+:where(img,svg,video,canvas,iframe){display:block;max-width:100%;height:auto}
+:where(button,input,select,textarea){max-width:100%;min-width:0}
+:where(.input){font-size:clamp(.94rem,2.5vw,1rem)}
+:where(.btn,button){white-space:normal;line-height:1.25}
+
+/* Shared cards, boxes and grids */
+:where(.voucher-panel,.guide-card,.mth-program-card,.tour-card,.card,.panel,.stat,.checkpoint,.checkpoint-card,.login-card){
+  width:100%;
+  max-width:100%;
+}
+:where(.voucher-panel,.guide-card,.card,.panel,.stat,.checkpoint,.checkpoint-card,.login-card){
+  padding:clamp(16px,3vw,28px);
+}
+:where(.mth-program-content,.tour-card-content){padding:clamp(16px,3vw,25px)}
+:where(.mth-program-grid,.tour-list,.landing-guide,.stats,.grid2,.grid3,.test-grid,.evidence-grid,.bonus-grid,.metrics,.game-actions){
+  min-width:0;
+  align-items:stretch;
+}
+:where(.mth-program-grid,.tour-list)>*,
+:where(.landing-guide,.stats,.grid2,.grid3,.test-grid,.evidence-grid,.bonus-grid,.metrics,.game-actions)>*{min-width:0;max-width:100%}
+
+/* Public Hunt typography */
+.landing-title{font-size:clamp(2.65rem,8vw,7.6rem);line-height:.98}
+.landing-copy{font-size:clamp(.98rem,1.6vw,1.3rem);line-height:1.65}
+.mth-preview-head h2{font-size:clamp(2rem,4.8vw,5rem);line-height:1.03}
+.mth-program-card h3{font-size:clamp(1.75rem,3vw,3.2rem)}
+.tours-intro h1{font-size:clamp(2.25rem,5vw,5.3rem)}
+.tour-card h2{font-size:clamp(1.85rem,3vw,3rem)}
+.detail-hero h1{font-size:clamp(2.55rem,7vw,6.8rem)}
+.topbar h1{font-size:clamp(1.25rem,3vw,2.3rem)}
+.question{font-size:clamp(1.3rem,3vw,2.4rem)}
+
+/* Public Hunt structure */
+.app-shell,.screen{width:100%;height:auto;min-height:100dvh;overflow:visible}
+.scroll,.landing-scroll{min-height:0;overflow:visible}
+.landing-hero-inner,.landing-body,.mth-preview,.tours-intro,.tour-list,.detail-grid,.pad,.game-main,.game-head-top{
+  max-width:100%;
+}
+.landing-body{grid-template-columns:minmax(0,1.08fr) minmax(280px,.72fr)}
+.mth-program-grid,.tour-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+.detail-grid{grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr)}
+.landing-guide{grid-template-columns:1fr}
+
+:where(.brand,.hero-pills,.mth-hero-actions,.mth-preview-head,.mth-program-top,.mth-program-meta,.tour-card-top,.tour-meta,.facts,.voucher-summary,.topbar,.row,.game-head-top,.game-actions,.distance-card,.map-legend,.steps,.step,.check,.checkpoint-head,.actions){
+  min-width:0;
+}
+:where(.hero-pills,.mth-hero-actions,.mth-program-meta,.tour-meta,.facts,.row,.game-actions,.actions){flex-wrap:wrap}
+:where(.mth-preview-head,.voucher-summary,.topbar,.game-head-top,.distance-card,.checkpoint-head){flex-wrap:wrap}
+:where(.mth-preview-head>*,.voucher-summary>*,.topbar>*,.game-head-top>*,.distance-card>*,.checkpoint-head>*){min-width:0}
+
+.mth-program-card,.tour-card{height:auto;min-width:0}
+.mth-program-card{min-height:clamp(290px,30vw,370px)}
+.tour-card{min-height:clamp(350px,36vw,500px)}
+.mth-program-tag,.badge,.map-chip{white-space:normal;text-align:center}
+.route-map{width:100%;max-width:100%;min-width:0;overflow:hidden}
+.route-map svg{width:100%;height:100%;max-width:none}
+.table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain}
+
+/* Admin structure */
+.login-wrap{grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr)}
+.login-card{width:min(100%,470px)}
+.admin-top,.header,.page-head,.toolbar,.checkpoint-head,.actions,.admin-brand,.brand{min-width:0}
+.admin-top,.header,.page-head,.toolbar,.checkpoint-head,.actions{flex-wrap:wrap}
+.admin-layout{grid-template-columns:minmax(190px,230px) minmax(0,1fr)}
+.admin-content,.content{min-width:0}
+.stats{grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))}
+.grid2{grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr))}
+.grid3{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.stat b{font-size:clamp(1.8rem,5vw,2.3rem)}
+.page-head h1{font-size:clamp(2rem,5vw,4rem)}
+.header h2{font-size:clamp(1.3rem,4vw,1.8rem)}
+.login-art h1{font-size:clamp(2.7rem,7vw,7rem)}
+.login-card h2{font-size:clamp(2rem,6vw,2.5rem)}
+.sidebar,.side-nav,.panel,.table-wrap{max-width:100%}
+.actions>.btn,.actions>button{flex:0 1 auto}
+#toast,.toast{max-width:calc(100vw - 24px);white-space:normal;text-align:center}
+
+/* Laptop / tablet */
+@media (max-width:1100px){
+  .landing-body{grid-template-columns:1fr}
+  .landing-guide{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mth-program-grid,.tour-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .detail-grid{grid-template-columns:1fr}
+  .detail-side{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .admin-layout{grid-template-columns:1fr}
+  .side-nav{position:static;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .side-nav button{flex:0 0 auto;width:auto;white-space:nowrap}
+}
+
+@media (max-width:900px){
+  .login-wrap{grid-template-columns:1fr}
+  .login-art{min-height:44vh}
+  .login-panel{padding:clamp(12px,4vw,24px)}
+  .detail-side{grid-template-columns:1fr}
+  .game-actions{grid-template-columns:1fr}
+  .distance-card{grid-template-columns:1fr}
+  .map-legend{flex-wrap:wrap;justify-content:flex-start}
+}
+
+/* Phones */
+@media (max-width:720px){
+  :root{--radius:19px}
+  .landing-hero-inner,.landing-body,.mth-preview,.tours-intro,.tour-list,.detail-grid,.pad,.game-main,.game-head-top,.content,.admin-layout{
+    width:min(100% - 20px,var(--content,1240px));
+  }
+  .landing-hero-inner{padding-inline:0}
+  .landing-body{margin-top:16px}
+  .mth-preview{margin-top:-22px}
+  .mth-program-grid,.tour-list,.landing-guide,.stats,.grid2,.grid3,.test-grid,.evidence-grid,.bonus-grid,.metrics{grid-template-columns:1fr}
+  .mth-preview-head{gap:12px;align-items:flex-start;flex-direction:column}
+  .mth-preview-head p{max-width:100%}
+  .mth-program-card{min-height:300px;border-radius:21px}
+  .tour-card{min-height:360px;border-radius:22px}
+  .voucher-panel,.guide-card,.card,.panel,.stat,.checkpoint,.checkpoint-card,.login-card{border-radius:19px}
+  .mth-hero-actions{display:grid;grid-template-columns:1fr;width:100%}
+  .mth-hero-actions a{width:100%}
+  .voucher-summary,.topbar,.admin-top,.header,.page-head,.toolbar,.checkpoint-head{align-items:stretch}
+  .page-head,.toolbar{flex-direction:column}
+  .voucher-summary>*,.topbar>div,.admin-top>*,.header>*,.page-head>*,.toolbar>*{max-width:100%}
+  .facts,.hero-pills,.tour-meta,.mth-program-meta{gap:6px}
+  .facts span,.hero-pills span,.tour-meta span,.mth-program-meta span{font-size:.72rem}
+  .sticky{padding-inline:10px}
+  .sticky .btn{width:100%}
+  .tabs{width:calc(100% - 12px);max-width:none}
+  .tab{font-size:.72rem;padding-inline:6px}
+  .route-map{min-height:250px;border-radius:18px}
+  .map-legend{display:none}
+  .admin-layout{padding-top:12px}
+  .panel{margin-bottom:12px}
+  .actions{width:100%}
+  .actions>.btn,.actions>button{flex:1 1 145px}
+  .table-wrap{border-radius:12px}
+  table{min-width:680px}
+  th,td{padding:10px;font-size:.76rem}
+  .sidebar{width:min(86vw,290px)}
+  .login>.login-card{margin:auto}
+}
+
+/* Small phones */
+@media (max-width:480px){
+  body{min-width:0}
+  .landing-hero{min-height:64vh}
+  .landing-title{font-size:clamp(2.5rem,15vw,4.2rem)}
+  .landing-copy{font-size:.96rem}
+  .brand{align-items:flex-start}
+  .logo{flex:0 0 auto}
+  .hero-pills span{flex:1 1 calc(50% - 6px);text-align:center}
+  .mth-program-card{min-height:285px}
+  .tour-card{min-height:340px}
+  .mth-program-content,.tour-card-content{padding:16px}
+  .voucher-panel,.guide-card,.card,.panel,.stat,.checkpoint,.checkpoint-card,.login-card{padding:16px}
+  .btn{width:100%;min-height:48px}
+  .row{align-items:stretch;flex-direction:column}
+  .segmented{grid-template-columns:1fr}
+  .game-head-top{gap:8px}
+  .game-head-title{width:100%}
+  .game-stat{flex:1 1 auto;text-align:center}
+  .distance-number{font-size:clamp(2.35rem,14vw,3rem)}
+  .admin-brand span{display:none}
+  .admin-top .btn,.header .btn{width:auto;flex:1 1 auto}
+  .actions>.btn,.actions>button{flex-basis:100%}
+  #toast,.toast{bottom:12px}
+}
+
+@media (max-height:560px) and (orientation:landscape){
+  .landing-hero{min-height:100svh}
+  .login-art{min-height:100svh}
+  .tabs{position:static;margin:10px auto}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
