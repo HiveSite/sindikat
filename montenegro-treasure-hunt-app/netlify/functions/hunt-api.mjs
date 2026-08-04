@@ -60,3 +60,5 @@ export default async function handler(request){
     });
   }
 }
+
+// Configuration refresh: 2026-08-04
