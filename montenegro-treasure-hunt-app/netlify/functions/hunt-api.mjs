@@ -1,12 +1,17 @@
 import { getStore } from '@netlify/blobs';
 import { createApi, normalizeApiPath } from './_hunt/core.mjs';
 
-const blob=getStore('montenegro-treasure-hunt',{consistency:'strong'});
+let blobStore=null;
+function getBlobStore(){
+  if(!blobStore)blobStore=getStore('montenegro-treasure-hunt',{consistency:'strong'});
+  return blobStore;
+}
+
 const store={
-  async get(key){return await blob.get(key,{type:'json'})},
-  async set(key,value){await blob.setJSON(key,value)},
-  async delete(key){await blob.delete(key)},
-  async list(prefix){const {blobs}=await blob.list({prefix});return blobs.map(x=>x.key)}
+  async get(key){return await getBlobStore().get(key,{type:'json'})},
+  async set(key,value){await getBlobStore().setJSON(key,value)},
+  async delete(key){await getBlobStore().delete(key)},
+  async list(prefix){const {blobs=[]}=await getBlobStore().list({prefix});return blobs.map(x=>x.key)}
 };
 
 const runtimeEnv={
@@ -16,10 +21,31 @@ const runtimeEnv={
 };
 const api=createApi({store,env:runtimeEnv});
 
-export async function handler(event){
-  let body={};
-  if(event.body){try{body=JSON.parse(event.isBase64Encoded?Buffer.from(event.body,'base64').toString('utf8'):event.body)}catch{return {statusCode:400,headers:{'content-type':'application/json'},body:JSON.stringify({error:'Neispravan JSON.'})}}
+function response(statusCode,data){
+  return {statusCode,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'},body:JSON.stringify(data)};
+}
+
+function requestPath(event={}){
+  const candidate=event.rawUrl||event.rawPath||event.path||'/';
+  try{return new URL(candidate,'https://local').pathname}
+  catch{return String(event.path||'/').split('?')[0]||'/'}
+}
+
+export async function handler(event={}){
+  try{
+    let body={};
+    if(event.body){
+      try{body=JSON.parse(event.isBase64Encoded?Buffer.from(event.body,'base64').toString('utf8'):event.body)}
+      catch{return response(400,{error:'Neispravan JSON.'})}
+    }
+    return await api({
+      method:event.httpMethod||event.requestContext?.http?.method||'GET',
+      path:normalizeApiPath(requestPath(event)),
+      headers:event.headers||{},
+      body
+    });
+  }catch(error){
+    console.error('hunt-api fatal error',error);
+    return response(500,{error:'Treasure Hunt server trenutno nije dostupan.',details:runtimeEnv.CONTEXT==='production'?undefined:String(error?.message||error)});
   }
-  const rawPath=new URL(event.rawUrl||`https://local${event.path||'/'}`).pathname;
-  return api({method:event.httpMethod||'GET',path:normalizeApiPath(rawPath),headers:event.headers||{},body});
 }
