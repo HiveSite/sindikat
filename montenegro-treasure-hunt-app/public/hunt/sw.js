@@ -1,6 +1,6 @@
 const BASE='/hunt';
-const CACHE='mth-hunt-v2';
-const ASSETS=[`${BASE}/`,`${BASE}/styles.css`,`${BASE}/app.js`,`${BASE}/manifest.webmanifest`,`${BASE}/assets/icon.svg`];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
-self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.pathname.startsWith(`${BASE}/api/`))return;e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match(`${BASE}/`))))});
+const CACHE='mth-hunt-v6';
+const ASSETS=[`${BASE}/`,`${BASE}/styles.css`,`${BASE}/hotfix.css?v=6`,`${BASE}/app.js`,`${BASE}/hotfix.js?v=6`,`${BASE}/manifest.webmanifest`,`${BASE}/assets/icon.svg`];
+self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)))});
+self.addEventListener('activate',event=>event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))),self.clients.claim()])));
+self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.pathname.startsWith(`${BASE}/api/`))return;event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy))}return response}).catch(()=>caches.match(event.request).then(response=>response||caches.match(`${BASE}/`))))});
