@@ -46,3 +46,18 @@ test('ne prihvata vaučer bez ture',async()=>{
   const r=await api({method:'POST',path:'/api/admin/vouchers',headers:{cookie},body:{label:'Prazan',value:10,maxPlayers:2,allowedTourIds:[]}});
   assert.equal(r.statusCode,400);
 });
+
+test('test vaučer radi sa produkcionim nazivima varijabli',async()=>{
+  const store=new MemoryStore();
+  const api=createApi({store,env:{
+    MTH_TOKEN_PEPPER:'12345678901234567890123456789012',
+    MTH_ADMIN_EMAIL:'admin@example.com',
+    MTH_ADMIN_PASSWORD:'VeryStrongPassword123!',
+    MTH_ENABLE_TEST_VOUCHER:'true',
+    URL:'https://sindikatevents.me'
+  }});
+  let r=await api({path:'/api/health'});assert.equal(r.statusCode,200);assert.equal(data(r).configured,true);
+  r=await api({method:'POST',path:'/api/player/redeem',body:{code:'MTH-TEST-ALL'}});assert.equal(r.statusCode,200);
+  const token=data(r).token;
+  r=await api({path:'/api/player/access',headers:{authorization:`Bearer ${token}`}});assert.equal(r.statusCode,200);assert.equal(data(r).tours.length,6);
+});
