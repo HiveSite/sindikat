@@ -1,5 +1,5 @@
 const BASE='/hunt';
-const CACHE='mth-hunt-v12-premium-responsive';
+const CACHE='mth-hunt-v12-premium-responsive-1';
 const ASSETS=[`${BASE}/`,`${BASE}/styles.css?v=12`,`${BASE}/app.js?v=12`,`${BASE}/manifest.webmanifest`,`${BASE}/assets/icon.svg`];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS).catch(()=>{})))});
 self.addEventListener('activate',event=>event.waitUntil(Promise.all([
