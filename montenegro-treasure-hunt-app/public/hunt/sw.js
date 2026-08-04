@@ -1,13 +1,13 @@
 const BASE='/hunt';
-const CACHE='mth-hunt-v13-clean-style';
+const CACHE='mth-hunt-v13-from-scratch';
 const ASSETS=[
   `${BASE}/`,
+  `${BASE}/styles.css?v=13`,
   `${BASE}/styles/00-foundation.css?v=13`,
   `${BASE}/styles/10-landing.css?v=13`,
   `${BASE}/styles/20-tours-detail.css?v=13`,
-  `${BASE}/styles/30-game.css?v=13`,
-  `${BASE}/styles/40-responsive.css?v=13`,
-  `${BASE}/app.js?v=12`,
+  `${BASE}/styles/30-game-responsive.css?v=13`,
+  `${BASE}/app.js?v=13`,
   `${BASE}/manifest.webmanifest`,
   `${BASE}/assets/icon.svg`
 ];
