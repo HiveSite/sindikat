@@ -10,6 +10,12 @@
   node_bundler = "esbuild"
 
 [[redirects]]
+  from = "/hunt/team-api/*"
+  to = "/.netlify/functions/hunt-event/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/hunt/api/*"
   to = "/.netlify/functions/hunt-api-v2/:splat"
   status = 200
