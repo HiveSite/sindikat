@@ -22,7 +22,7 @@
 
 [[redirects]]
   from = "/hunt/"
-  to = "/hunt/index.html"
+  to = "/hunt-v4/index.html"
   status = 200
   force = true
 
