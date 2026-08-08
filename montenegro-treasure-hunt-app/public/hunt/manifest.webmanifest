@@ -1,10 +1,10 @@
 {
-  "name":"Montenegro Treasure Hunt",
-  "short_name":"MTH",
+  "name":"Podgorica City Treasure Hunt",
+  "short_name":"City Hunt",
   "start_url":"/hunt/",
   "scope":"/hunt/",
   "display":"standalone",
-  "background_color":"#061a20",
-  "theme_color":"#071c22",
+  "background_color":"#0b2329",
+  "theme_color":"#0b2329",
   "icons":[{"src":"/hunt/assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
