@@ -1,4 +1,3 @@
-const { FINAL, checkpoints } = window.HUNT_DATA;
 const app = document.querySelector('#app');
 const toastEl = document.querySelector('#toast');
 const qs = new URLSearchParams(location.search);
