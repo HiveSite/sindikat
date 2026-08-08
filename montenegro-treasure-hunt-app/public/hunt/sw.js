@@ -1,40 +1,6 @@
 const BASE='/hunt';
-const CACHE='mth-hunt-v14-scroll-ux';
-const ASSETS=[
-  `${BASE}/`,
-  `${BASE}/styles.css?v=14`,
-  `${BASE}/styles/00-foundation.css?v=14`,
-  `${BASE}/styles/10-landing.css?v=14`,
-  `${BASE}/styles/20-tours-detail.css?v=14`,
-  `${BASE}/styles/30-game.css?v=14`,
-  `${BASE}/styles/40-responsive.css?v=14`,
-  `${BASE}/styles/50-ux-polish.css?v=14`,
-  `${BASE}/app.js?v=14`,
-  `${BASE}/manifest.webmanifest`,
-  `${BASE}/assets/icon.svg`
-];
-self.addEventListener('install',event=>{
-  self.skipWaiting();
-  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS).catch(()=>{})));
-});
-self.addEventListener('activate',event=>{
-  event.waitUntil(Promise.all([
-    caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))),
-    self.clients.claim()
-  ]));
-});
-self.addEventListener('fetch',event=>{
-  const url=new URL(event.request.url);
-  if(event.request.method!=='GET'||url.pathname.startsWith(`${BASE}/api/`))return;
-  event.respondWith(
-    fetch(event.request,{cache:'no-store'})
-      .then(response=>{
-        if(response.ok){
-          const copy=response.clone();
-          caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});
-        }
-        return response;
-      })
-      .catch(()=>caches.match(event.request).then(response=>response||caches.match(`${BASE}/`)))
-  );
-});
+const CACHE='podgorica-hunt-v20';
+const ASSETS=[`${BASE}/`,`${BASE}/styles.css?v=20`,`${BASE}/app.js?v=20`,`${BASE}/manifest.webmanifest`,`${BASE}/assets/icon.svg`];
+self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS).catch(()=>{})))});
+self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]))});
+self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.pathname.includes('/api/'))return;event.respondWith(fetch(event.request,{cache:'no-store'}).then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(cache=>cache.put(event.request,c)).catch(()=>{})}return r}).catch(()=>caches.match(event.request).then(r=>r||caches.match(`${BASE}/`))))});
