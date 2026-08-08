@@ -38,6 +38,17 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/hunt-v4"
+  to = "/hunt-v4/"
+  status = 301
+
+[[redirects]]
+  from = "/hunt-v4/"
+  to = "/hunt-v4/index.html"
+  status = 200
+  force = true
+
 [[headers]]
   for = "/hunt/*"
   [headers.values]
@@ -51,3 +62,12 @@
   for = "/hunt/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/hunt-v4/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+    Permissions-Policy = "geolocation=(self), camera=(self)"
+    X-Frame-Options = "DENY"
+    Cache-Control = "no-cache"
