@@ -1,3 +1,3 @@
 lead_key,name,city,google_maps_url,phone,slug,status,url,reason,updated_at
-cesarica|kotor,Cesarica,Kotor,https://www.google.com/maps/search/?api=1&query=Restoran%20Cesarica%20Kotor,+38269049733,cesarica,IN_PROGRESS,https://sindikatevents.me/preporuke/cesarica/,production_deployed_browser_qa_blocked_by_environment,2026-08-11T14:15:00+02:00
+cesarica|kotor,Cesarica,Kotor,https://www.google.com/maps/search/?api=1&query=Restoran%20Cesarica%20Kotor,+38269049733,cesarica,IN_PROGRESS,https://sindikatevents.me/preporuke/cesarica/,v3_map_embedded_image_qa_static_pass_browser_qa_blocked_by_environment,2026-08-11T15:01:00+02:00
 konoba-dragicevic|budva,Konoba Dragičević,Budva,https://www.google.com/maps/search/?api=1&query=Konoba%20Dragi%C4%8Devi%C4%87%20Budva,+38267224401,konoba-dragicevic,IN_PROGRESS,https://sindikatevents.me/preporuke/konoba-dragicevic/,qualified_A_build_started,2026-08-11T14:57:23+02:00
