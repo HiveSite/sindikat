@@ -8,7 +8,7 @@ const repoRoot = path.resolve(appRoot, '..');
 const dist = path.join(repoRoot, 'dist');
 
 const excluded = new Set([
-  '.git', '.github', '.netlify', 'node_modules', 'dist',
+  '.git', '.github', '.netlify', 'node_modules', 'dist', 'data',
   'montenegro-treasure-hunt-app', 'types', 'scripts', 'terrain-app',
   'package.json', 'package-lock.json', 'netlify.toml', '_redirects',
   'middleware.ts', 'README.md', '.gitignore', 'TREASURE-HUNT-UBACI.txt',
