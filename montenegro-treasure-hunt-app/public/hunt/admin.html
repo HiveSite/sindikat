@@ -4,74 +4,164 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07171d">
-  <link rel="stylesheet" href="admin.css?v=21">
-  <link rel="stylesheet" href="admin-ux.css?v=21">
-  <title>Montenegro Treasure Hunt — Admin</title>
+  <link rel="stylesheet" href="admin.css?v=22">
+  <link rel="stylesheet" href="admin-ux.css?v=22">
+  <title>Montenegro Treasure Hunt - Admin</title>
+  <style>
+    html,body{min-height:100%;margin:0;background:#07171d;color:#eef7f7;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    #admin-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;background:radial-gradient(circle at 50% 20%,#12313a 0,#07171d 45%,#041014 100%)}
+    #admin-gate[hidden]{display:none!important}
+    .simple-login{width:min(440px,100%);padding:32px;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:rgba(9,30,36,.92);box-shadow:0 28px 80px rgba(0,0,0,.42)}
+    .simple-login .mark{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:#d8b56a;color:#07171d;font-size:24px;font-weight:900;margin-bottom:22px}
+    .simple-login small{display:block;color:#8ca8ad;font-size:11px;letter-spacing:.16em;font-weight:800;margin-bottom:8px}
+    .simple-login h1{margin:0 0 8px;font-size:30px;line-height:1.08}
+    .simple-login p{margin:0 0 26px;color:#a9bec2;line-height:1.55}
+    .simple-login label{display:block;margin-bottom:8px;font-size:13px;font-weight:800}
+    .simple-login input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.15);background:#071a20;color:#fff;border-radius:14px;padding:15px 16px;font-size:16px;outline:none}
+    .simple-login input:focus{border-color:#d8b56a;box-shadow:0 0 0 3px rgba(216,181,106,.13)}
+    .simple-login button{width:100%;margin-top:14px;border:0;border-radius:14px;padding:15px 18px;background:#d8b56a;color:#07171d;font-size:15px;font-weight:900;cursor:pointer}
+    .simple-login button:disabled{opacity:.55;cursor:wait}
+    #gate-error{min-height:22px;margin:13px 0 0;color:#ff9b9b;font-size:13px}
+    #admin-app[hidden]{display:none!important}
+  </style>
 </head>
 <body>
-  <div id="admin-app"></div>
+  <section id="admin-gate">
+    <form id="simple-login" class="simple-login" autocomplete="off">
+      <div class="mark">◇</div>
+      <small>MONTENEGRO TREASURE HUNT / PG26</small>
+      <h1>Event Control Center</h1>
+      <p>Unesi admin lozinku za pristup kontroli timova, GPS-u i sadržaju igre.</p>
+      <label for="simple-password">Lozinka</label>
+      <input id="simple-password" type="password" autocomplete="current-password" required autofocus>
+      <button id="simple-submit" type="submit">Otvori kontrolni centar</button>
+      <div id="gate-error" role="alert"></div>
+    </form>
+  </section>
+
+  <div id="admin-app" hidden></div>
   <div id="admin-toast" class="toast" role="status"></div>
 
   <script>
   (() => {
     const KEY = 'mth_simple_admin_password';
     const nativeFetch = window.fetch.bind(window);
+    const gate = document.querySelector('#admin-gate');
+    const root = document.querySelector('#admin-app');
+    const form = document.querySelector('#simple-login');
+    const input = document.querySelector('#simple-password');
+    const submit = document.querySelector('#simple-submit');
+    const error = document.querySelector('#gate-error');
+    let moduleLoaded = false;
 
     const reply = (status, data) => Promise.resolve(new Response(JSON.stringify(data), {
       status,
       headers: {'content-type':'application/json; charset=utf-8','cache-control':'no-store'}
     }));
 
-    window.fetch = async (input, init = {}) => {
-      const url = typeof input === 'string' ? input : input.url;
+    async function validatePassword(password) {
+      const response = await nativeFetch('/hunt/team-api/admin/overview', {
+        method: 'GET',
+        headers: {'x-mth-admin-password': password},
+        cache: 'no-store'
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'Pogrešna admin lozinka.');
+      }
+      return true;
+    }
+
+    window.fetch = async (requestInput, init = {}) => {
+      const url = typeof requestInput === 'string' ? requestInput : requestInput.url;
 
       if (url.includes('/hunt/api/admin/me')) {
         const password = sessionStorage.getItem(KEY);
         return password
-          ? reply(200, {admin:{id:'password-admin',email:'Password access',role:'admin'}})
+          ? reply(200, {admin:{id:'password-admin',email:'Admin',role:'admin'}})
           : reply(401, {error:'Prijava je potrebna.'});
       }
 
       if (url.includes('/hunt/api/admin/login')) {
         let body = {};
         try { body = JSON.parse(init.body || '{}'); } catch {}
-        sessionStorage.setItem(KEY, String(body.password || ''));
-        return reply(200, {admin:{id:'password-admin',email:'Password access',role:'admin'}});
+        const password = String(body.password || '');
+        try {
+          await validatePassword(password);
+          sessionStorage.setItem(KEY, password);
+          return reply(200, {admin:{id:'password-admin',email:'Admin',role:'admin'}});
+        } catch (e) {
+          return reply(401, {error:e.message || 'Pogrešna admin lozinka.'});
+        }
       }
 
       if (url.includes('/hunt/api/admin/logout')) {
         sessionStorage.removeItem(KEY);
+        setTimeout(() => location.reload(), 0);
         return reply(200, {ok:true});
       }
 
       if (url.includes('/hunt/team-api/admin/')) {
+        const password = sessionStorage.getItem(KEY) || '';
         const headers = new Headers(init.headers || {});
-        headers.set('x-mth-admin-password', sessionStorage.getItem(KEY) || '');
-        const response = await nativeFetch(input, {...init, headers});
-        if (response.status === 401) sessionStorage.removeItem(KEY);
+        headers.set('x-mth-admin-password', password);
+        const response = await nativeFetch(requestInput, {...init, headers, cache:'no-store'});
+        if (response.status === 401) {
+          sessionStorage.removeItem(KEY);
+        }
         return response;
       }
 
-      return nativeFetch(input, init);
+      return nativeFetch(requestInput, init);
     };
 
-    const simplifyLogin = () => {
-      const email = document.querySelector('#email');
-      if (email) {
-        email.value = 'admin@local';
-        email.required = false;
-        const field = email.closest('.field');
-        if (field) field.style.display = 'none';
+    async function openAdmin() {
+      gate.hidden = true;
+      root.hidden = false;
+      if (moduleLoaded) return;
+      moduleLoaded = true;
+      try {
+        await import('./admin.js?v=22');
+      } catch (e) {
+        console.error(e);
+        moduleLoaded = false;
+        root.hidden = true;
+        gate.hidden = false;
+        error.textContent = 'Admin aplikacija se nije učitala: ' + (e?.message || 'nepoznata greška');
       }
-      const copy = document.querySelector('.login-copy');
-      if (copy) copy.textContent = 'Unesi admin lozinku.';
-    };
+    }
 
-    new MutationObserver(simplifyLogin).observe(document.documentElement, {subtree:true,childList:true});
-    document.addEventListener('DOMContentLoaded', simplifyLogin);
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      error.textContent = '';
+      submit.disabled = true;
+      try {
+        const password = input.value;
+        await validatePassword(password);
+        sessionStorage.setItem(KEY, password);
+        await openAdmin();
+      } catch (e) {
+        sessionStorage.removeItem(KEY);
+        error.textContent = e?.message || 'Pogrešna admin lozinka.';
+        input.select();
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    (async () => {
+      const saved = sessionStorage.getItem(KEY);
+      if (!saved) return;
+      try {
+        await validatePassword(saved);
+        await openAdmin();
+      } catch {
+        sessionStorage.removeItem(KEY);
+        gate.hidden = false;
+        root.hidden = true;
+      }
+    })();
   })();
   </script>
-
-  <script type="module" src="admin.js?v=21"></script>
 </body>
 </html>
