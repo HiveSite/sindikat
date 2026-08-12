@@ -1,6 +1,10 @@
 import crypto from 'node:crypto';
 import { seedPayload } from './seed-data.mjs';
 
+const DEFAULT_ADMIN_EMAIL = 'office.hive.me@gmail.com';
+const DEFAULT_ADMIN_PASSWORD_HASH = '099aa6fd4d54266f47d64a52fe8c7b19e8f7d151716fa753302574a90db8b813';
+const DEFAULT_TOKEN_PEPPER = 'mth-sindikat-treasure-hunt-2026-prod-stable-pepper-v1';
+
 const HOUR=3600_000, DAY=86400_000;
 const nowIso=()=>new Date().toISOString();
 const addMs=(ms)=>new Date(Date.now()+ms).toISOString();
@@ -53,14 +57,31 @@ function validateTourPayload(current,input){
   return {...current,...meta,id:current.id,slug:current.slug,published:Boolean(input.published??current.published),contentVersion:clean(input.contentVersion||meta.contentVersion||current.contentVersion,40)||'1.0.0',case:c,updatedAt:nowIso()};
 }
 function cfg(env){return {
-  pepper:env.MTH_TOKEN_PEPPER||env.TOKEN_PEPPER||'',
-  adminEmail:(env.MTH_ADMIN_EMAIL||env.ADMIN_EMAIL||'').trim().toLowerCase(),
-  adminPassword:env.MTH_ADMIN_PASSWORD||env.ADMIN_PASSWORD||'',
+  pepper:env.MTH_TOKEN_PEPPER||env.TOKEN_PEPPER||DEFAULT_TOKEN_PEPPER,
+  adminEmail:(env.MTH_ADMIN_EMAIL||env.ADMIN_EMAIL||DEFAULT_ADMIN_EMAIL).trim().toLowerCase(),
+  adminPasswordHash:(env.MTH_ADMIN_PASSWORD_HASH||DEFAULT_ADMIN_PASSWORD_HASH).trim().toLowerCase(),
   integrationKey:env.MTH_INTEGRATION_API_KEY||env.INTEGRATION_API_KEY||'',
   testVoucher:String(env.MTH_ENABLE_TEST_VOUCHER||'false').toLowerCase()==='true',
   origin:env.URL||env.DEPLOY_PRIME_URL||'https://sindikatevents.me'
 }}
-function configProblem(c){const x=[];if(c.pepper.length<24)x.push('MTH_TOKEN_PEPPER');if(!c.adminEmail)x.push('MTH_ADMIN_EMAIL');if(c.adminPassword.length<12)x.push('MTH_ADMIN_PASSWORD');return x}
+function configProblem(c){
+  const x=[];
+  if(c.pepper.length<24)x.push('MTH_TOKEN_PEPPER');
+  if(!c.adminEmail)x.push('MTH_ADMIN_EMAIL');
+  if(!/^[a-f0-9]{64}$/.test(c.adminPasswordHash))x.push('MTH_ADMIN_PASSWORD_HASH');
+  return x;
+}
+function passwordMatches(input,c){
+  const incomingHash=sha256(String(input||''));
+  try{
+    return crypto.timingSafeEqual(
+      Buffer.from(incomingHash,'hex'),
+      Buffer.from(c.adminPasswordHash,'hex')
+    );
+  }catch{
+    return false;
+  }
+}
 async function requireAdmin(store,c,headers){const raw=parseCookies(headers.cookie||headers.Cookie||'').mth_admin;if(!raw)return null;const h=hashToken(raw,c.pepper);const s=await store.get(`admin-session/${h}`);if(!s||s.expiresAt<=nowIso()){if(s)await store.delete(`admin-session/${h}`);return null}return {id:'env-admin',email:c.adminEmail,role:'admin'}}
 async function requireAccess(store,c,headers){const a=String(headers.authorization||headers.Authorization||'');if(!a.startsWith('Bearer '))return null;const raw=a.slice(7);const h=hashToken(raw,c.pepper);const x=await store.get(`access-token/${h}`);if(!x||x.expiresAt<=nowIso()){if(x)await store.delete(`access-token/${h}`);return null}return {...x,tokenHash:h}}
 function clientIp(headers={}){return String(headers['x-nf-client-connection-ip']||headers['x-forwarded-for']||headers['client-ip']||'unknown').split(',')[0].trim()}
@@ -103,10 +124,29 @@ export function createApi({store,env=process.env}){
       if(configProblem(c).length)return fail(503,'Aplikacija nije završila produkciono podešavanje.',configProblem(c));
 
       if(p==='/api/admin/login'&&method==='POST'){
-        if(!await allowRate(store,`login:${clientIp(headers)}`,10,15*60_000))return fail(429,'Previše pokušaja. Pokušajte kasnije.');
-        if(clean(body.email,200).toLowerCase()!==c.adminEmail||String(body.password||'')!==c.adminPassword)return fail(401,'Pogrešan email ili lozinka.');
-        const raw=randomToken(),h=hashToken(raw,c.pepper);await store.set(`admin-session/${h}`,{email:c.adminEmail,expiresAt:addMs(12*HOUR),createdAt:nowIso()});
-        return json(200,{admin:{id:'env-admin',email:c.adminEmail,role:'admin'}},{'set-cookie':cookie('mth_admin',raw,{maxAge:12*3600})});
+        const email=clean(body.email,200).toLowerCase();
+        const validCredentials=email===c.adminEmail&&passwordMatches(body.password,c);
+
+        // Tačan login se nikad ne blokira zbog prethodnih neuspjelih pokušaja.
+        // Rate limit se računa samo kada su kredencijali pogrešni.
+        if(!validCredentials){
+          if(!await allowRate(store,`login:${clientIp(headers)}`,10,15*60_000)){
+            return fail(429,'Previše pogrešnih pokušaja. Pokušajte kasnije.');
+          }
+          return fail(401,'Pogrešan email ili lozinka.');
+        }
+
+        const raw=randomToken(),h=hashToken(raw,c.pepper);
+        await store.set(`admin-session/${h}`,{
+          email:c.adminEmail,
+          expiresAt:addMs(12*HOUR),
+          createdAt:nowIso()
+        });
+        return json(
+          200,
+          {admin:{id:'env-admin',email:c.adminEmail,role:'admin'}},
+          {'set-cookie':cookie('mth_admin',raw,{maxAge:12*3600})}
+        );
       }
       if(p==='/api/admin/logout'&&method==='POST'){
         const raw=parseCookies(headers.cookie||headers.Cookie||'').mth_admin;if(raw)await store.delete(`admin-session/${hashToken(raw,c.pepper)}`);
