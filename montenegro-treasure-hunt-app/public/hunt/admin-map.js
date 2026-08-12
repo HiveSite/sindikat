@@ -142,14 +142,15 @@
       instance.layers.clearLayers();
 
       const L = window.L;
-      const bounds = [];
+      const allBounds = [];
+      const teamBounds = [];
       const checkpoints = contentResponse.content?.checkpoints || [];
       const final = contentResponse.content?.final;
 
       checkpoints.forEach((cp, index) => {
         if (!Number.isFinite(Number(cp.lat)) || !Number.isFinite(Number(cp.lng))) return;
         const pos = [Number(cp.lat), Number(cp.lng)];
-        bounds.push(pos);
+        allBounds.push(pos);
         L.marker(pos, {
           pane: 'checkpointPane',
           icon: L.divIcon({
@@ -163,7 +164,7 @@
 
       if (final && Number.isFinite(Number(final.lat)) && Number.isFinite(Number(final.lng))) {
         const pos = [Number(final.lat), Number(final.lng)];
-        bounds.push(pos);
+        allBounds.push(pos);
         L.marker(pos, {
           pane: 'checkpointPane',
           icon: L.divIcon({
@@ -181,7 +182,8 @@
         if (!p || !Number.isFinite(Number(p.lat)) || !Number.isFinite(Number(p.lng))) return;
         teamsWithGps += 1;
         const pos = [Number(p.lat), Number(p.lng)];
-        bounds.push(pos);
+        allBounds.push(pos);
+        teamBounds.push(pos);
         const [cls] = teamVisual(team);
         L.marker(pos, {
           pane: 'teamPane',
@@ -215,13 +217,19 @@
         instance.emptyBadge = badge;
       }
 
-      if (!instance.hasFit && bounds.length) {
-        instance.map.fitBounds(bounds, { padding: [38, 38], maxZoom: 15 });
+      if (teamBounds.length === 1) {
+        instance.map.setView(teamBounds[0], 16, { animate: instance.hasFit });
+        instance.hasFit = true;
+      } else if (teamBounds.length > 1) {
+        instance.map.fitBounds(teamBounds, { padding: [70, 70], maxZoom: 16, animate: instance.hasFit });
+        instance.hasFit = true;
+      } else if (!instance.hasFit && allBounds.length) {
+        instance.map.fitBounds(allBounds, { padding: [38, 38], maxZoom: 15 });
         instance.hasFit = true;
       }
 
       if (instance.liveBadge) {
-        instance.liveBadge.innerHTML = `<b>${teamsWithGps}/10 GPS</b> · refresh 8s`;
+        instance.liveBadge.innerHTML = `<b>${teamsWithGps}/10 GPS</b> · prati timove · refresh 8s`;
       }
     } catch (error) {
       console.error('MTH real map', error);
@@ -270,7 +278,7 @@
       const LiveControl = L.Control.extend({
         onAdd() {
           const div = L.DomUtil.create('div', 'mth-map-live-badge');
-          div.innerHTML = '<b>0/10 GPS</b> · refresh 8s';
+          div.innerHTML = '<b>0/10 GPS</b> · prati timove · refresh 8s';
           return div;
         }
       });
