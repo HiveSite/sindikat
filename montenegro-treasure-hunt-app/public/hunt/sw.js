@@ -1,5 +1,5 @@
 const BASE='/hunt';
-const CACHE='podgorica-hunt-v50-event-control';
+const CACHE='montenegro-hunt-v51-programs';
 const ASSETS=[
   `${BASE}/`,
   `${BASE}/styles-v31.css?v=50`,
@@ -8,9 +8,9 @@ const ASSETS=[
   `${BASE}/app-v32-1.js?v=50`,
   `${BASE}/app-v32-2.js?v=50`,
   `${BASE}/app-v32-3.js?v=50`,
+  `${BASE}/program-runtime.js?v=1`,
   `${BASE}/manifest.webmanifest`,
-  `${BASE}/assets/icon.svg`,
-  `${BASE}/assets/cities/podgorica.svg`
+  `${BASE}/assets/icon.svg`
 ];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS).catch(()=>{})))});
 self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]))});
