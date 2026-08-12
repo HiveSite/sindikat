@@ -4,13 +4,74 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07171d">
-  <link rel="stylesheet" href="admin.css?v=20">
-  <link rel="stylesheet" href="admin-ux.css?v=20">
+  <link rel="stylesheet" href="admin.css?v=21">
+  <link rel="stylesheet" href="admin-ux.css?v=21">
   <title>Montenegro Treasure Hunt — Admin</title>
 </head>
 <body>
   <div id="admin-app"></div>
   <div id="admin-toast" class="toast" role="status"></div>
-  <script type="module" src="admin.js?v=20"></script>
+
+  <script>
+  (() => {
+    const KEY = 'mth_simple_admin_password';
+    const nativeFetch = window.fetch.bind(window);
+
+    const reply = (status, data) => Promise.resolve(new Response(JSON.stringify(data), {
+      status,
+      headers: {'content-type':'application/json; charset=utf-8','cache-control':'no-store'}
+    }));
+
+    window.fetch = async (input, init = {}) => {
+      const url = typeof input === 'string' ? input : input.url;
+
+      if (url.includes('/hunt/api/admin/me')) {
+        const password = sessionStorage.getItem(KEY);
+        return password
+          ? reply(200, {admin:{id:'password-admin',email:'Password access',role:'admin'}})
+          : reply(401, {error:'Prijava je potrebna.'});
+      }
+
+      if (url.includes('/hunt/api/admin/login')) {
+        let body = {};
+        try { body = JSON.parse(init.body || '{}'); } catch {}
+        sessionStorage.setItem(KEY, String(body.password || ''));
+        return reply(200, {admin:{id:'password-admin',email:'Password access',role:'admin'}});
+      }
+
+      if (url.includes('/hunt/api/admin/logout')) {
+        sessionStorage.removeItem(KEY);
+        return reply(200, {ok:true});
+      }
+
+      if (url.includes('/hunt/team-api/admin/')) {
+        const headers = new Headers(init.headers || {});
+        headers.set('x-mth-admin-password', sessionStorage.getItem(KEY) || '');
+        const response = await nativeFetch(input, {...init, headers});
+        if (response.status === 401) sessionStorage.removeItem(KEY);
+        return response;
+      }
+
+      return nativeFetch(input, init);
+    };
+
+    const simplifyLogin = () => {
+      const email = document.querySelector('#email');
+      if (email) {
+        email.value = 'admin@local';
+        email.required = false;
+        const field = email.closest('.field');
+        if (field) field.style.display = 'none';
+      }
+      const copy = document.querySelector('.login-copy');
+      if (copy) copy.textContent = 'Unesi admin lozinku.';
+    };
+
+    new MutationObserver(simplifyLogin).observe(document.documentElement, {subtree:true,childList:true});
+    document.addEventListener('DOMContentLoaded', simplifyLogin);
+  })();
+  </script>
+
+  <script type="module" src="admin.js?v=21"></script>
 </body>
 </html>
