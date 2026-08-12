@@ -1,4 +1,5 @@
 import './admin-programs.js?v=1';
+import './admin-platform.js?v=1';
 
 (() => {
   const LEAFLET_VERSION = '1.9.4';
@@ -62,7 +63,7 @@ import './admin-programs.js?v=1';
   function ago(value) { if (!value) return 'nikad'; const ms = Date.now() - Date.parse(value); if (!Number.isFinite(ms)) return 'nepoznato'; const s = Math.max(0, Math.floor(ms / 1000)); if (s < 10) return 'sad'; if (s < 60) return `${s}s`; if (s < 3600) return `${Math.floor(s / 60)}m`; return `${Math.floor(s / 3600)}h`; }
   function teamVisual(team) { const age = team.updatedAt ? Date.now() - Date.parse(team.updatedAt) : Infinity; if (team.status === 'completed') return ['completed', 'Završio']; if (team.status === 'paused') return ['paused', 'Pauziran']; if (team.gpsError) return ['warning', 'GPS problem']; if (age > 90000) return ['stale', 'Bez signala']; return ['live', 'U igri']; }
   async function getJson(url) { const response = await fetch(url, { method: 'GET', cache: 'no-store' }); const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data.error || 'Mapa nije mogla da učita podatke.'); return data; }
-  function teamPopup(team) { const [, label] = teamVisual(team); const p = team.lastPosition; const target = team.expectedCheckpoint?.name || team.currentCheckpointName || team.phase || '—'; return `<div class="mth-map-popup"><h4>Team ${pad(team.teamNo)}</h4><div class="statusline"><i></i>${esc(label)} · ${esc(ago(team.updatedAt))}</div><dl><dt>Kod</dt><dd>${esc(team.accessCode || '—')}</dd><dt>Meta</dt><dd>${esc(target)}</dd><dt>Udaljenost</dt><dd>${team.distanceToTarget != null ? `${Math.round(team.distanceToTarget)} m` : '—'}</dd><dt>GPS tačnost</dt><dd>${p?.accuracy != null ? `±${Math.round(p.accuracy)} m` : '—'}</dd><dt>Story</dt><dd>${Number(team.collectedCount || 0)}/10</dd><dt>Score</dt><dd>${Number(team.score || 0)}</dd><dt>Last seen</dt><dd>${esc(ago(team.updatedAt))}</dd></dl>${p ? `<div class="coords">${Number(p.lat).toFixed(6)}, ${Number(p.lng).toFixed(6)}</div>` : ''}</div>`; }
+  function teamPopup(team,totalStops=10) { const [, label] = teamVisual(team); const p = team.lastPosition; const target = team.expectedCheckpoint?.name || team.currentCheckpointName || team.phase || '—'; return `<div class="mth-map-popup"><h4>Team ${pad(team.teamNo)}</h4><div class="statusline"><i></i>${esc(label)} · ${esc(ago(team.updatedAt))}</div><dl><dt>Kod</dt><dd>${esc(team.accessCode || '—')}</dd><dt>Meta</dt><dd>${esc(target)}</dd><dt>Udaljenost</dt><dd>${team.distanceToTarget != null ? `${Math.round(team.distanceToTarget)} m` : '—'}</dd><dt>GPS tačnost</dt><dd>${p?.accuracy != null ? `±${Math.round(p.accuracy)} m` : '—'}</dd><dt>Story</dt><dd>${Number(team.collectedCount || 0)}/${totalStops}</dd><dt>Score</dt><dd>${Number(team.score || 0)}</dd><dt>Last seen</dt><dd>${esc(ago(team.updatedAt))}</dd></dl>${p ? `<div class="coords">${Number(p.lat).toFixed(6)}, ${Number(p.lng).toFixed(6)}</div>` : ''}</div>`; }
   function checkpointPopup(cp, index) { return `<div class="mth-map-popup"><h4>${index + 1}. ${esc(cp.name)}</h4><div>${esc(cp.area || '')}</div><div class="coords">GPS radius ${Number(cp.radius || 0)} m</div></div>`; }
 
   async function renderData(instance) {
@@ -93,7 +94,7 @@ import './admin-programs.js?v=1';
         teamsWithGps += 1;
         const pos = [Number(p.lat), Number(p.lng)]; allBounds.push(pos); teamBounds.push(pos);
         const [cls] = teamVisual(team);
-        L.marker(pos, { pane: 'teamPane', zIndexOffset: 1000, icon: L.divIcon({ className: `mth-team-pin ${cls}`, html: `<span>${pad(team.teamNo)}</span>`, iconSize: [38, 38], iconAnchor: [19, 19] }) }).bindPopup(teamPopup(team), { maxWidth: 310 }).addTo(instance.layers);
+        L.marker(pos, { pane: 'teamPane', zIndexOffset: 1000, icon: L.divIcon({ className: `mth-team-pin ${cls}`, html: `<span>${pad(team.teamNo)}</span>`, iconSize: [38, 38], iconAnchor: [19, 19] }) }).bindPopup(teamPopup(team,checkpoints.length || 10), { maxWidth: 310 }).addTo(instance.layers);
         if (Number(p.accuracy) > 0 && Number(p.accuracy) <= 500) L.circle(pos, { pane: 'accuracyPane', radius: Number(p.accuracy), weight: 1, opacity: .35, fillOpacity: .06 }).addTo(instance.layers);
       });
       if (instance.emptyBadge) instance.emptyBadge.remove();
