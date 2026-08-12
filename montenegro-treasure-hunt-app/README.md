@@ -1,42 +1,55 @@
 # Montenegro Treasure Hunt
 
-GPS avantura kroz Crnu Goru integrisana u sindikatevents.me.
-Ovaj modul je jedinstven, čist Netlify stack (Functions + Blobs). Stari
-Node/SQLite/Docker pristup je uklonjen da ne bi bilo dvije verzije istog koda.
+Aktuelni user-facing `/hunt/` build je **Podgorica City Treasure Hunt - Ten Letters That Never Arrived**.
 
-## Linkovi
-- Igra:  https://sindikatevents.me/hunt/
-- Admin: https://sindikatevents.me/hunt/admin
-- Health: https://sindikatevents.me/hunt/api/health
+## Produkcijski URL-ovi
 
-## Kako je sastavljeno
-- Frontend: `public/hunt/` (kopira se u `dist/hunt` tokom builda)
-- Backend:  `netlify/functions/hunt-api-v2.mts` → `netlify/functions/_hunt/core.mjs`
-- Sadržaj:  `netlify/functions/_hunt/seed-data.mjs` (6 gradova × 5 stanica = 30 lokacija)
-- Build i redirecti: **root** `netlify.toml` (`npm run build:netlify`, publish `dist`)
+- Igra: `https://sindikatevents.me/hunt/`
+- Admin: `https://sindikatevents.me/hunt/admin`
+- Event team API: `/hunt/team-api/*`
+- Core/admin API: `/hunt/api/*`
 
-Sve što se tiče deploya kontroliše root `netlify.toml`. U ovom folderu NEMA
-zasebnog netlify.toml da ne bi došlo do zabune koja konfiguracija važi.
+## Aktuelna arhitektura
 
-## Obavezne Netlify env varijable
-- `MTH_TOKEN_PEPPER` — najmanje 24 nasumična karaktera
-- `MTH_ADMIN_EMAIL` — email za admin prijavu
-- `MTH_ADMIN_PASSWORD` — jaka lozinka, najmanje 12 karaktera
+- Podgorica event frontend: `public/hunt/`
+- Podgorica team/event state: `netlify/functions/hunt-event.mts` + Netlify Blobs
+- Core/admin API: `netlify/functions/hunt-api-v2.mts` i `_hunt/core.mjs`
+- Legacy multi-city content engine: `content/tours.json` / `_hunt/seed-data.mjs`
+- Static build: `scripts/build-netlify.mjs`
 
-Opciono:
-- `MTH_ENABLE_TEST_VOUCHER=true` — uključuje test kod `MTH-TEST-ALL` (na produkciji držati isključeno)
-- `MTH_INTEGRATION_API_KEY` — ključ za eksterno automatsko kreiranje vaučera
+`public/hunt/index.html` trenutno učitava premium Podgorica event build (`app-v32-*` + `hunt-data-v32-global.js`). Legacy multi-city player fajlovi su zadržani zbog kompatibilnosti i admin/core infrastrukture, ali nisu aktuelni user-facing flow.
 
-## Provjera poslije deploya
-1. `/hunt/api/health` mora vratiti `"ok": true` i `"configured": true`
-2. Prijava na `/hunt/admin` sa `MTH_ADMIN_EMAIL` / `MTH_ADMIN_PASSWORD`
-3. Generiši vaučer i testiraj ga na `/hunt/`
+## Team kodovi
 
-## Lokalno
-- Testovi jezgra: `npm test` (iz ovog foldera) ili `npm run test:hunt` (iz roota)
-- Content istina je `seed-data.mjs`. Izmjena tura ide kroz admin panel (Netlify Blobs) ili direktno u seed-data.
+Podgorica live event koristi kodove:
 
-## Napomena
-Netlify Blobs je trajni storage i podaci ostaju poslije novih deploya. GPS
-koordinate stanica nisu terenski verifikovane — prije javnog lansiranja proći
-svih 30 lokacija fizički.
+- `PG26-01`
+- ...
+- `PG26-10`
+
+Produkcija potvrđuje kod kroz `hunt-event.mts`. `?review=1` omogućava lokalni UI review i simulaciju dolaska na checkpoint; ako event API nije dostupan, review mode može koristiti lokalni team state.
+
+## Lokalna provjera
+
+```bash
+npm test
+node --test tests/content.test.mjs
+```
+
+Za UI review servirati `public/` kao statički root i otvoriti:
+
+`/hunt/?review=1`
+
+## Netlify
+
+U glavnom `sindikat-main` repou **root `netlify.toml` je source of truth** za produkcijski deploy. `netlify.toml` u ovom izdvojenom modulu služi kao standalone mirror hunt ruta.
+
+Potrebne rute:
+
+- `/hunt/team-api/*` → `hunt-event`
+- `/hunt/api/*` → `hunt-api-v2` u glavnom repou
+- `/hunt/` → `hunt/index.html`
+
+## Prije javnog eventa
+
+Kod je tehnički QA testiran, ali svih 10 Podgorica field stopova i Sastavci finale treba proći fizički na iPhone i Android uređajima prije javnog korišćenja. Posebno potvrditi GPS signal, bezbjedan pješački prilaz i realan radijus otključavanja na terenu.

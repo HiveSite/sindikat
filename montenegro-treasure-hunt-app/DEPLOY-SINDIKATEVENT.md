@@ -1,89 +1,48 @@
-# Deploy na sindikatevent.me/hunt/
+# Deploy - sindikatevents.me/hunt/
 
-## URL-ovi
+Aktuelni Hunt build je dio Netlify deploya glavnog `sindikat-main` repoa.
 
-- Igra: `https://sindikatevent.me/hunt/`
-- Admin: `https://sindikatevent.me/hunt/admin`
+## Source of truth
 
-## 1. Pokrenite Node aplikaciju
+U punom repou koristite **root `netlify.toml`**.
 
-Na serveru, iz ovog foldera:
+Potrebne produkcijske rute su:
 
-```bash
-cp .env.example .env
-# uredite .env
-node server.mjs
+```toml
+[[redirects]]
+  from = "/hunt/team-api/*"
+  to = "/.netlify/functions/hunt-event/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/hunt/api/*"
+  to = "/.netlify/functions/hunt-api-v2/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/hunt/"
+  to = "/hunt/index.html"
+  status = 200
+  force = true
 ```
 
-Obavezne vrijednosti u `.env`:
+## Build
 
-```env
-NODE_ENV=production
-PORT=3000
-HOST=127.0.0.1
-BASE_PATH=/hunt
-APP_ORIGIN=https://sindikatevent.me
-DATABASE_FILE=./data/mth.sqlite
-TOKEN_PEPPER=unesite-dugu-nasumicnu-vrijednost-minimum-24-znaka
-ADMIN_EMAIL=vas-admin-email
-ADMIN_PASSWORD=vrlo-jaka-lozinka
-INTEGRATION_API_KEY=dugacak-integracioni-kljuc
-ENABLE_DEV_TEST_VOUCHER=false
-```
+Glavni repo koristi `npm run build:netlify`, a `scripts/build-netlify.mjs` kopira aktuelni `montenegro-treasure-hunt-app/public/hunt` u `dist/hunt`.
 
-## 2. Nginx konfiguracija
+## Poslije deploya
 
-U postojećem `server` bloku za `sindikatevent.me` dodajte:
+Provjeriti:
 
-```nginx
-location = /hunt {
-    return 308 /hunt/;
-}
+- `https://sindikatevents.me/hunt/`
+- validan team code `PG26-01` do `PG26-10`
+- `/hunt/team-api/health`
+- team board
+- GPS permission i field unlock na telefonu
+- finalni Sastavci unlock
 
-location /hunt/ {
-    proxy_pass http://127.0.0.1:3000;
-    proxy_http_version 1.1;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-```
+## Napomena
 
-Zatim:
-
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-`proxy_pass` namjerno nema završni `/`, jer aplikacija očekuje `/hunt` prefiks.
-
-## 3. Provjera
-
-```bash
-curl -I https://sindikatevent.me/hunt/
-curl https://sindikatevent.me/hunt/api/health
-```
-
-Otvorite:
-
-- `https://sindikatevent.me/hunt/`
-- `https://sindikatevent.me/hunt/admin`
-
-## Ako je glavni sajt na Vercelu
-
-Ovu SQLite Node aplikaciju prvo hostujte na VPS-u ili servisu sa trajnim diskom. U glavnom Vercel projektu dodajte rewrite prema tom hostu:
-
-```json
-{
-  "rewrites": [
-    {
-      "source": "/hunt/:path*",
-      "destination": "https://NODE-APP-HOST/hunt/:path*"
-    }
-  ]
-}
-```
-
-Baza mora ostati na hostu sa trajnim diskom.
+Stare Node/SQLite/Docker/VPS instrukcije više nisu aktuelna produkcijska arhitektura za ovaj build.

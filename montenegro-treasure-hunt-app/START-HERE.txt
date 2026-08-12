@@ -1,10 +1,28 @@
-MONTENEGRO TREASURE HUNT - SINDIKATEVENT.ME/HUNT
+MONTENEGRO TREASURE HUNT - CURRENT BUILD
 
-1. Ubacite ovaj folder u Git repo.
-2. Deployujte ga kao Node.js servis sa trajnim diskom.
-3. Postavite BASE_PATH=/hunt i APP_ORIGIN=https://sindikatevent.me u .env.
-4. Na glavnom serveru proxy-rutirajte /hunt/ ka ovom Node servisu.
-5. Detaljna komanda je u DEPLOY-SINDIKATEVENT.md.
+LIVE PATH
+https://sindikatevents.me/hunt/
 
-Player: https://sindikatevent.me/hunt/
-Admin: https://sindikatevent.me/hunt/admin
+CURRENT EXPERIENCE
+Podgorica City Treasure Hunt
+"Ten Letters That Never Arrived"
+
+FRONTEND
+public/hunt/
+
+EVENT API
+/hunt/team-api/* -> netlify/functions/hunt-event.mts
+
+ADMIN / CORE API
+/hunt/api/* -> hunt-api-v2 in the main sindikat repo
+
+LOCAL UI REVIEW
+Serve public/ as the static root and open:
+/hunt/?review=1
+
+TEAM CODES
+PG26-01 through PG26-10
+
+IMPORTANT
+In the full sindikat-main repository, root netlify.toml is the production source of truth.
+Do not deploy the old Node/SQLite/VPS instructions as the current architecture.
