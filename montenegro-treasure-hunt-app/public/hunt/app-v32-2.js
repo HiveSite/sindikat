@@ -22,6 +22,7 @@ function closeSheet() { document.querySelector('#overlay')?.remove(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
 function hintSheet(cp) {
+  if (!eventConfig.allowHints) return toast('Hints are disabled by the coordinator.');
   const level = state.hints[cp.id] || 0;
   const body = `
     <p class="sheetlead">Hints only narrow the physical search area. They never reveal the field-check answer or the story fragment.</p>
@@ -48,7 +49,7 @@ function useHint(cp, lvl) {
   if (lvl === 2) state.score = Math.max(0, state.score - 20);
   if (lvl === 3) state.score = Math.max(0, state.score - 30);
   state.hints[cp.id] = lvl;
-  save();
+  save(`Opened location hint ${lvl} at ${cp.name}`);
   closeSheet();
   hintSheet(cp);
 }
@@ -113,6 +114,8 @@ function checkAnswer(cp, value) {
     ? Number(value) === cp.answer
     : String(value || '').trim().toUpperCase() === cp.answerText;
   if (!ok) {
+    state.wrongAnswers = Number(state.wrongAnswers || 0) + 1;
+    save(`Wrong field answer at ${cp.name}`);
     document.querySelector('#feedback').innerHTML = `<b>Not yet.</b><span>${esc(cp.retry)}</span>`;
     return;
   }
@@ -123,7 +126,7 @@ function checkAnswer(cp, value) {
   const beat = STORY_BEATS[beatIndex];
   state.score += earned;
   if (!state.collected.includes(cp.id)) state.collected.push(cp.id);
-  save();
+  save(`Recovered archive ${pad(beatIndex + 1)} at ${cp.name}`);
   closeSheet();
   fragmentReveal(cp, beat, earned, first, beatIndex);
 }
@@ -155,7 +158,7 @@ function fragmentReveal(cp, beat, earned, first, beatIndex) {
     closeSheet();
     state.index += 1;
     if (state.index >= checkpoints.length) state.phase = 'finalPuzzle';
-    save();
+    save(`Moving to field stop ${Math.min(state.index + 1, checkpoints.length)} of ${checkpoints.length}`);
     render();
   };
 }

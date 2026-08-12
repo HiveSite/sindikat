@@ -1,4 +1,4 @@
-const FINAL = {
+let FINAL = {
   name: 'Sastavci - confluence of Ribnica and Morača',
   lat: 42.43818,
   lng: 19.25772,
@@ -6,7 +6,7 @@ const FINAL = {
   clue: 'Two accounts stayed separate for years. Finish the case where two waters finally become one.'
 };
 
-const checkpoints = [
+let checkpoints = [
   {
     id: 'promise', name: 'Osmanagić Mosque area', lat: 42.43534, lng: 19.26035, radius: 55,
     chapter: 'The Shared Place', area: 'Stara Varoš', seal: 'COMMUNITY',
@@ -149,7 +149,7 @@ const checkpoints = [
   }
 ];
 
-const STORY_BEATS = [
+let STORY_BEATS = [
   {
     act: 'ACT I · THE PROMISE', title: 'Two tickets', source: 'Ana', artifactType: 'ticket',
     quote: 'I bought two tickets. I kept them together because I thought we were leaving together.',
@@ -202,4 +202,4 @@ const STORY_BEATS = [
   }
 ];
 
-window.HUNT_DATA = { FINAL, checkpoints, STORY_BEATS };
+window.HUNT_DATA = { FINAL, checkpoints, STORY_BEATS, version: '4.1.0' };

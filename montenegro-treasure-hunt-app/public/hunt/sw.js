@@ -1,13 +1,13 @@
 const BASE='/hunt';
-const CACHE='podgorica-hunt-v40-premium-casefile';
+const CACHE='podgorica-hunt-v50-event-control';
 const ASSETS=[
   `${BASE}/`,
-  `${BASE}/styles-v31.css?v=40`,
-  `${BASE}/ux-v32.css?v=40`,
-  `${BASE}/hunt-data-v32-global.js?v=40`,
-  `${BASE}/app-v32-1.js?v=40`,
-  `${BASE}/app-v32-2.js?v=40`,
-  `${BASE}/app-v32-3.js?v=40`,
+  `${BASE}/styles-v31.css?v=50`,
+  `${BASE}/ux-v32.css?v=50`,
+  `${BASE}/hunt-data-v32-global.js?v=50`,
+  `${BASE}/app-v32-1.js?v=50`,
+  `${BASE}/app-v32-2.js?v=50`,
+  `${BASE}/app-v32-3.js?v=50`,
   `${BASE}/manifest.webmanifest`,
   `${BASE}/assets/icon.svg`,
   `${BASE}/assets/cities/podgorica.svg`

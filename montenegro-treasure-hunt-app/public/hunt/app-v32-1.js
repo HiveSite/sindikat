@@ -3,6 +3,9 @@ const toastEl = document.querySelector('#toast');
 const qs = new URLSearchParams(location.search);
 const reviewMode = qs.get('review') === '1';
 const API = '/hunt/team-api';
+let eventConfig = {active:true,paused:false,leaderboard:true,allowHints:true,gpsRequired:true,announcement:'',emergencyMessage:''};
+let controlTimer = null;
+let lastPresenceAt = 0;
 
 const state = {
   teamNo: 0,
@@ -16,7 +19,14 @@ const state = {
   position: null,
   watchId: null,
   gpsError: '',
-  finalSolved: false
+  finalSolved: false,
+  wrongAnswers: 0,
+  controlRevision: 0,
+  gpsOverride: null,
+  lastAction: 'Ready',
+  coordinatorNote: '',
+  teamPaused: false,
+  contentVersion: window.HUNT_DATA?.version || 'local'
 };
 
 const esc = (s = '') => String(s).replace(/[&<>"']/g, c => ({
@@ -51,21 +61,118 @@ function progressValue() {
   return Math.min(90, state.collected.length * 9);
 }
 
-function save() {
+function hintCount() { return Object.values(state.hints || {}).reduce((sum, level) => sum + (Number(level) || 0), 0); }
+function telemetry(logAction = '') {
+  const cp = state.phase === 'finalSearch' ? FINAL : current();
+  const d = state.position && cp ? Math.round(distance(state.position, cp)) : null;
+  if (logAction) state.lastAction = logAction;
+  return {
+    code: state.code,
+    progress: progressValue(),
+    score: state.score,
+    phase: state.phase,
+    currentIndex: state.index,
+    collectedCount: state.collected.length,
+    hintsCount: hintCount(),
+    wrongAnswers: state.wrongAnswers || 0,
+    currentCheckpointId: cp?.id || (state.phase === 'finalSearch' ? 'final' : null),
+    currentCheckpointName: cp?.name || null,
+    currentArea: cp?.area || (state.phase === 'finalSearch' ? 'Sastavci' : null),
+    distanceToTarget: Number.isFinite(d) ? d : null,
+    lastPosition: state.position ? {...state.position, at:new Date().toISOString()} : null,
+    gpsError: state.gpsError || '',
+    lastAction: state.lastAction || 'Playing',
+    logAction: logAction || ''
+  };
+}
+function persistLocal() {
   if (!state.teamNo) return;
   localStorage.setItem(teamKey(), JSON.stringify({
-    phase: state.phase,
-    index: state.index,
-    score: state.score,
-    collected: state.collected,
-    hints: state.hints,
-    attempts: state.attempts,
-    finalSolved: state.finalSolved
+    phase: state.phase,index: state.index,score: state.score,collected: state.collected,hints: state.hints,attempts: state.attempts,
+    finalSolved: state.finalSolved,wrongAnswers: state.wrongAnswers,controlRevision: state.controlRevision,gpsOverride: state.gpsOverride,lastAction: state.lastAction,
+    coordinatorNote: state.coordinatorNote,teamPaused:state.teamPaused,contentVersion: state.contentVersion
   }));
-  eventApi('/progress', {
-    method: 'POST',
-    body: { code: state.code, progress: progressValue(), score: state.score }
-  }).catch(() => {});
+}
+function save(logAction = '') {
+  if (!state.teamNo) return;
+  persistLocal();
+  eventApi('/progress', { method: 'POST', body: telemetry(logAction) }).then(handleServerPacket).catch(() => {});
+}
+function applyContent(content) {
+  if (!content) return;
+  if (content.final) FINAL = content.final;
+  if (Array.isArray(content.checkpoints) && content.checkpoints.length) checkpoints = content.checkpoints;
+  if (Array.isArray(content.storyBeats) && content.storyBeats.length) STORY_BEATS = content.storyBeats;
+  state.contentVersion = content.version || state.contentVersion;
+  window.HUNT_DATA = { FINAL, checkpoints, STORY_BEATS, version: state.contentVersion };
+}
+function setProgressIndex(value) {
+  const idx = clamp(Math.floor(Number(value) || 0), 0, checkpoints.length);
+  state.index = idx;
+  state.collected = route().slice(0, idx).map(cp => cp.id);
+  state.phase = idx >= checkpoints.length ? 'finalPuzzle' : 'hunt';
+}
+function controlOverlay(title, copy, tone = '') {
+  let el = document.querySelector('#controlOverlay');
+  if (!el) {
+    document.body.insertAdjacentHTML('beforeend', '<div id="controlOverlay" class="control-overlay"><div class="control-card"><div class="control-kicker">EVENT CONTROL</div><h2></h2><p></p><small>Keep this page open. The coordinator can resume your game remotely.</small></div></div>');
+    el = document.querySelector('#controlOverlay');
+  }
+  el.className = `control-overlay on ${tone}`;
+  el.querySelector('h2').textContent = title;
+  el.querySelector('p').textContent = copy;
+}
+function clearControlOverlay() { document.querySelector('#controlOverlay')?.remove(); }
+function applyConfig(config = {}) {
+  eventConfig = {...eventConfig, ...config};
+  if (eventConfig.emergencyMessage) controlOverlay('Coordinator notice', eventConfig.emergencyMessage, 'emergency');
+  else if (!eventConfig.active) controlOverlay('Event closed', 'The coordinator has temporarily closed the event.');
+  else if (eventConfig.paused) controlOverlay('Event paused', 'Stay where you are and wait for the coordinator to resume the event.');
+  else if (state.teamPaused) controlOverlay('Your team is paused', 'The coordinator paused this team. Stay in a safe place until the game resumes.');
+  else clearControlOverlay();
+}
+async function refreshContentIfNeeded(version) {
+  if (!version || version === state.contentVersion) return;
+  try { const d = await eventApi('/content'); applyContent(d.content); persistLocal(); render(); } catch {}
+}
+function applyControl(control) {
+  if (!control || Number(control.revision || 0) <= Number(state.controlRevision || 0)) return;
+  state.controlRevision = Number(control.revision || 0);
+  const action = control.action;
+  const payload = control.payload || {};
+  if (action === 'pause') { state.teamPaused=true; applyConfig(eventConfig); }
+  if (action === 'resume') { state.teamPaused=false; applyConfig(eventConfig); toast('Coordinator resumed your team.'); }
+  if (action === 'reset') {
+    const keep = {teamNo:state.teamNo,code:state.code,controlRevision:state.controlRevision,contentVersion:state.contentVersion};
+    localStorage.removeItem(teamKey());
+    Object.assign(state,{phase:'briefing',index:0,score:0,collected:[],hints:{},attempts:{},finalSolved:false,wrongAnswers:0,gpsOverride:null,lastAction:'Reset by coordinator',coordinatorNote:'',teamPaused:false,...keep});
+    persistLocal(); closeSheet?.(); briefing(); return;
+  }
+  if (action === 'advance' || action === 'set_index') { setProgressIndex(payload.targetIndex ?? payload.value); state.lastAction = 'Progress adjusted by coordinator'; render(); }
+  if (action === 'gps_unlock') { state.gpsOverride = {checkpointId: current()?.id || 'final', expiresAt: payload.expiresAt}; toast('Coordinator unlocked this field zone.'); updateGpsUI(); }
+  if (action === 'set_score') { state.score = clamp(Number(payload.targetScore ?? payload.value) || 0,0,999999); toast('Score adjusted by coordinator.'); render(); }
+  if (action === 'complete') { state.index=checkpoints.length;state.collected=route().map(cp=>cp.id);state.phase='complete';toast('Coordinator marked the case complete.');render(); }
+  if (action === 'message' && payload.message) { state.coordinatorNote=payload.message; toast(`Coordinator: ${payload.message}`); render(); }
+  persistLocal();
+}
+function handleServerPacket(packet = {}) {
+  const remoteStatus = packet.status || packet.team?.status;
+  if (remoteStatus === 'paused') state.teamPaused = true;
+  else if (remoteStatus === 'active' || remoteStatus === 'completed') state.teamPaused = false;
+  if (packet.config) applyConfig(packet.config);
+  if (packet.control) applyControl(packet.control);
+  if (packet.contentVersion) refreshContentIfNeeded(packet.contentVersion);
+}
+function startControlPolling() {
+  if (controlTimer || !state.code) return;
+  const poll = () => eventApi(`/control?code=${encodeURIComponent(state.code)}`).then(handleServerPacket).catch(() => {});
+  poll(); controlTimer = setInterval(poll, 20000);
+}
+function syncPresence(force = false) {
+  if (!state.teamNo || !state.code) return;
+  const now = Date.now(); if (!force && now - lastPresenceAt < 20000) return; lastPresenceAt = now;
+  const t = telemetry();
+  eventApi('/presence', {method:'POST', body:{code:state.code,lastPosition:t.lastPosition,distanceToTarget:t.distanceToTarget,gpsError:t.gpsError,lastAction:t.lastAction,currentCheckpointId:t.currentCheckpointId,currentCheckpointName:t.currentCheckpointName,currentArea:t.currentArea}}).then(handleServerPacket).catch(()=>{});
 }
 
 function restore() {
@@ -73,6 +180,8 @@ function restore() {
     const d = JSON.parse(localStorage.getItem(teamKey()) || 'null');
     if (!d) return false;
     Object.assign(state, d);
+    state.contentVersion = window.HUNT_DATA?.version || state.contentVersion;
+    state.wrongAnswers = Number(state.wrongAnswers || 0);
     state.collected = Array.isArray(state.collected) ? state.collected.slice(0, checkpoints.length) : [];
     state.index = clamp(Number(state.index) || 0, 0, checkpoints.length);
     return true;
@@ -120,6 +229,8 @@ function gpsReliable() {
 }
 
 function isNear(cp) {
+  if (!eventConfig.gpsRequired) return true;
+  if (state.gpsOverride && state.gpsOverride.checkpointId === (cp.id || 'final') && Date.parse(state.gpsOverride.expiresAt || 0) > Date.now()) return true;
   if (!state.position || !gpsReliable()) return false;
   return distance(state.position, cp) <= arrivalRadius(cp);
 }
@@ -156,6 +267,7 @@ function startGps() {
     if (!navigator.geolocation) {
       state.gpsError = 'This browser does not provide geolocation.';
       updateGpsUI();
+      syncPresence();
     }
     return;
   }
@@ -169,10 +281,12 @@ function startGps() {
       };
       state.gpsError = '';
       updateGpsUI();
+      syncPresence();
     },
     e => {
       state.gpsError = e.code === 1 ? 'Location permission is off.' : 'GPS could not get a reliable position.';
       updateGpsUI();
+      syncPresence(true);
     },
     { enableHighAccuracy: true, maximumAge: 1500, timeout: 12000 }
   );
@@ -262,6 +376,9 @@ async function join() {
     const d = await eventApi('/join', { method: 'POST', body: { code } });
     state.teamNo = d.team.teamNo;
     state.code = code;
+    applyContent(d.content);
+    applyConfig(d.config);
+    state._joinControl = d.team?.control || null;
   } catch (e) {
     if (!reviewMode) {
       err.textContent = e.message;
@@ -274,6 +391,9 @@ async function join() {
     toast('Review mode: using local team data.');
   }
   const resumed = restore();
+  if (state._joinControl) { const pending=state._joinControl; delete state._joinControl; applyControl(pending); }
+  startControlPolling();
+  syncPresence(true);
   if (resumed && !['entry', 'briefing'].includes(state.phase)) {
     startGps();
     return render();
@@ -317,7 +437,7 @@ function briefing() {
   requestAnimationFrame(() => window.scrollTo(0, 0));
   document.querySelector('#start').onclick = () => {
     state.phase = 'hunt';
-    save();
+    save('Started field investigation');
     startGps();
     render();
   };
@@ -339,6 +459,8 @@ function shell(body, { dock = true } = {}) {
         <div class="actline">${esc(actCopy)}</div>
       </header>
       <div class="wrap game">
+        ${eventConfig.announcement ? `<div class="coordinator-banner"><span>COORDINATOR</span><p>${esc(eventConfig.announcement)}</p></div>` : ''}
+        ${state.coordinatorNote ? `<div class="team-message"><span>MESSAGE TO TEAM ${pad(state.teamNo)}</span><p>${esc(state.coordinatorNote)}</p></div>` : ''}
         ${body}
         ${dock ? `<nav class="dock premium-dock" aria-label="Game navigation">
           <button id="huntNav" class="active"><span>◇</span>Field</button>
@@ -400,13 +522,13 @@ function render() {
       </div>
       <div class="primary-actions">
         <button class="btn full" data-check-position>${isNear(cp) ? 'Open field check' : 'Check my position'}</button>
-        <button class="btn secondary full" id="hint">Need a location hint</button>
+        <button class="btn secondary full" id="hint" ${eventConfig.allowHints ? '' : 'disabled'}>${eventConfig.allowHints ? 'Need a location hint' : 'Hints disabled by coordinator'}</button>
         ${state.gpsError ? '<button class="textbtn" id="gpsHelp">How to enable location</button>' : ''}
         ${reviewMode ? '<button class="btn review full" id="simulate">Simulate field arrival</button>' : ''}
       </div>
     </section>`);
   document.querySelector('[data-check-position]').onclick = () => checkPosition(cp);
-  document.querySelector('#hint').onclick = () => hintSheet(cp);
+  document.querySelector('#hint').onclick = () => eventConfig.allowHints ? hintSheet(cp) : toast('Hints are disabled for this event.');
   document.querySelector('#gpsHelp')?.addEventListener('click', gpsHelpSheet);
   document.querySelector('#simulate')?.addEventListener('click', () => locationFound(cp));
 }

@@ -1,0 +1,19 @@
+PATCH 5 - EVENT CONTROL CENTER
+
+Apply this patch over the Premium / Patch 4 Montenegro Treasure Hunt app.
+
+Main additions:
+- PG26 Event Control Center in /hunt/admin
+- live status for all 10 teams
+- latest reported GPS position, accuracy, distance and target checkpoint
+- team progress, story progress, score, hints, wrong answers and last activity
+- live operations map
+- team pause/resume, GPS unlock, skip, score/progress correction, message, note, reset and complete
+- global event open/pause, leaderboard, hints, GPS verification, announcement and emergency message
+- live game/content editor for checkpoints, coordinates, radii, clues, field checks, story beats and finale
+- live content/config stored in Netlify Blobs
+- remote control polling in player app
+- cache version bumped to v50 so event phones refresh the new client
+
+Important operational note:
+The admin shows the latest GPS position reported by each team's browser. A phone whose browser is closed, background-suspended, offline or denied location permission cannot continuously report a new position. Last-seen and GPS accuracy are displayed so the coordinator can distinguish stale data from a live device.
