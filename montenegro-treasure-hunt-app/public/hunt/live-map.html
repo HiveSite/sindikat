@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07171d">
+  <title>PG26 Live mapa</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <style>
+    html,body{height:100%;margin:0;background:#07171d;color:#eef7f7;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .shell{height:100%;display:grid;grid-template-rows:auto 1fr}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:#081c22;border-bottom:1px solid rgba(255,255,255,.1)}
+    header h1{font-size:18px;margin:0} header p{margin:3px 0 0;color:#8da5aa;font-size:12px}
+    .actions{display:flex;align-items:center;gap:10px}.badge{padding:8px 11px;border-radius:999px;background:#102a31;font-size:12px;font-weight:800}.badge b{color:#72e0bb}
+    .btn{color:#eef7f7;text-decoration:none;border:1px solid rgba(255,255,255,.15);padding:9px 12px;border-radius:10px;font-size:12px;font-weight:800}
+    #map{height:100%;min-height:460px;background:#0b1c22}
+    .team-icon{background:transparent;border:0}.team-icon span{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#0e7a5f;color:#fff;border:3px solid #fff;box-shadow:0 8px 22px rgba(0,0,0,.35);font-weight:900;font-size:12px}.team-icon.stale span{background:#687277}.team-icon.paused span{background:#b87a14}.team-icon.completed span{background:#6d54b5}.team-icon.warning span{background:#b44d3d}
+    .cp-icon{background:transparent;border:0}.cp-icon span{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#fff;color:#11272d;border:2px solid #11272d;font-size:11px;font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.22)}
+    .final-icon{background:transparent;border:0}.final-icon span{display:grid;place-items:center;width:32px;height:32px;transform:rotate(45deg);border-radius:7px;background:#d8b56a;color:#07171d;border:2px solid #fff}.final-icon b{transform:rotate(-45deg)}
+    .popup{min-width:220px;color:#132227}.popup h3{margin:0 0 8px}.popup dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;margin:0;font-size:12px}.popup dt{color:#64777c}.popup dd{margin:0;font-weight:800;text-align:right}
+    .notice{position:absolute;z-index:1000;top:82px;left:50%;transform:translateX(-50%);background:rgba(7,23,29,.94);color:#fff;padding:10px 14px;border-radius:999px;font-size:12px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+    @media(max-width:680px){header{align-items:flex-start;flex-direction:column}.actions{width:100%;justify-content:space-between}.shell{grid-template-rows:auto 1fr}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div><h1>PG26 - Live mapa</h1><p>Stvarna OpenStreetMap mapa · posljednji GPS timova · refresh 8s</p></div>
+    <div class="actions"><span class="badge" id="gpsBadge"><b>0/10 GPS</b></span><a class="btn" href="/hunt/admin">← Admin</a></div>
+  </header>
+  <div id="map"></div>
+</div>
+<div class="notice" id="notice" hidden></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(() => {
+  const KEY='mth_simple_admin_password';
+  const password=sessionStorage.getItem(KEY)||'';
+  const notice=document.querySelector('#notice');
+  const badge=document.querySelector('#gpsBadge');
+  const map=L.map('map',{preferCanvas:true}).setView([42.4413,19.2636],14);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'}).addTo(map);
+  const layer=L.layerGroup().addTo(map);
+  let fitted=false;
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const pad=n=>String(n).padStart(2,'0');
+  const ago=v=>{if(!v)return'nikad';const s=Math.max(0,Math.floor((Date.now()-Date.parse(v))/1000));if(s<10)return'sad';if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';return Math.floor(s/3600)+'h'};
+  const visual=t=>{const age=t.updatedAt?Date.now()-Date.parse(t.updatedAt):Infinity;if(t.status==='completed')return['completed','Završio'];if(t.status==='paused')return['paused','Pauziran'];if(t.gpsError)return['warning','GPS problem'];if(age>90000)return['stale','Bez signala'];return['live','U igri']};
+  const request=async path=>{const r=await fetch('/hunt/team-api'+path,{headers:{'x-mth-admin-password':password},cache:'no-store'});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Greška pri učitavanju mape.');return d};
+  const popup=t=>{const[,label]=visual(t),p=t.lastPosition,target=t.expectedCheckpoint?.name||t.currentCheckpointName||t.phase||'—';return `<div class="popup"><h3>Team ${pad(t.teamNo)}</h3><dl><dt>Status</dt><dd>${esc(label)}</dd><dt>Meta</dt><dd>${esc(target)}</dd><dt>Do mete</dt><dd>${t.distanceToTarget!=null?Math.round(t.distanceToTarget)+' m':'—'}</dd><dt>GPS</dt><dd>${p?.accuracy!=null?'±'+Math.round(p.accuracy)+' m':'—'}</dd><dt>Story</dt><dd>${Number(t.collectedCount||0)}/10</dd><dt>Score</dt><dd>${Number(t.score||0)}</dd><dt>Last seen</dt><dd>${esc(ago(t.updatedAt))}</dd></dl></div>`};
+  async function refresh(){
+    if(!password){notice.hidden=false;notice.textContent='Prvo se prijavi na /hunt/admin u ovom tabu.';return}
+    try{
+      const[o,c]=await Promise.all([request('/admin/overview'),request('/admin/content')]);
+      layer.clearLayers();const bounds=[];let gps=0;
+      (c.content?.checkpoints||[]).forEach((cp,i)=>{if(!Number.isFinite(Number(cp.lat))||!Number.isFinite(Number(cp.lng)))return;const pos=[Number(cp.lat),Number(cp.lng)];bounds.push(pos);L.marker(pos,{icon:L.divIcon({className:'cp-icon',html:`<span>${i+1}</span>`,iconSize:[26,26],iconAnchor:[13,13]})}).bindPopup(`<div class="popup"><h3>${i+1}. ${esc(cp.name)}</h3><div>${esc(cp.area||'')}</div></div>`).addTo(layer)});
+      const fin=c.content?.final;if(fin&&Number.isFinite(Number(fin.lat))&&Number.isFinite(Number(fin.lng))){const pos=[Number(fin.lat),Number(fin.lng)];bounds.push(pos);L.marker(pos,{icon:L.divIcon({className:'final-icon',html:'<span><b>◇</b></span>',iconSize:[32,32],iconAnchor:[16,16]})}).bindPopup(`<div class="popup"><h3>Finale - ${esc(fin.name||'Sastavci')}</h3></div>`).addTo(layer)}
+      (o.teams||[]).forEach(t=>{const p=t.lastPosition;if(!p||!Number.isFinite(Number(p.lat))||!Number.isFinite(Number(p.lng)))return;gps++;const pos=[Number(p.lat),Number(p.lng)], [cls]=visual(t);bounds.push(pos);L.marker(pos,{zIndexOffset:1000,icon:L.divIcon({className:'team-icon '+cls,html:`<span>${pad(t.teamNo)}</span>`,iconSize:[38,38],iconAnchor:[19,19]})}).bindPopup(popup(t),{maxWidth:310}).addTo(layer);if(Number(p.accuracy)>0&&Number(p.accuracy)<=500)L.circle(pos,{radius:Number(p.accuracy),weight:1,opacity:.3,fillOpacity:.05}).addTo(layer)});
+      badge.innerHTML=`<b>${gps}/10 GPS</b>`;notice.hidden=gps>0;notice.textContent=gps?'':'Još nema GPS signala sa timskih telefona.';
+      if(!fitted&&bounds.length){map.fitBounds(bounds,{padding:[35,35],maxZoom:15});fitted=true}
+    }catch(e){notice.hidden=false;notice.textContent=e.message||'Mapa nije dostupna.'}
+  }
+  refresh();setInterval(refresh,8000);
+})();
+</script>
+</body>
+</html>
