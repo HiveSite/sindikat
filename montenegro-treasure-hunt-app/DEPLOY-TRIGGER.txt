@@ -1,0 +1,2 @@
+Deploy trigger for Montenegro Treasure Hunt admin environment refresh.
+2026-08-12
