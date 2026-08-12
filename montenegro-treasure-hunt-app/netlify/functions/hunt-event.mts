@@ -32,28 +32,24 @@ function teamFromCode(value) {
   return m ? { code, teamNo: Number(m[1]) } : null;
 }
 
-function parseCookies(header = '') {
-  return Object.fromEntries(header.split(';').map(x => x.trim()).filter(Boolean).map(x => {
-    const i = x.indexOf('=');
-    return i < 0 ? ['', ''] : [decodeURIComponent(x.slice(0, i)), decodeURIComponent(x.slice(i + 1))];
-  }).filter(([k]) => k));
-}
+const DEFAULT_ADMIN_PASSWORD_HASH = '9552929bc70074eb42eeb96f7410edc32f02b4b16a197ff577f79142f23c4740';
 
-const DEFAULT_TOKEN_PEPPER = 'mth-sindikat-treasure-hunt-2026-prod-stable-pepper-v1';
-
-function adminPepper() {
-  return process.env.MTH_TOKEN_PEPPER || process.env.TOKEN_PEPPER || DEFAULT_TOKEN_PEPPER;
+function adminPasswordHash() {
+  return (process.env.MTH_EVENT_ADMIN_PASSWORD_HASH || DEFAULT_ADMIN_PASSWORD_HASH).trim().toLowerCase();
 }
 
 async function requireAdmin(request) {
-  const raw = parseCookies(request.headers.get('cookie') || '').mth_admin;
-  const pepper = adminPepper();
-  if (!raw || !pepper) return null;
-  const hash = crypto.createHash('sha256').update(`${pepper}:${raw}`).digest('hex');
-  const auth = getStore(AUTH_STORE, { consistency: 'strong' });
-  const session = await auth.get(`admin-session/${hash}`, { type: 'json' });
-  if (!session || !session.expiresAt || session.expiresAt <= nowIso()) return null;
-  return { email: process.env.MTH_ADMIN_EMAIL || session.email || 'admin', role: 'admin' };
+  const password = request.headers.get('x-mth-admin-password') || '';
+  if (!password) return null;
+  const incoming = crypto.createHash('sha256').update(password).digest('hex');
+  const expected = adminPasswordHash();
+  if (!/^[a-f0-9]{64}$/.test(expected)) return null;
+  try {
+    const ok = crypto.timingSafeEqual(Buffer.from(incoming, 'hex'), Buffer.from(expected, 'hex'));
+    return ok ? { email: 'Password access', role: 'admin' } : null;
+  } catch {
+    return null;
+  }
 }
 
 function eventStore() {
@@ -266,7 +262,7 @@ export default async function handler(request) {
 
     if (path.startsWith('/admin/')) {
       const admin = await requireAdmin(request);
-      if (!admin) return json(401, { error: 'Admin session is required.' });
+      if (!admin) return json(401, { error: 'Pogrešna admin lozinka.' });
       const content = await getContent(store);
 
       if (path === '/admin/overview' && request.method === 'GET') {
