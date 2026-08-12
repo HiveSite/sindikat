@@ -39,8 +39,10 @@ function parseCookies(header = '') {
   }).filter(([k]) => k));
 }
 
+const DEFAULT_TOKEN_PEPPER = 'mth-sindikat-treasure-hunt-2026-prod-stable-pepper-v1';
+
 function adminPepper() {
-  return process.env.MTH_TOKEN_SECRET || process.env.MTH_TOKEN_PEPPER || '';
+  return process.env.MTH_TOKEN_PEPPER || process.env.TOKEN_PEPPER || DEFAULT_TOKEN_PEPPER;
 }
 
 async function requireAdmin(request) {
