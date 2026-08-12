@@ -2,6 +2,8 @@ import crypto from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { createApi, normalizeApiPath } from './_hunt/core.mjs';
 
+const DEFAULT_TOKEN_PEPPER='mth-sindikat-treasure-hunt-2026-prod-stable-pepper-v1';
+
 let blobStore=null;
 function getBlobStore(){
   if(!blobStore)blobStore=getStore('montenegro-treasure-hunt',{consistency:'strong'});
@@ -18,7 +20,7 @@ const store={
 const testVoucherEnabled=String(process.env.MTH_ENABLE_TEST_VOUCHER||'false').toLowerCase()==='true';
 const runtimeEnv={
   ...process.env,
-  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_SECRET||process.env.MTH_TOKEN_PEPPER||(testVoucherEnabled?'mth-test-runtime-key-2026-stable-player-access':''),
+  MTH_TOKEN_PEPPER:process.env.MTH_TOKEN_PEPPER||process.env.TOKEN_PEPPER||DEFAULT_TOKEN_PEPPER,
   MTH_ADMIN_PASSWORD:process.env.MTH_ADMIN_KEY||process.env.MTH_ADMIN_PASSWORD||(testVoucherEnabled?crypto.randomBytes(32).toString('hex'):'')
 };
 const api=createApi({store,env:runtimeEnv});
@@ -61,4 +63,4 @@ export default async function handler(request){
   }
 }
 
-// Configuration refresh: 2026-08-04
+// Configuration refresh: 2026-08-12
