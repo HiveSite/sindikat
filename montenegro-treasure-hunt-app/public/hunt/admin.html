@@ -29,9 +29,9 @@
   <section id="admin-gate">
     <form id="simple-login" class="simple-login" autocomplete="off">
       <div class="mark">◇</div>
-      <small>MONTENEGRO TREASURE HUNT / PG26</small>
+      <small>MONTENEGRO TREASURE HUNT</small>
       <h1>Event Control Center</h1>
-      <p>Unesi admin lozinku za pristup kontroli timova, GPS-u i sadržaju igre.</p>
+      <p>Unesi admin lozinku za pristup programima, timovima, GPS-u i sadržaju igre.</p>
       <label for="simple-password">Lozinka</label>
       <input id="simple-password" type="password" autocomplete="current-password" required autofocus>
       <button id="simple-submit" type="submit">Otvori kontrolni centar</button>
@@ -106,9 +106,7 @@
         const headers = new Headers(init.headers || {});
         headers.set('x-mth-admin-password', password);
         const response = await nativeFetch(requestInput, {...init, headers, cache:'no-store'});
-        if (response.status === 401) {
-          sessionStorage.removeItem(KEY);
-        }
+        if (response.status === 401) sessionStorage.removeItem(KEY);
         return response;
       }
 
@@ -163,5 +161,6 @@
     })();
   })();
   </script>
+  <script type="module" src="admin-polish.js?v=1"></script>
 </body>
 </html>
