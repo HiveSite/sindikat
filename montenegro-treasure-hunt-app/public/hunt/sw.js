@@ -1,9 +1,10 @@
 const BASE='/hunt';
-const CACHE='montenegro-hunt-v53-full-preview';
+const CACHE='montenegro-hunt-v54-friendly-player';
 const ASSETS=[
   `${BASE}/`,
   `${BASE}/styles-v31.css?v=50`,
   `${BASE}/ux-v32.css?v=50`,
+  `${BASE}/player-friendly.css?v=1`,
   `${BASE}/hunt-data-v32-global.js?v=50`,
   `${BASE}/app-v32-1.js?v=50`,
   `${BASE}/app-v32-2.js?v=50`,
@@ -11,6 +12,7 @@ const ASSETS=[
   `${BASE}/program-runtime.js?v=1`,
   `${BASE}/experience-runtime.js?v=1`,
   `${BASE}/preview-runtime.js?v=1`,
+  `${BASE}/player-friendly.js?v=1`,
   `${BASE}/manifest.webmanifest`,
   `${BASE}/assets/icon.svg`
 ];
