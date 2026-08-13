@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Biberce Event Bartender - premium crno-zlatni one-file multi-page prototip sajta za event bartendera.">
+<title>Biberce Event Bartender</title>
+<style>
+:root{--bg:#f4f0e7;--paper:#fbf8f1;--ink:#171614;--muted:#6c665e;--line:#d2cabd;--wine:#6b302d;--olive:#8d8c78;--night:#191817;--white:#fffdf8;--max:1460px;--pad:clamp(20px,4.2vw,74px);--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif;--mono:'Courier New',monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}img{display:block;width:100%}button,input,select,textarea{font:inherit;color:inherit}::selection{background:var(--wine);color:white}.container{width:min(var(--max),calc(100% - var(--pad)*2));margin:auto}.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.045em}.kicker{font:700 10px/1.25 var(--mono);letter-spacing:.15em;text-transform:uppercase}.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;background:white;padding:10px 14px;z-index:1000}:focus-visible{outline:2px solid var(--wine);outline-offset:4px}
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid transparent;transition:.25s}.site-nav.scrolled,.site-nav.menu-open{background:rgba(244,240,231,.96);backdrop-filter:blur(16px);border-color:var(--line)}.nav-inner{min-height:78px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px}.brand{font-size:20px;font-weight:900;letter-spacing:-.05em;display:flex;align-items:baseline;gap:7px}.brand i{font-family:var(--serif);font-size:19px;color:var(--wine);font-weight:400}.brand small{font:700 8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.main-nav{display:flex;gap:19px;align-items:center}.main-nav a{position:relative;font-size:11px;padding:10px 0}.main-nav a:after{content:'';position:absolute;left:0;right:100%;bottom:5px;height:1px;background:var(--wine);transition:.2s}.main-nav a:hover:after,.main-nav a.active:after{right:0}.nav-action{justify-self:end;min-height:44px;padding:0 15px;border:1px solid var(--ink);display:flex;align-items:center;font:700 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;transition:.2s}.nav-action:hover{background:var(--wine);border-color:var(--wine);color:white}.menu-btn{display:none;min-width:50px;min-height:44px;background:none;border:1px solid var(--ink);cursor:pointer}.mobile-drawer{display:none}
+.page{display:none;min-height:100svh;animation:fade .42s ease both}.page.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.page-shell{padding-top:78px}
+.home-hero{min-height:100svh;padding:112px 0 36px;display:grid;align-items:end}.home-hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:34px;align-items:end}.home-copy{padding-bottom:36px}.home-copy .kicker{color:var(--wine)}.home-copy h1{font-size:clamp(66px,10.5vw,160px);line-height:.88;margin:18px 0 28px}.home-copy h1 em{display:block;color:var(--wine);margin-left:.48em}.home-copy p{font-size:clamp(18px,2vw,27px);line-height:1.42;max-width:720px;margin:0;color:#38342f}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}.btn{min-height:50px;padding:0 19px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ink);background:transparent;font:700 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.2s}.btn.dark{background:var(--ink);color:white}.btn.wine{background:var(--wine);border-color:var(--wine);color:white}.btn:hover{background:var(--wine);border-color:var(--wine);color:white;transform:translateY(-2px)}.hero-art{position:relative;padding-left:30px}.hero-image{aspect-ratio:4/5;overflow:hidden;background:#cdc6ba}.hero-image img{height:100%;object-fit:cover;filter:saturate(.72) contrast(1.03)}.hero-caption{position:absolute;top:20px;right:-2px;background:var(--paper);border:1px solid var(--line);padding:12px 14px;font:700 9px/1.35 var(--mono);letter-spacing:.1em;text-transform:uppercase}.hero-seal{position:absolute;left:-10px;bottom:42px;width:122px;height:122px;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--wine);color:white;font:700 9px/1.35 var(--mono);letter-spacing:.11em;text-transform:uppercase;transform:rotate(-9deg)}
+.home-intro{padding:116px 0 122px;border-top:1px solid var(--line)}.home-intro-grid{display:grid;grid-template-columns:.65fr 1.35fr;gap:70px}.home-intro h2{font-size:clamp(52px,7.8vw,116px);line-height:.92;margin:0}.home-intro-copy p:first-child{font-size:clamp(19px,2.1vw,30px);line-height:1.4;margin:0 0 26px}.home-intro-copy p:last-child{color:var(--muted);line-height:1.75;max-width:730px;margin:0}.portals{padding-bottom:124px}.portal{display:grid;grid-template-columns:80px 1fr 1.05fr auto;gap:26px;align-items:center;min-height:126px;border-top:1px solid var(--line);transition:.22s}.portal:last-child{border-bottom:1px solid var(--line)}.portal .num{font:700 10px var(--mono);color:var(--wine)}.portal h3{font-family:var(--serif);font-size:clamp(28px,4vw,57px);font-weight:400;letter-spacing:-.04em;margin:0}.portal p{color:var(--muted);line-height:1.62;margin:0;max-width:630px}.portal .arrow{width:38px;height:38px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;transition:.2s}.portal:hover{padding-left:10px}.portal:hover .arrow{background:var(--wine);border-color:var(--wine);color:white;transform:rotate(45deg)}
+.band{background:var(--night);color:var(--white);padding:104px 0}.band-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:end}.band h2{font-size:clamp(54px,8vw,118px);line-height:.92;margin:10px 0 0}.band em{color:#c68a84}.band p{margin:0;color:#b2aba2;line-height:1.75;max-width:600px}
+.page-hero{padding:92px 0 62px;border-bottom:1px solid var(--line)}.page-hero-grid{display:grid;grid-template-columns:.76fr 1.24fr;gap:72px;align-items:end}.page-hero .kicker{color:var(--wine)}.page-hero h1{font-size:clamp(60px,9vw,138px);line-height:.9;margin:14px 0 0}.page-hero p{font-size:clamp(18px,2vw,26px);line-height:1.46;margin:0;max-width:720px;color:#403b35}.section{padding:108px 0}.section.paper{background:var(--paper)}.section.dark{background:var(--night);color:var(--white)}.section.olive{background:var(--olive)}.two-col{display:grid;grid-template-columns:.8fr 1.2fr;gap:76px}.two-col.equal{grid-template-columns:1fr 1fr}.section-title{font-size:clamp(48px,7vw,102px);line-height:.94;margin:8px 0 0}.lead{font-size:clamp(18px,2vw,28px);line-height:1.46;margin:0 0 24px}.body-copy{color:var(--muted);line-height:1.75;max-width:760px}.dark .body-copy{color:#aca59d}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.service-card{min-height:390px;padding:36px;border:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;justify-content:space-between}.service-card:nth-child(2){background:#ede7dc}.service-card:nth-child(3){background:#ddd6ca}.service-card:nth-child(4){background:var(--wine);border-color:var(--wine);color:white}.service-card .index{font:700 10px var(--mono);letter-spacing:.1em}.service-card h3{font-family:var(--serif);font-size:clamp(34px,4.4vw,65px);line-height:.95;font-weight:400;letter-spacing:-.04em;margin:28px 0 16px}.service-card p{color:var(--muted);line-height:1.7;margin:0}.service-card:nth-child(4) p{color:rgba(255,255,255,.78)}
+.hair-list{border-top:1px solid var(--line)}.hair-item{display:grid;grid-template-columns:66px 1fr 1.08fr;gap:24px;padding:28px 0;border-bottom:1px solid var(--line)}.hair-item .num{font:700 10px var(--mono);color:var(--wine)}.hair-item h3{font-family:var(--serif);font-size:clamp(27px,3.8vw,53px);font-weight:400;letter-spacing:-.035em;margin:0}.hair-item p{margin:0;color:var(--muted);line-height:1.65}
+.event-feature{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-bottom:18px}.event-feature.reverse{grid-template-columns:.95fr 1.05fr}.event-photo{min-height:590px;overflow:hidden;background:#ccc}.event-photo img{height:100%;object-fit:cover;filter:saturate(.72)}.event-copy{padding:clamp(32px,5vw,70px);background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}.event-copy h2{font-size:clamp(44px,6vw,88px);line-height:.94;margin:14px 0 24px}.event-copy p{color:var(--muted);line-height:1.72}.event-copy ul{list-style:none;padding:0;margin:30px 0 0;border-top:1px solid var(--line)}.event-copy li{display:flex;justify-content:space-between;gap:24px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}
+.process-line{border-top:1px solid rgba(255,255,255,.2)}.process-step{display:grid;grid-template-columns:76px .85fr 1.15fr;gap:26px;padding:34px 0;border-bottom:1px solid rgba(255,255,255,.2)}.process-step .num{font:700 10px var(--mono);color:#c7837c}.process-step h3{font-family:var(--serif);font-size:clamp(30px,4.4vw,63px);font-weight:400;margin:0}.process-step p{margin:0;color:#aaa39b;line-height:1.7;max-width:650px}
+.about-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}.about-photo{aspect-ratio:4/5;overflow:hidden;background:#ccc}.about-photo img{height:100%;object-fit:cover;filter:saturate(.7)}.fact-grid{display:grid;grid-template-columns:1fr 1fr;margin-top:40px;border-top:1px solid var(--line);border-left:1px solid var(--line)}.fact{padding:23px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.fact span{display:block;font:700 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}.fact strong{font-size:17px}
+.gallery-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gallery-col{display:grid;gap:14px}.gallery-img{position:relative;overflow:hidden;background:#ccc}.gallery-img.land{aspect-ratio:16/11}.gallery-img.portrait{aspect-ratio:4/5}.gallery-img.square{aspect-ratio:1}.gallery-img img{height:100%;object-fit:cover;filter:saturate(.72);transition:.5s}.gallery-img:hover img{transform:scale(1.025)}.gallery-img span{position:absolute;left:14px;bottom:12px;background:rgba(251,248,241,.92);padding:8px 10px;font:700 8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.faq-wrap{max-width:960px;margin-left:auto}details{border-top:1px solid var(--line)}details:last-child{border-bottom:1px solid var(--line)}summary{list-style:none;cursor:pointer;min-height:82px;display:flex;justify-content:space-between;align-items:center;gap:24px;font-size:17px;font-weight:700}summary::-webkit-details-marker{display:none}summary:after{content:'+';font-size:28px;font-weight:300;color:var(--wine)}details[open] summary:after{content:'−'}details p{margin:0;padding:0 70px 28px 0;color:var(--muted);line-height:1.75}
+.contact-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:80px}.contact-aside h2{font-size:clamp(50px,7vw,102px);line-height:.94;margin:10px 0 24px}.contact-aside p{color:var(--muted);line-height:1.72}.contact-meta{margin-top:36px;border-top:1px solid var(--line)}.contact-meta div{display:grid;grid-template-columns:1fr auto;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px}.contact-meta small{color:var(--muted)}.form{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}.field{padding:18px 0;border-top:1px solid var(--line)}.field.full{grid-column:1/-1}.field label{display:block;font:700 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}.field input,.field select,.field textarea{width:100%;border:0;background:transparent;outline:0;font-size:18px;padding:7px 0}.field textarea{min-height:140px;resize:vertical}.form-actions{grid-column:1/-1;border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;align-items:center;gap:24px}.form-actions small{color:var(--muted);line-height:1.55;max-width:600px}
+.cta-band{background:var(--wine);color:white;padding:90px 0}.cta-band-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:end}.cta-band h2{font-size:clamp(48px,7vw,104px);line-height:.95;margin:10px 0 0}.cta-band p{color:rgba(255,255,255,.78);line-height:1.7;margin:0 0 26px}.cta-band .btn{border-color:white;color:white}.cta-band .btn:hover{background:white;color:var(--wine)}
+.footer{background:var(--night);color:var(--white);padding:78px var(--pad) 30px}.footer-logo{font-family:var(--serif);font-size:clamp(82px,15vw,225px);line-height:.78;letter-spacing:-.065em;margin:0 0 62px}.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:50px;border-top:1px solid rgba(255,255,255,.16);padding-top:24px}.footer h3{font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;margin:0 0 18px}.footer p,.footer a{color:#9d968e;font-size:13px;line-height:1.7}.footer-links{display:flex;flex-direction:column;align-items:flex-start;gap:6px}.footer-bottom{margin-top:58px;border-top:1px solid rgba(255,255,255,.16);padding-top:14px;display:flex;justify-content:space-between;gap:20px;color:#716b65;font:700 8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}.mobile-bar{display:none}
+@media(max-width:1120px){.main-nav{gap:13px}.main-nav a{font-size:10px}.brand small{display:none}}
+@media(max-width:930px){.nav-inner{grid-template-columns:1fr auto}.main-nav,.nav-action{display:none}.menu-btn{display:block}.mobile-drawer{position:fixed;inset:0;z-index:90;background:var(--bg);padding:96px var(--pad) 34px;display:flex;flex-direction:column;transform:translateY(-103%);transition:.38s cubic-bezier(.2,.8,.2,1)}.mobile-drawer.open{transform:none}.mobile-drawer a{font-family:var(--serif);font-size:clamp(40px,9vw,66px);padding:8px 0;border-bottom:1px solid var(--line);letter-spacing:-.04em}.mobile-drawer small{margin-top:auto;font:700 9px var(--mono);color:var(--muted)}.home-hero-grid,.home-intro-grid,.band-grid,.page-hero-grid,.two-col,.two-col.equal,.about-layout,.contact-grid,.cta-band-inner{grid-template-columns:1fr;gap:42px}.hero-art{max-width:650px;margin-left:auto}.portal{grid-template-columns:52px 1fr auto;padding:24px 0}.portal p{grid-column:2/-1}.hair-item,.process-step{grid-template-columns:54px 1fr}.hair-item p,.process-step p{grid-column:2}.event-feature,.event-feature.reverse{grid-template-columns:1fr}.event-photo{min-height:520px}.service-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.footer-grid>:first-child{grid-column:1/-1}}
+@media(max-width:640px){body{padding-bottom:66px}.site-nav{background:rgba(244,240,231,.96);border-color:var(--line)}.nav-inner{min-height:68px}.page-shell{padding-top:68px}.home-hero{min-height:auto;padding:94px 0 34px}.home-copy{padding-bottom:10px}.home-copy h1{font-size:clamp(60px,18vw,108px)}.hero-art{padding-left:0}.hero-seal{width:102px;height:102px;left:-4px;bottom:24px}.hero-caption{right:6px}.actions{width:100%}.actions .btn{flex:1}.home-intro,.section{padding-top:82px;padding-bottom:86px}.portals{padding-bottom:90px}.portal{grid-template-columns:36px 1fr auto}.page-hero{padding:70px 0 46px}.page-hero h1{font-size:clamp(52px,15.8vw,94px)}.service-card{min-height:330px}.event-photo{min-height:430px}.event-copy{padding:30px}.fact-grid{grid-template-columns:1fr}.gallery-img.land,.gallery-img.portrait,.gallery-img.square{aspect-ratio:4/5}.form{grid-template-columns:1fr}.field,.field.full{grid-column:1}.form-actions{flex-direction:column;align-items:stretch}.form-actions .btn{width:100%}.footer-grid{grid-template-columns:1fr}.footer-grid>:first-child{grid-column:auto}.footer-bottom{flex-direction:column}.mobile-bar{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:120;min-height:66px;grid-template-columns:1fr 1fr;background:var(--night);color:white;border-top:1px solid rgba(255,255,255,.13)}.mobile-bar a{display:flex;align-items:center;justify-content:center;font:700 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}.mobile-bar a:last-child{background:var(--wine)}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.page{animation:none}}
+</style>
+
+<style id="v4-overrides">
+:root{
+  --bg:#090908;
+  --paper:#11110f;
+  --ink:#f3eee3;
+  --muted:#aaa293;
+  --line:rgba(226,205,158,.18);
+  --wine:#c9a45c;
+  --olive:#1a1915;
+  --night:#070706;
+  --white:#fffaf0;
+  --gold:#c9a45c;
+  --gold-soft:#e4cf9c;
+  --gold-deep:#8d6a2d;
+  --glass:rgba(255,255,255,.055);
+  --glass-strong:rgba(255,255,255,.085);
+  --shadow:0 30px 80px rgba(0,0,0,.36);
+}
+body{
+  background:
+    radial-gradient(circle at 86% -10%,rgba(201,164,92,.10),transparent 26%),
+    radial-gradient(circle at 7% 26%,rgba(201,164,92,.045),transparent 22%),
+    var(--bg);
+  color:var(--ink);
+}
+::selection{background:var(--gold);color:#090908}
+.kicker{color:var(--gold)!important}
+.body-copy,.home-intro-copy p:last-child,.portal p,.page-hero p,.event-copy p,
+.about-layout .body-copy,.contact-aside p,details p{color:var(--muted)}
+.site-nav{color:var(--ink)}
+.site-nav.scrolled,.site-nav.menu-open{
+  background:rgba(7,7,6,.70);
+  border-color:rgba(226,205,158,.16);
+  box-shadow:0 8px 35px rgba(0,0,0,.18);
+}
+@supports (backdrop-filter:blur(18px)){
+  .site-nav.scrolled,.site-nav.menu-open{backdrop-filter:blur(22px) saturate(145%)}
+}
+.brand i{color:var(--gold)}
+.brand small{color:#8f8779}
+.main-nav a{color:#d5cec0}
+.main-nav a:after{background:var(--gold)}
+.nav-action{
+  border-color:rgba(226,205,158,.45);
+  color:var(--gold-soft);
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.nav-action:hover{background:var(--gold);border-color:var(--gold);color:#0a0907}
+.menu-btn{border-color:rgba(226,205,158,.38);color:var(--gold-soft);background:var(--glass)}
+.mobile-drawer{
+  background:
+    radial-gradient(circle at 85% 5%,rgba(201,164,92,.13),transparent 24%),
+    rgba(8,8,7,.985)!important;
+}
+.mobile-drawer a{border-color:var(--line);color:var(--white)}
+.mobile-drawer small{color:#7e776b}
+
+/* Buttons */
+.btn{
+  border-color:rgba(226,205,158,.42);
+  color:var(--gold-soft);
+  border-radius:999px;
+  padding-inline:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.012));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+}
+.btn.dark,.btn.wine{
+  background:linear-gradient(135deg,#e0c17d,#ad8337);
+  border-color:#d1ae65;color:#0b0a08;
+  box-shadow:0 14px 34px rgba(140,103,38,.16),inset 0 1px 0 rgba(255,255,255,.35)
+}
+.btn:hover{background:var(--gold);border-color:var(--gold);color:#090908;transform:translateY(-2px)}
+
+/* Home */
+.home-hero{
+  position:relative;
+  background:
+    radial-gradient(circle at 78% 20%,rgba(201,164,92,.12),transparent 28%),
+    linear-gradient(180deg,#090908 0%,#0c0c0a 100%);
+}
+.home-copy h1 em{color:var(--gold)}
+.home-copy p{color:#c9c1b4}
+.hero-art{isolation:isolate}
+.hero-image{
+  border-radius:32px;
+  border:1px solid rgba(226,205,158,.20);
+  box-shadow:var(--shadow);
+}
+.hero-image:after{
+  content:"";position:absolute;inset:0;border-radius:32px;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 25%,transparent 72%,rgba(201,164,92,.08));
+}
+.hero-caption,.hero-seal{
+  backdrop-filter:blur(20px) saturate(135%);
+  -webkit-backdrop-filter:blur(20px) saturate(135%);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 18px 50px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.hero-caption{
+  color:var(--gold-soft);
+  background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.035));
+  border-radius:16px;
+}
+.hero-seal{
+  color:#0a0907;
+  background:linear-gradient(145deg,rgba(238,211,153,.92),rgba(175,132,55,.88));
+}
+.home-intro{border-color:var(--line)}
+.home-intro-copy p:first-child{color:#e9e2d6}
+.portals{background:#0a0a09}
+.portal{border-color:var(--line);padding-inline:16px;border-radius:0}
+.portal .num{color:var(--gold)}
+.portal h3{color:var(--white)}
+.portal .arrow{border-color:rgba(226,205,158,.40);color:var(--gold)}
+.portal:hover{
+  padding-left:28px;
+  background:linear-gradient(90deg,rgba(201,164,92,.055),transparent 65%);
+}
+.portal:hover .arrow{background:var(--gold);border-color:var(--gold);color:#090908}
+.band,.home-band{
+  background:
+    radial-gradient(circle at 10% 20%,rgba(201,164,92,.11),transparent 26%),
+    #10100e;
+}
+.band-grid p,.home-band p{color:#afa79b}
+.band-grid h2 em,.home-band .wine-word{color:var(--gold);font-style:italic}
+
+/* New home content */
+.home-experience{padding:120px 0;background:#0d0d0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.home-experience-head{display:grid;grid-template-columns:.75fr 1.25fr;gap:70px;margin-bottom:64px}
+.home-experience-head h2{font-size:clamp(50px,7.2vw,108px);line-height:.94;margin:10px 0 0}
+.home-experience-head p{font-size:clamp(18px,2vw,26px);line-height:1.5;color:#c9c1b5;max-width:720px;margin:0;align-self:end}
+.glass-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.glass-card{
+  position:relative;overflow:hidden;min-height:330px;padding:30px;border-radius:28px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.022)),
+    radial-gradient(circle at 95% 5%,rgba(201,164,92,.11),transparent 35%);
+  border:1px solid rgba(226,205,158,.18);
+  box-shadow:0 24px 70px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.08);
+}
+@supports (backdrop-filter:blur(20px)){.glass-card{backdrop-filter:blur(22px) saturate(135%)}}
+.glass-card:before{
+  content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-40px;top:-35px;
+  background:rgba(225,194,125,.13);filter:blur(2px)
+}
+.glass-card .index{font:700 10px var(--mono);letter-spacing:.12em;color:var(--gold)}
+.glass-card h3{font:400 clamp(28px,3vw,46px)/1 var(--serif);letter-spacing:-.035em;margin:100px 0 18px}
+.glass-card p{margin:0;color:var(--muted);line-height:1.65}
+.home-proof{
+  padding:120px 0;background:
+  linear-gradient(180deg,rgba(201,164,92,.035),transparent 35%),#090908;
+}
+.home-proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.proof-visual{min-height:650px;border-radius:34px;overflow:hidden;border:1px solid var(--line);position:relative}
+.proof-visual img{height:100%;object-fit:cover;filter:saturate(.65) contrast(1.05)}
+.proof-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(0,0,0,.6))}
+.proof-copy{
+  min-height:650px;padding:clamp(34px,5vw,72px);border-radius:34px;
+  border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)
+}
+.proof-copy h2{font-size:clamp(48px,6.5vw,96px);line-height:.94;margin:12px 0 28px}
+.proof-copy p{color:#b8b0a4;line-height:1.75;max-width:660px}
+.proof-points{margin-top:42px;border-top:1px solid var(--line)}
+.proof-points div{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:17px 0;border-bottom:1px solid var(--line);font-size:13px}
+.proof-points b{color:var(--gold);font:700 10px var(--mono)}
+
+/* All page heroes + sections */
+.page-hero{
+  background:
+    radial-gradient(circle at 80% 0%,rgba(201,164,92,.09),transparent 24%),
+    #0b0b09;
+  border-color:var(--line);
+}
+.page-hero h1{color:var(--white)}
+.page-hero p{color:#c0b8ab}
+.section,.inner-section{background:#0b0b09}
+.section.paper,.inner-section.paper{background:#11110e}
+.section.dark,.inner-section.dark{background:#070706}
+.section.olive,.inner-section.olive{background:#15140f}
+.section-title,.lead{color:var(--white)}
+.hair-list,.hair-item{border-color:var(--line)}
+.hair-item .num,.process-step .num{color:var(--gold)}
+.hair-item h3,.process-step h3{color:var(--white)}
+.hair-item p,.process-step p{color:var(--muted)}
+
+/* Services */
+.service-grid{gap:16px}
+.service-card{
+  border-radius:26px;border-color:var(--line);background:
+  linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.service-card:nth-child(2),.service-card:nth-child(3){background:linear-gradient(145deg,rgba(201,164,92,.07),rgba(255,255,255,.018))}
+.service-card:nth-child(4){background:linear-gradient(145deg,#d5b36c,#8f6729);color:#0b0a08;border-color:#d6b56e}
+.service-card h3{color:inherit}
+.service-card p{color:var(--muted)}
+.service-card:nth-child(4) p{color:rgba(10,9,7,.70)}
+.service-card .index{color:var(--gold)}
+.service-card:nth-child(4) .index{color:#3c2b13}
+
+/* Events */
+.event-photo{border-radius:30px;border:1px solid var(--line)}
+.event-copy{
+  border-radius:30px;background:
+  linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.018));
+  border-color:var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)
+}
+.event-copy h2{color:var(--white)}
+.event-copy ul,.event-copy li{border-color:var(--line)}
+.event-copy li span{color:var(--muted)}
+.event-copy li strong{color:var(--gold-soft)}
+
+/* About */
+.about-photo{border-radius:34px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.fact-grid{border-color:var(--line)}
+.fact{border-color:var(--line);background:rgba(255,255,255,.025)}
+.fact span{color:var(--muted)}
+.fact strong{color:var(--gold-soft)}
+
+/* Gallery */
+.gallery-img{border-radius:28px;border:1px solid var(--line)}
+.gallery-img span{
+  background:rgba(8,8,7,.62);color:var(--gold-soft);border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;backdrop-filter:blur(16px)
+}
+
+/* FAQ + Contact */
+details{border-color:var(--line)}
+summary{color:var(--white)}
+summary:after{color:var(--gold)}
+.contact-meta,.contact-meta div,.field,.form-actions{border-color:var(--line)}
+.contact-meta small,.form-actions small{color:var(--muted)}
+.field input,.field select,.field textarea{color:var(--white)}
+.field input::placeholder,.field textarea::placeholder{color:#716b61}
+.field select option{color:#111}
+.contact-aside h2{color:var(--white)}
+
+/* Gold CTA */
+.cta-band{
+  background:
+    radial-gradient(circle at 85% 10%,rgba(255,255,255,.18),transparent 20%),
+    linear-gradient(135deg,#b68b3e 0%,#d7b66d 45%,#8e6526 100%);
+  color:#0a0907;
+}
+.cta-band .kicker{color:#3d2a10!important}
+.cta-band p{color:rgba(20,15,8,.72)}
+.cta-band .btn{
+  border-color:rgba(10,9,7,.55);color:#0a0907;
+  background:rgba(255,255,255,.20)
+}
+.cta-band .btn:hover{background:#0a0907;color:#f9edce;border-color:#0a0907}
+
+/* Footer */
+.footer{
+  background:
+    radial-gradient(circle at 70% 0%,rgba(201,164,92,.08),transparent 25%),
+    #050504;
+}
+.footer-logo{color:var(--gold-soft)}
+.footer-grid,.footer-bottom{border-color:var(--line)}
+.footer p,.footer a{color:#8f887d}
+.footer h3{color:var(--gold)}
+.mobile-bar{background:rgba(6,6,5,.92)!important;backdrop-filter:blur(18px)}
+.mobile-bar a:last-child{background:linear-gradient(135deg,#d4b269,#9a712e)!important;color:#0b0a08}
+
+/* Additional content on inner pages */
+.detail-band{padding:96px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0e0e0c}
+.detail-band-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:70px}
+.detail-band h2{font-size:clamp(44px,6vw,88px);line-height:.95;margin:10px 0 0}
+.detail-columns{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.detail-box{
+  min-height:240px;padding:28px;border-radius:24px;border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015))
+}
+.detail-box h3{font:400 30px/1.05 var(--serif);letter-spacing:-.035em;margin:34px 0 14px;color:var(--white)}
+.detail-box p{color:var(--muted);line-height:1.65;margin:0}
+.detail-box .mini{font:700 9px var(--mono);letter-spacing:.12em;color:var(--gold);text-transform:uppercase}
+
+/* Mobile */
+@media(max-width:930px){
+  .home-experience-head,.home-proof-grid,.detail-band-grid{grid-template-columns:1fr;gap:38px}
+  .glass-grid{grid-template-columns:1fr}
+  .glass-card{min-height:250px}
+  .glass-card h3{margin-top:62px}
+  .proof-visual,.proof-copy{min-height:520px}
+  .detail-columns{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  :root{--pad:20px}
+  body{background:#090908}
+  .site-nav{background:rgba(7,7,6,.86)!important;border-color:var(--line)!important}
+  .nav-inner{min-height:64px}
+  .brand{font-size:18px}.brand i{font-size:16px}
+  .page-shell{padding-top:64px}
+  .home-hero{padding:80px 0 26px}
+  .home-copy h1{font-size:clamp(58px,17vw,96px);line-height:.9}
+  .home-copy h1 em{margin-left:.12em}
+  .home-copy p{font-size:18px;line-height:1.5}
+  .hero-art{margin-top:16px}
+  .hero-image{border-radius:24px}
+  .hero-caption{top:12px;right:12px;font-size:8px}
+  .hero-seal{width:90px;height:90px;bottom:18px;left:10px;font-size:8px}
+  .actions{gap:8px}.actions .btn{width:100%;flex:auto;min-height:52px}
+  .home-intro,.section,.inner-section,.home-experience,.home-proof{padding-top:74px!important;padding-bottom:78px!important}
+  .home-intro h2,.home-experience-head h2,.section-title{font-size:clamp(44px,13vw,74px)}
+  .portal{min-height:auto;padding:24px 4px;grid-template-columns:30px 1fr auto}
+  .portal h3{font-size:32px}
+  .portal p{font-size:14px}
+  .glass-card{border-radius:22px;padding:24px}
+  .proof-visual,.proof-copy{min-height:auto;border-radius:24px}
+  .proof-visual{aspect-ratio:4/5}
+  .proof-copy{padding:28px}
+  .page-hero{padding:58px 0 36px}
+  .page-hero h1{font-size:clamp(48px,14vw,80px)}
+  .page-hero p{font-size:17px}
+  .service-card{border-radius:22px;min-height:280px;padding:26px}
+  .event-photo,.event-copy,.about-photo,.gallery-img{border-radius:22px}
+  .event-photo{min-height:390px}
+  .event-copy{padding:26px}
+  .event-copy h2{font-size:50px}
+  .hair-item,.process-step{grid-template-columns:34px 1fr;padding:24px 0}
+  .hair-item h3,.process-step h3{font-size:34px}
+  .hair-item p,.process-step p{font-size:14px}
+  .detail-band{padding:72px 0}
+  .detail-box{border-radius:20px;min-height:210px}
+  .contact-grid{gap:52px}
+  .field input,.field select,.field textarea{font-size:16px;min-height:44px}
+  summary{min-height:72px;font-size:16px}
+  details p{padding-right:20px}
+  .cta-band{padding:70px 0}
+  .cta-band h2{font-size:52px}
+  .footer{padding-top:64px}
+  .footer-logo{font-size:25vw}
+}
+</style>
+
+</head>
+<body>
+<a class="skip" href="#app">Preskoči na sadržaj</a>
+<header class="site-nav" id="siteNav"><div class="container nav-inner"><a class="brand route-link" href="#/pocetna" data-route="pocetna">BIBERCE<i>.</i><small>Event Bartender</small></a><nav class="main-nav" aria-label="Glavna navigacija"><a class="route-link" href="#/pocetna" data-route="pocetna">Početna</a><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a><a class="route-link" href="#/faq" data-route="faq">FAQ</a></nav><a class="nav-action route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a><button class="menu-btn" id="menuBtn" aria-label="Otvori meni" aria-expanded="false">MENU</button></div></header>
+<div class="mobile-drawer" id="drawer" aria-hidden="true"><a class="route-link" href="#/pocetna" data-route="pocetna">Početna</a><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a><a class="route-link" href="#/faq" data-route="faq">FAQ</a><a class="route-link" href="#/kontakt" data-route="kontakt">Kontakt</a><small>BIBERCE / EVENT BARTENDER / MONTENEGRO</small></div>
+<main id="app">
+<section class="page active" data-page="pocetna"><div class="page-shell"><section class="home-hero"><div class="container home-hero-grid"><div class="home-copy"><div class="kicker">Event bartender / Montenegro</div><h1 class="serif">Biberce<em>iza bara.</em></h1><p>Profesionalni event bartender za vjenčanja, privatne proslave i poslovne događaje - sa jasnom pripremom, mirnim servisom i prisustvom koje pripada večeri.</p><div class="actions"><a class="btn dark route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a><a class="btn route-link" href="#/dogadjaji" data-route="dogadjaji">Pogledaj događaje</a></div></div><div class="hero-art"><div class="hero-image"><img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1400&q=86" alt="Event bartender tokom rada iza bara"></div><div class="hero-caption">Wedding / Private / Corporate</div><div class="hero-seal">Biberce<br>dolazi<br>na vaš event</div></div></div></section><section class="home-intro"><div class="container home-intro-grid"><div class="kicker">01 / Ideja</div><div class="home-intro-copy"><h2 class="serif">Vi vodite veče.<br>Biberce vodi bar.</h2><p>Ovo nije sajt bara, restorana ni catering kataloga. Ovo je lični event bartender servis.</p><p>Na događaju postoji jedna jasna osoba koja preuzima svoj dio večeri - pripremu radne zone, servis, tempo iza bara i komunikaciju sa gostima. Domaćin ne treba da upravlja šankom usred sopstvenog događaja.</p></div></div></section>
+<section class="home-experience">
+  <div class="container">
+    <div class="home-experience-head">
+      <div><div class="kicker">02 / Šta Biberce preuzima</div><h2 class="serif">Bar koji ima svog čovjeka.</h2></div>
+      <p>Od trenutka kada se definiše događaj, ideja je da barski dio više ne bude nečija usputna obaveza. Biberce preuzima svoj prostor, svoj tempo i svoj dio komunikacije sa gostima.</p>
+    </div>
+    <div class="glass-grid">
+      <article class="glass-card"><div class="index">01 / Before</div><h3>Priprema prije gostiju</h3><p>Provjera radne zone, opreme i dogovorenog načina servisa prije nego što događaj uđe u svoj ritam.</p></article>
+      <article class="glass-card"><div class="index">02 / During</div><h3>Prisustvo tokom večeri</h3><p>Bartender prati intenzitet, održava prostor urednim i radi sa gostima bez potrebe da domaćin ulazi u operativu.</p></article>
+      <article class="glass-card"><div class="index">03 / Flow</div><h3>Kontrola tempa</h3><p>Kada dođe udarni period, dobar servis ne smije da djeluje panično. Tu se najviše vidi priprema i iskustvo iza bara.</p></article>
+    </div>
+  </div>
+</section>
+<section class="home-proof">
+  <div class="container home-proof-grid">
+    <div class="proof-visual"><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=86" alt="Bartender u pripremi event servisa"></div>
+    <div class="proof-copy">
+      <div><div class="kicker">03 / Zašto event bartender</div><h2 class="serif">Manje improvizacije. Više večeri.</h2><p>Na privatnom događaju ljudi često tek pred početak shvate koliko sitnih odluka postoji iza funkcionalnog bara. Kada je bartender unaprijed uključen, te odluke se rješavaju ranije - a domaćin na samom događaju ostaje domaćin.</p></div>
+      <div class="proof-points">
+        <div><b>01</b><span>Jedna jasna osoba odgovorna za servis iza bara.</span></div>
+        <div><b>02</b><span>Realna procjena prostora, opreme i potrebnog broja ljudi.</span></div>
+        <div><b>03</b><span>Servis prilagođen vrsti događaja, ne univerzalni paket za sve.</span></div>
+        <div><b>04</b><span>Profesionalniji osjećaj za goste bez dodatne koordinacije za domaćina.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="portals"><div class="container"><a class="portal route-link" href="#/usluge" data-route="usluge"><div class="num">01</div><h3>Šta tačno dobijate</h3><p>Detaljna struktura event bartending usluge, od pripreme do završetka servisa.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/dogadjaji" data-route="dogadjaji"><div class="num">02</div><h3>Za koje događaje</h3><p>Vjenčanja, privatne proslave i poslovni eventi imaju različit ritam i različite potrebe iza bara.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/kako-radim" data-route="kako-radim"><div class="num">03</div><h3>Kako izgleda saradnja</h3><p>Od prvog upita do dolaska na lokaciju - jasan proces bez nepotrebnog komplikovanja.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/biberce" data-route="biberce"><div class="num">04</div><h3>Ko je Biberce</h3><p>Lični pristup, karakter servisa i prostor za stvarnu priču, iskustvo i reference bartendera.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/galerija" data-route="galerija"><div class="num">05</div><h3>Rad iza bara</h3><p>Vizuelna priča kroz pripremu, servis, detalje i atmosferu događaja.</p><div class="arrow">↗</div></a></div></section><section class="band"><div class="container band-grid"><div><div class="kicker">Biberce standard</div><h2 class="serif">Bar treba da djeluje <em>lako.</em></h2></div><p>Dobar event bartender ne pravi predstavu od logistike. Priprema se ranije, radi mirno, prati tempo gostiju i održava servis funkcionalnim čak i kada se veče ubrza.</p></div></section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Imate datum?</div><h2 class="serif">Počnimo od događaja.</h2></div><div><p>Datum, lokacija, broj gostiju i tip događaja dovoljni su za prvi razgovor.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri dostupnost</a></div></div></section></div></section>
+<section class="page" data-page="usluge"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">01 / Usluge</div><h1 class="serif">Jedan bartender.<br>Jasna odgovornost.</h1></div><p>Biberce Event Bartender preuzima barski dio događaja kao cjelinu - ne samo trenutak posluživanja.</p></div></header><section class="section"><div class="container service-grid"><article class="service-card"><div class="index">01 / Event bartending</div><div><h3>Prisustvo iza bara</h3><p>Profesionalni bartender na lokaciji, pripremljen za dogovoreni obim servisa i ritam događaja.</p></div></article><article class="service-card"><div class="index">02 / Setup</div><div><h3>Radna zona</h3><p>Provjera prostora, logike rada i osnovne organizacije bara prije dolaska gostiju.</p></div></article><article class="service-card"><div class="index">03 / Flow</div><div><h3>Tempo servisa</h3><p>Način rada se prilagođava broju gostiju, trajanju, tipu događaja i očekivanim udarnim periodima.</p></div></article><article class="service-card"><div class="index">04 / Team</div><div><h3>Više bartendera</h3><p>Kada jedan bartender nije dovoljno realan za broj gostiju i format eventa, definiše se dodatna podrška.</p></div></article></div></section><section class="section paper"><div class="container two-col"><div><div class="kicker">Šta definišemo unaprijed</div><h2 class="serif section-title">Bez improvizacije u pogrešnom trenutku.</h2></div><div class="hair-list"><div class="hair-item"><div class="num">01</div><h3>Lokacija</h3><p>Šta prostor već ima, gdje je radna zona i kako gosti prilaze baru.</p></div><div class="hair-item"><div class="num">02</div><h3>Broj gostiju</h3><p>Osnova za realnu procjenu tempa servisa i potrebnog broja ljudi.</p></div><div class="hair-item"><div class="num">03</div><h3>Trajanje</h3><p>Vrijeme rada, ključni momenti večeri i očekivane promjene intenziteta.</p></div><div class="hair-item"><div class="num">04</div><h3>Oprema</h3><p>Dogovor šta postoji na lokaciji i šta još mora biti spremno za normalan servis.</p></div></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Granice usluge</div><h2 class="serif">Šta se dogovara, a šta se ne podrazumijeva.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">Dogovaramo</div><h3>Obim rada</h3><p>Vrijeme dolaska, trajanje servisa, broj bartendera i način organizacije radne zone.</p></div>
+      <div class="detail-box"><div class="mini">Provjeravamo</div><h3>Šta venue već ima</h3><p>Radna površina, led, čaše, hlađenje, voda, otpad i drugi praktični elementi zavise od lokacije.</p></div>
+      <div class="detail-box"><div class="mini">Prilagođavamo</div><h3>Tempo događaja</h3><p>Servis na svadbi, privatnoj večeri i poslovnom eventu nema isti tok niti ista očekivanja.</p></div>
+      <div class="detail-box"><div class="mini">Ne izmišljamo</div><h3>Gotove pakete</h3><p>Finalna ponuda treba da prati stvarni Biberce model i konkretan događaj, umjesto da obećava stavke koje nijesu potvrđene.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Sljedeći korak</div><h2 class="serif">Pošaljite event brief.</h2></div><div><p>Ne treba vam gotov plan. Pošaljite ono što već znate i od toga krećemo.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></section></div></section>
+<section class="page" data-page="dogadjaji"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">02 / Događaji</div><h1 class="serif">Drugačiji događaj.<br>Drugačiji ritam bara.</h1></div><p>Ne postoji jedan univerzalni event bartending paket. Prostor, publika, trajanje i broj gostiju mijenjaju način rada.</p></div></header><section class="section"><div class="container"><article class="event-feature"><div class="event-photo"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1500&q=86" alt="Elegantno vjenčanje"></div><div class="event-copy"><div><div class="kicker">01 / Weddings</div><h2 class="serif">Vjenčanja</h2><p>Servis treba da prati tok večeri, a ne da postane dodatna obaveza za mladence ili organizatora. Biberce preuzima svoj dio događaja i drži bar pod kontrolom.</p></div><ul><li><span>Fokus</span><strong>kontinuitet servisa</strong></li><li><span>Priprema</span><strong>prije dolaska gostiju</strong></li><li><span>Skaliranje</span><strong>prema broju gostiju</strong></li></ul></div></article><article class="event-feature reverse"><div class="event-copy"><div><div class="kicker">02 / Private</div><h2 class="serif">Privatne proslave</h2><p>Rođendani, kućne večere, vile i intimniji događaji traže diskretniji servis i više neposrednog rada sa gostima.</p></div><ul><li><span>Fokus</span><strong>prisustvo i fleksibilnost</strong></li><li><span>Prostor</span><strong>kuća / vila / privatni venue</strong></li><li><span>Ritam</span><strong>prilagođen domaćinu</strong></li></ul></div><div class="event-photo"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1500&q=86" alt="Privatna proslava"></div></article><article class="event-feature"><div class="event-photo"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1500&q=86" alt="Poslovni događaj"></div><div class="event-copy"><div><div class="kicker">03 / Corporate</div><h2 class="serif">Poslovni eventi</h2><p>Na poslovnom događaju servis mora biti čist, predvidljiv i dovoljno brz da se uklopi u program bez stvaranja zastoja.</p></div><ul><li><span>Fokus</span><strong>efikasnost</strong></li><li><span>Komunikacija</span><strong>sa organizatorom</strong></li><li><span>Servis</span><strong>u skladu sa programom</strong></li></ul></div></article></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Šta mijenja plan</div><h2 class="serif">Nije presudan samo broj gostiju.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">Venue</div><h3>Prostor</h3><p>Pristup vodi, hlađenju, ledu i radnoj površini može potpuno promijeniti setup i brzinu rada.</p></div>
+      <div class="detail-box"><div class="mini">Audience</div><h3>Publika</h3><p>Tip gostiju i format okupljanja utiču na to kada dolaze udarni periodi i koliko je servis interaktivan.</p></div>
+      <div class="detail-box"><div class="mini">Program</div><h3>Tok večeri</h3><p>Govori, večera, muzika i drugi programski momenti utiču na to kada se bar opterećuje i kada treba biti spreman.</p></div>
+      <div class="detail-box"><div class="mini">Duration</div><h3>Trajanje</h3><p>Dužina angažmana nije samo broj sati - važni su početak, završetak i promjene ritma tokom događaja.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Vaš format</div><h2 class="serif">Nije na listi?</h2></div><div><p>Pošaljite detalje događaja i definišimo da li Biberce odgovara formatu.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Pošalji detalje</a></div></div></section></div></section>
+<section class="page" data-page="kako-radim"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">03 / Kako radim</div><h1 class="serif">Jednostavno za vas.<br>Precizno iza bara.</h1></div><p>Proces treba da ukloni neizvjesnost prije eventa, a ne da klijentu napravi još jedan projekat za vođenje.</p></div></header><section class="section dark"><div class="container"><div class="two-col" style="margin-bottom:62px"><div><div class="kicker">Od upita do servisa</div><h2 class="serif section-title">Četiri jasna koraka.</h2></div><p class="body-copy">Sve bitne odluke rješavaju se prije događaja - datum, lokacija, obim, oprema i potreban broj ljudi.</p></div><div class="process-line"><div class="process-step"><div class="num">01</div><h3>Pošaljete događaj</h3><p>Datum, lokacija, okviran broj gostiju, tip događaja i trajanje dovoljni su za prvi korak.</p></div><div class="process-step"><div class="num">02</div><h3>Definišemo servis</h3><p>Dogovaramo šta bartender preuzima, šta već postoji na lokaciji i šta još treba pripremiti.</p></div><div class="process-step"><div class="num">03</div><h3>Priprema</h3><p>Radna zona i potrebni elementi organizuju se prije dolaska gostiju, ne kada događaj već počne.</p></div><div class="process-step"><div class="num">04</div><h3>Biberce preuzima</h3><p>Na eventu bartender vodi svoj dio večeri, prati tempo i drži servis funkcionalnim do završetka dogovorenog rada.</p></div></div></div></section><section class="section olive"><div class="container two-col"><div><div class="kicker">Princip rada</div><h2 class="serif section-title">Domaćin ne treba da misli o šanku.</h2></div><div><p class="lead">Poenta angažovanja event bartendera je da se jedna briga potpuno skloni sa vaše liste.</p><p class="body-copy" style="color:#373831">Zato su komunikacija prije događaja i realna procjena servisa jednako važni kao sam rad iza bara.</p></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Prije dana eventa</div><h2 class="serif">Pet stvari koje treba zatvoriti unaprijed.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">01</div><h3>Dolazak</h3><p>Kada bartender dolazi i koliko vremena postoji za normalnu pripremu prije gostiju.</p></div>
+      <div class="detail-box"><div class="mini">02</div><h3>Lokacija bara</h3><p>Gdje je radna zona i kako se bartender kreće bez sudaranja sa servisom, gostima ili produkcijom.</p></div>
+      <div class="detail-box"><div class="mini">03</div><h3>Oprema</h3><p>Šta je spremno na lokaciji, a šta treba dodatno riješiti prije početka.</p></div>
+      <div class="detail-box"><div class="mini">04-05</div><h3>Ljudi i kraj servisa</h3><p>Koliko je bartendera realno potrebno i šta tačno znači završetak dogovorenog angažmana.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Prvi korak</div><h2 class="serif">Imate datum i mjesto?</h2></div><div><p>To je dovoljno da provjerimo dostupnost i nastavimo.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri dostupnost</a></div></div></section></div></section>
+<section class="page" data-page="biberce"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">04 / Biberce</div><h1 class="serif">Lice iza servisa.</h1></div><p>Ova stranica je mjesto za stvarnu priču bartendera - iskustvo, način rada, karakter i reference. U prototipu je copy namjerno neutralan dok ne ubacimo potvrđene podatke.</p></div></header><section class="section"><div class="container about-layout"><div class="about-photo"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=86" alt="Portretni kadar za Biberce prototip"></div><div><div class="kicker">Personal service</div><h2 class="serif section-title">Ne angažujete logo.<br>Angažujete osobu.</h2><p class="lead">Kod ličnog event servisa povjerenje je dio proizvoda.</p><p class="body-copy">Finalna verzija ovdje treba da govori konkretno: koliko dugo Biberce radi, kakve evente poznaje, gdje je radio, koji stil servisa preferira i šta klijent može da očekuje od saradnje.</p><p class="body-copy">Bez generičkog copyja. Samo ono što je stvarno i korisno klijentu koji odlučuje koga želi iza bara na svom događaju.</p><div class="fact-grid"><div class="fact"><span>Uloga</span><strong>Event bartender</strong></div><div class="fact"><span>Rad</span><strong>Na lokaciji događaja</strong></div><div class="fact"><span>Formati</span><strong>Wedding / Private / Corporate</strong></div><div class="fact"><span>Područje</span><strong>Crna Gora</strong></div></div></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Kako treba da djeluje saradnja</div><h2 class="serif">Profesionalno, ali bez distance.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">Character</div><h3>Prisutan</h3><p>Bartender je dio atmosfere događaja, ali ne mora da bude glavna predstava večeri.</p></div>
+      <div class="detail-box"><div class="mini">Communication</div><h3>Jasan</h3><p>Klijent treba unaprijed da zna šta je dogovoreno, šta nije i šta je potrebno da event funkcioniše.</p></div>
+      <div class="detail-box"><div class="mini">Execution</div><h3>Miran</h3><p>Najviše vrijednosti se vidi kada se veče ubrza, a servis i dalje djeluje kontrolisano.</p></div>
+      <div class="detail-box"><div class="mini">Hospitality</div><h3>Ljudski</h3><p>Rad sa gostima je dio servisa - ton i energija moraju odgovarati događaju.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Razgovor</div><h2 class="serif">Ispričajte šta pravite.</h2></div><div><p>Za dobar prvi odgovor treba nekoliko konkretnih informacija o događaju.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Kontaktiraj Biberce</a></div></div></section></div></section>
+<section class="page" data-page="galerija"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">05 / Galerija</div><h1 class="serif">Iza bara.<br>U sred događaja.</h1></div><p>Finalna galerija treba da bude stvarni dokaz rada - Biberce u akciji, priprema, servis, kontakt sa gostima, detalji i širi kadar prostora.</p></div></header><section class="section paper"><div class="container gallery-grid"><div class="gallery-col"><div class="gallery-img land"><img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1400&q=86" alt="Atmosfera eventa"><span>01 / Atmosfera</span></div><div class="gallery-img portrait"><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1100&q=86" alt="Detalj pripreme"><span>02 / Priprema</span></div></div><div class="gallery-col"><div class="gallery-img portrait"><img src="https://images.unsplash.com/photo-1527761939622-933c3d40e94f?auto=format&fit=crop&w=1100&q=86" alt="Detalj servisa"><span>03 / Servis</span></div><div class="gallery-img square"><img src="https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1100&q=86" alt="Detalj bara"><span>04 / Behind the bar</span></div></div></div></section><section class="section"><div class="container two-col"><div><div class="kicker">Photography direction</div><h2 class="serif section-title">Ne trebaju nam samo lijepe čaše.</h2></div><div><p class="lead">Treba nam Biberce u kontekstu stvarnog eventa.</p><p class="body-copy">Najbolji materijal za ovaj sajt biće kombinacija portreta, rada iza bara, šire atmosfere, detalja ruku i opreme, interakcije sa gostima i nekoliko snažnih kadrova prostora.</p></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Finalni photo set</div><h2 class="serif">Šta želimo da stvarne fotografije pokažu.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">Portrait</div><h3>Biberce</h3><p>Jak, prirodan portret koji odmah gradi povjerenje u osobu iza brenda.</p></div>
+      <div class="detail-box"><div class="mini">Action</div><h3>Rad</h3><p>Ruke, priprema, kretanje i pravi servis, bez poziranog kataloškog osjećaja.</p></div>
+      <div class="detail-box"><div class="mini">People</div><h3>Gosti</h3><p>Interakcija i energija događaja, uz poštovanje privatnosti i prava na korišćenje fotografija.</p></div>
+      <div class="detail-box"><div class="mini">Context</div><h3>Prostor</h3><p>Širi kadar koji pokazuje da bar pripada eventu i ambijentu, ne izolovanoj product fotografiji.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Vaš događaj</div><h2 class="serif">Sljedeća priča može biti vaša.</h2></div><div><p>Provjerite termin i pošaljite osnovne detalje događaja.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></section></div></section>
+<section class="page" data-page="faq"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">06 / FAQ</div><h1 class="serif">Prije nego što rezervišete.</h1></div><p>Ovdje ostaju samo pitanja koja stvarno pomažu klijentu da razumije kako event bartending angažman funkcioniše.</p></div></header><section class="section paper"><div class="container"><div class="faq-wrap"><details open><summary>Koliko ranije treba provjeriti termin?</summary><p>Čim imate potvrđen datum i lokaciju. Za veće događaje i tražene termine raniji dogovor ostavlja više prostora za organizaciju.</p></details><details><summary>Da li Biberce radi van Podgorice?</summary><p>Prototip je postavljen za rad širom Crne Gore prema dogovoru. Finalno treba potvrditi stvarno područje rada i pravila putnih troškova.</p></details><details><summary>Ko obezbjeđuje opremu i radnu zonu?</summary><p>Prvo se provjerava šta lokacija već ima, pa se definiše šta još treba obezbijediti. Finalna podjela obaveza mora pratiti stvarni Biberce model usluge.</p></details><details><summary>Koliko bartendera je potrebno?</summary><p>Zavisi od broja gostiju, trajanja, vrste servisa i očekivanog opterećenja. Jedan bartender nije automatski dovoljan za svaki događaj.</p></details><details><summary>Šta treba poslati u prvom upitu?</summary><p>Datum, lokaciju, tip događaja, okviran broj gostiju i očekivano trajanje. To je dovoljno za prvi odgovor.</p></details><details><summary>Da li se usluga može prilagoditi prostoru?</summary><p>Da - to je suština event bartending servisa. Finalne mogućnosti zavise od uslova na lokaciji i stvarne Biberce ponude.</p></details>
+<details><summary>Kako se određuje cijena angažmana?</summary><p>U prototipu nijesmo stavili izmišljenu cijenu. Finalni model treba da prati stvarnu Biberce praksu - trajanje, lokaciju, broj gostiju, potreban broj ljudi i obim pripreme.</p></details>
+<details><summary>Da li se prvo može samo provjeriti dostupnost?</summary><p>Da. Datum i lokacija su dovoljni za početnu provjeru. Detalji servisa mogu se definisati nakon toga.</p></details>
+</div></div></section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Nema odgovora?</div><h2 class="serif">Pošaljite pitanje.</h2></div><div><p>Ako je pitanje specifično za vaš događaj, bolje je da ga riješimo direktno.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Kontakt</a></div></div></section></div></section>
+<section class="page" data-page="kontakt"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">07 / Kontakt</div><h1 class="serif">Recite mi za veče.</h1></div><p>Pošaljite osnovne detalje. Forma u prototipu otvara email program sa pripremljenim event briefom - adresu i telefon treba zamijeniti stvarnim Biberce kontaktom.</p></div></header><section class="section"><div class="container contact-grid"><aside class="contact-aside"><div class="kicker">Event brief</div><h2 class="serif">Šta mi treba za prvi odgovor?</h2><p>Ne morate imati sve odlučeno. Dovoljno je da znamo osnovni okvir događaja.</p><div class="contact-meta"><div><span>Datum</span><small>ako je poznat</small></div><div><span>Lokacija</span><small>grad / venue</small></div><div><span>Broj gostiju</span><small>okvirno</small></div><div><span>Tip događaja</span><small>wedding / private / corporate</small></div></div></aside><form class="form" id="briefForm"><div class="field"><label for="name">Ime</label><input id="name" name="name" placeholder="Vaše ime" required></div><div class="field"><label for="contact">Telefon ili email</label><input id="contact" name="contact" placeholder="+382 / email" required></div><div class="field"><label for="date">Datum</label><input id="date" name="date" type="date"></div><div class="field"><label for="location">Lokacija</label><input id="location" name="location" placeholder="Grad / venue"></div><div class="field"><label for="type">Tip događaja</label><select id="type" name="type"><option>Vjenčanje</option><option>Privatna proslava</option><option>Poslovni događaj</option><option>Drugo</option></select></div><div class="field"><label for="guests">Broj gostiju</label><input id="guests" name="guests" type="number" min="1" placeholder="npr. 120"></div><div class="field full"><label for="message">Detalji</label><textarea id="message" name="message" placeholder="Napišite šta već znate o događaju i prostoru."></textarea></div><div class="form-actions"><small>Prototip koristi placeholder email hello@example.com. Prije objave treba ubaciti pravi Biberce email, telefon i eventualni WhatsApp.</small><button class="btn wine" type="submit">Pošalji event brief</button></div></form></div></section></div></section>
+</main>
+<footer class="footer"><div class="footer-logo">Biberce.</div><div class="footer-grid"><div><h3>Event bartender</h3><p>Lični event bartending servis za događaje kojima treba profesionalna osoba iza bara, jasan ritam servisa i manje logistike za domaćina.</p></div><div><h3>Stranice</h3><div class="footer-links"><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a></div></div><div><h3>Kontakt</h3><div class="footer-links"><a href="mailto:hello@example.com">hello@example.com</a><a href="tel:+38267000000">+382 67 000 000</a><a class="route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></div><div class="footer-bottom"><span>BIBERCE / EVENT BARTENDER</span><span>ONE-FILE MULTI-PAGE PROTOTYPE</span></div></footer>
+<div class="mobile-bar"><a href="tel:+38267000000">Pozovi</a><a class="route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div>
+<script>
+const pages=[...document.querySelectorAll('.page')],links=[...document.querySelectorAll('.route-link')],navLinks=[...document.querySelectorAll('.main-nav .route-link')],siteNav=document.getElementById('siteNav'),menuBtn=document.getElementById('menuBtn'),drawer=document.getElementById('drawer');
+function route(){const r=location.hash.replace(/^#\/?/,'').trim();return pages.some(p=>p.dataset.page===r)?r:'pocetna'}
+function closeDrawer(){drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');menuBtn.setAttribute('aria-expanded','false');menuBtn.textContent='MENU';siteNav.classList.remove('menu-open');document.body.style.overflow=''}
+function render(r,hash=false){const target=pages.find(p=>p.dataset.page===r)||pages[0];pages.forEach(p=>p.classList.toggle('active',p===target));navLinks.forEach(a=>a.classList.toggle('active',a.dataset.route===r));document.title=(r==='pocetna'?'Biberce Event Bartender':`${r.replaceAll('-',' ')} - Biberce Event Bartender`);closeDrawer();window.scrollTo(0,0);if(hash&&location.hash!==`#/${r}`)location.hash=`#/${r}`}
+links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();render(a.dataset.route,true)}));menuBtn.addEventListener('click',()=>{const o=!drawer.classList.contains('open');drawer.classList.toggle('open',o);drawer.setAttribute('aria-hidden',String(!o));menuBtn.setAttribute('aria-expanded',String(o));menuBtn.textContent=o?'CLOSE':'MENU';siteNav.classList.toggle('menu-open',o);document.body.style.overflow=o?'hidden':''});addEventListener('hashchange',()=>render(route()));addEventListener('scroll',()=>siteNav.classList.toggle('scrolled',scrollY>20));
+document.getElementById('briefForm').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.currentTarget),s=encodeURIComponent('Biberce - event upit'),b=encodeURIComponent(`Ime: ${d.get('name')||''}\nKontakt: ${d.get('contact')||''}\nDatum: ${d.get('date')||''}\nLokacija: ${d.get('location')||''}\nTip događaja: ${d.get('type')||''}\nBroj gostiju: ${d.get('guests')||''}\n\nDetalji:\n${d.get('message')||''}`);location.href=`mailto:hello@example.com?subject=${s}&body=${b}`});render(route());
+</script>
+</body></html>
