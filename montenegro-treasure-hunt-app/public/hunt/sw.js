@@ -1,5 +1,5 @@
 const BASE='/hunt';
-const CACHE='montenegro-hunt-v52-multicity';
+const CACHE='montenegro-hunt-v53-full-preview';
 const ASSETS=[
   `${BASE}/`,
   `${BASE}/styles-v31.css?v=50`,
@@ -10,6 +10,7 @@ const ASSETS=[
   `${BASE}/app-v32-3.js?v=50`,
   `${BASE}/program-runtime.js?v=1`,
   `${BASE}/experience-runtime.js?v=1`,
+  `${BASE}/preview-runtime.js?v=1`,
   `${BASE}/manifest.webmanifest`,
   `${BASE}/assets/icon.svg`
 ];
