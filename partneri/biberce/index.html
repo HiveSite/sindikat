@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Biberce Event Bartender - premium crno-zlatni one-file multi-page prototip sajta za event bartendera.">
+<meta name="description" content="Biberce Event Bartender - profesionalni bartender za svadbe, rođendane, privatne proslave i poslovne događaje u Crnoj Gori.">
 <title>Biberce Event Bartender</title>
 <style>
 :root{--bg:#f4f0e7;--paper:#fbf8f1;--ink:#171614;--muted:#6c665e;--line:#d2cabd;--wine:#6b302d;--olive:#8d8c78;--night:#191817;--white:#fffdf8;--max:1460px;--pad:clamp(20px,4.2vw,74px);--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif;--mono:'Courier New',monospace}
@@ -370,31 +370,175 @@ summary:after{color:var(--gold)}
 }
 </style>
 
+
+<style id="v5-photo-polish">
+.hero-image,
+.event-photo,
+.about-photo,
+.gallery-img,
+.proof-visual{
+  background:#15130f;
+}
+.hero-image img,
+.event-photo img,
+.about-photo img,
+.gallery-img img,
+.proof-visual img{
+  transform:translateZ(0);
+  transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .45s ease;
+}
+@media (hover:hover){
+  .hero-image:hover img,
+  .event-photo:hover img,
+  .gallery-img:hover img,
+  .proof-visual:hover img{
+    transform:scale(1.018);
+    filter:saturate(.78) contrast(1.045) brightness(1.02);
+  }
+}
+.hero-image::before,
+.event-photo::before,
+.about-photo::before,
+.gallery-img::before,
+.proof-visual::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),transparent 20%,transparent 72%,rgba(0,0,0,.18)),
+    radial-gradient(circle at 85% 10%,rgba(206,171,96,.09),transparent 28%);
+  mix-blend-mode:screen;
+}
+.hero-image,
+.event-photo,
+.about-photo,
+.gallery-img,
+.proof-visual{position:relative}
+.hero-image img,
+.event-photo img,
+.about-photo img,
+.gallery-img img,
+.proof-visual img{position:relative;z-index:1}
+@media(max-width:640px){
+  .hero-image img{object-position:center 40%!important}
+  .proof-visual img{object-position:center 44%!important}
+  .event-feature:nth-of-type(1) .event-photo img{object-position:center 50%!important}
+  .event-feature:nth-of-type(2) .event-photo img{object-position:center 48%!important}
+  .event-feature:nth-of-type(3) .event-photo img{object-position:center 47%!important}
+  .gallery-img img{object-position:center center!important}
+}
+</style>
+
+
+<style id="v6-content-polish">
+.home-simple{
+  padding:108px 0;
+  background:#0b0b09;
+  border-top:1px solid var(--line);
+}
+.home-simple.paper{background:#11110e}
+.home-simple-grid{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:70px;
+  align-items:start;
+}
+.home-simple h2{
+  font-size:clamp(48px,6.8vw,100px);
+  line-height:.95;
+  margin:10px 0 0;
+}
+.home-simple .intro-text{
+  font-size:clamp(18px,2vw,27px);
+  line-height:1.48;
+  margin:0 0 30px;
+  color:#ddd5c8;
+}
+.event-list{
+  border-top:1px solid var(--line);
+}
+.event-list a{
+  display:grid;
+  grid-template-columns:44px 1fr auto;
+  gap:18px;
+  align-items:center;
+  min-height:70px;
+  border-bottom:1px solid var(--line);
+  transition:.2s ease;
+}
+.event-list a:hover{padding-left:8px;color:var(--gold-soft)}
+.event-list b{
+  font:700 9px/1 var(--mono);
+  color:var(--gold);
+}
+.event-list span{font-size:16px}
+.event-list i{
+  width:32px;height:32px;border:1px solid var(--line);
+  border-radius:50%;display:grid;place-items:center;
+  font-style:normal;color:var(--gold);
+}
+.home-about-box{
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:clamp(28px,4vw,52px);
+  background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+}
+.home-about-box p{
+  color:var(--muted);
+  line-height:1.75;
+  margin:0 0 18px;
+}
+.home-about-box .btn{margin-top:14px}
+.home-faq{
+  max-width:900px;
+  margin-left:auto;
+}
+@media(max-width:930px){
+  .home-simple-grid{grid-template-columns:1fr;gap:38px}
+}
+@media(max-width:640px){
+  .home-simple{padding:74px 0}
+  .home-simple h2{font-size:clamp(44px,13vw,72px)}
+  .event-list a{grid-template-columns:30px 1fr auto;min-height:64px}
+  .home-about-box{border-radius:22px;padding:24px}
+}
+</style>
+
 </head>
+
+<!--
+V5 prototype photography:
+- Curated web-sourced event/hospitality stock imagery used only to visualize the prototype.
+- No image is repeated.
+- Replace hero/about imagery with real Biberce photography before production launch.
+-->
+
 <body>
 <a class="skip" href="#app">Preskoči na sadržaj</a>
 <header class="site-nav" id="siteNav"><div class="container nav-inner"><a class="brand route-link" href="#/pocetna" data-route="pocetna">BIBERCE<i>.</i><small>Event Bartender</small></a><nav class="main-nav" aria-label="Glavna navigacija"><a class="route-link" href="#/pocetna" data-route="pocetna">Početna</a><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a><a class="route-link" href="#/faq" data-route="faq">FAQ</a></nav><a class="nav-action route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a><button class="menu-btn" id="menuBtn" aria-label="Otvori meni" aria-expanded="false">MENU</button></div></header>
 <div class="mobile-drawer" id="drawer" aria-hidden="true"><a class="route-link" href="#/pocetna" data-route="pocetna">Početna</a><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a><a class="route-link" href="#/faq" data-route="faq">FAQ</a><a class="route-link" href="#/kontakt" data-route="kontakt">Kontakt</a><small>BIBERCE / EVENT BARTENDER / MONTENEGRO</small></div>
 <main id="app">
-<section class="page active" data-page="pocetna"><div class="page-shell"><section class="home-hero"><div class="container home-hero-grid"><div class="home-copy"><div class="kicker">Event bartender / Montenegro</div><h1 class="serif">Biberce<em>iza bara.</em></h1><p>Profesionalni event bartender za vjenčanja, privatne proslave i poslovne događaje - sa jasnom pripremom, mirnim servisom i prisustvom koje pripada večeri.</p><div class="actions"><a class="btn dark route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a><a class="btn route-link" href="#/dogadjaji" data-route="dogadjaji">Pogledaj događaje</a></div></div><div class="hero-art"><div class="hero-image"><img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1400&q=86" alt="Event bartender tokom rada iza bara"></div><div class="hero-caption">Wedding / Private / Corporate</div><div class="hero-seal">Biberce<br>dolazi<br>na vaš event</div></div></div></section><section class="home-intro"><div class="container home-intro-grid"><div class="kicker">01 / Ideja</div><div class="home-intro-copy"><h2 class="serif">Vi vodite veče.<br>Biberce vodi bar.</h2><p>Ovo nije sajt bara, restorana ni catering kataloga. Ovo je lični event bartender servis.</p><p>Na događaju postoji jedna jasna osoba koja preuzima svoj dio večeri - pripremu radne zone, servis, tempo iza bara i komunikaciju sa gostima. Domaćin ne treba da upravlja šankom usred sopstvenog događaja.</p></div></div></section>
+<section class="page active" data-page="pocetna"><div class="page-shell"><section class="home-hero"><div class="container home-hero-grid"><div class="home-copy"><div class="kicker">Event bartender / Montenegro</div><h1 class="serif">Biberce<em>Event Bartender.</em></h1><p>Profesionalni bartender za svadbe, rođendane, privatne proslave i poslovne događaje širom Crne Gore. Dolazak na lokaciju, priprema bara i servis gostiju tokom događaja.</p><div class="actions"><a class="btn dark route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a><a class="btn route-link" href="#/dogadjaji" data-route="dogadjaji">Pogledaj događaje</a></div></div><div class="hero-art"><div class="hero-image"><img src="https://images.unsplash.com/photo-1768508947825-0a63f7c46a2b?auto=format&fit=crop&w=1500&q=84" alt="Elegantna atmosfera formalnog eventa" fetchpriority="high" loading="eager" decoding="async" style="object-position:center 42%"></div><div class="hero-caption">Svadbe / Privatne proslave / Poslovni eventi</div><div class="hero-seal">Biberce<br>na vašem<br>događaju</div></div></div></section><section class="home-intro"><div class="container home-intro-grid"><div class="kicker">01 / Ideja</div><div class="home-intro-copy"><h2 class="serif">Bartender za vaš događaj.</h2><p>Organizujete događaj i želite profesionalnu osobu iza bara? Biberce dolazi na dogovorenu lokaciju i preuzima barski servis.</p><p>Prije eventa dogovaramo broj gostiju, trajanje, lokaciju i šta je već dostupno na prostoru. Na dan događaja Biberce priprema radnu zonu, vodi servis i radi sa gostima, tako da vi imate jednu brigu manje.</p></div></div></section>
 <section class="home-experience">
   <div class="container">
     <div class="home-experience-head">
-      <div><div class="kicker">02 / Šta Biberce preuzima</div><h2 class="serif">Bar koji ima svog čovjeka.</h2></div>
-      <p>Od trenutka kada se definiše događaj, ideja je da barski dio više ne bude nečija usputna obaveza. Biberce preuzima svoj prostor, svoj tempo i svoj dio komunikacije sa gostima.</p>
+      <div><div class="kicker">02 / Šta Biberce preuzima</div><h2 class="serif">Šta Biberce radi na događaju.</h2></div>
+      <p>Biberce preuzima barski dio događaja od pripreme do završetka dogovorenog servisa. Obim usluge prilagođava se vašem eventu.</p>
     </div>
     <div class="glass-grid">
-      <article class="glass-card"><div class="index">01 / Before</div><h3>Priprema prije gostiju</h3><p>Provjera radne zone, opreme i dogovorenog načina servisa prije nego što događaj uđe u svoj ritam.</p></article>
-      <article class="glass-card"><div class="index">02 / During</div><h3>Prisustvo tokom večeri</h3><p>Bartender prati intenzitet, održava prostor urednim i radi sa gostima bez potrebe da domaćin ulazi u operativu.</p></article>
-      <article class="glass-card"><div class="index">03 / Flow</div><h3>Kontrola tempa</h3><p>Kada dođe udarni period, dobar servis ne smije da djeluje panično. Tu se najviše vidi priprema i iskustvo iza bara.</p></article>
+      <article class="glass-card"><div class="index">01 / Before</div><h3>Priprema bara</h3><p>Dolazak prije početka, provjera radne zone i priprema svega što je dogovoreno za servis.</p></article>
+      <article class="glass-card"><div class="index">02 / During</div><h3>Servis gostiju</h3><p>Biberce vodi bar tokom događaja, radi sa gostima i održava radni prostor urednim i funkcionalnim.</p></article>
+      <article class="glass-card"><div class="index">03 / Flow</div><h3>Dodatni bartenderski tim</h3><p>Za veće događaje moguće je organizovati više bartendera, u zavisnosti od broja gostiju, trajanja i tipa servisa.</p></article>
     </div>
   </div>
 </section>
 <section class="home-proof">
   <div class="container home-proof-grid">
-    <div class="proof-visual"><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=86" alt="Bartender u pripremi event servisa"></div>
+    <div class="proof-visual"><img src="https://images.unsplash.com/photo-1768508947879-848db5ef3df9?auto=format&fit=crop&w=1500&q=84" alt="Gosti na elegantnom večernjem događaju" loading="lazy" decoding="async" style="object-position:center 45%"></div>
     <div class="proof-copy">
-      <div><div class="kicker">03 / Zašto event bartender</div><h2 class="serif">Manje improvizacije. Više večeri.</h2><p>Na privatnom događaju ljudi često tek pred početak shvate koliko sitnih odluka postoji iza funkcionalnog bara. Kada je bartender unaprijed uključen, te odluke se rješavaju ranije - a domaćin na samom događaju ostaje domaćin.</p></div>
+      <div><div class="kicker">03 / Zašto event bartender</div><h2 class="serif">Jedna briga manje na događaju.</h2><p>Kada barski dio ima osobu koja ga vodi, domaćin ili organizator ne mora tokom večeri da rješava radni prostor, servis i pitanja gostiju. Detalje dogovaramo unaprijed, a Biberce na događaju preuzima svoj dio posla.</p></div>
       <div class="proof-points">
         <div><b>01</b><span>Jedna jasna osoba odgovorna za servis iza bara.</span></div>
         <div><b>02</b><span>Realna procjena prostora, opreme i potrebnog broja ljudi.</span></div>
@@ -404,69 +548,120 @@ summary:after{color:var(--gold)}
     </div>
   </div>
 </section>
-<section class="portals"><div class="container"><a class="portal route-link" href="#/usluge" data-route="usluge"><div class="num">01</div><h3>Šta tačno dobijate</h3><p>Detaljna struktura event bartending usluge, od pripreme do završetka servisa.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/dogadjaji" data-route="dogadjaji"><div class="num">02</div><h3>Za koje događaje</h3><p>Vjenčanja, privatne proslave i poslovni eventi imaju različit ritam i različite potrebe iza bara.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/kako-radim" data-route="kako-radim"><div class="num">03</div><h3>Kako izgleda saradnja</h3><p>Od prvog upita do dolaska na lokaciju - jasan proces bez nepotrebnog komplikovanja.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/biberce" data-route="biberce"><div class="num">04</div><h3>Ko je Biberce</h3><p>Lični pristup, karakter servisa i prostor za stvarnu priču, iskustvo i reference bartendera.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/galerija" data-route="galerija"><div class="num">05</div><h3>Rad iza bara</h3><p>Vizuelna priča kroz pripremu, servis, detalje i atmosferu događaja.</p><div class="arrow">↗</div></a></div></section><section class="band"><div class="container band-grid"><div><div class="kicker">Biberce standard</div><h2 class="serif">Bar treba da djeluje <em>lako.</em></h2></div><p>Dobar event bartender ne pravi predstavu od logistike. Priprema se ranije, radi mirno, prati tempo gostiju i održava servis funkcionalnim čak i kada se veče ubrza.</p></div></section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Imate datum?</div><h2 class="serif">Počnimo od događaja.</h2></div><div><p>Datum, lokacija, broj gostiju i tip događaja dovoljni su za prvi razgovor.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri dostupnost</a></div></div></section></div></section>
-<section class="page" data-page="usluge"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">01 / Usluge</div><h1 class="serif">Jedan bartender.<br>Jasna odgovornost.</h1></div><p>Biberce Event Bartender preuzima barski dio događaja kao cjelinu - ne samo trenutak posluživanja.</p></div></header><section class="section"><div class="container service-grid"><article class="service-card"><div class="index">01 / Event bartending</div><div><h3>Prisustvo iza bara</h3><p>Profesionalni bartender na lokaciji, pripremljen za dogovoreni obim servisa i ritam događaja.</p></div></article><article class="service-card"><div class="index">02 / Setup</div><div><h3>Radna zona</h3><p>Provjera prostora, logike rada i osnovne organizacije bara prije dolaska gostiju.</p></div></article><article class="service-card"><div class="index">03 / Flow</div><div><h3>Tempo servisa</h3><p>Način rada se prilagođava broju gostiju, trajanju, tipu događaja i očekivanim udarnim periodima.</p></div></article><article class="service-card"><div class="index">04 / Team</div><div><h3>Više bartendera</h3><p>Kada jedan bartender nije dovoljno realan za broj gostiju i format eventa, definiše se dodatna podrška.</p></div></article></div></section><section class="section paper"><div class="container two-col"><div><div class="kicker">Šta definišemo unaprijed</div><h2 class="serif section-title">Bez improvizacije u pogrešnom trenutku.</h2></div><div class="hair-list"><div class="hair-item"><div class="num">01</div><h3>Lokacija</h3><p>Šta prostor već ima, gdje je radna zona i kako gosti prilaze baru.</p></div><div class="hair-item"><div class="num">02</div><h3>Broj gostiju</h3><p>Osnova za realnu procjenu tempa servisa i potrebnog broja ljudi.</p></div><div class="hair-item"><div class="num">03</div><h3>Trajanje</h3><p>Vrijeme rada, ključni momenti večeri i očekivane promjene intenziteta.</p></div><div class="hair-item"><div class="num">04</div><h3>Oprema</h3><p>Dogovor šta postoji na lokaciji i šta još mora biti spremno za normalan servis.</p></div></div></div></section><section class="detail-band">
-  <div class="container detail-band-grid">
-    <div><div class="kicker">Granice usluge</div><h2 class="serif">Šta se dogovara, a šta se ne podrazumijeva.</h2></div>
-    <div class="detail-columns">
-      <div class="detail-box"><div class="mini">Dogovaramo</div><h3>Obim rada</h3><p>Vrijeme dolaska, trajanje servisa, broj bartendera i način organizacije radne zone.</p></div>
-      <div class="detail-box"><div class="mini">Provjeravamo</div><h3>Šta venue već ima</h3><p>Radna površina, led, čaše, hlađenje, voda, otpad i drugi praktični elementi zavise od lokacije.</p></div>
-      <div class="detail-box"><div class="mini">Prilagođavamo</div><h3>Tempo događaja</h3><p>Servis na svadbi, privatnoj večeri i poslovnom eventu nema isti tok niti ista očekivanja.</p></div>
-      <div class="detail-box"><div class="mini">Ne izmišljamo</div><h3>Gotove pakete</h3><p>Finalna ponuda treba da prati stvarni Biberce model i konkretan događaj, umjesto da obećava stavke koje nijesu potvrđene.</p></div>
+<section class="portals"><div class="container"><a class="portal route-link" href="#/usluge" data-route="usluge"><div class="num">01</div><h3>Usluge</h3><p>Pogledajte šta obuhvata angažman Biberce Event Bartendera i šta se dogovara prije događaja.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/dogadjaji" data-route="dogadjaji"><div class="num">02</div><h3>Događaji</h3><p>Svadbe, rođendani, privatne proslave, poslovni događaji i drugi eventi prema dogovoru.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/kako-radim" data-route="kako-radim"><div class="num">03</div><h3>Kako funkcioniše saradnja</h3><p>Pošaljete osnovne informacije, dogovorimo detalje, Biberce dolazi na lokaciju i vodi bar.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/biberce" data-route="biberce"><div class="num">04</div><h3>O Biberce</h3><p>Upoznajte osobu iza Biberce Event Bartender servisa i način rada na događajima.</p><div class="arrow">↗</div></a><a class="portal route-link" href="#/galerija" data-route="galerija"><div class="num">05</div><h3>Galerija</h3><p>Pogledajte atmosferu, rad iza bara, detalje servisa i događaje.</p><div class="arrow">↗</div></a></div></section>
+<section class="home-simple">
+  <div class="container home-simple-grid">
+    <div>
+      <div class="kicker">04 / Događaji</div>
+      <h2 class="serif">Događaji koje radimo.</h2>
+    </div>
+    <div>
+      <p class="intro-text">Biberce možete angažovati za različite vrste događaja. Način servisa dogovaramo prema prostoru, broju gostiju i trajanju.</p>
+      <div class="event-list">
+        <a class="route-link" href="#/dogadjaji" data-route="dogadjaji"><b>01</b><span>Svadbe</span><i>↗</i></a>
+        <a class="route-link" href="#/dogadjaji" data-route="dogadjaji"><b>02</b><span>Rođendani i privatne proslave</span><i>↗</i></a>
+        <a class="route-link" href="#/dogadjaji" data-route="dogadjaji"><b>03</b><span>Poslovni i korporativni eventi</span><i>↗</i></a>
+        <a class="route-link" href="#/dogadjaji" data-route="dogadjaji"><b>04</b><span>Kućne zabave i privatne večere</span><i>↗</i></a>
+        <a class="route-link" href="#/kontakt" data-route="kontakt"><b>05</b><span>Drugi eventi prema dogovoru</span><i>↗</i></a>
+      </div>
     </div>
   </div>
-</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Sljedeći korak</div><h2 class="serif">Pošaljite event brief.</h2></div><div><p>Ne treba vam gotov plan. Pošaljite ono što već znate i od toga krećemo.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></section></div></section>
-<section class="page" data-page="dogadjaji"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">02 / Događaji</div><h1 class="serif">Drugačiji događaj.<br>Drugačiji ritam bara.</h1></div><p>Ne postoji jedan univerzalni event bartending paket. Prostor, publika, trajanje i broj gostiju mijenjaju način rada.</p></div></header><section class="section"><div class="container"><article class="event-feature"><div class="event-photo"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1500&q=86" alt="Elegantno vjenčanje"></div><div class="event-copy"><div><div class="kicker">01 / Weddings</div><h2 class="serif">Vjenčanja</h2><p>Servis treba da prati tok večeri, a ne da postane dodatna obaveza za mladence ili organizatora. Biberce preuzima svoj dio događaja i drži bar pod kontrolom.</p></div><ul><li><span>Fokus</span><strong>kontinuitet servisa</strong></li><li><span>Priprema</span><strong>prije dolaska gostiju</strong></li><li><span>Skaliranje</span><strong>prema broju gostiju</strong></li></ul></div></article><article class="event-feature reverse"><div class="event-copy"><div><div class="kicker">02 / Private</div><h2 class="serif">Privatne proslave</h2><p>Rođendani, kućne večere, vile i intimniji događaji traže diskretniji servis i više neposrednog rada sa gostima.</p></div><ul><li><span>Fokus</span><strong>prisustvo i fleksibilnost</strong></li><li><span>Prostor</span><strong>kuća / vila / privatni venue</strong></li><li><span>Ritam</span><strong>prilagođen domaćinu</strong></li></ul></div><div class="event-photo"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1500&q=86" alt="Privatna proslava"></div></article><article class="event-feature"><div class="event-photo"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1500&q=86" alt="Poslovni događaj"></div><div class="event-copy"><div><div class="kicker">03 / Corporate</div><h2 class="serif">Poslovni eventi</h2><p>Na poslovnom događaju servis mora biti čist, predvidljiv i dovoljno brz da se uklopi u program bez stvaranja zastoja.</p></div><ul><li><span>Fokus</span><strong>efikasnost</strong></li><li><span>Komunikacija</span><strong>sa organizatorom</strong></li><li><span>Servis</span><strong>u skladu sa programom</strong></li></ul></div></article></div></section><section class="detail-band">
-  <div class="container detail-band-grid">
-    <div><div class="kicker">Šta mijenja plan</div><h2 class="serif">Nije presudan samo broj gostiju.</h2></div>
-    <div class="detail-columns">
-      <div class="detail-box"><div class="mini">Venue</div><h3>Prostor</h3><p>Pristup vodi, hlađenju, ledu i radnoj površini može potpuno promijeniti setup i brzinu rada.</p></div>
-      <div class="detail-box"><div class="mini">Audience</div><h3>Publika</h3><p>Tip gostiju i format okupljanja utiču na to kada dolaze udarni periodi i koliko je servis interaktivan.</p></div>
-      <div class="detail-box"><div class="mini">Program</div><h3>Tok večeri</h3><p>Govori, večera, muzika i drugi programski momenti utiču na to kada se bar opterećuje i kada treba biti spreman.</p></div>
-      <div class="detail-box"><div class="mini">Duration</div><h3>Trajanje</h3><p>Dužina angažmana nije samo broj sati - važni su početak, završetak i promjene ritma tokom događaja.</p></div>
+</section>
+
+<section class="home-simple paper">
+  <div class="container home-simple-grid">
+    <div>
+      <div class="kicker">05 / O Biberce</div>
+      <h2 class="serif">Lični event bartender servis.</h2>
+    </div>
+    <div class="home-about-box">
+      <p>Biberce je event bartender za događaje kojima treba profesionalna osoba iza bara. Fokus je na dobroj pripremi, urednom servisu i prijatnoj komunikaciji sa gostima.</p>
+      <p>Svaki događaj je drugačiji, zato se angažman dogovara prema lokaciji, broju gostiju, trajanju i potrebama organizatora.</p>
+      <p>Bez nepotrebnog komplikovanja - prvo provjerimo šta vam treba, zatim dogovorimo obim servisa i termin.</p>
+      <a class="btn route-link" href="#/biberce" data-route="biberce">Više o Biberce</a>
     </div>
   </div>
-</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Vaš format</div><h2 class="serif">Nije na listi?</h2></div><div><p>Pošaljite detalje događaja i definišimo da li Biberce odgovara formatu.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Pošalji detalje</a></div></div></section></div></section>
-<section class="page" data-page="kako-radim"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">03 / Kako radim</div><h1 class="serif">Jednostavno za vas.<br>Precizno iza bara.</h1></div><p>Proces treba da ukloni neizvjesnost prije eventa, a ne da klijentu napravi još jedan projekat za vođenje.</p></div></header><section class="section dark"><div class="container"><div class="two-col" style="margin-bottom:62px"><div><div class="kicker">Od upita do servisa</div><h2 class="serif section-title">Četiri jasna koraka.</h2></div><p class="body-copy">Sve bitne odluke rješavaju se prije događaja - datum, lokacija, obim, oprema i potreban broj ljudi.</p></div><div class="process-line"><div class="process-step"><div class="num">01</div><h3>Pošaljete događaj</h3><p>Datum, lokacija, okviran broj gostiju, tip događaja i trajanje dovoljni su za prvi korak.</p></div><div class="process-step"><div class="num">02</div><h3>Definišemo servis</h3><p>Dogovaramo šta bartender preuzima, šta već postoji na lokaciji i šta još treba pripremiti.</p></div><div class="process-step"><div class="num">03</div><h3>Priprema</h3><p>Radna zona i potrebni elementi organizuju se prije dolaska gostiju, ne kada događaj već počne.</p></div><div class="process-step"><div class="num">04</div><h3>Biberce preuzima</h3><p>Na eventu bartender vodi svoj dio večeri, prati tempo i drži servis funkcionalnim do završetka dogovorenog rada.</p></div></div></div></section><section class="section olive"><div class="container two-col"><div><div class="kicker">Princip rada</div><h2 class="serif section-title">Domaćin ne treba da misli o šanku.</h2></div><div><p class="lead">Poenta angažovanja event bartendera je da se jedna briga potpuno skloni sa vaše liste.</p><p class="body-copy" style="color:#373831">Zato su komunikacija prije događaja i realna procjena servisa jednako važni kao sam rad iza bara.</p></div></div></section><section class="detail-band">
-  <div class="container detail-band-grid">
-    <div><div class="kicker">Prije dana eventa</div><h2 class="serif">Pet stvari koje treba zatvoriti unaprijed.</h2></div>
-    <div class="detail-columns">
-      <div class="detail-box"><div class="mini">01</div><h3>Dolazak</h3><p>Kada bartender dolazi i koliko vremena postoji za normalnu pripremu prije gostiju.</p></div>
-      <div class="detail-box"><div class="mini">02</div><h3>Lokacija bara</h3><p>Gdje je radna zona i kako se bartender kreće bez sudaranja sa servisom, gostima ili produkcijom.</p></div>
-      <div class="detail-box"><div class="mini">03</div><h3>Oprema</h3><p>Šta je spremno na lokaciji, a šta treba dodatno riješiti prije početka.</p></div>
-      <div class="detail-box"><div class="mini">04-05</div><h3>Ljudi i kraj servisa</h3><p>Koliko je bartendera realno potrebno i šta tačno znači završetak dogovorenog angažmana.</p></div>
+</section>
+
+<section class="home-simple">
+  <div class="container home-simple-grid">
+    <div>
+      <div class="kicker">06 / FAQ</div>
+      <h2 class="serif">Najčešća pitanja.</h2>
+    </div>
+    <div class="home-faq">
+      <details open><summary>Koliko ranije treba rezervisati termin?</summary><p>Najbolje je da se javite čim imate potvrđen datum i lokaciju, posebno za veće događaje i tražene termine.</p></details>
+      <details><summary>Da li je moguć angažman van Podgorice?</summary><p>Pošaljite grad ili lokaciju događaja i provjerićemo mogućnost angažmana i logistiku.</p></details>
+      <details><summary>Ko obezbjeđuje opremu?</summary><p>Prije događaja provjeravamo šta venue već ima i dogovaramo šta je još potrebno za barski servis.</p></details>
+      <details><summary>Koliko bartendera je potrebno?</summary><p>To zavisi od broja gostiju, trajanja i tipa servisa. Za veće događaje moguće je organizovati dodatne bartendere.</p></details>
+      <div class="actions"><a class="btn route-link" href="#/faq" data-route="faq">Sva pitanja</a></div>
     </div>
   </div>
-</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Prvi korak</div><h2 class="serif">Imate datum i mjesto?</h2></div><div><p>To je dovoljno da provjerimo dostupnost i nastavimo.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri dostupnost</a></div></div></section></div></section>
-<section class="page" data-page="biberce"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">04 / Biberce</div><h1 class="serif">Lice iza servisa.</h1></div><p>Ova stranica je mjesto za stvarnu priču bartendera - iskustvo, način rada, karakter i reference. U prototipu je copy namjerno neutralan dok ne ubacimo potvrđene podatke.</p></div></header><section class="section"><div class="container about-layout"><div class="about-photo"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=86" alt="Portretni kadar za Biberce prototip"></div><div><div class="kicker">Personal service</div><h2 class="serif section-title">Ne angažujete logo.<br>Angažujete osobu.</h2><p class="lead">Kod ličnog event servisa povjerenje je dio proizvoda.</p><p class="body-copy">Finalna verzija ovdje treba da govori konkretno: koliko dugo Biberce radi, kakve evente poznaje, gdje je radio, koji stil servisa preferira i šta klijent može da očekuje od saradnje.</p><p class="body-copy">Bez generičkog copyja. Samo ono što je stvarno i korisno klijentu koji odlučuje koga želi iza bara na svom događaju.</p><div class="fact-grid"><div class="fact"><span>Uloga</span><strong>Event bartender</strong></div><div class="fact"><span>Rad</span><strong>Na lokaciji događaja</strong></div><div class="fact"><span>Formati</span><strong>Wedding / Private / Corporate</strong></div><div class="fact"><span>Područje</span><strong>Crna Gora</strong></div></div></div></div></section><section class="detail-band">
+</section>
+
+<section class="band"><div class="container band-grid"><div><div class="kicker">Biberce standard</div><h2 class="serif">Profesionalan bar <em>bez komplikovanja.</em></h2></div><p>Cilj je jednostavan - da bar bude spreman, servis organizovan, a gosti usluženi bez toga da domaćin tokom događaja mora da razmišlja o šanku.</p></div></section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Imate datum?</div><h2 class="serif">Imate datum za događaj?</h2></div><div><p>Pošaljite datum, lokaciju, okviran broj gostiju i tip događaja. To je dovoljno da provjerimo dostupnost i nastavimo dogovor.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri dostupnost</a></div></div></section></div></section>
+<section class="page" data-page="usluge"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">01 / Usluge</div><h1 class="serif">Event bartending za vaš događaj.</h1></div><p>Biberce dolazi na vašu lokaciju i vodi barski servis tokom događaja. Prije eventa dogovaramo šta je potrebno, koliko traje angažman i da li je potreban dodatni bartender.</p></div></header><section class="section"><div class="container service-grid"><article class="service-card"><div class="index">01 / Event bartending</div><div><h3>Bartender na lokaciji</h3><p>Biberce dolazi na dogovorenu lokaciju i vodi barski servis tokom vašeg događaja.</p></div></article><article class="service-card"><div class="index">02 / Setup</div><div><h3>Priprema bara</h3><p>Prije početka provjeravamo radni prostor, opremu i šta je potrebno pripremiti za normalan servis.</p></div></article><article class="service-card"><div class="index">03 / Flow</div><div><h3>Servis gostiju</h3><p>Tokom događaja Biberce vodi bar, radi sa gostima i održava servis urednim i organizovanim.</p></div></article><article class="service-card"><div class="index">04 / Team</div><div><h3>Dodatni bartenderski tim</h3><p>Za veće događaje broj bartendera dogovara se prema broju gostiju, trajanju i vrsti servisa.</p></div></article></div></section><section class="section paper"><div class="container two-col"><div><div class="kicker">Šta definišemo unaprijed</div><h2 class="serif section-title">Šta dogovaramo prije događaja.</h2></div><div class="hair-list"><div class="hair-item"><div class="num">01</div><h3>Lokacija</h3><p>Grad, venue i uslovi na lokaciji važni su za organizaciju rada iza bara.</p></div><div class="hair-item"><div class="num">02</div><h3>Broj gostiju</h3><p>Broj gostiju pomaže da procijenimo da li je dovoljan jedan bartender ili je potreban dodatni tim.</p></div><div class="hair-item"><div class="num">03</div><h3>Trajanje</h3><p>Dogovaramo vrijeme dolaska, početak servisa i trajanje angažmana.</p></div><div class="hair-item"><div class="num">04</div><h3>Oprema</h3><p>Provjeravamo šta venue već ima i šta još treba obezbijediti za normalan rad.</p></div></div></div></section><section class="detail-band">
   <div class="container detail-band-grid">
-    <div><div class="kicker">Kako treba da djeluje saradnja</div><h2 class="serif">Profesionalno, ali bez distance.</h2></div>
+    <div><div class="kicker">Granice usluge</div><h2 class="serif">Usluga se prilagođava vašem eventu.</h2></div>
     <div class="detail-columns">
-      <div class="detail-box"><div class="mini">Character</div><h3>Prisutan</h3><p>Bartender je dio atmosfere događaja, ali ne mora da bude glavna predstava večeri.</p></div>
-      <div class="detail-box"><div class="mini">Communication</div><h3>Jasan</h3><p>Klijent treba unaprijed da zna šta je dogovoreno, šta nije i šta je potrebno da event funkcioniše.</p></div>
-      <div class="detail-box"><div class="mini">Execution</div><h3>Miran</h3><p>Najviše vrijednosti se vidi kada se veče ubrza, a servis i dalje djeluje kontrolisano.</p></div>
-      <div class="detail-box"><div class="mini">Hospitality</div><h3>Ljudski</h3><p>Rad sa gostima je dio servisa - ton i energija moraju odgovarati događaju.</p></div>
+      <div class="detail-box"><div class="mini">Dogovaramo</div><h3>Vrijeme angažmana</h3><p>Dogovaramo kada Biberce dolazi, koliko traje servis i kada se angažman završava.</p></div>
+      <div class="detail-box"><div class="mini">Provjeravamo</div><h3>Oprema na lokaciji</h3><p>Provjeravamo radnu površinu, hlađenje, vodu i ostale uslove koji utiču na rad iza bara.</p></div>
+      <div class="detail-box"><div class="mini">Prilagođavamo</div><h3>Tip događaja</h3><p>Svadba, rođendan i poslovni event nemaju isti ritam, zato se način servisa dogovara prema formatu.</p></div>
+      <div class="detail-box"><div class="mini">Ne izmišljamo</div><h3>Dodatne potrebe</h3><p>Ako događaj traži dodatnog bartendera ili poseban način organizacije, to definišemo prije potvrde angažmana.</p></div>
     </div>
   </div>
-</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Razgovor</div><h2 class="serif">Ispričajte šta pravite.</h2></div><div><p>Za dobar prvi odgovor treba nekoliko konkretnih informacija o događaju.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Kontaktiraj Biberce</a></div></div></section></div></section>
-<section class="page" data-page="galerija"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">05 / Galerija</div><h1 class="serif">Iza bara.<br>U sred događaja.</h1></div><p>Finalna galerija treba da bude stvarni dokaz rada - Biberce u akciji, priprema, servis, kontakt sa gostima, detalji i širi kadar prostora.</p></div></header><section class="section paper"><div class="container gallery-grid"><div class="gallery-col"><div class="gallery-img land"><img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1400&q=86" alt="Atmosfera eventa"><span>01 / Atmosfera</span></div><div class="gallery-img portrait"><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1100&q=86" alt="Detalj pripreme"><span>02 / Priprema</span></div></div><div class="gallery-col"><div class="gallery-img portrait"><img src="https://images.unsplash.com/photo-1527761939622-933c3d40e94f?auto=format&fit=crop&w=1100&q=86" alt="Detalj servisa"><span>03 / Servis</span></div><div class="gallery-img square"><img src="https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1100&q=86" alt="Detalj bara"><span>04 / Behind the bar</span></div></div></div></section><section class="section"><div class="container two-col"><div><div class="kicker">Photography direction</div><h2 class="serif section-title">Ne trebaju nam samo lijepe čaše.</h2></div><div><p class="lead">Treba nam Biberce u kontekstu stvarnog eventa.</p><p class="body-copy">Najbolji materijal za ovaj sajt biće kombinacija portreta, rada iza bara, šire atmosfere, detalja ruku i opreme, interakcije sa gostima i nekoliko snažnih kadrova prostora.</p></div></div></section><section class="detail-band">
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Sljedeći korak</div><h2 class="serif">Pošaljite osnovne informacije.</h2></div><div><p>Datum, lokacija, tip događaja i okviran broj gostiju dovoljni su za prvi razgovor.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></section></div></section>
+<section class="page" data-page="dogadjaji"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">02 / Događaji</div><h1 class="serif">Bartender za različite vrste događaja.</h1></div><p>Biberce radi svadbe, rođendane, privatne proslave, poslovne događaje i druge evente prema dogovoru. Način servisa prilagođava se prostoru, broju gostiju i trajanju.</p></div></header><section class="section"><div class="container"><article class="event-feature"><div class="event-photo"><img src="https://images.unsplash.com/photo-1779308936221-89739e035a53?auto=format&fit=crop&w=1700&q=84" alt="Elegantno uređen prostor za vjenčanje" loading="lazy" decoding="async" style="object-position:center 48%"></div><div class="event-copy"><div><div class="kicker">01 / Weddings</div><h2 class="serif">Vjenčanja</h2><p>Biberce preuzima barski servis na svadbi, od pripreme prije dolaska gostiju do završetka dogovorenog angažmana.</p></div><ul><li><span>Fokus</span><strong>kontinuitet servisa</strong></li><li><span>Priprema</span><strong>prije dolaska gostiju</strong></li><li><span>Skaliranje</span><strong>prema broju gostiju</strong></li></ul></div></article><article class="event-feature reverse"><div class="event-copy"><div><div class="kicker">02 / Private</div><h2 class="serif">Privatne proslave</h2><p>Rođendani, kućne proslave, vile i privatne večere mogu dobiti profesionalni barski servis bez potrebe da domaćin tokom večeri vodi računa o šanku.</p></div><ul><li><span>Fokus</span><strong>prisustvo i fleksibilnost</strong></li><li><span>Prostor</span><strong>kuća / vila / privatni venue</strong></li><li><span>Ritam</span><strong>prilagođen domaćinu</strong></li></ul></div><div class="event-photo"><img src="https://images.unsplash.com/photo-1775476793931-cb484f197760?auto=format&fit=crop&w=1600&q=84" alt="Premium outdoor prostor za privatnu proslavu" loading="lazy" decoding="async" style="object-position:center 50%"></div></article><article class="event-feature"><div class="event-photo"><img src="https://images.unsplash.com/photo-1768508948508-507b3ff10cd3?auto=format&fit=crop&w=1600&q=84" alt="Formalno postavljen prostor za poslovni događaj" loading="lazy" decoding="async" style="object-position:center 48%"></div><div class="event-copy"><div><div class="kicker">03 / Corporate</div><h2 class="serif">Poslovni eventi</h2><p>Za korporativne evente, promocije i poslovna okupljanja fokus je na urednom, organizovanom servisu koji prati program događaja.</p></div><ul><li><span>Fokus</span><strong>efikasnost</strong></li><li><span>Komunikacija</span><strong>sa organizatorom</strong></li><li><span>Servis</span><strong>u skladu sa programom</strong></li></ul></div></article></div></section><section class="detail-band">
   <div class="container detail-band-grid">
-    <div><div class="kicker">Finalni photo set</div><h2 class="serif">Šta želimo da stvarne fotografije pokažu.</h2></div>
+    <div><div class="kicker">Šta mijenja plan</div><h2 class="serif">Šta utiče na organizaciju servisa.</h2></div>
     <div class="detail-columns">
-      <div class="detail-box"><div class="mini">Portrait</div><h3>Biberce</h3><p>Jak, prirodan portret koji odmah gradi povjerenje u osobu iza brenda.</p></div>
-      <div class="detail-box"><div class="mini">Action</div><h3>Rad</h3><p>Ruke, priprema, kretanje i pravi servis, bez poziranog kataloškog osjećaja.</p></div>
-      <div class="detail-box"><div class="mini">People</div><h3>Gosti</h3><p>Interakcija i energija događaja, uz poštovanje privatnosti i prava na korišćenje fotografija.</p></div>
-      <div class="detail-box"><div class="mini">Context</div><h3>Prostor</h3><p>Širi kadar koji pokazuje da bar pripada eventu i ambijentu, ne izolovanoj product fotografiji.</p></div>
+      <div class="detail-box"><div class="mini">Venue</div><h3>Prostor</h3><p>Važno je šta venue već ima i kakvi su uslovi za rad iza bara.</p></div>
+      <div class="detail-box"><div class="mini">Audience</div><h3>Publika</h3><p>Broj i raspored gostiju pomažu da se procijeni potreban broj bartendera i način servisa.</p></div>
+      <div class="detail-box"><div class="mini">Program</div><h3>Tok večeri</h3><p>Program događaja pomaže da se zna kada će bar biti najopterećeniji i kako pripremiti servis.</p></div>
+      <div class="detail-box"><div class="mini">Duration</div><h3>Trajanje</h3><p>Dogovaramo vrijeme dolaska, početak servisa i koliko dugo bartender ostaje na događaju.</p></div>
     </div>
   </div>
-</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Vaš događaj</div><h2 class="serif">Sljedeća priča može biti vaša.</h2></div><div><p>Provjerite termin i pošaljite osnovne detalje događaja.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></section></div></section>
-<section class="page" data-page="faq"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">06 / FAQ</div><h1 class="serif">Prije nego što rezervišete.</h1></div><p>Ovdje ostaju samo pitanja koja stvarno pomažu klijentu da razumije kako event bartending angažman funkcioniše.</p></div></header><section class="section paper"><div class="container"><div class="faq-wrap"><details open><summary>Koliko ranije treba provjeriti termin?</summary><p>Čim imate potvrđen datum i lokaciju. Za veće događaje i tražene termine raniji dogovor ostavlja više prostora za organizaciju.</p></details><details><summary>Da li Biberce radi van Podgorice?</summary><p>Prototip je postavljen za rad širom Crne Gore prema dogovoru. Finalno treba potvrditi stvarno područje rada i pravila putnih troškova.</p></details><details><summary>Ko obezbjeđuje opremu i radnu zonu?</summary><p>Prvo se provjerava šta lokacija već ima, pa se definiše šta još treba obezbijediti. Finalna podjela obaveza mora pratiti stvarni Biberce model usluge.</p></details><details><summary>Koliko bartendera je potrebno?</summary><p>Zavisi od broja gostiju, trajanja, vrste servisa i očekivanog opterećenja. Jedan bartender nije automatski dovoljan za svaki događaj.</p></details><details><summary>Šta treba poslati u prvom upitu?</summary><p>Datum, lokaciju, tip događaja, okviran broj gostiju i očekivano trajanje. To je dovoljno za prvi odgovor.</p></details><details><summary>Da li se usluga može prilagoditi prostoru?</summary><p>Da - to je suština event bartending servisa. Finalne mogućnosti zavise od uslova na lokaciji i stvarne Biberce ponude.</p></details>
-<details><summary>Kako se određuje cijena angažmana?</summary><p>U prototipu nijesmo stavili izmišljenu cijenu. Finalni model treba da prati stvarnu Biberce praksu - trajanje, lokaciju, broj gostiju, potreban broj ljudi i obim pripreme.</p></details>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Vaš format</div><h2 class="serif">Imate drugi tip događaja?</h2></div><div><p>Pošaljite datum, lokaciju i kratak opis eventa pa ćemo provjeriti da li Biberce može da preuzme barski servis.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Pošalji detalje</a></div></div></section></div></section>
+<section class="page" data-page="kako-radim"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">03 / Kako radim</div><h1 class="serif">Kako funkcioniše saradnja.</h1></div><p>Dogovor je jednostavan. Pošaljete osnovne informacije, definišemo šta je potrebno i Biberce dolazi spreman na događaj.</p></div></header><section class="section dark"><div class="container"><div class="two-col" style="margin-bottom:62px"><div><div class="kicker">Od upita do servisa</div><h2 class="serif section-title">Od upita do događaja u četiri koraka.</h2></div><p class="body-copy">Najvažnije detalje zatvaramo unaprijed kako na dan događaja ne biste rješavali stvari koje su mogle biti dogovorene ranije.</p></div><div class="process-line"><div class="process-step"><div class="num">01</div><h3>Pošaljete upit</h3><p>Pošaljite datum, lokaciju, okviran broj gostiju, tip događaja i očekivano trajanje.</p></div><div class="process-step"><div class="num">02</div><h3>Dogovaramo detalje</h3><p>Provjeravamo šta postoji na lokaciji, koliko je ljudi potrebno i šta ulazi u angažman.</p></div><div class="process-step"><div class="num">03</div><h3>Priprema</h3><p>Priprema bara i potrebni elementi organizuju se prije dolaska gostiju, ne kada događaj već počne.</p></div><div class="process-step"><div class="num">04</div><h3>Biberce preuzima</h3><p>Tokom događaja Biberce vodi bar, radi sa gostima i ostaje do završetka dogovorenog servisa.</p></div></div></div></section><section class="section olive"><div class="container two-col"><div><div class="kicker">Princip rada</div><h2 class="serif section-title">Vi ste domaćin. Bar je naš posao.</h2></div><div><p class="lead">Kada bartender preuzme barski servis, vi ne morate tokom događaja da organizujete ljude, pratite radnu zonu ili odgovarate na pitanja gostiju vezana za bar.</p><p class="body-copy" style="color:#373831">Zato sve što može da se dogovori unaprijed zatvaramo prije eventa.</p></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Prije dana eventa</div><h2 class="serif">Šta treba potvrditi prije eventa.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">01</div><h3>Dolazak</h3><p>Dogovaramo vrijeme dolaska i koliko vremena je potrebno za pripremu prije početka servisa.</p></div>
+      <div class="detail-box"><div class="mini">02</div><h3>Lokacija bara</h3><p>Provjeravamo gdje se nalazi bar i da li prostor omogućava normalan rad.</p></div>
+      <div class="detail-box"><div class="mini">03</div><h3>Oprema</h3><p>Provjeravamo šta venue već obezbjeđuje i šta još treba pripremiti.</p></div>
+      <div class="detail-box"><div class="mini">04-05</div><h3>Ljudi i kraj servisa</h3><p>Dogovaramo koliko ljudi je potrebno i do kada traje servis.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Prvi korak</div><h2 class="serif">Imate datum i lokaciju?</h2></div><div><p>Pošaljite ih zajedno sa okvirnim brojem gostiju i provjerićemo dostupnost.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri dostupnost</a></div></div></section></div></section>
+<section class="page" data-page="biberce"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">04 / Biberce</div><h1 class="serif">O Biberce Event Bartender.</h1></div><p>Biberce je lični event bartender servis za svadbe, rođendane, privatne proslave i poslovne događaje u Crnoj Gori.</p></div></header><section class="section"><div class="container about-layout"><div class="about-photo"><img src="https://images.unsplash.com/photo-1768508950319-0e4b01063fbe?auto=format&fit=crop&w=1400&q=84" alt="Atmosfera i gosti na formalnom događaju" loading="lazy" decoding="async" style="object-position:center 42%"></div><div><div class="kicker">Personal service</div><h2 class="serif section-title">Lični pristup svakom događaju.</h2><p class="lead">Kada birate bartendera za svoj događaj, važno je da znate ko dolazi, šta preuzima i kako radi sa gostima.</p><p class="body-copy">Biberce se dogovara direktno sa klijentom ili organizatorom, provjerava uslove na lokaciji i dolazi pripremljen za dogovoreni tip servisa.</p><p class="body-copy">Fokus je na profesionalnoj usluzi, urednom radnom prostoru, dobroj komunikaciji i servisu koji odgovara atmosferi događaja.</p><div class="fact-grid"><div class="fact"><span>Uloga</span><strong>Event bartender</strong></div><div class="fact"><span>Rad</span><strong>Na lokaciji događaja</strong></div><div class="fact"><span>Formati</span><strong>Svadbe / Privatne proslave / Poslovni eventi</strong></div><div class="fact"><span>Područje</span><strong>Crna Gora</strong></div></div></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Kako treba da djeluje saradnja</div><h2 class="serif">Kako Biberce radi.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">Character</div><h3>Prisutan</h3><p>Biberce je prisutan i dostupan gostima, ali servis ostaje prilagođen atmosferi događaja.</p></div>
+      <div class="detail-box"><div class="mini">Communication</div><h3>Jasan</h3><p>Prije događaja jasno dogovaramo šta ulazi u angažman i šta je potrebno na lokaciji.</p></div>
+      <div class="detail-box"><div class="mini">Execution</div><h3>Miran</h3><p>Cilj je da servis ostane organizovan i kada na bar odjednom dođe više gostiju.</p></div>
+      <div class="detail-box"><div class="mini">Hospitality</div><h3>Ljudski</h3><p>Prijatan odnos sa gostima i profesionalna komunikacija dio su svakog angažmana.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Razgovor</div><h2 class="serif">Planirate događaj?</h2></div><div><p>Pošaljite datum, lokaciju, broj gostiju i tip događaja pa možemo da krenemo od toga.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Kontaktiraj Biberce</a></div></div></section></div></section>
+<section class="page" data-page="galerija"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">05 / Galerija</div><h1 class="serif">Biberce na događajima.</h1></div><p>Galerija prikazuje atmosferu događaja, rad iza bara, detalje servisa i različite vrste prostora u kojima event bartender radi.</p></div></header><section class="section paper"><div class="container gallery-grid"><div class="gallery-col"><div class="gallery-img land"><img src="https://images.unsplash.com/photo-1762765684665-6b6855bb6fe6?auto=format&fit=crop&w=1500&q=84" alt="Elegantno postavljen event prostor" loading="lazy" decoding="async" style="object-position:center 50%"><span>01 / Atmosfera</span></div><div class="gallery-img portrait"><img src="https://images.unsplash.com/photo-1765947384834-3bdcffcaffff?auto=format&fit=crop&w=1400&q=84" alt="Gosti u uređenom prostoru za proslavu" loading="lazy" decoding="async" style="object-position:center 46%"><span>02 / Priprema</span></div></div><div class="gallery-col"><div class="gallery-img portrait"><img src="https://images.unsplash.com/photo-1767824122865-77d294677fba?auto=format&fit=crop&w=1300&q=84" alt="Detalj elegantno postavljenog stola i event dekoracije" loading="lazy" decoding="async" style="object-position:center 52%"><span>03 / Servis</span></div><div class="gallery-img square"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1400&q=84" alt="Atmosfera modernog poslovnog događaja" loading="lazy" decoding="async" style="object-position:center 45%"><span>04 / Behind the bar</span></div></div></div></section><section class="section"><div class="container two-col"><div><div class="kicker">Photography direction</div><h2 class="serif section-title">Događaj se vidi kroz detalje.</h2></div><div><p class="lead">Najvažnije su fotografije koje pokazuju kako servis izgleda u stvarnom prostoru i među gostima.</p><p class="body-copy">Pogledajte pripremu, servis, radnu zonu, atmosferu i različite event formate na kojima Biberce može biti angažovan.</p></div></div></section><section class="detail-band">
+  <div class="container detail-band-grid">
+    <div><div class="kicker">Finalni photo set</div><h2 class="serif">Šta možete očekivati na eventu.</h2></div>
+    <div class="detail-columns">
+      <div class="detail-box"><div class="mini">Portrait</div><h3>Biberce</h3><p>Jedna konkretna osoba koja dolazi na događaj i preuzima barski servis.</p></div>
+      <div class="detail-box"><div class="mini">Action</div><h3>Rad</h3><p>Pripremljen radni prostor, organizovan servis i bartender koji zna svoj dio posla.</p></div>
+      <div class="detail-box"><div class="mini">People</div><h3>Gosti</h3><p>Prijatan i profesionalan odnos sa gostima tokom cijelog angažmana.</p></div>
+      <div class="detail-box"><div class="mini">Context</div><h3>Prostor</h3><p>Servis koji se prilagođava prostoru, bilo da je riječ o svadbi, kućnoj proslavi ili poslovnom eventu.</p></div>
+    </div>
+  </div>
+</section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Vaš događaj</div><h2 class="serif">Imate svoj događaj?</h2></div><div><p>Pošaljite datum i lokaciju i provjerite da li je Biberce slobodan za vaš termin.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></section></div></section>
+<section class="page" data-page="faq"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">06 / FAQ</div><h1 class="serif">Prije nego što rezervišete.</h1></div><p>Odgovori na najčešća pitanja o rezervaciji, lokaciji, opremi i organizaciji barskog servisa.</p></div></header><section class="section paper"><div class="container"><div class="faq-wrap"><details open><summary>Koliko ranije treba provjeriti termin?</summary><p>Čim imate potvrđen datum i lokaciju. Za veće događaje i tražene termine raniji dogovor ostavlja više prostora za organizaciju.</p></details><details><summary>Da li je moguć angažman van Podgorice?</summary><p>Pošaljite grad ili lokaciju događaja i provjerićemo mogućnost angažmana i logistiku.</p></details><details><summary>Ko obezbjeđuje opremu i radnu zonu?</summary><p>Prije događaja provjeravamo šta lokacija već ima i dogovaramo šta još treba pripremiti za normalan rad iza bara.</p></details><details><summary>Koliko bartendera je potrebno?</summary><p>Zavisi od broja gostiju, trajanja, vrste servisa i očekivanog opterećenja. Jedan bartender nije automatski dovoljan za svaki događaj.</p></details><details><summary>Šta treba poslati u prvom upitu?</summary><p>Datum, lokaciju, tip događaja, okviran broj gostiju i očekivano trajanje. To je dovoljno za prvi odgovor.</p></details><details><summary>Da li se usluga može prilagoditi prostoru?</summary><p>Da. Način rada prilagođava se prostoru, broju gostiju, trajanju i tipu događaja.</p></details>
+<details><summary>Kako se određuje cijena angažmana?</summary><p>Cijena zavisi od trajanja angažmana, lokacije, broja gostiju, potrebnog broja bartendera i dogovorenog obima usluge.</p></details>
 <details><summary>Da li se prvo može samo provjeriti dostupnost?</summary><p>Da. Datum i lokacija su dovoljni za početnu provjeru. Detalji servisa mogu se definisati nakon toga.</p></details>
-</div></div></section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Nema odgovora?</div><h2 class="serif">Pošaljite pitanje.</h2></div><div><p>Ako je pitanje specifično za vaš događaj, bolje je da ga riješimo direktno.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Kontakt</a></div></div></section></div></section>
-<section class="page" data-page="kontakt"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">07 / Kontakt</div><h1 class="serif">Recite mi za veče.</h1></div><p>Pošaljite osnovne detalje. Forma u prototipu otvara email program sa pripremljenim event briefom - adresu i telefon treba zamijeniti stvarnim Biberce kontaktom.</p></div></header><section class="section"><div class="container contact-grid"><aside class="contact-aside"><div class="kicker">Event brief</div><h2 class="serif">Šta mi treba za prvi odgovor?</h2><p>Ne morate imati sve odlučeno. Dovoljno je da znamo osnovni okvir događaja.</p><div class="contact-meta"><div><span>Datum</span><small>ako je poznat</small></div><div><span>Lokacija</span><small>grad / venue</small></div><div><span>Broj gostiju</span><small>okvirno</small></div><div><span>Tip događaja</span><small>wedding / private / corporate</small></div></div></aside><form class="form" id="briefForm"><div class="field"><label for="name">Ime</label><input id="name" name="name" placeholder="Vaše ime" required></div><div class="field"><label for="contact">Telefon ili email</label><input id="contact" name="contact" placeholder="+382 / email" required></div><div class="field"><label for="date">Datum</label><input id="date" name="date" type="date"></div><div class="field"><label for="location">Lokacija</label><input id="location" name="location" placeholder="Grad / venue"></div><div class="field"><label for="type">Tip događaja</label><select id="type" name="type"><option>Vjenčanje</option><option>Privatna proslava</option><option>Poslovni događaj</option><option>Drugo</option></select></div><div class="field"><label for="guests">Broj gostiju</label><input id="guests" name="guests" type="number" min="1" placeholder="npr. 120"></div><div class="field full"><label for="message">Detalji</label><textarea id="message" name="message" placeholder="Napišite šta već znate o događaju i prostoru."></textarea></div><div class="form-actions"><small>Prototip koristi placeholder email hello@example.com. Prije objave treba ubaciti pravi Biberce email, telefon i eventualni WhatsApp.</small><button class="btn wine" type="submit">Pošalji event brief</button></div></form></div></section></div></section>
+</div></div></section><section class="cta-band"><div class="container cta-band-inner"><div><div class="kicker">Nema odgovora?</div><h2 class="serif">Pošaljite pitanje.</h2></div><div><p>Pošaljite nam detalje i odgovorićemo konkretno za vaš događaj.</p><a class="btn route-link" href="#/kontakt" data-route="kontakt">Kontakt</a></div></div></section></div></section>
+<section class="page" data-page="kontakt"><div class="page-shell"><header class="page-hero"><div class="container page-hero-grid"><div><div class="kicker">07 / Kontakt</div><h1 class="serif">Kontaktirajte Biberce.</h1></div><p>Planirate događaj? Pošaljite datum, lokaciju, broj gostiju i tip eventa. Na osnovu toga možemo da provjerimo dostupnost i dogovorimo sljedeći korak.</p></div></header><section class="section"><div class="container contact-grid"><aside class="contact-aside"><div class="kicker">Upit za događaj</div><h2 class="serif">Šta poslati u prvom upitu?</h2><p>Ne morate imati sve detalje. Dovoljno je da znamo osnovni okvir događaja.</p><div class="contact-meta"><div><span>Datum</span><small>ako je poznat</small></div><div><span>Lokacija</span><small>grad / venue</small></div><div><span>Broj gostiju</span><small>okvirno</small></div><div><span>Tip događaja</span><small>wedding / private / corporate</small></div></div></aside><form class="form" id="briefForm"><div class="field"><label for="name">Ime</label><input id="name" name="name" placeholder="Vaše ime" required></div><div class="field"><label for="contact">Telefon ili email</label><input id="contact" name="contact" placeholder="+382 / email" required></div><div class="field"><label for="date">Datum</label><input id="date" name="date" type="date"></div><div class="field"><label for="location">Lokacija</label><input id="location" name="location" placeholder="Grad / venue"></div><div class="field"><label for="type">Tip događaja</label><select id="type" name="type"><option>Vjenčanje</option><option>Privatna proslava</option><option>Poslovni događaj</option><option>Drugo</option></select></div><div class="field"><label for="guests">Broj gostiju</label><input id="guests" name="guests" type="number" min="1" placeholder="npr. 120"></div><div class="field full"><label for="message">Detalji</label><textarea id="message" name="message" placeholder="Napišite šta već znate o događaju i prostoru."></textarea></div><div class="form-actions"><small>Unesite osnovne informacije o događaju. Datum, lokacija i broj gostiju pomažu da odgovor bude što konkretniji.</small><button class="btn wine" type="submit">Pošalji upit</button></div></form></div></section></div></section>
 </main>
-<footer class="footer"><div class="footer-logo">Biberce.</div><div class="footer-grid"><div><h3>Event bartender</h3><p>Lični event bartending servis za događaje kojima treba profesionalna osoba iza bara, jasan ritam servisa i manje logistike za domaćina.</p></div><div><h3>Stranice</h3><div class="footer-links"><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a></div></div><div><h3>Kontakt</h3><div class="footer-links"><a href="mailto:hello@example.com">hello@example.com</a><a href="tel:+38267000000">+382 67 000 000</a><a class="route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></div><div class="footer-bottom"><span>BIBERCE / EVENT BARTENDER</span><span>ONE-FILE MULTI-PAGE PROTOTYPE</span></div></footer>
+<footer class="footer"><div class="footer-logo">Biberce.</div><div class="footer-grid"><div><h3>Event bartender</h3><p>Profesionalni event bartender za svadbe, rođendane, privatne proslave i poslovne događaje u Crnoj Gori.</p></div><div><h3>Stranice</h3><div class="footer-links"><a class="route-link" href="#/usluge" data-route="usluge">Usluge</a><a class="route-link" href="#/dogadjaji" data-route="dogadjaji">Događaji</a><a class="route-link" href="#/kako-radim" data-route="kako-radim">Kako radim</a><a class="route-link" href="#/biberce" data-route="biberce">Biberce</a><a class="route-link" href="#/galerija" data-route="galerija">Galerija</a></div></div><div><h3>Kontakt</h3><div class="footer-links"><a href="mailto:hello@example.com">hello@example.com</a><a href="tel:+38267000000">+382 67 000 000</a><a class="route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div></div></div><div class="footer-bottom"><span>BIBERCE / EVENT BARTENDER</span><span>EVENT BARTENDER / MONTENEGRO</span></div></footer>
 <div class="mobile-bar"><a href="tel:+38267000000">Pozovi</a><a class="route-link" href="#/kontakt" data-route="kontakt">Provjeri termin</a></div>
 <script>
 const pages=[...document.querySelectorAll('.page')],links=[...document.querySelectorAll('.route-link')],navLinks=[...document.querySelectorAll('.main-nav .route-link')],siteNav=document.getElementById('siteNav'),menuBtn=document.getElementById('menuBtn'),drawer=document.getElementById('drawer');
