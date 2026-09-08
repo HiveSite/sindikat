@@ -1,0 +1,10 @@
+{
+  "date": null,
+  "status": "READY",
+  "target": 5,
+  "discovered_count": 0,
+  "qualified_count": 0,
+  "completed_count": 0,
+  "projects": [],
+  "last_run_note": "Autonomous daily run is configured separately and will update this manifest after each execution."
+}
