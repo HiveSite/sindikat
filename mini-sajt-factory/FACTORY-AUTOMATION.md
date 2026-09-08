@@ -23,10 +23,10 @@ Kvalitet ima prednost nad kvotom. Ne graditi loš peti sajt samo da bi broj bio 
 11. Kvalifikuj A/B/C/D/PRESKOČITI.
 12. Za build biraj samo A ili B kandidate koji imaju dovoljno potvrđenih podataka da se sajt napravi bez izmišljanja.
 13. Nastavi discovery dok ne dobiješ do 5 dobrih kandidata ili dok realno nema više kvalitetnih kandidata za taj run.
-14. Za svakog odabranog napravi Brand Personality, WE ARE / WE ARE NOT, Design DNA, content architecture i art direction prije HTML-a.
+14. Za svakog odabranog prvo definiši PROFESSION INTERACTION MODEL, zatim Brand Personality, WE ARE / WE ARE NOT, Design DNA, content architecture i art direction prije HTML-a.
 15. Napravi potpuno personalizovan standalone `index.html`.
-16. Uradi QA i izračunaj Premium Score.
-17. Ako je Premium Score <85 ili QA ne prolazi, redizajniraj ili preskoči taj kandidat. Ne označavaj ga LIVE.
+16. Uradi profession-context QA, structural-diversity QA, standardni QA i izračunaj Premium Score.
+17. Ako je Premium Score <85 ili bilo koji profession/diversity/QA gate ne prolazi, redizajniraj ili preskoči taj kandidat. Ne označavaj ga LIVE.
 18. Finalni sajt ide u `preporuke/{slug}/index.html`.
 19. Tek nakon stvarne live provjere update registry na `LIVE_DEMO`.
 20. Ažuriraj `mini-sajt-factory/data/daily-manifest.json` sa stvarnim rezultatima runa.
@@ -48,7 +48,7 @@ Ako je `SKIPPED_HAS_SITE`, `SKIPPED_CLOSED` ili `ARCHIVED`, preskoči osim ako k
 ## HARD GATE - STATUS RADA
 
 Dozvoljeno za build samo kada je status dovoljno potvrđen kao `RADI`.
-Ne graditi za privremeno/traјno zatvoren ili nepoznat status.
+Ne graditi za privremeno/trajno zatvoren ili nepoznat status.
 
 ## HARD GATE - SOPSTVENI SAJT
 
@@ -98,9 +98,33 @@ A/B kandidat tipično:
 - postoji jasan problem koji web sajt rješava
 - postoji realna vrijednost jednog profesionalnog linka
 
+## PROFESSION INTERACTION MODEL - HARD GATE
+
+Prije boja, fontova i layouta mora se odgovoriti: **kako korisnik mentalno doživljava baš ovu profesiju i koji realni poslovni ritual može da postane interfejs sajta?**
+
+Primjeri principa, ne gotovi template-i:
+- barber/frizer: stolica, ogledalo, red, rez, fade zone, prije/poslije logika, termin
+- pekara/hrana: pult, dnevni ritam, svježa tura, meni tabla, jutro/ručak/veče, takeaway
+- stomatologija: put pacijenta, konsultacija, tretmanske grane, stručnost, sigurnost, termin
+- beauty: ritual njege, lookbook, kategorije tretmana, detalj, transformacija, termin
+- auto servis: prijem vozila, dijagnostika, servisni nalog, radionica, status, poziv
+- smještaj: izbor sobe, boravak, lokacija, dostupnost, booking putanja
+
+Ovaj model mora direktno uticati na:
+- strukturu prve strane
+- navigaciju
+- section order
+- oblik ponude/usluga
+- signature component
+- conversion model
+- mobilno ponašanje
+
+Ako se profession interaction model može ukloniti, a sajt i dalje izgleda gotovo isto za drugu profesiju, FAIL.
+
 ## DESIGN ENGINE
 
 Prije builda obavezno definiši:
+- Profession Interaction Model
 - Brand Personality
 - WE ARE
 - WE ARE NOT
@@ -123,8 +147,8 @@ Design DNA minimum:
 - type scale
 - photography geometry
 - gallery type
-- menu type
-- review type
+- menu/service type
+- review/proof type
 - CTA type
 - mobile conversion model
 - motion character
@@ -132,15 +156,51 @@ Design DNA minimum:
 - footer type
 - section order
 
-Art direction mora dolaziti iz konkretnog biznisa, lokacije, enterijera, ponude, publike, fotografija i karaktera - ne iz kategorijskog klišea.
+Art direction mora dolaziti iz konkretnog biznisa, lokacije, enterijera, ponude, publike, fotografija, profesije i karaktera - ne iz kategorijskog klišea.
 
-## ANTI-TEMPLATE
+## ANTI-TEMPLATE - STRUCTURAL HARD GATE
 
-Svaki sajt mora imati najmanje jedan smislen signature element.
-Novi sajt poredi sa prethodnim demoima. Ako djeluje kao isti template sa drugim bojama, redizajniraj.
-Cilj je približno <=40% Design DNA sličnosti sa bliskim prethodnim demoima.
+Boja i font se NE računaju kao dovoljna razlika.
 
-Standardizuj kvalitet, funkcionalnost, accessibility, performance i QA. Ne standardizuj izgled.
+Zabranjen je ponavljajući skelet tipa:
+`veliki hero -> 3/4 service cards -> proof/stat -> contact`.
+
+Za svaki novi sajt uporedi najmanje posljednja 3 relevantna demoa po ovim dimenzijama:
+1. hero model
+2. navigacioni model
+3. glavni layout/grid
+4. section order
+5. način prikaza ponude/usluga
+6. signature UI/metafora
+7. conversion/CTA model
+8. mobile interaction model
+9. surface/geometry sistem
+10. footer/završni model
+
+**STRUCTURAL DIVERSITY PASS** zahtijeva:
+- najmanje 6 od 10 dimenzija moraju biti suštinski različite od najbližeg prethodnog sajta
+- hero + section order + offer module ne smiju sva tri biti isti kao kod bilo kog od prethodna 3 sajta
+- ne smiju postojati 3 ili više uzastopnih sekcija sa istom funkcijom i istim rasporedom kao na drugom sajtu
+- najviše 1 od 5 sajtova u dnevnom batchu smije koristiti klasični veliki dvokolonski hero
+- najviše 1 od 5 smije koristiti klasični grid service cards kao glavni prikaz ponude
+- svaki sajt mora imati drugačiji signature interaction/component koji ima smisla baš za profesiju
+
+**SWAP TEST:** zamisli da promijeniš naziv, boje, telefon i tekst. Ako bi sajt i dalje uvjerljivo mogao da bude sajt druge profesije bez promjene strukture - FAIL i obavezan redesign.
+
+Cilj Design DNA sličnosti nije samo <=40%; strukturalni hard gate ima prioritet nad numeričkim scoreom.
+
+Standardizuj kvalitet, funkcionalnost, accessibility, performance i QA. Ne standardizuj izgled ni informacijski model.
+
+## PROFESSION-CONTEXT QA
+
+Prije odobravanja eksplicitno odgovori:
+- Koji dio UI-a postoji samo zato što je ovo baš ova profesija?
+- Koji je realni korisnički zadatak ove profesije postao glavni conversion put?
+- Da li section order prati način na koji kupac razmišlja o ovoj usluzi/proizvodu?
+- Da li signature komponenta prenosi nešto stvarno o poslu, a ne samo dekoraciju?
+- Da li bi dizajn izgubio smisao ako bi se zamijenila profesija?
+
+Ako je odgovor na posljednje pitanje NE - FAIL.
 
 ## CONTENT ARCHITECTURE
 
@@ -154,7 +214,7 @@ Stranica treba da odgovori na:
 - gdje je
 - kako stupiti u kontakt
 
-Ne koristi univerzalni section order za sve sajtove.
+Ne koristi univerzalni section order za sve sajtove. Section order mora nastati iz profession interaction modela.
 
 ## FOTOGRAFIJE
 
@@ -174,7 +234,7 @@ Mobile nije samo resize. Posebno definiši:
 - map height
 - section padding
 - stacking
-- quick bar
+- profession-specific quick action
 - touch targets >=44px
 
 ## ACCESSIBILITY
@@ -229,6 +289,9 @@ Svaki demo mora imati:
 ## QA
 
 Minimalno provjeri:
+- profession-context QA
+- structural-diversity QA
+- swap test
 - interakcije
 - responsive
 - visual consistency
@@ -262,7 +325,7 @@ Maksimum 100:
 80-84 = Potrebna dorada
 <80 = Ne ide live
 
-Minimalni prag za `LIVE_DEMO` je 85/100 uz prolazak hard gateova i obaveznih QA provjera.
+Minimalni prag za `LIVE_DEMO` je 85/100 uz prolazak hard gateova i obaveznih QA provjera. Premium Score ne može preglasati profession-context ili structural-diversity FAIL.
 
 ## ACCOMMODATION / BOOKING
 
