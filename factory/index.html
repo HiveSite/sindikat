@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>Mini-Sajt Factory - Central Command</title>
+<style>
+:root{--bg:#0a0b0d;--panel:#121419;--panel2:#171a20;--line:#252a33;--text:#f4f6f8;--muted:#8f99a8;--ok:#62d98b;--warn:#f4c66a;--bad:#ff7676;--accent:#8bd3ff}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#08090b,#0f1115);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.side{border-right:1px solid var(--line);padding:24px;position:sticky;top:0;height:100vh;background:#0b0d10}.logo{width:46px;height:46px;border:1px solid #39414d;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:18px;margin-bottom:18px}.brand b{display:block;font-size:15px}.brand span{color:var(--muted);font-size:11px;letter-spacing:.18em}.sstat{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.sstat span{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em}.sstat b{display:block;font-size:28px;margin-top:3px}.main{padding:30px;max-width:1600px}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.eyebrow{font-size:11px;color:var(--accent);letter-spacing:.15em}.top h1{margin:5px 0 4px;font-size:34px;line-height:1.05}.top p{margin:0;color:var(--muted)}.btn{appearance:none;border:1px solid var(--line);background:#151920;color:#fff;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer}.btn.primary{background:#f6f7f9;color:#0c0d0f}.notice{margin:22px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#11141a;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:22px 0}.stat{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}.stat span{display:block;color:var(--muted);font-size:11px}.stat b{font-size:28px;display:block;margin-top:4px}.grid{display:grid;grid-template-columns:1.3fr .7fr;gap:14px}.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px}.panel h2,.panel h3{margin:0 0 14px}.jobs{display:grid;gap:10px}.job{display:grid;grid-template-columns:1.3fr .8fr .8fr .7fr .6fr;gap:10px;align-items:center;border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:12px}.job small,.muted{color:var(--muted)}.badge{display:inline-flex;padding:5px 8px;border-radius:999px;border:1px solid var(--line);font-size:11px;font-weight:800}.good{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}.empty{padding:22px;border:1px dashed #343b46;border-radius:12px;color:var(--muted);text-align:center}.links a{display:block;color:#dcecff;text-decoration:none;padding:10px 0;border-bottom:1px solid var(--line)}.drop{margin-top:14px;display:block;border:1px dashed #3a4452;border-radius:14px;padding:20px;text-align:center;background:#10131a;cursor:pointer}.drop input{display:none}.media{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.media img{width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}.footer{color:var(--muted);font-size:11px;margin-top:18px}.liveDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 5px rgba(98,217,139,.1);margin-right:8px}@media(max-width:1000px){.shell{grid-template-columns:1fr}.side{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.job{grid-template-columns:1fr 1fr}.main{padding:20px}}@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.top{display:block}.top-actions{margin-top:14px}.job{grid-template-columns:1fr}.media{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+<div class="logo">MF</div><div class="brand"><b>MINI-SAJT FACTORY</b><span>CENTRAL COMMAND</span></div>
+<div class="sstat"><span>AUTOMATION</span><b class="good">ACTIVE</b></div>
+<div class="sstat"><span>DAILY TARGET</span><b>5</b></div>
+<div class="sstat"><span>OUTPUT</span><small>preporuke/{slug}/index.html</small></div>
+<div class="sstat"><span>BOOKING</span><small>Accommodation = OFFER only until approval</small></div>
+</aside>
+<main class="main">
+<header class="top"><div><span class="eyebrow"><span class="liveDot"></span>LIVE CENTRAL COMMAND</span><h1>5 premium sajtova dnevno</h1><p>Discovery → research → design → QA → live → sales ready.</p></div><div class="top-actions"><button class="btn" onclick="location.reload()">REFRESH</button> <a class="btn primary" style="text-decoration:none" href="https://github.com/HiveSite/sindikat/tree/main/preporuke" target="_blank" rel="noopener">OPEN OUTPUT</a></div></header>
+<div id="notice" class="notice">Učitavam posljednji Factory manifest i registry...</div>
+<section class="stats"><div class="stat"><span>DANAS</span><b id="today">0/5</b></div><div class="stat"><span>DISCOVERED</span><b id="discovered">0</b></div><div class="stat"><span>QUALIFIED</span><b id="qualified">0</b></div><div class="stat"><span>LIVE DEMO</span><b id="live">0</b></div><div class="stat"><span>BLOCKED</span><b id="blocked">0</b></div></section>
+<section class="grid">
+<article class="panel"><h2>Daily production</h2><div id="jobs" class="jobs"><div class="empty">Još nema rezultata u dnevnom manifestu.</div></div></article>
+<aside class="panel"><h3>Factory controls</h3><div class="links"><a href="/preporuke/" target="_blank">Finalni demo sajtovi</a><a href="https://github.com/HiveSite/sindikat/blob/main/data/preporuke-registry.csv" target="_blank" rel="noopener">Registry</a><a href="https://github.com/HiveSite/sindikat/blob/main/mini-sajt-factory/FACTORY-AUTOMATION.md" target="_blank" rel="noopener">Automation rules</a><a href="https://github.com/HiveSite/sindikat/tree/main/mini-sajt-factory" target="_blank" rel="noopener">Factory source</a></div><h3 style="margin-top:22px">Media uploader</h3><label class="drop"><input id="files" type="file" multiple accept="image/*"><b>UBACI FOTKE</b><div class="muted">Lokalni preview za art-direction pregled.</div></label><div id="media" class="media"></div><div class="footer">Napomena: upload na ovoj statičkoj live verziji pravi preview u browseru. Trajni media storage je predviđen kroz Factory Supabase Storage modul.</div></aside>
+</section>
+</main></div>
+<script>
+const $=id=>document.getElementById(id);
+function esc(s=''){return String(s).replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[m]))}
+async function load(){
+ let manifest=null,registry='';
+ try{const r=await fetch('/mini-sajt-factory/data/daily-manifest.json',{cache:'no-store'});if(r.ok)manifest=await r.json()}catch(e){}
+ try{const r=await fetch('/data/preporuke-registry.csv',{cache:'no-store'});if(r.ok)registry=await r.text()}catch(e){}
+ const items=manifest?.projects||manifest?.results||[];
+ const completed=Number(manifest?.completed_count ?? items.filter(x=>/LIVE|DONE|SALES_READY|SALES READY/i.test(x.status||x.stage||'')).length);
+ const discovered=Number(manifest?.discovered_count ?? manifest?.discovered ?? 0);
+ const qualified=Number(manifest?.qualified_count ?? items.filter(x=>['A','B'].includes(x.grade)).length);
+ const blocked=items.filter(x=>/BLOCK|FAIL|REJECT|SKIP/i.test(x.status||x.stage||'')).length;
+ $('today').textContent=`${Math.min(completed,5)}/5`;$('discovered').textContent=discovered;$('qualified').textContent=qualified;$('live').textContent=completed;$('blocked').textContent=blocked;
+ $('notice').textContent=manifest?`Posljednji run: ${manifest.date||manifest.batch_date||'datum nije upisan'} · Status: ${manifest.status||'UNKNOWN'} · Registry: ${registry?registry.trim().split(/\r?\n/).length-1:'nije učitan'} zapisa.`:'Automation je aktivan, ali dnevni manifest još nema završen produkcioni run.';
+ if(items.length){$('jobs').innerHTML=items.slice(0,10).map((x,i)=>`<div class="job"><div><small>0${i+1} · ${esc(x.type||x.category||'biznis')}</small><br><b>${esc(x.name||x.slug||'Projekt')}</b><div class="muted">${esc(x.city||'')}</div></div><div><span class="badge">${esc(x.stage||x.status||'UNKNOWN')}</span></div><div><small>Score</small><br><b>${esc(x.score??x.premium_score??'—')}</b></div><div><small>Booking</small><br><b>${esc(x.booking_opportunity||'—')}</b></div><div>${x.live_url?`<a href="${esc(x.live_url)}" target="_blank" rel="noopener" style="color:#dcecff">OPEN</a>`:'—'}</div></div>`).join('')}
+}
+$('files').addEventListener('change',e=>{const files=[...e.target.files].slice(0,20);$('media').innerHTML='';files.forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt=f.name;$('media').appendChild(img)})});
+load();setInterval(load,60000);
+</script>
+</body></html>
