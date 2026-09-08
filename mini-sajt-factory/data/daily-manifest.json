@@ -1,6 +1,6 @@
 {
   "date": "2026-09-08",
-  "status": "BUILT_QA_PENDING_BROWSER",
+  "status": "REDESIGNED_QA_PENDING_BROWSER",
   "target": 5,
   "discovered_count": 13,
   "qualified_count": 6,
@@ -12,11 +12,11 @@
       "city": "Podgorica",
       "type": "barber / hair salon",
       "grade": "A",
-      "premium_score": 85,
+      "premium_score": null,
       "repo_path": "preporuke/frizerski-salon-miljan-podgorica/index.html",
       "booking_opportunity": "NOT_NEEDED",
-      "status": "QA_PENDING_BROWSER",
-      "blockers": ["browser_responsive_qa_not_executed", "direct_live_url_unverified"]
+      "status": "REDESIGNED_QA_PENDING_BROWSER",
+      "blockers": ["post_redesign_premium_score_pending", "browser_responsive_qa_not_executed"]
     },
     {
       "name": "Pekara-Bakery & Gyros Edi",
@@ -24,11 +24,11 @@
       "city": "Podgorica",
       "type": "bakery / gyros",
       "grade": "A",
-      "premium_score": 85,
+      "premium_score": null,
       "repo_path": "preporuke/pekara-edi-podgorica/index.html",
       "booking_opportunity": "NOT_NEEDED",
-      "status": "QA_PENDING_BROWSER",
-      "blockers": ["browser_responsive_qa_not_executed", "direct_live_url_unverified"]
+      "status": "REDESIGNED_QA_PENDING_BROWSER",
+      "blockers": ["post_redesign_premium_score_pending", "browser_responsive_qa_not_executed"]
     },
     {
       "name": "Stomatoloska ambulanta Mrdak",
@@ -36,11 +36,11 @@
       "city": "Podgorica",
       "type": "dental clinic / oral surgery",
       "grade": "A",
-      "premium_score": 85,
+      "premium_score": null,
       "repo_path": "preporuke/stomatoloska-ambulanta-mrdak-podgorica/index.html",
       "booking_opportunity": "NOT_NEEDED",
-      "status": "QA_PENDING_BROWSER",
-      "blockers": ["browser_responsive_qa_not_executed", "direct_live_url_unverified", "hours_source_conflict_removed_from_copy"]
+      "status": "REDESIGNED_QA_PENDING_BROWSER",
+      "blockers": ["post_redesign_premium_score_pending", "browser_responsive_qa_not_executed", "hours_source_conflict_removed_from_copy"]
     },
     {
       "name": "Beauty Bojana",
@@ -48,11 +48,11 @@
       "city": "Niksic",
       "type": "beauty salon",
       "grade": "A",
-      "premium_score": 87,
+      "premium_score": null,
       "repo_path": "preporuke/beauty-bojana-niksic/index.html",
       "booking_opportunity": "NOT_NEEDED",
-      "status": "QA_PENDING_BROWSER",
-      "blockers": ["browser_responsive_qa_not_executed", "direct_live_url_unverified", "hours_source_conflict_removed_from_copy"]
+      "status": "REDESIGNED_QA_PENDING_BROWSER",
+      "blockers": ["post_redesign_premium_score_pending", "browser_responsive_qa_not_executed", "hours_source_conflict_removed_from_copy"]
     },
     {
       "name": "Auto Servis Delibasic",
@@ -60,12 +60,12 @@
       "city": "Niksic",
       "type": "auto repair service",
       "grade": "B",
-      "premium_score": 85,
+      "premium_score": null,
       "repo_path": "preporuke/auto-servis-delibasic-niksic/index.html",
       "booking_opportunity": "NOT_NEEDED",
-      "status": "QA_PENDING_BROWSER",
-      "blockers": ["browser_responsive_qa_not_executed", "direct_live_url_unverified"]
+      "status": "REDESIGNED_QA_PENDING_BROWSER",
+      "blockers": ["post_redesign_premium_score_pending", "browser_responsive_qa_not_executed"]
     }
   ],
-  "last_run_note": "Five standalone builds were committed. Static structural QA passed. Browser/render responsive QA and direct live verification were unavailable in the execution environment, so none were marked LIVE_DEMO and live_url is intentionally omitted. Six candidates qualified during research; one pet-shop candidate was replaced after its repository write was blocked by the tool safety layer."
+  "last_run_note": "All five first-run demos were structurally redesigned after portfolio similarity feedback. Previous Premium Scores were invalidated because they described the old designs. New profession-context and structural-diversity hard gates are active. Netlify production includes the redesigned files; browser responsive QA and fresh scoring remain pending."
 }
