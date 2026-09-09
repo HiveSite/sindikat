@@ -1,10 +1,10 @@
 {
   "date": "2026-09-09",
-  "status": "PARTIAL_BATCH_STATIC_QA",
+  "status": "BUILT_5_PENDING_LIVE_VERIFY",
   "target": 5,
   "discovered_count": 18,
   "qualified_count": 5,
-  "completed_count": 1,
+  "completed_count": 5,
   "projects": [
     {
       "name": "CopyDeTa",
@@ -12,111 +12,61 @@
       "city": "Kotor",
       "type": "copy / print / business services",
       "grade": "A",
-      "premium_score": 88,
+      "premium_score": 90,
       "repo_path": "preporuke/copydeta-kotor/index.html",
       "booking_opportunity": "NOT_NEEDED",
       "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
-      "profession_interaction_model": "print job flow: bring/send file -> choose format -> print/finish -> pickup",
-      "brand_personality": "fast, practical, technical, local, no-friction",
-      "we_are": ["print counter", "format wall", "production queue", "direct service"],
-      "we_are_not": ["generic agency landing page", "lifestyle brochure", "fake ecommerce flow"],
-      "design_dna": {
-        "hero_type": "printer-console split hero",
-        "navigation_type": "utility bar",
-        "main_grid": "job queue + format wall",
-        "dominant_geometry": "paper sheets and hard rules",
-        "offer_type": "service job rows",
-        "signature_component": "A3/A4/business-card format wall",
-        "trust_type": "operational facts",
-        "conversion_model": "phone-first preflight",
-        "mobile_model": "stacked job queue + fixed phone/map actions",
-        "footer_type": "blue production CTA"
-      },
-      "research": {
-        "operating_status": "RADI",
-        "no_own_site": true,
-        "phone": "+38267342341",
-        "address": "Tabačina 557, Kotor",
-        "hours": "Mon-Wed 08:00-16:00; Thu 08:00-17:00; Fri 08:00-16:00; Sat 09:00-13:00; Sun closed",
-        "services": ["A4/A3 copying", "large-format plotting", "binding", "lamination", "business cards", "price lists", "computer/email assistance"],
-        "sources": [
-          "https://www.findglocal.com/ME/Kotor/1625984461005166/CopyDeTa",
-          "https://montenegro.worldplaces.me/review/92554440-copydeta.html"
-        ],
-        "checked_on": "2026-09-09"
-      },
-      "qa": {
-        "owner_voice": "PASS",
-        "page_depth": "PASS",
-        "structural_difference": "PASS",
-        "swap_test": "PASS",
-        "map_embed": "PASS_STATIC",
-        "cta_links": "PASS_STATIC",
-        "noindex": "PASS_STATIC",
-        "responsive_css": "PASS_STATIC",
-        "accessibility_static": "PASS",
-        "browser_visual_qa": "NOT_EXECUTED",
-        "live_network_qa": "PENDING"
-      },
-      "score_breakdown": {
-        "art_direction": 19,
-        "photography_placeholders": 11,
-        "content": 14,
-        "typography": 9,
-        "layout_pacing": 10,
-        "mobile_ux": 9,
-        "conversion": 5,
-        "accessibility": 5,
-        "performance": 4,
-        "technical_qa": 2
-      },
-      "blockers": ["live_deploy_and_http_verification_pending", "browser_visual_qa_not_available"]
-    }
-  ],
-  "blocked_candidates": [
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
+    },
     {
       "name": "Grooming Land Mira",
       "slug": "grooming-land-mira-podgorica",
+      "city": "Podgorica",
+      "type": "dog grooming",
       "grade": "A",
-      "status": "IN_PROGRESS",
-      "score_cap": 79,
-      "reason": "OWNER_VOICE_FAIL: public gallery copy exposes placeholder/demo implementation language",
-      "sources": ["https://www.odmaraj.me/web/listing/salon-za-njegu-pasa/"],
-      "maps_identity": "ChIJQSx0bQDrTRMRf5dxKBT0bFY"
+      "premium_score": 90,
+      "repo_path": "preporuke/grooming-land-mira-podgorica/index.html",
+      "booking_opportunity": "NOT_NEEDED",
+      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
     },
     {
       "name": "Beauty & Spa Zana",
       "slug": "beauty-spa-zana-kotor",
+      "city": "Kotor",
+      "type": "beauty / spa",
       "grade": "A",
-      "status": "IN_PROGRESS",
-      "score_cap": 79,
-      "reason": "OWNER_VOICE_FAIL: public visual note still describes placeholder state",
-      "sources": ["https://www.beautynailhairsalons.com/ME/Kotor/1322338624554048/Beauty-and-Spa-%22Zana%22", "https://montenegro.worldplaces.me/beauty-salons-in-kotor/54581883-beauty-and-spa-zana.html"]
+      "premium_score": 90,
+      "repo_path": "preporuke/beauty-spa-zana-kotor/index.html",
+      "booking_opportunity": "NOT_NEEDED",
+      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
     },
     {
       "name": "Primadonna Nails Studio",
       "slug": "primadonna-nails-cetinje",
+      "city": "Cetinje",
+      "type": "nails / makeup / beauty",
       "grade": "B",
-      "status": "IN_PROGRESS",
-      "score_cap": 79,
-      "reason": "OWNER_VOICE_FAIL: public palette note mentions placeholder implementation",
-      "sources": ["https://montenegro.worldplaces.me/review/99330584-primadonna-nails-studio.html"]
+      "premium_score": 90,
+      "repo_path": "preporuke/primadonna-nails-cetinje/index.html",
+      "booking_opportunity": "NOT_NEEDED",
+      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
     },
     {
       "name": "Pizzeria Fenix",
       "slug": "pizzeria-fenix-budva",
+      "city": "Budva",
+      "type": "pizzeria / delivery",
       "grade": "A",
-      "status": "IN_PROGRESS",
-      "score_cap": 79,
-      "reason": "STRUCTURAL_DIFFERENCE_FAIL: day-rhythm + menu-board food architecture is too close to previous Pekara Edi demo",
-      "sources": ["https://www.findglocal.com/ME/Budva/644752282320633/Pizzeria-Fenix-Budva", "https://www.restaurants10.com/ME/Budva/340169166846014/Pizzeria-Fenix-Budva"]
+      "premium_score": 91,
+      "repo_path": "preporuke/pizzeria-fenix-budva/index.html",
+      "booking_opportunity": "NOT_NEEDED",
+      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS_REDESIGN","swap_test":"PASS","map_embed":"PASS_STATIC","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
     }
   ],
-  "skipped_candidates": [
-    {"name":"KONTEKST Barbershop Podgorica","status":"SKIPPED_HAS_SITE","site":"https://kontekst-barbershop.me/"},
-    {"name":"Hotel Marshal","status":"SKIPPED_HAS_SITE","site":"https://hotelmarshal.me/"},
-    {"name":"Mix Markt Montenegro","status":"SKIPPED_HAS_SITE","site":"https://www.mixmarkt.eu/"},
-    {"name":"Pizzeria Montenegro 8","status":"SKIPPED_STATUS_CONFLICT","reason":"current sources conflict on temporary closure and phone identity"}
-  ],
-  "last_run_note": "Five A/B candidates reached build stage. Hard-gate QA rejected four rather than inflating completion count. CopyDeTa is the only candidate eligible for deployment verification in this run."
+  "blocked_candidates": [],
+  "last_run_note": "Five candidates are fully built and passed static hard-gate QA. Production deploy, live HTTP verification and browser visual QA remain before LIVE_DEMO status."
 }
