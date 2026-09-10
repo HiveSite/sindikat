@@ -1,94 +1,54 @@
 {
   "date": "2026-09-10",
   "batch_sequence": 1,
-  "status": "STATIC_QA_PASS_DEPLOYING",
+  "status": "DEPLOYED_BUILD_PASS_BROWSER_QA_BLOCKED_RUNTIME_NETWORK",
   "target": 5,
   "discovered_count": 10,
   "qualified_count": 5,
-  "completed_count": 5,
+  "built_count": 5,
+  "deployed_count": 5,
+  "completed_count": 0,
+  "publishable_count": 0,
   "projects": [
     {
-      "name": "Belle Arti",
-      "slug": "belle-arti-podgorica",
-      "city": "Podgorica",
-      "type": "art supplies / picture framing",
-      "grade": "A",
-      "premium_score": 91,
-      "repo_path": "preporuke/belle-arti-podgorica/index.html",
-      "booking_opportunity": "NOT_NEEDED",
-      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "name": "Belle Arti", "slug": "belle-arti-podgorica", "city": "Podgorica", "type": "art supplies / picture framing", "grade": "A", "premium_score": 91, "repo_path": "preporuke/belle-arti-podgorica/index.html", "booking_opportunity": "NOT_NEEDED", "status": "DEPLOYED_PENDING_BROWSER_QA",
       "profession_interaction_model": "artwork -> frame choice -> measure -> finish, with the artwork itself driving the interface",
       "design_dna": {"hero_type":"framed artwork stage","navigation_type":"gallery masthead","offer_type":"workbench + material shelf","signature_component":"nested physical frame composition","media_geometry":"framed panels","conversion_model":"bring artwork + phone + visit","mobile_model":"stacked frame stage + fixed call/map"},
       "research": {"operating_status":"RADI","no_own_proprietary_site":true,"phone":"+38269210335","address":"Studentska 35, Podgorica","operating_since":"2010","hours":"CONFLICT_OMITTED_PUBLICLY","checked_on":"2026-09-10"},
-      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","production_build":"PASS","deploy_ancestor_verified":"PASS","browser_visual_qa":"BLOCKED_RUNTIME_NETWORK","live_network_qa":"BLOCKED_RUNTIME_NETWORK","live_verified":false}
     },
     {
-      "name": "GSM House",
-      "slug": "gsm-house-podgorica",
-      "city": "Podgorica",
-      "type": "mobile phone repair / devices / accessories",
-      "grade": "A",
-      "premium_score": 92,
-      "repo_path": "preporuke/gsm-house-podgorica/index.html",
-      "booking_opportunity": "NOT_NEEDED",
-      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "name": "GSM House", "slug": "gsm-house-podgorica", "city": "Podgorica", "type": "mobile phone repair / devices / accessories", "grade": "A", "premium_score": 92, "repo_path": "preporuke/gsm-house-podgorica/index.html", "booking_opportunity": "NOT_NEEDED", "status": "DEPLOYED_PENDING_BROWSER_QA",
       "profession_interaction_model": "device symptom -> diagnosis -> service decision -> pickup",
       "design_dna": {"hero_type":"diagnostic device console","navigation_type":"service status masthead","offer_type":"repair command rows","signature_component":"phone diagnostic scanner","media_geometry":"device screens and components","conversion_model":"call + bring device","mobile_model":"device stack + fixed service/map"},
       "research": {"operating_status":"RADI","no_own_proprietary_site":true,"phone":"+38269826666","address":"Ulica Slobode 67, Podgorica","jbl_service_signal":true,"hours":"CONFLICT_OMITTED_PUBLICLY","checked_on":"2026-09-10"},
-      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","production_build":"PASS","deploy_ancestor_verified":"PASS","browser_visual_qa":"BLOCKED_RUNTIME_NETWORK","live_network_qa":"BLOCKED_RUNTIME_NETWORK","live_verified":false}
     },
     {
-      "name": "Céleste Flower Boutique",
-      "slug": "celeste-flower-boutique-podgorica",
-      "city": "Podgorica",
-      "type": "flower boutique / arrangements",
-      "grade": "A",
-      "premium_score": 92,
-      "repo_path": "preporuke/celeste-flower-boutique-podgorica/index.html",
-      "booking_opportunity": "NOT_NEEDED",
-      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "name": "Céleste Flower Boutique", "slug": "celeste-flower-boutique-podgorica", "city": "Podgorica", "type": "flower boutique / arrangements", "grade": "A", "premium_score": 92, "repo_path": "preporuke/celeste-flower-boutique-podgorica/index.html", "booking_opportunity": "NOT_NEEDED", "status": "DEPLOYED_PENDING_BROWSER_QA",
       "profession_interaction_model": "occasion -> emotional tone -> detail -> bouquet -> pickup",
       "design_dna": {"hero_type":"three-column floral editorial","navigation_type":"boutique masthead","offer_type":"occasion index","signature_component":"occasion-to-bouquet composer","media_geometry":"botanical editorial panels","conversion_model":"phone order + boutique visit","mobile_model":"single editorial flow + order/map bar"},
       "research": {"operating_status":"RADI","no_own_proprietary_site":true,"phone":"+38269169355","address":"Vučedolska 1, Podgorica","event_participation":"Sajam cvijeća Rascvjetavanje 2024","checked_on":"2026-09-10"},
-      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","production_build":"PASS","deploy_ancestor_verified":"PASS","browser_visual_qa":"BLOCKED_RUNTIME_NETWORK","live_network_qa":"BLOCKED_RUNTIME_NETWORK","live_verified":false}
     },
     {
-      "name": "HomeClean",
-      "slug": "homeclean-herceg-novi",
-      "city": "Herceg Novi",
-      "type": "dry cleaning / garment care",
-      "grade": "A",
-      "premium_score": 91,
-      "repo_path": "preporuke/homeclean-herceg-novi/index.html",
-      "booking_opportunity": "NOT_NEEDED",
-      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "name": "HomeClean", "slug": "homeclean-herceg-novi", "city": "Herceg Novi", "type": "dry cleaning / garment care", "grade": "A", "premium_score": 91, "repo_path": "preporuke/homeclean-herceg-novi/index.html", "booking_opportunity": "NOT_NEEDED", "status": "DEPLOYED_PENDING_BROWSER_QA",
       "profession_interaction_model": "garment care label -> inspect item -> care decision -> pickup",
       "design_dna": {"hero_type":"care-label editorial","navigation_type":"vertical garment rail","offer_type":"garment condition index","signature_component":"oversized textile care label","media_geometry":"hanger and folded-fabric panels","conversion_model":"bring garment + call","mobile_model":"label stack + fixed call/map"},
       "research": {"operating_status":"RADI","no_own_proprietary_site":true,"phone":"+38269943333","address":"Njegoševa 87, Herceg Novi","hours":"Mon-Sat 08:00-20:00; Sun closed","checked_on":"2026-09-10"},
-      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","production_build":"PASS","deploy_ancestor_verified":"PASS","browser_visual_qa":"BLOCKED_RUNTIME_NETWORK","live_network_qa":"BLOCKED_RUNTIME_NETWORK","live_verified":false}
     },
     {
-      "name": "Grooming salon WITHLOVE",
-      "slug": "grooming-withlove-bar",
-      "city": "Bar",
-      "type": "pet grooming",
-      "grade": "B",
-      "premium_score": 90,
-      "repo_path": "preporuke/grooming-withlove-bar/index.html",
-      "booking_opportunity": "NOT_NEEDED",
-      "status": "STATIC_QA_PASS_PENDING_LIVE_VERIFY",
+      "name": "Grooming salon WITHLOVE", "slug": "grooming-withlove-bar", "city": "Bar", "type": "pet grooming", "grade": "B", "premium_score": 90, "repo_path": "preporuke/grooming-withlove-bar/index.html", "booking_opportunity": "NOT_NEEDED", "status": "DEPLOYED_PENDING_BROWSER_QA",
       "profession_interaction_model": "pet profile -> appointment call -> grooming -> pickup, centered on information the groomer needs before the visit",
       "design_dna": {"hero_type":"full-width typography + pet passport overlay","navigation_type":"compact salon masthead","offer_type":"pet profile matrix + appointment track","signature_component":"pet grooming passport","media_geometry":"runway + grooming-tool panels","conversion_model":"phone appointment","mobile_model":"passport stack + appointment/map bar"},
       "research": {"operating_status":"RADI","no_own_proprietary_site":true,"phone":"+38267408464","address":"Bulevar 24. Novembra H22, Bar","hours":"Mon-Sat 09:00-19:00","checked_on":"2026-09-10","source_confidence":"B_CURRENT_BUSINESS_PROFILE_SINGLE_STRONG_SIGNAL"},
-      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","browser_visual_qa":"PENDING","live_network_qa":"PENDING"}
+      "qa": {"owner_voice":"PASS","page_depth":"PASS","structural_difference":"PASS","swap_test":"PASS","map_embed":"PASS_STATIC","media_roles":"PASS_3","cta_links":"PASS_STATIC","noindex":"PASS_STATIC","responsive_css":"PASS_STATIC","accessibility_static":"PASS","production_build":"PASS","deploy_ancestor_verified":"PASS","browser_visual_qa":"BLOCKED_RUNTIME_NETWORK","live_network_qa":"BLOCKED_RUNTIME_NETWORK","live_verified":false}
     }
   ],
   "rejected_candidates": [
-    {"name":"Click Print","reason":"SKIPPED_HAS_SITE"},
-    {"name":"Cvjećara Laziva","reason":"SKIPPED_HAS_SITE"},
-    {"name":"SB28 Kotor","reason":"SKIPPED_HAS_SITE"},
-    {"name":"Optika Kuburić","reason":"SKIPPED_HAS_SITE"},
-    {"name":"Pet House Budva","reason":"SKIPPED_HAS_SITE"}
+    {"name":"Click Print","reason":"SKIPPED_HAS_SITE"}, {"name":"Cvjećara Laziva","reason":"SKIPPED_HAS_SITE"}, {"name":"SB28 Kotor","reason":"SKIPPED_HAS_SITE"}, {"name":"Optika Kuburić","reason":"SKIPPED_HAS_SITE"}, {"name":"Pet House Budva","reason":"SKIPPED_HAS_SITE"}
   ],
-  "last_run_note": "Five new candidates passed research, no-site, owner voice, page depth, structural difference, swap, map, CTA, media and static accessibility gates. Mirrored to hosting; production build and executable browser/live QA follow before LIVE_DEMO."
+  "blocker": "Chromium and direct HTTP live QA could not reach public internet from the execution runtime. Production Netlify build passed and deployed commit ancestry includes the full batch, but browser_visual_qa and live_network_qa were not executable and are not claimed as PASS.",
+  "last_run_note": "Five new sites were built, mirrored and included in a ready Netlify production descendant deploy. Final LIVE_DEMO status is withheld because required browser and direct live-network QA were blocked by runtime network access."
 }
